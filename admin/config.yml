@@ -1,0 +1,31 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/assets"
+public_folder: "/assets"
+
+collections:
+  - name: "blog_privati"
+    label: "Articoli Privati"
+    folder: "content/blog-privati"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Titolo", name: "title", widget: "string"}
+      - {label: "Data", name: "date", widget: "datetime"}
+      - {label: "Foto in Evidenza", name: "featured_image", widget: "image"}
+      - {label: "Sottotitolo", name: "description", widget: "text"}
+      - {label: "Corpo del Testo", name: "body", widget: "markdown"}
+
+  - name: "blog_aziende"
+    label: "Articoli Aziende"
+    folder: "content/blog-aziende"
+    create: true
+    slug: "aziende-{{slug}}"
+    fields:
+      - {label: "Titolo", name: "title", widget: "string"}
+      - {label: "Data", name: "date", widget: "datetime"}
+      - {label: "Foto in Evidenza", name: "featured_image", widget: "image"}
+      - {label: "Sottotitolo", name: "description", widget: "text"}
+      - {label: "Corpo del Testo", name: "body", widget: "markdown"}
