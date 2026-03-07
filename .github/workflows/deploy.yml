@@ -26,4 +26,4 @@ jobs:
         run: npm run build
 
       - name: Deploy su Surge
-        run: npx surge dist rare-north.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+        run: npx surge dist valentinarussobg5.com --token ${{ secrets.SURGE_TOKEN }}
