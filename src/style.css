@@ -702,3 +702,33 @@ footer {
     justify-items: center;
   }
 }
+
+/* Article Body Fixes */
+.blog-article-body {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.blog-article-body p {
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  margin-bottom: 1.5rem;
+}
+
+.blog-article-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: var(--space-md) 0;
+  display: block;
+}
+
+.blog-article-body pre,
+.blog-article-body code {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-x: auto;
+  max-width: 100%;
+}
