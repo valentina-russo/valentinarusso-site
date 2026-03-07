@@ -2,11 +2,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     const blogContainer = document.getElementById('blog-container');
     if (!blogContainer) return;
 
+    // Filtro opzionale per categoria (es. data-filter="aziende")
+    const categoryFilter = blogContainer.dataset.filter || null;
+
     try {
         const response = await fetch('/blog_index.json');
-        const articles = await response.json();
+        let articles = await response.json();
 
-        // Logica Frontend: Visualizzazione Condizionale basata sulla presenza nell'indice JSON
+        // Filtra per categoria se specificata
+        if (categoryFilter) {
+            articles = articles.filter(a => a.category === categoryFilter);
+        }
+
         // Nota: gli articoli con status "draft" sono stati filtrati durante la build
         if (articles.length === 0) {
             blogContainer.innerHTML = '<p class="no-posts">Nessun articolo disponibile al momento.</p>';
