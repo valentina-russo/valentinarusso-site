@@ -4,8 +4,6 @@ backend:
   name: github
   repo: valentina-russo/valentinarusso-site
   branch: main
-  auth_type: pkce
-  app_id: 0v231i9iTTk7KbbokVp8
 
 media_folder: "public/assets/blog"
 public_folder: "/assets/blog"
