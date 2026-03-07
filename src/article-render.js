@@ -65,6 +65,9 @@ export async function renderArticle() {
                 <div class="blog-article-body" style="line-height: 1.8; font-size: 1.1rem;">
                     ${marked.parse(markdown)}
                 </div>
+                <div style="margin-top: 4rem; text-align: center;">
+                    <a href="aziende-contatti.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2.5rem;">Contattami per una Consulenza</a>
+                </div>
             `;
         }
     } catch (error) {
