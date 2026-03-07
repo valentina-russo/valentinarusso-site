@@ -6,7 +6,7 @@ Questo documento contiene tutto il contesto necessario per riprendere il lavoro 
 
 ## 📌 Identità del progetto
 
-Sito web di **Valentina Russo**, psicologa / mental advisor.
+Sito web di **Valentina Russo**, consulente **BG5 / Human Design**.
 - **Prod URL**: https://rare-north.surge.sh
 - **Dominio futuro**: valentinarussobg5.com (non ancora configurato)
 - **GitHub repo**: `valentina-russo/valentinarusso-site` (repo pubblico)
