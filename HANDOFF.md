@@ -8,9 +8,12 @@ Questo documento contiene tutto il contesto necessario per riprendere il lavoro 
 
 Sito web di **Valentina Russo**, consulente **BG5 / Human Design**.
 - **Prod URL**: https://rare-north.surge.sh
-- **Dominio futuro**: valentinarussobg5.com (non ancora configurato)
+- **Dominio futuro**: valentinarussobg5.com (non ancora configurato su Surge)
 - **GitHub repo**: `valentina-russo/valentinarusso-site` (repo pubblico)
 - **Cartella locale**: `D:\valentinarussomentaladvisor.it`
+
+> ⚠️ Valentina Russo è una **consulente BG5 / Human Design** — NON una psicologa, NON una terapeuta.
+> BG5 è una derivazione business del sistema Human Design applicata a team e organizzazioni.
 
 ---
 
@@ -41,8 +44,8 @@ D:\valentinarussomentaladvisor.it\
 │   └── generate_blog_index.cjs  ← genera public/blog_index.json dai .md
 │
 ├── content/
-│   ├── blog-privati/        ← articoli .md per area privati
-│   └── blog-aziende/        ← articoli .md per area business
+│   ├── blog-privati/        ← articoli .md per area privati (persone)
+│   └── blog-aziende/        ← articoli .md per area business (BG5/aziende)
 │
 ├── public/
 │   ├── admin/
@@ -54,14 +57,15 @@ D:\valentinarussomentaladvisor.it\
 │       └── blog/            ← immagini caricate via CMS
 │
 ├── admin/
-│   ├── index.html           ← entry Vite → dist/admin/index.html
+│   ├── index.html           ← entry Vite → dist/admin/index.html (carica Sveltia CMS CDN)
 │   └── config.yml           ← config CMS LOCALE (local_backend: true, solo dev)
 │
 ├── .github/workflows/
 │   └── deploy.yml           ← build + surge deploy su push a main
 │
 ├── vite.config.js           ← MPA config, elenca tutti gli HTML entry point
-└── package.json
+├── package.json
+└── HANDOFF.md               ← questo file
 ```
 
 ---
@@ -72,28 +76,36 @@ D:\valentinarussomentaladvisor.it\
 npm run dev        # genera blog_index.json + avvia Vite dev server
 npm run build      # genera blog_index.json + build Vite in dist/
 npm run preview    # anteprima della build
-npm run blog:build # genera solo blog_index.json (senza build)
+npm run blog:build # genera solo blog_index.json (senza build Vite)
 ```
 
 ---
 
 ## 🔄 Architettura Blog — dettaglio
 
-### Come funziona il blog listing
+### Pagine blog e loro ruolo
 
-```
-blog.html
-  <div id="blog-container">               ← TUTTI gli articoli (privati + aziende)
+| Pagina | Funzione |
+|--------|---------|
+| `blog.html` | Blog area **privati** (persone) — mostra tutti gli articoli privati |
+| `aziende-blog.html` | Blog area **business/BG5** — mostra solo articoli aziende |
+| `articolo.html` | Render articolo singolo (per entrambe le categorie) |
 
-aziende-blog.html
-  <div id="blog-container" data-filter="aziende">  ← solo articoli aziende
+### Come funziona il listing
+
+```html
+<!-- blog.html: tutti gli articoli privati -->
+<div id="blog-container">
+
+<!-- aziende-blog.html: solo articoli business -->
+<div id="blog-container" data-filter="aziende">
 ```
 
 `src/blog.js` → `initBlog()`:
 1. Legge `dataset.filter` dal container (se presente)
 2. Fetch `/blog_index.json`
 3. Filtra per categoria se `data-filter` è settato
-4. Renderizza le card HTML
+4. Renderizza le card HTML con LD+JSON per SEO/AEO
 
 ### Come funziona l'articolo singolo
 
@@ -104,20 +116,20 @@ Link card → /articolo.html?id=SLUG&category=privati|aziende
 `src/article-render.js` → `renderArticle()`:
 1. Legge `?id=` e `?category=` dalla URL
 2. Fetch `/content/{blog-privati|blog-aziende}/{id}.md`
-3. Parsing frontmatter via regex (non gray-matter, non disponibile client-side)
+3. Parsing frontmatter via regex (gray-matter non disponibile client-side)
 4. Fetch `/blog_index.json` per i metadati (titolo, immagine, SEO)
 5. Inietta LD+JSON nell'`<head>` per SEO/AEO
 6. Renderizza markdown via `marked`
 
-### blog_index.json — come viene generato
+### Come viene generato blog_index.json
 
 `tools/generate_blog_index.cjs`:
 - Legge tutti i `.md` da `content/blog-privati/` e `content/blog-aziende/`
-- **Filtra solo `status: published`** (i draft vengono esclusi)
+- **Filtra solo `status: published`** — i draft vengono esclusi
 - Ordina per data decrescente
 - Output: `public/blog_index.json`
 
-### Frontmatter articoli
+### Frontmatter degli articoli `.md`
 
 ```yaml
 ---
@@ -125,11 +137,11 @@ title: "Titolo visibile"
 date: 2026-03-07T00:00:00.000Z
 status: draft          # oppure: published
 featured_image: /assets/blog/nome-immagine.jpg
-description: "Sottotitolo / excerpt"
-seo_title: "Titolo per Google"        # opzionale
-seo_desc: "Meta description"          # opzionale
-geo_location: "Milano, Italia"        # opzionale
-aeo_answer: "Risposta breve 40-50 parole per AI"  # opzionale
+description: "Sottotitolo / excerpt breve"
+seo_title: "Titolo per Google"           # opzionale
+seo_desc: "Meta description (160 car.)"  # opzionale
+geo_location: "Milano, Italia"           # opzionale
+aeo_answer: "Risposta breve 40-50 parole ottimizzata per AI search"  # opzionale
 ---
 
 Corpo dell'articolo in **Markdown**.
@@ -140,8 +152,8 @@ Corpo dell'articolo in **Markdown**.
 ## 🖊️ CMS — Sveltia CMS
 
 ### Perché Sveltia e non Decap/Netlify CMS
-- Decap CMS (ex Netlify CMS) non supporta GitHub PKCE — usa `api.netlify.com` come proxy OAuth → broken su siti non-Netlify
-- **Sveltia CMS** supporta login via **Personal Access Token (PAT)** GitHub nativamente
+- Decap CMS non supporta GitHub PKCE — usa `api.netlify.com` come proxy OAuth → broken su siti non-Netlify
+- **Sveltia CMS** supporta login via **Personal Access Token (PAT)** GitHub nativamente, zero infrastruttura
 
 ### Accesso CMS
 - **URL**: https://rare-north.surge.sh/admin/
@@ -149,26 +161,34 @@ Corpo dell'articolo in **Markdown**.
 - **Token richiesto**: GitHub PAT con scope `repo`
   - Generare su: GitHub → Settings → Developer Settings → Personal Access Tokens → Tokens (classic)
 
+### ⚠️ Se il CMS dà "Failed to fetch" al salvataggio
+La sessione OAuth precedente è scaduta (token temporaneo ~8h). Soluzione:
+1. Fare **logout** dal CMS (icona account in alto a destra)
+2. Fare **re-login con PAT** ("Sign In with GitHub Using Token")
+
 ### File config CMS
-- `admin/index.html` → carica Sveltia CMS da CDN: `https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js`
-- `public/admin/config.yml` → config di produzione (backend: github, repo, branch: main, media_folder, collections)
+- `admin/index.html` → carica `https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js`
+- `public/admin/config.yml` → config produzione (backend github, repo, branch: main, media_folder, collections)
 - `admin/config.yml` → config locale con `local_backend: true` (solo per `npm run dev`)
 
 ### Collections CMS
-- **Articoli Privati** → salva in `content/blog-privati/`, slug: `{{slug}}`
-- **Articoli Aziende** → salva in `content/blog-aziende/`, slug: `aziende-{{slug}}`
-- Media → `public/assets/blog/` → URL pubblico `/assets/blog/`
+| Collection | Cartella | Slug format |
+|-----------|---------|------------|
+| Articoli Privati | `content/blog-privati/` | `{{slug}}` |
+| Articoli Aziende | `content/blog-aziende/` | `aziende-{{slug}}` |
+
+- Media upload → `public/assets/blog/` → URL pubblico `/assets/blog/`
 
 ---
 
 ## 🚀 Deploy
 
-### Automatico (normale workflow)
+### Automatico (workflow normale)
 ```bash
 git add .
 git commit -m "messaggio"
 git push origin main
-# → GitHub Action: build → surge deploy → https://rare-north.surge.sh
+# → GitHub Action esegue: npm run build → surge dist rare-north.surge.sh
 ```
 
 ### Manuale (emergenza)
@@ -177,21 +197,21 @@ npm run build
 npx surge dist rare-north.surge.sh
 ```
 
-### ⚠️ Se push viene rifiettato (CMS ha committato nel frattempo)
+### ⚠️ Push rifiutato — CMS ha committato nel frattempo
 ```bash
 git pull --rebase origin main
 git push origin main
 ```
+Questo succede frequentemente: il CMS committe direttamente su GitHub quando l'utente salva un articolo.
 
-Questo succede spesso perché il CMS committe direttamente su GitHub quando l'utente salva un articolo.
+### GitHub Actions — segreti necessari
+- `secrets.SURGE_TOKEN` → già configurato nel repo
 
 ---
 
 ## 🔧 jcodemunch — Setup obbligatorio ad ogni sessione
 
-jcodemunch è il tool per l'esplorazione del codice. Va indicizzato **all'inizio di ogni sessione**.
-
-### Comando di indicizzazione
+### Prima cosa da fare all'inizio di ogni sessione
 ```
 mcp__jcodemunch__index_folder(
   path="D:\\valentinarussomentaladvisor.it",
@@ -207,83 +227,71 @@ mcp__jcodemunch__index_folder(
 )
 ```
 
-### Repo identifier (fisso)
+### Repo identifier (fisso, non cambia)
 ```
 local/valentinarussomentaladvisor.it
 ```
 
-### Simboli estratti (le funzioni principali del progetto)
+### Simboli estratti
 
-| Symbol ID | Firma |
-|-----------|-------|
-| `src/blog.js::initBlog#function` | `async function initBlog(categoryFilter = null)` |
-| `src/article-render.js::renderArticle#function` | `async function renderArticle()` |
+| Symbol ID | Firma | Descrizione |
+|-----------|-------|-------------|
+| `src/blog.js::initBlog#function` | `async function initBlog(categoryFilter = null)` | Carica e renderizza card blog |
+| `src/article-render.js::renderArticle#function` | `async function renderArticle()` | Renderizza articolo singolo da Markdown |
 
 ### Tool jcodemunch — uso pratico
 
 ```
-# Vedere i simboli di un file
+# Simboli di un file
 get_file_outline(repo="local/valentinarussomentaladvisor.it", file_path="src/blog.js")
 
-# Leggere il codice completo di una funzione
+# Codice completo di una funzione
 get_symbol(repo="local/valentinarussomentaladvisor.it", symbol_id="src/blog.js::initBlog#function")
 
-# Cercare testo libero in tutti i file indicizzati
+# Ricerca testo libero
 search_text(repo="local/valentinarussomentaladvisor.it", query="blog_index")
 
-# Cercare per nome funzione
+# Ricerca per nome funzione
 search_symbols(repo="local/valentinarussomentaladvisor.it", query="initBlog")
 ```
 
-### ⚠️ Cosa NON è indicizzato da jcodemunch
-- File HTML → usare `Grep` o `Read`
-- `tools/*.cjs` → usare `Read` diretto
-- `vite.config.js` → usare `Read` diretto
-- `public/admin/config.yml` → usare `Read` diretto
+### ⚠️ NON indicizzato da jcodemunch → usare Read/Grep
+- File `.html`
+- `tools/*.cjs`
+- `vite.config.js`
+- `public/admin/config.yml`
 
 ---
 
-## 🐛 Bug noti e soluzioni
+## 🐛 Problemi noti e soluzioni
 
 | Sintomo | Causa | Soluzione |
 |---------|-------|-----------|
-| CMS "Failed to fetch" al salvataggio | Sessione OAuth scaduta (token 8h) | Logout CMS → re-login con PAT GitHub |
-| Articolo non appare sul blog | `status: draft` nel frontmatter | Cambiare in `status: published` e salvare nel CMS |
-| Push rifiutato da GitHub | CMS ha committato prima | `git pull --rebase origin main && git push origin main` |
-| Immagini rotte nelle card | File non committato in `public/assets/blog/` | `git add public/assets/blog/ && git commit && git push` |
-| Blog_index.json vuoto/mancante | Non è stato eseguito `npm run build` | `npm run build` o `npm run blog:build` |
-| Articoli aziende appaiono su blog privati | Vecchio stato CMS/cache browser | Hard refresh (Ctrl+Shift+R) sulla pagina |
+| CMS "Failed to fetch" al salvataggio | Sessione OAuth scaduta (8h) | Logout CMS → re-login con PAT |
+| Articolo non appare sul blog | `status: draft` nel frontmatter | Cambiare in `status: published` nel CMS |
+| Push rifiutato da GitHub | CMS ha committato prima | `git pull --rebase origin main && git push` |
+| Immagini rotte nelle card | File non committato in repo | `git add public/assets/blog/ && git commit && git push` |
+| blog_index.json vuoto/mancante | Build non eseguita | `npm run build` o `npm run blog:build` |
 
 ---
 
-## 🌐 GitHub Actions — segreti necessari
+## 📊 Stato del progetto (2026-03-07)
 
-Il workflow `.github/workflows/deploy.yml` usa:
-- `secrets.SURGE_TOKEN` → token Surge per il deploy (già configurato nel repo)
+### Funzionalità attive ✅
+- Blog listing dinamico separato (privati / aziende/BG5)
+- Articolo singolo con rendering Markdown
+- SEO completo: LD+JSON, meta, geo, AEO answer
+- CMS Sveltia con login PAT
+- GitHub Actions auto-deploy su Surge
+- jcodemunch indicizzato (2 simboli estratti)
 
----
-
-## 📊 Stato attuale del progetto (2026-03-07)
-
-### Articoli presenti
-- **Privati** (`content/blog-privati/`): `articolo-test.md`
-- **Aziende** (`content/blog-aziende/`): `articolo-aziende-test.md`, `aziende-secondo-articolo-business-2.md`, `aziende-test-3.md`
-
-### Funzionalità attive
-- ✅ Blog listing dinamico (privati + aziende separati)
-- ✅ Articolo singolo con rendering Markdown
-- ✅ SEO: LD+JSON, meta description, geo, AEO answer
-- ✅ CMS Sveltia funzionante con login PAT
-- ✅ GitHub Actions auto-deploy
-- ✅ jcodemunch indicizzato (2 simboli estratti)
-
-### In sospeso
-- ⏳ Dominio `valentinarussobg5.com` da configurare su Surge
-- ⏳ Articoli reali da scrivere (gli attuali sono test)
+### In sospeso ⏳
+- Dominio `valentinarussobg5.com` da puntare su Surge (serve CNAME DNS → surge.sh)
+- Contenuti reali da scrivere (gli articoli attuali sono test)
 
 ---
 
-## 💡 Regola d'oro per questo progetto
+## 💡 Regola d'oro
 
-> Quando il CMS (Sveltia) salva un articolo, committe **direttamente su GitHub**.
-> Prima di ogni `git push` locale, fare sempre **`git pull --rebase origin main`**.
+> Il CMS (Sveltia) committe **direttamente su GitHub** quando salva un articolo.
+> Prima di ogni `git push` locale → fare sempre **`git pull --rebase origin main`**.
