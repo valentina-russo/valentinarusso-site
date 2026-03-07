@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    $subject = $type === 'corporate' ? "Nuovo messaggio Corporate da $name" : "Nuovo messaggio da $name - $service";
+    $subject = $type === 'corporate' ? "MAIL DA AZIENDE DA PARTE DI: $name" : "MAIL DA PRIVATI DA PARTE DI: $name";
     $email_content = "Nome: $name\n";
     $email_content .= "Email: $email\n";
     if ($type === 'corporate') {

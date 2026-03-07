@@ -55,6 +55,9 @@ export async function renderArticle() {
             });
             document.head.appendChild(ldScript);
 
+            const contactLink = meta.category === 'aziende' ? 'aziende-contatti.html' : 'contatti.html';
+            const contactText = meta.category === 'aziende' ? 'Contattami per una Consulenza Aziendale' : 'Contattami per un Percorso Individuale';
+
             articleContainer.innerHTML = `
                 <div class="blog-article-header" style="margin-bottom: 2rem;">
                     <img src="${meta.image || '/assets/placeholder.jpg'}" style="width: 100%; border-radius: 8px; margin-bottom: 2rem;">
@@ -66,7 +69,7 @@ export async function renderArticle() {
                     ${marked.parse(markdown)}
                 </div>
                 <div style="margin-top: 4rem; text-align: center;">
-                    <a href="aziende-contatti.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2.5rem;">Contattami per una Consulenza</a>
+                    <a href="${contactLink}" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2.5rem;">${contactText}</a>
                 </div>
             `;
         }
