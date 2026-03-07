@@ -414,6 +414,16 @@ body.corporate .btn-outline {
 /* Components */
 a {
   text-decoration: none !important;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--primary-color);
+}
+
+body.corporate a:hover {
+  color: var(--corp-primary);
 }
 
 .blog-grid {
