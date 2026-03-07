@@ -691,8 +691,8 @@ body.corporate a:hover {
 /* Footer */
 footer {
   background-color: var(--white) !important;
-  padding: var(--space-lg) 0;
-  margin-top: var(--space-xl);
+  padding: var(--space-md) 0;
+  margin-top: var(--space-lg);
   border-top: 1px solid var(--soft-gray);
 }
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Termini e Condizioni | Valentina Russo</title>
+    <title>Privacy Policy | Valentina Russo</title>
     <link rel="stylesheet" href="/src/style.css">
 </head>
 
@@ -41,24 +41,20 @@
 
     <main class="section-padding">
         <div class="container" style="max-width: 800px;">
-            <h1 style="margin-bottom: var(--space-md);" data-animate>Termini e Condizioni</h1>
-                        <div class="content" data-animate>
-                <p><strong>Ultimo aggiornamento:</strong> Marzo 2026</p>
-                <p>Benvenuto sul sito di <strong>Valentina Russo</strong> (valentinarussobg5.com). Accedendo e utilizzando questo sito Web ed i relativi servizi o moduli di contatto, accetti i seguenti Termini e Condizioni nella loro interezza.</p>
+            <h1 style="margin-bottom: var(--space-md);" data-animate>Informativa sulla Privacy</h1>
+            <div class="content" data-animate>
+                <p>La tua privacy Ã¨ importante per noi. Questa informativa sulla privacy spiega quali dati personali
+                    raccogliamo e come li utilizziamo sul sito valentinarussobg5.com.</p>
+                <h3 style="margin-top: 2rem;">Titolare del Trattamento</h3>
+                <p>Valentina Russo<br>Email: info@valentinarussobg5.com</p>
 
-                <h3 style="margin-top: 2rem;">1. Natura del Servizio e Disclaimer sulle Responsabilità</h3>
-                <p>I servizi offerti tramite questo sito consistono esclusivamente in percorsi di consulenza organizzativa e personale basati sul sistema <strong>BG5 (Business Institute)</strong> e <strong>Human Design</strong>. Tali servizi hanno unicamente finalità di orientamento professionale, aziendale e di crescita personale.</p>
-                <p><strong>ATTENZIONE: Valentina Russo NON è una psicologa, psicoterapeuta o medico.</strong> Nessuno dei servizi, letture o sessioni offerte costituisce o intende sostituire pareri professionali in ambito medico, psicologico, legale o finanziario. L'utente si assume la piena responsabilità delle scelte personali e aziendali derivanti dall'integrazione di queste metodologie.</p>
+                <h3 style="margin-top: 2rem;">Dati raccolti</h3>
+                <p>Raccogliamo i dati inseriti volontariamente nel modulo di contatto, come nome e indirizzo email, al
+                    solo scopo di rispondere alle richieste inviate.</p>
 
-                <h3 style="margin-top: 2rem;">2. Erogazione delle Consulenze</h3>
-                <p>L'acquisto, la prenotazione e l'erogazione delle consulenze (sia individuali che corporate) saranno gestite secondo le tempistiche e modalità concordate di volta in volta privatamente tra la professionista e il Cliente o l'Azienda, a seguito di un contatto preliminare.</p>
-
-                <h3 style="margin-top: 2rem;">3. Proprietà Intellettuale</h3>
-                <p>Tutti i contenuti presenti su questo sito – inclusi testi, loghi, grafiche, architettura delle informazioni, articoli del blog e strutturazione dei servizi – sono di esclusiva proprietà di Valentina Russo e sono protetti dalle leggi sul diritto d'autore. È severamente vietata la riproduzione, la copia o la distribuzione non autorizzata, totale o parziale, con qualsiasi mezzo.</p>
-                <p>Alcuni concetti e nomenclature fanno riferimento al materiale proprietario del <em>BG5 Business Institute</em> e di <em>Jovian Archive</em>, usati nel rispetto delle loro licenze di certificazione professionale.</p>
-
-                <h3 style="margin-top: 2rem;">4. Modifiche ai Termini</h3>
-                <p>Ci riserviamo il diritto di aggiornare i presenti Termini e Condizioni in qualsiasi momento. L'utilizzo continuato del sito dopo la pubblicazione delle modifiche costituirà l'accettazione dei Termini aggiornati.</p>
+                <h3 style="margin-top: 2rem;">Diritti dell'Utente</h3>
+                <p>Hai il diritto di accedere ai tuoi dati personali, chiederne la rettifica o la cancellazione. Per
+                    esercitare i tuoi diritti, puoi contattarci all'indirizzo email indicato sopra.</p>
             </div>
         </div>
     </main>
@@ -95,7 +91,7 @@
           </ul>
         </div>
       </div>
-      <div style="margin-top: var(--space-md); border-top: 1px solid #dcd7d3; padding-top: var(--space-sm); font-size: 0.75rem; text-align: center;">
+      <div style="margin-top: var(--space-lg); border-top: 1px solid #dcd7d3; padding-top: var(--space-md); font-size: 0.75rem; text-align: center;">
         &copy; 2025 Valentina Russo. Tutti i diritti riservati.
       </div>
     </div>
@@ -104,4 +100,3 @@
 </body>
 
 </html>
-
