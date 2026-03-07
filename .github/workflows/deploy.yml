@@ -1,0 +1,29 @@
+name: Build & Deploy su Surge
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout codice
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Installa dipendenze
+        run: npm ci
+
+      - name: Build (genera indice + Vite)
+        run: npm run build
+
+      - name: Deploy su Surge
+        run: npx surge dist rare-north.surge.sh --token ${{ secrets.SURGE_TOKEN }}

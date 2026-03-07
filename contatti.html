@@ -68,46 +68,28 @@
                         style="display: none; padding: 1rem; border-radius: 5px; margin-top: 1rem; text-align: center;">
                     </div>
                 </form>
-
-                <script>
-                    document.getElementById('contact-form').addEventListener('submit', async function (e) {
-                        e.preventDefault();
-                        const form = this;
-                        const responseDiv = document.getElementById('form-response');
-                        const data = new FormData(form);
-
-                        try {
-                            const res = await fetch(form.action, {
-                                method: 'POST',
-                                body: data
-                            });
-                            const result = await res.json();
-
-                            responseDiv.style.display = 'block';
-                            responseDiv.textContent = result.message;
-
-                            if (result.status === 'success') {
-                                responseDiv.style.backgroundColor = '#d4edda';
-                                responseDiv.style.color = '#155724';
-                                form.reset();
-                            } else {
-                                responseDiv.style.backgroundColor = '#f8d7da';
-                                responseDiv.style.color = '#721c24';
-                            }
-                        } catch (error) {
-                            responseDiv.style.display = 'block';
-                            responseDiv.style.backgroundColor = '#f8d7da';
-                            responseDiv.style.color = '#721c24';
-                            responseDiv.textContent = "Si è verificato un errore durante l'invio del messaggio.";
-                        }
-                    });
-                </script>
+                
+                    <button type="submit" class="btn btn-primary">Invia Messaggio</button>
+                    <div id="form-response"
+                        style="display: none; padding: 1rem; border-radius: 5px; margin-top: 1rem; text-align: center;">
+                    </div>
+                </form>
+                
+                <div style="margin-top: var(--space-lg); text-align: center;" data-animate>
+                    <p class="text-small" style="margin-bottom: 0.5rem;">Preferisci un contatto diretto?</p>
+                    <p style="margin-bottom: 0.5rem;">
+                        <strong>Email:</strong> <a href="mailto:info@valentinarussobg5.com">info@valentinarussobg5.com</a>
+                    </p>
+                    <p style="margin-bottom: 0.5rem;">
+                        <strong>Whatsapp:</strong> <a href="https://wa.me/393791037653" style="color: var(--primary-color);">+39 379 103 7653</a>
+                    </p>
+                    <p style="margin-bottom: 0.5rem;">
+                        <strong>Instagram:</strong> <a href="https://www.instagram.com/valentinarussobg5/" target="_blank" style="color: var(--primary-color);">@valentinarussobg5</a>
+                    </p>
+                </div>
             </div>
-
-            <div class="text-center" style="margin-top: var(--space-lg);" data-animate>
-                <h3>O scrivimi direttamente:</h3>
-                <p style="margin-top: 1rem;">info@valentinarussobg5.com</p>
-                <p>Instagram: <a href="#" style="color: var(--primary-color);">@valentina_russo_bg5</a></p>
+        </div>
+    </main>
             </div>
         </div>
     </main>

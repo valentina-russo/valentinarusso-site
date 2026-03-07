@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
     build: {
@@ -11,6 +12,7 @@ export default defineConfig({
                 relazioni: resolve(__dirname, 'relazioni.html'),
                 carriera: resolve(__dirname, 'carriera.html'),
                 blog: resolve(__dirname, 'blog.html'),
+                articolo: 'articolo.html',
                 archivio: resolve(__dirname, 'archivio.html'),
                 'chi-sono': resolve(__dirname, 'chi-sono.html'),
                 contatti: resolve(__dirname, 'contatti.html'),
@@ -32,4 +34,14 @@ export default defineConfig({
             },
         },
     },
+    plugins: [
+        viteStaticCopy({
+            targets: [
+                {
+                    src: 'content/*',
+                    dest: 'content'
+                }
+            ]
+        })
+    ]
 });

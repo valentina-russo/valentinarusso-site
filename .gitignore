@@ -26,3 +26,11 @@ dist-ssr
 # Local Netlify folder
 .netlify
 .tmp/
+
+# Debug screenshots e file temporanei
+*.png
+nul
+blog_index.json
+
+# Claude internal
+.claude/
