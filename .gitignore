@@ -30,7 +30,7 @@ dist-ssr
 # Debug screenshots e file temporanei
 *.png
 nul
-blog_index.json
+/blog_index.json
 
 # Claude internal
 .claude/
