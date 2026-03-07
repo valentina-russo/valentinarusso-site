@@ -1,6 +1,10 @@
 import { marked } from 'marked';
 
-document.addEventListener('DOMContentLoaded', async () => {
+/**
+ * Reads ?id= and ?category= from URL, fetches the Markdown file,
+ * and renders the article into #article-content with SEO LD+JSON injection.
+ */
+export async function renderArticle() {
     const articleContainer = document.getElementById('article-content');
     if (!articleContainer) return;
 
@@ -16,15 +20,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const folder = category === 'aziende' ? 'blog-aziende' : 'blog-privati';
         const response = await fetch(`/content/${folder}/${id}.md`);
-        
+
         if (!response.ok) throw new Error('Articolo non trovato');
-        
+
         const rawContent = await response.text();
-        // Nota: gray-matter lato client potrebbe richiedere un polyfill o una gestione diversa 
-        // se non configurata in Vite. Per ora usiamo una regex semplice per il frontmatter.
+        // Parsing frontmatter via regex (gray-matter non disponibile client-side)
         const parts = rawContent.split('---');
         const markdown = parts.length >= 3 ? parts.slice(2).join('---') : rawContent;
-        
+
         // Carichiamo l'indice per i metadati (titolo, immagine, etc)
         const indexResponse = await fetch('/blog_index.json');
         const articles = await indexResponse.json();
@@ -68,4 +71,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Errore durante il rendering dell\'articolo:', error);
         articleContainer.innerHTML = '<h1>Errore</h1><p>Impossibile caricare l\'articolo richiesto.</p>';
     }
-});
+}
+
+document.addEventListener('DOMContentLoaded', renderArticle);
