@@ -27,8 +27,8 @@ dist-ssr
 .netlify
 .tmp/
 
-# Debug screenshots e file temporanei
-*.png
+# File temporanei e debug screenshots
+/*.png
 nul
 /blog_index.json
 
