@@ -334,3 +334,6 @@ footer { padding: var(--space-md) 0; margin-top: var(--space-lg); border-top: 1p
 .pagination { display: flex; justify-content: center; gap: 0.5rem; margin-top: 3rem; }
 .pagination a, .pagination span { padding: 0.5rem 1rem; border: 1px solid var(--soft-gray); border-radius: 8px; font-size: 0.9rem; }
 .pagination .active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+/* Chi Sono */
+.chi-sono-content h3 { margin-top: 2.5rem; }
