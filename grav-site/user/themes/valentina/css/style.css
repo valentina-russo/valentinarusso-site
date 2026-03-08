@@ -61,10 +61,14 @@ body {
   background-size: cover;
   color: var(--text-color);
   font-family: var(--font-body);
-  line-height: 1.5;
+  line-height: 1.65;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
+
+/* ── Typographic rhythm (8pt grid) ── */
+p { margin-bottom: 1.25rem; line-height: 1.65; }
+p:last-child { margin-bottom: 0; }
 
 body.corporate {
   --primary-color: var(--corp-primary);
@@ -91,11 +95,17 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   color: var(--text-color);
   line-height: 1.25;
-  margin-bottom: var(--grid-xs);
+  /* Gestalt proximity: heading is grouped WITH what follows, separated from what precedes */
+  margin-top: 2.5rem;   /* 40px — respiro sopra */
+  margin-bottom: 0.5rem; /* 8px  — vicino al testo sotto */
 }
-h1 { font-size: clamp(2.5rem, 8vw, 4rem); }
-h2 { font-size: clamp(2rem, 6vw, 3rem); }
-h3 { font-size: clamp(1.5rem, 4vw, 2rem); }
+h1 { font-size: clamp(2.5rem, 8vw, 4rem); margin-top: 0; margin-bottom: 1rem; }
+h2 { font-size: clamp(2rem, 6vw, 3rem);   margin-top: 3rem;  margin-bottom: 0.75rem; }
+h3 { font-size: clamp(1.5rem, 4vw, 2rem); margin-top: 2rem;  margin-bottom: 0.5rem; }
+h4 { font-size: 1.15rem;                  margin-top: 1.5rem; margin-bottom: 0.4rem; }
+/* Primo heading in un blocco: non aggiunge spazio inutile sopra */
+*:first-child > h1, *:first-child > h2, *:first-child > h3,
+h1:first-child, h2:first-child, h3:first-child, h4:first-child { margin-top: 0; }
 
 body.corporate h1, body.corporate h2, body.corporate h3 { color: var(--corp-primary); }
 
@@ -105,9 +115,11 @@ body.corporate h1, body.corporate h2, body.corporate h3 { color: var(--corp-prim
 .text-uppercase { text-transform: uppercase; letter-spacing: 0.1em; }
 .text-small { font-size: 0.875rem; }
 
-.container { max-width: 1200px; margin: 0 auto; padding: 0 1.25rem; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 1.25rem; } /* 20px mobile */
+@media (min-width: 768px) { .container { padding: 0 2rem; } } /* 32px desktop */
 .container-full { width: 100%; }
 .section-padding { padding: var(--grid-xl) 0; }
+@media (max-width: 767px) { .section-padding { padding: 2.5rem 0; } } /* 40px su mobile */
 
 header {
   padding: 1rem 0;
@@ -291,7 +303,15 @@ footer { padding: var(--space-md) 0; margin-top: var(--space-lg); border-top: 1p
 @media (max-width: 768px) { footer { text-align: center; } .footer-grid { grid-template-columns: 1fr; justify-items: center; } }
 
 .blog-article-body { word-wrap: break-word; overflow-wrap: break-word; }
-.blog-article-body p { text-align: justify; hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; margin-bottom: var(--grid-sm); }
+.blog-article-body p {
+  text-align: left;          /* no justify: causa "fiumi" su mobile */
+  line-height: 1.75;         /* leggibilità ottimale per articoli lunghi */
+  margin-bottom: 1.5rem;     /* 24px — chiaramente > interlinea interna */
+}
+.blog-article-body h2 { margin-top: 3rem; margin-bottom: 0.75rem; }
+.blog-article-body h3 { margin-top: 2rem; margin-bottom: 0.5rem; }
+.blog-article-body ul, .blog-article-body ol { margin-bottom: 1.5rem; padding-left: 1.5rem; }
+.blog-article-body li { margin-bottom: 0.4rem; line-height: 1.65; }
 .blog-article-body img { max-width: 100%; max-height: 500px; height: auto; object-fit: contain; border-radius: 8px; margin: var(--space-md) auto; display: block; }
 .blog-article-body pre, .blog-article-body code { white-space: pre-wrap; word-wrap: break-word; overflow-x: auto; max-width: 100%; }
 
@@ -336,4 +356,7 @@ footer { padding: var(--space-md) 0; margin-top: var(--space-lg); border-top: 1p
 .pagination .active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
 
 /* Chi Sono */
-.chi-sono-content h3 { margin-top: 2.5rem; }
+.chi-sono-content h3 { margin-top: 2.5rem; margin-bottom: 0.75rem; }
+.chi-sono-content p { margin-bottom: 1.1rem; line-height: 1.7; }
+.chi-sono-content ul { margin-top: 0.75rem; padding-left: 1.25rem; }
+.chi-sono-content li { margin-bottom: 0.35rem; line-height: 1.6; }
