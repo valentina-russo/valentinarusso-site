@@ -7,11 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{{ grav.config.site.title|e }} — Admin</title>
 
-    {% do assets.addCss('plugin://admin/themes/grav/css-compiled/nucleus.css', 98) %}
-    {% do assets.addCss('plugin://admin/themes/grav/css-compiled/template.css', 97) %}
-    {% do assets.addCss('plugin://admin/themes/grav/css-compiled/simple-fonts.css', 95) %}
-    {% do assets.addCss('plugin://admin/themes/grav/css/fontawesome7.min.css', 94) %}
-    {% include 'partials/assets.html.twig' %}
+    <link rel="stylesheet" href="{{ base_url }}/user/plugins/admin/themes/grav/css-compiled/nucleus.css">
+    <link rel="stylesheet" href="{{ base_url }}/user/plugins/admin/themes/grav/css-compiled/template.css">
+    <link rel="stylesheet" href="{{ base_url }}/user/plugins/admin/themes/grav/css-compiled/simple-fonts.css">
+    <link rel="stylesheet" href="{{ base_url }}/user/plugins/admin/themes/grav/css/fontawesome7.min.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital@0,400;ital,wght@1,400&display=swap" rel="stylesheet">
@@ -191,7 +190,7 @@
 
     <form method="post" action="{{ admin_url }}">
 
-        {% include 'partials/messages.html.twig' %}
+        {% include 'partials/messages.html.twig' ignore missing %}
 
         <div class="form-item">
             <label for="username">{{ "PLUGIN_LOGIN.USERNAME"|t }}</label>
