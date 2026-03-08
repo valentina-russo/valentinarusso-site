@@ -20,10 +20,10 @@ Options -Indexes
     ## REDIRECT admin.php → /admin (Grav Admin)
     RewriteRule ^admin\.php$ /admin [R=301,L]
 
-    ## Blocca accesso a file sensibili
+    ## Blocca accesso a file sensibili (non themes/plugins — contengono CSS/JS)
     RewriteRule ^(\.git|cache|bin|logs|backup|vendor|webserver-configs)(/|$) [F,L]
-    RewriteRule ((?:^|/)(system|user/config|user/data|user/accounts|user/plugins|user/themes|user/pages))(/|$) [F,L]
-    RewriteRule \.(?:yaml|twig|md|json)$ [F,L]
+    RewriteRule ((?:^|/)(system|user/config|user/data|user/accounts))(/|$) [F,L]
+    RewriteRule \.(?:yaml|twig|md)$ [F,L]
 
     ## Servi file statici direttamente
     RewriteCond %{REQUEST_FILENAME} !-f
