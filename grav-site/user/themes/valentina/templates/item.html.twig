@@ -64,7 +64,7 @@
         <header style="margin-bottom: 2rem;">
             {% if page.header.tags is defined and page.header.tags %}
             <div class="article-tags">
-                {% for tag in page.header.tags|split(',') %}
+                {% for tag in (page.header.tags is iterable ? page.header.tags : page.header.tags|split(',')) %}
                 <span class="article-tag">{{ tag|trim }}</span>
                 {% endfor %}
             </div>

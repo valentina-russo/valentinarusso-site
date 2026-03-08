@@ -30,7 +30,7 @@
                 <div class="blog-card-content">
                     {% if article.header.tags is defined and article.header.tags %}
                     <div style="margin-bottom: 0.5rem;">
-                        {% for tag in article.header.tags|split(',') %}
+                        {% for tag in (article.header.tags is iterable ? article.header.tags : article.header.tags|split(',')) %}
                         <span class="article-tag">{{ tag|trim }}</span>
                         {% endfor %}
                     </div>
