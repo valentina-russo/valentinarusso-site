@@ -95,17 +95,30 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   color: var(--text-color);
   line-height: 1.25;
-  /* Gestalt proximity: heading is grouped WITH what follows, separated from what precedes */
-  margin-top: 2.5rem;   /* 40px — respiro sopra */
-  margin-bottom: 0.5rem; /* 8px  — vicino al testo sotto */
+  /* Gestalt: vicino a ciò che segue, separato da ciò che precede */
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
 }
-h1 { font-size: clamp(2.5rem, 8vw, 4rem); margin-top: 0; margin-bottom: 1rem; }
-h2 { font-size: clamp(2rem, 6vw, 3rem);   margin-top: 3rem;  margin-bottom: 0.75rem; }
-h3 { font-size: clamp(1.5rem, 4vw, 2rem); margin-top: 2rem;  margin-bottom: 0.5rem; }
-h4 { font-size: 1.15rem;                  margin-top: 1.5rem; margin-bottom: 0.4rem; }
-/* Primo heading in un blocco: non aggiunge spazio inutile sopra */
+h1 { font-size: clamp(2.5rem, 8vw, 4rem); margin-top: 0;     margin-bottom: 1rem; }
+h2 { font-size: clamp(2rem, 6vw, 3rem);   margin-top: 2.5rem; margin-bottom: 0.75rem; }
+h3 { font-size: clamp(1.5rem, 4vw, 2rem); margin-top: 1.75rem; margin-bottom: 0.5rem; }
+h4 { font-size: 1.15rem;                  margin-top: 1.25rem; margin-bottom: 0.4rem; }
+/* Primo heading nel blocco: no spazio extra sopra */
 *:first-child > h1, *:first-child > h2, *:first-child > h3,
 h1:first-child, h2:first-child, h3:first-child, h4:first-child { margin-top: 0; }
+
+/* ── MOBILE typography (< 768px) ── */
+@media (max-width: 767px) {
+  p { margin-bottom: 1rem; line-height: 1.6; }
+  h2 { margin-top: 2rem;  margin-bottom: 0.5rem; }
+  h3 { margin-top: 1.5rem; margin-bottom: 0.4rem; }
+  h4 { margin-top: 1rem;  margin-bottom: 0.35rem; }
+  .blog-article-body p { margin-bottom: 1.25rem; line-height: 1.65; }
+  .blog-article-body h2 { margin-top: 2rem; }
+  .blog-article-body h3 { margin-top: 1.5rem; }
+  .blog-article-body ul, .blog-article-body ol { margin-bottom: 1.25rem; }
+  .chi-sono-content h3 { margin-top: 2rem; }
+}
 
 body.corporate h1, body.corporate h2, body.corporate h3 { color: var(--corp-primary); }
 
