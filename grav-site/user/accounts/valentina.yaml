@@ -1,0 +1,13 @@
+email: info@valentinarussobg5.com
+fullname: Valentina Russo
+title: Admin
+state: enabled
+access:
+  admin:
+    login: true
+    super: true
+  site:
+    login: true
+hashed_passwords: true
+password: '$2b$10$G35VTqAh4vu8lcXe6EDxdu.u1QZLjeuUtABFPdR74o4tONnoYvgcu'
+language: it
