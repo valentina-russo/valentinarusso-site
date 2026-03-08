@@ -1,0 +1,26 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block title %}Chi Sono | Valentina Russo{% endblock %}
+
+{% block content %}
+<main class="section-padding">
+    <div class="container">
+        <div class="footer-grid" style="align-items: center; gap: var(--space-xl);">
+
+            <div data-animate>
+                <h2 style="margin-bottom: 0.25rem;">Valentina Russo</h2>
+                <p class="serif italic" style="color: var(--primary-color); margin-bottom: 1.5rem;">Proiettrice Mentale 2/4</p>
+
+                {{ page.content|raw }}
+            </div>
+
+            <div style="border-radius: 30px; overflow: hidden; max-height: 520px;" data-animate>
+                <img src="{{ base_url }}/user/pages/assets/valentina.png"
+                     alt="Valentina Russo"
+                     style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            </div>
+
+        </div>
+    </div>
+</main>
+{% endblock %}
