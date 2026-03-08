@@ -184,7 +184,7 @@
     <h1 class="default-logo">{{ "PLUGIN_ADMIN.ADMIN_PANEL"|t }}</h1>
 
     <div class="vr-logo-wrap">
-        <img src="{{ base_url }}/user/themes/valentina/images/logo.png" alt="Valentina Russo">
+        <img src="/user/themes/valentina/images/logo.png" alt="Valentina Russo">
     </div>
     <p class="vr-subtitle">Bentornata, Valentina</p>
 
@@ -193,25 +193,23 @@
         {% include 'partials/messages.html.twig' ignore missing %}
 
         <div class="form-item">
-            <label for="username">{{ "PLUGIN_LOGIN.USERNAME"|t }}</label>
+            <label for="username">Nome utente</label>
             <input type="text" name="username" id="username"
-                   placeholder="{{ "PLUGIN_LOGIN.USERNAME"|t }}"
+                   placeholder="Nome utente o email"
                    autocorrect="off" autocapitalize="off" autofocus>
         </div>
 
         <div class="form-item">
-            <label for="password">{{ "PLUGIN_LOGIN.PASSWORD"|t }}</label>
+            <label for="password">Password</label>
             <input type="password" name="password" id="password"
-                   placeholder="{{ "PLUGIN_LOGIN.PASSWORD"|t }}">
+                   placeholder="Password">
         </div>
 
-        <a id="forgot-password" href="{{ admin_url }}/forgot">{{ "PLUGIN_LOGIN.FORGOT_PASSWORD"|t }}</a>
+        <a id="forgot-password" href="{{ admin_url }}/forgot">Password dimenticata?</a>
 
-        <button class="button primary" name="task" value="login">
-            {{ "PLUGIN_LOGIN.LOGIN"|t }}
-        </button>
+        <button class="button primary" name="task" value="login">Accedi</button>
 
-        {{ nonce_field('admin-login', 'login-nonce') }}
+        {{ nonce_field('admin-login', 'login-nonce')|raw }}
 
     </form>
 
