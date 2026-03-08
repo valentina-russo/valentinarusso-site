@@ -1,0 +1,21 @@
+title: "Valentina Russo"
+description: "Consulente BG5® e Human Design Analyst. Percorsi di lettura e analisi del tuo Disegno Umano."
+default_lang: it
+author:
+    name: "Valentina Russo"
+    email: valentinebers@gmail.com
+
+metadata:
+    description: "Consulente BG5® e Human Design Analyst. Percorsi di lettura e analisi del tuo Disegno Umano."
+    keywords: "BG5, Human Design, consulenza, Valentina Russo, analisi, relazioni, carriera"
+    robots: "index, follow"
+    og:
+        type: website
+        image: /user/themes/valentina/images/og-default.jpg
+
+blog:
+    route: /blog
+
+taxonomies:
+    - category
+    - tag

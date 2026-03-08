@@ -1,0 +1,61 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block title %}{{ page.title }} | Valentina Russo{% endblock %}
+
+{% block content %}
+<main class="section-padding">
+    <div class="container">
+        <h1 class="text-center" style="margin-bottom: 0.5rem;" data-animate>{{ page.title }}</h1>
+        {% if page.header.description is defined %}
+        <p class="text-center serif italic" style="color: var(--primary-color); margin-bottom: var(--space-lg);" data-animate>
+            {{ page.header.description }}
+        </p>
+        {% endif %}
+
+        {% set collection = page.collection() %}
+
+        {% if collection is empty %}
+        <p class="text-center" style="color: var(--text-muted, #777); margin-top: 3rem;">Nessun articolo disponibile al momento.</p>
+        {% else %}
+        <div class="blog-grid" id="blog-grid">
+            {% for article in collection %}
+            <article class="blog-card" data-category="{{ page.header.category ?? 'privati' }}">
+                {% if article.header.featured_image is defined and article.header.featured_image %}
+                <div class="blog-card-image">
+                    <img src="{{ article.header.featured_image }}"
+                         alt="{{ article.header.image_alt ?? article.title }}"
+                         loading="lazy">
+                </div>
+                {% endif %}
+                <div class="blog-card-content">
+                    {% if article.header.tags is defined and article.header.tags %}
+                    <div style="margin-bottom: 0.5rem;">
+                        {% for tag in article.header.tags|split(',') %}
+                        <span class="article-tag">{{ tag|trim }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <h3>{{ article.title }}</h3>
+                    {% if article.header.description is defined %}
+                    <p class="text-small" style="color: var(--text-muted, #777); line-height: 1.6;">
+                        {{ article.header.description|slice(0, 120) }}{% if article.header.description|length > 120 %}...{% endif %}
+                    </p>
+                    {% endif %}
+                    <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #aaa;">
+                        {{ article.date|date("d M Y") }}
+                        {% if article.header.author is defined %}&mdash; {{ article.header.author }}{% endif %}
+                    </div>
+                    <a href="{{ article.url }}" class="btn-blog-link" style="margin-top: 1rem;">Leggi &rarr;</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+
+        {# Grav Pagination #}
+        {% if config.plugins.pagination.enabled and collection is defined %}
+            {% include 'partials/pagination.html.twig' %}
+        {% endif %}
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

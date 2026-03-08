@@ -1,0 +1,64 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block title %}{{ page.title }} | Valentina Russo{% endblock %}
+
+{% block content %}
+<main class="section-padding">
+    <div class="container" style="max-width: 800px;">
+        <h1 class="text-center" style="margin-bottom: var(--grid-lg);" data-animate>{{ page.title }}</h1>
+
+        <div class="contact-form-wrapper" data-animate>
+
+            {% if page.header.corporate is defined and page.header.corporate %}
+            <p class="text-center" style="margin-bottom: 2.5rem;">Compila il form per richiedere un contatto conoscitivo e valutare le soluzioni BG5&reg; per il tuo business.</p>
+            {% endif %}
+
+            {# Grav Form Plugin #}
+            {% if form %}
+                {% include "forms/form.html.twig" with {form: forms(page.slug)} %}
+            {% else %}
+            {# Fallback form statico (compatibilità) #}
+            <form method="POST" action="{{ page.url }}" style="display: grid; gap: 1.5rem;">
+                {{ nonce_field('form', 'form-nonce') }}
+
+                {% if page.header.corporate is defined and page.header.corporate %}
+                <div class="form-field">
+                    <label>Nome o Referente *</label>
+                    <input type="text" name="nome" required>
+                </div>
+                <div class="form-field">
+                    <label>Nome Azienda *</label>
+                    <input type="text" name="azienda" required>
+                </div>
+                {% else %}
+                <div class="form-field">
+                    <label>Nome Completo *</label>
+                    <input type="text" name="name" required>
+                </div>
+                {% endif %}
+
+                <div class="form-field">
+                    <label>Email *</label>
+                    <input type="email" name="email" required>
+                </div>
+
+                <div class="form-field">
+                    <label>{{ page.header.corporate is defined and page.header.corporate ? 'Come posso aiutarti?' : 'Messaggio / Tipo di Consulenza' }} *</label>
+                    <textarea name="message" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Invia Messaggio</button>
+            </form>
+            {% endif %}
+
+            {# Contatti diretti #}
+            <div style="margin-top: var(--grid-xl); text-align: center;" data-animate>
+                <p class="text-small" style="margin-bottom: 0.5rem;">Preferisci un contatto diretto?</p>
+                <p style="margin-bottom: 0.5rem;"><strong>Email:</strong> <a href="mailto:info@valentinarussobg5.it">info@valentinarussobg5.it</a></p>
+                <p style="margin-bottom: 0.5rem;"><strong>Whatsapp:</strong> <a href="https://wa.me/393791037653" style="color: var(--primary-color);">+39 379 103 7653</a></p>
+                <p style="margin-bottom: 0.5rem;"><strong>Instagram:</strong> <a href="https://www.instagram.com/valentinarussobg5/" target="_blank" rel="noopener" style="color: var(--primary-color);">@valentinarussobg5</a></p>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

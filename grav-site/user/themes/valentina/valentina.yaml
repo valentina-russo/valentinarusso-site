@@ -1,0 +1,14 @@
+name: Valentina
+version: 1.0.0
+description: Tema personalizzato per valentinarussobg5.com
+icon: tree
+author:
+  name: Valentina Russo
+  email: info@valentinarussobg5.com
+homepage: https://valentinarussobg5.com
+keywords: blog, business, human design, BG5
+bugs: https://github.com/valentina-russo/valentinarusso-site
+readme: https://github.com/valentina-russo/valentinarusso-site
+
+dependencies:
+  - { name: grav, version: '>=1.7.0' }

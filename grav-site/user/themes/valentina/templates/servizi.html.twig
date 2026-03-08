@@ -1,0 +1,122 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block title %}Servizi | Valentina Russo{% endblock %}
+
+{% block content %}
+<main>
+    <section class="section-padding">
+        <div class="container" style="max-width: 1000px;">
+            <h1 class="text-center" style="margin-bottom: var(--space-md);" data-animate>Il Tuo Funzionamento Naturale</h1>
+            <p class="serif italic text-center" style="margin-bottom: var(--space-md); font-size: 1.25rem; color: var(--primary-color);" data-animate>
+                Il sistema nervoso ha un perimetro esatto. Quando la mente cerca di forzare la forma, il corpo registra il colpo. La resistenza si accumula nei muscoli, le relazioni si complicano, i soldi si bloccano.
+            </p>
+            <p class="text-center" style="margin-bottom: var(--space-xl); max-width: 800px; margin-inline: auto;" data-animate>
+                Io leggo il codice sorgente del tuo veicolo attraverso lo Human Design e il sistema BG5&reg;. Ti fornisco i dati meccanici per far funzionare la tua vita e la tua carriera.<br><br>
+                <strong style="color: var(--secondary-color);">Questa pagina mappa le possibilit&agrave; di lavoro insieme. Scegli la tua porta d&rsquo;accesso.</strong>
+            </p>
+
+            <!-- Processo -->
+            <div style="margin-bottom: 5rem;">
+                <h2 class="text-center" style="color: var(--primary-color); margin-bottom: 0.5rem;">Il Tuo Percorso</h2>
+                <p class="text-center" style="opacity: 0.7; margin-bottom: 2rem;">Dalla decodifica alla trasformazione pratica</p>
+                <div class="process-steps" data-animate>
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">Prima Lettura</h4>
+                        <p class="text-small">La porta d&rsquo;ingresso obbligata per conoscere il tuo codice meccanico di base.</p>
+                    </div>
+                    <div class="step-arrow">&#10142;</div>
+                    <div class="step-item accent">
+                        <div class="step-number">2</div>
+                        <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">Approfondimento</h4>
+                        <p class="text-small">Scegli tra <strong>Vita e Relazioni</strong> o <strong>Individuo e Business</strong>.</p>
+                    </div>
+                    <div class="step-arrow">&#10142;</div>
+                    <div class="step-item secondary">
+                        <div class="step-number">3</div>
+                        <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">Maestria</h4>
+                        <p class="text-small">Percorsi intensivi per incarnare il tuo disegno nella quotidianit&agrave;.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- La Prima Lettura -->
+            <div style="margin-bottom: 6rem;" data-animate id="percorso">
+                <div class="text-center" style="margin-bottom: 3rem;">
+                    <span class="text-uppercase" style="color: var(--primary-color); font-weight: 700; letter-spacing: 2px; font-size: 0.8rem;">Step 1 &mdash; Fondamentale</span>
+                    <h2 style="color: var(--primary-color); margin-top: 1rem;">La Prima Lettura Human Design</h2>
+                    <p style="max-width: 600px; margin: 1rem auto 0;">Il punto di partenza imprescindibile. Senza la mappa del tuo veicolo, ogni direzione &egrave; un tentativo alla cieca.</p>
+                </div>
+                <div class="featured-service">
+                    <div class="featured-content">
+                        <h3 class="serif" style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--primary-color);">Decodifica la tua meccanica</h3>
+                        <p style="margin-bottom: 2rem; line-height: 1.8;">Un incontro intensivo di due ore per identificare il tuo <strong>Tipo Energetico</strong>, la tua <strong>Strategia</strong> decisionale e la tua <strong>Autorit&agrave;</strong> interna. Riceverai le istruzioni esatte per smettere di incontrare resistenza e iniziare a fluire con la tua natura.</p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem;">
+                            <div style="display: flex; gap: 0.8rem; align-items: flex-start;"><span style="color: var(--accent-color); font-weight: 900;">&#10003;</span><span class="text-small">Registrazione Audio/Video inclusa</span></div>
+                            <div style="display: flex; gap: 0.8rem; align-items: flex-start;"><span style="color: var(--accent-color); font-weight: 900;">&#10003;</span><span class="text-small">Materiali PDF personalizzati</span></div>
+                            <div style="display: flex; gap: 0.8rem; align-items: flex-start;"><span style="color: var(--accent-color); font-weight: 900;">&#10003;</span><span class="text-small">Analisi delle Forze e Sfide</span></div>
+                            <div style="display: flex; gap: 0.8rem; align-items: flex-start;"><span style="color: var(--accent-color); font-weight: 900;">&#10003;</span><span class="text-small">Sessione Live di 120 minuti</span></div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 2rem;">
+                            <div>
+                                <span style="font-size: 0.8rem; opacity: 0.6; display: block;">Investimento</span>
+                                <span style="font-size: 1.6rem; font-weight: 700; color: var(--primary-color);">210 <span style="font-size: 1rem; font-weight: 500;">Euro</span></span>
+                            </div>
+                            <a href="{{ grav.base_url }}/contatti" class="btn btn-primary">Prenota la Lettura</a>
+                        </div>
+                    </div>
+                    <div class="featured-visual">
+                        <img src="{{ grav.base_url }}/user/pages/assets/bodygraph.png" alt="Human Design Bodygraph">
+                    </div>
+                </div>
+                <p class="text-center text-small serif italic" style="color: var(--secondary-color); margin-top: 2rem;">*(Completare la Prima Lettura sblocca l&rsquo;accesso a tutte le consulenze avanzate).*</p>
+            </div>
+
+            <!-- Vita e Relazioni -->
+            <div style="margin-bottom: var(--space-xl);" data-animate>
+                <h2 class="text-center" style="color: var(--accent-color); border-bottom: 2px solid var(--soft-gray); padding-bottom: 0.5rem; margin-bottom: var(--space-lg);">2. VITA E RELAZIONI</h2>
+                <p class="text-center" style="margin-bottom: var(--space-md);">Usa la tua meccanica per ripulire la quotidianit&agrave; dai condizionamenti, superare i blocchi inconsci e comprendere chi hai accanto.</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-md);">
+                    <div class="card" style="background-color: var(--white); border: 1px solid var(--soft-gray); border-top: 4px solid var(--accent-color); border-radius: 12px; padding: var(--space-md);">
+                        <h3 style="margin-bottom: 1rem;">Oltre l&rsquo;Ombra</h3>
+                        <p style="margin-bottom: 1rem; font-size: 0.9rem;">Mini percorso di 3 sessioni da 90 minuti. Guardiamo in faccia gli schemi ripetitivi e le frustrazioni che ti portano fuori strada.</p>
+                        <p style="font-weight: 600;"><span style="color: var(--accent-color);">Prezzo:</span> 500 Euro</p>
+                    </div>
+                    <div class="card" style="background-color: var(--white); border: 1px solid var(--soft-gray); border-top: 4px solid var(--accent-color); border-radius: 12px; padding: var(--space-md);">
+                        <h3 style="margin-bottom: 1rem;">Ri-Conoscersi</h3>
+                        <p style="margin-bottom: 1rem; font-size: 0.9rem;">Percorso individuale di 10 sessioni da 90 minuti. Esploriamo il tema generale del tuo contributo e come manifesti il tuo scopo nel mondo.</p>
+                        <p style="font-weight: 600;"><span style="color: var(--accent-color);">Prezzo:</span> 1.200 Euro</p>
+                    </div>
+                    <div class="card" style="background-color: var(--white); border: 1px solid var(--soft-gray); border-top: 4px solid var(--accent-color); border-radius: 12px; padding: var(--space-md);">
+                        <h3 style="margin-bottom: 1rem;">Sinfonia a Due</h3>
+                        <p style="margin-bottom: 1rem; font-size: 0.9rem;">Percorso di coppia di 9 sessioni da 90 minuti. Analizziamo le connessioni elettromagnetiche tra i vostri grafici.</p>
+                        <p style="font-weight: 600;"><span style="color: var(--accent-color);">Prezzo:</span> 1.800 Euro</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Individuo - Business -->
+            <div style="margin-bottom: var(--space-xl);" data-animate>
+                <h2 class="text-center" style="color: var(--secondary-color); border-bottom: 2px solid var(--soft-gray); padding-bottom: 0.5rem; margin-bottom: var(--space-lg);">3. INDIVIDUO - BUSINESS</h2>
+                <p class="text-center" style="margin-bottom: var(--space-md);">Applica la tua meccanica al mercato. Ottimizza la tua operativit&agrave; professionale e le relazioni con i tuoi soci usando il codice BG5&reg;.</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-md);">
+                    <div class="card" style="background-color: var(--white); border: 1px solid var(--soft-gray); border-top: 4px solid var(--secondary-color); border-radius: 12px; padding: var(--space-md);">
+                        <h3 style="margin-bottom: 1rem;">BG5&reg; Business Blueprint</h3>
+                        <p style="margin-bottom: 1rem; font-size: 0.9rem;">Percorso di 15 sessioni da 90 minuti per liberi professionisti, consulenti e imprenditori indipendenti.</p>
+                        <p style="font-weight: 600;"><span style="color: var(--secondary-color);">Prezzo:</span> 1.800 Euro</p>
+                    </div>
+                    <div class="card" style="background-color: var(--white); border: 1px solid var(--soft-gray); border-top: 4px solid var(--secondary-color); border-radius: 12px; padding: var(--space-md);">
+                        <h3 style="margin-bottom: 1rem;">BG5&reg; Partnership Dynamics</h3>
+                        <p style="margin-bottom: 1rem; font-size: 0.9rem;">Percorso per soci e co-fondatori. Esploriamo come interagite nella partnership e le dinamiche comunicative che emergono.</p>
+                        <p style="font-weight: 600;"><span style="color: var(--secondary-color);">Prezzo:</span> 2.200 Euro</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center" style="margin-top: var(--space-xl);" data-animate>
+                <a href="{{ grav.base_url }}/contatti" class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 2rem;">Contattami per Iniziare</a>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

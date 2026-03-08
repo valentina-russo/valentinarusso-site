@@ -1,0 +1,12 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block content %}
+<main class="section-padding">
+    <div class="container" style="max-width: 800px;">
+        <h1 style="margin-bottom: var(--space-md);" data-animate>{{ page.title }}</h1>
+        <div class="blog-article-body" data-animate>
+            {{ page.content }}
+        </div>
+    </div>
+</main>
+{% endblock %}

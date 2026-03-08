@@ -1,0 +1,105 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block title %}Valentina Russo | Consulente BG5&reg; &amp; Human Design{% endblock %}
+
+{% block content %}
+<main>
+    <!-- Hero Section -->
+    <section class="hero container">
+        <div class="hero-split">
+            <div class="hero-content" data-animate>
+                <p class="text-uppercase" style="color: var(--primary-color); font-weight: 600; margin-bottom: 1rem;">A mete eccelse, per anguste vie</p>
+                <h1 class="hero-title" style="margin-bottom: var(--space-md);">
+                    <span class="title-main">RI-CONOSCI</span>
+                    <span class="title-sub">E AMA TE STESSO!</span>
+                </h1>
+                <p class="serif italic hero-signature" style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--secondary-color);">
+                    <span class="sig-name">Valentina Russo</span>
+                    <span class="sig-sep">&mdash;</span>
+                    <span class="sig-title">Proiettrice Mentale 2/4</span>
+                </p>
+                <div class="hero-cta-container">
+                    <a href="{{ grav.base_url }}/servizi#percorso" class="btn btn-primary">Inizia il tuo viaggio</a>
+                </div>
+            </div>
+            <div class="hero-image" data-animate>
+                <img src="{{ grav.base_url }}/user/pages/assets/valentina-privati.jpg" alt="Valentina Russo">
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="quote-section">
+        <div class="container text-center">
+            <div class="quote-text serif italic" data-animate>
+                &ldquo;Tutto cambia quando capisci che la tua versione migliore non &egrave; una versione futura, ma una scelta quotidiana.&rdquo;
+            </div>
+        </div>
+    </section>
+
+    <!-- Il Tuo Funzionamento Naturale -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: var(--space-lg); max-width: 800px; margin-inline: auto;">
+                <h2 data-animate style="margin-bottom: 1rem;">Il Tuo Funzionamento Naturale</h2>
+                <p data-animate class="serif italic" style="font-size: 1.25rem; color: var(--primary-color); margin-bottom: 1.5rem;">
+                    Il sistema nervoso ha un perimetro esatto. Quando la mente cerca di forzare la forma, il corpo registra il colpo. La resistenza si accumula nei muscoli, le relazioni si complicano, i soldi si bloccano.
+                </p>
+                <p data-animate style="margin-bottom: 2rem;">
+                    Io leggo il codice sorgente del tuo veicolo attraverso lo Human Design e il sistema BG5&reg;. Ti fornisco i dati meccanici per far funzionare la tua vita e la tua carriera. Scegli la tua porta d&rsquo;accesso.
+                </p>
+            </div>
+
+            <div class="footer-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                <div class="blog-card" style="box-shadow: 0 4px 6px rgba(0,0,0,0.05);" data-animate>
+                    <div class="blog-card-content text-center">
+                        <h3 style="color: var(--primary-color);">1. Filtro d&rsquo;Ingresso</h3>
+                        <p class="text-small">Il passaggio obbligato per comprendere come sei progettato. Ottieni la tua mappa di base.</p>
+                        <a href="{{ grav.base_url }}/servizi" style="display: block; margin-top: 1rem; color: var(--primary-color); font-weight: 600;">Scopri di pi&ugrave; &rarr;</a>
+                    </div>
+                </div>
+                <div class="blog-card" style="box-shadow: 0 4px 6px rgba(0,0,0,0.05);" data-animate>
+                    <div class="blog-card-content text-center">
+                        <h3 style="color: var(--accent-color);">2. Vita e Relazioni</h3>
+                        <p class="text-small">Ripulisci la quotidianit&agrave; dai condizionamenti, supera i blocchi inconsci e comprendi chi hai accanto.</p>
+                        <a href="{{ grav.base_url }}/servizi" style="display: block; margin-top: 1rem; color: var(--accent-color); font-weight: 600;">Scopri di pi&ugrave; &rarr;</a>
+                    </div>
+                </div>
+                <div class="blog-card" style="box-shadow: 0 4px 6px rgba(0,0,0,0.05);" data-animate>
+                    <div class="blog-card-content text-center">
+                        <h3 style="color: var(--secondary-color);">3. Individuo - Business</h3>
+                        <p class="text-small">Applica la tua meccanica al mercato. Ottimizza la tua operativit&agrave; e le relazioni professionali.</p>
+                        <a href="{{ grav.base_url }}/servizi" style="display: block; margin-top: 1rem; color: var(--secondary-color); font-weight: 600;">Scopri di pi&ugrave; &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Human Design Deep Dive -->
+    <section class="container">
+        <div class="hd-section">
+            <div class="hd-content" data-animate>
+                <h2>Il Tuo Disegno Unico</h2>
+                <p style="margin: 1.5rem 0;">Il Human Design e il BG5&reg; non sono sistemi di credenze, ma strumenti di analisi logica della tua energia. Attraverso la tua carta, possiamo vedere i talenti che hai ricevuto alla nascita e le aree dove sei pi&ugrave; vulnerabile al condizionamento esterno.</p>
+                <div style="display: flex; gap: 1rem; justify-content: flex-start;">
+                    <a href="{{ grav.base_url }}/genera-carta" class="btn btn-outline">Fai la tua Carta</a>
+                    <a href="{{ grav.base_url }}/chi-sono" class="btn btn-primary">Chi sono</a>
+                </div>
+            </div>
+            <div class="hd-visual" data-animate>
+                <img src="{{ grav.base_url }}/user/pages/assets/bodygraph.png" alt="Human Design Bodygraph">
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section-padding text-center" style="background-color: var(--accent-color); color: var(--white); margin-top: 0;">
+        <div class="container">
+            <h2 style="margin-bottom: var(--space-md);" data-animate>Cominciamo il tuo percorso?</h2>
+            <p style="margin-bottom: var(--space-lg);" data-animate>Prenota un colloquio conoscitivo gratuito di 15 minuti per capire come posso aiutarti.</p>
+            <a href="{{ grav.base_url }}/contatti" class="btn btn-outline" style="border-color: var(--white); color: var(--white);" data-animate>Contattami ora</a>
+        </div>
+    </section>
+</main>
+{% endblock %}

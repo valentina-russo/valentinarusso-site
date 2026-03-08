@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}{{ page.header.seo_title ?? page.title }} | Valentina Russo{% endblock %}</title>
+    <meta name="description" content="{{ page.header.seo_desc ?? page.header.description ?? 'Consulente BG5® e Human Design per carriera, relazioni e amor proprio.' }}">
+
+    {# Favicons #}
+    <link rel="icon" type="image/png" href="{{ grav.base_url }}/user/pages/assets/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="{{ grav.base_url }}/user/pages/assets/apple-touch-icon.png">
+
+    {# GEO meta tags #}
+    {% if page.header.geo_location is defined and page.header.geo_location %}
+    <meta name="geo.placename" content="{{ page.header.geo_location }}">
+    <meta name="geo.region" content="IT">
+    {% endif %}
+
+    {# Open Graph #}
+    <meta property="og:title" content="{{ page.header.seo_title ?? page.title }}">
+    <meta property="og:description" content="{{ page.header.seo_desc ?? page.header.description ?? '' }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ page.url(true) }}">
+    {% if page.header.featured_image is defined and page.header.featured_image %}
+    <meta property="og:image" content="{{ grav.base_url }}{{ page.header.featured_image }}">
+    {% endif %}
+
+    {# CSS #}
+    <link rel="stylesheet" href="{{ theme_url }}/css/style.css">
+
+    {# LD+JSON Website #}
+    {% block schema %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Valentina Russo",
+      "url": "{{ grav.base_url }}",
+      "description": "Consulente BG5® e Human Design"
+    }
+    </script>
+    {% endblock %}
+</head>
+
+<body{% if page.header.corporate is defined and page.header.corporate %} class="corporate"{% endif %}>
+
+    {% include 'partials/header.html.twig' %}
+
+    {% block content %}{% endblock %}
+
+    {% include 'partials/footer.html.twig' %}
+
+    <script src="{{ theme_url }}/js/main.js"></script>
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>

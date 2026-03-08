@@ -1,0 +1,9 @@
+enabled: true
+built_in_css: false
+built_in_js: true
+date_format: 'd-m-Y H:i'
+recaptcha:
+    version: 2-checkbox
+    theme: light
+    site_key: ''
+    secret_key: ''

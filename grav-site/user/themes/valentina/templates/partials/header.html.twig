@@ -1,0 +1,39 @@
+<header style="position: relative; z-index: 1000;">
+    <div class="container">
+        <div class="logo">
+            <a href="{{ grav.base_url }}/{{ page.header.corporate is defined and page.header.corporate ? 'aziende' : '' }}">
+                <img src="{{ theme_url }}/../../assets/logo.png" alt="Valentina Russo Logo" class="brand-logo"
+                     onerror="this.style.display='none'">
+                <div class="brand-text">
+                    <span class="brand-name">VALENTINA RUSSO</span>
+                    <span class="brand-tagline">Consulente BG5&reg;</span>
+                </div>
+            </a>
+        </div>
+        <button class="menu-toggle" aria-label="Menu">&#9776;</button>
+        <nav id="main-nav">
+            {% if page.header.corporate is defined and page.header.corporate %}
+            {# Corporate nav #}
+            <ul>
+                <li><a href="{{ grav.base_url }}/aziende">Home</a></li>
+                <li><a href="{{ grav.base_url }}/aziende/servizi">Servizi</a></li>
+                <li><a href="{{ grav.base_url }}/aziende/blog">Blog</a></li>
+                <li><a href="{{ grav.base_url }}/aziende/contatti">Contatti</a></li>
+                <li><a href="{{ grav.base_url }}" class="btn"
+                       style="background-color: #9E6D80; color: white; padding: 0.4rem 1rem; font-size: 0.85rem; border-radius: 4px;">Ritorna ai Privati</a></li>
+            </ul>
+            {% else %}
+            {# Privati nav #}
+            <ul>
+                <li><a href="{{ grav.base_url }}">Home</a></li>
+                <li><a href="{{ grav.base_url }}/servizi">Servizi</a></li>
+                <li><a href="{{ grav.base_url }}/blog">Blog</a></li>
+                <li><a href="{{ grav.base_url }}/chi-sono">Chi Sono</a></li>
+                <li><a href="{{ grav.base_url }}/contatti">Contatti</a></li>
+                <li><a href="{{ grav.base_url }}/aziende" class="btn"
+                       style="background-color: var(--corp-primary); color: white; padding: 0.4rem 1rem; font-size: 0.85rem; border-radius: 4px;">Percorso Aziende</a></li>
+            </ul>
+            {% endif %}
+        </nav>
+    </div>
+</header>

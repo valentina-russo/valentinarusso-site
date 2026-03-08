@@ -1,0 +1,77 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block title %}Valentina Russo | Corporate BG5&reg; Consulting{% endblock %}
+
+{% block content %}
+<main>
+    <!-- Hero Corporate -->
+    <section class="hero container">
+        <div class="hero-split">
+            <div class="hero-content" data-animate>
+                <p class="text-uppercase" style="color: var(--accent-color); font-weight: 600; margin-bottom: 1rem;">Consulenza Strategica per Aziende e Leader</p>
+                <h1 class="hero-title" style="margin-bottom: var(--space-md);">
+                    <span class="title-main" style="color: var(--primary-color);">ECCELLENZA</span>
+                    <span class="title-sub" style="color: var(--primary-color);">MECCANICA</span>
+                </h1>
+                <p class="serif italic" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--secondary-color);">L&rsquo;allineamento perfetto tra talento individuale e fatturato aziendale.</p>
+                <p class="text-small" style="max-width: 500px; margin-bottom: 1.5rem; opacity: 0.8;">Attraverso l&rsquo;analisi dei dati meccanici, trasformiamo l&rsquo;energia del capitale umano in risultati finanziari misurabili, eliminando gli attriti operativi.</p>
+                <div>
+                    <a href="{{ grav.base_url }}/aziende/servizi" class="btn btn-primary" style="background-color: var(--primary-color);">Corsi e Consulenze</a>
+                </div>
+                <div class="hero-keywords" data-animate>
+                    <span class="tag" style="font-size: 0.8rem; padding: 0.4rem 1rem; border: 1px solid var(--primary-color); border-radius: 20px; color: var(--primary-color); font-weight: 500;">Team Engineering</span>
+                    <span class="tag" style="font-size: 0.8rem; padding: 0.4rem 1rem; border: 1px solid var(--primary-color); border-radius: 20px; color: var(--primary-color); font-weight: 500;">Leadership Meccanica</span>
+                    <span class="tag" style="font-size: 0.8rem; padding: 0.4rem 1rem; border: 1px solid var(--primary-color); border-radius: 20px; color: var(--primary-color); font-weight: 500;">Analisi Penta</span>
+                    <span class="tag" style="font-size: 0.8rem; padding: 0.4rem 1rem; border: 1px solid var(--primary-color); border-radius: 20px; color: var(--primary-color); font-weight: 500;">Career Design</span>
+                </div>
+            </div>
+            <div class="hero-image" data-animate>
+                <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=800" alt="Team Business">
+            </div>
+        </div>
+    </section>
+
+    <!-- Il Vantaggio BG5 -->
+    <section class="section-padding" style="background: transparent;">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: var(--space-lg); max-width: 800px; margin-inline: auto;">
+                <h2 data-animate style="margin-bottom: 1rem; color: var(--primary-color);">Il Vantaggio Competitivo del BG5&reg;</h2>
+                <p data-animate style="margin-bottom: 2rem;">Il sistema BG5&reg; analizza le dinamiche nascoste che limitano la crescita del tuo business. Trasformiamo le inefficienze in metriche oggettive per costruire team ad alte performance e leader carismatici.</p>
+            </div>
+
+            <div class="footer-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                <div class="blog-card" style="box-shadow: 0 15px 35px rgba(30,58,95,0.06); border-radius: 24px; background: rgba(255,255,255,0.8); border-top: 4px solid var(--accent-color);" data-animate>
+                    <div class="blog-card-content text-center">
+                        <h3 style="color: var(--primary-color);">Vuoi aumentare il fatturato?</h3>
+                        <p class="text-small">Team engineering, allineamento chimico delle risorse e rimozione dei colli di bottiglia operativi.</p>
+                        <a href="{{ grav.base_url }}/aziende/servizi" class="btn btn-primary" style="margin-top: 1rem; background-color: var(--accent-color); font-size: 0.8rem; padding: 0.8rem 1.2rem;">S&igrave;, lo voglio</a>
+                    </div>
+                </div>
+                <div class="blog-card" style="box-shadow: 0 15px 35px rgba(30,58,95,0.06); border-radius: 24px; background: rgba(255,255,255,0.8); border-top: 4px solid var(--secondary-color);" data-animate>
+                    <div class="blog-card-content text-center">
+                        <h3 style="color: var(--primary-color);">Vorresti essere un buon leader?</h3>
+                        <p class="text-small">Strumenti per C-Levels e Founder per prendere decisioni strategiche corrette secondo il proprio disegno.</p>
+                        <a href="{{ grav.base_url }}/aziende/servizi" class="btn btn-primary" style="margin-top: 1rem; background-color: var(--secondary-color); font-size: 0.8rem; padding: 0.8rem 1.2rem;">S&igrave;, voglio essere un buon leader</a>
+                    </div>
+                </div>
+                <div class="blog-card" style="box-shadow: 0 15px 35px rgba(30,58,95,0.06); border-radius: 24px; background: rgba(255,255,255,0.8); border-top: 4px solid var(--primary-color);" data-animate>
+                    <div class="blog-card-content text-center">
+                        <h3 style="color: var(--primary-color);">Vuoi migliorare la vita del tuo team?</h3>
+                        <p class="text-small">Corporate analysis per mappare talenti e conflitti dormienti, riducendo drasticamente il turnover.</p>
+                        <a href="{{ grav.base_url }}/aziende/servizi" class="btn btn-primary" style="margin-top: 1rem; background-color: var(--primary-color); font-size: 0.8rem; padding: 0.8rem 1.2rem;">S&igrave;, voglio migliorare la vita del mio team</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section-padding text-center" style="background-color: var(--primary-color); color: var(--white); margin-top: 0;">
+        <div class="container">
+            <h2 style="margin-bottom: var(--space-md); color: var(--white);" data-animate>Soluzioni su misura per la tua realt&agrave;</h2>
+            <p style="margin-bottom: var(--space-lg);" data-animate>Prenota una call esplorativa per capire come le metriche BG5&reg; possono ottimizzare il tuo business.</p>
+            <a href="{{ grav.base_url }}/aziende/contatti" class="btn btn-outline" style="border-color: var(--white); color: var(--white);" data-animate>Richiedi una consulenza</a>
+        </div>
+    </section>
+</main>
+{% endblock %}

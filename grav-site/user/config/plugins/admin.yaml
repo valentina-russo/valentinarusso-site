@@ -1,0 +1,19 @@
+enabled: true
+locale: it
+discover_pages: true
+manage_pages: true
+manage_news: true
+manage_users: true
+manage_plugins: true
+manage_themes: true
+primvary_site_color: '#8B6F5E'
+show_beta_msg: true
+enable_auto_updates_check: true
+session:
+    timeout: 1800
+notifications:
+    enabled: true
+popular_pages_count: 5
+enable_logs_viewer: true
+enable_scheduler: true
+hide_page_types: []
