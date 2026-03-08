@@ -188,9 +188,11 @@
     </div>
     <p class="vr-subtitle">Bentornata, Valentina</p>
 
-    <form method="post" action="{{ admin_url }}">
+    <form method="post" action="/admin">
 
         {% include 'partials/messages.html.twig' ignore missing %}
+
+        <input type="hidden" name="redirect" value="/admin">
 
         <div class="form-item">
             <label for="username">Nome utente</label>
