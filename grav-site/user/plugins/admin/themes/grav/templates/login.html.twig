@@ -209,7 +209,7 @@
 
         <button class="button primary" name="task" value="login">Accedi</button>
 
-        {{ nonce_field('admin-login', 'login-nonce')|raw }}
+        <input type="hidden" name="login-nonce" value="{{ 'admin-login'|getNonce }}">
 
     </form>
 
