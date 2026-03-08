@@ -14,12 +14,12 @@
             {% endif %}
 
             {# Grav Form Plugin #}
-            {% if form %}
-                {% include "forms/form.html.twig" with {form: forms(page.slug)} %}
+            {% set the_form = forms(page.header.form.name ?? page.slug) %}
+            {% if the_form %}
+                {% include "forms/form.html.twig" with {form: the_form} %}
             {% else %}
             {# Fallback form statico (compatibilità) #}
             <form method="POST" action="{{ page.url }}" style="display: grid; gap: 1.5rem;">
-                {{ nonce_field('form', 'form-nonce') }}
 
                 {% if page.header.corporate is defined and page.header.corporate %}
                 <div class="form-field">
@@ -54,7 +54,7 @@
             {# Contatti diretti #}
             <div style="margin-top: var(--grid-xl); text-align: center;" data-animate>
                 <p class="text-small" style="margin-bottom: 0.5rem;">Preferisci un contatto diretto?</p>
-                <p style="margin-bottom: 0.5rem;"><strong>Email:</strong> <a href="mailto:info@valentinarussobg5.it">info@valentinarussobg5.it</a></p>
+                <p style="margin-bottom: 0.5rem;"><strong>Email:</strong> <a href="mailto:info@valentinarussobg5.com">info@valentinarussobg5.com</a></p>
                 <p style="margin-bottom: 0.5rem;"><strong>Whatsapp:</strong> <a href="https://wa.me/393791037653" style="color: var(--primary-color);">+39 379 103 7653</a></p>
                 <p style="margin-bottom: 0.5rem;"><strong>Instagram:</strong> <a href="https://www.instagram.com/valentinarussobg5/" target="_blank" rel="noopener" style="color: var(--primary-color);">@valentinarussobg5</a></p>
             </div>

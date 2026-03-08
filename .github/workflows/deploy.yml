@@ -21,6 +21,7 @@ jobs:
           # Immagini usate dai template (home, servizi, chi-sono)
           cp public/assets/valentina-privati.jpg grav-site/user/pages/assets/ 2>/dev/null || true
           cp public/assets/valentina-privati.png grav-site/user/pages/assets/ 2>/dev/null || true
+          cp public/assets/valentina.png         grav-site/user/pages/assets/ 2>/dev/null || true
           cp public/assets/bodygraph.png         grav-site/user/pages/assets/ 2>/dev/null || true
           cp public/assets/business-hero.png     grav-site/user/pages/assets/ 2>/dev/null || true
           cp public/assets/logo.png              grav-site/user/pages/assets/ 2>/dev/null || true
