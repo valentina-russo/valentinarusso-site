@@ -1,4 +1,4 @@
-name: Deploy Grav CMS su Aruba
+name: Deploy Grav user/ su Aruba
 
 on:
   push:
@@ -13,55 +13,41 @@ jobs:
       - name: Checkout codice
         uses: actions/checkout@v4
 
-      - name: Scarica Grav Admin Skeleton (v1.7.49.5)
+      - name: Prepara cartella user/ con immagini e config
         run: |
-          curl -L "https://getgrav.org/download/core/grav-admin/1.7.49.5" -o grav-admin.zip
-          unzip -q grav-admin.zip
-          mv grav-admin grav-deploy
-
-      - name: Copia tema e pagine personalizzati
-        run: |
-          # Sovrascriviamo la cartella user/ con la nostra
-          cp -r grav-site/user/themes grav-deploy/user/
-          cp -r grav-site/user/pages grav-deploy/user/
-          cp -r grav-site/user/config grav-deploy/user/
-
-      - name: Copia immagini da public/assets/ a user/images/
-        run: |
-          mkdir -p grav-deploy/user/images/blog
-          mkdir -p grav-deploy/user/themes/valentina/images
+          mkdir -p grav-site/user/images/blog
+          mkdir -p grav-site/user/themes/valentina/images
           # Blog images
-          cp public/assets/blog-*.png grav-deploy/user/images/blog/ 2>/dev/null || true
-          cp public/assets/blog-*.jpg grav-deploy/user/images/blog/ 2>/dev/null || true
+          cp public/assets/blog-*.png grav-site/user/images/blog/ 2>/dev/null || true
+          cp public/assets/blog-*.jpg grav-site/user/images/blog/ 2>/dev/null || true
           # Immagini nella sottocartella blog/
           if [ -d "public/assets/blog" ]; then
-            cp -r public/assets/blog/. grav-deploy/user/images/blog/
+            cp -r public/assets/blog/. grav-site/user/images/blog/
           fi
           # Altre immagini asset
-          cp public/assets/valentina-privati.jpg grav-deploy/user/images/ 2>/dev/null || true
-          cp public/assets/valentina-privati.png grav-deploy/user/images/ 2>/dev/null || true
+          cp public/assets/valentina-privati.jpg grav-site/user/images/ 2>/dev/null || true
+          cp public/assets/valentina-privati.png grav-site/user/images/ 2>/dev/null || true
           # Logo nel tema
-          cp public/assets/logo.png grav-deploy/user/themes/valentina/images/ 2>/dev/null || true
+          cp public/assets/logo.png grav-site/user/themes/valentina/images/ 2>/dev/null || true
 
       - name: Configura password SMTP Aruba
         env:
           SMTP_PASS: ${{ secrets.ARUBA_SMTP_PASS }}
         run: |
-          sed -i "s/password: ''/password: '$SMTP_PASS'/" grav-deploy/user/config/plugins/email.yaml
+          sed -i "s/password: ''/password: '$SMTP_PASS'/" grav-site/user/config/plugins/email.yaml
 
-      - name: Deploy via FTP su Aruba
+      - name: Deploy user/ via FTP su Aruba
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.ARUBA_FTP_HOST }}
           username: ${{ secrets.ARUBA_FTP_USER }}
           password: ${{ secrets.ARUBA_FTP_PASS }}
-          local-dir: ./grav-deploy/
-          server-dir: ${{ secrets.ARUBA_FTP_PATH }}
-          # server-dir è la root del sito su Aruba (es. /www/ o /public_html/ o /)
-          # Controlla nei setting FTP di Aruba cPanel qual è la root del tuo dominio
+          local-dir: ./grav-site/user/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/
           dangerous-clean-slate: false
           exclude: |
             **/.git*
             **/.git*/**
             **/node_modules/**
             .github/**
+            **/.gitkeep
