@@ -1,0 +1,3 @@
+enabled: true
+redirect_after_login: '/admin'
+redirect_after_unauthorized: false
