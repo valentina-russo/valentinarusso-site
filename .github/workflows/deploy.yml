@@ -55,3 +55,13 @@ jobs:
             **/node_modules/**
             .github/**
             **/.gitkeep
+
+      - name: Deploy .htaccess root (www redirect + Grav routing)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/root/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}
+          dangerous-clean-slate: false
