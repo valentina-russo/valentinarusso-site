@@ -1,0 +1,224 @@
+{% set admin_url = base_url_absolute ~ (admin.route ?? '/admin') %}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{ grav.config.site.title|e }} — Admin</title>
+
+    {% do assets.addCss('plugin://admin/themes/grav/css-compiled/nucleus.css', 98) %}
+    {% do assets.addCss('plugin://admin/themes/grav/css-compiled/template.css', 97) %}
+    {% do assets.addCss('plugin://admin/themes/grav/css-compiled/simple-fonts.css', 95) %}
+    {% do assets.addCss('plugin://admin/themes/grav/css/fontawesome7.min.css', 94) %}
+    {% include 'partials/assets.html.twig' %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital@0,400;ital,wght@1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ================================
+           VALENTINA RUSSO — ADMIN LOGIN
+           ================================ */
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #FAF7F5;
+            background-image:
+                radial-gradient(circle at 15% 20%, rgba(182, 131, 151, 0.20) 0%, transparent 45%),
+                radial-gradient(circle at 85% 50%, rgba(182, 131, 151, 0.13) 0%, transparent 50%),
+                radial-gradient(circle at 50% 88%, rgba(182, 131, 151, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 10% 80%, rgba(93, 174, 177, 0.07) 0%, transparent 35%);
+            background-attachment: fixed;
+            font-family: 'Outfit', sans-serif;
+            color: #2D2926;
+        }
+
+        /* Card */
+        #admin-login {
+            background: #FFFFFF;
+            border-radius: 1.75rem;
+            box-shadow:
+                0 25px 60px rgba(45, 41, 38, 0.09),
+                0 8px 25px rgba(182, 131, 151, 0.13);
+            padding: 3rem 2.5rem 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            margin: 1.5rem;
+        }
+
+        /* Nascondi il titolo Grav di default */
+        h1.default-logo { display: none !important; }
+
+        /* Logo */
+        .vr-logo-wrap {
+            text-align: center;
+            margin-bottom: 0.6rem;
+        }
+        .vr-logo-wrap img {
+            height: 52px;
+            width: auto;
+        }
+
+        /* Sottotitolo */
+        .vr-subtitle {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: #B68397;
+            font-size: 1rem;
+            margin-bottom: 2.25rem;
+            letter-spacing: 0.01em;
+        }
+
+        /* Messaggi (errori login) */
+        .notices {
+            margin-bottom: 1.25rem;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        .notices.red   { background: #fef2f2; color: #991b1b; }
+        .notices.green { background: #f0fdf4; color: #166534; }
+        .notices.yellow { background: #fffbeb; color: #92400e; }
+
+        /* Form items */
+        .form-item {
+            margin-bottom: 1rem;
+        }
+        .form-item label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: #9a8f87;
+            margin-bottom: 0.4rem;
+        }
+        .form-item input[type="text"],
+        .form-item input[type="password"] {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid #EAE5E1;
+            border-radius: 0.75rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.975rem;
+            color: #2D2926;
+            background: #FAF7F5;
+            transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .form-item input:focus {
+            border-color: #B68397;
+            box-shadow: 0 0 0 3.5px rgba(182, 131, 151, 0.16);
+            background: #FFFFFF;
+        }
+
+        /* Forgot password */
+        #forgot-password {
+            display: block;
+            text-align: right;
+            font-size: 0.8rem;
+            color: #B68397;
+            text-decoration: none;
+            margin-top: -0.3rem;
+            margin-bottom: 1.5rem;
+            transition: color 0.2s;
+        }
+        #forgot-password:hover { color: #9e6d80; }
+
+        /* Bottone accedi */
+        button.button.primary {
+            display: block;
+            width: 100%;
+            padding: 0.9rem 1.5rem;
+            background: #B68397;
+            border: none;
+            border-radius: 0.75rem;
+            color: #FFFFFF;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.25s, transform 0.15s, box-shadow 0.25s;
+            box-shadow: 0 4px 16px rgba(182, 131, 151, 0.38);
+        }
+        button.button.primary:hover {
+            background: #9e6d80;
+            transform: translateY(-1px);
+            box-shadow: 0 7px 22px rgba(182, 131, 151, 0.48);
+        }
+        button.button.primary:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 10px rgba(182, 131, 151, 0.30);
+        }
+
+        /* Footer discreto */
+        .vr-login-footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.72rem;
+            color: #c5bdb8;
+            letter-spacing: 0.02em;
+        }
+    </style>
+</head>
+<body>
+
+<section id="admin-login" class="login-box-shadow">
+
+    {{# Titolo nascosto via CSS, mantenuto per accessibilità #}}
+    <h1 class="default-logo">{{ "PLUGIN_ADMIN.ADMIN_PANEL"|t }}</h1>
+
+    <div class="vr-logo-wrap">
+        <img src="{{ base_url }}/user/themes/valentina/images/logo.png" alt="Valentina Russo">
+    </div>
+    <p class="vr-subtitle">Bentornata, Valentina</p>
+
+    <form method="post" action="{{ admin_url }}">
+
+        {% include 'partials/messages.html.twig' %}
+
+        <div class="form-item">
+            <label for="username">{{ "PLUGIN_LOGIN.USERNAME"|t }}</label>
+            <input type="text" name="username" id="username"
+                   placeholder="{{ "PLUGIN_LOGIN.USERNAME"|t }}"
+                   autocorrect="off" autocapitalize="off" autofocus>
+        </div>
+
+        <div class="form-item">
+            <label for="password">{{ "PLUGIN_LOGIN.PASSWORD"|t }}</label>
+            <input type="password" name="password" id="password"
+                   placeholder="{{ "PLUGIN_LOGIN.PASSWORD"|t }}">
+        </div>
+
+        <a id="forgot-password" href="{{ admin_url }}/forgot">{{ "PLUGIN_LOGIN.FORGOT_PASSWORD"|t }}</a>
+
+        <button class="button primary" name="task" value="login">
+            {{ "PLUGIN_LOGIN.LOGIN"|t }}
+        </button>
+
+        {{ nonce_field('admin-login', 'login-nonce') }}
+
+    </form>
+
+    <p class="vr-login-footer">valentinarussobg5.com &mdash; Area Riservata</p>
+
+</section>
+
+</body>
+</html>

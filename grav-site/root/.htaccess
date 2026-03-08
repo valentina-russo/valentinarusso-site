@@ -17,6 +17,9 @@ Options -Indexes
     RewriteCond %{HTTPS} off
     RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
+    ## REDIRECT admin.php → /admin (Grav Admin)
+    RewriteRule ^admin\.php$ /admin [R=301,L]
+
     ## Blocca accesso a file sensibili
     RewriteRule ^(\.git|cache|bin|logs|backup|vendor|webserver-configs)(/|$) [F,L]
     RewriteRule ((?:^|/)(system|user/config|user/data|user/accounts|user/plugins|user/themes|user/pages))(/|$) [F,L]
