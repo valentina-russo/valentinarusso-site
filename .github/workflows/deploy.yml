@@ -13,33 +13,6 @@ jobs:
       - name: Checkout codice
         uses: actions/checkout@v4
 
-      - name: Prepara cartella user/ con immagini e config
-        run: |
-          mkdir -p grav-site/user/pages/assets
-          mkdir -p grav-site/user/images/blog
-          mkdir -p grav-site/user/themes/valentina/images
-          # Immagini usate dai template (home, servizi, chi-sono)
-          cp public/assets/valentina-privati.jpg grav-site/user/pages/assets/ 2>/dev/null || true
-          cp public/assets/valentina-privati.png grav-site/user/pages/assets/ 2>/dev/null || true
-          cp public/assets/valentina.png         grav-site/user/pages/assets/ 2>/dev/null || true
-          cp public/assets/bodygraph.png         grav-site/user/pages/assets/ 2>/dev/null || true
-          cp public/assets/business-hero.png     grav-site/user/pages/assets/ 2>/dev/null || true
-          cp public/assets/logo.png              grav-site/user/pages/assets/ 2>/dev/null || true
-          # Favicon e touch icon (usati da base.html.twig)
-          cp public/favicon-32x32.png            grav-site/user/pages/assets/ 2>/dev/null || true
-          cp public/apple-touch-icon.png         grav-site/user/pages/assets/ 2>/dev/null || true
-          # Blog images — generici (blog-1.png … blog-5.png)
-          cp public/assets/blog-*.png grav-site/user/images/blog/ 2>/dev/null || true
-          cp public/assets/blog-*.jpg grav-site/user/images/blog/ 2>/dev/null || true
-          # Placeholder (esiste solo .jpg → copiato con nome .jpg)
-          cp public/assets/placeholder.jpg grav-site/user/images/blog/placeholder.jpg 2>/dev/null || true
-          # Blog images con nomi sanitizzati (i file originali hanno spazi/accenti)
-          cp "public/assets/blog/costruttori e guide.jpg" grav-site/user/images/blog/costruttori-e-guide.jpg 2>/dev/null || true
-          cp "public/assets/blog/Perché ti attrae proprio quella persona Il BG5 te lo mostra.png" grav-site/user/images/blog/perche-ti-attrae-quella-persona.png 2>/dev/null || true
-          cp "public/assets/blog/Firefly_Cinematic double exposure photography. Profile of a person dissolving into floating g 7714.png" grav-site/user/images/blog/firefly-double-exposure.png 2>/dev/null || true
-          # Logo nel tema
-          cp public/assets/logo.png grav-site/user/themes/valentina/images/ 2>/dev/null || true
-
       - name: Configura password SMTP Aruba
         env:
           SMTP_PASS: ${{ secrets.ARUBA_SMTP_PASS }}
