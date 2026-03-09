@@ -83,12 +83,9 @@ form:
         required: true
 
     header.tags:
-      type: selectize
+      type: tags
       label: "Tag / Argomenti"
       help: "Scrivi un tag e premi Invio per aggiungerlo."
-      classes: fancy
-      selectize:
-        create: true
 
     # ══════════════════════════════════════════
     # SEO — opzionale, collassato di default

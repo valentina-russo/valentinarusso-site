@@ -34,3 +34,8 @@ nul
 
 # Claude internal
 .claude/
+
+# Grav locale — plugin non deployati (già installati su Aruba)
+grav-site/user/plugins/
+grav-site/user/data/
+grav-site/user/cache/
