@@ -6,9 +6,9 @@ manage_news: true
 manage_users: true
 manage_plugins: true
 manage_themes: true
-primvary_site_color: '#8B6F5E'
-show_beta_msg: true
-enable_auto_updates_check: true
+primary_site_color: '#B68397'
+show_beta_msg: false
+enable_auto_updates_check: false
 session:
     timeout: 1800
 notifications:
