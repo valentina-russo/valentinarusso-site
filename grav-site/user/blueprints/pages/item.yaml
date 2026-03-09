@@ -145,11 +145,11 @@ form:
       style: vertical
       btnLabel: "+ Aggiungi domanda"
       fields:
-        .q:
+        .question:
           type: text
           label: "Domanda"
           placeholder: "Es: Cos'è il Human Design?"
-        .a:
+        .answer:
           type: textarea
           label: "Risposta"
           rows: 3

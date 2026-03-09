@@ -38,10 +38,10 @@
     {% for faq in page.header.faq %}
     {
       "@type": "Question",
-      "name": {{ faq.q|json_encode|raw }},
+      "name": {{ (faq.question ?? faq.q)|json_encode|raw }},
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": {{ faq.a|json_encode|raw }}
+        "text": {{ (faq.answer ?? faq.a)|json_encode|raw }}
       }
     }{% if not loop.last %},{% endif %}
     {% endfor %}
