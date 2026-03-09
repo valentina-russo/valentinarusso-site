@@ -362,6 +362,13 @@ footer { padding: var(--space-md) 0; margin-top: var(--space-lg); border-top: 1p
 }
 .form-field input:focus, .form-field textarea:focus { outline: none; border-color: var(--primary-color); }
 .form-field textarea { height: 150px; resize: vertical; }
+/* Messaggi form (Grav Form Plugin) */
+.form-messages { margin: 1.5rem 0; }
+.form-messages .notice { display: block; padding: 1rem 1.25rem; border-radius: 10px; font-size: 0.95rem; font-weight: 500; }
+.form-messages .notice.messages { background: rgba(100, 180, 120, 0.12); border: 1px solid rgba(100, 180, 120, 0.4); color: #2d7a47; }
+.form-messages .notice.error { background: rgba(220, 80, 80, 0.08); border: 1px solid rgba(220, 80, 80, 0.35); color: #b53232; }
+.form-errors { list-style: none; padding: 0; margin: 0.25rem 0 0; }
+.form-errors li { font-size: 0.8rem; color: #b53232; margin-top: 0.2rem; }
 
 /* Pagination */
 .pagination { display: flex; justify-content: center; gap: 0.5rem; margin-top: 3rem; }

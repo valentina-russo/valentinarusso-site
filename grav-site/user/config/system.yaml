@@ -56,7 +56,7 @@ assets:
         jquery: system://assets/jquery/jquery-2.x.min.js
 
 errors:
-    display: 1
+    display: 0
     log: true
 
 log:
