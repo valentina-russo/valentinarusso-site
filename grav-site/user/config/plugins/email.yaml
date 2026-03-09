@@ -4,12 +4,6 @@ from_name: "Valentina Russo"
 to: valentinebers@gmail.com
 to_name: "Valentina Russo"
 mailer:
-    engine: smtp
-    smtp:
-        server: smtps.aruba.it
-        port: 465
-        encryption: ssl
-        user: info@valentinarussobg5.com
-        password: ''
+    engine: mail
 content_type: text/html
 charset: utf-8

@@ -13,12 +13,6 @@ jobs:
       - name: Checkout codice
         uses: actions/checkout@v4
 
-      - name: Configura password SMTP Aruba
-        env:
-          SMTP_PASS: ${{ secrets.ARUBA_SMTP_PASS }}
-        run: |
-          sed -i "s/password: ''/password: '$SMTP_PASS'/" grav-site/user/config/plugins/email.yaml
-
       - name: Deploy user/ via FTP su Aruba
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
