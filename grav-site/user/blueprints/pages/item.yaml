@@ -1,0 +1,148 @@
+title: Articolo Blog
+'@extends':
+    type: default
+    context: blueprints://pages
+
+form:
+  fields:
+    tabs:
+      type: tabs
+      active: 1
+
+      fields:
+
+        # ──────────────────────────────────────────
+        # TAB 1 — CONTENUTO
+        # ──────────────────────────────────────────
+        tab_contenuto:
+          type: tab
+          title: ✍️ Contenuto
+
+          fields:
+            header.author:
+              type: text
+              label: Autore
+              default: Valentina Russo
+              ordering: 1
+
+            header.description:
+              type: textarea
+              label: Descrizione / Excerpt
+              description: Breve descrizione dell'articolo (mostrata nelle card del blog)
+              rows: 3
+              ordering: 2
+
+            header.tags:
+              type: selectize
+              label: Tag
+              classes: fancy
+              ordering: 3
+              selectize:
+                create: true
+
+        # ──────────────────────────────────────────
+        # TAB 2 — IMMAGINE
+        # ──────────────────────────────────────────
+        tab_immagine:
+          type: tab
+          title: 🖼️ Immagine
+
+          fields:
+            header.featured_image:
+              type: text
+              label: Path immagine
+              description: "Es: /user/images/blog/nome-immagine.jpg"
+              placeholder: /user/images/blog/
+
+            header.image_alt:
+              type: text
+              label: Testo alternativo (alt)
+              description: Descrizione dell'immagine per accessibilità e SEO
+
+            header.image_title:
+              type: text
+              label: Titolo immagine
+
+            header.image_caption:
+              type: text
+              label: Didascalia immagine
+
+            header.image_desc:
+              type: textarea
+              label: Descrizione immagine (per schema)
+              rows: 2
+
+            header.image_focus:
+              type: select
+              label: Focus immagine
+              description: Punto focale per il ritaglio automatico
+              options:
+                center: Centro
+                top: Alto
+                bottom: Basso
+                left: Sinistra
+                right: Destra
+                top-left: Alto sinistra
+                top-right: Alto destra
+                bottom-left: Basso sinistra
+                bottom-right: Basso destra
+
+        # ──────────────────────────────────────────
+        # TAB 3 — SEO & GEO
+        # ──────────────────────────────────────────
+        tab_seo:
+          type: tab
+          title: 🔍 SEO & GEO
+
+          fields:
+            header.seo_title:
+              type: text
+              label: SEO Title
+              description: Titolo per Google (max 60 caratteri). Se vuoto usa il titolo pagina.
+              validate:
+                max: 60
+
+            header.seo_desc:
+              type: textarea
+              label: SEO Description
+              description: Descrizione per Google (max 160 caratteri).
+              rows: 3
+              validate:
+                max: 160
+
+            header.geo_location:
+              type: text
+              label: GEO Location
+              description: "Es: Italia, Milano — usato per ricerche locali"
+              placeholder: Italia
+
+        # ──────────────────────────────────────────
+        # TAB 4 — AEO & FAQ
+        # ──────────────────────────────────────────
+        tab_aeo:
+          type: tab
+          title: 💡 AEO & FAQ
+
+          fields:
+            header.aeo_answer:
+              type: textarea
+              label: Risposta AEO
+              description: "Risposta diretta e concisa alla domanda principale dell'articolo (usata da ChatGPT, Perplexity, Google AI Overview)"
+              rows: 4
+
+            header.faq:
+              type: list
+              label: FAQ (Domande Frequenti)
+              description: Aggiungi domande e risposte — migliorano il posizionamento nei risultati ricchi di Google
+              style: vertical
+              btnLabel: Aggiungi domanda
+              fields:
+                .question:
+                  type: text
+                  label: Domanda
+                  placeholder: "Es: Cos'è il Human Design?"
+                .answer:
+                  type: textarea
+                  label: Risposta
+                  rows: 3
+                  placeholder: Scrivi la risposta completa...
