@@ -1,5 +1,6 @@
 enabled: true
 locale: it
+logo_text: "Valentina Russo"
 discover_pages: true
 manage_pages: true
 manage_news: true

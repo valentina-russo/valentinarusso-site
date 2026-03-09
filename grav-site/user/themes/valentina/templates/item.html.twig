@@ -18,10 +18,10 @@
   "publisher": {
     "@type": "Organization",
     "name": "Valentina Russo",
-    "url": "{{ grav.base_url }}"
+    "url": "{{ grav.base_url_absolute }}"
   }{% if page.header.featured_image is defined and page.header.featured_image %},
   {% if '/' in page.header.featured_image %}
-  "image": "{{ grav.base_url }}{{ page.header.featured_image }}"
+  "image": "{{ grav.base_url_absolute }}{{ page.header.featured_image }}"
   {% else %}
   "image": "{{ page.media[page.header.featured_image].url ?? '' }}"
   {% endif %}{% endif %}
