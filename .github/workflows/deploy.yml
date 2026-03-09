@@ -55,6 +55,7 @@ jobs:
             **/node_modules/**
             .github/**
             **/.gitkeep
+            accounts/**
 
       - name: Deploy .htaccess root (www redirect + Grav routing)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
