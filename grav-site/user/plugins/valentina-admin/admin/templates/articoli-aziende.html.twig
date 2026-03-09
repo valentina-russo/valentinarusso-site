@@ -1,0 +1,55 @@
+{% extends 'partials/base.html.twig' %}
+
+{% set folder = grav.pages.find('/aziende/blog') %}
+
+{% block content %}
+<div class="default-box-shadow" style="margin: 1.5rem;">
+
+    <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid #e5e5e5; display: flex; justify-content: space-between; align-items: center;">
+        <h1 style="margin: 0; font-size: 1.4rem;">💼 Articoli Aziende</h1>
+        <a href="{{ base_url_relative }}/pages/aziende/blog" class="button">
+            <i class="fa fa-plus"></i> Nuovo Articolo
+        </a>
+    </div>
+
+    <table class="full" style="margin: 0;">
+        <thead>
+            <tr>
+                <th style="padding: .75rem 1rem; text-align: left;">Titolo</th>
+                <th style="padding: .75rem 1rem; text-align: left;">Data</th>
+                <th style="padding: .75rem 1rem; text-align: left;">Stato</th>
+                <th style="padding: .75rem 1rem; text-align: right;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if folder and folder.children|length > 0 %}
+                {% for article in folder.children %}
+                <tr style="border-top: 1px solid #f0f0f0;">
+                    <td style="padding: .75rem 1rem;"><strong>{{ article.title }}</strong></td>
+                    <td style="padding: .75rem 1rem; color: #666;">{{ article.date|date('d/m/Y') }}</td>
+                    <td style="padding: .75rem 1rem;">
+                        {% if article.published %}
+                            <span style="color: #3d9970; font-weight: 600;">● Pubblicato</span>
+                        {% else %}
+                            <span style="color: #e67e22; font-weight: 600;">● Bozza</span>
+                        {% endif %}
+                    </td>
+                    <td style="padding: .75rem 1rem; text-align: right;">
+                        <a href="{{ base_url_relative }}/pages{{ article.route }}" class="button">
+                            <i class="fa fa-pencil"></i> Modifica
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="4" style="padding: 2rem; text-align: center; color: #999;">
+                        Nessun articolo trovato. Clicca "Nuovo Articolo" per iniziare.
+                    </td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}
