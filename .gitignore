@@ -36,6 +36,8 @@ nul
 .claude/
 
 # Grav locale — plugin non deployati (già installati su Aruba)
-grav-site/user/plugins/
+grav-site/user/plugins/*
+# Eccezione: plugin custom non installabile via Grav admin, va in git
+!grav-site/user/plugins/valentina-admin
 grav-site/user/data/
 grav-site/user/cache/
