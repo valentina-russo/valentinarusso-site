@@ -20,7 +20,11 @@
     "name": "Valentina Russo",
     "url": "{{ grav.base_url }}"
   }{% if page.header.featured_image is defined and page.header.featured_image %},
-  "image": "{{ grav.base_url }}{{ page.header.featured_image }}"{% endif %}
+  {% if '/' in page.header.featured_image %}
+  "image": "{{ grav.base_url }}{{ page.header.featured_image }}"
+  {% else %}
+  "image": "{{ page.media[page.header.featured_image].url ?? '' }}"
+  {% endif %}{% endif %}
 }
 </script>
 
@@ -86,9 +90,18 @@
             {% endif %}
 
             {% if page.header.featured_image is defined and page.header.featured_image %}
-            <img src="{{ page.header.featured_image }}"
+              {% if '/' in page.header.featured_image %}
+                {# Formato vecchio: path assoluto /user/images/blog/... #}
+                {% set img_url = page.header.featured_image %}
+              {% else %}
+                {# Formato nuovo: file caricato nella pagina via pagemedia #}
+                {% set img_url = page.media[page.header.featured_image].url ?? '' %}
+              {% endif %}
+              {% if img_url %}
+            <img src="{{ img_url }}"
                  alt="{{ page.header.image_alt ?? page.title }}"
                  class="featured-image">
+              {% endif %}
             {% endif %}
         </header>
 

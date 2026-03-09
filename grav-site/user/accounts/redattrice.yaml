@@ -1,0 +1,25 @@
+# Account per chi scrive articoli — accesso limitato a Pages
+email: ''
+fullname: Redattrice
+title: Editor
+state: enabled
+language: it
+hashed_passwords: true
+# Password: Articoli2026! (da cambiare dopo il primo accesso)
+password: '$2b$10$/a7fbtpIp9FLMaHwForWlurb.DfJV9dhjZfQQ1d5KaImKjbryeSz.'
+access:
+  admin:
+    login: true
+    super: false
+    # Consente di vedere e modificare solo le Pages
+    pages: true
+    # Tutto il resto è negato
+    maintenance: false
+    statistics: false
+    cache: false
+    configuration: false
+    themes: false
+    plugins: false
+    updates: false
+  site:
+    login: true

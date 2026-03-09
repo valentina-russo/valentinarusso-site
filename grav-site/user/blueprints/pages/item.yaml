@@ -1,8 +1,6 @@
 title: Articolo Blog
-'@extends':
-    type: default
-    context: blueprints://pages
 
+# Blueprint completo senza @extends default → form pulito, solo campi necessari
 form:
   fields:
     tabs:
@@ -11,138 +9,184 @@ form:
 
       fields:
 
-        # ──────────────────────────────────────────
-        # TAB 1 — CONTENUTO
-        # ──────────────────────────────────────────
-        tab_contenuto:
+        # ══════════════════════════════════════════════
+        # TAB 1 — ARTICOLO (titolo + testo)
+        # ══════════════════════════════════════════════
+        tab_articolo:
           type: tab
-          title: ✍️ Contenuto
+          title: "✏️ Articolo"
 
           fields:
-            header.author:
+
+            title:
               type: text
-              label: Autore
-              default: Valentina Russo
-              ordering: 1
+              label: "Titolo articolo"
+              placeholder: "Es: Come capire il tuo tipo in Human Design"
+              validate:
+                required: true
 
-            header.description:
-              type: textarea
-              label: Descrizione / Excerpt
-              description: Breve descrizione dell'articolo (mostrata nelle card del blog)
-              rows: 3
-              ordering: 2
+            content:
+              type: markdown
+              label: "Testo dell'articolo"
+              validate:
+                required: true
 
-            header.tags:
-              type: selectize
-              label: Tag
-              classes: fancy
-              ordering: 3
-              selectize:
-                create: true
-
-        # ──────────────────────────────────────────
-        # TAB 2 — IMMAGINE
-        # ──────────────────────────────────────────
+        # ══════════════════════════════════════════════
+        # TAB 2 — IMMAGINE & ANTEPRIMA
+        # ══════════════════════════════════════════════
         tab_immagine:
           type: tab
-          title: 🖼️ Immagine
+          title: "🖼️ Immagine"
 
           fields:
+
+            section_upload:
+              type: section
+              title: "1 · Carica l'immagine"
+              underline: true
+              text: "Trascina qui il file, oppure clicca per selezionarlo dal computer."
+
+            media:
+              type: pagemedia
+
+            section_select:
+              type: section
+              title: "2 · Seleziona come copertina"
+              underline: true
+              text: "Dopo il caricamento, scegli l'immagine dal menu qui sotto."
+
             header.featured_image:
-              type: text
-              label: Path immagine
-              description: "Es: /user/images/blog/nome-immagine.jpg"
-              placeholder: /user/images/blog/
+              type: pagemediaselect
+              label: "Immagine di copertina"
+              placeholder: "— Nessuna immagine selezionata —"
 
             header.image_alt:
               type: text
-              label: Testo alternativo (alt)
-              description: Descrizione dell'immagine per accessibilità e SEO
+              label: "Testo alternativo (alt)"
+              placeholder: "Descrizione breve dell'immagine — es: Valentina Russo consulente BG5"
+              help: "Obbligatorio per accessibilità e SEO. Descrivi cosa si vede nell'immagine."
 
-            header.image_title:
-              type: text
-              label: Titolo immagine
+            section_anteprima:
+              type: section
+              title: "3 · Anteprima card blog"
+              underline: true
 
-            header.image_caption:
-              type: text
-              label: Didascalia immagine
-
-            header.image_desc:
+            header.description:
               type: textarea
-              label: Descrizione immagine (per schema)
-              rows: 2
+              label: "Descrizione breve"
+              placeholder: "2-3 righe che appaiono nella card del blog. Es: In questo articolo esploriamo..."
+              rows: 3
+              help: "Massimo 200 caratteri. È il testo che si vede nella lista articoli."
 
-            header.image_focus:
-              type: select
-              label: Focus immagine
-              description: Punto focale per il ritaglio automatico
-              options:
-                center: Centro
-                top: Alto
-                bottom: Basso
-                left: Sinistra
-                right: Destra
-                top-left: Alto sinistra
-                top-right: Alto destra
-                bottom-left: Basso sinistra
-                bottom-right: Basso destra
-
-        # ──────────────────────────────────────────
-        # TAB 3 — SEO & GEO
-        # ──────────────────────────────────────────
-        tab_seo:
+        # ══════════════════════════════════════════════
+        # TAB 3 — PUBBLICA
+        # ══════════════════════════════════════════════
+        tab_pubblica:
           type: tab
-          title: 🔍 SEO & GEO
+          title: "📅 Pubblica"
 
           fields:
+
+            published:
+              type: toggle
+              label: "Visibile sul sito"
+              highlight: 1
+              default: 0
+              options:
+                1: "Sì, pubblica"
+                0: "No, salva come bozza"
+              validate:
+                type: bool
+
+            date:
+              type: datetime
+              label: "Data di pubblicazione"
+              help: "Puoi impostare una data futura: l'articolo apparirà automaticamente a quell'ora."
+              format: "Y-m-d H:i:s"
+              validate:
+                required: true
+
+            header.author:
+              type: text
+              label: "Autore"
+              default: "Valentina Russo"
+
+            header.tags:
+              type: selectize
+              label: "Tag / Argomenti"
+              help: "Scrivi un tag e premi Invio per aggiungerlo."
+              classes: fancy
+              selectize:
+                create: true
+
+        # ══════════════════════════════════════════════
+        # TAB 4 — SEO (opzionale, per utenti avanzati)
+        # ══════════════════════════════════════════════
+        tab_seo:
+          type: tab
+          title: "🔍 SEO"
+
+          fields:
+
+            section_seo:
+              type: section
+              title: "Ottimizzazione motori di ricerca"
+              text: "Tutti i campi qui sotto sono facoltativi. Se lasciati vuoti, Grav usa il titolo e la descrizione dell'articolo."
+              underline: true
+
             header.seo_title:
               type: text
-              label: SEO Title
-              description: Titolo per Google (max 60 caratteri). Se vuoto usa il titolo pagina.
+              label: "Titolo per Google"
+              placeholder: "Es: Human Design: guida completa ai 5 tipi energetici"
+              help: "Max 60 caratteri. Può differire dal titolo della pagina."
               validate:
                 max: 60
 
             header.seo_desc:
               type: textarea
-              label: SEO Description
-              description: Descrizione per Google (max 160 caratteri).
+              label: "Descrizione per Google"
+              placeholder: "Es: Scopri come il Human Design può aiutarti a capire la tua natura..."
+              help: "Max 155 caratteri. Appare nei risultati di ricerca."
               rows: 3
               validate:
                 max: 160
 
             header.geo_location:
               type: text
-              label: GEO Location
-              description: "Es: Italia, Milano — usato per ricerche locali"
-              placeholder: Italia
+              label: "Luogo di riferimento"
+              placeholder: "Es: Milano, Italia"
+              help: "Per articoli legati a una zona geografica specifica."
 
-        # ──────────────────────────────────────────
-        # TAB 4 — AEO & FAQ
-        # ──────────────────────────────────────────
-        tab_aeo:
-          type: tab
-          title: 💡 AEO & FAQ
+            section_aeo:
+              type: section
+              title: "Risposta diretta (AEO — per Google AI e ChatGPT)"
+              underline: true
 
-          fields:
             header.aeo_answer:
               type: textarea
-              label: Risposta AEO
-              description: "Risposta diretta e concisa alla domanda principale dell'articolo (usata da ChatGPT, Perplexity, Google AI Overview)"
+              label: "Risposta sintetica all'argomento principale"
+              placeholder: "Scrivi in 2-4 righe la risposta alla domanda principale dell'articolo..."
               rows: 4
+              help: "Usata da Google AI Overview, ChatGPT, Perplexity. Sii diretto e conciso."
+
+            section_faq:
+              type: section
+              title: "FAQ (Domande Frequenti)"
+              underline: true
 
             header.faq:
               type: list
-              label: FAQ (Domande Frequenti)
-              description: Aggiungi domande e risposte — migliorano il posizionamento nei risultati ricchi di Google
+              label: "Domande e risposte"
+              help: "Migliorano il posizionamento nei risultati 'ricchi' di Google."
               style: vertical
-              btnLabel: Aggiungi domanda
+              btnLabel: "+ Aggiungi domanda"
               fields:
-                .question:
+                .q:
                   type: text
-                  label: Domanda
+                  label: "Domanda"
                   placeholder: "Es: Cos'è il Human Design?"
-                .answer:
+                .a:
                   type: textarea
-                  label: Risposta
+                  label: "Risposta"
                   rows: 3
-                  placeholder: Scrivi la risposta completa...
+                  placeholder: "Scrivi la risposta completa..."
