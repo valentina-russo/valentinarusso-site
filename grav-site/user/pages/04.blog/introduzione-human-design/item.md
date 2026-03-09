@@ -3,7 +3,7 @@ title: "Il mio primo articolo sul Human Design"
 date: 2026-03-07 12:00:00
 published: true
 author: "Valentina Russo"
-featured_image: /user/images/blog/placeholder.png
+featured_image: /user/images/blog/placeholder.jpg
 description: "Un'introduzione al decondizionamento e alla consapevolezza individuale."
 seo_title: "Guida Human Design | Valentina Russo"
 seo_desc: "Scopri come lo Human Design può migliorare la tua vita e le tue relazioni."
