@@ -34,9 +34,6 @@ form:
       underline: true
       text: "1) Trascina l'immagine nel riquadro → 2) selezionala dal menu → 3) scrivi il testo alternativo."
 
-    media:
-      type: pagemedia
-
     header.featured_image:
       type: pagemediaselect
       label: "Immagine di copertina"
