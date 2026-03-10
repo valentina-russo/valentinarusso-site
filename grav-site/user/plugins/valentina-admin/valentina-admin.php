@@ -52,39 +52,40 @@ class ValentinaAdminPlugin extends Plugin
 .vb-a{background:#1e3a5f;}
 .vb-ai{background:#7c3aed;}
 
-/* Pulsanti articolo nel titlebar */
-.vb-pubblica {
-  background:#27ae60!important;color:#fff!important;
-  font-weight:700!important;font-size:.9rem!important;
-  padding:6px 20px!important;border-radius:6px!important;
-  border:none!important;cursor:pointer;margin-left:8px;
+/* Barra azioni articolo — fissa in basso */
+#vb-action-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:9000;
+  background:#0f172a;border-top:1px solid #1e293b;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 20px;gap:12px;
+  box-shadow:0 -4px 16px rgba(0,0,0,.4);
 }
-.vb-bozza {
-  background:#7f8c8d!important;color:#fff!important;
-  font-weight:600!important;font-size:.9rem!important;
-  padding:6px 16px!important;border-radius:6px!important;
-  border:none!important;cursor:pointer;margin-left:6px;
+#vb-action-bar .vb-ab-left{
+  display:flex;align-items:center;gap:8px;
+  color:#64748b;font-size:.78rem;flex-shrink:0;
 }
-.vb-pubblica:hover{opacity:.88!important;}
-.vb-bozza:hover{opacity:.88!important;}
-.vb-rewrite{background:#d97706!important;color:#fff!important;
-  font-weight:600!important;font-size:.9rem!important;
-  padding:6px 16px!important;border-radius:6px!important;
-  border:none!important;cursor:pointer;margin-left:6px;}
-.vb-rewrite:hover{opacity:.88!important;}
-.vb-full{background:#0f766e!important;color:#fff!important;
-  font-weight:600!important;font-size:.9rem!important;
-  padding:6px 16px!important;border-radius:6px!important;
-  border:none!important;cursor:pointer;margin-left:6px;}
-.vb-full:hover{opacity:.88!important;}
-
-/* Slug bar */
-#vb-slug-bar{
-  background:#1e293b;color:#94a3b8;font-size:.78rem;
-  padding:5px 16px;border-radius:0 0 6px 6px;
-  margin-top:-2px;display:inline-flex;align-items:center;gap:8px;
+#vb-action-bar .vb-ab-left code{
+  color:#38bdf8;font-size:.82rem;letter-spacing:.01em;
 }
-#vb-slug-bar code{color:#38bdf8;font-size:.82rem;}
+#vb-action-bar .vb-ab-rename{
+  background:#1e293b;color:#94a3b8;border:1px solid #334155;
+  border-radius:4px;padding:2px 9px;font-size:.72rem;cursor:pointer;
+}
+#vb-action-bar .vb-ab-rename:hover{background:#334155;color:#e2e8f0;}
+#vb-action-bar .vb-ab-right{display:flex;align-items:center;gap:8px;}
+#vb-action-bar button{
+  border:none;border-radius:6px;cursor:pointer;
+  font-size:.85rem;font-weight:600;padding:7px 18px;
+  display:inline-flex;align-items:center;gap:5px;
+  transition:opacity .15s;
+}
+#vb-action-bar button:hover{opacity:.85;}
+.vb-ab-bozza  {background:#475569;color:#f1f5f9;}
+.vb-ab-pubblica{background:#16a34a;color:#fff;}
+.vb-ab-rewrite {background:#d97706;color:#fff;}
+.vb-ab-full    {background:#0f766e;color:#fff;}
+/* Padding pagina per non coprire il contenuto */
+body.grav-admin-page{ padding-bottom:58px!important; }
 
 /* Overlay loading */
 #vb-rewrite-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,40,.88);
@@ -502,70 +503,72 @@ class ValentinaAdminPlugin extends Plugin
       bar.insertBefore(btnAI, bar.firstChild);
     }
 
-    /* 2. Pulsanti nelle pagine di edit articolo */
+    /* 2. Action bar fissa in basso per le pagine di edit articolo */
     var url = window.location.href;
     var isArticle = url.match(/\/admin\/pages\/(blog\/articoli\/|aziende\/blog\/).+/);
     if(!isArticle) return;
 
-    /* Mostra slug corrente */
-    var slugMatch = url.match(/\/admin\/pages\/(?:aziende\/blog|blog\/articoli)\/([^/?#]+)/);
-    if(slugMatch){
-      var currentSlug = slugMatch[1];
-      var slugBar = document.createElement('div');
-      slugBar.id = 'vb-slug-bar';
-      slugBar.innerHTML = '<i class="fa fa-link"></i> Slug: <code>' + currentSlug + '</code>';
-
-      var renameBtn = document.createElement('button');
-      renameBtn.type = 'button';
-      renameBtn.textContent = 'Rinomina';
-      renameBtn.style.cssText = 'background:#334155;color:#cbd5e1;border:none;border-radius:4px;'
-        + 'padding:2px 9px;font-size:.72rem;cursor:pointer;margin-left:8px;';
-      renameBtn.addEventListener('click', function(){ rinominaSlug(currentSlug); });
-
-      slugBar.appendChild(renameBtn);
-      var tb = document.querySelector('#titlebar');
-      if(tb) tb.insertAdjacentElement('afterend', slugBar);
-    }
-
     setTimeout(function(){
+      /* Nascondi il pulsante Salva nativo di Grav */
       var titlebar = document.querySelector('#titlebar .button-bar');
-      if(!titlebar) return;
+      if(titlebar){
+        var saveBtn = titlebar.querySelector('button[data-task="save"], .button.save');
+        if(saveBtn) saveBtn.style.display = 'none';
+      }
 
-      var saveBtn = titlebar.querySelector('button[data-task="save"], .button.save');
-      if(saveBtn) saveBtn.style.display = 'none';
+      /* Estrai slug dall'URL */
+      var slugMatch = url.match(/\/admin\/pages\/(?:aziende\/blog|blog\/articoli)\/([^/?#]+)/);
+      var currentSlug = slugMatch ? slugMatch[1] : '';
 
-      var btnPub = document.createElement('button');
-      btnPub.type = 'button';
-      btnPub.className = 'vb-pubblica';
-      btnPub.innerHTML = '<i class="fa fa-check"></i> PUBBLICA';
-      btnPub.title = "Pubblica l'articolo sul sito";
-      btnPub.addEventListener('click', function(){ saveWithState(1); });
+      /* Costruisci action bar */
+      var bar = document.createElement('div');
+      bar.id = 'vb-action-bar';
 
-      var btnBozza = document.createElement('button');
-      btnBozza.type = 'button';
-      btnBozza.className = 'vb-bozza';
-      btnBozza.innerHTML = '<i class="fa fa-save"></i> Salva Bozza';
-      btnBozza.title = 'Salva senza pubblicare';
-      btnBozza.addEventListener('click', function(){ saveWithState(0); });
+      /* — Sinistra: slug + rinomina — */
+      var left = document.createElement('div');
+      left.className = 'vb-ab-left';
+      left.innerHTML = '<i class="fa fa-link"></i> <span>Slug:</span> <code>' + currentSlug + '</code>';
 
-      var btnRewrite = document.createElement('button');
-      btnRewrite.type = 'button';
-      btnRewrite.className = 'vb-rewrite';
-      btnRewrite.innerHTML = '<i class="fa fa-magic"></i> Riscrivi Testo';
-      btnRewrite.title = 'Riscrive solo il testo con Claude (SEO e FAQ invariati)';
-      btnRewrite.addEventListener('click', function(){ vbRewriteArticle(); });
+      if(currentSlug){
+        var renBtn = document.createElement('button');
+        renBtn.className = 'vb-ab-rename';
+        renBtn.textContent = 'Rinomina';
+        renBtn.addEventListener('click', function(){ rinominaSlug(currentSlug); });
+        left.appendChild(renBtn);
+      }
 
-      var btnFull = document.createElement('button');
-      btnFull.type = 'button';
-      btnFull.className = 'vb-full';
-      btnFull.innerHTML = '<i class="fa fa-refresh"></i> Rigenera Tutto';
-      btnFull.title = 'Riscrive testo + SEO + tag + FAQ + description con Claude';
-      btnFull.addEventListener('click', function(){ vbFullRewrite(); });
+      /* — Destra: azioni — */
+      var right = document.createElement('div');
+      right.className = 'vb-ab-right';
 
-      titlebar.appendChild(btnBozza);
-      titlebar.appendChild(btnPub);
-      titlebar.appendChild(btnRewrite);
-      titlebar.appendChild(btnFull);
+      var bBozza = document.createElement('button');
+      bBozza.className = 'vb-ab-bozza';
+      bBozza.innerHTML = '<i class="fa fa-save"></i> Salva Bozza';
+      bBozza.addEventListener('click', function(){ saveWithState(0); });
+
+      var bPub = document.createElement('button');
+      bPub.className = 'vb-ab-pubblica';
+      bPub.innerHTML = '<i class="fa fa-check"></i> PUBBLICA';
+      bPub.addEventListener('click', function(){ saveWithState(1); });
+
+      var bRewrite = document.createElement('button');
+      bRewrite.className = 'vb-ab-rewrite';
+      bRewrite.innerHTML = '<i class="fa fa-magic"></i> Riscrivi Testo';
+      bRewrite.addEventListener('click', function(){ vbRewriteArticle(); });
+
+      var bFull = document.createElement('button');
+      bFull.className = 'vb-ab-full';
+      bFull.innerHTML = '<i class="fa fa-refresh"></i> Rigenera Tutto';
+      bFull.addEventListener('click', function(){ vbFullRewrite(); });
+
+      right.appendChild(bBozza);
+      right.appendChild(bPub);
+      right.appendChild(bRewrite);
+      right.appendChild(bFull);
+
+      bar.appendChild(left);
+      bar.appendChild(right);
+      document.body.appendChild(bar);
     }, 300);
 
   });
