@@ -41,3 +41,5 @@ grav-site/user/plugins/*
 !grav-site/user/plugins/valentina-admin
 grav-site/user/data/
 grav-site/user/cache/
+# Pagine: gestite SOLO da Grav Admin sul server, mai da git
+grav-site/user/pages/
