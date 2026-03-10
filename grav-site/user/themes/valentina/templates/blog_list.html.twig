@@ -20,19 +20,23 @@
         <div class="blog-grid" id="blog-grid">
             {% for article in collection %}
             <article class="blog-card" data-category="{{ page.header.category ?? 'privati' }}">
+                {% set card_img = '' %}
                 {% if article.header.featured_image is defined and article.header.featured_image %}
-                  {% if '/' in article.header.featured_image %}
-                    {% set card_img = article.header.featured_image %}
-                  {% else %}
+                  {% if '/' not in article.header.featured_image %}
                     {% set card_img = article.media[article.header.featured_image].url ?? '' %}
+                  {% elseif 'placeholder' not in article.header.featured_image %}
+                    {% set card_img = article.header.featured_image %}
                   {% endif %}
-                  {% if card_img %}
+                {% endif %}
+                {% if not card_img and article.media|length %}
+                  {% set card_img = article.media|first.url ?? '' %}
+                {% endif %}
+                {% if card_img %}
                 <div class="blog-card-image">
                     <img src="{{ card_img }}"
                          alt="{{ article.header.image_alt ?? article.title }}"
                          loading="lazy">
                 </div>
-                  {% endif %}
                 {% endif %}
                 <div class="blog-card-content">
                     {% if article.header.tags is defined and article.header.tags %}
