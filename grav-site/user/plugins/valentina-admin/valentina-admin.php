@@ -113,62 +113,78 @@ class ValentinaAdminPlugin extends Plugin
     f.submit();
   }
 
+  /* ── PADDING DATA ────────────────────── */
+  function pad2(n){ return n < 10 ? '0'+n : ''+n; }
+
   /* ── SALVA CON STATO PUBBLICAZIONE ───── */
   function saveWithState(publishedValue){
-    // Trova la form di edit — method può essere "post" o "POST"
-    var form = document.querySelector('form[action*="/admin/pages/"]');
+    // Trova la form principale (id="blueprints")
+    var form = document.getElementById('blueprints');
     if(!form){
-      // Fallback: qualsiasi form con input task=save
-      var forms = document.querySelectorAll('form');
+      var forms = document.querySelectorAll('form[method="post"]');
       for(var i=0;i<forms.length;i++){
-        if(forms[i].querySelector('button[data-task="save"], input[name="task"]')){
-          form = forms[i]; break;
-        }
+        if(forms[i].action.indexOf('/admin/pages/')!==-1){ form=forms[i]; break; }
       }
     }
     if(!form){ alert('Form non trovata.'); return; }
 
-    // 1. Aggiorna hidden input (fonte dati reale del toggle Grav)
-    var hidden = form.querySelector('input[name="data[published]"], input[name="published"]');
-    if(hidden){
-      hidden.value = publishedValue;
-    } else {
-      var inp = document.createElement('input');
-      inp.type='hidden'; inp.name='data[published]'; inp.value=publishedValue;
-      form.appendChild(inp);
+    // 1. Aggiorna stato published
+    // 1a. Radio buttons visibili
+    form.querySelectorAll('input[type="radio"][name="data[published]"]').forEach(function(r){
+      r.checked = (r.value == publishedValue);
+    });
+    // 1b. Toggle visuale Grav (div [data-value]) — clicca quello corretto
+    document.querySelectorAll('[data-value]').forEach(function(opt){
+      if(opt.getAttribute('data-value') == publishedValue){ opt.click(); }
+    });
+    // 1c. _json hidden published (Grav Vue state)
+    var jsonPub = document.querySelector('input[name="data[_json][header][published]"]');
+    if(jsonPub) jsonPub.value = (publishedValue == 1) ? 'true' : 'false';
+
+    // 2. Assicura che data[title] sia valorizzato (Grav lo richiede per la validazione)
+    var titleInput = form.querySelector('input[name="data[title]"]');
+    if(titleInput && !titleInput.value.trim()){
+      var jsonTitle = document.querySelector('input[name="data[_json][header][title]"]');
+      if(jsonTitle && jsonTitle.value){
+        try{ titleInput.value = JSON.parse(jsonTitle.value); }
+        catch(e){ titleInput.value = jsonTitle.value.replace(/^"|"$/g,''); }
+      }
     }
 
-    // 2. Aggiorna visuale toggle Grav (div cliccabili con data-value)
-    var toggleOpts = form.querySelectorAll('[data-value]');
-    toggleOpts.forEach(function(opt){
-      if(opt.getAttribute('data-value') == publishedValue){
-        opt.click(); // Grav aggiorna l'hidden tramite click
+    // 3. Assicura che data[date] sia valorizzato in formato Y-m-d H:i:s
+    var dateInput = form.querySelector('input[name="data[date]"]');
+    if(dateInput && !dateInput.value.trim()){
+      var jsonDate = document.querySelector('input[name="data[_json][header][date]"]');
+      var d;
+      if(jsonDate && jsonDate.value && !isNaN(parseInt(jsonDate.value,10))){
+        d = new Date(parseInt(jsonDate.value,10) * 1000);
+      } else {
+        d = new Date();
       }
-    });
+      dateInput.value = d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate())
+        +' '+pad2(d.getHours())+':'+pad2(d.getMinutes())+':00';
+    }
 
-    // 3. Fallback: radio input standard
-    form.querySelectorAll('input[type="radio"]').forEach(function(r){
-      if(r.name && r.name.toLowerCase().indexOf('published') !== -1){
-        r.checked = (r.value == publishedValue);
-      }
-    });
+    // 4. Rimuovi "Leave Site" popup — Grav mette onbeforeunload quando form è dirty
+    window.onbeforeunload = null;
+    // Rimuovi anche event listener via removeEventListener se possibile
+    var cleanBefore = function(){ return undefined; };
+    window.addEventListener('beforeunload', cleanBefore);
 
-    // Clicca il pulsante Salva nativo di Grav (è nel #titlebar, NON dentro la form)
+    // 5. Clicca il bottone Salva nativo di Grav
+    //    HTML reale: <button name="task" value="save" type="submit" form="blueprints">
     setTimeout(function(){
-      var saveBtn = document.querySelector('#titlebar button[data-task="save"], #titlebar .button.save');
+      window.removeEventListener('beforeunload', cleanBefore);
+      var saveBtn = document.querySelector('button[name="task"][value="save"]');
       if(saveBtn){
         saveBtn.click();
       } else {
-        // Fallback: cerca ovunque nel documento
-        var anyBtn = document.querySelector('button[data-task="save"]');
-        if(anyBtn){ anyBtn.click(); }
-        else {
-          var taskInp = form.querySelector('input[name="task"]');
-          if(taskInp) taskInp.value = 'save';
-          form.submit();
-        }
+        // Fallback: cerca per classe
+        var fallback = document.querySelector('#titlebar button.success, button.button.success[type="submit"]');
+        if(fallback){ fallback.click(); }
+        else { form.submit(); }
       }
-    }, 150);
+    }, 200);
   }
 
   /* ── DOM READY ───────────────────────── */
