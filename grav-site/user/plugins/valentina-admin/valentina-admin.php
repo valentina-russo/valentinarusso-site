@@ -460,9 +460,13 @@ body.grav-admin-page{ padding-bottom:58px!important; }
             'description': d.description,
             'seo_title':   d.seo_title,
             'seo_desc':    d.seo_desc,
-            'aeo_answer':  d.aeo_answer,
-            'geo_content': d.geo_content,
-            'tags':        d.tags
+            'aeo_answer':   d.aeo_answer,
+            'geo_content':  d.geo_content,
+            'image_alt':    d.image_alt,
+            'image_title':  d.image_title,
+            'image_caption':d.image_caption,
+            'image_desc':   d.image_desc,
+            'tags':         d.tags
           };
           Object.keys(scalars).forEach(function(k){
             if(!scalars[k]) return;

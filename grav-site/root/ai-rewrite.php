@@ -133,6 +133,10 @@ if ($mode === 'full') {
     $userMsg .= "  \"tags\": \"4-6 tag separati da virgola in italiano senza #\",\n";
     $userMsg .= "  \"aeo_answer\": \"risposta diretta alla domanda principale, 80-120 parole\",\n";
     $userMsg .= "  \"geo_content\": \"3-5 affermazioni precise e autorevoli sul tema: definizioni esatte di termini BG5/HD usati nell'articolo, posizionamento unico di Valentina, risposte dirette alle domande più cercate. Usa frasi complete, tono enciclopedico, citabile da ChatGPT/Perplexity/Gemini. Max 200 parole.\",\n";
+    $userMsg .= "  \"image_alt\": \"alt text accessibile per l'immagine copertina, max 120 caratteri, descrittivo e con keyword principale\",\n";
+    $userMsg .= "  \"image_title\": \"titolo immagine breve e keyword-rich, max 60 caratteri\",\n";
+    $userMsg .= "  \"image_caption\": \"didascalia mostrata sotto l'immagine, 1 frase chiara e informativa, max 100 caratteri\",\n";
+    $userMsg .= "  \"image_desc\": \"descrizione estesa immagine per i motori di ricerca, 1-2 frasi, max 200 caratteri\",\n";
     $userMsg .= "  \"image_prompt\": \"prompt dettagliato in inglese per Midjourney/DALL-E: soggetto, stile, colori, composizione, lighting -- ar 16:9 --style raw\",\n";
     $userMsg .= "  \"faq\": [\n";
     $userMsg .= "    {\"question\": \"domanda 1\", \"answer\": \"risposta completa 50-100 parole\"},\n";
@@ -208,7 +212,7 @@ if ($mode === 'full') {
     // Aggiorna il frontmatter YAML con i nuovi valori
     $fm = $frontmatter;
     if ($fm) {
-        foreach (['description', 'seo_title', 'seo_desc', 'tags', 'aeo_answer', 'geo_content'] as $field) {
+        foreach (['description', 'seo_title', 'seo_desc', 'tags', 'aeo_answer', 'geo_content', 'image_alt', 'image_title', 'image_caption', 'image_desc'] as $field) {
             if (!empty($parsed[$field])) {
                 $fm = yamlSetField($fm, $field, $parsed[$field]);
             }
