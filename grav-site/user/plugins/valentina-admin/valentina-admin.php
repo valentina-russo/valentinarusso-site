@@ -237,42 +237,29 @@ body.grav-admin-page{ padding-bottom:58px!important; }
     if(!newSlug){ alert('Slug non valido.'); return; }
     if(newSlug === currentSlug){ return; }
 
-    // Estrai il parent route e il path admin del parent
-    var parts = window.location.pathname.split('/');
-    var pIdx  = parts.indexOf('pages');
+    var parts          = window.location.pathname.split('/');
+    var pIdx           = parts.indexOf('pages');
     var parentSegments = parts.slice(pIdx + 1, -1);
-    var parentRoute    = '/' + parentSegments.join('/');
-    var parentAdminUrl = BASE + '/admin/pages/' + parentSegments.join('/');
-
-    // Titolo e data (necessari per la validazione Grav)
-    var titleEl = document.querySelector('input[name="data[title]"]');
-    var title   = titleEl ? titleEl.value.trim() : 'Articolo';
-    var now     = new Date();
-    var dateStr = now.getFullYear()+'-'+pad2(now.getMonth()+1)+'-'+pad2(now.getDate())
-                  +' '+pad2(now.getHours())+':'+pad2(now.getMinutes())+':00';
-
-    var fd = new FormData();
-    fd.append('task',         'move');
-    fd.append('data[folder]', newSlug);
-    fd.append('data[route]',  parentRoute);
-    fd.append('data[title]',  title);
-    fd.append('data[date]',   dateStr);
-    fd.append('admin-nonce',  getNonce());
+    var parentPath     = parentSegments.join('/');
+    var parentAdminUrl = BASE + '/admin/pages/' + parentPath;
 
     overlayShow('Rinomina slug in corso...');
-    fetch(window.location.pathname + '.json', { method:'POST', body:fd, credentials:'include' })
-      .then(function(){
-        // Move completato — svuota cache Grav poi vai alla lista articoli
-        var nonce = getNonce();
-        var cfd = new FormData();
-        cfd.append('task',        'clearCache');
-        cfd.append('admin-nonce', nonce);
-        return fetch(BASE + '/admin', { method:'POST', body:cfd, credentials:'include' });
-      })
-      .then(function(){
+
+    var fd = new FormData();
+    fd.append('pass',        'ValeAdmin2026');
+    fd.append('parent_path', parentPath);
+    fd.append('old_slug',    currentSlug);
+    fd.append('new_slug',    newSlug);
+
+    fetch('/vb-rename.php', { method:'POST', body:fd, credentials:'include' })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
         overlayHide();
-        // Naviga alla lista del parent: da lì l'utente clicca sull'articolo rinominato
-        window.location.href = parentAdminUrl;
+        if(data.ok){
+          window.location.href = parentAdminUrl;
+        } else {
+          alert('Errore rinomina: ' + (data.error || 'sconosciuto'));
+        }
       })
       .catch(function(err){ overlayHide(); alert('Errore: ' + err); });
   }
@@ -522,6 +509,13 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       left.className = 'vb-ab-left';
       left.innerHTML = '<i class="fa fa-link"></i> <span>Slug:</span> <code>' + currentSlug + '</code>';
 
+      if(currentSlug){
+        var renBtn = document.createElement('button');
+        renBtn.className = 'vb-ab-rename';
+        renBtn.textContent = 'Rinomina';
+        renBtn.addEventListener('click', function(){ rinominaSlug(currentSlug); });
+        left.appendChild(renBtn);
+      }
 
       /* — Destra: azioni — */
       var right = document.createElement('div');
