@@ -22,9 +22,23 @@
     <meta property="og:description" content="{{ page.header.seo_desc ?? page.header.description ?? '' }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ page.url(true) }}">
+    {% set og_image = '' %}
     {% if page.header.featured_image is defined and page.header.featured_image %}
-    <meta property="og:image" content="{{ grav.base_url_absolute }}{{ page.header.featured_image }}">
+      {% if '/' not in page.header.featured_image %}
+        {% set og_image = page.media[page.header.featured_image].url ?? '' %}
+      {% elseif 'placeholder' not in page.header.featured_image %}
+        {% set og_image = grav.base_url_absolute ~ page.header.featured_image %}
+      {% endif %}
     {% endif %}
+    {% if not og_image and page.media|length %}
+      {% set og_image = page.media|first.url ?? '' %}
+    {% endif %}
+    {% if not og_image %}
+      {% set og_image = grav.base_url_absolute ~ '/user/themes/valentina/images/og-default.jpg' %}
+    {% endif %}
+    <meta property="og:image" content="{{ og_image }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{{ og_image }}">
 
     {# CSS #}
     <link rel="stylesheet" href="{{ theme_url }}/css/style.css?v=20260308c">
