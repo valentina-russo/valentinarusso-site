@@ -163,7 +163,7 @@ class ValentinaAdminPlugin extends Plugin
     }
     if(!form){ alert('Form non trovata.'); return; }
 
-    // Registra intercettore (se non già fatto)
+    // Registra intercettore submit (fill title/date in capture phase)
     attachSubmitInterceptor(form);
 
     // 1. Aggiorna stato published
@@ -176,11 +176,17 @@ class ValentinaAdminPlugin extends Plugin
     var jsonPub = document.querySelector('input[name="data[_json][header][published]"]');
     if(jsonPub) jsonPub.value = (publishedValue == 1) ? 'true' : 'false';
 
-    // 2. Rimuovi popup "Lascia sito"
+    // 2. CRITICO: disabilita HTML5 validation del browser
+    //    data[title] e data[date] hanno required=true; senza noValidate il browser
+    //    blocca il submit PRIMA che il capture-phase interceptor possa scattare
+    form.noValidate = true;
+
+    // 3. Rimuovi popup "Lascia sito"
     window.onbeforeunload = null;
 
-    // 3. Clicca Salva nativo dopo che Vue ha gestito il toggle (~200ms)
-    //    L'intercettore submit riempirà title/date nel momento giusto
+    // 4. Clicca Salva nativo dopo che Vue ha gestito il toggle (~200ms)
+    //    Con noValidate=true il submit event scatta → interceptor riempie title/date
+    //    → jQuery handler di Grav serializza e invia
     setTimeout(function(){
       var saveBtn = document.querySelector('button[name="task"][value="save"]');
       if(saveBtn){ saveBtn.click(); }
