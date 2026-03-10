@@ -115,34 +115,43 @@ class ValentinaAdminPlugin extends Plugin
 
   /* ── SALVA CON STATO PUBBLICAZIONE ───── */
   function saveWithState(publishedValue){
-    // Trova la form di edit della pagina
-    var form = document.querySelector('form[method="post"][action*="/admin/pages/"]');
+    // Trova la form di edit — method può essere "post" o "POST"
+    var form = document.querySelector('form[action*="/admin/pages/"]');
+    if(!form){
+      // Fallback: qualsiasi form con input task=save
+      var forms = document.querySelectorAll('form');
+      for(var i=0;i<forms.length;i++){
+        if(forms[i].querySelector('button[data-task="save"], input[name="task"]')){
+          form = forms[i]; break;
+        }
+      }
+    }
     if(!form){ alert('Form non trovata.'); return; }
 
-    // Toggle published: cerca radio input con name che contiene "published"
-    var radios = form.querySelectorAll('input[type="radio"]');
-    var found = false;
-    radios.forEach(function(r){
-      if(r.name && r.name.toLowerCase().indexOf('published') !== -1){
-        r.checked = (r.value == publishedValue);
-        found = true;
+    // 1. Aggiorna hidden input (fonte dati reale del toggle Grav)
+    var hidden = form.querySelector('input[name="data[published]"], input[name="published"]');
+    if(hidden){
+      hidden.value = publishedValue;
+    } else {
+      var inp = document.createElement('input');
+      inp.type='hidden'; inp.name='data[published]'; inp.value=publishedValue;
+      form.appendChild(inp);
+    }
+
+    // 2. Aggiorna visuale toggle Grav (div cliccabili con data-value)
+    var toggleOpts = form.querySelectorAll('[data-value]');
+    toggleOpts.forEach(function(opt){
+      if(opt.getAttribute('data-value') == publishedValue){
+        opt.click(); // Grav aggiorna l'hidden tramite click
       }
     });
 
-    // Se non ci sono radio, cerca un toggle hidden o select
-    if(!found){
-      var hidden = form.querySelector('input[name="data[published]"], input[name="published"]');
-      if(hidden){
-        hidden.value = publishedValue;
-      } else {
-        // Crea input hidden
-        var inp = document.createElement('input');
-        inp.type = 'hidden';
-        inp.name = 'data[published]';
-        inp.value = publishedValue;
-        form.appendChild(inp);
+    // 3. Fallback: radio input standard
+    form.querySelectorAll('input[type="radio"]').forEach(function(r){
+      if(r.name && r.name.toLowerCase().indexOf('published') !== -1){
+        r.checked = (r.value == publishedValue);
       }
-    }
+    });
 
     // Clicca il pulsante Salva nativo di Grav
     var saveBtn = form.querySelector('button[data-task="save"], .button.save');
