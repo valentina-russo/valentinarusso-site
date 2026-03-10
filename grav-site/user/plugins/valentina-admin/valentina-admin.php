@@ -461,6 +461,7 @@ body.grav-admin-page{ padding-bottom:58px!important; }
             'seo_title':   d.seo_title,
             'seo_desc':    d.seo_desc,
             'aeo_answer':  d.aeo_answer,
+            'geo_content': d.geo_content,
             'tags':        d.tags
           };
           Object.keys(scalars).forEach(function(k){

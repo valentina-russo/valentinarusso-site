@@ -132,6 +132,7 @@ if ($mode === 'full') {
     $userMsg .= "  \"seo_desc\": \"descrizione SEO 150-155 caratteri\",\n";
     $userMsg .= "  \"tags\": \"4-6 tag separati da virgola in italiano senza #\",\n";
     $userMsg .= "  \"aeo_answer\": \"risposta diretta alla domanda principale, 80-120 parole\",\n";
+    $userMsg .= "  \"geo_content\": \"3-5 affermazioni precise e autorevoli sul tema: definizioni esatte di termini BG5/HD usati nell'articolo, posizionamento unico di Valentina, risposte dirette alle domande più cercate. Usa frasi complete, tono enciclopedico, citabile da ChatGPT/Perplexity/Gemini. Max 200 parole.\",\n";
     $userMsg .= "  \"image_prompt\": \"prompt dettagliato in inglese per Midjourney/DALL-E: soggetto, stile, colori, composizione, lighting -- ar 16:9 --style raw\",\n";
     $userMsg .= "  \"faq\": [\n";
     $userMsg .= "    {\"question\": \"domanda 1\", \"answer\": \"risposta completa 50-100 parole\"},\n";
@@ -207,7 +208,7 @@ if ($mode === 'full') {
     // Aggiorna il frontmatter YAML con i nuovi valori
     $fm = $frontmatter;
     if ($fm) {
-        foreach (['description', 'seo_title', 'seo_desc', 'tags', 'aeo_answer'] as $field) {
+        foreach (['description', 'seo_title', 'seo_desc', 'tags', 'aeo_answer', 'geo_content'] as $field) {
             if (!empty($parsed[$field])) {
                 $fm = yamlSetField($fm, $field, $parsed[$field]);
             }
