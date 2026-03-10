@@ -209,8 +209,9 @@ if ($authed && isset($_POST['save_article']) && isset($_POST['article_json'])) {
         // Build FAQ YAML
         $faqYaml = '';
         foreach ($article['faq'] ?? [] as $faq) {
-            $q = addslashes($faq['question'] ?? '');
-            $a = addslashes($faq['answer'] ?? '');
+            // In YAML double-quoted strings solo " e \ vanno escaped — NON gli apostrofi
+            $q = str_replace(['\\', '"'], ['\\\\', '\\"'], $faq['question'] ?? '');
+            $a = str_replace(['\\', '"'], ['\\\\', '\\"'], $faq['answer'] ?? '');
             $faqYaml .= "    -\n      question: \"{$q}\"\n      answer: \"{$a}\"\n";
         }
 
