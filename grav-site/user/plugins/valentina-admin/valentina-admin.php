@@ -366,10 +366,38 @@ class ValentinaAdminPlugin extends Plugin
           cms.body.save();
         }
 
-        // 2. Frontmatter (description, seo_title, seo_desc, tags, aeo_answer, faq)
+        // 2a. Expert Mode — aggiorna frontmatter YAML direttamente nel CM
         if(data.frontmatter && cms.front){
           cms.front.setValue(data.frontmatter);
           cms.front.save();
+        }
+
+        // 2b. Normal Mode fallback — aggiorna i campi form individuali
+        if(!cms.front && data.data){
+          var d = data.data;
+          var scalars = {
+            'description': d.description,
+            'seo_title':   d.seo_title,
+            'seo_desc':    d.seo_desc,
+            'aeo_answer':  d.aeo_answer,
+            'tags':        d.tags
+          };
+          Object.keys(scalars).forEach(function(k){
+            if(!scalars[k]) return;
+            // Prova data[header][k] (Grav standard) poi data[k] (Flex Objects)
+            if(!setField('data[header][' + k + ']', scalars[k])){
+              setField('data[' + k + ']', scalars[k]);
+            }
+          });
+          // FAQ: aggiorna voci lista
+          if(d.faq && d.faq.length){
+            d.faq.forEach(function(item, i){
+              var qSet = setField('data[header][faq][' + i + '][question]', item.question || '');
+              if(!qSet) setField('data[faq][' + i + '][question]', item.question || '');
+              var aSet = setField('data[header][faq][' + i + '][answer]', item.answer || '');
+              if(!aSet) setField('data[faq][' + i + '][answer]', item.answer || '');
+            });
+          }
         }
 
         // Flash verde

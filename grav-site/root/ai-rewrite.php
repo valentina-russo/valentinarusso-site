@@ -223,6 +223,7 @@ if ($mode === 'full') {
         'frontmatter'  => $fm,
         'body'         => $parsed['body'],
         'image_prompt' => $parsed['image_prompt'] ?? '',
+        'data'         => $parsed,   // campi individuali per fallback Normal Mode
     ]);
 } else {
     echo json_encode(['ok' => true, 'mode' => 'body', 'content' => $text]);
