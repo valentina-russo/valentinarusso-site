@@ -128,8 +128,8 @@
             <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">Domande Frequenti</h3>
             {% for faq in page.header.faq %}
             <div class="faq-item">
-                <h4>{{ faq.q }}</h4>
-                <p>{{ faq.a }}</p>
+                <h4>{{ faq.question ?? faq.q }}</h4>
+                <p>{{ faq.answer ?? faq.a }}</p>
             </div>
             {% endfor %}
         </div>
