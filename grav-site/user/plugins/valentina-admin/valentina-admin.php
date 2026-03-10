@@ -9,7 +9,7 @@ class ValentinaAdminPlugin extends Plugin
     {
         return [
             'onAdminMenu'         => ['onAdminMenu', 0],
-            'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
+            'onAdminTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
         ];
     }
 
