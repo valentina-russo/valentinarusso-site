@@ -230,7 +230,7 @@ class ValentinaAdminPlugin extends Plugin
 
   /* ── RINOMINA SLUG ───────────────────── */
   function rinominaSlug(currentSlug){
-    var newSlug = prompt('Nuovo slug (URL) per questo articolo:\nMinuscolo, trattini, senza spazi o accenti.', currentSlug);
+    var newSlug = prompt('Nuovo slug (URL) per questo articolo:\\nMinuscolo, trattini, senza spazi o accenti.', currentSlug);
     if(!newSlug || !newSlug.trim()) return;
     newSlug = slugify(newSlug.trim());
     if(!newSlug){ alert('Slug non valido.'); return; }
