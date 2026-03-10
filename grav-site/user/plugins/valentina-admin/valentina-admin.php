@@ -84,6 +84,24 @@ class ValentinaAdminPlugin extends Plugin
 .vb-ab-pubblica{background:#16a34a;color:#fff;}
 .vb-ab-rewrite {background:#d97706;color:#fff;}
 .vb-ab-full    {background:#0f766e;color:#fff;}
+/* Sezione privati — bordo rosa */
+#vb-action-bar.vb-s-privati{ border-top-color:#B68397; }
+/* Sezione aziende — bordo blu */
+#vb-action-bar.vb-s-aziende{ border-top-color:#1e3a5f; }
+/* Badge sezione */
+.vb-ab-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  border-radius:12px;padding:2px 10px;font-size:.72rem;font-weight:700;
+  letter-spacing:.03em;flex-shrink:0;
+}
+.vb-ab-badge-p{background:#B68397;color:#fff;}
+.vb-ab-badge-a{background:#1e3a5f;color:#fff;}
+/* Pulsante Sposta */
+#vb-action-bar .vb-ab-sposta{
+  background:#1e293b;color:#94a3b8;border:1px solid #334155;
+  border-radius:4px;padding:2px 9px;font-size:.72rem;cursor:pointer;
+}
+#vb-action-bar .vb-ab-sposta:hover{background:#334155;color:#e2e8f0;}
 /* Padding pagina per non coprire il contenuto */
 body.grav-admin-page{ padding-bottom:58px!important; }
 
@@ -259,6 +277,33 @@ body.grav-admin-page{ padding-bottom:58px!important; }
           window.location.href = parentAdminUrl;
         } else {
           alert('Errore rinomina: ' + (data.error || 'sconosciuto'));
+        }
+      })
+      .catch(function(err){ overlayHide(); alert('Errore: ' + err); });
+  }
+
+  /* ── SPOSTA ARTICOLO ─────────────────── */
+  function spostaArticolo(slug, isAziende){
+    var dest      = isAziende ? 'blog/articoli' : 'aziende/blog';
+    var destLabel = isAziende ? 'Privati' : 'Aziende';
+    if(!confirm('Sposta in sezione ' + destLabel + '?\\n\\nL URL cambiera. Se l articolo era pubblicato, aggiungi un redirect in site.yaml.')){return;}
+
+    overlayShow('Spostamento in corso...');
+
+    var fd = new FormData();
+    fd.append('pass',       'ValeAdmin2026');
+    fd.append('old_parent', isAziende ? 'aziende/blog' : 'blog/articoli');
+    fd.append('new_parent', dest);
+    fd.append('slug',       slug);
+
+    fetch('/vb-move.php', { method:'POST', body:fd, credentials:'include' })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        overlayHide();
+        if(data.ok){
+          window.location.href = BASE + '/admin/pages/' + dest;
+        } else {
+          alert('Errore spostamento: ' + (data.error || 'sconosciuto'));
         }
       })
       .catch(function(err){ overlayHide(); alert('Errore: ' + err); });
@@ -496,18 +541,28 @@ body.grav-admin-page{ padding-bottom:58px!important; }
         if(saveBtn) saveBtn.style.display = 'none';
       }
 
+      /* Rileva sezione */
+      var isAziende  = !!url.match(/\/admin\/pages\/aziende\/blog\//);
+
       /* Estrai slug dall'URL */
-      var slugMatch = url.match(/\/admin\/pages\/(?:aziende\/blog|blog\/articoli)\/([^/?#]+)/);
+      var slugMatch  = url.match(/\/admin\/pages\/(?:aziende\/blog|blog\/articoli)\/([^/?#]+)/);
       var currentSlug = slugMatch ? slugMatch[1] : '';
 
       /* Costruisci action bar */
       var bar = document.createElement('div');
       bar.id = 'vb-action-bar';
+      bar.classList.add(isAziende ? 'vb-s-aziende' : 'vb-s-privati');
 
-      /* — Sinistra: slug + rinomina — */
+      /* — Sinistra: badge sezione + slug + rinomina + sposta — */
       var left = document.createElement('div');
       left.className = 'vb-ab-left';
-      left.innerHTML = '<i class="fa fa-link"></i> <span>Slug:</span> <code>' + currentSlug + '</code>';
+
+      var badge = document.createElement('span');
+      badge.className = 'vb-ab-badge ' + (isAziende ? 'vb-ab-badge-a' : 'vb-ab-badge-p');
+      badge.innerHTML = isAziende ? '<i class="fa fa-briefcase"></i> Aziende' : '<i class="fa fa-pencil"></i> Privati';
+      left.appendChild(badge);
+
+      left.insertAdjacentHTML('beforeend', ' <i class="fa fa-link"></i> <span>Slug:</span> <code>' + currentSlug + '</code>');
 
       if(currentSlug){
         var renBtn = document.createElement('button');
@@ -515,6 +570,12 @@ body.grav-admin-page{ padding-bottom:58px!important; }
         renBtn.textContent = 'Rinomina';
         renBtn.addEventListener('click', function(){ rinominaSlug(currentSlug); });
         left.appendChild(renBtn);
+
+        var spoBtn = document.createElement('button');
+        spoBtn.className = 'vb-ab-sposta';
+        spoBtn.textContent = isAziende ? 'Sposta \u2192 Privati' : 'Sposta \u2192 Aziende';
+        spoBtn.addEventListener('click', function(){ spostaArticolo(currentSlug, isAziende); });
+        left.appendChild(spoBtn);
       }
 
       /* — Destra: azioni — */
