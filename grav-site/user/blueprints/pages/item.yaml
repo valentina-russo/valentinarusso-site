@@ -3,6 +3,7 @@ title: Articolo Blog
 form:
   fields:
 
+    # ── TITOLO & TESTO ──────────────────────────────────
     title:
       type: text
       label: "Titolo articolo"
@@ -11,39 +12,145 @@ form:
 
     content:
       type: markdown
-      label: "Testo"
+      label: "Testo dell'articolo"
       validate:
         required: true
 
+    # ── IMMAGINE ─────────────────────────────────────────
+    section_immagine:
+      type: section
+      title: "🖼️ Immagine"
+      underline: true
+
+    header.featured_image:
+      type: text
+      label: "Percorso immagine copertina"
+      placeholder: "/user/images/blog/nome-immagine.jpg"
+      help: "Carica prima dal tab Media, poi incolla qui il percorso."
+
+    header.image_alt:
+      type: text
+      label: "Alt text (accessibilità)"
+      placeholder: "Es: Valentina Russo consulente BG5 a Milano"
+
+    header.image_title:
+      type: text
+      label: "Titolo immagine"
+      placeholder: "Es: Consulenza Human Design"
+
+    header.image_caption:
+      type: text
+      label: "Didascalia"
+      placeholder: "Breve didascalia sotto l'immagine"
+
+    header.image_desc:
+      type: textarea
+      label: "Descrizione immagine (SEO)"
+      rows: 2
+      placeholder: "Descrizione estesa dell'immagine per i motori di ricerca."
+
+    # ── PUBBLICA ─────────────────────────────────────────
+    section_pubblica:
+      type: section
+      title: "📅 Pubblicazione"
+      underline: true
+
     published:
       type: toggle
-      label: "Pubblica sul sito"
+      label: "Visibile sul sito"
       highlight: 1
       default: 0
       options:
         1: "Sì, pubblica"
-        0: "No, tieni in bozza"
+        0: "No, bozza"
       validate:
         type: bool
 
     date:
       type: datetime
-      label: "Data"
+      label: "Data di pubblicazione"
+      help: "Data futura = programmazione automatica."
       format: "Y-m-d H:i:s"
       validate:
         required: true
 
+    header.author:
+      type: text
+      label: "Autore"
+      default: "Valentina Russo"
+
+    header.tags:
+      type: tags
+      label: "Tag / Argomenti"
+      help: "Scrivi un tag e premi Invio."
+
     header.description:
       type: textarea
-      label: "Anteprima (appare nella lista articoli)"
-      rows: 2
+      label: "Descrizione breve (anteprima lista articoli)"
+      rows: 3
+      placeholder: "2-3 righe descrittive. Max 200 caratteri."
 
-    header.featured_image:
-      type: text
-      label: "Immagine copertina"
-      placeholder: "/user/images/blog/nome-immagine.jpg"
-      help: "Carica dalla scheda Media → poi copia qui il percorso."
+    # ── SEO ──────────────────────────────────────────────
+    section_seo:
+      type: section
+      title: "🔍 SEO"
+      underline: true
 
-    header.image_alt:
+    header.seo_title:
       type: text
-      label: "Descrizione immagine (alt text)"
+      label: "Titolo per Google"
+      placeholder: "Es: Human Design: guida ai 5 tipi energetici"
+      help: "Max 60 caratteri. Può differire dal titolo articolo."
+      validate:
+        max: 60
+
+    header.seo_desc:
+      type: textarea
+      label: "Descrizione per Google"
+      placeholder: "Es: Scopri come il Human Design può aiutarti..."
+      help: "Max 155 caratteri. Appare nei risultati di ricerca."
+      rows: 3
+      validate:
+        max: 160
+
+    header.geo_location:
+      type: text
+      label: "📍 GEO — Luogo di riferimento"
+      placeholder: "Es: Milano, Italia"
+      help: "Solo per articoli legati a una zona geografica."
+
+    # ── AEO ──────────────────────────────────────────────
+    section_aeo:
+      type: section
+      title: "🤖 AEO — Risposta per AI (Google, ChatGPT)"
+      underline: true
+
+    header.aeo_answer:
+      type: textarea
+      label: "Risposta sintetica"
+      placeholder: "Scrivi in 2-4 righe la risposta alla domanda principale dell'articolo..."
+      rows: 4
+      help: "Usata da Google AI Overview, ChatGPT, Perplexity. Sii diretto e conciso."
+
+    # ── FAQ ──────────────────────────────────────────────
+    section_faq:
+      type: section
+      title: "❓ FAQ — Domande Frequenti"
+      underline: true
+
+    header.faq:
+      type: list
+      label: "Domande e risposte"
+      help: "Migliorano la visibilità nei risultati 'ricchi' di Google."
+      style: vertical
+      btnLabel: "+ Aggiungi domanda"
+      fields:
+        .question:
+          type: text
+          label: "Domanda"
+          placeholder: "Es: Cos'è il Human Design?"
+        .answer:
+          type: textarea
+          label: "Risposta"
+          rows: 3
+          placeholder: "Scrivi la risposta completa..."
