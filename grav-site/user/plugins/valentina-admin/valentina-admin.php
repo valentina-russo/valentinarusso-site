@@ -50,6 +50,7 @@ class ValentinaAdminPlugin extends Plugin
 .vb:hover{opacity:.82;}
 .vb-p{background:#B68397;}
 .vb-a{background:#1e3a5f;}
+.vb-ai{background:#7c3aed;}
 
 /* Pulsanti PUBBLICA / BOZZA nel titlebar delle pagine articolo */
 .vb-pubblica {
@@ -170,8 +171,13 @@ class ValentinaAdminPlugin extends Plugin
       btnP.innerHTML='<i class="fa fa-pencil"></i> + Privati';
       btnP.addEventListener('click',function(e){e.preventDefault();nuovoArticolo('/blog','✏️');});
 
+      var btnAI = document.createElement('a');
+      btnAI.className='vb vb-ai'; btnAI.href='/ai-editor.php'; btnAI.target='_blank';
+      btnAI.innerHTML='<i class="fa fa-magic"></i> AI Editor';
+
       bar.insertBefore(btnA, bar.firstChild);
       bar.insertBefore(btnP, bar.firstChild);
+      bar.insertBefore(btnAI, bar.firstChild);
     }
 
     /* 2. Pulsanti PUBBLICA / SALVA BOZZA nelle pagine di edit articolo */

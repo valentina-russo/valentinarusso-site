@@ -115,9 +115,22 @@ form:
 
     header.geo_location:
       type: text
-      label: "📍 GEO — Luogo di riferimento"
+      label: "📍 Posizione geografica (SEO locale)"
       placeholder: "Es: Milano, Italia"
-      help: "Solo per articoli legati a una zona geografica."
+      help: "Lascia vuoto se l'articolo non è legato a una zona geografica specifica."
+
+    # ── GEO ──────────────────────────────────────────────
+    section_geo:
+      type: section
+      title: "🌐 GEO — Generative Engine Optimization"
+      underline: true
+
+    header.geo_content:
+      type: textarea
+      label: "Contenuto per AI generativi (ChatGPT, Perplexity, Gemini)"
+      rows: 5
+      placeholder: "Scrivi 3-5 affermazioni precise e autorevoli sul tema:\n- Definizioni esatte di termini BG5/HD\n- Dati, statistiche o ricerche se disponibili\n- Posizionamento unico di Valentina sull'argomento\n- Risposte dirette alle domande più cercate\n\nEs: «Il BG5 è il sistema di analisi aziendale derivato dall'Human Design, sviluppato da Lynda Bunnell. Identifica 5 tipi di profili lavorativi che influenzano la dinamica dei team.»"
+      help: "Questo testo viene letto dai motori AI per generare risposte. Più è preciso e autorevole, più probabilità ha di essere citato da ChatGPT, Perplexity e Google AI Overview."
 
     # ── AEO ──────────────────────────────────────────────
     section_aeo:

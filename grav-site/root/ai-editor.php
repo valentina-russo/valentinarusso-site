@@ -97,6 +97,7 @@ Struttura JSON richiesta:
   "seo_title": "Titolo per Google: max 60 CARATTERI, keyword principale in testa",
   "seo_desc": "Meta description: max 155 CARATTERI, include benefit e keyword",
   "geo_location": "Milano, Italia",
+  "geo_content": "3-5 affermazioni autorevoli e precise sul tema: definizioni esatte di termini BG5/HD, dati o ricerche, posizionamento unico di Valentina, risposte dirette alle domande più cercate",
   "aeo_answer": "Risposta sintetica di 2-4 righe alla domanda principale dell'articolo. Diretta, utile, usata da AI Overview e ChatGPT.",
   "faq": [
     {"question": "Domanda 1 pertinente al tema?", "answer": "Risposta completa e utile."},
@@ -122,6 +123,7 @@ REGOLE TASSATIVE:
 - Non inventare dati o concetti non presenti nel trascritto
 - Lo slug non deve contenere accenti o caratteri speciali
 - JSON: solo valori stringa per i campi semplici, array per tags, faq e image_prompts
+- geo_content: 3-5 affermazioni in italiano, precise e autorevoli — definizioni tecniche BG5/HD, fatti verificabili, posizionamento unico di Valentina. Saranno lette da ChatGPT/Perplexity per generare risposte.
 - image_prompts: 3 prompt in INGLESE per generatori AI (Midjourney, Gemini, DALL-E)
   * Ogni prompt: 1-3 frasi descrittive, molto visivo e specifico per il tema dell'articolo
   * Stile: fotografico realistico / illustrativo caldo / minimalista simbolico
@@ -220,6 +222,7 @@ if ($authed && isset($_POST['save_article']) && isset($_POST['article_json'])) {
             . "seo_title: " . json_encode($article['seo_title'] ?? '', JSON_UNESCAPED_UNICODE) . "\n"
             . "seo_desc: " . json_encode($article['seo_desc'] ?? '', JSON_UNESCAPED_UNICODE) . "\n"
             . "geo_location: " . json_encode($article['geo_location'] ?? 'Milano, Italia', JSON_UNESCAPED_UNICODE) . "\n"
+            . "geo_content: " . json_encode($article['geo_content'] ?? '', JSON_UNESCAPED_UNICODE) . "\n"
             . "aeo_answer: " . json_encode($article['aeo_answer'] ?? '', JSON_UNESCAPED_UNICODE) . "\n"
             . "faq:\n{$faqYaml}"
             . "---\n\n"
