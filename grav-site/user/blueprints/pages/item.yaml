@@ -14,6 +14,10 @@ form:
       type: markdown
       label: "Testo dell'articolo"
 
+    header.media_order:
+      type: pagemedia
+      label: "📎 Immagini nell'articolo"
+
     # ── IMMAGINE ─────────────────────────────────────────
     section_immagine:
       type: section
