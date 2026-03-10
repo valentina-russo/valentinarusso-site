@@ -229,7 +229,7 @@ class ValentinaAdminPlugin extends Plugin
     var currentContent = contentCM.getValue().trim();
     if(!currentContent){ alert('Il corpo dell\'articolo è vuoto.'); return; }
 
-    if(!confirm('Riscrivi il corpo dell\'articolo con Claude Opus?\n\nSEO, FAQ, immagine e meta-dati NON vengono toccati.\nIl testo attuale verrà sostituito.')){return;}
+    if(!confirm('Riscrivi il corpo dell\'articolo con Claude Opus?\\n\\nSEO, FAQ, immagine e meta-dati NON vengono toccati.\\nIl testo attuale verra sostituito.')){return;}
 
     // Mostra overlay
     var overlay = document.getElementById('vb-rewrite-overlay');
