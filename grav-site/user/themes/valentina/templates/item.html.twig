@@ -55,12 +55,12 @@
 <main>
     <article style="max-width: 800px; margin: 0 auto; padding: var(--grid-xl) 1.25rem;">
 
-        {# Back link #}
-        {% set is_corporate = page.header.corporate is defined and page.header.corporate %}
+        {# Back link — rileva sezione dal route #}
+        {% set is_corporate = '/aziende/' in page.route %}
         <div style="margin-bottom: 2rem;">
             <a href="{{ grav.base_url }}/{{ is_corporate ? 'aziende/blog' : 'blog' }}"
-               style="color: var(--primary-color); font-size: 0.9rem; font-weight: 600;">
-               &larr; Torna al Blog
+               style="color: {{ is_corporate ? 'var(--corp-primary)' : 'var(--primary-color)' }}; font-size: 0.9rem; font-weight: 600;">
+               &larr; Torna al Blog{{ is_corporate ? ' Aziende' : '' }}
             </a>
         </div>
 
@@ -112,7 +112,7 @@
 
         {# AEO Answer (AI Engine Optimization) #}
         {% if page.header.aeo_answer is defined and page.header.aeo_answer %}
-        <div style="background: rgba(182,131,151,0.08); border-left: 3px solid var(--primary-color); padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2rem;">
+        <div style="background: {{ is_corporate ? 'rgba(30,58,95,0.07)' : 'rgba(182,131,151,0.08)' }}; border-left: 3px solid {{ is_corporate ? 'var(--corp-primary)' : 'var(--primary-color)' }}; padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2rem;">
             <p style="margin: 0; font-size: 0.95rem; font-style: italic;">{{ page.header.aeo_answer }}</p>
         </div>
         {% endif %}
@@ -125,7 +125,7 @@
         {# FAQ Section #}
         {% if page.header.faq is defined and page.header.faq %}
         <div class="faq-section">
-            <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">Domande Frequenti</h3>
+            <h3 style="margin-bottom: 1.5rem; color: {{ is_corporate ? 'var(--corp-primary)' : 'var(--primary-color)' }};">Domande Frequenti</h3>
             {% for faq in page.header.faq %}
             <div class="faq-item">
                 <h4>{{ faq.question ?? faq.q }}</h4>
@@ -136,7 +136,7 @@
         {% endif %}
 
         {# CTA #}
-        <div class="article-cta text-center" style="margin-top: 4rem; padding: 3rem; background: rgba(182,131,151,0.06); border-radius: 20px;">
+        <div class="article-cta text-center" style="margin-top: 4rem; padding: 3rem; background: {{ is_corporate ? 'rgba(30,58,95,0.06)' : 'rgba(182,131,151,0.06)' }}; border-radius: 20px;">
             {% if is_corporate %}
             <h3 style="margin-bottom: 1rem; color: var(--corp-primary);">Pronto a portare il BG5&reg; nella tua azienda?</h3>
             <a href="{{ grav.base_url }}/aziende/contatti" class="btn btn-primary" style="background-color: var(--corp-primary);">Richiedi una Consulenza</a>
