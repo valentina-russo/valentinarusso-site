@@ -362,6 +362,8 @@ footer { padding: var(--space-md) 0; margin-top: var(--space-lg); border-top: 1p
 }
 .form-field input:focus, .form-field textarea:focus { outline: none; border-color: var(--primary-color); }
 .form-field textarea { height: 150px; resize: vertical; }
+/* Pulsante submit form contatti */
+.contact-form-wrapper [type=submit].btn { width: 100%; margin-top: 0.5rem; font-size: 1rem; letter-spacing: 0.04em; }
 /* Messaggi form (Grav Form Plugin) */
 .form-messages { margin: 1.5rem 0; }
 .form-messages .notice { display: block; padding: 1rem 1.25rem; border-radius: 10px; font-size: 0.95rem; font-weight: 500; }

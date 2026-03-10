@@ -21,6 +21,7 @@ form:
         submit:
             type: submit
             value: Invia Messaggio
+            classes: btn btn-primary
     process:
         email:
             from: "info@valentinarussobg5.com"
