@@ -228,6 +228,61 @@ class ValentinaAdminPlugin extends Plugin
     }, 200);
   }
 
+  /* ── RINOMINA SLUG ───────────────────── */
+  function rinominaSlug(currentSlug){
+    var newSlug = prompt('Nuovo slug (URL) per questo articolo:\nMinuscolo, trattini, senza spazi o accenti.', currentSlug);
+    if(!newSlug || !newSlug.trim()) return;
+    newSlug = slugify(newSlug.trim());
+    if(!newSlug){ alert('Slug non valido.'); return; }
+    if(newSlug === currentSlug){ return; }
+
+    // Estrai il parent route dall'URL corrente
+    var parts = window.location.pathname.split('/');
+    var pIdx  = parts.indexOf('pages');
+    var parentRoute = '/' + parts.slice(pIdx + 1, -1).join('/');
+
+    // Titolo e data (necessari per la validazione Grav)
+    var titleEl = document.querySelector('input[name="data[title]"]');
+    var title   = titleEl ? titleEl.value.trim() : 'Articolo';
+    var now     = new Date();
+    var dateStr = now.getFullYear()+'-'+pad2(now.getMonth()+1)+'-'+pad2(now.getDate())
+                  +' '+pad2(now.getHours())+':'+pad2(now.getMinutes())+':00';
+
+    var fd = new FormData();
+    fd.append('task',         'move');
+    fd.append('data[folder]', newSlug);
+    fd.append('data[route]',  parentRoute);
+    fd.append('data[title]',  title);
+    fd.append('data[date]',   dateStr);
+    fd.append('admin-nonce',  getNonce());
+
+    overlayShow('Rinomina slug in corso...');
+    fetch(window.location.pathname, { method:'POST', body:fd, credentials:'include' })
+      .then(function(r){
+        // Grav risponde con redirect o JSON
+        var ct = r.headers.get('content-type') || '';
+        if(ct.indexOf('json') !== -1) return r.json();
+        // Se redirect, segui manualmente
+        var newPath = window.location.pathname.replace(
+          new RegExp('/' + currentSlug.replace(/[-]/g,'\\-') + '(/|$)'),
+          '/' + newSlug + '$1'
+        );
+        window.location.href = newPath;
+        return null;
+      })
+      .then(function(data){
+        overlayHide();
+        if(!data) return;
+        if(data.redirect){ window.location.href = data.redirect; return; }
+        if(data.status === 'success'){
+          window.location.href = window.location.pathname.replace(currentSlug, newSlug);
+        } else {
+          alert('Errore rinomina: ' + (data.message || JSON.stringify(data)));
+        }
+      })
+      .catch(function(err){ overlayHide(); alert('Errore: ' + err); });
+  }
+
   /* ── HELPER: overlay ─────────────────── */
   function overlayShow(msg){
     var o = document.getElementById('vb-rewrite-overlay');
@@ -455,10 +510,19 @@ class ValentinaAdminPlugin extends Plugin
     /* Mostra slug corrente */
     var slugMatch = url.match(/\/admin\/pages\/(?:aziende\/blog|blog\/articoli)\/([^/?#]+)/);
     if(slugMatch){
+      var currentSlug = slugMatch[1];
       var slugBar = document.createElement('div');
       slugBar.id = 'vb-slug-bar';
-      slugBar.innerHTML = '<i class="fa fa-link"></i> Slug: <code>' + slugMatch[1] + '</code>'
-        + ' <span style="color:#475569;font-size:.72rem;">(modifica via tab Opzioni &rarr; Nome Cartella)</span>';
+      slugBar.innerHTML = '<i class="fa fa-link"></i> Slug: <code>' + currentSlug + '</code>';
+
+      var renameBtn = document.createElement('button');
+      renameBtn.type = 'button';
+      renameBtn.textContent = 'Rinomina';
+      renameBtn.style.cssText = 'background:#334155;color:#cbd5e1;border:none;border-radius:4px;'
+        + 'padding:2px 9px;font-size:.72rem;cursor:pointer;margin-left:8px;';
+      renameBtn.addEventListener('click', function(){ rinominaSlug(currentSlug); });
+
+      slugBar.appendChild(renameBtn);
       var tb = document.querySelector('#titlebar');
       if(tb) tb.insertAdjacentElement('afterend', slugBar);
     }
