@@ -1,7 +1,8 @@
+{% set is_corp_nav = ('/aziende/' in page.route) or (page.header.corporate is defined and page.header.corporate) %}
 <header style="position: relative; z-index: 1000;">
     <div class="container">
         <div class="logo">
-            <a href="{{ grav.base_url }}/{{ page.header.corporate is defined and page.header.corporate ? 'aziende' : '' }}">
+            <a href="{{ grav.base_url }}/{{ is_corp_nav ? 'aziende' : '' }}">
                 <img src="{{ theme_url }}/images/logo.png" alt="Valentina Russo Logo" class="brand-logo"
                      onerror="this.style.display='none'">
                 <div class="brand-text">
@@ -12,7 +13,7 @@
         </div>
         <button class="menu-toggle" aria-label="Menu">&#9776;</button>
         <nav id="main-nav">
-            {% if page.header.corporate is defined and page.header.corporate %}
+            {% if is_corp_nav %}
             {# Corporate nav #}
             <ul>
                 <li><a href="{{ grav.base_url }}/aziende">Home</a></li>
