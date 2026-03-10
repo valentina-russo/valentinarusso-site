@@ -11,7 +11,7 @@ define('ADMIN_PASS',     'ValeAdmin2026');
 define('CONFIG_FILE',    __DIR__ . '/ai-editor.config.php');
 define('DIR_PRIVATI',    __DIR__ . '/user/pages/04.blog/');
 define('DIR_AZIENDE',    __DIR__ . '/user/pages/05.aziende/02.blog/');
-define('CLAUDE_MODEL',   'claude-sonnet-4-6');
+define('CLAUDE_MODEL',   'claude-opus-4-6');
 define('CLAUDE_URL',     'https://api.anthropic.com/v1/messages');
 define('CLAUDE_VERSION', '2023-06-01');
 
@@ -119,7 +119,17 @@ REGOLE TASSATIVE:
 - seo_title: MASSIMO 60 caratteri (conta!)
 - seo_desc: MASSIMO 155 caratteri (conta!)
 - Tono: professionale ma caldo, esperto ma non accademico
-- Content: usa titoli H2/H3, paragrafi brevi, nessun elenco puntato eccessivo
+- Content: usa titoli H2/H3, paragrafi distesi, nessun elenco puntato eccessivo
+
+STILE DI SCRITTURA OBBLIGATORIO (si applica a content, description, aeo_answer, geo_content, faq):
+- Vietato usare costruzioni "non X ma Y" e qualsiasi variante: "non si tratta di X, si tratta di Y", "non parliamo di X, parliamo di Y", "non sto dicendo X, sto dicendo Y", "non serve X, serve Y", "il punto non è X, il punto è Y", "non è una questione di X, è una questione di Y". Qualsiasi frase che definisca qualcosa negando prima il suo opposto va eliminata e riscritta affermando direttamente ciò che si vuole dire.
+- Vietate le triplette: tre aggettivi, tre verbi, tre stati, tre "senza…" in sequenza.
+- Vietate le meta-frasi che commentano il testo: "è importante", "è chiaro", "è la parte più forte", "è giusto partire da…".
+- Evita astratti non supportati da dettagli concreti: "consapevolezza", "lucidità", "profondo", "responsabilità", "nel rispetto". Preferisci scene brevi, azioni e conseguenze verificabili.
+- Non anticipare obiezioni, non scrivere in difesa preventiva.
+- Chiudi con un fatto o una decisione pratica, non con frasi da comunicato.
+- Ritmo disteso e fluido: ogni pensiero si sviluppa per almeno tre o quattro righe prima di chiudersi con un punto. Se in due righe ci sono più di due punti, il testo è troppo frammentato — lega i pensieri con costruzioni naturali. Il testo deve scorrere come un articolo scritto da una persona che ragiona mentre scrive.
+- Pochi aggettivi, zero enfasi artificiale, niente emdash.
 - Non inventare dati o concetti non presenti nel trascritto
 - Lo slug non deve contenere accenti o caratteri speciali
 - JSON: solo valori stringa per i campi semplici, array per tags, faq e image_prompts
