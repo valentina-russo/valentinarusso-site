@@ -260,7 +260,7 @@ body.grav-admin-page{ padding-bottom:58px!important; }
     fd.append('admin-nonce',  getNonce());
 
     overlayShow('Rinomina slug in corso...');
-    fetch(window.location.pathname, { method:'POST', body:fd, credentials:'include' })
+    fetch(window.location.pathname + '.json', { method:'POST', body:fd, credentials:'include' })
       .then(function(){
         // Move completato — svuota cache Grav poi vai alla lista articoli
         var nonce = getNonce();
