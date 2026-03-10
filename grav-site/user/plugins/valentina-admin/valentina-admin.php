@@ -67,6 +67,19 @@ class ValentinaAdminPlugin extends Plugin
 }
 .vb-pubblica:hover{opacity:.88!important;}
 .vb-bozza:hover{opacity:.88!important;}
+.vb-rewrite{background:#d97706!important;color:#fff!important;
+  font-weight:600!important;font-size:.9rem!important;
+  padding:6px 16px!important;border-radius:6px!important;
+  border:none!important;cursor:pointer;margin-left:6px;}
+.vb-rewrite:hover{opacity:.88!important;}
+/* Overlay riscrivi */
+#vb-rewrite-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,40,.85);
+  z-index:99999;flex-direction:column;align-items:center;justify-content:center;gap:18px;}
+#vb-rewrite-overlay.show{display:flex;}
+#vb-rewrite-overlay .vb-spinner{width:48px;height:48px;border:4px solid rgba(255,255,255,.2);
+  border-top-color:#fff;border-radius:50%;animation:vb-spin .9s linear infinite;}
+@keyframes vb-spin{to{transform:rotate(360deg)}}
+#vb-rewrite-overlay p{color:#fff;font-size:1rem;font-weight:600;}
 </style>
 <script>
 (function(){
@@ -201,8 +214,56 @@ class ValentinaAdminPlugin extends Plugin
     }, 200);
   }
 
+  /* ── RISCRIVI CON IA ─────────────────── */
+  function vbRewriteArticle(){
+    // Trova il CodeMirror del corpo articolo
+    var contentCM = null;
+    document.querySelectorAll('.CodeMirror').forEach(function(el){
+      if(el.CodeMirror){
+        var v = el.CodeMirror.getValue();
+        if(v && v.length > 80 && !v.trim().startsWith('title:')){ contentCM = el.CodeMirror; }
+      }
+    });
+    if(!contentCM){ alert('Editor articolo non trovato. Apri il tab Contenuto.'); return; }
+
+    var currentContent = contentCM.getValue().trim();
+    if(!currentContent){ alert('Il corpo dell\'articolo è vuoto.'); return; }
+
+    if(!confirm('Riscrivi il corpo dell\'articolo con Claude Opus?\n\nSEO, FAQ, immagine e meta-dati NON vengono toccati.\nIl testo attuale verrà sostituito.')){return;}
+
+    // Mostra overlay
+    var overlay = document.getElementById('vb-rewrite-overlay');
+    overlay.classList.add('show');
+
+    var fd = new FormData();
+    fd.append('content', currentContent);
+
+    fetch('/ai-rewrite.php', { method: 'POST', body: fd, credentials: 'include' })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        overlay.classList.remove('show');
+        if(!data.ok){ alert('Errore: ' + (data.error || 'sconosciuto')); return; }
+        contentCM.setValue(data.content);
+        contentCM.save();
+        // Flash verde per conferma visiva
+        var wrap = contentCM.getWrapperElement();
+        wrap.style.transition='box-shadow .3s';
+        wrap.style.boxShadow='0 0 0 3px #27ae60';
+        setTimeout(function(){ wrap.style.boxShadow=''; }, 2000);
+      })
+      .catch(function(err){
+        overlay.classList.remove('show');
+        alert('Errore di rete: ' + err);
+      });
+  }
+
   /* ── DOM READY ───────────────────────── */
   document.addEventListener('DOMContentLoaded', function(){
+    // Aggiungi overlay al DOM
+    var overlay = document.createElement('div');
+    overlay.id = 'vb-rewrite-overlay';
+    overlay.innerHTML = '<div class="vb-spinner"></div><p>✨ Claude sta riscrivendo l\'articolo…</p>';
+    document.body.appendChild(overlay);
 
     /* 1. Pulsanti + Privati / + Aziende nel titlebar globale */
     var bar = document.querySelector('#titlebar .button-bar');
@@ -254,8 +315,16 @@ class ValentinaAdminPlugin extends Plugin
       btnBozza.title = 'Salva senza pubblicare';
       btnBozza.addEventListener('click', function(){ saveWithState(0); });
 
+      var btnRewrite = document.createElement('button');
+      btnRewrite.type = 'button';
+      btnRewrite.className = 'vb-rewrite';
+      btnRewrite.innerHTML = '<i class="fa fa-magic"></i> Riscrivi con IA';
+      btnRewrite.title = 'Riscrive il corpo dell\'articolo con Claude Opus (mantiene SEO/FAQ/meta)';
+      btnRewrite.addEventListener('click', function(){ vbRewriteArticle(); });
+
       titlebar.appendChild(btnBozza);
       titlebar.appendChild(btnPub);
+      titlebar.appendChild(btnRewrite);
     }, 300);
 
   });
