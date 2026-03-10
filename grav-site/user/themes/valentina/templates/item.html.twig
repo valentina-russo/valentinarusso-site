@@ -84,7 +84,7 @@
             </div>
 
             {% if page.header.description is defined %}
-            <p class="serif italic" style="font-size: 1.15rem; color: var(--primary-color); margin-bottom: 1.5rem;">
+            <p class="serif italic" style="font-size: 1.15rem; color: {{ is_corporate ? 'var(--corp-primary)' : 'var(--primary-color)' }}; margin-bottom: 1.5rem;">
                 {{ page.header.description }}
             </p>
             {% endif %}
