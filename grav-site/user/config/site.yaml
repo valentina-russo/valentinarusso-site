@@ -19,3 +19,13 @@ blog:
 taxonomies:
     - category
     - tag
+
+# Redirect 301 — articoli privati spostati da /blog/ a /blog/articoli/
+redirects:
+    '/blog/ansia-human-design-centro-ajna-mente-corpo':   ['/blog/articoli/ansia-human-design-centro-ajna-mente-corpo', 301]
+    '/blog/potere-creativo-malinconia':                   ['/blog/articoli/potere-creativo-malinconia', 301]
+    '/blog/la-mente-innamorata-3':                        ['/blog/articoli/la-mente-innamorata-3', 301]
+    '/blog/la-mente-innamorata-2':                        ['/blog/articoli/la-mente-innamorata-2', 301]
+    '/blog/la-mente-innamorata-1':                        ['/blog/articoli/la-mente-innamorata-1', 301]
+    '/blog/esplosioni-emotive':                           ['/blog/articoli/esplosioni-emotive', 301]
+    '/blog/relazioni-bisogni-emotivi':                    ['/blog/articoli/relazioni-bisogni-emotivi', 301]
