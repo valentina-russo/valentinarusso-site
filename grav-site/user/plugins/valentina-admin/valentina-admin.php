@@ -78,6 +78,14 @@ class ValentinaAdminPlugin extends Plugin
   border:none!important;cursor:pointer;margin-left:6px;}
 .vb-full:hover{opacity:.88!important;}
 
+/* Slug bar */
+#vb-slug-bar{
+  background:#1e293b;color:#94a3b8;font-size:.78rem;
+  padding:5px 16px;border-radius:0 0 6px 6px;
+  margin-top:-2px;display:inline-flex;align-items:center;gap:8px;
+}
+#vb-slug-bar code{color:#38bdf8;font-size:.82rem;}
+
 /* Overlay loading */
 #vb-rewrite-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,40,.88);
   z-index:99999;flex-direction:column;align-items:center;justify-content:center;gap:18px;}
@@ -86,6 +94,28 @@ class ValentinaAdminPlugin extends Plugin
   border-top-color:#fff;border-radius:50%;animation:vb-spin .9s linear infinite;}
 @keyframes vb-spin{to{transform:rotate(360deg)}}
 #vb-rewrite-overlay p{color:#fff;font-size:1rem;font-weight:600;max-width:360px;text-align:center;}
+
+/* Image prompt panel */
+#vb-img-prompt{
+  position:fixed;bottom:24px;right:24px;z-index:99999;
+  background:#1e293b;color:#f1f5f9;border-radius:12px;
+  padding:20px;max-width:500px;width:calc(100vw - 48px);
+  box-shadow:0 8px 32px rgba(0,0,0,.6);
+}
+#vb-img-prompt .vb-ip-label{
+  font-weight:700;font-size:.72rem;text-transform:uppercase;
+  letter-spacing:.06em;color:#64748b;margin-bottom:8px;
+}
+#vb-img-prompt .vb-ip-text{
+  font-size:.83rem;line-height:1.55;background:#0f172a;
+  padding:10px 12px;border-radius:6px;margin-bottom:12px;
+  user-select:all;
+}
+#vb-img-prompt .vb-ip-actions{display:flex;gap:8px;}
+#vb-img-prompt button{
+  border:none;border-radius:6px;padding:6px 14px;
+  cursor:pointer;font-size:.82rem;font-weight:600;
+}
 </style>
 <script>
 (function(){
@@ -198,7 +228,7 @@ class ValentinaAdminPlugin extends Plugin
     }, 200);
   }
 
-  /* ── HELPER: overlay message ─────────── */
+  /* ── HELPER: overlay ─────────────────── */
   function overlayShow(msg){
     var o = document.getElementById('vb-rewrite-overlay');
     var p = o ? o.querySelector('p') : null;
@@ -210,16 +240,23 @@ class ValentinaAdminPlugin extends Plugin
     if(o) o.classList.remove('show');
   }
 
-  /* ── HELPER: trova CodeMirror corpo ──── */
-  function getContentCM(){
-    var cm = null;
+  /* ── HELPER: escape HTML ─────────────── */
+  function escHtml(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* ── HELPER: trova entrambi i CodeMirror ─ */
+  function getCMs(){
+    var front = null, body = null;
     document.querySelectorAll('.CodeMirror').forEach(function(el){
-      if(el.CodeMirror){
-        var v = el.CodeMirror.getValue();
-        if(v && v.length > 80 && !v.trim().startsWith('title:')){ cm = el.CodeMirror; }
-      }
+      if(!el.CodeMirror) return;
+      var v = el.CodeMirror.getValue();
+      if(!v) return;
+      if(v.trim().startsWith('title:')){ front = el.CodeMirror; }
+      else if(v.length > 80){ body = el.CodeMirror; }
     });
-    return cm;
+    return { front: front, body: body };
   }
 
   /* ── HELPER: aggiorna campo form Vue ─── */
@@ -236,11 +273,40 @@ class ValentinaAdminPlugin extends Plugin
     return true;
   }
 
+  /* ── PANEL: image prompt ─────────────── */
+  function showImagePrompt(prompt){
+    var existing = document.getElementById('vb-img-prompt');
+    if(existing) existing.remove();
+
+    var panel = document.createElement('div');
+    panel.id = 'vb-img-prompt';
+    panel.innerHTML =
+      '<div class="vb-ip-label">Image Prompt (Midjourney / DALL·E)</div>' +
+      '<div class="vb-ip-text" id="vb-ip-text">' + escHtml(prompt) + '</div>' +
+      '<div class="vb-ip-actions">' +
+        '<button id="vb-ip-copy" style="background:#3b82f6;color:#fff;">Copia Prompt</button>' +
+        '<button id="vb-ip-close" style="background:#475569;color:#fff;">Chiudi</button>' +
+      '</div>';
+    document.body.appendChild(panel);
+
+    document.getElementById('vb-ip-copy').addEventListener('click', function(){
+      var txt = document.getElementById('vb-ip-text').textContent;
+      navigator.clipboard.writeText(txt).then(function(){
+        var btn = document.getElementById('vb-ip-copy');
+        if(btn){ btn.textContent = 'Copiato!'; setTimeout(function(){ if(btn) btn.textContent = 'Copia Prompt'; }, 1600); }
+      });
+    });
+    document.getElementById('vb-ip-close').addEventListener('click', function(){
+      var p = document.getElementById('vb-img-prompt');
+      if(p) p.remove();
+    });
+  }
+
   /* ── RISCRIVI SOLO TESTO ─────────────── */
   function vbRewriteArticle(){
-    var cm = getContentCM();
-    if(!cm){ alert('Editor articolo non trovato. Apri il tab Contenuto.'); return; }
-    var body = cm.getValue().trim();
+    var cms = getCMs();
+    if(!cms.body){ alert('Editor articolo non trovato. Apri il tab Contenuto.'); return; }
+    var body = cms.body.getValue().trim();
     if(!body){ alert("Il corpo dell'articolo e' vuoto."); return; }
     if(!confirm('Riscrivi il testo con Claude Opus?\\n\\nSEO, FAQ e meta-dati NON vengono toccati.')){return;}
 
@@ -256,9 +322,9 @@ class ValentinaAdminPlugin extends Plugin
       .then(function(data){
         overlayHide();
         if(!data.ok){ alert('Errore: ' + (data.error || 'sconosciuto')); return; }
-        cm.setValue(data.content);
-        cm.save();
-        var wrap = cm.getWrapperElement();
+        cms.body.setValue(data.content);
+        cms.body.save();
+        var wrap = cms.body.getWrapperElement();
         wrap.style.transition='box-shadow .3s';
         wrap.style.boxShadow='0 0 0 3px #27ae60';
         setTimeout(function(){ wrap.style.boxShadow=''; }, 2000);
@@ -268,56 +334,58 @@ class ValentinaAdminPlugin extends Plugin
 
   /* ── RIGENERA TUTTO ──────────────────── */
   function vbFullRewrite(){
-    var cm = getContentCM();
-    if(!cm){ alert('Editor articolo non trovato. Apri il tab Contenuto.'); return; }
-    var body = cm.getValue().trim();
+    var cms = getCMs();
+    if(!cms.body){ alert('Editor articolo non trovato. Apri il tab Contenuto.'); return; }
+    var body = cms.body.getValue().trim();
     if(!body){ alert("Il corpo dell'articolo e' vuoto."); return; }
 
-    var titleEl = document.querySelector('input[name="data[title]"]');
-    var title = titleEl ? titleEl.value.trim() : '';
+    var frontText = cms.front ? cms.front.getValue() : '';
+    var titleEl   = document.querySelector('input[name="data[title]"]');
+    var title     = titleEl ? titleEl.value.trim() : '';
 
-    if(!confirm('Rigenera TUTTO con Claude Opus?\\n\\nVerra riscritto: testo, descrizione, SEO, tag, FAQ.\\nContenuto attuale sostituito.')){return;}
+    if(!confirm('Rigenera TUTTO con Claude Opus?\\n\\nVerranno riscritti: testo, description, SEO, tag, FAQ.\\nContenuto attuale sostituito.')){return;}
 
-    overlayShow('Claude sta rigenerando testo + SEO + FAQ...\\nPuo richiedere 1-2 minuti.');
+    overlayShow('Claude sta rigenerando testo + SEO + FAQ... Puo richiedere 1-2 minuti.');
 
     var fd = new FormData();
-    fd.append('content', body);
-    fd.append('title',   title);
-    fd.append('mode',    'full');
-    fd.append('pass',    'ValeAdmin2026');
+    fd.append('content',     body);
+    fd.append('frontmatter', frontText);
+    fd.append('title',       title);
+    fd.append('mode',        'full');
+    fd.append('pass',        'ValeAdmin2026');
 
     fetch('/ai-rewrite.php', { method: 'POST', body: fd, credentials: 'include' })
       .then(function(r){ return r.json(); })
       .then(function(data){
         overlayHide();
         if(!data.ok){ alert('Errore: ' + (data.error || 'sconosciuto')); return; }
-        var d = data.data;
 
         // 1. Corpo articolo
-        if(d.body){ cm.setValue(d.body); cm.save(); }
-
-        // 2. Campi testo
-        if(d.description) setField('data[description]', d.description);
-        if(d.seo_title)   setField('data[seo_title]',   d.seo_title);
-        if(d.seo_desc)    setField('data[seo_desc]',    d.seo_desc);
-        if(d.tags)        setField('data[tags]',        d.tags);
-        if(d.aeo_answer)  setField('data[aeo_answer]',  d.aeo_answer);
-
-        // 3. FAQ (aggiorna le voci esistenti)
-        if(d.faq && d.faq.length){
-          d.faq.forEach(function(item, i){
-            setField('data[faq][' + i + '][question]', item.question || '');
-            setField('data[faq][' + i + '][answer]',   item.answer   || '');
-          });
+        if(data.body && cms.body){
+          cms.body.setValue(data.body);
+          cms.body.save();
         }
 
-        // Flash verde sul corpo
-        var wrap = cm.getWrapperElement();
-        wrap.style.transition='box-shadow .3s';
-        wrap.style.boxShadow='0 0 0 3px #0f766e';
-        setTimeout(function(){ wrap.style.boxShadow=''; }, 2500);
+        // 2. Frontmatter (description, seo_title, seo_desc, tags, aeo_answer, faq)
+        if(data.frontmatter && cms.front){
+          cms.front.setValue(data.frontmatter);
+          cms.front.save();
+        }
 
-        alert('Rigenerazione completata! Controlla i campi e premi PUBBLICA o Salva Bozza.');
+        // Flash verde
+        if(cms.body){
+          var wrap = cms.body.getWrapperElement();
+          wrap.style.transition='box-shadow .3s';
+          wrap.style.boxShadow='0 0 0 3px #0f766e';
+          setTimeout(function(){ wrap.style.boxShadow=''; }, 2500);
+        }
+
+        // 3. Image prompt panel
+        if(data.image_prompt){
+          showImagePrompt(data.image_prompt);
+        } else {
+          alert('Rigenerazione completata! Controlla e premi PUBBLICA o Salva Bozza.');
+        }
       })
       .catch(function(err){ overlayHide(); alert('Errore di rete: ' + err); });
   }
@@ -355,6 +423,17 @@ class ValentinaAdminPlugin extends Plugin
     var url = window.location.href;
     var isArticle = url.match(/\/admin\/pages\/(blog\/|aziende\/blog\/).+/);
     if(!isArticle) return;
+
+    /* Mostra slug corrente */
+    var slugMatch = url.match(/\/admin\/pages\/(?:aziende\/blog|blog)\/([^/?#]+)/);
+    if(slugMatch){
+      var slugBar = document.createElement('div');
+      slugBar.id = 'vb-slug-bar';
+      slugBar.innerHTML = '<i class="fa fa-link"></i> Slug: <code>' + slugMatch[1] + '</code>'
+        + ' <span style="color:#475569;font-size:.72rem;">(modifica via tab Opzioni &rarr; Nome Cartella)</span>';
+      var tb = document.querySelector('#titlebar');
+      if(tb) tb.insertAdjacentElement('afterend', slugBar);
+    }
 
     setTimeout(function(){
       var titlebar = document.querySelector('#titlebar .button-bar');

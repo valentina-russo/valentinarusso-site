@@ -2,7 +2,8 @@
 /**
  * AI Rewrite — valentinarussobg5.com
  * mode=body  → riscrive solo il testo dell'articolo
- * mode=full  → riscrive testo + description + SEO + tags + FAQ + aeo
+ * mode=full  → riscrive testo + description + SEO + tags + FAQ + aeo + image_prompt
+ *              aggiorna il frontmatter YAML e restituisce il frontmatter aggiornato
  */
 
 session_start();
@@ -38,13 +39,58 @@ if (empty($apiKey)) {
 }
 
 /* ── INPUT ── */
-$content = trim($_POST['content'] ?? '');
-$title   = trim($_POST['title']   ?? '');
-$mode    = trim($_POST['mode']    ?? 'body');
+$content     = trim($_POST['content']     ?? '');
+$frontmatter = trim($_POST['frontmatter'] ?? '');
+$title       = trim($_POST['title']       ?? '');
+$mode        = trim($_POST['mode']        ?? 'body');
+
+// Estrai title dal frontmatter se non fornito separatamente
+if (!$title && $frontmatter) {
+    if (preg_match("/^title:\s*['\"]?(.+?)['\"]?\s*$/m", $frontmatter, $m)) {
+        $title = trim($m[1], "'\" ");
+    }
+}
 
 if (empty($content)) {
     echo json_encode(['ok' => false, 'error' => 'Contenuto vuoto.']);
     exit;
+}
+
+/* ── YAML HELPERS ── */
+
+/**
+ * Aggiorna (o aggiunge) un campo scalare nel YAML frontmatter.
+ * Usa il formato Grav: field: 'valore'
+ */
+function yamlSetField($yaml, $key, $value) {
+    $escaped = str_replace("'", "''", $value);
+    $keyQ    = preg_quote($key, '/');
+    if (preg_match('/^' . $keyQ . ':\s*/m', $yaml)) {
+        return preg_replace('/^(' . $keyQ . '):\s*.+$/m', '$1: \'' . $escaped . '\'', $yaml);
+    }
+    return rtrim($yaml) . "\n" . $key . ': \'' . $escaped . '\'';
+}
+
+/**
+ * Sostituisce (o aggiunge) il blocco faq: nel YAML frontmatter.
+ * Formato Grav a 4 spazi.
+ */
+function yamlSetFaq($yaml, $faqs) {
+    $block = "faq:\n";
+    foreach ($faqs as $item) {
+        $q      = str_replace("'", "''", trim($item['question'] ?? ''));
+        $a      = str_replace("'", "''", trim($item['answer']   ?? ''));
+        $block .= "    -\n        question: '" . $q . "'\n        answer: '" . $a . "'\n";
+    }
+    $block = rtrim($block);
+
+    if (preg_match('/^faq:/m', $yaml)) {
+        // Sostituisce il blocco faq: + tutte le righe indentate che lo seguono
+        $yaml = preg_replace('/^faq:\n(?:[ \t]+.*(?:\n|$))*/m', $block . "\n", $yaml);
+    } else {
+        $yaml .= "\n" . $block;
+    }
+    return $yaml;
 }
 
 /* ── SYSTEM PROMPT ── */
@@ -76,23 +122,24 @@ PROMPT;
 
 /* ── FULL MODE ── */
 if ($mode === 'full') {
-    $userMsg = "Titolo attuale: " . ($title ?: 'non specificato') . "\n\nCorpo attuale:\n\n" . $content . "\n\n";
-    $userMsg .= 'Riscrivi questo articolo rispettando TASSATIVAMENTE il Decalogo e le Regole di Stile sopra.' . "\n";
-    $userMsg .= 'Restituisci SOLO un oggetto JSON valido (niente markdown fence, niente testo fuori dal JSON):' . "\n\n";
-    $userMsg .= '{' . "\n";
-    $userMsg .= '  "body": "testo completo in Markdown (H2/H3 + paragrafi), minimo 1200 parole",' . "\n";
-    $userMsg .= '  "description": "meta-description 140-155 caratteri con keyword principale",' . "\n";
-    $userMsg .= '  "seo_title": "titolo SEO 50-60 caratteri, keyword all\'inizio",' . "\n";
-    $userMsg .= '  "seo_desc": "descrizione SEO 150-155 caratteri",' . "\n";
-    $userMsg .= '  "tags": "4-6 tag separati da virgola in italiano senza #",' . "\n";
-    $userMsg .= '  "aeo_answer": "risposta diretta alla domanda principale, 80-120 parole",' . "\n";
-    $userMsg .= '  "faq": [' . "\n";
-    $userMsg .= '    {"question": "domanda 1", "answer": "risposta completa 50-100 parole"},' . "\n";
-    $userMsg .= '    {"question": "domanda 2", "answer": "risposta completa 50-100 parole"},' . "\n";
-    $userMsg .= '    {"question": "domanda 3", "answer": "risposta completa 50-100 parole"},' . "\n";
-    $userMsg .= '    {"question": "domanda 4", "answer": "risposta completa 50-100 parole"}' . "\n";
-    $userMsg .= '  ]' . "\n";
-    $userMsg .= '}';
+    $userMsg  = "Titolo attuale: " . ($title ?: 'non specificato') . "\n\nCorpo attuale:\n\n" . $content . "\n\n";
+    $userMsg .= "Riscrivi questo articolo rispettando TASSATIVAMENTE il Decalogo e le Regole di Stile sopra.\n";
+    $userMsg .= "Restituisci SOLO un oggetto JSON valido (niente markdown fence, niente testo fuori dal JSON):\n\n";
+    $userMsg .= "{\n";
+    $userMsg .= "  \"body\": \"testo completo in Markdown (H2/H3 + paragrafi), minimo 1200 parole\",\n";
+    $userMsg .= "  \"description\": \"meta-description 140-155 caratteri con keyword principale\",\n";
+    $userMsg .= "  \"seo_title\": \"titolo SEO 50-60 caratteri, keyword all'inizio\",\n";
+    $userMsg .= "  \"seo_desc\": \"descrizione SEO 150-155 caratteri\",\n";
+    $userMsg .= "  \"tags\": \"4-6 tag separati da virgola in italiano senza #\",\n";
+    $userMsg .= "  \"aeo_answer\": \"risposta diretta alla domanda principale, 80-120 parole\",\n";
+    $userMsg .= "  \"image_prompt\": \"prompt dettagliato in inglese per Midjourney/DALL-E: soggetto, stile, colori, composizione, lighting -- ar 16:9 --style raw\",\n";
+    $userMsg .= "  \"faq\": [\n";
+    $userMsg .= "    {\"question\": \"domanda 1\", \"answer\": \"risposta completa 50-100 parole\"},\n";
+    $userMsg .= "    {\"question\": \"domanda 2\", \"answer\": \"risposta completa 50-100 parole\"},\n";
+    $userMsg .= "    {\"question\": \"domanda 3\", \"answer\": \"risposta completa 50-100 parole\"},\n";
+    $userMsg .= "    {\"question\": \"domanda 4\", \"answer\": \"risposta completa 50-100 parole\"}\n";
+    $userMsg .= "  ]\n";
+    $userMsg .= "}";
 
     $payload = json_encode([
         'model'      => CLAUDE_MODEL,
@@ -156,7 +203,27 @@ if ($mode === 'full') {
         echo json_encode(['ok' => false, 'error' => 'Risposta JSON non valida. Riprova.', 'raw' => substr($text, 0, 300)]);
         exit;
     }
-    echo json_encode(['ok' => true, 'mode' => 'full', 'data' => $parsed]);
+
+    // Aggiorna il frontmatter YAML con i nuovi valori
+    $fm = $frontmatter;
+    if ($fm) {
+        foreach (['description', 'seo_title', 'seo_desc', 'tags', 'aeo_answer'] as $field) {
+            if (!empty($parsed[$field])) {
+                $fm = yamlSetField($fm, $field, $parsed[$field]);
+            }
+        }
+        if (!empty($parsed['faq']) && is_array($parsed['faq'])) {
+            $fm = yamlSetFaq($fm, $parsed['faq']);
+        }
+    }
+
+    echo json_encode([
+        'ok'           => true,
+        'mode'         => 'full',
+        'frontmatter'  => $fm,
+        'body'         => $parsed['body'],
+        'image_prompt' => $parsed['image_prompt'] ?? '',
+    ]);
 } else {
     echo json_encode(['ok' => true, 'mode' => 'body', 'content' => $text]);
 }
