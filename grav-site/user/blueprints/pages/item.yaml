@@ -7,8 +7,6 @@ form:
     title:
       type: text
       label: "Titolo articolo"
-      validate:
-        required: true
 
     content:
       type: markdown
@@ -73,8 +71,6 @@ form:
       label: "Data di pubblicazione"
       help: "Data futura = programmazione automatica."
       format: "Y-m-d H:i:s"
-      validate:
-        required: true
 
     header.author:
       type: text
