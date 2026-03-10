@@ -522,13 +522,6 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       left.className = 'vb-ab-left';
       left.innerHTML = '<i class="fa fa-link"></i> <span>Slug:</span> <code>' + currentSlug + '</code>';
 
-      if(currentSlug){
-        var renBtn = document.createElement('button');
-        renBtn.className = 'vb-ab-rename';
-        renBtn.textContent = 'Rinomina';
-        renBtn.addEventListener('click', function(){ rinominaSlug(currentSlug); });
-        left.appendChild(renBtn);
-      }
 
       /* — Destra: azioni — */
       var right = document.createElement('div');

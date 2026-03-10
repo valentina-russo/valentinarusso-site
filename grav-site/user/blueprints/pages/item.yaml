@@ -49,6 +49,12 @@ form:
       rows: 2
       placeholder: "Descrizione estesa dell'immagine per i motori di ricerca."
 
+    header.slug:
+      type: text
+      label: "🔗 Slug (URL pubblico)"
+      placeholder: "es: bg5-attirare-clienti-ideali"
+      help: "L'URL dell'articolo. Modifica e premi Salva per cambiarlo."
+
     # ── PUBBLICA ─────────────────────────────────────────
     section_pubblica:
       type: section
