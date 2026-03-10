@@ -1,8 +1,8 @@
 <?php
 /**
  * AI Rewrite — valentinarussobg5.com
- * Riscrive il corpo di un articolo esistente via Claude API.
- * Chiamato via fetch() dal plugin valentina-admin.
+ * mode=body  → riscrive solo il testo dell'articolo
+ * mode=full  → riscrive testo + description + SEO + tags + FAQ + aeo
  */
 
 session_start();
@@ -16,7 +16,6 @@ define('ADMIN_PASS',     'ValeAdmin2026');
 
 /* ── AUTH ── */
 if (empty($_SESSION['ai_auth'])) {
-    // Accetta anche auth via header (per chiamate AJAX dall'admin Grav)
     $pass = $_POST['pass'] ?? '';
     if ($pass !== ADMIN_PASS) {
         http_response_code(401);
@@ -26,54 +25,93 @@ if (empty($_SESSION['ai_auth'])) {
     $_SESSION['ai_auth'] = true;
 }
 
-/* ── LOAD API KEY ── */
+/* ── API KEY ── */
 $apiKey = '';
 if (file_exists(CONFIG_FILE)) {
-    $cfg = include CONFIG_FILE;
+    $cfg    = include CONFIG_FILE;
     $apiKey = $cfg['api_key'] ?? '';
 }
-
 if (empty($apiKey)) {
     http_response_code(500);
     echo json_encode(['ok' => false, 'error' => 'API key non configurata. Aprire AI Editor per inserirla.']);
     exit;
 }
 
-/* ── LEGGI CONTENUTO ── */
+/* ── INPUT ── */
 $content = trim($_POST['content'] ?? '');
+$title   = trim($_POST['title']   ?? '');
+$mode    = trim($_POST['mode']    ?? 'body');
+
 if (empty($content)) {
     echo json_encode(['ok' => false, 'error' => 'Contenuto vuoto.']);
     exit;
 }
 
-/* ── PROMPT ── */
+/* ── SYSTEM PROMPT ── */
 $systemPrompt = <<<PROMPT
 Sei il ghostwriter ufficiale di Valentina Russo, analista certificata BG5® e Human Design a Milano, Italia.
 
-Riscrivi il corpo dell'articolo che ti viene passato rispettando TASSATIVAMENTE le regole di stile sotto.
-Restituisci SOLO il testo riscritto in Markdown (titoli H2/H3, paragrafi), senza spiegazioni, senza note, senza prefazioni, senza markdown fence.
+CHI E' VALENTINA RUSSO:
+Valentina Russo è analista certificata BG5® e Human Design. Lavora su disegno di carriera, personal branding autentico e dinamiche relazionali attraverso il sistema BG5 e Human Design. Non è psicologa. Si rivolge a liberi professionisti, imprenditori e aziende.
 
-REGOLE DI STILE OBBLIGATORIE:
-- Vietato usare costruzioni "non X ma Y" e qualsiasi variante: "non si tratta di X, si tratta di Y", "non parliamo di X, parliamo di Y", "non sto dicendo X, sto dicendo Y", "non serve X, serve Y", "il punto non è X, il punto è Y", "non è una questione di X, è una questione di Y". Qualsiasi frase che definisca qualcosa negando prima il suo opposto va eliminata e riscritta affermando direttamente ciò che si vuole dire.
-- Vietate le triplette: tre aggettivi, tre verbi, tre stati, tre "senza…" in sequenza.
-- Vietate le meta-frasi che commentano il testo: "è importante", "è chiaro", "è la parte più forte", "è giusto partire da…".
-- Evita astratti non supportati da dettagli concreti: "consapevolezza", "lucidità", "profondo", "responsabilità", "nel rispetto". Preferisci scene brevi, azioni e conseguenze verificabili.
-- Non anticipare obiezioni, non scrivere in difesa preventiva.
-- Chiudi con un fatto o una decisione pratica, non con frasi da comunicato.
-- Ritmo disteso e fluido: ogni pensiero si sviluppa per almeno tre o quattro righe prima di chiudersi con un punto. Se in due righe ci sono più di due punti, il testo è troppo frammentato — lega i pensieri con costruzioni naturali. Il testo deve scorrere come un articolo scritto da una persona che ragiona mentre scrive.
-- Pochi aggettivi, zero enfasi artificiale, niente emdash.
-- Lingua: italiano sempre.
-- Tono: professionale ma caldo, esperto ma non accademico.
+DECALOGO DELL'ARTICOLO — OBBLIGATORIO:
+1. LUNGHEZZA: almeno 1.200 parole nel corpo. Ogni sezione va sviluppata con profondità, non riempita con frasi generiche.
+2. APERTURA AD AGGANCIO: la prima frase descrive una situazione concreta che il lettore sta vivendo, oppure pone una domanda che si sta già facendo. Mai iniziare con "In questo articolo..." o riepiloghi introduttivi.
+3. STRUTTURA: 5-7 sezioni con H2 informativi e specifici. Ogni H2 deve enunciare una tesi o un'idea precisa, non un titolo vago ("Il problema" è sbagliato; "Perché il tuo calendario è pieno ma ti senti svuotato" è corretto).
+4. UNA SEZIONE = UNA TESI: ogni sezione sviluppa un'unica idea con almeno un esempio concreto, uno scenario riconoscibile o un meccanismo spiegato. Non elencare concetti: sviluppane uno per sezione.
+5. INTEGRAZIONE BG5/HD: almeno due riferimenti specifici al sistema BG5 o Human Design per articolo (centri energetici, tipi, canali, autorità interiore, ecc.) spiegati in modo accessibile anche ai non esperti.
+6. TONO: seconda persona singolare ("tu"). Mai il "noi" generico. Parla al lettore come a una persona specifica.
+7. RITMO: paragrafi da 3-5 righe. Nessun elenco puntato nel corpo. Frasi di lunghezza variata — alterna frasi brevi a costruzioni più articolate.
+8. CHIUSURA OPERATIVA: l'ultimo paragrafo indica un'azione concreta che il lettore può fare (prenotare una sessione BG5, contattare Valentina, richiedere un'analisi del bodygraph). Niente conclusioni accademiche.
+9. PAROLE VIETATE: viaggio, percorso, trasformazione, rivoluzione, svolta, potenziale inespresso, benessere olistico, crescita personale, consapevolezza (a meno che non vengano citate per essere ridefinite o criticate).
+10. NESSUNA AFFERMAZIONE VUOTA: ogni claim ha una spiegazione meccanica o un esempio. Se un concetto non si può supportare, non si scrive.
+
+REGOLE DI STILE (obbligatorie):
+- Vietate le costruzioni "non X ma Y" in tutte le varianti. Afferma direttamente.
+- Vietate le triplette: tre aggettivi, tre verbi, tre sostantivi in sequenza.
+- Vietate le meta-frasi: "è importante", "è fondamentale", "è chiaro che", "è giusto partire da".
+- Niente emdash. Niente enfasi artificiale. Pochi aggettivi.
+- Lingua: italiano. Sempre.
 PROMPT;
 
-/* ── CHIAMATA CLAUDE ── */
-$payload = json_encode([
-    'model'      => CLAUDE_MODEL,
-    'max_tokens' => 4096,
-    'system'     => $systemPrompt,
-    'messages'   => [['role' => 'user', 'content' => "Riscrivi questo articolo:\n\n" . $content]],
-]);
+/* ── FULL MODE ── */
+if ($mode === 'full') {
+    $userMsg = "Titolo attuale: " . ($title ?: 'non specificato') . "\n\nCorpo attuale:\n\n" . $content . "\n\n";
+    $userMsg .= 'Riscrivi questo articolo rispettando TASSATIVAMENTE il Decalogo e le Regole di Stile sopra.' . "\n";
+    $userMsg .= 'Restituisci SOLO un oggetto JSON valido (niente markdown fence, niente testo fuori dal JSON):' . "\n\n";
+    $userMsg .= '{' . "\n";
+    $userMsg .= '  "body": "testo completo in Markdown (H2/H3 + paragrafi), minimo 1200 parole",' . "\n";
+    $userMsg .= '  "description": "meta-description 140-155 caratteri con keyword principale",' . "\n";
+    $userMsg .= '  "seo_title": "titolo SEO 50-60 caratteri, keyword all\'inizio",' . "\n";
+    $userMsg .= '  "seo_desc": "descrizione SEO 150-155 caratteri",' . "\n";
+    $userMsg .= '  "tags": "4-6 tag separati da virgola in italiano senza #",' . "\n";
+    $userMsg .= '  "aeo_answer": "risposta diretta alla domanda principale, 80-120 parole",' . "\n";
+    $userMsg .= '  "faq": [' . "\n";
+    $userMsg .= '    {"question": "domanda 1", "answer": "risposta completa 50-100 parole"},' . "\n";
+    $userMsg .= '    {"question": "domanda 2", "answer": "risposta completa 50-100 parole"},' . "\n";
+    $userMsg .= '    {"question": "domanda 3", "answer": "risposta completa 50-100 parole"},' . "\n";
+    $userMsg .= '    {"question": "domanda 4", "answer": "risposta completa 50-100 parole"}' . "\n";
+    $userMsg .= '  ]' . "\n";
+    $userMsg .= '}';
 
+    $payload = json_encode([
+        'model'      => CLAUDE_MODEL,
+        'max_tokens' => 8000,
+        'system'     => $systemPrompt,
+        'messages'   => [['role' => 'user', 'content' => $userMsg]],
+    ]);
+
+/* ── BODY MODE ── */
+} else {
+    $payload = json_encode([
+        'model'      => CLAUDE_MODEL,
+        'max_tokens' => 4096,
+        'system'     => $systemPrompt,
+        'messages'   => [['role' => 'user', 'content' => "Riscrivi questo articolo rispettando il Decalogo:\n\n" . $content]],
+    ]);
+}
+
+/* ── CHIAMATA CLAUDE ── */
 $ch = curl_init(CLAUDE_URL);
 curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
@@ -84,7 +122,7 @@ curl_setopt_array($ch, [
         'x-api-key: ' . $apiKey,
         'anthropic-version: ' . CLAUDE_VERSION,
     ],
-    CURLOPT_TIMEOUT => 120,
+    CURLOPT_TIMEOUT => 180,
 ]);
 
 $raw  = curl_exec($ch);
@@ -102,12 +140,23 @@ if ($code !== 200) {
     exit;
 }
 
-$resp    = json_decode($raw, true);
-$rewritten = trim($resp['content'][0]['text'] ?? '');
+$resp = json_decode($raw, true);
+$text = trim($resp['content'][0]['text'] ?? '');
 
-if (!$rewritten) {
+if (!$text) {
     echo json_encode(['ok' => false, 'error' => 'Risposta Claude vuota.']);
     exit;
 }
 
-echo json_encode(['ok' => true, 'content' => $rewritten]);
+if ($mode === 'full') {
+    $text   = preg_replace('/^```json\s*/i', '', $text);
+    $text   = preg_replace('/\s*```$/',      '', $text);
+    $parsed = json_decode($text, true);
+    if (!$parsed || empty($parsed['body'])) {
+        echo json_encode(['ok' => false, 'error' => 'Risposta JSON non valida. Riprova.', 'raw' => substr($text, 0, 300)]);
+        exit;
+    }
+    echo json_encode(['ok' => true, 'mode' => 'full', 'data' => $parsed]);
+} else {
+    echo json_encode(['ok' => true, 'mode' => 'body', 'content' => $text]);
+}
