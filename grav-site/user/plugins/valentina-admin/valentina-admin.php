@@ -116,9 +116,44 @@ class ValentinaAdminPlugin extends Plugin
   /* ── PADDING DATA ────────────────────── */
   function pad2(n){ return n < 10 ? '0'+n : ''+n; }
 
+  /* ── SUBMIT INTERCEPTOR ───────────────
+   * Capture phase: si esegue PRIMA del jQuery submit handler di Grav.
+   * Garantisce che title/date siano valorizzati nel momento esatto in cui
+   * il browser (o Grav) serializza i dati — immune ai re-render di Vue.
+   * ────────────────────────────────────── */
+  function attachSubmitInterceptor(form){
+    if(form._vbInterceptor) return;
+    form._vbInterceptor = true;
+    form.addEventListener('submit', function(){
+      var f = this;
+      // title
+      var ti = f.querySelector('input[name="data[title]"]');
+      var jt = document.querySelector('input[name="data[_json][header][title]"]');
+      if(ti && !ti.value.trim() && jt && jt.value){
+        try{ ti.value = JSON.parse(jt.value); }
+        catch(e){ ti.value = jt.value.replace(/^"|"$/g,''); }
+      }
+      // date (formato blueprint: Y-m-d H:i:s)
+      var di = f.querySelector('input[name="data[date]"]');
+      var jd = document.querySelector('input[name="data[_json][header][date]"]');
+      if(di && !di.value.trim()){
+        var ts = parseInt(jd ? jd.value : '', 10);
+        var dt = !isNaN(ts) ? new Date(ts*1000) : new Date();
+        di.value = dt.getFullYear()+'-'+pad2(dt.getMonth()+1)+'-'+pad2(dt.getDate())
+          +' '+pad2(dt.getHours())+':'+pad2(dt.getMinutes())+':00';
+      }
+      // data[name] = item (evita reset del template a "default")
+      var ni = f.querySelector('input[name="data[name]"]');
+      if(!ni){
+        ni = document.createElement('input');
+        ni.type='hidden'; ni.name='data[name]'; f.appendChild(ni);
+      }
+      if(!ni.value) ni.value = 'item';
+    }, true); // true = capture phase
+  }
+
   /* ── SALVA CON STATO PUBBLICAZIONE ───── */
   function saveWithState(publishedValue){
-    // Trova la form principale (id="blueprints")
     var form = document.getElementById('blueprints');
     if(!form){
       var forms = document.querySelectorAll('form[method="post"]');
@@ -128,61 +163,30 @@ class ValentinaAdminPlugin extends Plugin
     }
     if(!form){ alert('Form non trovata.'); return; }
 
+    // Registra intercettore (se non già fatto)
+    attachSubmitInterceptor(form);
+
     // 1. Aggiorna stato published
-    // 1a. Radio buttons visibili
     form.querySelectorAll('input[type="radio"][name="data[published]"]').forEach(function(r){
       r.checked = (r.value == publishedValue);
     });
-    // 1b. Toggle visuale Grav (div [data-value]) — clicca quello corretto
     document.querySelectorAll('[data-value]').forEach(function(opt){
       if(opt.getAttribute('data-value') == publishedValue){ opt.click(); }
     });
-    // 1c. _json hidden published (Grav Vue state)
     var jsonPub = document.querySelector('input[name="data[_json][header][published]"]');
     if(jsonPub) jsonPub.value = (publishedValue == 1) ? 'true' : 'false';
 
-    // 2. Assicura che data[title] sia valorizzato (Grav lo richiede per la validazione)
-    var titleInput = form.querySelector('input[name="data[title]"]');
-    if(titleInput && !titleInput.value.trim()){
-      var jsonTitle = document.querySelector('input[name="data[_json][header][title]"]');
-      if(jsonTitle && jsonTitle.value){
-        try{ titleInput.value = JSON.parse(jsonTitle.value); }
-        catch(e){ titleInput.value = jsonTitle.value.replace(/^"|"$/g,''); }
-      }
-    }
-
-    // 3. Assicura che data[date] sia valorizzato in formato Y-m-d H:i:s
-    var dateInput = form.querySelector('input[name="data[date]"]');
-    if(dateInput && !dateInput.value.trim()){
-      var jsonDate = document.querySelector('input[name="data[_json][header][date]"]');
-      var d;
-      if(jsonDate && jsonDate.value && !isNaN(parseInt(jsonDate.value,10))){
-        d = new Date(parseInt(jsonDate.value,10) * 1000);
-      } else {
-        d = new Date();
-      }
-      dateInput.value = d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate())
-        +' '+pad2(d.getHours())+':'+pad2(d.getMinutes())+':00';
-    }
-
-    // 4. Rimuovi "Leave Site" popup — Grav mette onbeforeunload quando form è dirty
+    // 2. Rimuovi popup "Lascia sito"
     window.onbeforeunload = null;
-    // Rimuovi anche event listener via removeEventListener se possibile
-    var cleanBefore = function(){ return undefined; };
-    window.addEventListener('beforeunload', cleanBefore);
 
-    // 5. Clicca il bottone Salva nativo di Grav
-    //    HTML reale: <button name="task" value="save" type="submit" form="blueprints">
+    // 3. Clicca Salva nativo dopo che Vue ha gestito il toggle (~200ms)
+    //    L'intercettore submit riempirà title/date nel momento giusto
     setTimeout(function(){
-      window.removeEventListener('beforeunload', cleanBefore);
       var saveBtn = document.querySelector('button[name="task"][value="save"]');
-      if(saveBtn){
-        saveBtn.click();
-      } else {
-        // Fallback: cerca per classe
-        var fallback = document.querySelector('#titlebar button.success, button.button.success[type="submit"]');
-        if(fallback){ fallback.click(); }
-        else { form.submit(); }
+      if(saveBtn){ saveBtn.click(); }
+      else {
+        var fb = document.querySelector('#titlebar button.success');
+        if(fb){ fb.click(); } else { form.submit(); }
       }
     }, 200);
   }
