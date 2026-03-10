@@ -8,8 +8,7 @@ class ValentinaAdminPlugin extends Plugin
     public static function getSubscribedEvents(): array
     {
         return [
-            'onAdminMenu'         => ['onAdminMenu', 0],
-            'onAdminTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
+            'onAdminMenu' => ['onAdminMenu', 0],
         ];
     }
 
@@ -18,20 +17,15 @@ class ValentinaAdminPlugin extends Plugin
         $nav = &$this->grav['twig']->plugins_hooked_nav;
 
         $nav['Articoli Privati'] = [
-            'route'     => 'articoli-privati',
+            'route'     => 'pages/blog',
             'icon'      => 'fa-pencil',
             'authorize' => ['admin.pages', 'admin.super'],
         ];
 
         $nav['Articoli Aziende'] = [
-            'route'     => 'articoli-aziende',
+            'route'     => 'pages/aziende/blog',
             'icon'      => 'fa-briefcase',
             'authorize' => ['admin.pages', 'admin.super'],
         ];
-    }
-
-    public function onTwigTemplatePaths(): void
-    {
-        $this->grav['twig']->twig_paths[] = __DIR__ . '/admin/templates';
     }
 }
