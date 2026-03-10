@@ -13,8 +13,6 @@ form:
     content:
       type: markdown
       label: "Testo dell'articolo"
-      validate:
-        required: true
 
     # ── IMMAGINE ─────────────────────────────────────────
     section_immagine:
