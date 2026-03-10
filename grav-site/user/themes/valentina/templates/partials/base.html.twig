@@ -57,7 +57,8 @@
     {% endblock %}
 </head>
 
-<body{% if page.header.corporate is defined and page.header.corporate %} class="corporate"{% endif %}>
+{% set is_corporate_page = ('/aziende/' in page.route) or (page.header.corporate is defined and page.header.corporate) %}
+<body{% if is_corporate_page %} class="corporate"{% endif %}>
 
     {% include 'partials/header.html.twig' %}
 
