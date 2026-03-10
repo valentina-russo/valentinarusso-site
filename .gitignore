@@ -43,3 +43,5 @@ grav-site/user/data/
 grav-site/user/cache/
 # Pagine: gestite SOLO da Grav Admin sul server, mai da git
 grav-site/user/pages/
+# AI editor config (contiene API key, solo sul server)
+grav-site/root/ai-editor.config.php
