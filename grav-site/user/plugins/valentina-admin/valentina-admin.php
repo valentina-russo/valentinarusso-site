@@ -522,7 +522,7 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       var btnP = document.createElement('a');
       btnP.className='vb vb-p'; btnP.href='#';
       btnP.innerHTML='<i class="fa fa-pencil"></i> + Privati';
-      btnP.addEventListener('click',function(e){e.preventDefault();nuovoArticolo('/blog','✏️');});
+      btnP.addEventListener('click',function(e){e.preventDefault();nuovoArticolo('/blog/articoli','✏️');});
 
       var btnAI = document.createElement('a');
       btnAI.className='vb vb-ai'; btnAI.href='/ai-editor.php'; btnAI.target='_blank';
