@@ -18,7 +18,7 @@ class ValentinaAdminPlugin extends Plugin
         $nav = &$this->grav['twig']->plugins_hooked_nav;
 
         $nav['Articoli Privati'] = [
-            'route'     => 'pages/blog',
+            'route'     => 'pages/blog/articoli',
             'icon'      => 'fa-pencil',
             'authorize' => ['admin.pages', 'admin.super'],
         ];
@@ -421,11 +421,11 @@ class ValentinaAdminPlugin extends Plugin
 
     /* 2. Pulsanti nelle pagine di edit articolo */
     var url = window.location.href;
-    var isArticle = url.match(/\/admin\/pages\/(blog\/|aziende\/blog\/).+/);
+    var isArticle = url.match(/\/admin\/pages\/(blog\/articoli\/|aziende\/blog\/).+/);
     if(!isArticle) return;
 
     /* Mostra slug corrente */
-    var slugMatch = url.match(/\/admin\/pages\/(?:aziende\/blog|blog)\/([^/?#]+)/);
+    var slugMatch = url.match(/\/admin\/pages\/(?:aziende\/blog|blog\/articoli)\/([^/?#]+)/);
     if(slugMatch){
       var slugBar = document.createElement('div');
       slugBar.id = 'vb-slug-bar';
