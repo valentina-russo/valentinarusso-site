@@ -126,6 +126,10 @@ class ValentinaAdminPlugin extends Plugin
     form._vbInterceptor = true;
     form.addEventListener('submit', function(){
       var f = this;
+      // Sincronizza tutti gli editor CodeMirror → textarea (data[content])
+      document.querySelectorAll('.CodeMirror').forEach(function(w){
+        if(w.CodeMirror) w.CodeMirror.save();
+      });
       // title
       var ti = f.querySelector('input[name="data[title]"]');
       var jt = document.querySelector('input[name="data[_json][header][title]"]');
