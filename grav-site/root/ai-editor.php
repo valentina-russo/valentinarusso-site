@@ -104,7 +104,12 @@ Struttura JSON richiesta:
     {"question": "Domanda 3?", "answer": "Risposta 3."},
     {"question": "Domanda 4?", "answer": "Risposta 4."}
   ],
-  "content": "Corpo articolo completo in Markdown (600-900 parole)"
+  "content": "Corpo articolo completo in Markdown (600-900 parole)",
+  "image_prompts": [
+    "Prompt immagine 1: stile fotografico/realistico — descrizione dettagliata senza testo, senza scritte, senza persone riconoscibili",
+    "Prompt immagine 2: stile illustrativo/artistico — composizione alternativa, colori caldi, atmosfera evocativa, NO testo",
+    "Prompt immagine 3: stile minimalista/simbolico — forma essenziale, sfondo pulito, ispirazione concettuale, NO testo"
+  ]
 }
 
 REGOLE TASSATIVE:
@@ -116,7 +121,13 @@ REGOLE TASSATIVE:
 - Content: usa titoli H2/H3, paragrafi brevi, nessun elenco puntato eccessivo
 - Non inventare dati o concetti non presenti nel trascritto
 - Lo slug non deve contenere accenti o caratteri speciali
-- JSON: solo valori stringa per i campi semplici, array per tags e faq
+- JSON: solo valori stringa per i campi semplici, array per tags, faq e image_prompts
+- image_prompts: 3 prompt in INGLESE per generatori AI (Midjourney, Gemini, DALL-E)
+  * Ogni prompt: 1-3 frasi descrittive, molto visivo e specifico per il tema dell'articolo
+  * Stile: fotografico realistico / illustrativo caldo / minimalista simbolico
+  * OBBLIGATORIO: niente testo nell'immagine, niente scritte, niente loghi
+  * Includi: colori suggeriti, atmosfera, composizione, stile artistico di riferimento
+  * Esempio buono: "Soft natural light falling on an open journal and dried flowers on a wooden desk, warm amber tones, shallow depth of field, minimalist aesthetic, no text, no people"
 PROMPT;
 
         $userMsg = "Categoria: {$category}\n\nTRASCRITTO VIDEO:\n\n{$transcript}";
@@ -285,7 +296,22 @@ textarea{resize:vertical;min-height:200px;font-family:monospace;font-size:.82rem
 .badge-priv{background:#B68397;color:#fff}
 .badge-az{background:#1e3a5f;color:#fff}
 @media(max-width:600px){.row,.meta-grid{grid-template-columns:1fr}}
+.img-prompt-box{background:#f0f4ff;border:1px solid #c7d4f0;border-radius:8px;padding:14px 16px;margin-bottom:12px;position:relative}
+.img-prompt-label{font-size:.75rem;font-weight:700;color:var(--primary);margin-bottom:7px;text-transform:uppercase;letter-spacing:.04em}
+.img-prompt-text{font-size:.83rem;line-height:1.6;color:var(--text);padding-right:90px}
+.img-copy-btn{background:var(--primary);color:#fff;position:absolute;top:12px;right:12px;border-radius:5px}
+.img-copy-btn.copied{background:var(--green)}
 </style>
+<script>
+function copyPrompt(i){
+  const text = document.getElementById('ip'+i).textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = document.getElementById('copybtn'+i);
+    btn.textContent='✓ Copiato!';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='📋 Copia';btn.classList.remove('copied');},2200);
+  });
+}
+</script>
 </head>
 <body>
 
@@ -433,6 +459,19 @@ textarea{resize:vertical;min-height:200px;font-family:monospace;font-size:.82rem
   <div class="faq-item">
     <strong>Q: <?= h($faq['question'] ?? '') ?></strong>
     <p><?= h($faq['answer'] ?? '') ?></p>
+  </div>
+  <?php endforeach; ?>
+
+  <hr class="sep">
+  <h2 style="font-size:.9rem;margin-bottom:14px">🎨 Prompt Immagini — pronto per Gemini / Midjourney / DALL-E</h2>
+  <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">3 varianti di stile. Clicca <strong>Copia</strong> e incolla direttamente nel generatore. Nessuna immagine conterrà testo.</p>
+  <?php
+  $imgLabels = ['📷 Fotografico / Realistico', '🎨 Illustrativo / Artistico', '◻️ Minimalista / Simbolico'];
+  foreach(($result['image_prompts']??[]) as $i => $prompt): ?>
+  <div class="img-prompt-box" id="ipbox<?= $i ?>">
+    <div class="img-prompt-label"><?= $imgLabels[$i] ?? ('Prompt ' . ($i+1)) ?></div>
+    <div class="img-prompt-text" id="ip<?= $i ?>"><?= h($prompt) ?></div>
+    <button class="btn btn-sm img-copy-btn" onclick="copyPrompt(<?= $i ?>)" id="copybtn<?= $i ?>">📋 Copia</button>
   </div>
   <?php endforeach; ?>
 
