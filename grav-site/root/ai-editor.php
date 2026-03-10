@@ -304,6 +304,15 @@ textarea{resize:vertical;min-height:200px;font-family:monospace;font-size:.82rem
 .img-prompt-text{font-size:.83rem;line-height:1.6;color:var(--text);padding-right:90px}
 .img-copy-btn{background:var(--primary);color:#fff;position:absolute;top:12px;right:12px;border-radius:5px}
 .img-copy-btn.copied{background:var(--green)}
+/* Loading overlay */
+#gen-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,40,.82);z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:22px}
+#gen-overlay.show{display:flex}
+.gen-spinner{width:52px;height:52px;border:4px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gen-title{color:#fff;font-size:1.15rem;font-weight:700;letter-spacing:.02em}
+.gen-step{color:rgba(255,255,255,.75);font-size:.88rem;min-height:1.2em;transition:opacity .4s}
+.gen-bar-wrap{width:320px;max-width:90vw;background:rgba(255,255,255,.18);border-radius:20px;height:8px;overflow:hidden}
+.gen-bar{height:100%;background:linear-gradient(90deg,#7c3aed,#B68397);border-radius:20px;width:0%;transition:width .6s ease}
 </style>
 <script>
 function copyPrompt(i){
@@ -314,9 +323,53 @@ function copyPrompt(i){
     setTimeout(()=>{btn.textContent='📋 Copia';btn.classList.remove('copied');},2200);
   });
 }
+
+/* Loading bar per generazione Claude */
+(function(){
+  var steps = [
+    [0,  'Connessione a Claude AI…'],
+    [8,  'Analisi del testo di partenza…'],
+    [20, 'Costruzione struttura articolo…'],
+    [38, 'Generazione contenuto e SEO…'],
+    [55, 'Ottimizzazione AEO e GEO…'],
+    [70, 'Creazione FAQ e tag…'],
+    [82, 'Generazione prompt immagini…'],
+    [92, 'Revisione e pulizia JSON…'],
+  ];
+  var overlay, bar, stepEl, timer, idx=0;
+
+  function tick(){
+    if(idx >= steps.length) return;
+    bar.style.width = steps[idx][0] + '%';
+    stepEl.textContent = steps[idx][1];
+    idx++;
+    timer = setTimeout(tick, 4200);
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    overlay = document.getElementById('gen-overlay');
+    bar     = document.getElementById('gen-bar');
+    stepEl  = document.getElementById('gen-step');
+    var form = document.querySelector('form[data-gen]');
+    if(!form || !overlay) return;
+    form.addEventListener('submit', function(){
+      overlay.classList.add('show');
+      idx = 0;
+      tick();
+    });
+  });
+})();
 </script>
 </head>
 <body>
+
+<!-- Loading overlay -->
+<div id="gen-overlay">
+  <div class="gen-spinner"></div>
+  <div class="gen-title">✨ Claude sta scrivendo il tuo articolo…</div>
+  <div class="gen-bar-wrap"><div class="gen-bar" id="gen-bar"></div></div>
+  <div class="gen-step" id="gen-step">Avvio…</div>
+</div>
 
 <div class="topbar">
   <h1>⚡ AI Article Editor</h1>
@@ -371,8 +424,8 @@ function copyPrompt(i){
 <?php if (!$result): ?>
 <!-- FORM GENERA -->
 <div class="card">
-  <h2>📝 Genera Articolo da Trascrizione</h2>
-  <form method="POST">
+  <h2>📝 Genera Articolo da Testo</h2>
+  <form method="POST" data-gen>
     <div class="field">
       <label>Categoria articolo</label>
       <div class="radios">
@@ -489,7 +542,13 @@ function copyPrompt(i){
   <!-- SAVE FORM -->
   <form method="POST">
     <input type="hidden" name="article_json" value="<?= h(json_encode($result, JSON_UNESCAPED_UNICODE)) ?>">
-    <input type="hidden" name="save_category" value="<?= h($cat) ?>">
+    <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:14px 16px;margin-bottom:16px">
+      <label style="font-size:.82rem;font-weight:700;color:#7c5c00;display:block;margin-bottom:8px">📂 Dove vuoi salvarlo? Verifica o correggi la categoria:</label>
+      <div class="radios">
+        <label><input type="radio" name="save_category" value="privati" <?= $cat==='privati'?'checked':'' ?>> 🌸 Privati</label>
+        <label><input type="radio" name="save_category" value="aziende" <?= $cat==='aziende'?'checked':'' ?>> 💼 Aziende</label>
+      </div>
+    </div>
     <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
       <button class="btn btn-green" name="save_article" value="1">💾 Salva come Bozza in Grav</button>
       <a href="/ai-editor.php" class="btn btn-primary" style="background:#6b7280">↩ Genera Nuovo</a>
