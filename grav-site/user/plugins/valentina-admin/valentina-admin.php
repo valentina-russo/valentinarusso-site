@@ -153,15 +153,22 @@ class ValentinaAdminPlugin extends Plugin
       }
     });
 
-    // Clicca il pulsante Salva nativo di Grav
-    var saveBtn = form.querySelector('button[data-task="save"], .button.save');
-    if(saveBtn){ saveBtn.click(); }
-    else {
-      // Fallback: trigger submit
-      var taskInp = form.querySelector('input[name="task"]');
-      if(taskInp) taskInp.value = 'save';
-      form.submit();
-    }
+    // Clicca il pulsante Salva nativo di Grav (è nel #titlebar, NON dentro la form)
+    setTimeout(function(){
+      var saveBtn = document.querySelector('#titlebar button[data-task="save"], #titlebar .button.save');
+      if(saveBtn){
+        saveBtn.click();
+      } else {
+        // Fallback: cerca ovunque nel documento
+        var anyBtn = document.querySelector('button[data-task="save"]');
+        if(anyBtn){ anyBtn.click(); }
+        else {
+          var taskInp = form.querySelector('input[name="task"]');
+          if(taskInp) taskInp.value = 'save';
+          form.submit();
+        }
+      }
+    }, 150);
   }
 
   /* ── DOM READY ───────────────────────── */
