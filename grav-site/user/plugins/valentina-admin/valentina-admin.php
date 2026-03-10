@@ -237,6 +237,7 @@ class ValentinaAdminPlugin extends Plugin
 
     var fd = new FormData();
     fd.append('content', currentContent);
+    fd.append('pass', 'ValeAdmin2026');
 
     fetch('/ai-rewrite.php', { method: 'POST', body: fd, credentials: 'include' })
       .then(function(r){ return r.json(); })
