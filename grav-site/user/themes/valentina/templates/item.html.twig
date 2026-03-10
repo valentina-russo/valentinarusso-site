@@ -89,19 +89,24 @@
             </p>
             {% endif %}
 
+            {% set img_url = '' %}
             {% if page.header.featured_image is defined and page.header.featured_image %}
-              {% if '/' in page.header.featured_image %}
-                {# Formato vecchio: path assoluto /user/images/blog/... #}
-                {% set img_url = page.header.featured_image %}
-              {% else %}
-                {# Formato nuovo: file caricato nella pagina via pagemedia #}
+              {% if '/' not in page.header.featured_image %}
+                {# Filename relativo: file caricato via pagemedia #}
                 {% set img_url = page.media[page.header.featured_image].url ?? '' %}
+              {% elseif 'placeholder' not in page.header.featured_image %}
+                {# Path assoluto non-placeholder #}
+                {% set img_url = page.header.featured_image %}
               {% endif %}
-              {% if img_url %}
+            {% endif %}
+            {# Fallback: prima immagine caricata nella pagina via pagemedia #}
+            {% if not img_url and page.media|length %}
+              {% set img_url = page.media|first.url ?? '' %}
+            {% endif %}
+            {% if img_url %}
             <img src="{{ img_url }}"
                  alt="{{ page.header.image_alt ?? page.title }}"
                  class="featured-image">
-              {% endif %}
             {% endif %}
         </header>
 
