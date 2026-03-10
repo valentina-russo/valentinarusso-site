@@ -237,10 +237,12 @@ body.grav-admin-page{ padding-bottom:58px!important; }
     if(!newSlug){ alert('Slug non valido.'); return; }
     if(newSlug === currentSlug){ return; }
 
-    // Estrai il parent route dall'URL corrente
+    // Estrai il parent route e il path admin del parent
     var parts = window.location.pathname.split('/');
     var pIdx  = parts.indexOf('pages');
-    var parentRoute = '/' + parts.slice(pIdx + 1, -1).join('/');
+    var parentSegments = parts.slice(pIdx + 1, -1);
+    var parentRoute    = '/' + parentSegments.join('/');
+    var parentAdminUrl = BASE + '/admin/pages/' + parentSegments.join('/');
 
     // Titolo e data (necessari per la validazione Grav)
     var titleEl = document.querySelector('input[name="data[title]"]');
@@ -259,27 +261,18 @@ body.grav-admin-page{ padding-bottom:58px!important; }
 
     overlayShow('Rinomina slug in corso...');
     fetch(window.location.pathname, { method:'POST', body:fd, credentials:'include' })
-      .then(function(r){
-        // Grav risponde con redirect o JSON
-        var ct = r.headers.get('content-type') || '';
-        if(ct.indexOf('json') !== -1) return r.json();
-        // Se redirect, segui manualmente
-        var newPath = window.location.pathname.replace(
-          new RegExp('/' + currentSlug.replace(/[-]/g,'\\-') + '(/|$)'),
-          '/' + newSlug + '$1'
-        );
-        window.location.href = newPath;
-        return null;
+      .then(function(){
+        // Move completato — svuota cache Grav poi vai alla lista articoli
+        var nonce = getNonce();
+        var cfd = new FormData();
+        cfd.append('task',        'clearCache');
+        cfd.append('admin-nonce', nonce);
+        return fetch(BASE + '/admin', { method:'POST', body:cfd, credentials:'include' });
       })
-      .then(function(data){
+      .then(function(){
         overlayHide();
-        if(!data) return;
-        if(data.redirect){ window.location.href = data.redirect; return; }
-        if(data.status === 'success'){
-          window.location.href = window.location.pathname.replace(currentSlug, newSlug);
-        } else {
-          alert('Errore rinomina: ' + (data.message || JSON.stringify(data)));
-        }
+        // Naviga alla lista del parent: da lì l'utente clicca sull'articolo rinominato
+        window.location.href = parentAdminUrl;
       })
       .catch(function(err){ overlayHide(); alert('Errore: ' + err); });
   }
