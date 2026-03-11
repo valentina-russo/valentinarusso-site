@@ -21,25 +21,37 @@
             {% for article in collection %}
             <article class="blog-card" data-category="{{ page.header.category ?? 'privati' }}">
                 {% set card_img = '' %}
-                {# 1. featured_image come filename semplice (no slash) → file specifico dalla media #}
+                {% set img_exts = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'avif'] %}
+                {# 1. featured_image come filename semplice → file specifico dai media #}
                 {% if article.header.featured_image is defined and article.header.featured_image and '/' not in article.header.featured_image %}
                   {% set card_img = article.media[article.header.featured_image].url ?? '' %}
                 {% endif %}
-                {# 2. Media caricati nella pagina → priorità su qualsiasi percorso assoluto #}
-                {% if not card_img and article.media|length %}
-                  {% set card_img = article.media|first.url ?? '' %}
+                {# 2. Prima immagine dai media (esclude file audio) #}
+                {% if not card_img %}
+                  {% for m in article.media %}
+                    {% set ext = m.filename|split('.')|last|lower %}
+                    {% if not card_img and ext in img_exts %}
+                      {% set card_img = m.url %}
+                    {% endif %}
+                  {% endfor %}
                 {% endif %}
-                {# 3. featured_image percorso assoluto → solo come ultimo fallback #}
+                {# 3. featured_image percorso assoluto → fallback #}
                 {% if not card_img and article.header.featured_image is defined and article.header.featured_image and 'placeholder' not in article.header.featured_image %}
                   {% set card_img = article.header.featured_image %}
                 {% endif %}
-                {% if card_img %}
+                {# 4. Placeholder di default se nessuna immagine trovata #}
+                {% if not card_img %}
+                  {% if '/aziende' in page.route %}
+                    {% set card_img = grav.base_url_absolute ~ '/user/pages/assets/business-hero.png' %}
+                  {% else %}
+                    {% set card_img = grav.base_url_absolute ~ '/user/pages/assets/valentina-privati.jpg' %}
+                  {% endif %}
+                {% endif %}
                 <div class="blog-card-image">
                     <img src="{{ card_img }}"
                          alt="{{ article.header.image_alt ?? article.title }}"
                          loading="lazy">
                 </div>
-                {% endif %}
                 <div class="blog-card-content">
                     {% if article.header.tags is defined and article.header.tags %}
                     <div style="margin-bottom: 0.5rem;">

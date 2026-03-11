@@ -167,25 +167,25 @@
             </p>
             {% endif %}
 
+            {# Audio Player — sotto il sottotitolo, solo se presente #}
+            {% if audio_files|length %}
+            <div class="audio-player{{ is_corporate ? ' audio-player--corp' : '' }}">
+                <div class="audio-player__label">🎧 Ascolta l'audio qui</div>
+                <audio controls preload="metadata">
+                    {% for af in audio_files %}
+                    <source src="{{ af.url }}" type="{{ af.mime }}">
+                    {% endfor %}
+                    Il tuo browser non supporta l'audio HTML5.
+                </audio>
+            </div>
+            {% endif %}
+
             {% if art_img %}
             <img src="{{ art_img }}"
                  alt="{{ page.header.image_alt ?? page.title }}"
                  class="featured-image">
             {% endif %}
         </header>
-
-        {# Audio Player #}
-        {% if audio_files|length %}
-        <div class="audio-player{{ is_corporate ? ' audio-player--corp' : '' }}">
-            <div class="audio-player__label">🎧 Ascolta questo articolo</div>
-            <audio controls preload="metadata">
-                {% for af in audio_files %}
-                <source src="{{ af.url }}" type="{{ af.mime }}">
-                {% endfor %}
-                Il tuo browser non supporta l'audio HTML5.
-            </audio>
-        </div>
-        {% endif %}
 
         {# AEO Answer (AI Engine Optimization) #}
         {% if page.header.aeo_answer is defined and page.header.aeo_answer %}
