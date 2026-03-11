@@ -12,9 +12,16 @@ form:
       type: markdown
       label: "Testo dell'articolo"
 
+    # ── AUDIO ────────────────────────────────────────────
+    section_audio:
+      type: section
+      title: "🎧 Audio (opzionale)"
+      underline: true
+
     header.media_order:
       type: pagemedia
-      label: "📎 Immagini nell'articolo"
+      label: "📎 Carica file (immagini + audio)"
+      help: "Trascina qui immagini (jpg, png, webp) e/o file audio (mp3, wav, ogg, m4a, flac, aac). Il player audio apparirà automaticamente nell'articolo se carichi un file audio."
 
     # ── IMMAGINE ─────────────────────────────────────────
     section_immagine:

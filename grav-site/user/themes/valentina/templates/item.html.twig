@@ -2,8 +2,27 @@
 
 {% block title %}{{ page.header.seo_title ?? page.title }} | Valentina Russo{% endblock %}
 
-{% block schema %}
-{# Calcola immagine articolo #}
+{# ── Rilevamento file audio dai media della pagina ─────────────────────────── #}
+{% set audio_mime = {
+  'mp3':  'audio/mpeg',
+  'wav':  'audio/wav',
+  'ogg':  'audio/ogg',
+  'm4a':  'audio/mp4',
+  'flac': 'audio/flac',
+  'aac':  'audio/aac',
+  'opus': 'audio/ogg'
+} %}
+{% set audio_exts = audio_mime|keys %}
+{% set audio_files = [] %}
+{% for m in page.media %}
+  {% set ext = m.filename|split('.')|last|lower %}
+  {% if ext in audio_exts %}
+    {% set audio_files = audio_files|merge([{'url': m.url, 'mime': audio_mime[ext], 'ext': ext, 'filename': m.filename}]) %}
+  {% endif %}
+{% endfor %}
+
+{# ── Calcola immagine articolo (esclude file audio) ──────────────────────────── #}
+{% set img_exts = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'avif'] %}
 {% set art_img = '' %}
 {% if page.header.featured_image is defined and page.header.featured_image %}
   {% if '/' not in page.header.featured_image %}
@@ -12,10 +31,19 @@
     {% set art_img = grav.base_url_absolute ~ page.header.featured_image %}
   {% endif %}
 {% endif %}
-{% if not art_img and page.media|length %}
-  {% set art_img = page.media|first.url|default('') %}
+{% if not art_img %}
+  {% for m in page.media %}
+    {% set ext = m.filename|split('.')|last|lower %}
+    {% if not art_img and ext in img_exts %}
+      {% set art_img = m.url %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% if not art_img and page.header.featured_image is defined and page.header.featured_image and 'placeholder' not in page.header.featured_image %}
+  {% set art_img = page.header.featured_image %}
 {% endif %}
 
+{% block schema %}
 {# Article LD+JSON #}
 <script type="application/ld+json">
 {
@@ -39,7 +67,13 @@
     "@type": "SpeakableSpecification",
     "cssSelector": [".blog-article-body", "h1"]
   }{% if art_img %},
-  "image": "{{ art_img }}"{% endif %}
+  "image": "{{ art_img }}"{% endif %}{% if audio_files|length %},
+  "audio": {
+    "@type": "AudioObject",
+    "name": {{ (page.title ~ ' — versione audio')|json_encode|raw }},
+    "encodingFormat": "{{ audio_files|first.mime }}",
+    "contentUrl": "{{ audio_files|first.url }}"
+  }{% endif %}
 }
 </script>
 
@@ -133,25 +167,25 @@
             </p>
             {% endif %}
 
-            {% set img_url = '' %}
-            {# 1. featured_image come filename semplice (no slash) → file specifico dalla media #}
-            {% if page.header.featured_image is defined and page.header.featured_image and '/' not in page.header.featured_image %}
-              {% set img_url = page.media[page.header.featured_image].url ?? '' %}
-            {% endif %}
-            {# 2. Media caricati nella pagina → priorità su qualsiasi percorso assoluto #}
-            {% if not img_url and page.media|length %}
-              {% set img_url = page.media|first.url ?? '' %}
-            {% endif %}
-            {# 3. featured_image percorso assoluto → solo come ultimo fallback #}
-            {% if not img_url and page.header.featured_image is defined and page.header.featured_image and 'placeholder' not in page.header.featured_image %}
-              {% set img_url = page.header.featured_image %}
-            {% endif %}
-            {% if img_url %}
-            <img src="{{ img_url }}"
+            {% if art_img %}
+            <img src="{{ art_img }}"
                  alt="{{ page.header.image_alt ?? page.title }}"
                  class="featured-image">
             {% endif %}
         </header>
+
+        {# Audio Player #}
+        {% if audio_files|length %}
+        <div class="audio-player{{ is_corporate ? ' audio-player--corp' : '' }}">
+            <div class="audio-player__label">🎧 Ascolta questo articolo</div>
+            <audio controls preload="metadata">
+                {% for af in audio_files %}
+                <source src="{{ af.url }}" type="{{ af.mime }}">
+                {% endfor %}
+                Il tuo browser non supporta l'audio HTML5.
+            </audio>
+        </div>
+        {% endif %}
 
         {# AEO Answer (AI Engine Optimization) #}
         {% if page.header.aeo_answer is defined and page.header.aeo_answer %}

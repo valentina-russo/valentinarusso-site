@@ -1,0 +1,21 @@
+types:
+  wav:
+    type: audio
+    mime: audio/wav
+    upload_limit: 100
+  m4a:
+    type: audio
+    mime: audio/mp4
+    upload_limit: 100
+  flac:
+    type: audio
+    mime: audio/flac
+    upload_limit: 200
+  aac:
+    type: audio
+    mime: audio/aac
+    upload_limit: 100
+  opus:
+    type: audio
+    mime: audio/ogg
+    upload_limit: 50
