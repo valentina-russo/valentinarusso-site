@@ -14,10 +14,10 @@
 } %}
 {% set audio_exts = audio_mime|keys %}
 {% set audio_files = [] %}
-{% for m in page.media %}
-  {% set ext = m.filename|split('.')|last|lower %}
+{% for filename, m in page.media %}
+  {% set ext = filename|split('.')|last|lower %}
   {% if ext in audio_exts %}
-    {% set audio_files = audio_files|merge([{'url': m.url, 'mime': audio_mime[ext], 'ext': ext, 'filename': m.filename}]) %}
+    {% set audio_files = audio_files|merge([{'url': m.url, 'mime': audio_mime[ext], 'ext': ext, 'filename': filename}]) %}
   {% endif %}
 {% endfor %}
 
@@ -32,8 +32,8 @@
   {% endif %}
 {% endif %}
 {% if not art_img %}
-  {% for m in page.media %}
-    {% set ext = m.filename|split('.')|last|lower %}
+  {% for filename, m in page.media %}
+    {% set ext = filename|split('.')|last|lower %}
     {% if not art_img and ext in img_exts %}
       {% set art_img = m.url %}
     {% endif %}

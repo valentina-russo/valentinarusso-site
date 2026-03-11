@@ -28,8 +28,8 @@
                 {% endif %}
                 {# 2. Prima immagine dai media (esclude file audio) #}
                 {% if not card_img %}
-                  {% for m in article.media %}
-                    {% set ext = m.filename|split('.')|last|lower %}
+                  {% for filename, m in article.media %}
+                    {% set ext = filename|split('.')|last|lower %}
                     {% if not card_img and ext in img_exts %}
                       {% set card_img = m.url %}
                     {% endif %}

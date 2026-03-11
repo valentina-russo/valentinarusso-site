@@ -20,6 +20,9 @@ Options -Indexes
     ## REDIRECT admin.php → /admin (Grav Admin)
     RewriteRule ^admin\.php$ /admin [R=301,L]
 
+    ## Sitemap dinamica
+    RewriteRule ^sitemap\.xml$ sitemap.xml.php [L]
+
     ## Blocca accesso a file sensibili (non system/assets né themes/plugins — contengono CSS/JS)
     RewriteRule ^(\.git|cache|bin|logs|backup|vendor|webserver-configs)(/|$) [F,L]
     RewriteRule ^user/(config|data|accounts)(/|$) [F,L]
