@@ -96,6 +96,29 @@
     }
     </script>
 
+    {# Organization Schema — Partner e Affiliazioni #}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Valentina Russo — BG5® Consultant",
+      "url": "{{ grav.base_url_absolute }}",
+      "logo": "{{ grav.base_url_absolute }}/user/pages/assets/logo.png",
+      "description": "BG5® Business Institute Certified Consultant e Human Design Analyst specializzata in career, relazioni e business strategy.",
+      "sameAs": [
+        "https://www.instagram.com/valentinarussobg5/",
+        "https://www.humandesignbusiness.com/"
+      ],
+      "memberOf": [
+        {
+          "@type": "Organization",
+          "name": "BG5® Business Institute",
+          "url": "https://www.humandesignbusiness.com/"
+        }
+      ]
+    }
+    </script>
+
     {# FAQPage Schema — Domande frequenti per IA #}
     <script type="application/ld+json">
     {
