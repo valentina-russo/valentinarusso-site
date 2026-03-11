@@ -31,9 +31,9 @@ form:
 
     header.featured_image:
       type: text
-      label: "Percorso immagine copertina"
-      placeholder: "/user/images/blog/nome-immagine.jpg"
-      help: "Carica prima dal tab Media, poi incolla qui il percorso."
+      label: "Nome file immagine copertina"
+      placeholder: "Es: mia-foto.jpg"
+      help: "Carica l'immagine dal riquadro Media qui sopra (trascina il file), poi scrivi qui SOLO il nome del file (es: mia-foto.jpg). NON incollare percorsi o URL."
 
     header.image_alt:
       type: text
