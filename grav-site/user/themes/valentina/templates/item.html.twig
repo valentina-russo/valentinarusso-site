@@ -3,6 +3,19 @@
 {% block title %}{{ page.header.seo_title ?? page.title }} | Valentina Russo{% endblock %}
 
 {% block schema %}
+{# Calcola immagine articolo #}
+{% set art_img = '' %}
+{% if page.header.featured_image is defined and page.header.featured_image %}
+  {% if '/' not in page.header.featured_image %}
+    {% set art_img = page.media[page.header.featured_image].url|default('') %}
+  {% else %}
+    {% set art_img = grav.base_url_absolute ~ page.header.featured_image %}
+  {% endif %}
+{% endif %}
+{% if not art_img and page.media|length %}
+  {% set art_img = page.media|first.url|default('') %}
+{% endif %}
+
 {# Article LD+JSON #}
 <script type="application/ld+json">
 {
@@ -11,6 +24,7 @@
   "headline": {{ page.title|json_encode|raw }},
   "description": {{ (page.header.description ?? '')|json_encode|raw }},
   "datePublished": "{{ page.date|date('c') }}",
+  "url": "{{ page.url(true) }}",
   "author": {
     "@type": "Person",
     "name": "{{ page.header.author ?? 'Valentina Russo' }}"
@@ -21,11 +35,10 @@
     "url": "{{ grav.base_url_absolute }}",
     "sameAs": ["https://www.instagram.com/valentinarussobg5/"]
   },
-  "url": "{{ page.url(true) }}",
   "speakable": {
     "@type": "SpeakableSpecification",
     "cssSelector": [".blog-article-body", "h1"]
-  }{% set art_img = '' %}{% if page.header.featured_image is defined and page.header.featured_image %}{% if '/' not in page.header.featured_image %}{% set art_img = page.media[page.header.featured_image].url ?? '' %}{% else %}{% set art_img = grav.base_url_absolute ~ page.header.featured_image %}{% endif %}{% endif %}{% if not art_img and page.media|length %}{% set art_img = page.media|first.url ?? '' %}{% endif %}{% if art_img %},
+  }{% if art_img %},
   "image": "{{ art_img }}"{% endif %}
 }
 </script>
