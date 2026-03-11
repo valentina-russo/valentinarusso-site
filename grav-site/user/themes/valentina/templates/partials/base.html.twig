@@ -55,6 +55,15 @@
     }
     </script>
     {% endblock %}
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GHR1HCYPY4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GHR1HCYPY4');
+    </script>
 </head>
 
 {% set is_corporate_page = ('/aziende/' in page.route) or (page.header.corporate is defined and page.header.corporate) %}
