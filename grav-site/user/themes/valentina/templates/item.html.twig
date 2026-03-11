@@ -23,8 +23,13 @@
 
 {# ── Calcola immagine articolo ───────────────────────────────────────────────── #}
 {% set art_img = '' %}
+{# 0. featured_image con path /user/pages/ → estrai filename e cerca nei media #}
+{% if page.header.featured_image is defined and page.header.featured_image and '/user/pages/' in page.header.featured_image %}
+  {% set _fname = page.header.featured_image|split('/')|last %}
+  {% if page.media[_fname] is defined %}{% set art_img = page.media[_fname].url %}{% endif %}
+{% endif %}
 {# 1. featured_image filename semplice → lookup diretto nei media #}
-{% if page.header.featured_image is defined and page.header.featured_image and '/' not in page.header.featured_image %}
+{% if not art_img and page.header.featured_image is defined and page.header.featured_image and '/' not in page.header.featured_image %}
   {% set art_img = page.media[page.header.featured_image].url ?? '' %}
 {% endif %}
 {# 2. Prima media della pagina (page.media|first funziona sulla pagina corrente) #}

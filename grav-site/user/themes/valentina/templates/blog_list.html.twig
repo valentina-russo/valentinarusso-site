@@ -21,8 +21,13 @@
             {% for article in collection %}
             <article class="blog-card" data-category="{{ page.header.category ?? 'privati' }}">
                 {% set card_img = '' %}
+                {# 0. featured_image con path /user/pages/ → estrai filename e cerca nei media #}
+                {% if article.header.featured_image is defined and article.header.featured_image and '/user/pages/' in article.header.featured_image %}
+                  {% set _fname = article.header.featured_image|split('/')|last %}
+                  {% if article.media[_fname] is defined %}{% set card_img = article.media[_fname].url %}{% endif %}
+                {% endif %}
                 {# 1. featured_image filename semplice (no slash) → lookup diretto nei media della pagina #}
-                {% if article.header.featured_image is defined and article.header.featured_image and '/' not in article.header.featured_image %}
+                {% if not card_img and article.header.featured_image is defined and article.header.featured_image and '/' not in article.header.featured_image %}
                   {% set card_img = article.media[article.header.featured_image].url ?? '' %}
                 {% endif %}
                 {# 2. Prima media della pagina (article.media|first funziona nel context collection) #}
