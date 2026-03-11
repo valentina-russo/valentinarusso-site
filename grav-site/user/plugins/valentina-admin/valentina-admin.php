@@ -205,9 +205,14 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       var jd = document.querySelector('input[name="data[_json][header][date]"]');
       if(di && !di.value.trim()){
         var ts = parseInt(jd ? jd.value : '', 10);
-        var dt = !isNaN(ts) ? new Date(ts*1000) : new Date();
-        di.value = dt.getFullYear()+'-'+pad2(dt.getMonth()+1)+'-'+pad2(dt.getDate())
-          +' '+pad2(dt.getHours())+':'+pad2(dt.getMinutes())+':00';
+        // Imposta la data SOLO se abbiamo un timestamp valido da Grav.
+        // NON usare new Date() come fallback: resetterebbe la data di articoli
+        // esistenti a oggi, modificandone la posizione in lista.
+        if(!isNaN(ts) && ts > 0){
+          var dt = new Date(ts*1000);
+          di.value = dt.getFullYear()+'-'+pad2(dt.getMonth()+1)+'-'+pad2(dt.getDate())
+            +' '+pad2(dt.getHours())+':'+pad2(dt.getMinutes())+':00';
+        }
       }
       var ni = f.querySelector('input[name="data[name]"]');
       if(!ni){

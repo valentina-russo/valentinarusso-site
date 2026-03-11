@@ -346,7 +346,7 @@ footer { padding: var(--space-md) 0; margin-top: var(--space-lg); border-top: 1p
 
 /* Article tags */
 .article-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0; }
-.article-tag { padding: 0.3rem 0.8rem; border: 1px solid var(--soft-gray); border-radius: 20px; font-size: 0.75rem; color: var(--text-color); }
+.article-tag { padding: 0.3rem 0.8rem; border: 1px solid var(--soft-gray); border-radius: 20px; font-size: 0.75rem; color: var(--text-color); box-sizing: border-box; max-width: 100%; word-break: break-word; }
 
 /* FAQ section */
 .faq-section { margin-top: 3rem; border-top: 1px solid var(--soft-gray); padding-top: 2rem; }
