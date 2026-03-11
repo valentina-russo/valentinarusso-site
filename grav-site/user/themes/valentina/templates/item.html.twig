@@ -2,25 +2,6 @@
 
 {% block title %}{{ page.header.seo_title ?? page.title }} | Valentina Russo{% endblock %}
 
-{# ── Rilevamento file audio dai media della pagina ─────────────────────────── #}
-{% set audio_mime = {
-  'mp3':  'audio/mpeg',
-  'wav':  'audio/wav',
-  'ogg':  'audio/ogg',
-  'm4a':  'audio/mp4',
-  'flac': 'audio/flac',
-  'aac':  'audio/aac',
-  'opus': 'audio/ogg'
-} %}
-{% set audio_exts = audio_mime|keys %}
-{% set audio_files = [] %}
-{% set audio_exts_list = audio_mime|keys %}
-{% for m in page.media %}
-  {% if m.filename|split('.')|last|lower in audio_exts_list %}
-    {% set audio_files = audio_files|merge([{'url': m.url, 'mime': audio_mime[m.filename|split('.')|last|lower]|default('audio/mpeg'), 'filename': m.filename}]) %}
-  {% endif %}
-{% endfor %}
-
 {# ── Calcola immagine articolo ───────────────────────────────────────────────── #}
 {% set art_img = '' %}
 {# 0. featured_image con path /user/pages/ → estrai filename e cerca nei media #}
@@ -65,13 +46,7 @@
     "@type": "SpeakableSpecification",
     "cssSelector": [".blog-article-body", "h1"]
   }{% if art_img %},
-  "image": "{{ art_img }}"{% endif %}{% if audio_files|length %},
-  "audio": {
-    "@type": "AudioObject",
-    "name": {{ (page.title ~ ' — versione audio')|json_encode|raw }},
-    "encodingFormat": "{{ audio_files|first.mime }}",
-    "contentUrl": "{{ audio_files|first.url }}"
-  }{% endif %}
+  "image": "{{ art_img }}"{% endif %}
 }
 </script>
 
@@ -163,19 +138,6 @@
             <p class="serif italic" style="font-size: 1.15rem; color: {{ is_corporate ? 'var(--corp-primary)' : 'var(--primary-color)' }}; margin-bottom: 1.5rem;">
                 {{ page.header.description }}
             </p>
-            {% endif %}
-
-            {# Audio Player — sotto il sottotitolo, solo se presente #}
-            {% if audio_files|length %}
-            <div class="audio-player{{ is_corporate ? ' audio-player--corp' : '' }}">
-                <div class="audio-player__label">🎧 Ascolta l'audio qui</div>
-                <audio controls preload="metadata">
-                    {% for af in audio_files %}
-                    <source src="{{ af.url }}" type="{{ af.mime }}">
-                    {% endfor %}
-                    Il tuo browser non supporta l'audio HTML5.
-                </audio>
-            </div>
             {% endif %}
 
             {% if art_img %}
