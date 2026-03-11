@@ -119,6 +119,68 @@
     }
     </script>
 
+    {# Service Schema — Servizi Principali #}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "BG5® Consulting & Human Design Analysis",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Valentina Russo",
+        "url": "{{ grav.base_url_absolute }}"
+      },
+      "areaServed": "IT",
+      "hasOfferingDetails": [
+        {
+          "@type": "Offering",
+          "name": "Prima Lettura Human Design",
+          "description": "Sessione intensiva di 2 ore per decodificare il tuo Tipo Energetico, Strategia e Autorità interna.",
+          "price": "210",
+          "priceCurrency": "EUR"
+        },
+        {
+          "@type": "Offering",
+          "name": "Percorsi BG5® Business",
+          "description": "Consulenze per liberi professionisti e imprenditori su career optimization e business strategy.",
+          "price": "1800",
+          "priceCurrency": "EUR"
+        },
+        {
+          "@type": "Offering",
+          "name": "Vita e Relazioni",
+          "description": "Percorsi per ripulire condizionamenti e comprendere relazioni con consapevolezza del design.",
+          "price": "500",
+          "priceCurrency": "EUR"
+        }
+      ]
+    }
+    </script>
+
+    {# LocalBusiness Schema — Consulente Italia #}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Valentina Russo — BG5® Consultant & Human Design Analyst",
+      "url": "{{ grav.base_url_absolute }}",
+      "image": "{{ grav.base_url_absolute }}/user/pages/assets/valentina.png",
+      "description": "Consulente BG5® certificata specializzata in career coaching, business strategy e human design per professionisti e imprenditori italiani.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IT"
+      },
+      "areaServed": ["IT", "Italia"],
+      "serviceType": ["Career Coaching", "Business Consulting", "Human Design Analysis", "BG5 Consulting"],
+      "priceRange": "€€€",
+      "sameAs": [
+        "https://www.instagram.com/valentinarussobg5/",
+        "https://www.humandesignbusiness.com/"
+      ],
+      "knowsLanguage": ["it", "en"]
+    }
+    </script>
+
     {# FAQPage Schema — Domande frequenti per IA #}
     <script type="application/ld+json">
     {
