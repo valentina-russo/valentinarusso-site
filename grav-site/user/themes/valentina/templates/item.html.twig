@@ -90,18 +90,17 @@
             {% endif %}
 
             {% set img_url = '' %}
-            {% if page.header.featured_image is defined and page.header.featured_image %}
-              {% if '/' not in page.header.featured_image %}
-                {# Filename relativo: file caricato via pagemedia #}
-                {% set img_url = page.media[page.header.featured_image].url ?? '' %}
-              {% elseif 'placeholder' not in page.header.featured_image %}
-                {# Path assoluto non-placeholder #}
-                {% set img_url = page.header.featured_image %}
-              {% endif %}
+            {# 1. featured_image come filename semplice (no slash) → file specifico dalla media #}
+            {% if page.header.featured_image is defined and page.header.featured_image and '/' not in page.header.featured_image %}
+              {% set img_url = page.media[page.header.featured_image].url ?? '' %}
             {% endif %}
-            {# Fallback: prima immagine caricata nella pagina via pagemedia #}
+            {# 2. Media caricati nella pagina → priorità su qualsiasi percorso assoluto #}
             {% if not img_url and page.media|length %}
               {% set img_url = page.media|first.url ?? '' %}
+            {% endif %}
+            {# 3. featured_image percorso assoluto → solo come ultimo fallback #}
+            {% if not img_url and page.header.featured_image is defined and page.header.featured_image and 'placeholder' not in page.header.featured_image %}
+              {% set img_url = page.header.featured_image %}
             {% endif %}
             {% if img_url %}
             <img src="{{ img_url }}"

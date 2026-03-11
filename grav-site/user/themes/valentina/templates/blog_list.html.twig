@@ -21,15 +21,17 @@
             {% for article in collection %}
             <article class="blog-card" data-category="{{ page.header.category ?? 'privati' }}">
                 {% set card_img = '' %}
-                {% if article.header.featured_image is defined and article.header.featured_image %}
-                  {% if '/' not in article.header.featured_image %}
-                    {% set card_img = article.media[article.header.featured_image].url ?? '' %}
-                  {% elseif 'placeholder' not in article.header.featured_image %}
-                    {% set card_img = article.header.featured_image %}
-                  {% endif %}
+                {# 1. featured_image come filename semplice (no slash) → file specifico dalla media #}
+                {% if article.header.featured_image is defined and article.header.featured_image and '/' not in article.header.featured_image %}
+                  {% set card_img = article.media[article.header.featured_image].url ?? '' %}
                 {% endif %}
+                {# 2. Media caricati nella pagina → priorità su qualsiasi percorso assoluto #}
                 {% if not card_img and article.media|length %}
                   {% set card_img = article.media|first.url ?? '' %}
+                {% endif %}
+                {# 3. featured_image percorso assoluto → solo come ultimo fallback #}
+                {% if not card_img and article.header.featured_image is defined and article.header.featured_image and 'placeholder' not in article.header.featured_image %}
+                  {% set card_img = article.header.featured_image %}
                 {% endif %}
                 {% if card_img %}
                 <div class="blog-card-image">
