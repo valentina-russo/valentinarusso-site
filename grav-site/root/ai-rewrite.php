@@ -153,6 +153,37 @@ if ($mode === 'full') {
         'messages'   => [['role' => 'user', 'content' => $userMsg]],
     ]);
 
+/* ── META MODE ── */
+} elseif ($mode === 'meta') {
+    $userMsg  = "Titolo articolo: " . ($title ?: 'non specificato') . "\n\nCorpo articolo:\n\n" . mb_substr($content, 0, 4000) . "\n\n";
+    $userMsg .= "Analizza questo articolo e genera ESCLUSIVAMENTE i metadati tecnici.\n";
+    $userMsg .= "NON riscrivere ne' modificare il testo dell'articolo.\n";
+    $userMsg .= "Rispondi SOLO con un oggetto JSON valido (niente markdown fence, niente testo fuori dal JSON):\n\n";
+    $userMsg .= "{\n";
+    $userMsg .= "  \"description\": \"meta-description 140-155 caratteri con keyword principale\",\n";
+    $userMsg .= "  \"seo_title\": \"titolo SEO 50-60 caratteri, keyword all'inizio\",\n";
+    $userMsg .= "  \"seo_desc\": \"descrizione SEO 150-155 caratteri\",\n";
+    $userMsg .= "  \"tags\": \"4-6 tag separati da virgola in italiano senza #\",\n";
+    $userMsg .= "  \"aeo_answer\": \"risposta diretta alla domanda principale dell'articolo, 80-120 parole\",\n";
+    $userMsg .= "  \"geo_content\": \"3-5 affermazioni precise e autorevoli sul tema: definizioni esatte di termini BG5/HD, posizionamento di Valentina, risposte alle domande piu' cercate. Max 200 parole.\",\n";
+    $userMsg .= "  \"image_alt\": \"alt text accessibile per l'immagine copertina, max 120 caratteri, descrittivo e con keyword\",\n";
+    $userMsg .= "  \"image_title\": \"titolo immagine breve e keyword-rich, max 60 caratteri\",\n";
+    $userMsg .= "  \"image_caption\": \"didascalia sotto l'immagine, 1 frase chiara e informativa, max 100 caratteri\",\n";
+    $userMsg .= "  \"image_desc\": \"descrizione estesa immagine per motori di ricerca, max 200 caratteri\",\n";
+    $userMsg .= "  \"faq\": [\n";
+    $userMsg .= "    {\"question\": \"domanda 1\", \"answer\": \"risposta 50-100 parole\"},\n";
+    $userMsg .= "    {\"question\": \"domanda 2\", \"answer\": \"risposta 50-100 parole\"},\n";
+    $userMsg .= "    {\"question\": \"domanda 3\", \"answer\": \"risposta 50-100 parole\"}\n";
+    $userMsg .= "  ]\n";
+    $userMsg .= "}";
+
+    $payload = json_encode([
+        'model'      => 'claude-haiku-4-5-20251001',
+        'max_tokens' => 2000,
+        'system'     => $systemPrompt,
+        'messages'   => [['role' => 'user', 'content' => $userMsg]],
+    ]);
+
 /* ── BODY MODE ── */
 } else {
     $payload = json_encode([
@@ -200,11 +231,14 @@ if (!$text) {
     exit;
 }
 
-if ($mode === 'full') {
+if ($mode === 'full' || $mode === 'meta') {
     $text   = preg_replace('/^```json\s*/i', '', $text);
     $text   = preg_replace('/\s*```$/',      '', $text);
     $parsed = json_decode($text, true);
-    if (!$parsed || empty($parsed['body'])) {
+
+    // full richiede body, meta richiede seo_title
+    $requiredField = ($mode === 'full') ? 'body' : 'seo_title';
+    if (!$parsed || empty($parsed[$requiredField])) {
         echo json_encode(['ok' => false, 'error' => 'Risposta JSON non valida. Riprova.', 'raw' => substr($text, 0, 300)]);
         exit;
     }
@@ -222,14 +256,17 @@ if ($mode === 'full') {
         }
     }
 
-    echo json_encode([
-        'ok'           => true,
-        'mode'         => 'full',
-        'frontmatter'  => $fm,
-        'body'         => $parsed['body'],
-        'image_prompt' => $parsed['image_prompt'] ?? '',
-        'data'         => $parsed,   // campi individuali per fallback Normal Mode
-    ]);
+    $result = [
+        'ok'          => true,
+        'mode'        => $mode,
+        'frontmatter' => $fm,
+        'data'        => $parsed,
+    ];
+    if ($mode === 'full') {
+        $result['body']         = $parsed['body'];
+        $result['image_prompt'] = $parsed['image_prompt'] ?? '';
+    }
+    echo json_encode($result);
 } else {
     echo json_encode(['ok' => true, 'mode' => 'body', 'content' => $text]);
 }

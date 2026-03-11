@@ -84,6 +84,7 @@ class ValentinaAdminPlugin extends Plugin
 .vb-ab-pubblica{background:#16a34a;color:#fff;}
 .vb-ab-rewrite {background:#d97706;color:#fff;}
 .vb-ab-full    {background:#0f766e;color:#fff;}
+.vb-ab-meta    {background:#7c3aed;color:#fff;}
 .vb-ab-elimina {background:#dc2626;color:#fff;}
 /* Sezione privati — bordo rosa */
 #vb-action-bar.vb-s-privati{ border-top-color:#B68397; }
@@ -505,6 +506,83 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       .catch(function(err){ overlayHide(); alert('Errore di rete: ' + err); });
   }
 
+  /* ── GENERA SOLO METADATI ────────────── */
+  function vbGenerateMeta(){
+    var cms = getCMs();
+    if(!cms.body){ alert('Editor articolo non trovato. Apri il tab Contenuto.'); return; }
+    var body = cms.body.getValue().trim();
+    if(!body){ alert("Il corpo del post e' vuoto."); return; }
+    if(!confirm('Genera metadati SEO/FAQ con AI?\\n\\nIl testo del post NON viene modificato.\\nVengono aggiornati: description, SEO, tag, FAQ, AEO, metadati immagine.')){return;}
+
+    overlayShow('Claude sta generando i metadati... Attendi qualche secondo.');
+
+    var titleEl   = document.querySelector('input[name="data[title]"]');
+    var title     = titleEl ? titleEl.value.trim() : '';
+    var frontText = cms.front ? cms.front.getValue() : '';
+
+    var fd = new FormData();
+    fd.append('content',     body);
+    fd.append('frontmatter', frontText);
+    fd.append('title',       title);
+    fd.append('mode',        'meta');
+    fd.append('pass',        'ValeAdmin2026');
+
+    fetch('/ai-rewrite.php', { method:'POST', body:fd, credentials:'include' })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        overlayHide();
+        if(!data.ok){ alert('Errore: ' + (data.error || 'sconosciuto')); return; }
+
+        // Expert Mode: aggiorna frontmatter YAML
+        if(data.frontmatter && cms.front){
+          cms.front.setValue(data.frontmatter);
+          cms.front.save();
+        }
+
+        // Normal Mode fallback: aggiorna campi form individuali
+        if(!cms.front && data.data){
+          var d = data.data;
+          var scalars = {
+            'description':  d.description,
+            'seo_title':    d.seo_title,
+            'seo_desc':     d.seo_desc,
+            'aeo_answer':   d.aeo_answer,
+            'geo_content':  d.geo_content,
+            'image_alt':    d.image_alt,
+            'image_title':  d.image_title,
+            'image_caption':d.image_caption,
+            'image_desc':   d.image_desc,
+            'tags':         d.tags
+          };
+          Object.keys(scalars).forEach(function(k){
+            if(!scalars[k]) return;
+            if(!setField('data[header][' + k + ']', scalars[k])){
+              setField('data[' + k + ']', scalars[k]);
+            }
+          });
+          if(d.faq && d.faq.length){
+            d.faq.forEach(function(item, i){
+              var qSet = setField('data[header][faq][' + i + '][question]', item.question || '');
+              if(!qSet) setField('data[faq][' + i + '][question]', item.question || '');
+              var aSet = setField('data[header][faq][' + i + '][answer]', item.answer || '');
+              if(!aSet) setField('data[faq][' + i + '][answer]', item.answer || '');
+            });
+          }
+        }
+
+        // Flash verde sull'editor body (confermando che il testo e' intatto)
+        if(cms.body){
+          var wrap = cms.body.getWrapperElement();
+          wrap.style.transition='box-shadow .3s';
+          wrap.style.boxShadow='0 0 0 3px #7c3aed';
+          setTimeout(function(){ wrap.style.boxShadow=''; }, 2500);
+        }
+
+        alert('Metadati generati! Controlla i campi e premi PUBBLICA o Salva Bozza.');
+      })
+      .catch(function(err){ overlayHide(); alert('Errore di rete: ' + err); });
+  }
+
   /* ── AUTO-POPULATE "Nome file immagine" dopo upload ── */
   function initMediaAutoFill() {
     var isArticlePage = !!window.location.href.match(
@@ -649,6 +727,11 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       bFull.innerHTML = '<i class="fa fa-refresh"></i> Rigenera Tutto';
       bFull.addEventListener('click', function(){ vbFullRewrite(); });
 
+      var bMeta = document.createElement('button');
+      bMeta.className = 'vb-ab-meta';
+      bMeta.innerHTML = '<i class="fa fa-tags"></i> Genera Metadati';
+      bMeta.addEventListener('click', function(){ vbGenerateMeta(); });
+
       var bElimina = document.createElement('button');
       bElimina.className = 'vb-ab-elimina';
       bElimina.innerHTML = '<i class="fa fa-trash"></i> Elimina';
@@ -670,6 +753,7 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       right.appendChild(bPub);
       right.appendChild(bRewrite);
       right.appendChild(bFull);
+      right.appendChild(bMeta);
       right.appendChild(bElimina);
 
       bar.appendChild(left);
