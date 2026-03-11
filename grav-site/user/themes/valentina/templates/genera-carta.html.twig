@@ -1,9 +1,8 @@
 {% extends 'partials/base.html.twig' %}
 
-{% set is_genera_carta = 'genera-carta' in page.route %}
+{% block title %}Genera la tua Carta | Valentina Russo{% endblock %}
 
 {% block extra_css %}
-{% if is_genera_carta %}
 <style>
     body {
         background: linear-gradient(160deg, #B68397 0%, #8A6FA8 45%, #3A5A8A 80%, #1E3A5F 100%) !important;
@@ -21,19 +20,34 @@
     }
     body header .brand-name,
     body header .brand-tagline,
-    body header #main-nav a { color: #fff !important; }
-    body header #main-nav a:hover { color: rgba(255,255,255,0.7) !important; }
-    body header .menu-toggle { color: #fff !important; }
-    body h1, body h2, body h3 { color: #fff !important; }
-    body h4 { color: #FDE8B0 !important; }
-    body p, body .text-small { color: rgba(255,255,255,0.88); }
-    body .serif.italic { color: rgba(255,255,255,0.9) !important; }
+    body header #main-nav a {
+        color: #fff !important;
+    }
+    body header #main-nav a:hover {
+        color: rgba(255,255,255,0.7) !important;
+    }
+    body header .menu-toggle {
+        color: #fff !important;
+    }
+    body h1, body h2, body h3 {
+        color: #fff !important;
+    }
+    body h4 {
+        color: #FDE8B0 !important;
+    }
+    body p, body .text-small {
+        color: rgba(255,255,255,0.88);
+    }
+    body .serif.italic {
+        color: rgba(255,255,255,0.9) !important;
+    }
     .gc-card {
         background: rgba(255,255,255,0.15) !important;
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         border: 1px solid rgba(255,255,255,0.25) !important;
         border-radius: 30px;
+        color: rgba(255,255,255,0.9) !important;
     }
     .gc-side {
         background: rgba(255,255,255,0.15) !important;
@@ -49,17 +63,30 @@
         border: 1px solid rgba(255,255,255,0.3) !important;
         border-radius: 50px;
     }
-    .btn-outline { border-color: rgba(255,255,255,0.7) !important; color: #fff !important; }
-    .btn-outline:hover { background: rgba(255,255,255,0.15) !important; color: #fff !important; }
-    body footer { background: rgba(255,255,255,0.08) !important; backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.15) !important; }
-    body footer a, body footer div { color: rgba(255,255,255,0.75) !important; }
-    body footer a:hover { color: #fff !important; }
+    .btn-outline {
+        border-color: rgba(255,255,255,0.7) !important;
+        color: #fff !important;
+    }
+    .btn-outline:hover {
+        background: rgba(255,255,255,0.15) !important;
+        color: #fff !important;
+    }
+    body footer {
+        background: rgba(255,255,255,0.08) !important;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-top: 1px solid rgba(255,255,255,0.15) !important;
+    }
+    body footer a, body footer div {
+        color: rgba(255,255,255,0.75) !important;
+    }
+    body footer a:hover {
+        color: #fff !important;
+    }
 </style>
-{% endif %}
 {% endblock %}
 
 {% block content %}
-{% if is_genera_carta %}
 <main>
     <section class="section-padding">
         <div class="container">
@@ -88,6 +115,7 @@
                 <div data-animate>
                     <h2 class="serif">Come procedere correttamente</h2>
                     <p style="margin: 1.5rem 0; line-height: 1.6;">Per ottenere un Bodygraph accurato, &egrave; fondamentale inserire dati precisi. Il sistema di Human Design incrocia la posizione dei pianeti al momento della tua nascita con quella di circa 88 giorni prima.</p>
+
                     <div style="margin-bottom: 2rem;">
                         <div style="margin-bottom: 1.5rem;">
                             <h4 class="serif">1. Data di Nascita</h4>
@@ -102,6 +130,7 @@
                             <p class="text-small">Inserisci la citt&agrave; dove sei nat&aelig;. Il software calcoler&agrave; automaticamente il fuso orario e le coordinate geografiche necessarie.</p>
                         </div>
                     </div>
+
                     <a href="https://jovianarchive.com/pages/get-your-human-design-chart" target="_blank" class="btn btn-primary">Genera Gratuitamente su Jovian Archive</a>
                 </div>
                 <div class="gc-side" style="padding: 3rem; text-align: center;" data-animate>
@@ -122,14 +151,4 @@
         </div>
     </section>
 </main>
-{% else %}
-<main class="section-padding">
-    <div class="container" style="max-width: 800px;">
-        <h1 style="margin-bottom: var(--space-md);" data-animate>{{ page.title }}</h1>
-        <div class="blog-article-body" data-animate>
-            {{ page.content|raw }}
-        </div>
-    </div>
-</main>
-{% endif %}
 {% endblock %}
