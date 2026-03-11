@@ -21,37 +21,31 @@
             {% for article in collection %}
             <article class="blog-card" data-category="{{ page.header.category ?? 'privati' }}">
                 {% set card_img = '' %}
-                {% set img_exts = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'avif'] %}
-                {# 1. featured_image come filename semplice → file specifico dai media #}
+                {# 1. featured_image filename semplice (no slash) → lookup diretto nei media della pagina #}
                 {% if article.header.featured_image is defined and article.header.featured_image and '/' not in article.header.featured_image %}
-                  {% set card_img = article.media[article.header.featured_image].url ?? '' %}
+                  {% set _fm = article.media[article.header.featured_image] %}
+                  {% if _fm %}{% set card_img = _fm.url %}{% endif %}
                 {% endif %}
-                {# 2. Prima immagine dai media (esclude file audio) #}
+                {# 2. Prima immagine dai page media — usa filtro built-in Grav (solo immagini, esclude audio/file) #}
                 {% if not card_img %}
-                  {% for filename, m in article.media %}
-                    {% set ext = filename|split('.')|last|lower %}
-                    {% if not card_img and ext in img_exts %}
-                      {% set card_img = m.url %}
-                    {% endif %}
-                  {% endfor %}
+                  {% set _imgs = article.media.images %}
+                  {% if _imgs|length %}{% set card_img = _imgs|first.url %}{% endif %}
                 {% endif %}
-                {# 3. featured_image percorso assoluto → fallback #}
-                {% if not card_img and article.header.featured_image is defined and article.header.featured_image and 'placeholder' not in article.header.featured_image %}
-                  {% set card_img = article.header.featured_image %}
-                {% endif %}
-                {# 4. Placeholder di default se nessuna immagine trovata #}
-                {% if not card_img %}
-                  {% if '/aziende' in page.route %}
-                    {% set card_img = grav.base_url_absolute ~ '/user/pages/assets/business-hero.png' %}
-                  {% else %}
-                    {% set card_img = grav.base_url_absolute ~ '/user/pages/assets/valentina-privati.jpg' %}
+                {# 3. featured_image percorso assoluto legacy (es. /user/images/blog/...) — MAI /user/pages/ che non è un URL pubblico #}
+                {% if not card_img and article.header.featured_image is defined and article.header.featured_image %}
+                  {% set _fi = article.header.featured_image %}
+                  {% if '/' in _fi and 'placeholder' not in _fi and '/user/pages/' not in _fi %}
+                    {% set card_img = _fi %}
                   {% endif %}
                 {% endif %}
+                {# 4. Nessuna immagine trovata: non mostrare nulla (no fallback ingannevole) #}
+                {% if card_img %}
                 <div class="blog-card-image">
                     <img src="{{ card_img }}"
                          alt="{{ article.header.image_alt ?? article.title }}"
                          loading="lazy">
                 </div>
+                {% endif %}
                 <div class="blog-card-content">
                     {% if article.header.tags is defined and article.header.tags %}
                     <div style="margin-bottom: 0.5rem;">

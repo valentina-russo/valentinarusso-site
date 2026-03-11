@@ -14,33 +14,29 @@
 } %}
 {% set audio_exts = audio_mime|keys %}
 {% set audio_files = [] %}
-{% for filename, m in page.media %}
-  {% set ext = filename|split('.')|last|lower %}
-  {% if ext in audio_exts %}
-    {% set audio_files = audio_files|merge([{'url': m.url, 'mime': audio_mime[ext], 'ext': ext, 'filename': filename}]) %}
-  {% endif %}
+{% for af_name, af in page.media.audios %}
+  {% set ext = af_name|split('.')|last|lower %}
+  {% set audio_files = audio_files|merge([{'url': af.url, 'mime': audio_mime[ext]|default('audio/mpeg'), 'filename': af_name}]) %}
 {% endfor %}
 
-{# ── Calcola immagine articolo (esclude file audio) ──────────────────────────── #}
-{% set img_exts = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'avif'] %}
+{# ── Calcola immagine articolo ───────────────────────────────────────────────── #}
 {% set art_img = '' %}
-{% if page.header.featured_image is defined and page.header.featured_image %}
-  {% if '/' not in page.header.featured_image %}
-    {% set art_img = page.media[page.header.featured_image].url|default('') %}
-  {% else %}
-    {% set art_img = grav.base_url_absolute ~ page.header.featured_image %}
-  {% endif %}
+{# 1. featured_image filename semplice → lookup diretto nei media #}
+{% if page.header.featured_image is defined and page.header.featured_image and '/' not in page.header.featured_image %}
+  {% set _fm = page.media[page.header.featured_image] %}
+  {% if _fm %}{% set art_img = _fm.url %}{% endif %}
 {% endif %}
+{# 2. Prima immagine nei page media via built-in Grav (esclude automaticamente audio/file) #}
 {% if not art_img %}
-  {% for filename, m in page.media %}
-    {% set ext = filename|split('.')|last|lower %}
-    {% if not art_img and ext in img_exts %}
-      {% set art_img = m.url %}
-    {% endif %}
-  {% endfor %}
+  {% set _imgs = page.media.images %}
+  {% if _imgs|length %}{% set art_img = _imgs|first.url %}{% endif %}
 {% endif %}
-{% if not art_img and page.header.featured_image is defined and page.header.featured_image and 'placeholder' not in page.header.featured_image %}
-  {% set art_img = page.header.featured_image %}
+{# 3. featured_image percorso assoluto legacy (solo URL pubblici, non /user/pages/) #}
+{% if not art_img and page.header.featured_image is defined and page.header.featured_image %}
+  {% set _fi = page.header.featured_image %}
+  {% if '/' in _fi and 'placeholder' not in _fi and '/user/pages/' not in _fi %}
+    {% set art_img = _fi %}
+  {% endif %}
 {% endif %}
 
 {% block schema %}
