@@ -99,18 +99,14 @@ form:
       type: text
       label: "Titolo per Google"
       placeholder: "Es: Human Design: guida ai 5 tipi energetici"
-      help: "Max 60 caratteri. Può differire dal titolo articolo."
-      validate:
-        max: 60
+      help: "Ideale 50-60 caratteri. Può differire dal titolo articolo."
 
     header.seo_desc:
       type: textarea
       label: "Descrizione per Google"
       placeholder: "Es: Scopri come il Human Design può aiutarti..."
-      help: "Max 155 caratteri. Appare nei risultati di ricerca."
+      help: "Ideale 150-160 caratteri. Appare nei risultati di ricerca."
       rows: 3
-      validate:
-        max: 160
 
     header.geo_location:
       type: text
