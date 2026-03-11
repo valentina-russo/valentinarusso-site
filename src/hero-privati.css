@@ -472,6 +472,14 @@
         justify-content: center;
     }
 
+    .hero-v2-privati .btn-secondary-v2 {
+        white-space: nowrap;
+    }
+
+    .hero-v2-privati .hero-v2 {
+        overflow-x: hidden;
+    }
+
     .hero-v2-privati .vertical-tag,
     .hero-v2-privati .dot-grid {
         display: none;

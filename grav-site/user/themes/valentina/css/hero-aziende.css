@@ -455,6 +455,14 @@
         margin: 0 auto 2.4rem;
     }
 
+    .hero-v2-aziende .btn-secondary-v2 {
+        white-space: nowrap;
+    }
+
+    .hero-v2-aziende .hero-v2 {
+        overflow-x: hidden;
+    }
+
     .hero-v2-aziende .dot-grid {
         display: none;
     }

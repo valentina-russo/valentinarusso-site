@@ -726,6 +726,9 @@ usort($articles, function ($a, $b) {
                         <button type="button" class="btn btn-ai" id="btn-generate-meta" onclick="generateMetadata()">
                             <i data-lucide="sparkles" style="width:15px;height:15px;"></i> Genera Metadati AI
                         </button>
+                        <button type="button" class="btn btn-ai" id="btn-bold-keywords" onclick="boldKeywords()" style="background: linear-gradient(135deg,#5a8a6e,#3d7a5a);">
+                            <i data-lucide="bold" style="width:15px;height:15px;"></i> Grassetto Keyword
+                        </button>
                         <button type="button" class="btn btn-primary" onclick="submitEditorForm()">Salva e Pubblica</button>
                     </div>
                 </div>
@@ -1068,6 +1071,40 @@ usort($articles, function ($a, $b) {
 
                 showToast('✨ Metadati generati con successo!', 'linear-gradient(135deg,#667eea,#764ba2)');
 
+            } catch (err) {
+                alert('Errore di rete: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
+                lucide.createIcons();
+            }
+        }
+
+        async function boldKeywords() {
+            var body = editorInstance ? editorInstance.value() : '';
+            if (body.trim().length < 50) {
+                alert('Scrivi prima il testo dell\'articolo prima di applicare il grassetto keyword.');
+                return;
+            }
+            var btn = document.getElementById('btn-bold-keywords');
+            var originalHTML = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i data-lucide="loader-2" style="width:15px;height:15px;"></i> Elaborazione...';
+            lucide.createIcons();
+            try {
+                var formData = new FormData();
+                formData.append('body', body);
+                formData.append('tags', document.getElementById('form-tags').value || '');
+                var response = await fetch('ai_bold.php', { method: 'POST', body: formData });
+                var data = await response.json();
+                if (data.error) {
+                    alert('Errore: ' + data.error);
+                    return;
+                }
+                if (data.body) {
+                    editorInstance.value(data.body);
+                    showToast('✅ Keyword in grassetto applicato!', 'linear-gradient(135deg,#5a8a6e,#3d7a5a)');
+                }
             } catch (err) {
                 alert('Errore di rete: ' + err.message);
             } finally {

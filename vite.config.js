@@ -60,6 +60,10 @@ export default defineConfig({
                 {
                     src: 'public/ai_meta.php',
                     dest: '.'
+                },
+                {
+                    src: 'public/ai_bold.php',
+                    dest: '.'
                 }
             ]
         })
