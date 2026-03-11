@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-192x192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Genera la tua Carta | Valentina Russo</title>
+    <link rel="stylesheet" href="/src/style.css">
+    <style>
+        body {
+            background: linear-gradient(160deg, #B68397 0%, #8A6FA8 45%, #3A5A8A 80%, #1E3A5F 100%) !important;
+            background-attachment: fixed !important;
+            min-height: 100vh;
+        }
+        body header {
+            background: rgba(255,255,255,0.12) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255,255,255,0.2) !important;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        body header .brand-name,
+        body header .brand-tagline,
+        body header #main-nav a {
+            color: #fff !important;
+        }
+        body header #main-nav a:hover {
+            color: rgba(255,255,255,0.7) !important;
+        }
+        body header .menu-toggle {
+            color: #fff !important;
+        }
+        body h1, body h2, body h3 {
+            color: #fff !important;
+        }
+        body h4 {
+            color: #FDE8B0 !important;
+        }
+        body p, body .text-small {
+            color: rgba(255,255,255,0.88);
+        }
+        body .serif.italic {
+            color: rgba(255,255,255,0.9) !important;
+        }
+        body .section-padding > .container > .text-center p {
+            color: rgba(255,255,255,0.88);
+        }
+        /* Cards su sfondo scuro */
+        body [style*="background: var(--white)"],
+        body [style*="background-color: var(--white)"],
+        body [style*="background-color: var(--soft-gray)"] {
+            background: rgba(255,255,255,0.15) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.25) !important;
+            color: rgba(255,255,255,0.9) !important;
+        }
+        /* Card video e istruzioni */
+        body [data-animate] > [style*="background"] {
+            color: rgba(255,255,255,0.88);
+        }
+        /* CTA finale */
+        body .section-padding[style*="background-color: var(--white)"] {
+            background: rgba(255,255,255,0.15) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.3) !important;
+        }
+        body footer {
+            background: rgba(255,255,255,0.08) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255,255,255,0.15) !important;
+        }
+        body footer a, body footer div {
+            color: rgba(255,255,255,0.75) !important;
+        }
+        body footer a:hover {
+            color: #fff !important;
+        }
+        /* Pulsante Scopri i Servizi — outline bianco */
+        body .btn-outline {
+            border-color: rgba(255,255,255,0.7) !important;
+            color: #fff !important;
+        }
+        body .btn-outline:hover {
+            background: rgba(255,255,255,0.15) !important;
+            color: #fff !important;
+        }
+    </style>
+</head>
+
+<body>
+    
+    
+    
+    <header style="position: relative; z-index: 1000;">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    
+    <img src="/assets/logo.png" alt="Valentina Russo Logo" class="brand-logo">
+    <div class="brand-text">
+        <span class="brand-name">VALENTINA RUSSO</span>
+        <span class="brand-tagline">Consulente BG5</span>
+    </div>
+                </a>
+            </div>
+            <button class="menu-toggle" aria-label="Menu">☰</button>
+            <nav id="main-nav">
+                
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="servizi.html">Servizi</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="chi-sono.html">Chi Sono</a></li>
+                    <li><a href="contatti.html">Contatti</a></li>
+                    <li><a href="aziende.html" class="btn" style="background-color: var(--corp-primary); color: white; padding: 0.4rem 1rem; font-size: 0.85rem; border-radius: 4px;">Percorso Aziende</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section-padding">
+            <div class="container">
+                <div class="text-center" style="max-width: 800px; margin: 0 auto;" data-animate>
+                    <h1 style="margin-bottom: var(--space-md);">Genera la tua Carta</h1>
+                    <p class="serif italic" style="font-size: 1.25rem; margin-bottom: var(--space-lg);">Il primo passo
+                        verso la consapevolezza del tuo disegno unico.</p>
+                </div>
+
+                <!-- Video Section -->
+                <div style="max-width: 900px; margin: 0 auto var(--space-xl); background: var(--white); padding: 2rem; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.05);"
+                    data-animate>
+                    <div
+                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 15px;">
+                        <iframe src="https://www.youtube.com/embed/FRZUXjTsYzU"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <h3 class="serif">Guarda la video guida di Valentina</h3>
+                        <p style="margin-top: 1rem;">In questo video ti spiego passo dopo passo come inserire i tuoi
+                            dati e come leggere le prime informazioni della tua carta.</p>
+                    </div>
+                </div>
+
+                <!-- Instructions Section -->
+                <div class="footer-grid" style="align-items: flex-start; margin-bottom: var(--space-xl);">
+                    <div data-animate>
+                        <h2 class="serif">Come procedere correttamente</h2>
+                        <p style="margin: 1.5rem 0; line-height: 1.6;">Per ottenere un Bodygraph accurato, &egrave;
+                            fondamentale inserire dati precisi. Il sistema di Human Design incrocia la posizione dei
+                            pianeti al momento della tua nascita con quella di circa 88 giorni prima.</p>
+
+                        <div style="margin-bottom: 2rem;">
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 class="serif" style="color: var(--primary-color);">1. Data di Nascita</h4>
+                                <p class="text-small">Inserisci giorno, mese e anno completi.</p>
+                            </div>
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 class="serif" style="color: var(--primary-color);">2. Ora Esatta</h4>
+                                <p class="text-small">L'ora &egrave; cruciale: anche pochi minuti di differenza possono
+                                    cambiare alcuni aspetti della tua carta (come la Luna o le Linee). Se non la
+                                    conosci, cercala sull'estratto di nascita integrale.</p>
+                            </div>
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 class="serif" style="color: var(--primary-color);">3. Luogo di Nascita</h4>
+                                <p class="text-small">Inserisci la citt&agrave; dove sei natÉ™. Il software calcoler&agrave;
+                                    automaticamente il fuso orario e le coordinate geografiche necessarie.</p>
+                            </div>
+                        </div>
+
+                        <a href="https://jovianarchive.com/pages/get-your-human-design-chart" target="_blank"
+                            class="btn btn-primary">Genera Gratuitamente su Jovian Archive</a>
+                    </div>
+                    <div style="background-color: var(--soft-gray); padding: 3rem; border-radius: 20px; text-align: center;"
+                        data-animate>
+                        <img src="/assets/bodygraph.png" alt="Esempio Bodygraph"
+                            style="max-height: 350px; margin: 0 auto;">
+                        <p class="text-small italic" style="margin-top: 1.5rem; color: var(--text-color);">La tua carta
+                            &egrave; il "libretto delle istruzioni" del tuo veicolo energetico.</p>
+                    </div>
+                </div>
+
+                <!-- Next Steps CTA -->
+                <div class="section-padding text-center"
+                    style="background-color: var(--white); border-radius: 50px; border: 1px solid var(--soft-gray);"
+                    data-animate>
+                    <h2 class="serif">Hai gi&agrave; la tua carta?</h2>
+                    <p style="margin: 1.5rem 0 var(--space-md);">Una volta ottenuta la mappa, il passo successivo &egrave;
+                        decodificarla. Senza una lettura professionale, rimangono solo colori e numeri.</p>
+                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                        <a href="servizi.html" class="btn btn-outline">Scopri i Servizi</a>
+                        <a href="contatti.html" class="btn btn-primary">Prenota una Lettura</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+        <footer style="padding: 1.5rem 0 1rem 0; margin-top: 2rem; border-top: 1px solid #dcd7d3; background-color: #fff;">
+    <div class="container" style="display: flex; flex-direction: column; align-items: center; gap: 0.8rem; text-align: center;">
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; font-size: 0.85rem; font-weight: 600;">
+        <a href="index.html">Home</a>
+        <a href="chi-sono.html">Chi Sono</a>
+        <a href="servizi.html">Servizi</a>
+        <a href="blog.html">Blog</a>
+        <a href="contatti.html">Contatti</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Termini</a>
+        <a href="https://www.instagram.com/valentinarussobg5/" target="_blank">Instagram</a>
+      </div>
+      <div style="font-size: 0.75rem; color: #666;">
+        &copy; 2026 Valentina Russo &mdash; Consulente BG5 | Human Design Analyst. Tutti i diritti riservati.
+      </div>
+    </div>
+  </footer>
+    <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
+
+
