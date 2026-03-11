@@ -1,0 +1,3 @@
+# PROTEZIONE: Non aggiungere qui solo tipi audio - blocca il caricamento di PNG/JPG.
+# Lascia vuoto per usare i tipi predefiniti di Grav (include png, jpg, webp, gif, ecc).
+# Se aggiungi tipi custom, includi SEMPRE anche i tipi immagine.

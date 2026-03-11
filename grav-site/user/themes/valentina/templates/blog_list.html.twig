@@ -20,6 +20,12 @@
         <div class="blog-grid" id="blog-grid">
             {% for article in collection %}
             <article class="blog-card" data-category="{{ page.header.category ?? 'privati' }}">
+                {# ══════════════════════════════════════════════════════════════════════════════
+                   GUARD — Logica immagine card blog. NON modificare senza leggere.
+                   ⚠️  REGOLA: NON usare "grav.base_url_absolute ~" davanti ai path immagine.
+                       Restituisce stringa vuota → src="" → immagine rotta su TUTTI gli articoli.
+                   Priorità: 0.pages/ media → 1.filename → 2.page.media|first → 3.path assoluto
+                ══════════════════════════════════════════════════════════════════════════════ #}
                 {% set card_img = '' %}
                 {# 0. featured_image con path /user/pages/ → estrai filename e cerca nei media #}
                 {% if article.header.featured_image is defined and article.header.featured_image and '/user/pages/' in article.header.featured_image %}

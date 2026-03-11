@@ -505,12 +505,53 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       .catch(function(err){ overlayHide(); alert('Errore di rete: ' + err); });
   }
 
+  /* ── AUTO-POPULATE "Nome file immagine" dopo upload ── */
+  function initMediaAutoFill() {
+    var isArticlePage = !!window.location.href.match(
+      /\/admin\/pages\/(blog\/articoli|aziende\/blog)\/.+/
+    );
+    if (!isArticlePage) return;
+
+    var mo = new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType !== 1) return;
+          var imgs = (node.tagName === 'IMG') ? [node]
+            : (node.querySelectorAll ? Array.from(node.querySelectorAll('img')) : []);
+          imgs.forEach(function(img) {
+            var alt = img.getAttribute('alt') || '';
+            // Solo filename semplici con estensione immagine (niente path /foo/bar)
+            if (!alt || alt.indexOf('/') !== -1 || !/\\.(png|jpg|jpeg|webp|gif)$/i.test(alt)) return;
+            var field = document.querySelector(
+              'input[name="data[header][featured_image]"], input[name="data[featured_image]"]'
+            );
+            if (!field) return;
+            setField(field.name, alt);
+            field.style.transition = 'box-shadow .3s';
+            field.style.boxShadow = '0 0 0 3px #27ae60';
+            setTimeout(function(){ field.style.boxShadow = ''; }, 2000);
+          });
+        });
+      });
+    });
+
+    setTimeout(function(){
+      var container = document.querySelector('form#blueprints')
+        || document.querySelector('main form')
+        || document.body;
+      mo.observe(container, { childList: true, subtree: true });
+    }, 800);
+  }
+
   /* ── DOM READY ───────────────────────── */
   document.addEventListener('DOMContentLoaded', function(){
     var overlay = document.createElement('div');
     overlay.id = 'vb-rewrite-overlay';
     overlay.innerHTML = '<div class="vb-spinner"></div><p>Elaborazione in corso...</p>';
     document.body.appendChild(overlay);
+
+    /* 0. Auto-populate campo "Nome file immagine" */
+    initMediaAutoFill();
 
     /* 1. Pulsanti globali nel titlebar */
     var bar = document.querySelector('#titlebar .button-bar');
