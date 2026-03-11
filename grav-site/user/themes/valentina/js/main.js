@@ -57,4 +57,42 @@ document.addEventListener('DOMContentLoaded', () => {
       link.classList.add('active');
     }
   });
+
+  // Analytics: Conversion Tracking (Plausible + GA4)
+  // Track CTA clicks: Contattami, Prenota, Genera Carta
+  const trackConversion = (eventName, url) => {
+    // Plausible
+    if (window.plausible) {
+      window.plausible(eventName);
+    }
+    // GA4
+    if (window.gtag) {
+      gtag('event', eventName, {
+        'page_path': url || window.location.pathname
+      });
+    }
+  };
+
+  // Track contact/booking clicks
+  document.querySelectorAll('a[href*="/contatti"], a[href*="/aziende/contatti"]').forEach(link => {
+    link.addEventListener('click', () => {
+      trackConversion('Contatta_Valentina', link.href);
+    });
+  });
+
+  // Track genera-carta clicks
+  document.querySelectorAll('a[href*="/genera-carta"]').forEach(link => {
+    link.addEventListener('click', () => {
+      trackConversion('Genera_Carta', link.href);
+    });
+  });
+
+  // Track booking/reading requests
+  document.querySelectorAll('a[href*="/servizi"], button:contains("Prenota")').forEach(link => {
+    if (link.textContent.includes('Prenota') || link.textContent.includes('Lettura') || link.href.includes('/servizi')) {
+      link.addEventListener('click', () => {
+        trackConversion('Servizi_Click', link.href);
+      });
+    }
+  });
 });
