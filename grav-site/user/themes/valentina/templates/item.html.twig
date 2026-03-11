@@ -18,13 +18,15 @@
   "publisher": {
     "@type": "Organization",
     "name": "Valentina Russo",
-    "url": "{{ grav.base_url_absolute }}"
-  }{% if page.header.featured_image is defined and page.header.featured_image %},
-  {% if '/' in page.header.featured_image %}
-  "image": "{{ grav.base_url_absolute }}{{ page.header.featured_image }}"
-  {% else %}
-  "image": "{{ page.media[page.header.featured_image].url ?? '' }}"
-  {% endif %}{% endif %}
+    "url": "{{ grav.base_url_absolute }}",
+    "sameAs": ["https://www.instagram.com/valentinarussobg5/"]
+  },
+  "url": "{{ page.url(true) }}",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".blog-article-body", "h1"]
+  }{% set art_img = '' %}{% if page.header.featured_image is defined and page.header.featured_image %}{% if '/' not in page.header.featured_image %}{% set art_img = page.media[page.header.featured_image].url ?? '' %}{% else %}{% set art_img = grav.base_url_absolute ~ page.header.featured_image %}{% endif %}{% endif %}{% if not art_img and page.media|length %}{% set art_img = page.media|first.url ?? '' %}{% endif %}{% if art_img %},
+  "image": "{{ art_img }}"{% endif %}
 }
 </script>
 
@@ -49,6 +51,35 @@
 }
 </script>
 {% endif %}
+
+{# BreadcrumbList LD+JSON #}
+{% set is_corp = '/aziende/' in page.route %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ grav.base_url_absolute }}{{ is_corp ? '/aziende' : '' }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "{{ grav.base_url_absolute }}{{ is_corp ? '/aziende/blog' : '/blog' }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": {{ page.title|json_encode|raw }},
+      "item": "{{ page.url(true) }}"
+    }
+  ]
+}
+</script>
 {% endblock %}
 
 {% block content %}

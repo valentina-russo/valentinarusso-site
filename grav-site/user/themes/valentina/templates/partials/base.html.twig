@@ -6,6 +6,7 @@
 
     <title>{% block title %}{{ page.header.seo_title ?? page.title }} | Valentina Russo{% endblock %}</title>
     <meta name="description" content="{{ page.header.seo_desc ?? page.header.description ?? 'Consulente BG5® e Human Design per carriera, relazioni e amor proprio.' }}">
+    <link rel="canonical" href="{{ page.url(true) }}">
 
     {# Favicons #}
     <link rel="icon" type="image/png" href="{{ grav.base_url }}/user/pages/assets/favicon-32x32.png" sizes="32x32">
@@ -39,6 +40,10 @@
     <meta property="og:image" content="{{ og_image }}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="{{ og_image }}">
+    <meta name="twitter:title" content="{{ page.header.seo_title ?? page.title }}">
+    <meta name="twitter:description" content="{{ page.header.seo_desc ?? page.header.description ?? '' }}">
+    <meta name="twitter:creator" content="@valentinarussobg5">
+    <meta name="twitter:site" content="@valentinarussobg5">
 
     {# CSS #}
     <link rel="stylesheet" href="{{ theme_url }}/css/style.css?v=20260308c">
@@ -55,6 +60,21 @@
     }
     </script>
     {% endblock %}
+
+    {# Organization schema — presente su tutte le pagine #}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Valentina Russo",
+      "url": "{{ grav.base_url_absolute }}",
+      "jobTitle": "Consulente BG5® e Human Design",
+      "description": "Consulente BG5® e Human Design per carriera, relazioni e amor proprio.",
+      "sameAs": [
+        "https://www.instagram.com/valentinarussobg5/"
+      ]
+    }
+    </script>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-GHR1HCYPY4"></script>

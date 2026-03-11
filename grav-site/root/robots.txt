@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /cache-clear.php
+Disallow: /ai-editor.php
+Disallow: /ai-rewrite.php
+Disallow: /vb-move.php
+Disallow: /vb-rename.php
+
+Sitemap: https://valentinarussobg5.com/sitemap.xml
