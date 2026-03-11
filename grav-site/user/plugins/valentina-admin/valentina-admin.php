@@ -585,7 +585,7 @@ body.grav-admin-page{ padding-bottom:58px!important; }
     }
 
     function findFaqAddBtn(){
-      // Prova 1: partendo da un input già esistente
+      // Prova 1: partendo da un input già esistente, risali al container del list
       var anyInput = document.querySelector('input[name*="[faq]["],textarea[name*="[faq]["]');
       if(anyInput){
         var wrap = anyInput;
@@ -595,15 +595,12 @@ body.grav-admin-page{ padding-bottom:58px!important; }
           wrap = wrap.parentElement;
         }
       }
-      // Prova 2: cerca label FAQ e pulsante vicino
-      var labels = document.querySelectorAll('.form-label,.form-data label');
-      for(var i=0;i<labels.length;i++){
-        if(labels[i].textContent.toLowerCase().indexOf('faq')!==-1){
-          var container = labels[i].closest('.form-field,.form-wrapper') || labels[i].parentElement;
-          if(container){
-            var btn = container.querySelector('[data-list-add],button[type="button"],a.button');
-            if(btn) return btn;
-          }
+      // Prova 2: cerca il pulsante per testo ("+ Aggiungi domanda" in Grav)
+      var allBtns = document.querySelectorAll('button');
+      for(var i=0;i<allBtns.length;i++){
+        var t = allBtns[i].textContent.toLowerCase();
+        if(t.indexOf('aggiungi domanda')!==-1 || t.indexOf('aggiungi faq')!==-1 || t.indexOf('add item')!==-1){
+          return allBtns[i];
         }
       }
       return null;
