@@ -323,6 +323,9 @@ body.grav-admin-page{ padding-bottom:58px!important; }
     if(o) o.classList.remove('show');
   }
 
+  /* ── HELPER: tronca stringa a lunghezza massima ─ */
+  function trunc(s, max){ return (s && s.length > max) ? s.substring(0, max) : s; }
+
   /* ── HELPER: escape HTML ─────────────── */
   function escHtml(s){
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
@@ -459,9 +462,9 @@ body.grav-admin-page{ padding-bottom:58px!important; }
         if(!cms.front && data.data){
           var d = data.data;
           var scalars = {
-            'description': d.description,
-            'seo_title':   d.seo_title,
-            'seo_desc':    d.seo_desc,
+            'description':  d.description,
+            'seo_title':    trunc(d.seo_title, 60),
+            'seo_desc':     trunc(d.seo_desc, 160),
             'aeo_answer':   d.aeo_answer,
             'geo_content':  d.geo_content,
             'image_alt':    d.image_alt,
@@ -539,8 +542,8 @@ body.grav-admin-page{ padding-bottom:58px!important; }
           var d = data.data;
           var scalars = {
             'description':  d.description,
-            'seo_title':    d.seo_title,
-            'seo_desc':     d.seo_desc,
+            'seo_title':    trunc(d.seo_title, 60),
+            'seo_desc':     trunc(d.seo_desc, 160),
             'aeo_answer':   d.aeo_answer,
             'geo_content':  d.geo_content,
             'image_alt':    d.image_alt,
