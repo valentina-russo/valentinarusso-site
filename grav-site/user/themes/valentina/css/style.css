@@ -309,7 +309,7 @@ article img { max-width: 100%; height: auto !important; object-fit: contain; bor
 @media (max-width: 768px) { .area-individuale, .area-aziendale { padding: var(--grid-xxl) 0 !important; } }
 
 .featured-image { width: 100%; height: 450px; object-fit: cover; border-radius: 30px; margin-bottom: 3rem; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.2); }
-@media (max-width: 768px) { .featured-image { height: 250px; border-radius: 20px; } }
+@media (max-width: 768px) { .featured-image { height: 220px; border-radius: 16px; margin-bottom: 1.25rem; } }
 
 footer { padding: var(--space-md) 0; margin-top: var(--space-lg); border-top: 1px solid var(--soft-gray); }
 .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-lg); }
