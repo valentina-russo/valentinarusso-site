@@ -218,14 +218,19 @@ header .logo a {
 }
 
 .brand-name {
-  font-size: 1.2rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
   font-weight: 600;
   text-transform: uppercase;
+  color: #1a1a1a;
 }
 
 .brand-tagline {
-  font-size: 0.85rem;
-  opacity: 0.8;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 400;
+  color: #7a5c6e;
+  letter-spacing: 0.08em;
 }
 
 .brand-tagline::before {
