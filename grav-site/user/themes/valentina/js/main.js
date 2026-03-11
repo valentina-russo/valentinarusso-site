@@ -58,14 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Analytics: Conversion Tracking (Plausible + GA4)
+  // Analytics: Conversion Tracking (GA4)
   // Track CTA clicks: Contattami, Prenota, Genera Carta
   const trackConversion = (eventName, url) => {
-    // Plausible
-    if (window.plausible) {
-      window.plausible(eventName);
-    }
-    // GA4
     if (window.gtag) {
       gtag('event', eventName, {
         'page_path': url || window.location.pathname
