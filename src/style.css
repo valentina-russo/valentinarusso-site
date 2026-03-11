@@ -68,6 +68,8 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
 }
 
 body {
@@ -84,6 +86,7 @@ body {
   line-height: 1.5;
   /* Standard Material Design readability */
   overflow-x: hidden;
+  overscroll-behavior-x: none;
   -webkit-font-smoothing: antialiased;
 }
 

@@ -48,7 +48,7 @@
   padding: 0;
 }
 
-html { font-size: 16px; scroll-behavior: smooth; overflow-x: hidden; }
+html { font-size: 16px; scroll-behavior: smooth; overflow-x: hidden; overscroll-behavior-x: none; }
 @media (max-width: 768px) { body { background-attachment: scroll; } }
 
 body {
@@ -64,6 +64,7 @@ body {
   font-family: var(--font-body);
   line-height: 1.65;
   overflow-x: hidden;
+  overscroll-behavior-x: none;
   -webkit-font-smoothing: antialiased;
 }
 
