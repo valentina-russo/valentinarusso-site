@@ -28,7 +28,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0;
     }
 
     /* ── PROFILO ─────────────────────────── */
@@ -46,7 +45,7 @@
       border-radius: 50%;
       padding: 3px;
       background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.5) 100%);
-      box-shadow: 0 4px 20px rgba(80, 30, 50, 0.25);
+      box-shadow: 0 4px 20px rgba(80,30,50,0.25);
     }
 
     .avatar-wrap img {
@@ -84,25 +83,58 @@
       gap: 10px;
     }
 
+    /* ── STEP LABEL ─────────────────────── */
+    .step-tag {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: -2px;
+    }
+
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.42);
+      border-radius: 20px;
+      padding: 4px 13px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
     .section-label {
       font-family: 'Playfair Display', serif;
       font-size: 0.78rem;
       font-weight: 400;
       font-style: italic;
-      color: rgba(255,255,255,0.65);
+      color: rgba(255,255,255,0.6);
       text-align: center;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      margin-top: 4px;
-      margin-bottom: 2px;
+      margin-top: 6px;
     }
 
+    /* ── STEP ARROW ─────────────────────── */
+    .step-arrow {
+      text-align: center;
+      color: rgba(255,255,255,0.35);
+      font-size: 1.1rem;
+      line-height: 1;
+      margin: 2px 0;
+      user-select: none;
+    }
+
+    /* ── BUTTONS BASE ───────────────────── */
     .link-btn {
       display: flex;
       align-items: center;
-      justify-content: center;
       width: 100%;
-      padding: 15px 24px;
+      padding: 15px 22px;
       background: rgba(255,255,255,0.92);
       border-radius: 100px;
       text-decoration: none;
@@ -112,8 +144,7 @@
       letter-spacing: 0.01em;
       transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
       box-shadow: 0 2px 12px rgba(80,30,50,0.15);
-      gap: 10px;
-      position: relative;
+      gap: 12px;
     }
 
     .link-btn:hover {
@@ -122,13 +153,11 @@
       box-shadow: 0 6px 24px rgba(80,30,50,0.22);
     }
 
-    .link-btn:active {
-      transform: scale(0.985);
-    }
+    .link-btn:active { transform: scale(0.985); }
 
     .link-btn .icon {
-      width: 22px;
-      height: 22px;
+      width: 26px;
+      height: 26px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -137,37 +166,113 @@
       line-height: 1;
     }
 
-    .link-btn .label {
-      flex: 1;
-      text-align: center;
-    }
+    .link-btn .btn-label { flex: 1; text-align: center; }
 
-    /* Pulsante primario (percorsi) */
-    .link-btn.primary {
-      background: rgba(255,255,255,0.95);
-      color: #7A4C5F;
-    }
-    .link-btn.primary:hover {
+    /* ── HERO BUTTON (Lettura Individuale) ─ */
+    .link-btn.hero {
       background: #fff;
-      color: #9E6D80;
+      padding: 18px 22px;
+      box-shadow: 0 4px 28px rgba(80,30,50,0.28), 0 0 0 2px rgba(255,255,255,0.55);
+      border-radius: 18px;
+      align-items: flex-start;
+      gap: 14px;
     }
 
-    /* Pulsante whatsapp */
+    .link-btn.hero:hover {
+      box-shadow: 0 8px 36px rgba(80,30,50,0.32), 0 0 0 3px rgba(255,255,255,0.75);
+      transform: scale(1.025);
+    }
+
+    .link-btn.hero .icon {
+      width: 36px;
+      height: 36px;
+      font-size: 1.4rem;
+      margin-top: 2px;
+    }
+
+    .hero-text { flex: 1; }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #7A4C5F;
+      display: block;
+      line-height: 1.25;
+    }
+
+    .hero-sub {
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: rgba(80,40,60,0.6);
+      display: block;
+      margin-top: 3px;
+      font-style: italic;
+    }
+
+    /* ── PERCORSI ───────────────────────── */
+    .link-btn.primary { color: #7A4C5F; }
+    .link-btn.primary:hover { color: #9E6D80; }
+
+    /* ── WHATSAPP ───────────────────────── */
     .link-btn.whatsapp {
-      background: rgba(37,211,102,0.12);
-      border: 1.5px solid rgba(37,211,102,0.4);
+      background: rgba(37,211,102,0.13);
+      border: 1.5px solid rgba(37,211,102,0.45);
       color: #fff;
-    }
-    .link-btn.whatsapp:hover {
-      background: rgba(37,211,102,0.22);
+      align-items: center;
+      justify-content: center;
     }
 
-    /* Social buttons row */
+    .link-btn.whatsapp:hover { background: rgba(37,211,102,0.22); }
+
+    .link-btn.whatsapp .icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .link-btn.whatsapp .icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* ── CONTACTS BLOCK ─────────────────── */
+    .contacts-block {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 32px; /* stacca visivamente dai percorsi */
+    }
+
+    .contacts-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 2px;
+    }
+
+    .contacts-divider::before,
+    .contacts-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.25);
+    }
+
+    .contacts-divider span {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      white-space: nowrap;
+    }
+
+    /* ── SOCIAL ROW ─────────────────────── */
     .social-row {
       display: flex;
       gap: 10px;
       width: 100%;
-      margin-top: 2px;
     }
 
     .social-btn {
@@ -177,8 +282,8 @@
       justify-content: center;
       gap: 6px;
       padding: 13px 10px;
-      background: rgba(255,255,255,0.15);
-      border: 1.5px solid rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.14);
+      border: 1.5px solid rgba(255,255,255,0.32);
       border-radius: 100px;
       text-decoration: none;
       color: #fff;
@@ -189,21 +294,14 @@
     }
 
     .social-btn:hover {
-      background: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.24);
       transform: scale(1.03);
     }
 
     .social-btn svg {
-      width: 18px;
-      height: 18px;
+      width: 17px;
+      height: 17px;
       flex-shrink: 0;
-    }
-
-    .divider {
-      width: 40px;
-      height: 1px;
-      background: rgba(255,255,255,0.3);
-      margin: 8px auto 4px;
     }
 
     /* ── FOOTER ─────────────────────────── */
@@ -214,20 +312,18 @@
 
     .footer a {
       font-size: 0.78rem;
-      color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.45);
       text-decoration: none;
       font-weight: 400;
       letter-spacing: 0.03em;
     }
 
-    .footer a:hover {
-      color: rgba(255,255,255,0.8);
-    }
+    .footer a:hover { color: rgba(255,255,255,0.75); }
 
     .footer-logo {
       font-family: 'Playfair Display', serif;
-      font-size: 0.82rem;
-      color: rgba(255,255,255,0.45);
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.35);
       margin-top: 6px;
       letter-spacing: 0.05em;
     }
@@ -248,24 +344,45 @@
     <!-- LINKS -->
     <div class="links-section">
 
-      <div class="section-label">Percorsi</div>
+      <!-- ── STEP 1: LETTURA INDIVIDUALE ── -->
+      <div class="step-tag">
+        <span class="step-badge">✦ Inizia da qui — Step 1</span>
+      </div>
+
+      <a class="link-btn hero" href="https://valentinarussobg5.com/servizi">
+        <span class="icon">🔮</span>
+        <span class="hero-text">
+          <span class="hero-title">Lettura Individuale BG5</span>
+          <span class="hero-sub">Il primo passo obbligatorio — scopri il tuo disegno</span>
+        </span>
+      </a>
+
+      <div class="step-arrow">↓</div>
+
+      <!-- ── STEP 2: PERCORSI ── -->
+      <div class="section-label">Poi scegli il tuo percorso</div>
 
       <a class="link-btn primary" href="https://valentinarussobg5.com/carriera-aziende">
         <span class="icon">💼</span>
-        <span class="label">Percorso Carriera con BG5</span>
+        <span class="btn-label">Percorso Carriera con BG5</span>
       </a>
 
       <a class="link-btn primary" href="https://valentinarussobg5.com/relazioni-coppie">
         <span class="icon">💕</span>
-        <span class="label">Percorso di Coppia con BG5</span>
+        <span class="btn-label">Percorso di Coppia con BG5</span>
       </a>
 
       <a class="link-btn primary" href="https://valentinarussobg5.com/amor-proprio-e-ombre">
         <span class="icon">🌟</span>
-        <span class="label">Percorso Individuale — le tue ombre</span>
+        <span class="btn-label">Percorso Individuale — le tue ombre</span>
       </a>
 
-      <div class="divider"></div>
+    </div><!-- /links-section -->
+
+    <!-- ── CONTATTI ── (staccato visivamente) -->
+    <div class="contacts-block">
+
+      <div class="contacts-divider"><span>Contatti</span></div>
 
       <a class="link-btn whatsapp" href="https://wa.me/393791037653" target="_blank" rel="noopener">
         <span class="icon">
@@ -273,7 +390,7 @@
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
           </svg>
         </span>
-        <span class="label">Contattami su WhatsApp</span>
+        <span class="btn-label">Contattami su WhatsApp</span>
       </a>
 
       <div class="social-row">
@@ -291,7 +408,7 @@
         </a>
       </div>
 
-    </div><!-- /links-section -->
+    </div><!-- /contacts-block -->
 
     <div class="footer">
       <a href="https://valentinarussobg5.com">valentinarussobg5.com</a>
