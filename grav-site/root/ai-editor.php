@@ -9,7 +9,7 @@ session_start();
 /* ── CONFIG ──────────────────────────────────────────────── */
 define('ADMIN_PASS',     'ValeAdmin2026');
 define('CONFIG_FILE',    __DIR__ . '/ai-editor.config.php');
-define('DIR_PRIVATI',    __DIR__ . '/user/pages/04.blog/');
+define('DIR_PRIVATI',    __DIR__ . '/user/pages/04.blog/articoli/');
 define('DIR_AZIENDE',    __DIR__ . '/user/pages/05.aziende/02.blog/');
 define('CLAUDE_MODEL',   'claude-opus-4-6');
 define('CLAUDE_URL',     'https://api.anthropic.com/v1/messages');
@@ -242,7 +242,7 @@ if ($authed && isset($_POST['save_article']) && isset($_POST['article_json'])) {
         if (file_put_contents($folder . '/item.md', $md) !== false) {
             $adminPath = $category === 'aziende'
                 ? "/admin/pages/aziende/blog/{$slug}"
-                : "/admin/pages/blog/{$slug}";
+                : "/admin/pages/blog/articoli/{$slug}";
             $genOk = $adminPath;
         } else {
             $genErr = 'Errore scrittura file. Controlla i permessi della cartella ' . $folder;
