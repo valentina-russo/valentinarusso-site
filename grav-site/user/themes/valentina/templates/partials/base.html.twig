@@ -47,6 +47,7 @@
 
     {# CSS #}
     <link rel="stylesheet" href="{{ theme_url }}/css/style.css?v=20260308c">
+    {% block extra_css %}{% endblock %}
 
     {# LD+JSON Website #}
     {% block schema %}
@@ -87,7 +88,13 @@
 </head>
 
 {% set is_corporate_page = ('/aziende/' in page.route) or (page.header.corporate is defined and page.header.corporate) %}
-<body{% if is_corporate_page %} class="corporate"{% endif %}>
+{% set is_home = page.template == 'home' %}
+{% set is_aziende_home = page.template == 'aziende_home' %}
+{% set body_classes = [] %}
+{% if is_corporate_page %}{% set body_classes = body_classes|merge(['corporate']) %}{% endif %}
+{% if is_home %}{% set body_classes = body_classes|merge(['hero-v2-privati']) %}{% endif %}
+{% if is_aziende_home %}{% set body_classes = body_classes|merge(['hero-v2-aziende']) %}{% endif %}
+<body{% if body_classes %} class="{{ body_classes|join(' ') }}"{% endif %}>
 
     {% include 'partials/header.html.twig' %}
 
