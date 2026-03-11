@@ -477,14 +477,9 @@ body.grav-admin-page{ padding-bottom:58px!important; }
               setField('data[' + k + ']', scalars[k]);
             }
           });
-          // FAQ: aggiorna voci lista
+          // FAQ: popola lista
           if(d.faq && d.faq.length){
-            d.faq.forEach(function(item, i){
-              var qSet = setField('data[header][faq][' + i + '][question]', item.question || '');
-              if(!qSet) setField('data[faq][' + i + '][question]', item.question || '');
-              var aSet = setField('data[header][faq][' + i + '][answer]', item.answer || '');
-              if(!aSet) setField('data[faq][' + i + '][answer]', item.answer || '');
-            });
+            applyFaqNormalMode(d.faq, null);
           }
         }
 
@@ -561,12 +556,7 @@ body.grav-admin-page{ padding-bottom:58px!important; }
             }
           });
           if(d.faq && d.faq.length){
-            d.faq.forEach(function(item, i){
-              var qSet = setField('data[header][faq][' + i + '][question]', item.question || '');
-              if(!qSet) setField('data[faq][' + i + '][question]', item.question || '');
-              var aSet = setField('data[header][faq][' + i + '][answer]', item.answer || '');
-              if(!aSet) setField('data[faq][' + i + '][answer]', item.answer || '');
-            });
+            applyFaqNormalMode(d.faq, null);
           }
         }
 
@@ -581,6 +571,61 @@ body.grav-admin-page{ padding-bottom:58px!important; }
         alert('Metadati generati! Controlla i campi e premi PUBBLICA o Salva Bozza.');
       })
       .catch(function(err){ overlayHide(); alert('Errore di rete: ' + err); });
+  }
+
+  /* ── FAQ: popola lista in Normal Mode ───────────────── */
+  function applyFaqNormalMode(faqs, done){
+    function countFaqRows(){
+      var seen = {};
+      document.querySelectorAll('input[name*="[faq]["],textarea[name*="[faq]["]').forEach(function(el){
+        var m = el.name.match(/\[faq\]\[(\d+)\]/);
+        if(m) seen[m[1]] = true;
+      });
+      return Object.keys(seen).length;
+    }
+
+    function findFaqAddBtn(){
+      // Prova 1: partendo da un input già esistente
+      var anyInput = document.querySelector('input[name*="[faq]["],textarea[name*="[faq]["]');
+      if(anyInput){
+        var wrap = anyInput;
+        while(wrap && wrap !== document.body){
+          var btn = wrap.querySelector('[data-list-add],[data-grav-list-add],.list-add-button,a.button--green,button.button--small');
+          if(btn) return btn;
+          wrap = wrap.parentElement;
+        }
+      }
+      // Prova 2: cerca label FAQ e pulsante vicino
+      var labels = document.querySelectorAll('.form-label,.form-data label');
+      for(var i=0;i<labels.length;i++){
+        if(labels[i].textContent.toLowerCase().indexOf('faq')!==-1){
+          var container = labels[i].closest('.form-field,.form-wrapper') || labels[i].parentElement;
+          if(container){
+            var btn = container.querySelector('[data-list-add],button[type="button"],a.button');
+            if(btn) return btn;
+          }
+        }
+      }
+      return null;
+    }
+
+    var needed  = faqs.length;
+    var toAdd   = Math.max(0, needed - countFaqRows());
+
+    function addAndFill(){
+      if(toAdd > 0){
+        var btn = findFaqAddBtn();
+        if(btn){ btn.click(); toAdd--; setTimeout(addAndFill, 200); return; }
+      }
+      faqs.forEach(function(item,i){
+        var qSet = setField('data[header][faq]['+i+'][question]', item.question||'');
+        if(!qSet) setField('data[faq]['+i+'][question]', item.question||'');
+        var aSet = setField('data[header][faq]['+i+'][answer]', item.answer||'');
+        if(!aSet) setField('data[faq]['+i+'][answer]', item.answer||'');
+      });
+      if(done) done();
+    }
+    addAndFill();
   }
 
   /* ── AUTO-POPULATE "Nome file immagine" dopo upload ── */
