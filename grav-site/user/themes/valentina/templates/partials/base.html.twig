@@ -62,17 +62,86 @@
     </script>
     {% endblock %}
 
-    {# Organization schema — presente su tutte le pagine #}
+    {# Person schema — ESPANSO per GEO/SEO #}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Valentina Russo",
+      "givenName": "Valentina",
+      "familyName": "Russo",
       "url": "{{ grav.base_url_absolute }}",
-      "jobTitle": "Consulente BG5® e Human Design",
+      "image": "{{ grav.base_url_absolute }}/user/pages/assets/valentina.png",
       "description": "Consulente BG5® e Human Design per carriera, relazioni e amor proprio.",
+      "jobTitle": ["BG5® Consultant", "Human Design Analyst", "Career & Business Professional"],
+      "knowsAbout": ["BG5 System", "Human Design", "Career Consulting", "Business Strategy", "Personal Development"],
+      "qualifications": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "BG5® Business Institute Certified",
+          "credentialCategory": "Professional Certification",
+          "url": "https://www.humandesignbusiness.com/",
+          "credentialHasExpire": false
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Human Design Analyst",
+          "credentialCategory": "Professional Certification"
+        }
+      ],
       "sameAs": [
         "https://www.instagram.com/valentinarussobg5/"
+      ],
+      "website": "{{ grav.base_url_absolute }}"
+    }
+    </script>
+
+    {# FAQPage Schema — Domande frequenti per IA #}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Che cosa è il BG5®?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "BG5® è un sistema applicato al Human Design che decodifica il tuo codice genetico per il lavoro, la carriera e le dinamiche di business. Ti fornisce i dati meccanici per operare in allineamento con la tua vera natura."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Che cosa è l'Human Design?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "L'Human Design è un sistema di analisi logica della tua energia basato sulla data, ora e luogo di nascita. Non è un sistema di credenze, ma uno strumento per comprendere il tuo disegno unico e come sei progettato per operare nel mondo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Chi è Valentina Russo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Valentina Russo è una Consulente BG5® certificata e Human Design Analyst. Aiuta professionisti, imprenditori e individui a decodificare il loro tipo energetico, strategia decisionale e autorità interna per vivere e lavorare in allineamento con la loro vera natura."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quali sono i servizi principali?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "I servizi includono: La Prima Lettura Human Design (mappa di base), percorsi su Vita e Relazioni, consulenze BG5® per business, e programmi per coppia e partnership. Ogni servizio è costruito per aiutarti ad incarnare il tuo disegno nella quotidianità."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Come faccio a ottenere la mia carta Human Design?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Puoi generare la tua carta gratuitamente sul sito nella sezione 'Genera la tua carta'. Avrai bisogno di data, ora e luogo di nascita. La carta ti mostra il tuo Tipo, Strategia e Autorità, i primi passi per comprendere come sei progettato."
+          }
+        }
       ]
     }
     </script>
