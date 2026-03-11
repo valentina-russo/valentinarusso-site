@@ -105,11 +105,11 @@ Usa SEMPRE la terminologia BG5 come termine principale. Alla prima occorrenza in
 
 GLOSSARIO BG5 → Human Design (equivalenze):
 - Tipo di Carriera → Tipo (HD)
-  - Classic Builder → Generator (HD)
-  - Express Builder → Manifesting Generator (HD)
-  - Innovator → Manifestor (HD)
-  - Advisor → Projector (HD)
-  - Classic Advisor → Reflector (HD)
+  - Costruttore Classico → Generatore Puro (HD)
+  - Costruttore Rapido → Generatore Manifestante (HD)
+  - Iniziatore → Manifestatore (HD)
+  - Guida → Proiettore (HD)
+  - Valutatore → Riflettore (HD)
 - Success Code → BodyGraph (HD)
 - Profilo di Carriera → Profilo (HD)
 - Autorità Decisionale → Autorità Interiore (HD)
