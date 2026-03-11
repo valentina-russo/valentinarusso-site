@@ -18,7 +18,7 @@
   {% set art_img = page.media|first.url ?? '' %}
 {% endif %}
 {# 3. featured_image percorso assoluto legacy — MAI /user/pages/ che non è URL pubblico #}
-{% if not art_img and page.header.featured_image is defined and page.header.featured_image and 'placeholder' not in page.header.featured_image and '/user/pages/' not in page.header.featured_image %}
+{% if not art_img and page.header.featured_image is defined and page.header.featured_image and '/user/pages/' not in page.header.featured_image %}
   {% set art_img = page.header.featured_image %}
 {% endif %}
 

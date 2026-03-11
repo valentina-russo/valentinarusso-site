@@ -35,7 +35,7 @@
                   {% set card_img = article.media|first.url ?? '' %}
                 {% endif %}
                 {# 3. featured_image percorso assoluto legacy — MAI /user/pages/ che non è URL pubblico #}
-                {% if not card_img and article.header.featured_image is defined and article.header.featured_image and 'placeholder' not in article.header.featured_image and '/user/pages/' not in article.header.featured_image %}
+                {% if not card_img and article.header.featured_image is defined and article.header.featured_image and '/user/pages/' not in article.header.featured_image %}
                   {% set card_img = article.header.featured_image %}
                 {% endif %}
                 {# Nessuna immagine trovata: non mostrare nulla #}
