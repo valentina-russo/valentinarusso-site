@@ -14,29 +14,26 @@
 } %}
 {% set audio_exts = audio_mime|keys %}
 {% set audio_files = [] %}
-{% for af_name, af in page.media.audios %}
-  {% set ext = af_name|split('.')|last|lower %}
-  {% set audio_files = audio_files|merge([{'url': af.url, 'mime': audio_mime[ext]|default('audio/mpeg'), 'filename': af_name}]) %}
+{% set audio_exts_list = audio_mime|keys %}
+{% for m in page.media %}
+  {% if m.filename|split('.')|last|lower in audio_exts_list %}
+    {% set audio_files = audio_files|merge([{'url': m.url, 'mime': audio_mime[m.filename|split('.')|last|lower]|default('audio/mpeg'), 'filename': m.filename}]) %}
+  {% endif %}
 {% endfor %}
 
 {# ── Calcola immagine articolo ───────────────────────────────────────────────── #}
 {% set art_img = '' %}
 {# 1. featured_image filename semplice → lookup diretto nei media #}
 {% if page.header.featured_image is defined and page.header.featured_image and '/' not in page.header.featured_image %}
-  {% set _fm = page.media[page.header.featured_image] %}
-  {% if _fm %}{% set art_img = _fm.url %}{% endif %}
+  {% set art_img = page.media[page.header.featured_image].url ?? '' %}
 {% endif %}
-{# 2. Prima immagine nei page media via built-in Grav (esclude automaticamente audio/file) #}
-{% if not art_img %}
-  {% set _imgs = page.media.images %}
-  {% if _imgs|length %}{% set art_img = _imgs|first.url %}{% endif %}
+{# 2. Prima media della pagina (page.media|first funziona sulla pagina corrente) #}
+{% if not art_img and page.media|length %}
+  {% set art_img = page.media|first.url ?? '' %}
 {% endif %}
-{# 3. featured_image percorso assoluto legacy (solo URL pubblici, non /user/pages/) #}
-{% if not art_img and page.header.featured_image is defined and page.header.featured_image %}
-  {% set _fi = page.header.featured_image %}
-  {% if '/' in _fi and 'placeholder' not in _fi and '/user/pages/' not in _fi %}
-    {% set art_img = _fi %}
-  {% endif %}
+{# 3. featured_image percorso assoluto legacy — MAI /user/pages/ che non è URL pubblico #}
+{% if not art_img and page.header.featured_image is defined and page.header.featured_image and 'placeholder' not in page.header.featured_image and '/user/pages/' not in page.header.featured_image %}
+  {% set art_img = page.header.featured_image %}
 {% endif %}
 
 {% block schema %}
