@@ -31,7 +31,7 @@ jobs:
             accounts/**
             pages/**
 
-      - name: Deploy .htaccess root (www redirect + Grav routing)
+      - name: Deploy .htaccess + script root (www redirect + Grav routing)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.ARUBA_FTP_HOST }}
@@ -40,3 +40,13 @@ jobs:
           local-dir: ./grav-site/root/
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}
           dangerous-clean-slate: false
+
+      - name: Svuota cache Grav automaticamente
+        run: |
+          sleep 5
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "https://valentinarussobg5.com/cache-clear.php?token=${{ secrets.GRAV_CACHE_TOKEN }}")
+          echo "Cache-clear HTTP status: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "Attenzione: cache-clear ha restituito $STATUS (non bloccante)"
+          fi
