@@ -84,6 +84,7 @@ class ValentinaAdminPlugin extends Plugin
 .vb-ab-pubblica{background:#16a34a;color:#fff;}
 .vb-ab-rewrite {background:#d97706;color:#fff;}
 .vb-ab-full    {background:#0f766e;color:#fff;}
+.vb-ab-elimina {background:#dc2626;color:#fff;}
 /* Sezione privati — bordo rosa */
 #vb-action-bar.vb-s-privati{ border-top-color:#B68397; }
 /* Sezione aziende — bordo blu */
@@ -607,10 +608,28 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       bFull.innerHTML = '<i class="fa fa-refresh"></i> Rigenera Tutto';
       bFull.addEventListener('click', function(){ vbFullRewrite(); });
 
+      var bElimina = document.createElement('button');
+      bElimina.className = 'vb-ab-elimina';
+      bElimina.innerHTML = '<i class="fa fa-trash"></i> Elimina';
+      bElimina.addEventListener('click', function(){
+        if(!confirm('Eliminare definitivamente questo articolo?')) return;
+        /* Clicca il bottone Elimina nativo di Grav (href="#delete") */
+        var nativeDelete = document.querySelector('a[href="#delete"]');
+        if(nativeDelete){ nativeDelete.click(); return; }
+        /* Fallback: form POST con task delete */
+        var form = document.querySelector('form#blueprints');
+        if(!form) return;
+        var inp = document.createElement('input');
+        inp.type='hidden'; inp.name='task'; inp.value='delete';
+        form.appendChild(inp);
+        form.submit();
+      });
+
       right.appendChild(bBozza);
       right.appendChild(bPub);
       right.appendChild(bRewrite);
       right.appendChild(bFull);
+      right.appendChild(bElimina);
 
       bar.appendChild(left);
       bar.appendChild(right);
