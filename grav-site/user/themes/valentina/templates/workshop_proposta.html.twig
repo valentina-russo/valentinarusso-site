@@ -3,6 +3,39 @@
 {% block title %}Workshop Scopri il tuo Disegno | Valentina Russo{% endblock %}
 
 {% block content %}
+<style>
+@media (max-width: 768px) {
+    /* Chi conduce: colonna singola, foto sotto */
+    .ws-bio-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+    .ws-bio-grid h2 { font-size: 2.2rem !important; }
+
+    /* Win-Win: colonna singola */
+    .ws-pricing-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+
+    /* Sezione vantaggi: meno margine e border-radius */
+    .ws-vantaggi {
+        border-radius: 24px !important;
+        margin: 1rem 0.5rem !important;
+        padding: 3rem 1.25rem !important;
+    }
+    .ws-vantaggi h2 { font-size: 2rem !important; margin-bottom: 2rem !important; }
+
+    /* Card padding ridotto */
+    .ws-card-inner { padding: 1.75rem !important; }
+
+    /* Certificazione: padding ridotto */
+    .ws-cert-box { padding: 2rem 1.5rem !important; }
+
+    /* Sezioni padding */
+    .ws-section-v { padding-bottom: 3rem !important; }
+}
+</style>
 <main style="background-color: var(--bg-color);">
     <!-- HERO -->
     <section class="section-padding" style="background: linear-gradient(135deg, rgba(182, 131, 151, 0.05) 0%, rgba(93, 174, 177, 0.05) 100%); padding-top: 5rem; padding-bottom: 5rem; text-align: center;">
@@ -23,7 +56,7 @@
     </section>
 
     <!-- VIDEO -->
-    <section style="padding-bottom: 5rem;">
+    <section class="ws-section-v" style="padding-bottom: 5rem;">
         <div class="container" style="max-width: 960px;">
             <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 24px; box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.15); border: 1px solid var(--soft-gray); background: #000;">
                 <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
@@ -37,9 +70,9 @@
     </section>
 
     <!-- CERTIFICAZIONE -->
-    <section style="padding-bottom: 5rem;">
+    <section class="ws-section-v" style="padding-bottom: 5rem;">
         <div class="container" style="max-width: 900px; text-align: center;">
-            <div style="display: inline-flex; flex-direction: column; align-items: center; gap: 1.5rem; background: white; border: 1px solid var(--soft-gray); border-radius: 32px; padding: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+            <div class="ws-cert-box" style="display: inline-flex; flex-direction: column; align-items: center; gap: 1.5rem; background: white; border: 1px solid var(--soft-gray); border-radius: 32px; padding: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
                 <img src="{{ grav.base_url }}/user/themes/valentina/images/bg5-certified.png"
                      alt="BG5 Certified — Jovian Archive"
                      style="height: 90px; width: auto;">
@@ -80,7 +113,7 @@
             </h2>
             <div class="blog-grid">
                 <div class="blog-card" style="border-radius: 24px; border: 1px solid var(--soft-gray); background: white;">
-                    <div style="padding: 2.5rem;">
+                    <div class="ws-card-inner" style="padding: 2.5rem;">
                         <div style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.25rem;">
                             <span style="font-size: 2.5rem; line-height: 1;">✦</span>
                             <h3 style="margin: 0; font-family: var(--font-heading); color: var(--primary-color); font-size: 1.5rem;">I 4 Tipi Energetici</h3>
@@ -89,7 +122,7 @@
                     </div>
                 </div>
                 <div class="blog-card" style="border-radius: 24px; border: 1px solid var(--soft-gray); background: white;">
-                    <div style="padding: 2.5rem;">
+                    <div class="ws-card-inner" style="padding: 2.5rem;">
                         <div style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.25rem;">
                             <span style="font-size: 2.5rem; line-height: 1; color: var(--secondary-color);">❂</span>
                             <h3 style="margin: 0; font-family: var(--font-heading); color: var(--secondary-color); font-size: 1.5rem;">Strategia e Autorità</h3>
@@ -98,7 +131,7 @@
                     </div>
                 </div>
                 <div class="blog-card" style="border-radius: 24px; border: 1px solid var(--soft-gray); background: white;">
-                    <div style="padding: 2.5rem;">
+                    <div class="ws-card-inner" style="padding: 2.5rem;">
                         <div style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.25rem;">
                             <span style="font-size: 2.5rem; line-height: 1; color: var(--accent-color);">✧</span>
                             <h3 style="margin: 0; font-family: var(--font-heading); color: var(--accent-color); font-size: 1.5rem;">La Carta Unica</h3>
@@ -113,7 +146,7 @@
     <!-- CHI CONDUCE -->
     <section class="section-padding">
         <div class="container">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 4rem;">
+            <div class="ws-bio-grid" style="display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 4rem;">
                 <div>
                     <h2 class="serif" style="font-size: 3.5rem; margin-bottom: 1rem;">Chi conduce</h2>
                     <p class="serif italic" style="color: var(--primary-color); font-size: 1.5rem; margin-bottom: 2rem;">Human Design Analyst & Mental Advisor</p>
@@ -134,26 +167,26 @@
     </section>
 
     <!-- VANTAGGI PER IL CENTRO -->
-    <section style="background: linear-gradient(145deg, #B68397 0%, #7a5c6e 100%); color: white; border-radius: 40px; margin: 2rem 1rem; padding: 5rem 2rem;">
+    <section class="ws-vantaggi" style="background: linear-gradient(145deg, #B68397 0%, #7a5c6e 100%); color: white; border-radius: 40px; margin: 2rem 1rem; padding: 5rem 2rem;">
         <div class="container">
             <h2 class="serif text-center" style="color: white; font-size: 3rem; margin-bottom: 4rem;">
                 Perché ospitare questo workshop?
             </h2>
             <div class="blog-grid">
                 <div class="blog-card" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 24px;">
-                    <div style="padding: 2.5rem;">
+                    <div class="ws-card-inner" style="padding: 2.5rem;">
                         <h3 style="color: white; margin-bottom: 1rem; font-family: var(--font-heading); font-size: 1.5rem;">Qualità Premium</h3>
                         <p style="line-height: 1.7; opacity: 0.95; margin: 0;">Un sistema all'avanguardia che differenzia il vostro centro dal resto della proposta territoriale.</p>
                     </div>
                 </div>
                 <div class="blog-card" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 24px;">
-                    <div style="padding: 2.5rem;">
+                    <div class="ws-card-inner" style="padding: 2.5rem;">
                         <h3 style="color: white; margin-bottom: 1rem; font-family: var(--font-heading); font-size: 1.5rem;">Fidelizzazione</h3>
                         <p style="line-height: 1.7; opacity: 0.95; margin: 0;">Uno strumento che potenzia i tuoi percorsi attuali, offrendo una base scientifica alla consapevolezza.</p>
                     </div>
                 </div>
                 <div class="blog-card" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 24px;">
-                    <div style="padding: 2.5rem;">
+                    <div class="ws-card-inner" style="padding: 2.5rem;">
                         <h3 style="color: white; margin-bottom: 1rem; font-family: var(--font-heading); font-size: 1.5rem;">Zero Rischio</h3>
                         <p style="line-height: 1.7; opacity: 0.95; margin: 0;">Format "chiavi in mano". Valentina gestisce materiali e contenuti; voi offrite spazio e visibilità.</p>
                     </div>
@@ -168,13 +201,13 @@
             <h2 class="serif text-center" style="color: var(--primary-color); margin-bottom: 5rem; font-size: 2.75rem;">
                 Un modello Win-Win
             </h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+            <div class="ws-pricing-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
                 <!-- CARD A -->
                 <div class="blog-card" style="border: 2.5px solid var(--primary-color); position: relative; background: white; padding-top: 3.5rem; border-radius: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.05);">
                     <div style="position: absolute; top: -16px; left: 50%; transform: translateX(-50%); background: var(--primary-color); color: white; padding: 0.6rem 1.75rem; border-radius: 50px; font-size: 0.75rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap; box-shadow: 0 5px 15px rgba(182,131,151,0.3);">
                         Modello Consigliato
                     </div>
-                    <div style="padding: 2.5rem;">
+                    <div class="ws-card-inner" style="padding: 2.5rem;">
                         <h3 style="color: var(--primary-color); margin-bottom: 0.5rem; font-size: 1.4rem;">Opzione A</h3>
                         <p style="font-weight: 800; font-size: 1.75rem; margin-bottom: 1.25rem; color: var(--text-color); line-height: 1;">Revenue Share</p>
                         <p style="line-height: 1.8; color: #555; margin: 0;">Il Centro trattiene una percentuale (30-40%) sull'intero incasso. <strong>Nessun costo fisso o rischio imprenditoriale.</strong></p>
