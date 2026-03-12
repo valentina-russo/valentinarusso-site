@@ -31,6 +31,7 @@ export default defineConfig({
                 admin: resolve(__dirname, 'admin/index.html'),
                 privacy: resolve(__dirname, 'privacy.html'),
                 terms: resolve(__dirname, 'terms.html'),
+                'workshop-proposta': resolve(__dirname, 'workshop-proposta.html'),
             },
         },
     },

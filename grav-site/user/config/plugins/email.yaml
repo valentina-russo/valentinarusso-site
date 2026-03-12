@@ -1,7 +1,7 @@
 enabled: true
 from: info@valentinarussobg5.com
 from_name: "Valentina Russo"
-to: valentinebers@gmail.com
+to: info@valentinarussobg5.com
 to_name: "Valentina Russo"
 mailer:
     engine: mail

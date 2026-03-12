@@ -87,7 +87,7 @@ mailer:
 - [ ] Blog privati lista articoli
 - [ ] Blog aziende lista articoli (tema navy)
 - [ ] Articolo singolo apre correttamente
-- [ ] Form contatti invia email a `valentinebers@gmail.com`
+- [ ] Form contatti invia email a `info@valentinarussobg5.com`
 - [ ] Form aziende invia email
 - [ ] Genera Carta mostra link Jovian Archive
 - [ ] Admin `/admin` accessibile e funzionante
