@@ -3,29 +3,29 @@
 {% block title %}Workshop Scopri il tuo Disegno | Valentina Russo{% endblock %}
 
 {% block content %}
-<main>
+<main style="background-color: var(--bg-color);">
     <!-- HERO -->
-    <section class="section-padding" style="background: linear-gradient(135deg, rgba(182, 131, 151, 0.05) 0%, rgba(93, 174, 177, 0.05) 100%);">
-        <div class="container" style="max-width: 900px; text-align: center;">
-            <p class="text-uppercase" style="color: var(--primary-color); font-weight: 700; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 1rem;">
+    <section class="section-padding" style="background: linear-gradient(135deg, rgba(182, 131, 151, 0.05) 0%, rgba(93, 174, 177, 0.05) 100%); padding-top: 5rem; padding-bottom: 5rem; text-align: center;">
+        <div class="container" style="max-width: 900px;">
+            <p class="text-uppercase" style="color: var(--primary-color); font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 1.5rem;">
                 Per Centri Olistici
             </p>
-            <h1 class="serif" style="font-size: clamp(2.5rem, 8vw, 4rem); line-height: 1.1; margin-bottom: 1rem;">
+            <h1 class="serif" style="font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1.1; margin-bottom: 1.5rem;">
                 Scopri il tuo<br><em style="font-style: italic; color: var(--primary-color);">Disegno</em>
             </h1>
-            <p class="serif italic" style="font-size: 1.4rem; color: #666; margin-bottom: 2rem;">
+            <p class="serif italic" style="font-size: 1.6rem; color: #555; margin-bottom: 2.5rem;">
                 La Scienza della Differenziazione per il Benessere Consapevole
             </p>
-            <p style="font-weight: 600; opacity: 0.9;">
+            <div style="padding: 1rem 2rem; background: rgba(182, 131, 151, 0.08); display: inline-block; border-radius: 50px; font-weight: 600;">
                 Format: <strong>Masterclass Interattiva</strong> | Durata: <strong>90-120 min</strong>
-            </p>
+            </div>
         </div>
     </section>
 
     <!-- VIDEO -->
-    <section class="section-padding">
-        <div class="container" style="max-width: 900px;">
-            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 32px; box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.2); border: 1px solid var(--soft-gray);">
+    <section style="padding-bottom: 5rem;">
+        <div class="container" style="max-width: 960px;">
+            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 24px; box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.15); border: 1px solid var(--soft-gray); background: #000;">
                 <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
                     src="https://www.youtube-nocookie.com/embed/WPieOX8GoO0?rel=0"
                     title="Workshop Scopri il tuo Disegno - Valentina Russo"
@@ -37,60 +37,74 @@
     </section>
 
     <!-- CERTIFICAZIONE -->
-    <section class="section-padding" style="padding-top: 0; padding-bottom: 2rem;">
+    <section style="padding-bottom: 5rem;">
         <div class="container" style="max-width: 900px; text-align: center;">
-            <div style="display: inline-flex; flex-direction: column; align-items: center; gap: 1rem; background: white; border: 1px solid var(--soft-gray); border-radius: 24px; padding: 2rem 3rem;">
+            <div style="display: inline-flex; flex-direction: column; align-items: center; gap: 1.5rem; background: white; border: 1px solid var(--soft-gray); border-radius: 32px; padding: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
                 <img src="{{ grav.base_url }}/user/themes/valentina/images/bg5-certified.png"
                      alt="BG5 Certified — Jovian Archive"
-                     style="height: 80px; width: auto;">
-                <p style="font-size: 0.95rem; line-height: 1.7; color: #555; max-width: 600px; margin: 0;">
-                    Questo è l'<strong>unico logo ufficiale</strong> rilasciato da Jovian Archive — la casa madre del sistema BG5® e Human Design.
-                    Diffidate sempre da chi non è certificato direttamente dalla casa madre.
+                     style="height: 90px; width: auto;">
+                <p style="font-size: 1.05rem; line-height: 1.7; color: #555; max-width: 640px; margin: 0;">
+                    Questo è l'<strong>unico logo ufficiale</strong> rilasciato da Jovian Archive — la casa madre del sistema BG5® e Human Design. 
+                    Qualunque proposta priva di questa certificazione non garantisce l'accuratezza del metodo originale.
                 </p>
             </div>
         </div>
     </section>
 
     <!-- IL CONCETTO -->
-    <section class="section-padding">
-        <div class="container" style="max-width: 900px;">
-            <div class="blog-card" style="padding: 3rem; border-radius: 40px; background: white;">
-                <h2 class="serif" style="color: var(--primary-color); font-size: 2rem; margin-bottom: 2rem; text-align: center;">
-                    Più di un oroscopo,<br>più di un test di personalità
-                </h2>
-                <p style="font-size: 1.2rem; line-height: 1.8; margin-bottom: 2rem; text-align: center;">
-                    I frequentatori dei centri olistici cercano spesso risposte a domande profonde: <em>"Perché ripeto sempre gli stessi schemi?"</em>, <em>"Perché mi mancano le energie?"</em>, <em>"Come posso prendere decisioni migliori?"</em>
-                </p>
-                <div style="background: var(--bg-color); padding: 2rem; border-radius: 20px; border-left: 4px solid var(--primary-color);">
-                    <p style="font-size: 1.1rem; line-height: 1.8;">
-                        <strong>Lo Human Design</strong> offre una mappa meccanica e precisa basata su saggezze antiche (I'Ching, Astrologia, Chakra) e scienza moderna (Genetica, Fisica Quantistica). È uno strumento pratico per smettere di vivere nei dubbi mentali.
+    <section class="section-padding" style="background: white;">
+        <div class="container" style="max-width: 1000px;">
+            <div class="blog-card" style="box-shadow: 0 20px 50px rgba(0,0,0,0.04); border-radius: 32px; overflow: hidden; border: 1px solid var(--soft-gray);">
+                <div style="padding: 4rem 3rem; text-align: center;">
+                    <h2 class="serif" style="color: var(--primary-color); margin-bottom: 2.5rem; font-size: clamp(2rem, 5vw, 2.75rem);">
+                        Più di un oroscopo,<br>più di un test di personalità
+                    </h2>
+                    <p style="font-size: 1.3rem; line-height: 1.8; color: #444; margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                        I frequentatori dei centri olistici cercano risposte a domande profonde: <em>"Perché ripeto sempre gli stessi schemi?"</em>, <em>"Perché mi mancano le energie?"</em>, <em>"Come posso prendere decisioni migliori?"</em>
                     </p>
+                    <div style="background: var(--bg-color); padding: 2.5rem; border-radius: 24px; border-left: 6px solid var(--primary-color); text-align: left;">
+                        <p style="font-size: 1.15rem; line-height: 1.8; margin: 0;">
+                            <strong>Lo Human Design</strong> offre una mappa meccanica e precisa basata su saggezze antiche (I'Ching, Astrologia, Chakra) e scienza moderna (Genetica, Fisica Quantistica). È lo strumento più avanzato per l'auto-conoscenza oggi disponibile.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- CONTENUTO DELL'EVENTO -->
-    <section class="section-padding" style="background: white;">
+    <section class="section-padding" style="background: #fafafa;">
         <div class="container">
-            <h2 class="serif text-center" style="color: var(--primary-color); font-size: 2.5rem; margin-bottom: 3rem;">
+            <h2 class="serif text-center" style="color: var(--primary-color); margin-bottom: 4rem; font-size: 2.5rem;">
                 Il contenuto dell'evento
             </h2>
             <div class="blog-grid">
-                <div class="blog-card">
-                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">✦</div>
-                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">I 4 Tipi Energetici</h3>
-                    <p>Non siamo tutti uguali. Capire se sei un Generatore, Proiettore, Manifestatore o Riflettore elimina la resistenza e la frustrazione nella vita quotidiana.</p>
+                <div class="blog-card" style="border-radius: 24px; border: 1px solid var(--soft-gray); background: white;">
+                    <div style="padding: 2.5rem;">
+                        <div style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.25rem;">
+                            <span style="font-size: 2.5rem; line-height: 1;">✦</span>
+                            <h3 style="margin: 0; font-family: var(--font-heading); color: var(--primary-color); font-size: 1.5rem;">I 4 Tipi Energetici</h3>
+                        </div>
+                        <p style="color: #666; line-height: 1.7; margin: 0;">Ognuno di noi processa energia in modo unico. Capire il proprio tipo elimina la resistenza e la frustrazione nella vita di tutti i giorni.</p>
+                    </div>
                 </div>
-                <div class="blog-card">
-                    <div style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--secondary-color);">❂</div>
-                    <h3 style="color: var(--secondary-color); margin-bottom: 1rem;">Strategia e Autorità</h3>
-                    <p>La mente non è fatta per decidere. Insegneremo dove risiede la tua vera autorità decisionale (Pancia? Emozioni? Intuito?) per vivere in allineamento.</p>
+                <div class="blog-card" style="border-radius: 24px; border: 1px solid var(--soft-gray); background: white;">
+                    <div style="padding: 2.5rem;">
+                        <div style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.25rem;">
+                            <span style="font-size: 2.5rem; line-height: 1; color: var(--secondary-color);">❂</span>
+                            <h3 style="margin: 0; font-family: var(--font-heading); color: var(--secondary-color); font-size: 1.5rem;">Strategia e Autorità</h3>
+                        </div>
+                        <p style="color: #666; line-height: 1.7; margin: 0;">La mente non è fatta per decidere. Insegneremo dove risiede la tua vera bussola decisionale (Pancia? Emozioni?) per vivere in allineamento.</p>
+                    </div>
                 </div>
-                <div class="blog-card">
-                    <div style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--accent-color);">✧</div>
-                    <h3 style="color: var(--accent-color); margin-bottom: 1rem;">La Carta Unica</h3>
-                    <p>Ogni partecipante riceverà la propria <strong>Carta del Rave (BodyGraph)</strong> stampata per seguire la lezione in modo totalmente interattivo e personale.</p>
+                <div class="blog-card" style="border-radius: 24px; border: 1px solid var(--soft-gray); background: white;">
+                    <div style="padding: 2.5rem;">
+                        <div style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.25rem;">
+                            <span style="font-size: 2.5rem; line-height: 1; color: var(--accent-color);">✧</span>
+                            <h3 style="margin: 0; font-family: var(--font-heading); color: var(--accent-color); font-size: 1.5rem;">La Carta Unica</h3>
+                        </div>
+                        <p style="color: #666; line-height: 1.7; margin: 0;">Ogni partecipante riceverà la propria <strong>Carta del Rave</strong> stampata per seguire la lezione in modo totalmente interattivo e personale.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,44 +113,50 @@
     <!-- CHI CONDUCE -->
     <section class="section-padding">
         <div class="container">
-            <div class="footer-grid" style="align-items: center; gap: var(--space-xl);">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 4rem;">
                 <div>
-                    <h2 style="margin-bottom: 0.5rem;">Chi conduce</h2>
-                    <p class="serif italic" style="color: var(--primary-color); margin-bottom: 1.5rem;">Human Design Analyst & Mental Advisor</p>
-                    <p style="line-height: 1.8; margin-bottom: 1rem;">
-                        Valentina traduce la complessità dello Human Design in <strong>istruzioni pratiche</strong> per la vita quotidiana, con un approccio meccanico, logico e diretto.
+                    <h2 class="serif" style="font-size: 3.5rem; margin-bottom: 1rem;">Chi conduce</h2>
+                    <p class="serif italic" style="color: var(--primary-color); font-size: 1.5rem; margin-bottom: 2rem;">Human Design Analyst & Mental Advisor</p>
+                    <p style="line-height: 1.8; font-size: 1.15rem; margin-bottom: 1.5rem; color: #444;">
+                        Valentina traduce la complessità del sistema BG5® in <strong>istruzioni pratiche</strong> per la vita quotidiana, con un approccio logico e diretto.
                     </p>
-                    <p style="line-height: 1.8;">
-                        Lontana da linguaggi eccessivamente esoterici, il suo obiettivo è fornire una chiave di lettura strutturale della propria natura per eliminare le resistenze.
+                    <p style="line-height: 1.8; font-size: 1.15rem; color: #444;">
+                        Il suo obiettivo è fornire una chiave di lettura strutturale della propria natura per eliminare le frizioni energetiche e vivere con chiarezza.
                     </p>
                 </div>
-                <div style="border-radius: 30px; overflow: hidden; max-height: 400px;">
+                <div style="border-radius: 40px; overflow: hidden; box-shadow: 0 40px 80px -15px rgba(0,0,0,0.12);">
                     <img src="{{ grav.base_url }}/user/pages/assets/valentina-privati.jpg"
                          alt="Valentina Russo"
-                         style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                         style="width: 100%; height: auto; display: block;">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- VANTAGGI PER IL CENTRO -->
-    <section class="section-padding" style="background: linear-gradient(145deg, #B68397 0%, #7a5c6e 100%); color: white; border-radius: 60px; margin: 4rem 1.25rem;">
+    <section style="background: linear-gradient(145deg, #B68397 0%, #7a5c6e 100%); color: white; border-radius: 40px; margin: 2rem 1rem; padding: 5rem 2rem;">
         <div class="container">
-            <h2 class="serif text-center" style="color: white; font-size: 2.5rem; margin-bottom: 3rem;">
+            <h2 class="serif text-center" style="color: white; font-size: 3rem; margin-bottom: 4rem;">
                 Perché ospitare questo workshop?
             </h2>
             <div class="blog-grid">
-                <div class="blog-card" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
-                    <h3 style="color: white; margin-bottom: 1rem;">Qualità Premium</h3>
-                    <p>Un sistema all'avanguardia che differenzia il vostro centro e attira nuovi clienti curiosi.</p>
+                <div class="blog-card" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 24px;">
+                    <div style="padding: 2.5rem;">
+                        <h3 style="color: white; margin-bottom: 1rem; font-family: var(--font-heading); font-size: 1.5rem;">Qualità Premium</h3>
+                        <p style="line-height: 1.7; opacity: 0.95; margin: 0;">Un sistema all'avanguardia che differenzia il vostro centro dal resto della proposta territoriale.</p>
+                    </div>
                 </div>
-                <div class="blog-card" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
-                    <h3 style="color: white; margin-bottom: 1rem;">Fidelizzazione</h3>
-                    <p>Uno strumento che potenzia il lavoro già fatto (yoga, counseling) accelerando la consapevolezza.</p>
+                <div class="blog-card" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 24px;">
+                    <div style="padding: 2.5rem;">
+                        <h3 style="color: white; margin-bottom: 1rem; font-family: var(--font-heading); font-size: 1.5rem;">Fidelizzazione</h3>
+                        <p style="line-height: 1.7; opacity: 0.95; margin: 0;">Uno strumento che potenzia i tuoi percorsi attuali, offrendo una base scientifica alla consapevolezza.</p>
+                    </div>
                 </div>
-                <div class="blog-card" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
-                    <h3 style="color: white; margin-bottom: 1rem;">Zero Rischio</h3>
-                    <p>Format "chiavi in mano". Valentina gestisce contenuti e materiali. Voi mettete lo spazio e la community.</p>
+                <div class="blog-card" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 24px;">
+                    <div style="padding: 2.5rem;">
+                        <h3 style="color: white; margin-bottom: 1rem; font-family: var(--font-heading); font-size: 1.5rem;">Zero Rischio</h3>
+                        <p style="line-height: 1.7; opacity: 0.95; margin: 0;">Format "chiavi in mano". Valentina gestisce materiali e contenuti; voi offrite spazio e visibilità.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -144,47 +164,53 @@
 
     <!-- PROPOSTA ECONOMICA -->
     <section class="section-padding">
-        <div class="container" style="max-width: 900px;">
-            <h2 class="serif text-center" style="color: var(--primary-color); font-size: 2.5rem; margin-bottom: 3rem;">
+        <div class="container" style="max-width: 960px;">
+            <h2 class="serif text-center" style="color: var(--primary-color); margin-bottom: 5rem; font-size: 2.75rem;">
                 Un modello Win-Win
             </h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-                <div class="blog-card" style="border: 2px solid var(--primary-color); position: relative;">
-                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--primary-color); color: white; padding: 0.4rem 1.2rem; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
-                        Win-Win
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+                <!-- CARD A -->
+                <div class="blog-card" style="border: 2.5px solid var(--primary-color); position: relative; background: white; padding-top: 3.5rem; border-radius: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.05);">
+                    <div style="position: absolute; top: -16px; left: 50%; transform: translateX(-50%); background: var(--primary-color); color: white; padding: 0.6rem 1.75rem; border-radius: 50px; font-size: 0.75rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap; box-shadow: 0 5px 15px rgba(182,131,151,0.3);">
+                        Modello Consigliato
                     </div>
-                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Opzione A</h3>
-                    <p class="text-small" style="font-weight: 700; font-size: 1.3rem; margin: 1rem 0;">Revenue Share</p>
-                    <p>Il Centro trattiene una percentuale (30-40%) sul biglietto d'ingresso. <strong>Nessun costo fisso per voi.</strong></p>
+                    <div style="padding: 2.5rem;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem; font-size: 1.4rem;">Opzione A</h3>
+                        <p style="font-weight: 800; font-size: 1.75rem; margin-bottom: 1.25rem; color: var(--text-color); line-height: 1;">Revenue Share</p>
+                        <p style="line-height: 1.8; color: #555; margin: 0;">Il Centro trattiene una percentuale (30-40%) sull'intero incasso. <strong>Nessun costo fisso o rischio imprenditoriale.</strong></p>
+                    </div>
                 </div>
-                <div class="blog-card">
-                    <h3 style="margin-bottom: 1rem;">Opzione B</h3>
-                    <p class="text-small" style="font-weight: 700; font-size: 1.3rem; margin: 1rem 0;">Flat Fee</p>
-                    <p>Il Centro paga un gettone fisso e gestisce autonomamente il prezzo del biglietto, trattenendo l'intero surplus.</p>
+                <!-- CARD B -->
+                <div class="blog-card" style="border-radius: 32px; border: 1px solid var(--soft-gray); background: white;">
+                    <div style="padding: 2.5rem; padding-top: 3.5rem;">
+                        <h3 style="color: #666; margin-bottom: 0.5rem; font-size: 1.4rem;">Opzione B</h3>
+                        <p style="font-weight: 800; font-size: 1.75rem; margin-bottom: 1.25rem; color: var(--text-color); line-height: 1;">Flat Fee</p>
+                        <p style="line-height: 1.8; color: #555; margin: 0;">Il Centro paga un gettone fisso per la masterclass e gestisce autonomamente il prezzo del biglietto, trattenendo il surplus.</p>
+                    </div>
                 </div>
             </div>
-            <p class="text-center" style="margin-top: 2rem; font-style: italic; color: #888;">
-                * È possibile prevedere sessioni individuali (Letture Human Design) nei giorni successivi con referral al Centro.
+            <p style="margin-top: 4rem; font-style: italic; color: #999; text-align: center; font-size: 1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                * È possibile prevedere giornate di Letture Individuali Human Design nei giorni successivi, portando traffico ricorrente al Centro.
             </p>
         </div>
     </section>
 
     <!-- CTA FINALE -->
-    <section class="section-padding text-center">
+    <section class="section-padding" style="background: white; border-top: 1px solid var(--soft-gray); text-align: center;">
         <div class="container" style="max-width: 800px;">
-            <h2 class="serif" style="margin-bottom: 1.5rem;">
-                Pronti a portare questo valore al vostro centro?
+            <h2 class="serif" style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 2rem;">
+                Collaboriamo?
             </h2>
-            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
-                Sono disponibile per una call conoscitiva di 15 minuti per valutare la data migliore e adattare il format alla vostra utenza.
+            <p style="font-size: 1.35rem; line-height: 1.6; opacity: 0.9; margin-bottom: 3.5rem; max-width: 650px; margin-left: auto; margin-right: auto;">
+                Prenota una call interlocutoria di 15 minuti per valutare fattibilità e date per il tuo centro.
             </p>
-            <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center; margin-top: 2rem;">
-                <a href="mailto:valentina@studioyouniverse.it" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 3rem;">
-                    Contatta Valentina
+            <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center;">
+                <a href="mailto:valentina@studioyouniverse.it" class="btn btn-primary" style="padding: 1.4rem 4rem; font-size: 1.25rem; border-radius: 60px; box-shadow: 0 15px 30px rgba(182,131,151,0.25);">
+                    Richiedi Info
                 </a>
-                <p>
-                    📞 <strong>+39 349 745 1014</strong>
-                </p>
+                <div style="font-size: 1.2rem; color: var(--text-color);">
+                    WhatsApp: <strong>+39 349 745 1014</strong>
+                </div>
             </div>
         </div>
     </section>
