@@ -83,10 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Track booking/reading requests
-  document.querySelectorAll('a[href*="/servizi"], button:contains("Prenota")').forEach(link => {
-    if (link.textContent.includes('Prenota') || link.textContent.includes('Lettura') || link.href.includes('/servizi')) {
+  document.querySelectorAll('a[href*="/servizi"], button').forEach(link => {
+    if (link.textContent.includes('Prenota') || link.textContent.includes('Lettura') || (link.href && link.href.includes('/servizi'))) {
       link.addEventListener('click', () => {
-        trackConversion('Servizi_Click', link.href);
+        trackConversion('Servizi_Click', link.href || '');
       });
     }
   });
