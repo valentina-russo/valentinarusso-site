@@ -2,6 +2,39 @@
 
 {% block title %}{{ page.title }} | Valentina Russo{% endblock %}
 
+{% block schema %}
+{{ parent() }}
+{% set collection = page.collection() %}
+{% set latest_date = page.modified|date('c') %}
+{% if collection is not empty %}{% set latest_date = collection|first.date|date('c') %}{% endif %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "@id": "{{ page.url(true) }}#blog",
+  "url": "{{ page.url(true) }}",
+  "name": "{{ page.title }} | Valentina Russo",
+  "description": "{{ page.header.description ?? 'Articoli su Human Design, BG5®, carriera e sviluppo personale.' }}",
+  "inLanguage": "it",
+  "dateModified": "{{ latest_date }}",
+  "isPartOf": { "@type": "WebSite", "url": "{{ grav.base_url_absolute }}" }{% if collection is not empty %},
+  "blogPost": [
+    {% for article in collection|slice(0, 5) %}
+    {
+      "@type": "BlogPosting",
+      "headline": {{ article.title|json_encode }},
+      "url": "{{ article.url(true) }}",
+      "datePublished": "{{ article.date|date('c') }}",
+      "dateModified": "{{ article.modified|date('c') }}"{% if article.header.description is defined %},
+      "description": {{ article.header.description|json_encode }}{% endif %}{% if article.header.author is defined %},
+      "author": { "@type": "Person", "name": {{ article.header.author|json_encode }} }{% endif %}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]{% endif %}
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <main class="section-padding">
     <div class="container">

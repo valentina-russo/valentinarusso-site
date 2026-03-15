@@ -2,6 +2,38 @@
 
 {% block title %}Valentina Russo | Consulente BG5&reg; &amp; Human Design{% endblock %}
 
+{% block schema %}
+{{ parent() }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "{{ grav.base_url_absolute }}/#webpage",
+  "url": "{{ grav.base_url_absolute }}/",
+  "name": "Valentina Russo | Consulente BG5® & Human Design",
+  "description": "Consulente BG5® e Human Design per carriera, relazioni e amor proprio. Analisi del tuo tipo energetico, strategia e autorità interna.",
+  "inLanguage": "it",
+  "datePublished": "2024-01-01",
+  "dateModified": "{{ page.modified|date('c') }}",
+  "isPartOf": {
+    "@type": "WebSite",
+    "url": "{{ grav.base_url_absolute }}"
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "{{ grav.base_url_absolute }}/"
+      }
+    ]
+  }
+}
+</script>
+{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{{ theme_url }}/css/hero-privati.css?v=20260311">
 {% endblock %}

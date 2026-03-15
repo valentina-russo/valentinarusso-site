@@ -49,6 +49,9 @@
     <link rel="stylesheet" href="{{ theme_url }}/css/style.css?v=20260312_ULTRA">
     {% block extra_css %}{% endblock %}
 
+    {# Content freshness meta #}
+    <meta name="last-modified" content="{{ page.modified|date('D, d M Y H:i:s') }} GMT">
+
     {# LD+JSON Website #}
     {% block schema %}
     <script type="application/ld+json">
@@ -57,7 +60,8 @@
       "@type": "WebSite",
       "name": "Valentina Russo",
       "url": "{{ grav.base_url_absolute }}",
-      "description": "Consulente BG5® e Human Design"
+      "description": "Consulente BG5® e Human Design",
+      "dateModified": "{{ page.modified|date('c') }}"
     }
     </script>
     {% endblock %}

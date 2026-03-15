@@ -8,3 +8,4 @@ Disallow: /vb-move.php
 Disallow: /vb-rename.php
 
 Sitemap: https://valentinarussobg5.com/sitemap.xml
+LLMs: https://valentinarussobg5.com/llms.txt
