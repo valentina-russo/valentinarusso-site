@@ -46,5 +46,7 @@ grav-site/user/cache/
 grav-site/user/pages/*
 # Eccezione: pagina workshop (landing B2B statica, deployata via FTP)
 !grav-site/user/pages/workshop-proposta
+# Eccezione: tool HD Relazionale (pagina + template deployati via FTP)
+!grav-site/user/pages/hd-relazionale
 # AI editor config (contiene API key, solo sul server)
 grav-site/root/ai-editor.config.php

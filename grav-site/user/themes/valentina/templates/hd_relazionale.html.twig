@@ -1,0 +1,381 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block title %}{{ page.title }} | Valentina Russo{% endblock %}
+
+{% block extra_css %}
+<style>
+  .hd-tool-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: var(--space-lg) var(--space-md);
+  }
+  .hd-tool-intro {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+  }
+  .hd-tool-intro h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    margin-bottom: 0.75rem;
+  }
+  .hd-tool-intro p {
+    color: var(--text-muted, #666);
+    font-size: 1rem;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .hd-form-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    padding: 2rem;
+  }
+  .hd-field {
+    margin-bottom: 1.25rem;
+  }
+  .hd-field label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .hd-field select,
+  .hd-field textarea {
+    width: 100%;
+    border: 1.5px solid #e0dbd7;
+    border-radius: 8px;
+    padding: 0.7rem 0.9rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: #333;
+    background: #faf9f8;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+  .hd-field select:focus,
+  .hd-field textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: #fff;
+  }
+  .hd-field textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  .hd-char-counter {
+    font-size: 0.75rem;
+    color: #aaa;
+    text-align: right;
+    margin-top: 0.3rem;
+  }
+  .hd-char-counter.over { color: #e55; }
+  .hd-submit-btn {
+    width: 100%;
+    padding: 0.9rem 1.5rem;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    margin-top: 0.5rem;
+  }
+  .hd-submit-btn:hover:not(:disabled) { opacity: 0.88; }
+  .hd-submit-btn:active:not(:disabled) { transform: scale(0.99); }
+  .hd-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Loading */
+  .hd-loading {
+    display: none;
+    text-align: center;
+    padding: 2rem;
+    color: var(--primary-color);
+    font-style: italic;
+  }
+  .hd-spinner {
+    width: 32px; height: 32px;
+    border: 3px solid #e0dbd7;
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: hd-spin 0.8s linear infinite;
+    margin: 0 auto 1rem;
+  }
+  @keyframes hd-spin { to { transform: rotate(360deg); } }
+
+  /* Risultato */
+  .hd-result {
+    display: none;
+    margin-top: 2rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .hd-result.visible {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .hd-result-card {
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .hd-result-card h3 {
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin: 0 0 0.75rem;
+  }
+  .hd-result-card p {
+    margin: 0;
+    line-height: 1.7;
+    font-size: 0.97rem;
+  }
+  .hd-card-pillola  { background: #f0ebe8; border-left: 4px solid var(--primary-color); }
+  .hd-card-pillola h3 { color: var(--primary-color); }
+  .hd-card-diagnosi { background: #f5f0f8; border-left: 4px solid var(--secondary-color, #7a5c9e); }
+  .hd-card-diagnosi h3 { color: var(--secondary-color, #7a5c9e); }
+  .hd-card-upsell   { background: linear-gradient(135deg, #fdf4f0, #f8ece8); border-left: 4px solid var(--accent-color); }
+  .hd-card-upsell h3 { color: var(--accent-color); }
+  .hd-card-upsell p { font-weight: 500; }
+
+  .hd-reset-btn {
+    display: block;
+    margin: 0.5rem auto 0;
+    background: none;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    padding: 0.5rem 1.2rem;
+    font-family: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: #666;
+    transition: border-color 0.2s;
+  }
+  .hd-reset-btn:hover { border-color: var(--primary-color); color: var(--primary-color); }
+
+  .hd-error {
+    display: none;
+    background: #fff0f0;
+    border: 1.5px solid #f5a5a5;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    color: #c0392b;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    .hd-form-card { padding: 1.25rem; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<main>
+  <div class="hd-tool-wrap">
+
+    <div class="hd-tool-intro" data-animate>
+      <p class="eyebrow" style="font-size:0.78rem; text-transform:uppercase; letter-spacing:.08em; color:var(--primary-color); font-weight:700; margin-bottom:.5rem;">Strumento Gratuito</p>
+      <h1>{{ page.title }}</h1>
+      <p>{{ page.header.description ?? 'Inserisci i dati qui sotto e ricevi un\'analisi immediata della dinamica tra voi.' }}</p>
+    </div>
+
+    <div class="hd-form-card" data-animate>
+      <form id="hd-form" novalidate>
+
+        <div class="hd-field">
+          <label for="tipo_utente">Il tuo Tipo</label>
+          <select id="tipo_utente" name="tipo_utente" required>
+            <option value="" disabled selected>Seleziona il tuo Tipo…</option>
+            <option>Generatore</option>
+            <option>Generatore Manifestante</option>
+            <option>Proiettore</option>
+            <option>Manifestatore</option>
+            <option>Riflettore</option>
+          </select>
+        </div>
+
+        <div class="hd-field">
+          <label for="tipo_altro">Il Tipo dell'altra persona</label>
+          <select id="tipo_altro" name="tipo_altro" required>
+            <option value="" disabled selected>Seleziona il Tipo dell'altra persona…</option>
+            <option>Generatore</option>
+            <option>Generatore Manifestante</option>
+            <option>Proiettore</option>
+            <option>Manifestatore</option>
+            <option>Riflettore</option>
+          </select>
+        </div>
+
+        <div class="hd-field">
+          <label for="relazione">Che tipo di relazione è?</label>
+          <select id="relazione" name="relazione" required>
+            <option value="" disabled selected>Seleziona il tipo di relazione…</option>
+            <option>Partner Sentimentale</option>
+            <option>Genitore/Figlio</option>
+            <option>Colleghi/Lavoro</option>
+            <option>Amicizia</option>
+          </select>
+        </div>
+
+        <div class="hd-field">
+          <label for="problema">Qual è il problema o la dinamica da risolvere?</label>
+          <textarea id="problema" name="problema" maxlength="300" placeholder="Descrivi brevemente la situazione o il problema relazionale (max 300 caratteri)…" required></textarea>
+          <div class="hd-char-counter"><span id="char-count">0</span>/300</div>
+        </div>
+
+        <button type="submit" class="hd-submit-btn" id="submit-btn">
+          Genera la tua Analisi Relazionale
+        </button>
+      </form>
+
+      <div class="hd-loading" id="hd-loading">
+        <div class="hd-spinner"></div>
+        <p>Il nostro oracolo sta consultando gli archivi…</p>
+      </div>
+
+      <div class="hd-error" id="hd-error"></div>
+    </div>
+
+    <div class="hd-result" id="hd-result">
+      <div class="hd-result-card hd-card-pillola" id="card-pillola">
+        <h3>La Pillola</h3>
+        <p id="text-pillola"></p>
+      </div>
+      <div class="hd-result-card hd-card-diagnosi" id="card-diagnosi">
+        <h3>La Diagnosi</h3>
+        <p id="text-diagnosi"></p>
+      </div>
+      <div class="hd-result-card hd-card-upsell" id="card-upsell">
+        <h3>Vuoi capire tutto?</h3>
+        <p id="text-upsell"></p>
+      </div>
+      <button class="hd-reset-btn" id="reset-btn">← Fai una nuova analisi</button>
+    </div>
+
+  </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  const API_URL = "{{ page.header.api_url ?? 'http://localhost:8000' }}";
+
+  const form = document.getElementById('hd-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const loading = document.getElementById('hd-loading');
+  const errorBox = document.getElementById('hd-error');
+  const resultBox = document.getElementById('hd-result');
+  const resetBtn = document.getElementById('reset-btn');
+  const charCount = document.getElementById('char-count');
+  const textarea = document.getElementById('problema');
+
+  // Contatore caratteri
+  textarea.addEventListener('input', function () {
+    const n = this.value.length;
+    charCount.textContent = n;
+    charCount.parentElement.classList.toggle('over', n > 300);
+  });
+
+  // Submit
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const payload = {
+      tipo_utente: document.getElementById('tipo_utente').value,
+      tipo_altro: document.getElementById('tipo_altro').value,
+      relazione: document.getElementById('relazione').value,
+      problema: textarea.value.trim(),
+    };
+
+    if (!payload.tipo_utente || !payload.tipo_altro || !payload.relazione || !payload.problema) {
+      showError('Compila tutti i campi prima di procedere.');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const resp = await fetch(API_URL + '/analisi', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.detail || 'Errore del server (' + resp.status + ')');
+      }
+
+      const data = await resp.json();
+      renderResult(data.result);
+    } catch (err) {
+      showError('Si è verificato un errore: ' + err.message + '. Riprova tra qualche istante.');
+    } finally {
+      setLoading(false);
+    }
+  });
+
+  // Reset
+  resetBtn.addEventListener('click', function () {
+    resultBox.classList.remove('visible');
+    setTimeout(() => { resultBox.style.display = 'none'; }, 400);
+    form.reset();
+    charCount.textContent = '0';
+    errorBox.style.display = 'none';
+  });
+
+  // Helpers
+  function setLoading(on) {
+    submitBtn.disabled = on;
+    loading.style.display = on ? 'block' : 'none';
+    errorBox.style.display = 'none';
+    if (on) {
+      resultBox.classList.remove('visible');
+      resultBox.style.display = 'none';
+    }
+  }
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.style.display = 'block';
+  }
+
+  function renderResult(text) {
+    const pillola = extractSection(text, '[LA PILLOLA]', '[LA DIAGNOSI]');
+    const diagnosi = extractSection(text, '[LA DIAGNOSI]', "[L'UPSELL]");
+    const upsell   = extractSection(text, "[L'UPSELL]", null);
+
+    document.getElementById('text-pillola').textContent = pillola || text;
+    document.getElementById('text-diagnosi').textContent = diagnosi;
+    document.getElementById('text-upsell').textContent = upsell;
+
+    // Mostra/nascondi sezioni vuote
+    document.getElementById('card-diagnosi').style.display = diagnosi ? 'block' : 'none';
+    document.getElementById('card-upsell').style.display = upsell ? 'block' : 'none';
+
+    resultBox.style.display = 'block';
+    // Trigger animazione nel prossimo frame
+    requestAnimationFrame(() => resultBox.classList.add('visible'));
+
+    resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function extractSection(text, startTag, endTag) {
+    const start = text.indexOf(startTag);
+    if (start === -1) return '';
+    const content = text.slice(start + startTag.length);
+    const end = endTag ? content.indexOf(endTag) : -1;
+    return (end === -1 ? content : content.slice(0, end)).trim();
+  }
+})();
+</script>
+{% endblock %}
