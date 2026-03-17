@@ -10,7 +10,8 @@ session_start();
 header('Content-Type: application/json; charset=utf-8');
 
 define('CONFIG_FILE',    __DIR__ . '/ai-editor.config.php');
-define('CLAUDE_MODEL',   'claude-opus-4-6');
+define('CLAUDE_SONNET',  'claude-sonnet-4-6');   // testi lunghi / riscrittura completa
+define('CLAUDE_HAIKU',   'claude-haiku-4-5');    // metadati / testi brevi
 define('CLAUDE_URL',     'https://api.anthropic.com/v1/messages');
 define('CLAUDE_VERSION', '2023-06-01');
 define('ADMIN_PASS',     'ValeAdmin2026');
@@ -168,8 +169,19 @@ if ($kbContent) {
     $systemPrompt .= "\n\n" . $kbContent;
 }
 
+/* ── SELEZIONE AUTOMATICA MODELLO ──────────────────────────────────
+ * full  → sempre Sonnet (riscrittura completa + metadati, alta qualità)
+ * meta  → sempre Haiku  (solo estrazione metadati, veloce ed economico)
+ * body  → Sonnet se articolo >= 500 parole, Haiku se più breve
+ * Fallback 529: se il modello scelto è overloaded, passa all'altro
+ */
+function countWords(string $text): int {
+    return count(preg_split('/\s+/', trim($text), -1, PREG_SPLIT_NO_EMPTY));
+}
+
 /* ── FULL MODE ── */
 if ($mode === 'full') {
+    $selectedModel = CLAUDE_SONNET;  // riscrittura completa = sempre qualità
     $userMsg  = "Titolo attuale: " . ($title ?: 'non specificato') . "\n\nCorpo attuale:\n\n" . $content . "\n\n";
     $userMsg .= "Riscrivi questo articolo rispettando TASSATIVAMENTE il Decalogo e le Regole di Stile sopra.\n";
     $userMsg .= "Restituisci SOLO un oggetto JSON valido (niente markdown fence, niente testo fuori dal JSON):\n\n";
@@ -195,7 +207,7 @@ if ($mode === 'full') {
     $userMsg .= "}";
 
     $payload = json_encode([
-        'model'      => CLAUDE_MODEL,
+        'model'      => $selectedModel,
         'max_tokens' => 8000,
         'system'     => $systemPrompt,
         'messages'   => [['role' => 'user', 'content' => $userMsg]],
@@ -203,6 +215,7 @@ if ($mode === 'full') {
 
 /* ── META MODE ── */
 } elseif ($mode === 'meta') {
+    $selectedModel = CLAUDE_HAIKU;  // solo metadati = Haiku, veloce ed economico
     $userMsg  = "Titolo articolo: " . ($title ?: 'non specificato') . "\n\nCorpo articolo:\n\n" . mb_substr($content, 0, 4000) . "\n\n";
     $userMsg .= "Analizza questo articolo e genera ESCLUSIVAMENTE i metadati tecnici.\n";
     $userMsg .= "NON riscrivere ne' modificare il testo dell'articolo.\n";
@@ -226,7 +239,7 @@ if ($mode === 'full') {
     $userMsg .= "}";
 
     $payload = json_encode([
-        'model'      => 'claude-haiku-4-5-20251001',
+        'model'      => $selectedModel,
         'max_tokens' => 2000,
         'system'     => $systemPrompt,
         'messages'   => [['role' => 'user', 'content' => $userMsg]],
@@ -234,8 +247,10 @@ if ($mode === 'full') {
 
 /* ── BODY MODE ── */
 } else {
+    // Articolo >= 500 parole → Sonnet; più breve → Haiku
+    $selectedModel = countWords($content) >= 500 ? CLAUDE_SONNET : CLAUDE_HAIKU;
     $payload = json_encode([
-        'model'      => CLAUDE_MODEL,
+        'model'      => $selectedModel,
         'max_tokens' => 4096,
         'system'     => $systemPrompt,
         'messages'   => [['role' => 'user', 'content' => "Riscrivi questo articolo rispettando il Decalogo:\n\n" . $content]],
@@ -265,12 +280,13 @@ function doClaudeRequest(string $payload, string $apiKey, int $timeout = 180): a
 
 [$raw, $code, $cerr] = doClaudeRequest($payload, $apiKey);
 
-// Fallback automatico su Sonnet se Opus è overloaded (529) — solo per mode body/full
-if (!$cerr && $code === 529 && $mode !== 'meta') {
+// Fallback automatico su 529: Sonnet→Haiku o Haiku→Sonnet
+if (!$cerr && $code === 529) {
     $p = json_decode($payload, true);
-    $p['model'] = 'claude-sonnet-4-6';
+    $p['model'] = ($selectedModel === CLAUDE_SONNET) ? CLAUDE_HAIKU : CLAUDE_SONNET;
     $payload = json_encode($p);
     [$raw, $code, $cerr] = doClaudeRequest($payload, $apiKey);
+    $selectedModel = $p['model'];
 }
 
 if ($cerr) {

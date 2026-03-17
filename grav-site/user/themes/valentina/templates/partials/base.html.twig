@@ -12,6 +12,11 @@
     <link rel="icon" type="image/png" href="{{ grav.base_url }}/user/pages/assets/favicon-32x32.png" sizes="32x32">
     <link rel="apple-touch-icon" href="{{ grav.base_url }}/user/pages/assets/apple-touch-icon.png">
 
+    {# Google Search Console — verifica proprietà #}
+    {% if config.site.google_verification is defined and config.site.google_verification %}
+    <meta name="google-site-verification" content="{{ config.site.google_verification }}">
+    {% endif %}
+
     {# GEO meta tags #}
     {% if page.header.geo_location is defined and page.header.geo_location %}
     <meta name="geo.placename" content="{{ page.header.geo_location }}">

@@ -11,7 +11,8 @@ define('ADMIN_PASS',     'ValeAdmin2026');
 define('CONFIG_FILE',    __DIR__ . '/ai-editor.config.php');
 define('DIR_PRIVATI',    __DIR__ . '/user/pages/04.blog/articoli/');
 define('DIR_AZIENDE',    __DIR__ . '/user/pages/05.aziende/02.blog/');
-define('CLAUDE_MODEL',   'claude-opus-4-6');
+define('CLAUDE_SONNET',  'claude-sonnet-4-6');   // testi lunghi / complessi
+define('CLAUDE_HAIKU',   'claude-haiku-4-5');    // testi brevi / semplici
 define('CLAUDE_URL',     'https://api.anthropic.com/v1/messages');
 define('CLAUDE_VERSION', '2023-06-01');
 
@@ -58,7 +59,15 @@ function slugify(string $s): string {
     return trim($s, '-');
 }
 
-define('CLAUDE_FALLBACK', 'claude-sonnet-4-6');
+/* ── MODEL SELECTOR ─────────────────────────────────────── */
+/**
+ * Conta le parole di un testo e sceglie il modello ottimale.
+ * Soglia: >= 400 parole → Sonnet (qualità), < 400 → Haiku (velocità).
+ */
+function selectModel(string $text): string {
+    $words = count(preg_split('/\s+/', trim($text), -1, PREG_SPLIT_NO_EMPTY));
+    return $words >= 400 ? CLAUDE_SONNET : CLAUDE_HAIKU;
+}
 
 /* ── CLAUDE HTTP HELPER ──────────────────────────────────── */
 function callClaude(string $payload, string $apiKey): array {
@@ -195,8 +204,11 @@ PROMPT;
 
         $userMsg = "Categoria: {$category}\n\nTRASCRITTO VIDEO:\n\n{$transcript}";
 
+        // Selezione automatica modello in base alla lunghezza del testo
+        $modelUsed = selectModel($transcript);
+
         $payload = json_encode([
-            'model'      => CLAUDE_MODEL,
+            'model'      => $modelUsed,
             'max_tokens' => 4096,
             'system'     => $systemPrompt,
             'messages'   => [['role' => 'user', 'content' => $userMsg]],
@@ -204,14 +216,14 @@ PROMPT;
 
         [$raw, $code, $cerr] = callClaude($payload, $apiKey);
 
-        // Fallback automatico su Sonnet se Opus è overloaded (529)
-        $modelUsed = CLAUDE_MODEL;
+        // Fallback automatico: se il modello scelto è overloaded (529), prova l'altro
         if (!$cerr && $code === 529) {
+            $fallback = ($modelUsed === CLAUDE_SONNET) ? CLAUDE_HAIKU : CLAUDE_SONNET;
             $p = json_decode($payload, true);
-            $p['model'] = CLAUDE_FALLBACK;
+            $p['model'] = $fallback;
             $payload = json_encode($p);
             [$raw, $code, $cerr] = callClaude($payload, $apiKey);
-            $modelUsed = CLAUDE_FALLBACK;
+            $modelUsed = $fallback;
         }
 
         if ($cerr) {
@@ -517,7 +529,13 @@ function copyPrompt(i){
   $seoDescLen  = mb_strlen($result['seo_desc'] ?? '');
 ?>
 <div class="card">
-  <h2>✅ Articolo Generato <span class="badge <?= $cat==='aziende'?'badge-az':'badge-priv' ?>"><?= $cat ?></span><?php if(($modelUsed??'')===CLAUDE_FALLBACK): ?> <span class="badge" style="background:#e67e22;margin-left:6px" title="Opus era sovraccarico, articolo generato con Sonnet">⚡ Sonnet (fallback)</span><?php endif; ?></h2>
+  <h2>✅ Articolo Generato <span class="badge <?= $cat==='aziende'?'badge-az':'badge-priv' ?>"><?= $cat ?></span>
+  <?php
+    $mu = $modelUsed ?? '';
+    if (str_contains($mu, 'sonnet'))     echo '<span class="badge" style="background:#7c3aed;margin-left:6px" title="Testo lungo — usato Sonnet per qualità massima">✦ Sonnet</span>';
+    elseif (str_contains($mu, 'haiku')) echo '<span class="badge" style="background:#0891b2;margin-left:6px" title="Testo breve — usato Haiku, veloce ed efficiente">⚡ Haiku</span>';
+  ?>
+  </h2>
 
   <div class="field">
     <label>Titolo</label>
