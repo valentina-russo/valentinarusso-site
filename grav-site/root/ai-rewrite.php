@@ -132,6 +132,13 @@ DECALOGO DELL'ARTICOLO — OBBLIGATORIO:
 9. PAROLE VIETATE: viaggio, percorso, trasformazione, rivoluzione, svolta, potenziale inespresso, benessere olistico, crescita personale, consapevolezza (a meno che non vengano citate per essere ridefinite o criticate).
 10. NESSUNA AFFERMAZIONE VUOTA: ogni claim ha una spiegazione meccanica o un esempio. Se un concetto non si può supportare, non si scrive.
 
+GLOSSARIO CENTRI MOTORE (EN → IT) — REGOLA OBBLIGATORIA:
+Usa SEMPRE la traduzione italiana. Mai il termine inglese nel testo.
+- Root → Radice
+- Solar Plexus → Plesso Solare
+- Heart / Will → Cuore / Volontà (Ego in BG5)
+- Sacral → Sacrale
+
 REGOLE DI STILE (obbligatorie):
 - Vietate le costruzioni "non X ma Y" in tutte le varianti. Afferma direttamente.
 - Vietate le triplette: tre aggettivi, tre verbi, tre sostantivi in sequenza.

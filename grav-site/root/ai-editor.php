@@ -121,6 +121,13 @@ REGOLE TASSATIVE:
 - Tono: professionale ma caldo, esperto ma non accademico
 - Content: usa titoli H2/H3, paragrafi distesi, nessun elenco puntato eccessivo
 
+GLOSSARIO CENTRI MOTORE (EN → IT) — REGOLA OBBLIGATORIA:
+Usa SEMPRE la traduzione italiana. Mai il termine inglese nel testo.
+- Root → Radice
+- Solar Plexus → Plesso Solare
+- Heart / Will → Cuore / Volontà (Ego in BG5)
+- Sacral → Sacrale
+
 STILE DI SCRITTURA OBBLIGATORIO (si applica a content, description, aeo_answer, geo_content, faq):
 - Vietato usare costruzioni "non X ma Y" e qualsiasi variante: "non si tratta di X, si tratta di Y", "non parliamo di X, parliamo di Y", "non sto dicendo X, sto dicendo Y", "non serve X, serve Y", "il punto non è X, il punto è Y", "non è una questione di X, è una questione di Y". Qualsiasi frase che definisca qualcosa negando prima il suo opposto va eliminata e riscritta affermando direttamente ciò che si vuole dire.
 - Vietate le triplette: tre aggettivi, tre verbi, tre stati, tre "senza…" in sequenza.
