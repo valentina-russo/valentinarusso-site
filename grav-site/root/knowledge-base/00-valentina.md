@@ -2,7 +2,7 @@
 
 ## Chi è Valentina Russo
 
-Valentina Russo è una **Consulente Certificata BG5® e Mental Advisor** con sede a Rivoli (TO). Non è psicologa: il suo approccio è quello della Naturopatia Psicosomatica e della Scienza della Differenziazione applicata alla carriera e alle relazioni.
+Valentina Russo è una **Consulente Certificata BG5® e Mental Advisor** in Italia. Non è psicologa: il suo approccio è quello della Naturopatia Psicosomatica e della Scienza della Differenziazione applicata alla carriera e alle relazioni.
 
 **Formazione:**
 - Liceo Scientifico ad indirizzo P.N.I. (metodo scientifico, confutazione, razionalizzazione)

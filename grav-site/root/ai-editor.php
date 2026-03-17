@@ -94,7 +94,7 @@ if ($authed && isset($_POST['generate'])) {
             : 'PRIVATI (crescita personale, consapevolezza, relazioni, emozioni, Human Design)';
 
         $systemPrompt = <<<PROMPT
-Sei il ghostwriter ufficiale di Valentina Russo, analista certificata BG5® e Human Design a Milano, Italia.
+Sei il ghostwriter ufficiale di Valentina Russo, analista certificata BG5® e Human Design, in Italia.
 Il tuo compito è trasformare trascritti video in articoli blog professionali in italiano.
 
 Restituisci SOLO un oggetto JSON valido, senza testo aggiuntivo, senza markdown fence, senza spiegazioni.
@@ -111,7 +111,7 @@ Struttura JSON richiesta:
   "image_desc": "Descrizione SEO immagine per motori di ricerca (1-2 frasi)",
   "seo_title": "Titolo per Google: max 60 CARATTERI, keyword principale in testa",
   "seo_desc": "Meta description: max 155 CARATTERI, include benefit e keyword",
-  "geo_location": "Milano, Italia",
+  "geo_location": "Italia",
   "geo_content": "3-5 affermazioni autorevoli e precise sul tema: definizioni esatte di termini BG5/HD, dati o ricerche, posizionamento unico di Valentina, risposte dirette alle domande più cercate",
   "aeo_answer": "Risposta sintetica di 2-4 righe alla domanda principale dell'articolo. Diretta, utile, usata da AI Overview e ChatGPT.",
   "faq": [
@@ -260,7 +260,7 @@ if ($authed && isset($_POST['save_article']) && isset($_POST['article_json'])) {
             . "tags:\n{$tagsYaml}\n"
             . "seo_title: " . json_encode($article['seo_title'] ?? '', JSON_UNESCAPED_UNICODE) . "\n"
             . "seo_desc: " . json_encode($article['seo_desc'] ?? '', JSON_UNESCAPED_UNICODE) . "\n"
-            . "geo_location: " . json_encode($article['geo_location'] ?? 'Milano, Italia', JSON_UNESCAPED_UNICODE) . "\n"
+            . "geo_location: " . json_encode($article['geo_location'] ?? 'Italia', JSON_UNESCAPED_UNICODE) . "\n"
             . "geo_content: " . json_encode($article['geo_content'] ?? '', JSON_UNESCAPED_UNICODE) . "\n"
             . "aeo_answer: " . json_encode($article['aeo_answer'] ?? '', JSON_UNESCAPED_UNICODE) . "\n"
             . "faq:\n{$faqYaml}"
