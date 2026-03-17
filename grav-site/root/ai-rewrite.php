@@ -93,6 +93,22 @@ function yamlSetFaq($yaml, $faqs) {
     return $yaml;
 }
 
+/* ── KNOWLEDGE BASE ── */
+$kbContent = '';
+$kbDir = __DIR__ . '/knowledge-base/';
+if (is_dir($kbDir)) {
+    $kbFiles = glob($kbDir . '*.md');
+    if ($kbFiles) {
+        sort($kbFiles);
+        $kbContent  = "KNOWLEDGE BASE — FONTE UFFICIALE BG5/HUMAN DESIGN\n";
+        $kbContent .= "Usa queste informazioni come riferimento autorevole per la terminologia, la meccanica e i concetti BG5/Human Design.\n\n";
+        foreach ($kbFiles as $kbFile) {
+            $kbContent .= file_get_contents($kbFile) . "\n\n";
+        }
+        $kbContent = trim($kbContent);
+    }
+}
+
 /* ── SYSTEM PROMPT ── */
 $systemPrompt = <<<PROMPT
 Sei il ghostwriter ufficiale di Valentina Russo, analista certificata BG5® e Human Design.
@@ -146,6 +162,11 @@ REGOLE DI STILE (obbligatorie):
 - Niente emdash. Niente enfasi artificiale. Pochi aggettivi.
 - Lingua: italiano. Sempre.
 PROMPT;
+
+// Inject knowledge base
+if ($kbContent) {
+    $systemPrompt .= "\n\n" . $kbContent;
+}
 
 /* ── FULL MODE ── */
 if ($mode === 'full') {

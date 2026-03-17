@@ -58,6 +58,21 @@ function slugify(string $s): string {
     return trim($s, '-');
 }
 
+/* ── KNOWLEDGE BASE ─────────────────────────────────────── */
+function loadKnowledgeBase(): string {
+    $kbDir = __DIR__ . '/knowledge-base/';
+    if (!is_dir($kbDir)) return '';
+    $files = glob($kbDir . '*.md');
+    if (!$files) return '';
+    sort($files);
+    $out  = "KNOWLEDGE BASE — FONTE UFFICIALE BG5/HUMAN DESIGN\n";
+    $out .= "Usa queste informazioni come riferimento autorevole per la terminologia, la meccanica e i concetti BG5/Human Design.\n\n";
+    foreach ($files as $f) {
+        $out .= file_get_contents($f) . "\n\n";
+    }
+    return trim($out);
+}
+
 /* ── GENERATE ARTICLE ────────────────────────────────────── */
 $result  = null;
 $genErr  = null;
@@ -148,6 +163,12 @@ STILE DI SCRITTURA OBBLIGATORIO (si applica a content, description, aeo_answer, 
   * Includi: colori suggeriti, atmosfera, composizione, stile artistico di riferimento
   * Esempio buono: "Soft natural light falling on an open journal and dried flowers on a wooden desk, warm amber tones, shallow depth of field, minimalist aesthetic, no text, no people"
 PROMPT;
+
+        // Inject knowledge base
+        $kb = loadKnowledgeBase();
+        if ($kb) {
+            $systemPrompt .= "\n\n" . $kb;
+        }
 
         $userMsg = "Categoria: {$category}\n\nTRASCRITTO VIDEO:\n\n{$transcript}";
 
