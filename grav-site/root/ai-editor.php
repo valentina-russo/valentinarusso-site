@@ -58,6 +58,29 @@ function slugify(string $s): string {
     return trim($s, '-');
 }
 
+define('CLAUDE_FALLBACK', 'claude-sonnet-4-6');
+
+/* ── CLAUDE HTTP HELPER ──────────────────────────────────── */
+function callClaude(string $payload, string $apiKey): array {
+    $ch = curl_init(CLAUDE_URL);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $payload,
+        CURLOPT_HTTPHEADER     => [
+            'Content-Type: application/json',
+            'x-api-key: ' . $apiKey,
+            'anthropic-version: ' . CLAUDE_VERSION,
+        ],
+        CURLOPT_TIMEOUT => 90,
+    ]);
+    $raw  = curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $cerr = curl_error($ch);
+    unset($ch);
+    return [$raw, $code, $cerr];
+}
+
 /* ── KNOWLEDGE BASE ─────────────────────────────────────── */
 function loadKnowledgeBase(): string {
     $kbDir = __DIR__ . '/knowledge-base/';
@@ -179,22 +202,17 @@ PROMPT;
             'messages'   => [['role' => 'user', 'content' => $userMsg]],
         ]);
 
-        $ch = curl_init(CLAUDE_URL);
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST           => true,
-            CURLOPT_POSTFIELDS     => $payload,
-            CURLOPT_HTTPHEADER     => [
-                'Content-Type: application/json',
-                'x-api-key: ' . $apiKey,
-                'anthropic-version: ' . CLAUDE_VERSION,
-            ],
-            CURLOPT_TIMEOUT        => 90,
-        ]);
-        $raw  = curl_exec($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $cerr = curl_error($ch);
-        unset($ch);
+        [$raw, $code, $cerr] = callClaude($payload, $apiKey);
+
+        // Fallback automatico su Sonnet se Opus è overloaded (529)
+        $modelUsed = CLAUDE_MODEL;
+        if (!$cerr && $code === 529) {
+            $p = json_decode($payload, true);
+            $p['model'] = CLAUDE_FALLBACK;
+            $payload = json_encode($p);
+            [$raw, $code, $cerr] = callClaude($payload, $apiKey);
+            $modelUsed = CLAUDE_FALLBACK;
+        }
 
         if ($cerr) {
             $genErr = 'cURL error: ' . $cerr;
@@ -212,8 +230,9 @@ PROMPT;
             if (!$article || !isset($article['title'])) {
                 $genErr = 'Risposta Claude non valida. Raw: ' . substr($jsonText, 0, 500);
             } else {
-                $result   = $article;
+                $result         = $article;
                 $category_saved = $category;
+                $modelUsed      = $modelUsed ?? CLAUDE_MODEL;
             }
         }
     }
@@ -498,7 +517,7 @@ function copyPrompt(i){
   $seoDescLen  = mb_strlen($result['seo_desc'] ?? '');
 ?>
 <div class="card">
-  <h2>✅ Articolo Generato <span class="badge <?= $cat==='aziende'?'badge-az':'badge-priv' ?>"><?= $cat ?></span></h2>
+  <h2>✅ Articolo Generato <span class="badge <?= $cat==='aziende'?'badge-az':'badge-priv' ?>"><?= $cat ?></span><?php if(($modelUsed??'')===CLAUDE_FALLBACK): ?> <span class="badge" style="background:#e67e22;margin-left:6px" title="Opus era sovraccarico, articolo generato con Sonnet">⚡ Sonnet (fallback)</span><?php endif; ?></h2>
 
   <div class="field">
     <label>Titolo</label>

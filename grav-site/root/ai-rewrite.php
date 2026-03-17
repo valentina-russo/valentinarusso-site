@@ -242,24 +242,36 @@ if ($mode === 'full') {
     ]);
 }
 
-/* ── CHIAMATA CLAUDE ── */
-$ch = curl_init(CLAUDE_URL);
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_POST           => true,
-    CURLOPT_POSTFIELDS     => $payload,
-    CURLOPT_HTTPHEADER     => [
-        'Content-Type: application/json',
-        'x-api-key: ' . $apiKey,
-        'anthropic-version: ' . CLAUDE_VERSION,
-    ],
-    CURLOPT_TIMEOUT => 180,
-]);
+/* ── CHIAMATA CLAUDE (con fallback automatico Opus → Sonnet su 529) ── */
+function doClaudeRequest(string $payload, string $apiKey, int $timeout = 180): array {
+    $ch = curl_init(CLAUDE_URL);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $payload,
+        CURLOPT_HTTPHEADER     => [
+            'Content-Type: application/json',
+            'x-api-key: ' . $apiKey,
+            'anthropic-version: ' . CLAUDE_VERSION,
+        ],
+        CURLOPT_TIMEOUT => $timeout,
+    ]);
+    $raw  = curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $cerr = curl_error($ch);
+    curl_close($ch);
+    return [$raw, $code, $cerr];
+}
 
-$raw  = curl_exec($ch);
-$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-$cerr = curl_error($ch);
-curl_close($ch);
+[$raw, $code, $cerr] = doClaudeRequest($payload, $apiKey);
+
+// Fallback automatico su Sonnet se Opus è overloaded (529) — solo per mode body/full
+if (!$cerr && $code === 529 && $mode !== 'meta') {
+    $p = json_decode($payload, true);
+    $p['model'] = 'claude-sonnet-4-6';
+    $payload = json_encode($p);
+    [$raw, $code, $cerr] = doClaudeRequest($payload, $apiKey);
+}
 
 if ($cerr) {
     echo json_encode(['ok' => false, 'error' => 'cURL error: ' . $cerr]);
