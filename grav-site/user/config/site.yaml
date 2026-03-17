@@ -22,7 +22,7 @@ taxonomies:
 
 # Google Search Console — incolla qui il codice di verifica (solo il valore del content=)
 # Esempio: google_verification: "AbCdEf123456789..."
-google_verification: ""
+google_verification: "hVvQ2yByWi_wqkv5-CpFa5ifdITtkTIsE1wBWU6WgOQ"
 
 # Redirect 301 — articoli privati spostati da /blog/ a /blog/articoli/
 redirects:
