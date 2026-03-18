@@ -11,7 +11,12 @@ define('ADMIN_PASS',     'ValeAdmin2026');
 define('CONFIG_FILE',    __DIR__ . '/ai-editor.config.php');
 define('DIR_PRIVATI',    __DIR__ . '/user/pages/04.blog/articoli/');
 define('DIR_AZIENDE',    __DIR__ . '/user/pages/05.aziende/02.blog/');
-define('CLAUDE_MODEL',   'claude-sonnet-4-6');
+define('CLAUDE_MODEL_DEFAULT', 'claude-opus-4-6');
+define('CLAUDE_MODELS', [
+    'claude-opus-4-6'   => ['label' => 'Opus 4.6',   'desc' => 'Massima qualità — consigliato per articoli definitivi'],
+    'claude-sonnet-4-6' => ['label' => 'Sonnet 4.6', 'desc' => 'Ottimo equilibrio qualità/velocità'],
+    'claude-haiku-4-5'  => ['label' => 'Haiku 4.5',  'desc' => 'Veloce ed economico — bozze rapide'],
+]);
 define('CLAUDE_URL',     'https://api.anthropic.com/v1/messages');
 define('CLAUDE_VERSION', '2023-06-01');
 
@@ -103,6 +108,8 @@ if ($authed && isset($_POST['generate'])) {
     $transcript = trim($_POST['transcript'] ?? '');
     $category   = $_POST['category'] ?? 'privati';  // privati | aziende
     $today      = date('Y-m-d H:i:s');
+    $aiModel    = $_POST['ai_model'] ?? CLAUDE_MODEL_DEFAULT;
+    if (!array_key_exists($aiModel, CLAUDE_MODELS)) $aiModel = CLAUDE_MODEL_DEFAULT;
 
     if (empty($transcript)) {
         $genErr = 'Incolla la trascrizione del video.';
@@ -193,10 +200,8 @@ PROMPT;
 
         $userMsg = "Categoria: {$category}\n\nTRASCRITTO VIDEO:\n\n{$transcript}";
 
-        $modelUsed = CLAUDE_MODEL;
-
         $payload = json_encode([
-            'model'      => $modelUsed,
+            'model'      => $aiModel,
             'max_tokens' => 4096,
             'system'     => $systemPrompt,
             'messages'   => [['role' => 'user', 'content' => $userMsg]],
@@ -222,7 +227,7 @@ PROMPT;
             } else {
                 $result         = $article;
                 $category_saved = $category;
-                $modelUsed      = CLAUDE_MODEL;
+                $model_used     = $aiModel;
             }
         }
     }
@@ -347,6 +352,14 @@ textarea{resize:vertical;min-height:200px;font-family:monospace;font-size:.82rem
 .badge-priv{background:#B68397;color:#fff}
 .badge-az{background:#1e3a5f;color:#fff}
 @media(max-width:600px){.row,.meta-grid{grid-template-columns:1fr}}
+.model-selector{display:flex;gap:10px;flex-wrap:wrap}
+.model-option{flex:1;min-width:180px;position:relative}
+.model-option input[type=radio]{position:absolute;opacity:0;width:0;height:0}
+.model-option label{display:block;padding:12px 14px;border:2px solid var(--border);border-radius:8px;cursor:pointer;transition:border-color .2s,background .2s;background:#fafbfc}
+.model-option input:checked + label{border-color:var(--primary);background:#eef2f8}
+.model-option label:hover{border-color:#aab4c4}
+.model-name{font-weight:700;font-size:.9rem;color:var(--primary);display:block;margin-bottom:3px}
+.model-desc{font-size:.76rem;color:var(--muted);font-weight:400}
 .img-prompt-box{background:#f0f4ff;border:1px solid #c7d4f0;border-radius:8px;padding:14px 16px;margin-bottom:12px;position:relative}
 .img-prompt-label{font-size:.75rem;font-weight:700;color:var(--primary);margin-bottom:7px;text-transform:uppercase;letter-spacing:.04em}
 .img-prompt-text{font-size:.83rem;line-height:1.6;color:var(--text);padding-right:90px}
@@ -475,6 +488,21 @@ function copyPrompt(i){
   <h2>📝 Genera Articolo da Testo</h2>
   <form method="POST" data-gen>
     <div class="field">
+      <label>Modello AI</label>
+      <div class="model-selector">
+        <?php foreach (CLAUDE_MODELS as $modelId => $modelInfo): ?>
+        <div class="model-option">
+          <input type="radio" name="ai_model" id="m_<?= h($modelId) ?>" value="<?= h($modelId) ?>"
+            <?= $modelId === CLAUDE_MODEL_DEFAULT ? 'checked' : '' ?>>
+          <label for="m_<?= h($modelId) ?>">
+            <span class="model-name"><?= h($modelInfo['label']) ?></span>
+            <span class="model-desc"><?= h($modelInfo['desc']) ?></span>
+          </label>
+        </div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+    <div class="field">
       <label>Categoria articolo</label>
       <div class="radios">
         <label><input type="radio" name="category" value="privati" checked> 🌸 Privati (crescita personale, HD)</label>
@@ -502,14 +530,14 @@ function copyPrompt(i){
 <?php else: ?>
 <!-- RESULT -->
 <?php
-  $cat   = $category_saved ?? 'privati';
+  $cat         = $category_saved ?? 'privati';
   $seoTitleLen = mb_strlen($result['seo_title'] ?? '');
   $seoDescLen  = mb_strlen($result['seo_desc'] ?? '');
+  $usedModel   = $model_used ?? CLAUDE_MODEL_DEFAULT;
+  $usedLabel   = CLAUDE_MODELS[$usedModel]['label'] ?? $usedModel;
 ?>
 <div class="card">
-  <h2>✅ Articolo Generato <span class="badge <?= $cat==='aziende'?'badge-az':'badge-priv' ?>"><?= $cat ?></span>
-  <span class="badge" style="background:#7c3aed;margin-left:6px">✦ Sonnet</span>
-  </h2>
+  <h2>✅ Articolo Generato <span class="badge <?= $cat==='aziende'?'badge-az':'badge-priv' ?>"><?= $cat ?></span> <span style="font-size:.72rem;font-weight:400;color:var(--muted);background:#f0f4ff;border-radius:12px;padding:2px 10px;border:1px solid #c7d4f0"><?= h($usedLabel) ?></span></h2>
 
   <div class="field">
     <label>Titolo</label>
