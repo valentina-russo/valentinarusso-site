@@ -2,17 +2,17 @@
 
 Il Profilo (Career Profile in BG5, Profile in HD) è composto da due linee dell'I Ching (1-6) che derivano dalla posizione del Sole di Personalità e del Sole di Design. Descrive il **tema di vita**, il modo in cui la persona si relaziona al mondo e il ruolo che ricopre.
 
-Le 6 linee di base:
-- **Linea 1** — Fondamenta, investigatore, ricercatore; ha bisogno di basi solide prima di agire
-- **Linea 2** — Ermita, naturalezza, talento innato non sempre riconosciuto da sé stesso; ha bisogno di spazio ma viene chiamato dagli altri
-- **Linea 3** — Martire, scoperta attraverso la prova e l'errore; impara cosa non funziona e porta questa conoscenza pratica
-- **Linea 4** — Opportunista/Amicizia, rete di relazioni, influenza attraverso connessioni personali
-- **Linea 5** — Eretico/Pratico, proiezioni degli altri, reputazione; portatore di soluzioni pratiche per la collettività
-- **Linea 6** — Modello di ruolo; tre fasi della vita (0-30 errori come 3, 30-50 distacco/osservazione, 50+ modello autentico)
+Le 6 linee di base (con nome BG5 ufficiale):
+- **Linea 1 — Autorità** (HD: Investigatore): ha bisogno di basi solide prima di agire; porta conoscenza e sicurezza
+- **Linea 2 — Talento Naturale** (HD: Ermita): dono innato non sempre riconosciuto da sé stesso; ha bisogno di spazio ma viene chiamato dagli altri
+- **Linea 3 — Pioniere** (HD: Martire): scoperta attraverso la prova e l'errore; impara cosa non funziona e porta conoscenza pratica
+- **Linea 4 — Influencer** (HD: Opportunista): rete di relazioni, influenza attraverso connessioni personali e fiducia
+- **Linea 5 — Messaggero** (HD: Eretico): reputazione, proiezioni degli altri; portatore di soluzioni pratiche per la collettività
+- **Linea 6 — Leader** (HD: Modello di Ruolo): tre fasi della vita (0-30 errori come linea 3, 30-50 distacco/osservazione, 50+ guida autentica)
 
 ---
 
-## 1/3 — Investigatore / Martire
+## 1/3 — Autorità / Pioniere
 
 **Tema di vita:** Scoperta attraverso l'indagine e la sperimentazione pratica. Bisogno di basi solide (linea 1) ma vita fatta di tentativi ed errori (linea 3). Accumula conoscenze teoriche e le mette alla prova nella realtà.
 
@@ -22,7 +22,7 @@ Le 6 linee di base:
 
 ---
 
-## 1/4 — Investigatore / Opportunista
+## 1/4 — Autorità / Influencer
 
 **Tema di vita:** Costruisce basi solide e le condivide attraverso una rete di relazioni di fiducia. La sua conoscenza vale quanto la sua rete.
 
@@ -32,7 +32,7 @@ Le 6 linee di base:
 
 ---
 
-## 2/4 — Ermita / Opportunista
+## 2/4 — Talento Naturale / Influencer
 
 **Tema di vita:** Talento naturale che emerge solo quando viene chiamato dal proprio cerchio. Non si auto-promuove — viene visto dagli altri che lo cercano.
 
@@ -42,7 +42,7 @@ Le 6 linee di base:
 
 ---
 
-## 2/5 — Ermita / Eretico
+## 2/5 — Talento Naturale / Messaggero
 
 **Tema di vita:** Talento naturale su cui gli altri proiettano grandi aspettative pratiche. Viene visto come "il salvatore" o "la soluzione" dai più.
 
@@ -52,7 +52,7 @@ Le 6 linee di base:
 
 ---
 
-## 3/5 — Martire / Eretico
+## 3/5 — Pioniere / Messaggero
 
 **Tema di vita:** Impara attraverso l'errore (linea 3) e porta soluzioni pratiche alla collettività (linea 5). "Il Principio di Peter" — qualcosa andrà storto perché è la sua metodologia di scoperta.
 
@@ -62,7 +62,7 @@ Le 6 linee di base:
 
 ---
 
-## 3/6 — Martire / Modello di Ruolo
+## 3/6 — Pioniere / Leader
 
 **Tema di vita:** Tre fasi: 0-30 prove ed errori intensi; 30-50 distacco e osservazione; 50+ modello di vita autentica basato sull'esperienza reale.
 
@@ -72,7 +72,7 @@ Le 6 linee di base:
 
 ---
 
-## 4/6 — Opportunista / Modello di Ruolo
+## 4/6 — Influencer / Leader
 
 **Tema di vita:** Tre fasi evolutive, ma con il fondamento delle relazioni (linea 4). La rete di amicizie è la piattaforma da cui emerge come modello.
 
@@ -82,7 +82,7 @@ Le 6 linee di base:
 
 ---
 
-## 4/1 — Opportunista / Investigatore
+## 4/1 — Influencer / Autorità
 
 **Tema di vita:** Le fondamenta della conoscenza (linea 1) si esprimono attraverso le relazioni (linea 4). La sicurezza interna viene dalla solidità delle basi teoriche.
 
@@ -92,7 +92,7 @@ Le 6 linee di base:
 
 ---
 
-## 5/1 — Eretico / Investigatore
+## 5/1 — Messaggero / Autorità
 
 **Tema di vita:** Portatore di soluzioni pratiche (linea 5) con basi solide (linea 1). Ra Uru Hu aveva questo profilo. Alta visibilità e proiezioni forti da parte degli altri.
 
@@ -102,7 +102,7 @@ Le 6 linee di base:
 
 ---
 
-## 5/2 — Eretico / Ermita
+## 5/2 — Messaggero / Talento Naturale
 
 **Tema di vita:** La collettività proietta su questa persona soluzioni pratiche che lei porta inconsapevolmente attraverso il suo talento naturale. Ha bisogno di solitudine per ricaricarsi ma viene cercata per il suo "dono pratico".
 
@@ -112,7 +112,7 @@ Le 6 linee di base:
 
 ---
 
-## 6/2 — Modello di Ruolo / Ermita
+## 6/2 — Leader / Talento Naturale
 
 **Tema di vita:** Nelle prime due fasi vive con un talento naturale (linea 2) spesso non riconosciuto; nella terza fase diventa un vero modello grazie all'autenticità, non all'immagine.
 
@@ -120,7 +120,7 @@ Le 6 linee di base:
 
 ---
 
-## 6/3 — Modello di Ruolo / Martire
+## 6/3 — Leader / Pioniere
 
 **Tema di vita:** Fase intensa di prove ed errori (linea 3) + tre fasi evolutive della linea 6. Esperienza intensa e diretta che porta alla costruzione di un modello di vita autentico.
 
