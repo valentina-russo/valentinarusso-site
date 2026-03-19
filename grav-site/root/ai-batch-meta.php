@@ -1,4 +1,7 @@
 <?php
+// Disabilita output buffering per streaming in tempo reale
+while (ob_get_level()) { ob_end_clean(); }
+ob_implicit_flush(true);
 /**
  * ai-batch-meta.php — aggiorna geo_content e aeo_answer su tutti gli articoli
  * che non li hanno ancora, usando Claude API.
@@ -323,38 +326,43 @@ foreach ($toProcess as $a) {
     $needG = $force || !$a['has_geo'];
     $needA = $force || !$a['has_aeo'];
 
-    echo "\n[{$processed}/" . count($toProcess) . "] " . htmlspecialchars($a['title']) . "\n";
+    $pbar = str_pad('', (int)($pct/2), '█') . str_pad('', 50-(int)($pct/2), '░');
+    echo "\n[{$processed}/" . count($toProcess) . "] {$pbar} {$pct}%\n";
+    echo htmlspecialchars($a['title']) . "\n";
     echo "  geo_content: " . ($needG ? '⏳ da generare' : '✓ già presente' . ($force?' (force)':'')) . "\n";
     echo "  aeo_answer:  " . ($needA ? '⏳ da generare' : '✓ già presente' . ($force?' (force)':'')) . "\n";
-    flush();
+    ob_flush(); flush();
 
     if (!$needG && !$needA) {
-        echo "  → Saltato\n";
-        flush();
+        echo "  → Saltato (entrambi presenti)\n";
+        ob_flush(); flush();
         continue;
     }
 
     if ($dry) {
         echo "  → [DRY RUN] Nessuna modifica\n";
         $done++;
-        flush();
+        ob_flush(); flush();
         continue;
     }
 
-    // Prepara testo articolo (frontmatter + primi 2000 char del body)
+    // Prepara testo articolo
     $bodyPreview = trim(strip_tags(preg_replace('/#{1,6}\s/', '', $a['body'])));
     $bodyPreview = mb_substr($bodyPreview, 0, 2000);
     $userMsg  = "Titolo: " . $a['title'] . "\n\n";
     $userMsg .= "Testo articolo:\n" . $bodyPreview;
-    if (!$needG) $userMsg .= "\n\n[NOTA: geo_content esiste già — genera comunque solo aeo_answer, metti geo_content uguale a stringa vuota]";
-    if (!$needA) $userMsg .= "\n\n[NOTA: aeo_answer esiste già — genera comunque solo geo_content, metti aeo_answer uguale a stringa vuota]";
+    if (!$needG) $userMsg .= "\n\n[NOTA: geo_content esiste già — genera solo aeo_answer, lascia geo_content stringa vuota]";
+    if (!$needA) $userMsg .= "\n\n[NOTA: aeo_answer esiste già — genera solo geo_content, lascia aeo_answer stringa vuota]";
+
+    echo "  ⏳ Chiamata API Claude ({$model})...\n";
+    ob_flush(); flush();
 
     $resp = claudeCall($apiKey, $model, $systemPrompt, $userMsg);
 
     if (!$resp || empty($resp['content'][0]['text'])) {
         echo "  → ❌ Errore API: " . htmlspecialchars(json_encode($resp['error'] ?? 'risposta vuota')) . "\n";
         $errors++;
-        flush();
+        ob_flush(); flush();
         continue;
     }
 
@@ -366,22 +374,18 @@ foreach ($toProcess as $a) {
     if (!$parsed) {
         echo "  → ❌ JSON non valido: " . htmlspecialchars(substr($text, 0, 200)) . "\n";
         $errors++;
-        flush();
+        ob_flush(); flush();
         continue;
     }
 
-    $geoNew = trim($parsed['geo_content'] ?? '');
-    $aeoNew = trim($parsed['aeo_answer']  ?? '');
+    $geoNew = is_array($parsed['geo_content'] ?? null)
+        ? implode(' ', $parsed['geo_content'])
+        : trim($parsed['geo_content'] ?? '');
+    $aeoNew = trim($parsed['aeo_answer'] ?? '');
 
-    // Normalizza geo_content array → stringa
-    if (is_array($parsed['geo_content'] ?? null)) {
-        $geoNew = implode(' ', $parsed['geo_content']);
-    }
+    echo "  geo → " . htmlspecialchars(mb_substr($geoNew, 0, 90)) . "…\n";
+    echo "  aeo → " . htmlspecialchars(mb_substr($aeoNew, 0, 90)) . "…\n";
 
-    echo "  geo → " . htmlspecialchars(mb_substr($geoNew, 0, 80)) . "…\n";
-    echo "  aeo → " . htmlspecialchars(mb_substr($aeoNew, 0, 80)) . "…\n";
-
-    // Aggiorna il frontmatter
     $fm = $a['fm_raw'];
     if ($needG && $geoNew) { $fm = fmSetField($fm, 'geo_content', $geoNew); }
     if ($needA && $aeoNew) { $fm = fmSetField($fm, 'aeo_answer',  $aeoNew); }
@@ -390,9 +394,8 @@ foreach ($toProcess as $a) {
     file_put_contents($a['path'], $newContent);
     echo "  → ✅ Salvato\n";
     $done++;
-    flush();
+    ob_flush(); flush();
 
-    // Pausa anti-rate-limit
     usleep(DELAY_MS * 1000);
 }
 
