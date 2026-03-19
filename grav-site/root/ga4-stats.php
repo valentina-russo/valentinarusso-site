@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', 1); error_reporting(E_ALL);
 /**
  * ga4-stats.php — Dashboard statistiche GA4 + Search Console
  * valentinarussobg5.com
