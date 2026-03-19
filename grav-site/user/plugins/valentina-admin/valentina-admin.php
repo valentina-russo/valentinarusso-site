@@ -68,6 +68,11 @@ class ValentinaAdminPlugin extends Plugin
 #vb-action-bar .vb-ab-left code{
   color:#38bdf8;font-size:.82rem;letter-spacing:.01em;
 }
+#vb-action-bar .vb-ab-title{
+    background:#1e40af;color:#fff;border:none;border-radius:4px;
+    padding:4px 10px;cursor:pointer;font-size:.72rem;font-weight:700;text-transform:uppercase;
+}
+#vb-action-bar .vb-ab-title:hover{background:#1d4ed8;}
 #vb-action-bar .vb-ab-rename{
   background:#1e293b;color:#94a3b8;border:1px solid #334155;
   border-radius:4px;padding:2px 9px;font-size:.72rem;cursor:pointer;
@@ -253,6 +258,53 @@ body.grav-admin-page{ padding-bottom:58px!important; }
         if(fb){ fb.click(); } else { form.submit(); }
       }
     }, 200);
+  }
+
+  /* ── CAMBIA TITOLO ──────────────────── */
+  function cambiaTitolo(currentSlug){
+    // Legge titolo attuale dal campo Grav o dal JSON header
+    var titleEl = document.querySelector('input[name="data[title]"]');
+    var jsonEl  = document.querySelector('input[name="data[_json][header][title]"]');
+    var curr = '';
+    if(titleEl && titleEl.value.trim()) curr = titleEl.value.trim();
+    else if(jsonEl && jsonEl.value){
+      try{ curr = JSON.parse(jsonEl.value); } catch(e){ curr = jsonEl.value.replace(/^"|"$/g,''); }
+    }
+
+    var newTitle = prompt('Modifica il titolo dell\'articolo:', curr);
+    if(newTitle === null) return;
+    newTitle = newTitle.trim();
+    if(!newTitle){ alert('Il titolo non può essere vuoto.'); return; }
+    if(newTitle === curr) return;
+
+    var parts          = window.location.pathname.split('/');
+    var pIdx           = parts.indexOf('pages');
+    var parentSegments = parts.slice(pIdx + 1, -1);
+    var parentPath     = parentSegments.join('/');
+
+    overlayShow('Salvataggio titolo in corso...');
+
+    var fd = new FormData();
+    fd.append('pass',        'ValeAdmin2026');
+    fd.append('parent_path', parentPath);
+    fd.append('slug',        currentSlug);
+    fd.append('new_title',   newTitle);
+
+    fetch('/vb-set-title.php', { method:'POST', body:fd, credentials:'include' })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        overlayHide();
+        if(data.ok){
+          // Aggiorna anche il campo titolo visibile nella pagina
+          if(titleEl) titleEl.value = newTitle;
+          if(jsonEl)  jsonEl.value  = JSON.stringify(newTitle);
+          alert('✅ Titolo aggiornato: ' + newTitle);
+          location.reload();
+        } else {
+          alert('Errore: ' + (data.error || 'sconosciuto'));
+        }
+      })
+      .catch(function(err){ overlayHide(); alert('Errore: ' + err); });
   }
 
   /* ── RINOMINA SLUG ───────────────────── */
@@ -746,6 +798,12 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       left.insertAdjacentHTML('beforeend', ' <i class="fa fa-link"></i> <span>Slug:</span> <code>' + currentSlug + '</code>');
 
       if(currentSlug){
+        var titBtn = document.createElement('button');
+        titBtn.className = 'vb-ab-title';
+        titBtn.innerHTML = '<i class="fa fa-pencil"></i> Titolo';
+        titBtn.addEventListener('click', function(){ cambiaTitolo(currentSlug); });
+        left.appendChild(titBtn);
+
         var renBtn = document.createElement('button');
         renBtn.className = 'vb-ab-rename';
         renBtn.textContent = 'Rinomina';
