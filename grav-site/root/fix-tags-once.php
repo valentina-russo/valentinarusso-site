@@ -1,5 +1,5 @@
 <?php
-// Debug + fix: legge il frontmatter di un articolo
+// One-time: converte geo_content array YAML -> stringa
 // ELIMINARE SUBITO DOPO L'USO
 
 define('TOKEN', 'fix-tags-2026-ok');
@@ -21,9 +21,30 @@ foreach ($it as $file) {
 if (!$found) { die('File non trovato per slug: ' . htmlspecialchars($slug)); }
 
 $content = file_get_contents($found);
+$lines   = explode("\n", $content);
+$fixed   = [];
 
-// Estrae solo il frontmatter (tra i due ---)
-preg_match('/^---\s*\n(.*?)\n---/s', $content, $fm);
-$frontmatter = $fm[1] ?? 'FRONTMATTER NON TROVATO';
+foreach ($lines as $i => $line) {
+    // Rileva riga geo_content: [...]  oppure  geo_content: ["..."]
+    if (preg_match('/^(geo_content):\s*(\[.+\])\s*$/', $line, $m)) {
+        // Decodifica il JSON array
+        $arr = json_decode($m[2], true);
+        if (is_array($arr)) {
+            // Unisce in un'unica stringa, sostituisce ' con ''
+            $joined  = implode(' ', $arr);
+            $escaped = str_replace("'", "''", $joined);
+            $fixed[] = "geo_content: '" . $escaped . "'";
+            continue;
+        }
+    }
+    $fixed[] = $line;
+}
 
-echo '<pre>' . htmlspecialchars($frontmatter) . '</pre>';
+$newContent = implode("\n", $fixed);
+
+if ($newContent === $content) {
+    die('Nessuna modifica: geo_content non e\' un array JSON su una riga, o non trovato.');
+}
+
+file_put_contents($found, $newContent);
+echo '<pre>OK - geo_content convertito da array a stringa singola.</pre>';

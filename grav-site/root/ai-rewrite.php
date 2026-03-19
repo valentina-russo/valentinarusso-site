@@ -330,6 +330,11 @@ if ($mode === 'full' || $mode === 'meta') {
     // Aggiorna il frontmatter YAML con i nuovi valori
     $fm = $frontmatter;
     if ($fm) {
+        // Normalizza geo_content: se l'AI lo ha restituito come array, unisce in stringa
+        if (is_array($parsed['geo_content'] ?? null)) {
+            $parsed['geo_content'] = implode(' ', $parsed['geo_content']);
+        }
+
         foreach (['description', 'seo_title', 'seo_desc', 'aeo_answer', 'geo_content', 'image_alt', 'image_title', 'image_caption', 'image_desc'] as $field) {
             if (!empty($parsed[$field])) {
                 $fm = yamlSetField($fm, $field, $parsed[$field]);

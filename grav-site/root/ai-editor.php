@@ -258,8 +258,15 @@ if ($authed && isset($_POST['save_article']) && isset($_POST['article_json'])) {
         }
 
         // Build tags YAML
-        $tagsYaml = implode("\n    - ", array_map('trim', $article['tags'] ?? []));
+        $tagsRaw  = $article['tags'] ?? [];
+        if (is_string($tagsRaw)) { $tagsRaw = array_map('trim', explode(',', $tagsRaw)); }
+        $tagsYaml = implode("\n    - ", array_map('trim', $tagsRaw));
         $tagsYaml = $tagsYaml ? "    - {$tagsYaml}" : '';
+
+        // Normalizza geo_content: se l'AI lo ha restituito come array, unisce in stringa
+        if (is_array($article['geo_content'] ?? null)) {
+            $article['geo_content'] = implode(' ', $article['geo_content']);
+        }
 
         $md = "---\ntitle: " . json_encode($article['title'] ?? '', JSON_UNESCAPED_UNICODE) . "\n"
             . "date: {$today}\n"
