@@ -1,5 +1,4 @@
 <?php
-ini_set('display_errors', 1); error_reporting(E_ALL);
 /**
  * ga4-stats.php — Dashboard statistiche GA4 + Search Console
  * valentinarussobg5.com
@@ -253,7 +252,7 @@ $scTrendImpr   = json_encode(array_map(fn($r) => $r['impressions'] ?? 0, $scTren
 function fmtDur(int $s): string { return sprintf('%d\'%02d"', intdiv($s,60), $s%60); }
 function num(int $n): string    { return number_format($n, 0, ',', '.'); }
 function pct(float $v): string  { return number_format($v, 1, ',', '.') . '%'; }
-function pos(float $v): string  { return number_format($v, 1, ',', '.'); }
+function fmtPos(float $v): string { return number_format($v, 1, ',', '.'); }
 function shortUrl(string $u): string {
     $u = preg_replace('#^https?://[^/]+#', '', $u);
     return strlen($u) > 40 ? substr($u,0,38).'…' : ($u ?: '/');
@@ -465,7 +464,7 @@ tr:hover td{background:#0f172a;}
   </div>
   <div class="kpi-card sc">
     <div class="kpi-label">Posizione media</div>
-    <div class="kpi-value"><?=pos($scKpi['position'])?></div>
+    <div class="kpi-value"><?=fmtPos($scKpi['position'])?></div>
     <div class="kpi-sub">nei risultati Google</div>
   </div>
 </div>
@@ -491,7 +490,7 @@ tr:hover td{background:#0f172a;}
       </td>
       <td class="num"><?=num($q['clicks']??0)?></td>
       <td class="num"><?=num($q['impressions']??0)?></td>
-      <td class="num"><?=pos($q['position']??0)?></td></tr>
+      <td class="num"><?=fmtPos($q['position']??0)?></td></tr>
     <?php endforeach; ?>
     </tbody></table>
     <?php else: ?><p style="color:#64748b;font-size:.85rem;">Nessun dato</p><?php endif; ?>
@@ -511,7 +510,7 @@ tr:hover td{background:#0f172a;}
         <div class="bar-bg"><div class="bar-fill sc" style="width:<?=$maxP>0?round(($pg['clicks']??0)/$maxP*100):0?>%"></div></div>
       </td>
       <td class="num"><?=num($pg['clicks']??0)?></td>
-      <td class="num"><?=pos($pg['position']??0)?></td></tr>
+      <td class="num"><?=fmtPos($pg['position']??0)?></td></tr>
     <?php endforeach; ?>
     </tbody></table>
     <?php else: ?><p style="color:#64748b;font-size:.85rem;">Nessun dato</p><?php endif; ?>
