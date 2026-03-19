@@ -72,6 +72,30 @@ function yamlSetField($yaml, $key, $value) {
 }
 
 /**
+ * Scrive il campo tags come lista YAML (array Grav-compatibile).
+ * Input: array di stringhe oppure stringa "tag1,tag2,tag3".
+ */
+function yamlSetTags($yaml, $tags) {
+    if (is_string($tags)) {
+        $tags = array_map('trim', explode(',', $tags));
+    }
+    $tags = array_filter($tags);
+    $block = "tags:\n";
+    foreach ($tags as $t) {
+        $escaped = str_replace("'", "''", trim($t));
+        $block  .= "    - '" . $escaped . "'\n";
+    }
+    $block = rtrim($block);
+    if (preg_match('/^tags:/m', $yaml)) {
+        // Sostituisce tags: + tutte le righe indentate che lo seguono
+        $yaml = preg_replace('/^tags:.*(?:\n(?:[ \t]+.*)?)*(?:\n|$)/m', $block . "\n", $yaml);
+    } else {
+        $yaml .= "\n" . $block;
+    }
+    return $yaml;
+}
+
+/**
  * Sostituisce (o aggiunge) il blocco faq: nel YAML frontmatter.
  * Formato Grav a 4 spazi.
  */
@@ -184,7 +208,7 @@ if ($mode === 'full') {
     $userMsg .= "  \"description\": \"meta-description 140-155 caratteri con keyword principale\",\n";
     $userMsg .= "  \"seo_title\": \"titolo SEO 50-60 caratteri, keyword all'inizio\",\n";
     $userMsg .= "  \"seo_desc\": \"descrizione SEO 150-155 caratteri\",\n";
-    $userMsg .= "  \"tags\": \"4-6 tag separati da virgola in italiano senza #\",\n";
+    $userMsg .= "  \"tags\": [\"tag1\", \"tag2\", \"tag3\"],\n";
     $userMsg .= "  \"aeo_answer\": \"risposta diretta alla domanda principale, 80-120 parole\",\n";
     $userMsg .= "  \"geo_content\": \"3-5 affermazioni precise e autorevoli sul tema: definizioni esatte di termini BG5/HD usati nell'articolo, posizionamento unico di Valentina, risposte dirette alle domande più cercate. Usa frasi complete, tono enciclopedico, citabile da ChatGPT/Perplexity/Gemini. Max 200 parole.\",\n";
     $userMsg .= "  \"image_alt\": \"alt text accessibile per l'immagine copertina, max 120 caratteri, descrittivo e con keyword principale\",\n";
@@ -218,7 +242,7 @@ if ($mode === 'full') {
     $userMsg .= "  \"description\": \"meta-description 140-155 caratteri con keyword principale\",\n";
     $userMsg .= "  \"seo_title\": \"titolo SEO 50-60 caratteri, keyword all'inizio\",\n";
     $userMsg .= "  \"seo_desc\": \"descrizione SEO 150-155 caratteri\",\n";
-    $userMsg .= "  \"tags\": \"4-6 tag separati da virgola in italiano senza #\",\n";
+    $userMsg .= "  \"tags\": [\"tag1\", \"tag2\", \"tag3\"],\n";
     $userMsg .= "  \"aeo_answer\": \"risposta diretta alla domanda principale dell'articolo, 80-120 parole\",\n";
     $userMsg .= "  \"geo_content\": \"3-5 affermazioni precise e autorevoli sul tema: definizioni esatte di termini BG5/HD, posizionamento di Valentina, risposte alle domande piu' cercate. Max 200 parole.\",\n";
     $userMsg .= "  \"image_alt\": \"alt text accessibile per l'immagine copertina, max 120 caratteri, descrittivo e con keyword\",\n";
@@ -306,10 +330,14 @@ if ($mode === 'full' || $mode === 'meta') {
     // Aggiorna il frontmatter YAML con i nuovi valori
     $fm = $frontmatter;
     if ($fm) {
-        foreach (['description', 'seo_title', 'seo_desc', 'tags', 'aeo_answer', 'geo_content', 'image_alt', 'image_title', 'image_caption', 'image_desc'] as $field) {
+        foreach (['description', 'seo_title', 'seo_desc', 'aeo_answer', 'geo_content', 'image_alt', 'image_title', 'image_caption', 'image_desc'] as $field) {
             if (!empty($parsed[$field])) {
                 $fm = yamlSetField($fm, $field, $parsed[$field]);
             }
+        }
+        // tags: sempre come lista YAML, mai come stringa
+        if (!empty($parsed['tags'])) {
+            $fm = yamlSetTags($fm, $parsed['tags']);
         }
         if (!empty($parsed['faq']) && is_array($parsed['faq'])) {
             $fm = yamlSetFaq($fm, $parsed['faq']);
