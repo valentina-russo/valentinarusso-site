@@ -162,7 +162,9 @@ REGOLE TASSATIVE:
 - seo_title: MASSIMO 60 caratteri (conta!)
 - seo_desc: MASSIMO 155 caratteri (conta!)
 - Tono: professionale ma caldo, esperto ma non accademico
-- Content: usa titoli H2/H3, paragrafi distesi, nessun elenco puntato eccessivo
+- Content: il PRIMO paragrafo risponde alla query principale in 40-60 parole, senza preamboli. Subito il punto, subito la risposta — come una voce di enciclopedia.
+- Heading: almeno 3-4 H2/H3 devono essere domande dirette ("Come funziona X?", "Perché il Y si esaurisce?"). Ogni heading-domanda deve avere risposta diretta nel paragrafo che segue.
+- Liste: usa elenchi puntati o tabelle solo per dati genuinamente enumerabili (caratteristiche, confronti, step). Non trasformare in lista ciò che scorre naturalmente come prosa.
 
 GLOSSARIO CENTRI MOTORE (EN → IT) — REGOLA OBBLIGATORIA:
 Usa SEMPRE la traduzione italiana. Mai il termine inglese nel testo.

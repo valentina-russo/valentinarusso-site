@@ -185,6 +185,8 @@ REGOLE DI STILE (obbligatorie):
 - Vietate le meta-frasi: "è importante", "è fondamentale", "è chiaro che", "è giusto partire da".
 - Niente emdash. Niente enfasi artificiale. Pochi aggettivi.
 - Grassetti: usa **parola** sulle keyword principali dell'articolo (termini BG5/HD, concetti chiave del tema). Massimo 6-8 grassetti per articolo, solo su parole davvero centrali — non su frasi intere, non su aggettivi o avverbi.
+- Piramide rovesciata: il PRIMO paragrafo risponde alla query principale in 40-60 parole, senza preamboli. Subito il punto.
+- Heading: almeno 3-4 H2/H3 devono essere domande dirette ("Come funziona X?", "Perché Y accade?"). Ogni heading-domanda ha risposta diretta nel paragrafo che segue.
 - Lingua: italiano. Sempre.
 PROMPT;
 

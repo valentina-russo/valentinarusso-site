@@ -39,11 +39,22 @@
   "@type": "Article",
   "headline": {{ page.title|json_encode|raw }},
   "description": {{ (page.header.description ?? '')|json_encode|raw }},
+  {% if page.header.aeo_answer is defined and page.header.aeo_answer %}"abstract": {{ page.header.aeo_answer|json_encode|raw }},{% endif %}
+  {% if page.header.geo_content is defined and page.header.geo_content %}"backstory": {{ (page.header.geo_content is iterable ? page.header.geo_content|join(' ') : page.header.geo_content)|json_encode|raw }},{% endif %}
+  {% if page.header.tags is defined and page.header.tags %}"keywords": {{ (page.header.tags is iterable ? page.header.tags|join(', ') : page.header.tags)|json_encode|raw }},{% endif %}
   "datePublished": "{{ page.date|date('c') }}",
+  "dateModified": "{{ page.modified|date('c') }}",
   "url": "{{ page.url(true) }}",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ page.url(true) }}" },
   "author": {
     "@type": "Person",
-    "name": "{{ page.header.author ?? 'Valentina Russo' }}"
+    "name": "Valentina Russo",
+    "url": "{{ grav.base_url_absolute }}/chi-sono",
+    "jobTitle": "Consulente Certificata BG5® e Human Design",
+    "sameAs": [
+      "https://www.instagram.com/valentinarussobg5/",
+      "{{ grav.base_url_absolute }}"
+    ]
   },
   "publisher": {
     "@type": "Organization",
@@ -53,7 +64,7 @@
   },
   "speakable": {
     "@type": "SpeakableSpecification",
-    "cssSelector": [".blog-article-body", "h1"]
+    "cssSelector": [".aeo-answer-box", "h1", ".blog-article-body > p:first-child"]
   }{% if art_img %},
   "image": "{{ art_img }}"{% endif %}
 }
@@ -158,7 +169,7 @@
 
         {# AEO Answer (AI Engine Optimization) #}
         {% if page.header.aeo_answer is defined and page.header.aeo_answer %}
-        <div style="background: {{ is_corporate ? 'rgba(30,58,95,0.07)' : 'rgba(182,131,151,0.08)' }}; border-left: 3px solid {{ is_corporate ? 'var(--corp-primary)' : 'var(--primary-color)' }}; padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2rem;">
+        <div class="aeo-answer-box" style="background: {{ is_corporate ? 'rgba(30,58,95,0.07)' : 'rgba(182,131,151,0.08)' }}; border-left: 3px solid {{ is_corporate ? 'var(--corp-primary)' : 'var(--primary-color)' }}; padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2rem;">
             <p style="margin: 0; font-size: 0.95rem; font-style: italic;">{{ page.header.aeo_answer }}</p>
         </div>
         {% endif %}
@@ -178,6 +189,21 @@
                 <p>{{ faq.answer ?? faq.a }}</p>
             </div>
             {% endfor %}
+        </div>
+        {% endif %}
+
+        {# GEO Content — affermazioni autorevoli per AI Overview, ChatGPT, Perplexity #}
+        {% if page.header.geo_content is defined and page.header.geo_content %}
+        {% set geo = page.header.geo_content %}
+        <div class="geo-content-box" style="margin-top: 3rem; padding: 1.5rem 2rem; background: {{ is_corporate ? 'rgba(30,58,95,0.04)' : 'rgba(182,131,151,0.05)' }}; border-radius: 12px; border: 1px solid {{ is_corporate ? 'rgba(30,58,95,0.12)' : 'rgba(182,131,151,0.2)' }};">
+            <p style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: {{ is_corporate ? 'var(--corp-primary)' : 'var(--primary-color)' }}; margin: 0 0 1rem 0;">Approfondimenti</p>
+            {% if geo is iterable %}
+            <ul style="margin: 0; padding-left: 1.2em; font-size: 0.9rem; line-height: 1.7; color: var(--text-muted, #555);">
+                {% for item in geo %}<li style="margin-bottom: 0.4rem;">{{ item }}</li>{% endfor %}
+            </ul>
+            {% else %}
+            <p style="margin: 0; font-size: 0.9rem; line-height: 1.7; color: var(--text-muted, #555);">{{ geo }}</p>
+            {% endif %}
         </div>
         {% endif %}
 
