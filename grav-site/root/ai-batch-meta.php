@@ -1,24 +1,10 @@
 <?php
-// Disabilita output buffering per streaming in tempo reale
-while (ob_get_level()) { ob_end_clean(); }
-ob_implicit_flush(true);
 /**
  * ai-batch-meta.php — aggiorna geo_content e aeo_answer su tutti gli articoli
- * che non li hanno ancora, usando Claude API.
- *
- * Uso: https://valentinarussobg5.com/ai-batch-meta.php
- * Parametri GET:
- *   ?dry=1        → mostra cosa verrebbe aggiornato senza toccare i file
- *   ?force=1      → sovrascrive anche i campi già presenti
- *   ?limit=N      → processa al massimo N articoli per sessione
- *   ?model=...    → modello Claude (default: haiku per economicità)
+ * Approccio AJAX: JS elabora un articolo alla volta, nessun timeout/buffering.
  */
-
 session_start();
-set_time_limit(0);
-header('Content-Type: text/html; charset=utf-8');
 
-/* ── CONFIG ── */
 define('ADMIN_PASS',  'ValeAdmin2026');
 define('CONFIG_FILE', __DIR__ . '/ai-editor.config.php');
 define('PAGES_DIR',   __DIR__ . '/user/pages');
@@ -26,11 +12,11 @@ define('CACHE_DIR',   __DIR__ . '/cache');
 define('KB_DIR',      __DIR__ . '/knowledge-base/');
 define('CLAUDE_URL',  'https://api.anthropic.com/v1/messages');
 define('CLAUDE_VER',  '2023-06-01');
-define('DELAY_MS',    800);   // ms tra una chiamata API e l'altra
 
 /* ── AUTH ── */
 if (isset($_POST['login'])) {
     if ($_POST['pass'] === ADMIN_PASS) { $_SESSION['batch_auth'] = true; }
+    else { $_SESSION['batch_auth'] = false; }
 }
 if (isset($_GET['logout'])) { session_destroy(); header('Location: /ai-batch-meta.php'); exit; }
 $authed = !empty($_SESSION['batch_auth']);
@@ -47,76 +33,32 @@ function loadKB(): string {
     return trim($out);
 }
 
-/* ── HELPERS ── */
-function parseFrontmatter(string $content): array {
+/* ── PARSE FRONTMATTER ── */
+function parseFM(string $content): array {
     if (!preg_match('/^---\s*\n(.*?)\n---\s*\n?(.*)/s', $content, $m)) {
-        return ['fm_raw' => '', 'body' => $content, 'fields' => []];
+        return ['fm' => '', 'body' => $content];
     }
-    $fmRaw = $m[1];
-    $body  = $m[2];
-    // Parsing semplice chiave: valore (non gestisce YAML complesso — solo scalari e liste)
-    $fields = [];
-    preg_match_all('/^([a-zA-Z_]+):\s*(.*)$/m', $fmRaw, $matches, PREG_SET_ORDER);
-    foreach ($matches as $match) {
-        $fields[trim($match[1])] = trim($match[2], " \"'\r");
-    }
-    return ['fm_raw' => $fmRaw, 'body' => $body, 'fields' => $fields];
+    return ['fm' => $m[1], 'body' => $m[2]];
 }
 
-function fmGetField(string $fm, string $key): string {
-    // Restituisce valore scalare del campo, vuoto se assente o lista
+function fmGet(string $fm, string $key): string {
     if (preg_match('/^' . preg_quote($key, '/') . ':\s*(.+)$/m', $fm, $m)) {
         return trim($m[1], " \"'\r");
     }
     return '';
 }
 
-function fmHasField(string $fm, string $key): bool {
+function fmHas(string $fm, string $key): bool {
     return (bool) preg_match('/^' . preg_quote($key, '/') . ':\s*/m', $fm);
 }
 
-function fmSetField(string $fm, string $key, string $value): string {
+function fmSet(string $fm, string $key, string $value): string {
     $escaped = str_replace('"', '\\"', $value);
-    $newLine = $key . ': "' . $escaped . '"';
-    if (fmHasField($fm, $key)) {
-        // Sostituisce riga esistente (scalare su una riga)
-        return preg_replace('/^' . preg_quote($key, '/') . ':\s*.*$/m', $newLine, $fm);
+    $line    = $key . ': "' . $escaped . '"';
+    if (fmHas($fm, $key)) {
+        return preg_replace('/^' . preg_quote($key, '/') . ':\s*.*$/m', $line, $fm);
     }
-    // Inserisce prima della chiusura del frontmatter (in fondo)
-    return rtrim($fm) . "\n" . $newLine;
-}
-
-function claudeCall(string $apiKey, string $model, string $system, string $user): ?array {
-    $payload = json_encode([
-        'model'      => $model,
-        'max_tokens' => 600,
-        'system'     => $system,
-        'messages'   => [['role' => 'user', 'content' => $user]],
-    ]);
-    $ch = curl_init(CLAUDE_URL);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => $payload,
-        CURLOPT_TIMEOUT        => 60,
-        CURLOPT_HTTPHEADER     => [
-            'Content-Type: application/json',
-            'x-api-key: ' . $apiKey,
-            'anthropic-version: ' . CURLOPT_VER,
-        ],
-    ]);
-    // Fix: usa la costante corretta
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json',
-        'x-api-key: ' . $apiKey,
-        'anthropic-version: ' . CLAUDE_VER,
-    ]);
-    $resp = curl_exec($ch);
-    $err  = curl_error($ch);
-    curl_close($ch);
-    if ($err || !$resp) return null;
-    $data = json_decode($resp, true);
-    return $data;
+    return rtrim($fm) . "\n" . $line;
 }
 
 /* ── SCAN ARTICLES ── */
@@ -127,255 +69,115 @@ function scanArticles(): array {
         if ($file->getFilename() !== 'item.md') continue;
         $path    = $file->getPathname();
         $content = file_get_contents($path);
-        $parsed  = parseFrontmatter($content);
-        $fm      = $parsed['fm_raw'];
-        // Solo articoli published o scheduled
-        $status  = fmGetField($fm, 'published');
-        // published: true/false o scheduled con data
-        // Includi anche le bozze (published: false) perché vogliamo preparare i metadati
-        $title   = fmGetField($fm, 'title');
-        if (!$title) continue; // salta pagine senza titolo (non articoli)
+        $p       = parseFM($content);
+        $title   = fmGet($p['fm'], 'title');
+        if (!$title) continue;
         $articles[] = [
-            'path'        => $path,
-            'title'       => $title,
-            'published'   => $status,
-            'has_geo'     => fmHasField($fm, 'geo_content') && fmGetField($fm, 'geo_content') !== '',
-            'has_aeo'     => fmHasField($fm, 'aeo_answer')  && fmGetField($fm, 'aeo_answer')  !== '',
-            'fm_raw'      => $fm,
-            'body'        => $parsed['body'],
-            'content_raw' => $content,
+            'path'    => $path,
+            'title'   => $title,
+            'has_geo' => fmHas($p['fm'], 'geo_content') && fmGet($p['fm'], 'geo_content') !== '',
+            'has_aeo' => fmHas($p['fm'], 'aeo_answer')  && fmGet($p['fm'], 'aeo_answer')  !== '',
+            'section' => strpos($path, '05.aziende') !== false ? 'Aziende' : 'Privati',
         ];
     }
     usort($articles, fn($a,$b) => strcmp($a['title'], $b['title']));
     return $articles;
 }
 
-/* ══════════════════════════════════════════════════════════
-   HTML OUTPUT
-   ══════════════════════════════════════════════════════════ */
-?>
-<!DOCTYPE html>
-<html lang="it">
-<head>
-<meta charset="utf-8">
-<title>Batch Meta — AI</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;padding:2rem}
-h1{font-size:1.4rem;font-weight:700;margin-bottom:1.5rem;color:#f8fafc}
-.card{background:#1e293b;border-radius:10px;padding:1.5rem;margin-bottom:1rem}
-.btn{display:inline-block;padding:.6rem 1.4rem;border-radius:6px;border:none;cursor:pointer;font-weight:700;font-size:.85rem}
-.btn-primary{background:#3b82f6;color:#fff}.btn-primary:hover{background:#2563eb}
-.btn-danger{background:#ef4444;color:#fff}
-.btn-sm{padding:.35rem .9rem;font-size:.78rem}
-input[type=password],input[type=number],select{background:#0f172a;border:1px solid #334155;color:#e2e8f0;padding:.5rem .8rem;border-radius:6px;font-size:.9rem}
-table{width:100%;border-collapse:collapse;font-size:.82rem}
-th{background:#0f172a;color:#94a3b8;font-weight:600;text-align:left;padding:.5rem .7rem;border-bottom:1px solid #334155}
-td{padding:.45rem .7rem;border-bottom:1px solid #1e293b;vertical-align:top}
-tr:hover td{background:#1e293b}
-.badge{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.7rem;font-weight:700;text-transform:uppercase}
-.ok{background:#14532d;color:#86efac}
-.miss{background:#7f1d1d;color:#fca5a5}
-.skip{background:#1e3a5f;color:#93c5fd}
-.warn{background:#78350f;color:#fcd34d}
-pre.log{background:#0f172a;border:1px solid #334155;border-radius:6px;padding:1rem;font-size:.78rem;line-height:1.6;max-height:500px;overflow-y:auto;white-space:pre-wrap;word-break:break-word;margin-top:1rem}
-.progress{background:#0f172a;border-radius:6px;height:10px;margin:1rem 0}
-.progress-bar{background:#3b82f6;height:10px;border-radius:6px;transition:width .3s}
-.sep{color:#475569}
-a{color:#60a5fa}
-</style>
-</head>
-<body>
+/* ════════════════════════════════════════════════════════
+   API ENDPOINT — chiamato da JS per ogni singolo articolo
+   ════════════════════════════════════════════════════════ */
+if (isset($_POST['ajax_process']) && $authed) {
+    header('Content-Type: application/json; charset=utf-8');
 
-<?php if (!$authed): ?>
-<div class="card" style="max-width:360px;margin:4rem auto">
-  <h1>🤖 Batch Meta AI</h1>
-  <?php if (isset($_POST['login'])): ?><p style="color:#fca5a5;margin-bottom:1rem">Password errata.</p><?php endif ?>
-  <form method="POST">
-    <input type="password" name="pass" placeholder="Password admin" style="width:100%;margin-bottom:.8rem" autofocus>
-    <button type="submit" name="login" class="btn btn-primary" style="width:100%">Accedi</button>
-  </form>
-</div>
-<?php exit; endif; ?>
+    $path  = $_POST['path']  ?? '';
+    $model = $_POST['model'] ?? 'claude-haiku-4-5';
+    $force = !empty($_POST['force']);
 
-<?php
-/* ── SCAN ── */
-$articles  = scanArticles();
-$dry       = isset($_GET['dry'])   && $_GET['dry']   == '1';
-$force     = isset($_GET['force']) && $_GET['force']  == '1';
-$limit     = isset($_GET['limit']) ? max(1, (int)$_GET['limit']) : 10;
-$model     = $_GET['model'] ?? 'claude-haiku-4-5';
-$doRun     = isset($_GET['run'])   && $_GET['run']    == '1';
-$needUpdate = array_filter($articles, fn($a) => $force || !$a['has_geo'] || !$a['has_aeo']);
-$needUpdate = array_values($needUpdate);
-$total      = count($needUpdate);
-$kb         = loadKB();
+    // Sicurezza: il path deve essere dentro PAGES_DIR
+    $realPath = realpath($path);
+    $realPages = realpath(PAGES_DIR);
+    if (!$realPath || !$realPages || strpos($realPath, $realPages) !== 0 || basename($realPath) !== 'item.md') {
+        echo json_encode(['ok' => false, 'error' => 'Path non valido']);
+        exit;
+    }
 
-/* ── INFO PANEL ── */
-$allCount  = count($articles);
-$misGeo    = count(array_filter($articles, fn($a) => !$a['has_geo']));
-$misAeo    = count(array_filter($articles, fn($a) => !$a['has_aeo']));
-?>
+    $content = file_get_contents($realPath);
+    $p       = parseFM($content);
+    $fm      = $p['fm'];
+    $body    = $p['body'];
 
-<h1>🤖 Batch Meta AI <a href="?logout" style="font-size:.75rem;color:#64748b;font-weight:400;margin-left:1rem">Esci</a></h1>
-
-<div class="card">
-  <div style="display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:1.2rem">
-    <div><span style="font-size:1.8rem;font-weight:700;color:#f8fafc"><?= $allCount ?></span><br><span style="color:#94a3b8;font-size:.8rem">Articoli totali</span></div>
-    <div><span style="font-size:1.8rem;font-weight:700;color:#fca5a5"><?= $misGeo ?></span><br><span style="color:#94a3b8;font-size:.8rem">Senza geo_content</span></div>
-    <div><span style="font-size:1.8rem;font-weight:700;color:#fcd34d"><?= $misAeo ?></span><br><span style="color:#94a3b8;font-size:.8rem">Senza aeo_answer</span></div>
-    <div><span style="font-size:1.8rem;font-weight:700;color:#86efac"><?= $allCount - $misGeo - $misAeo + min($misGeo, $misAeo) ?></span><br><span style="color:#94a3b8;font-size:.8rem">Completi</span></div>
-  </div>
-
-  <form method="GET" style="display:flex;gap:.8rem;flex-wrap:wrap;align-items:center">
-    <select name="model">
-      <?php foreach(['claude-haiku-4-5'=>'Haiku 4.5 (economico)','claude-sonnet-4-6'=>'Sonnet 4.6 (qualità)','claude-opus-4-6'=>'Opus 4.6 (max qualità)'] as $v=>$l): ?>
-      <option value="<?= $v ?>" <?= $model===$v?'selected':'' ?>><?= $l ?></option>
-      <?php endforeach ?>
-    </select>
-    <label style="color:#94a3b8;font-size:.85rem">Max articoli:
-      <input type="number" name="limit" value="<?= $limit ?>" min="1" max="<?= $total ?>" style="width:60px;margin-left:.3rem">
-    </label>
-    <label style="color:#94a3b8;font-size:.85rem">
-      <input type="checkbox" name="force" value="1" <?= $force?'checked':'' ?>> Forza (sovrascrivi esistenti)
-    </label>
-    <label style="color:#94a3b8;font-size:.85rem">
-      <input type="checkbox" name="dry" value="1" <?= $dry?'checked':'' ?>> Dry run (anteprima)
-    </label>
-    <input type="hidden" name="run" value="1">
-    <?php if (!$apiKey): ?>
-      <span style="color:#fca5a5;font-size:.82rem">⚠️ API key mancante — configurala in <a href="/ai-editor.php">ai-editor.php</a></span>
-    <?php else: ?>
-      <button type="submit" class="btn btn-primary">▶ Avvia Batch</button>
-    <?php endif ?>
-  </form>
-</div>
-
-<!-- Tabella riepilogo articoli -->
-<div class="card">
-<table>
-<thead><tr>
-  <th>Titolo</th>
-  <th>Sezione</th>
-  <th>geo_content</th>
-  <th>aeo_answer</th>
-  <th>Azione</th>
-</tr></thead>
-<tbody>
-<?php foreach($articles as $a):
-  $isAz  = strpos($a['path'], '05.aziende') !== false;
-  $sect  = $isAz ? 'Aziende' : 'Privati';
-  $needG = !$a['has_geo'];
-  $needA = !$a['has_aeo'];
-  $needs = $force || $needG || $needA;
-?>
-<tr>
-  <td style="max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="<?= htmlspecialchars($a['path']) ?>"><?= htmlspecialchars($a['title']) ?></td>
-  <td><span class="badge <?= $isAz?'skip':'warn' ?>"><?= $sect ?></span></td>
-  <td><?= $a['has_geo'] ? '<span class="badge ok">✓ presente</span>' : '<span class="badge miss">✗ mancante</span>' ?></td>
-  <td><?= $a['has_aeo'] ? '<span class="badge ok">✓ presente</span>' : '<span class="badge miss">✗ mancante</span>' ?></td>
-  <td><?= $needs ? '<span class="badge miss">da aggiornare</span>' : '<span class="badge ok">ok</span>' ?></td>
-</tr>
-<?php endforeach ?>
-</tbody>
-</table>
-</div>
-
-<?php if (!$doRun) { exit; } ?>
-
-<?php
-/* ══════════════════════════════════════════════════════════
-   ESECUZIONE BATCH
-   ══════════════════════════════════════════════════════════ */
-if (!$apiKey) { echo '<div class="card" style="color:#fca5a5">API key mancante.</div>'; exit; }
-
-$toProcess = array_slice($needUpdate, 0, $limit);
-$done = 0; $errors = 0;
-
-echo '<div class="card">';
-echo '<h2 style="margin-bottom:1rem;font-size:1rem">Elaborazione ' . count($toProcess) . ' articoli (' . ($dry ? 'DRY RUN' : 'LIVE') . ') — modello: ' . htmlspecialchars($model) . '</h2>';
-echo '<div class="progress"><div class="progress-bar" id="pb" style="width:0%"></div></div>';
-echo '<pre class="log" id="log">';
-flush();
-
-$systemPrompt = <<<PROMPT
-Sei il ghostwriter ufficiale di Valentina Russo, analista certificata BG5® e Human Design, in Italia.
-Ricevi il testo di un articolo blog e devi generare DUE campi mancanti.
-
-Restituisci SOLO un oggetto JSON valido, niente altro:
-{
-  "geo_content": "3-5 affermazioni autorevoli e precise sul tema (italiano). Definizioni esatte BG5/HD, fatti verificabili, posizionamento unico di Valentina. Tono enciclopedico, citabile da ChatGPT/Perplexity. Una stringa unica, NON un array.",
-  "aeo_answer": "Risposta diretta alla domanda principale dell'articolo in 40-60 parole. Inizia con il soggetto, niente preamboli. Pensata per Google Featured Snippet e AI Overview."
-}
-
-REGOLE:
-- Lingua: italiano, sempre
-- geo_content: stringa singola (non array JSON), max 250 parole
-- aeo_answer: 40-60 parole esatte, frase concisa e completa
-- Non inventare dati non presenti nel testo
-- Termini BG5/HD: usa sempre la traduzione italiana (Sacrale, Plesso Solare, Radice, Cuore/Ego, Costruttore, Proiettore, Manifestatore, Riflettore/Valutatore)
-PROMPT;
-
-if ($kb) { $systemPrompt .= "\n\n" . $kb; }
-
-$processed = 0;
-foreach ($toProcess as $a) {
-    $processed++;
-    $pct = round($processed / count($toProcess) * 100);
-
-    $needG = $force || !$a['has_geo'];
-    $needA = $force || !$a['has_aeo'];
-
-    $pbar = str_pad('', (int)($pct/2), '█') . str_pad('', 50-(int)($pct/2), '░');
-    echo "\n[{$processed}/" . count($toProcess) . "] {$pbar} {$pct}%\n";
-    echo htmlspecialchars($a['title']) . "\n";
-    echo "  geo_content: " . ($needG ? '⏳ da generare' : '✓ già presente' . ($force?' (force)':'')) . "\n";
-    echo "  aeo_answer:  " . ($needA ? '⏳ da generare' : '✓ già presente' . ($force?' (force)':'')) . "\n";
-    ob_flush(); flush();
+    $needG = $force || !(fmHas($fm, 'geo_content') && fmGet($fm, 'geo_content') !== '');
+    $needA = $force || !(fmHas($fm, 'aeo_answer')  && fmGet($fm, 'aeo_answer')  !== '');
 
     if (!$needG && !$needA) {
-        echo "  → Saltato (entrambi presenti)\n";
-        ob_flush(); flush();
-        continue;
+        echo json_encode(['ok' => true, 'skipped' => true, 'msg' => 'Già completo']);
+        exit;
     }
 
-    if ($dry) {
-        echo "  → [DRY RUN] Nessuna modifica\n";
-        $done++;
-        ob_flush(); flush();
-        continue;
+    // Prompt
+    $systemPrompt = "Sei il ghostwriter ufficiale di Valentina Russo, analista certificata BG5® e Human Design, in Italia.\n"
+        . "Ricevi il testo di un articolo blog e generi DUE campi mancanti.\n\n"
+        . "Restituisci SOLO un oggetto JSON valido, niente altro:\n"
+        . "{\n"
+        . "  \"geo_content\": \"3-5 affermazioni autorevoli e precise sul tema (italiano). Definizioni esatte BG5/HD, fatti verificabili, posizionamento unico di Valentina. Tono enciclopedico, citabile da ChatGPT/Perplexity. Stringa unica, NON array. Max 250 parole.\",\n"
+        . "  \"aeo_answer\": \"Risposta diretta alla domanda principale in 40-60 parole. Inizia con il soggetto, niente preamboli. Per Google Featured Snippet e AI Overview.\"\n"
+        . "}\n\n"
+        . "REGOLE: italiano sempre. geo_content = stringa singola. aeo_answer = 40-60 parole esatte.\n"
+        . "Termini BG5/HD in italiano: Sacrale, Plesso Solare, Radice, Cuore/Ego, Costruttore, Proiettore, Manifestatore, Valutatore.";
+
+    $kb = loadKB();
+    if ($kb) $systemPrompt .= "\n\n" . $kb;
+
+    $title       = fmGet($fm, 'title');
+    $bodyClean   = mb_substr(trim(strip_tags(preg_replace('/#{1,6}\s/', '', $body))), 0, 2000);
+    $userMsg     = "Titolo: {$title}\n\nTesto:\n{$bodyClean}";
+    if (!$needG) $userMsg .= "\n\n[Solo aeo_answer — geo_content già presente, mettilo vuoto]";
+    if (!$needA) $userMsg .= "\n\n[Solo geo_content — aeo_answer già presente, mettilo vuoto]";
+
+    // Chiamata Claude
+    $payload = json_encode([
+        'model'      => $model,
+        'max_tokens' => 600,
+        'system'     => $systemPrompt,
+        'messages'   => [['role' => 'user', 'content' => $userMsg]],
+    ]);
+
+    $ch = curl_init(CLAUDE_URL);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $payload,
+        CURLOPT_TIMEOUT        => 45,
+        CURLOPT_CONNECTTIMEOUT => 10,
+        CURLOPT_HTTPHEADER     => [
+            'Content-Type: application/json',
+            'x-api-key: ' . $apiKey,
+            'anthropic-version: ' . CLAUDE_VER,
+        ],
+    ]);
+    $resp    = curl_exec($ch);
+    $curlErr = curl_error($ch);
+    curl_close($ch);
+
+    if ($curlErr || !$resp) {
+        echo json_encode(['ok' => false, 'error' => 'cURL: ' . $curlErr]);
+        exit;
     }
 
-    // Prepara testo articolo
-    $bodyPreview = trim(strip_tags(preg_replace('/#{1,6}\s/', '', $a['body'])));
-    $bodyPreview = mb_substr($bodyPreview, 0, 2000);
-    $userMsg  = "Titolo: " . $a['title'] . "\n\n";
-    $userMsg .= "Testo articolo:\n" . $bodyPreview;
-    if (!$needG) $userMsg .= "\n\n[NOTA: geo_content esiste già — genera solo aeo_answer, lascia geo_content stringa vuota]";
-    if (!$needA) $userMsg .= "\n\n[NOTA: aeo_answer esiste già — genera solo geo_content, lascia aeo_answer stringa vuota]";
-
-    echo "  ⏳ Chiamata API Claude ({$model})...\n";
-    ob_flush(); flush();
-
-    $resp = claudeCall($apiKey, $model, $systemPrompt, $userMsg);
-
-    if (!$resp || empty($resp['content'][0]['text'])) {
-        echo "  → ❌ Errore API: " . htmlspecialchars(json_encode($resp['error'] ?? 'risposta vuota')) . "\n";
-        $errors++;
-        ob_flush(); flush();
-        continue;
+    $data = json_decode($resp, true);
+    $text = trim($data['content'][0]['text'] ?? '');
+    if (!$text) {
+        echo json_encode(['ok' => false, 'error' => 'Risposta vuota. ' . ($data['error']['message'] ?? '')]);
+        exit;
     }
 
-    $text = trim($resp['content'][0]['text']);
-    $text = preg_replace('/^```(?:json)?\s*/i', '', $text);
-    $text = preg_replace('/\s*```$/', '', $text);
+    $text   = preg_replace('/^```(?:json)?\s*/i', '', $text);
+    $text   = preg_replace('/\s*```$/', '', $text);
     $parsed = json_decode($text, true);
-
     if (!$parsed) {
-        echo "  → ❌ JSON non valido: " . htmlspecialchars(substr($text, 0, 200)) . "\n";
-        $errors++;
-        ob_flush(); flush();
-        continue;
+        echo json_encode(['ok' => false, 'error' => 'JSON non valido: ' . substr($text, 0, 150)]);
+        exit;
     }
 
     $geoNew = is_array($parsed['geo_content'] ?? null)
@@ -383,50 +185,288 @@ foreach ($toProcess as $a) {
         : trim($parsed['geo_content'] ?? '');
     $aeoNew = trim($parsed['aeo_answer'] ?? '');
 
-    echo "  geo → " . htmlspecialchars(mb_substr($geoNew, 0, 90)) . "…\n";
-    echo "  aeo → " . htmlspecialchars(mb_substr($aeoNew, 0, 90)) . "…\n";
+    if ($needG && $geoNew) $fm = fmSet($fm, 'geo_content', $geoNew);
+    if ($needA && $aeoNew) $fm = fmSet($fm, 'aeo_answer',  $aeoNew);
 
-    $fm = $a['fm_raw'];
-    if ($needG && $geoNew) { $fm = fmSetField($fm, 'geo_content', $geoNew); }
-    if ($needA && $aeoNew) { $fm = fmSetField($fm, 'aeo_answer',  $aeoNew); }
+    file_put_contents($realPath, "---\n{$fm}\n---\n{$body}");
 
-    $newContent = "---\n" . $fm . "\n---\n" . $a['body'];
-    file_put_contents($a['path'], $newContent);
-    echo "  → ✅ Salvato\n";
-    $done++;
-    ob_flush(); flush();
+    // Svuota cache Grav
+    if (is_dir(CACHE_DIR)) {
+        $iter = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator(CACHE_DIR, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
+        foreach ($iter as $f) { if ($f->isFile()) @unlink($f->getPathname()); }
+    }
 
-    usleep(DELAY_MS * 1000);
+    echo json_encode([
+        'ok'  => true,
+        'geo' => mb_substr($geoNew, 0, 100),
+        'aeo' => mb_substr($aeoNew, 0, 100),
+    ]);
+    exit;
 }
 
-/* ── SVUOTA CACHE GRAV ── */
-if (!$dry && $done > 0 && is_dir(CACHE_DIR)) {
-    $iter = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator(CACHE_DIR, RecursiveDirectoryIterator::SKIP_DOTS),
-        RecursiveIteratorIterator::CHILD_FIRST
-    );
-    foreach ($iter as $f) { if ($f->isFile()) @unlink($f->getPathname()); }
-    echo "\n🗑️  Cache Grav svuotata.\n";
+/* ════════════════════════════════════════════════════════
+   ENDPOINT: lista articoli (JSON)
+   ════════════════════════════════════════════════════════ */
+if (isset($_GET['ajax_list']) && $authed) {
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(scanArticles());
+    exit;
 }
 
-echo "\n═══════════════════════════════\n";
-echo "✅ Completati: {$done}  |  ❌ Errori: {$errors}  |  Totale: " . count($toProcess) . "\n";
-if ($dry) echo "⚠️  DRY RUN — nessun file modificato.\n";
-echo '</pre>';
+/* ════════════════════════════════════════════════════════
+   HTML
+   ════════════════════════════════════════════════════════ */
+?><!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Batch Meta AI</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;padding:2rem}
+h1{font-size:1.4rem;font-weight:700;margin-bottom:1.5rem}
+.card{background:#1e293b;border-radius:10px;padding:1.5rem;margin-bottom:1rem}
+.btn{display:inline-block;padding:.55rem 1.3rem;border-radius:6px;border:none;cursor:pointer;font-weight:700;font-size:.85rem;transition:.15s}
+.btn-blue{background:#3b82f6;color:#fff}.btn-blue:hover{background:#2563eb}
+.btn-green{background:#10b981;color:#fff}.btn-green:hover{background:#059669}
+.btn-red{background:#ef4444;color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+input[type=password],select,input[type=number]{background:#0f172a;border:1px solid #334155;color:#e2e8f0;padding:.45rem .8rem;border-radius:6px;font-size:.88rem}
+label{color:#94a3b8;font-size:.85rem}
+.stats{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.stat-n{font-size:2rem;font-weight:700;color:#f8fafc;line-height:1}
+.stat-l{color:#64748b;font-size:.75rem;margin-top:.2rem}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+th{background:#0f172a;color:#64748b;font-weight:600;padding:.45rem .7rem;text-align:left;border-bottom:1px solid #1e293b}
+td{padding:.4rem .7rem;border-bottom:1px solid #0f172a;vertical-align:middle}
+.b{display:inline-block;padding:.12rem .45rem;border-radius:3px;font-size:.68rem;font-weight:700;text-transform:uppercase}
+.ok{background:#14532d;color:#86efac}
+.miss{background:#7f1d1d;color:#fca5a5}
+.az{background:#1e3a5f;color:#93c5fd}
+.pr{background:#3b2156;color:#d8b4fe}
+.prog{background:#0f172a;border-radius:6px;height:8px;margin:.8rem 0;overflow:hidden}
+.prog-bar{background:#3b82f6;height:8px;border-radius:6px;width:0;transition:width .4s}
+#log{background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:1rem;font-size:.78rem;line-height:1.7;max-height:380px;overflow-y:auto;font-family:monospace;margin-top:1rem;white-space:pre-wrap;word-break:break-word}
+.row-done td{opacity:.5}
+.row-running td{background:#1a2744}
+</style>
+</head>
+<body>
 
-echo '<div style="margin-top:1rem;display:flex;gap:.8rem">';
-echo '<a href="/ai-batch-meta.php" class="btn btn-primary btn-sm">← Torna al pannello</a>';
-if ($done > 0 && !$dry) {
-    echo '<a href="/ai-batch-meta.php?run=1&model=' . urlencode($model) . '&limit=' . $limit . '" class="btn btn-primary btn-sm" style="background:#10b981">▶ Processa altri</a>';
-}
-echo '</div>';
-echo '</div>';
-?>
+<?php if (!$authed): ?>
+<div class="card" style="max-width:340px;margin:5rem auto">
+  <h1 style="margin-bottom:1.2rem">🤖 Batch Meta AI</h1>
+  <?php if (isset($_POST['login']) && $_POST['pass'] !== ADMIN_PASS): ?>
+  <p style="color:#fca5a5;margin-bottom:.8rem;font-size:.85rem">Password errata.</p>
+  <?php endif ?>
+  <form method="POST">
+    <input type="password" name="pass" placeholder="Password admin" style="width:100%;margin-bottom:.8rem" autofocus>
+    <button type="submit" name="login" class="btn btn-blue" style="width:100%">Accedi</button>
+  </form>
+</div>
+<?php exit; endif; ?>
+
+<h1>🤖 Batch Meta AI <a href="?logout" style="font-size:.75rem;color:#475569;font-weight:400;margin-left:1rem">esci</a></h1>
+
+<?php if (!$apiKey): ?>
+<div class="card" style="border:1px solid #7f1d1d">
+  <p style="color:#fca5a5">⚠️ API key mancante — configurala prima in <a href="/ai-editor.php" style="color:#60a5fa">ai-editor.php</a></p>
+</div>
+<?php endif ?>
+
+<div class="card">
+  <div class="stats" id="stats">
+    <div><div class="stat-n" id="s-tot">—</div><div class="stat-l">Totali</div></div>
+    <div><div class="stat-n" id="s-geo" style="color:#fca5a5">—</div><div class="stat-l">Senza geo_content</div></div>
+    <div><div class="stat-n" id="s-aeo" style="color:#fcd34d">—</div><div class="stat-l">Senza aeo_answer</div></div>
+    <div><div class="stat-n" id="s-ok" style="color:#86efac">—</div><div class="stat-l">Completi</div></div>
+  </div>
+
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;align-items:center">
+    <select id="sel-model">
+      <option value="claude-haiku-4-5">Haiku 4.5 — veloce/economico</option>
+      <option value="claude-sonnet-4-6">Sonnet 4.6 — qualità</option>
+      <option value="claude-opus-4-6">Opus 4.6 — massima qualità</option>
+    </select>
+    <label><input type="checkbox" id="chk-force" style="margin-right:.3rem">Forza (sovrascrivi esistenti)</label>
+    <label><input type="checkbox" id="chk-dry" style="margin-right:.3rem">Dry run</label>
+    <button id="btn-start" class="btn btn-green" <?= !$apiKey?'disabled':'' ?>>▶ Avvia Batch</button>
+    <button id="btn-stop" class="btn btn-red" style="display:none">■ Ferma</button>
+  </div>
+
+  <div class="prog"><div class="prog-bar" id="prog-bar"></div></div>
+  <div id="prog-txt" style="font-size:.78rem;color:#64748b">Caricamento articoli...</div>
+</div>
+
+<div class="card" style="padding:0;overflow:hidden">
+<table>
+<thead><tr><th>Titolo</th><th>Sezione</th><th>geo_content</th><th>aeo_answer</th><th>Stato</th></tr></thead>
+<tbody id="tbl"></tbody>
+</table>
+</div>
+
+<div id="log-wrap" style="display:none" class="card">
+  <div style="font-size:.78rem;font-weight:700;color:#64748b;margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.05em">Log</div>
+  <div id="log"></div>
+</div>
 
 <script>
-// Scroll automatico del log
-var log = document.getElementById('log');
-if(log){ var t = setInterval(function(){ log.scrollTop = log.scrollHeight; }, 300); }
+var articles = [];
+var running  = false;
+var stopped  = false;
+
+function log(msg, color){
+  var el = document.getElementById('log');
+  document.getElementById('log-wrap').style.display = '';
+  var line = document.createElement('span');
+  if(color) line.style.color = color;
+  line.textContent = msg + '\n';
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+
+function badge(has){
+  return has
+    ? '<span class="b ok">✓ sì</span>'
+    : '<span class="b miss">✗ no</span>';
+}
+
+function renderTable(){
+  var tb = document.getElementById('tbl');
+  tb.innerHTML = '';
+  articles.forEach(function(a, i){
+    var tr = document.createElement('tr');
+    tr.id  = 'row-' + i;
+    tr.innerHTML = '<td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+a.path+'">'+a.title+'</td>'
+      + '<td><span class="b '+(a.section==='Aziende'?'az':'pr')+'">'+a.section+'</span></td>'
+      + '<td id="geo-'+i+'">'+badge(a.has_geo)+'</td>'
+      + '<td id="aeo-'+i+'">'+badge(a.has_aeo)+'</td>'
+      + '<td id="st-'+i+'"><span class="b" style="background:#1e293b;color:#64748b">—</span></td>';
+    tb.appendChild(tr);
+  });
+}
+
+function updateStats(){
+  var misGeo = articles.filter(function(a){return !a.has_geo;}).length;
+  var misAeo = articles.filter(function(a){return !a.has_aeo;}).length;
+  var ok     = articles.filter(function(a){return a.has_geo && a.has_aeo;}).length;
+  document.getElementById('s-tot').textContent = articles.length;
+  document.getElementById('s-geo').textContent = misGeo;
+  document.getElementById('s-aeo').textContent = misAeo;
+  document.getElementById('s-ok').textContent  = ok;
+}
+
+// Carica lista articoli
+fetch('?ajax_list=1')
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    articles = data;
+    updateStats();
+    renderTable();
+    document.getElementById('prog-txt').textContent = articles.length + ' articoli trovati. Premi Avvia per iniziare.';
+  });
+
+document.getElementById('btn-stop').addEventListener('click', function(){
+  stopped = true;
+  this.disabled = true;
+  log('\n■ Fermato dall\'utente.', '#fcd34d');
+});
+
+document.getElementById('btn-start').addEventListener('click', function(){
+  if (running) return;
+  running = true; stopped = false;
+  document.getElementById('btn-start').style.display = 'none';
+  document.getElementById('btn-stop').style.display  = '';
+  runBatch();
+});
+
+async function runBatch(){
+  var model  = document.getElementById('sel-model').value;
+  var force  = document.getElementById('chk-force').checked;
+  var dry    = document.getElementById('chk-dry').checked;
+  var done   = 0; var errors = 0; var skipped = 0;
+  var toProcess = articles.filter(function(a){
+    return force || !a.has_geo || !a.has_aeo;
+  });
+
+  log('Avvio batch — ' + toProcess.length + ' articoli da elaborare | modello: ' + model + (dry?' | DRY RUN':''), '#60a5fa');
+
+  for(var i = 0; i < toProcess.length; i++){
+    if(stopped) break;
+    var a    = toProcess[i];
+    var idx  = articles.indexOf(a);
+    var pct  = Math.round((i+1) / toProcess.length * 100);
+
+    document.getElementById('prog-bar').style.width = pct + '%';
+    document.getElementById('prog-txt').textContent = (i+1) + ' / ' + toProcess.length + ' (' + pct + '%) — ' + a.title;
+    document.getElementById('row-' + idx).className = 'row-running';
+    document.getElementById('st-' + idx).innerHTML  = '<span class="b" style="background:#1e3a5f;color:#93c5fd">⏳ elaborazione</span>';
+    log('\n[' + (i+1) + '/' + toProcess.length + '] ' + a.title);
+
+    if(dry){
+      log('  → [DRY RUN] saltato', '#fcd34d');
+      document.getElementById('st-'+idx).innerHTML = '<span class="b" style="background:#78350f;color:#fcd34d">dry run</span>';
+      skipped++; continue;
+    }
+
+    try{
+      var fd = new FormData();
+      fd.append('ajax_process', '1');
+      fd.append('path',  a.path);
+      fd.append('model', model);
+      if(force) fd.append('force','1');
+
+      log('  ⏳ Chiamata API...');
+      var resp = await fetch('', { method:'POST', body: fd });
+      var data = await resp.json();
+
+      if(data.skipped){
+        log('  → già completo, saltato', '#64748b');
+        document.getElementById('st-'+idx).innerHTML = '<span class="b ok">ok</span>';
+        document.getElementById('row-'+idx).className = 'row-done';
+        skipped++; continue;
+      }
+
+      if(!data.ok){
+        log('  → ❌ Errore: ' + data.error, '#fca5a5');
+        document.getElementById('st-'+idx).innerHTML = '<span class="b miss">errore</span>';
+        errors++; continue;
+      }
+
+      if(data.geo){ log('  geo → ' + data.geo + '…', '#86efac'); }
+      if(data.aeo){ log('  aeo → ' + data.aeo + '…', '#86efac'); }
+      log('  → ✅ Salvato', '#86efac');
+
+      // Aggiorna icone nella tabella
+      if(data.geo || force){ document.getElementById('geo-'+idx).innerHTML = badge(true); a.has_geo = true; }
+      if(data.aeo || force){ document.getElementById('aeo-'+idx).innerHTML = badge(true); a.has_aeo = true; }
+      document.getElementById('st-'+idx).innerHTML  = '<span class="b ok">✅ fatto</span>';
+      document.getElementById('row-'+idx).className = 'row-done';
+      updateStats();
+      done++;
+
+    } catch(e){
+      log('  → ❌ Errore fetch: ' + e, '#fca5a5');
+      document.getElementById('st-'+idx).innerHTML = '<span class="b miss">errore</span>';
+      errors++;
+    }
+
+    // Piccola pausa tra chiamate
+    await new Promise(function(r){ setTimeout(r, 600); });
+  }
+
+  document.getElementById('prog-bar').style.width = '100%';
+  document.getElementById('prog-txt').textContent = 'Completato!';
+  document.getElementById('btn-stop').style.display  = 'none';
+  document.getElementById('btn-start').style.display = '';
+  document.getElementById('btn-start').textContent   = '▶ Avvia di nuovo';
+  running = false;
+  log('\n═══════════════════════════════════════', '#475569');
+  log('✅ Completati: ' + done + '  |  ❌ Errori: ' + errors + '  |  ⏭ Saltati: ' + skipped, '#f8fafc');
+}
 </script>
 </body>
 </html>
