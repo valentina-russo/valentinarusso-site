@@ -184,6 +184,7 @@ REGOLE DI STILE (obbligatorie):
 - Vietate le triplette: tre aggettivi, tre verbi, tre sostantivi in sequenza.
 - Vietate le meta-frasi: "è importante", "è fondamentale", "è chiaro che", "è giusto partire da".
 - Niente emdash. Niente enfasi artificiale. Pochi aggettivi.
+- Grassetti: usa **parola** sulle keyword principali dell'articolo (termini BG5/HD, concetti chiave del tema). Massimo 6-8 grassetti per articolo, solo su parole davvero centrali — non su frasi intere, non su aggettivi o avverbi.
 - Lingua: italiano. Sempre.
 PROMPT;
 

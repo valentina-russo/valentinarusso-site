@@ -179,6 +179,7 @@ STILE DI SCRITTURA OBBLIGATORIO (si applica a content, description, aeo_answer, 
 - Non anticipare obiezioni, non scrivere in difesa preventiva.
 - Chiudi con un fatto o una decisione pratica, non con frasi da comunicato.
 - Ritmo disteso e fluido: ogni pensiero si sviluppa per almeno tre o quattro righe prima di chiudersi con un punto. Se in due righe ci sono più di due punti, il testo è troppo frammentato — lega i pensieri con costruzioni naturali. Il testo deve scorrere come un articolo scritto da una persona che ragiona mentre scrive.
+- Grassetti: usa **parola** sulle keyword principali dell'articolo (termini BG5/HD, concetti chiave del tema). Massimo 6-8 grassetti per articolo, solo su parole davvero centrali — non su frasi intere, non su aggettivi o avverbi.
 - Pochi aggettivi, zero enfasi artificiale, niente emdash.
 - Non inventare dati o concetti non presenti nel trascritto
 - Lo slug non deve contenere accenti o caratteri speciali
