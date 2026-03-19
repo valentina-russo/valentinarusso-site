@@ -77,7 +77,6 @@ body.corporate {
   --secondary-color: var(--corp-secondary);
   --accent-color: var(--corp-accent);
   --bg-color: var(--corp-bg);
-  --font-heading: var(--font-corp-heading);
   background-color: #f8fafc;
   background-image:
     radial-gradient(circle at 15% 20%, rgba(49, 130, 206, 0.18) 0%, transparent 45%),
