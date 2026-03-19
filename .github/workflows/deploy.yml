@@ -61,6 +61,16 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/hd-relazionale/
           dangerous-clean-slate: false
 
+      - name: Fix tags articolo bg5-attirare-clienti (one-time)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/bg5-attirare-clienti-ideali-coerenza-personal-branding/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/bg5-attirare-clienti-ideali-coerenza-personal-branding/
+          dangerous-clean-slate: false
+
       - name: Svuota cache Grav automaticamente
         run: |
           sleep 5
