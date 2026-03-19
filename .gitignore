@@ -50,3 +50,5 @@ grav-site/user/pages/*
 !grav-site/user/pages/hd-relazionale
 # AI editor config (contiene API key, solo sul server)
 grav-site/root/ai-editor.config.php
+# GA4 Service Account — credenziali Google, MAI in git
+grav-site/root/ga4-service-account.json

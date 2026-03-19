@@ -51,6 +51,7 @@ class ValentinaAdminPlugin extends Plugin
 .vb-p{background:#B68397;}
 .vb-a{background:#1e3a5f;}
 .vb-ai{background:#7c3aed;}
+.vb-stat{background:#0f766e;}
 
 /* Barra azioni articolo — fissa in basso */
 #vb-action-bar{
@@ -698,9 +699,14 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       btnAI.className='vb vb-ai'; btnAI.href='/ai-editor.php'; btnAI.target='_blank';
       btnAI.innerHTML='<i class="fa fa-magic"></i> AI Editor';
 
+      var btnStat = document.createElement('a');
+      btnStat.className='vb vb-stat'; btnStat.href='/ga4-stats.php'; btnStat.target='_blank';
+      btnStat.innerHTML='<i class="fa fa-bar-chart"></i> Statistiche';
+
       bar.insertBefore(btnA, bar.firstChild);
       bar.insertBefore(btnP, bar.firstChild);
       bar.insertBefore(btnAI, bar.firstChild);
+      bar.insertBefore(btnStat, bar.firstChild);
     }
 
     /* 2. Action bar fissa in basso per le pagine di edit articolo */
