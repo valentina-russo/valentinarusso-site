@@ -5,12 +5,12 @@
 define('TOKEN', 'fix-tags-2026-ok');
 if (($_GET['token'] ?? '') !== TOKEN) { http_response_code(403); die('No.'); }
 
-$gravPagesDir = __DIR__ . '/../grav-site/user/pages/';
+$gravPagesDir = __DIR__ . '/user/pages/';
 if (!is_dir($gravPagesDir)) {
-    $gravPagesDir = __DIR__ . '/user/pages/';
+    $gravPagesDir = __DIR__ . '/../user/pages/';
 }
 if (!is_dir($gravPagesDir)) {
-    die('Pages dir not found. Tried: ' . $gravPagesDir);
+    die('Pages dir not found. __DIR__=' . __DIR__);
 }
 
 $slug = $_GET['slug'] ?? '';
@@ -27,43 +27,47 @@ foreach ($it as $file) {
     }
 }
 
-if (!$found) { die('File non trovato per slug: ' . htmlspecialchars($slug)); }
+if (!$found) { die('File non trovato per slug: ' . htmlspecialchars($slug) . ' in ' . $gravPagesDir); }
 
 $content = file_get_contents($found);
 
-// Leggi il valore attuale di tags
-if (!preg_match('/^tags:\s*(.+)$/m', $content, $m)) {
-    die('Campo tags non trovato nel file: ' . htmlspecialchars($found));
+// Trova riga tags: nel frontmatter (linea per linea, nessun preg_replace multiline)
+$lines  = explode("\n", $content);
+$tagsLineIdx = null;
+$tagsRaw     = null;
+foreach ($lines as $i => $line) {
+    if (preg_match('/^tags:\s*(.+)$/', $line, $m)) {
+        $tagsLineIdx = $i;
+        $tagsRaw     = trim($m[1], " '\"\r");
+        break;
+    }
+    // se tags è già lista YAML (riga "tags:" senza valore)
+    if (preg_match('/^tags:\s*$/', $line)) {
+        die('Tags gia\' in formato lista YAML. Nessuna modifica necessaria.');
+    }
 }
 
-$tagsRaw = trim($m[1], " '\"\r\n");
-
-// Se è già una lista YAML (inizia con il trattino sulla riga dopo), skip
-if (preg_match('/^tags:\s*\n\s+-/m', $content)) {
-    die('Tags già in formato lista. Nessuna modifica necessaria. File: ' . htmlspecialchars($found));
+if ($tagsLineIdx === null) {
+    die('Campo tags non trovato. Contenuto inizio file:<br><pre>' . htmlspecialchars(substr($content, 0, 500)) . '</pre>');
 }
 
-// Splitta per virgola e genera lista YAML
-$tags = array_filter(array_map('trim', explode(',', $tagsRaw)));
-$listYaml = "tags:\n";
+// Costruisce le righe lista
+$tags     = array_filter(array_map('trim', explode(',', $tagsRaw)));
+$newLines = ["tags:"];
 foreach ($tags as $t) {
-    $escaped = str_replace("'", "''", $t);
-    $listYaml .= "    - '" . $escaped . "'\n";
+    $escaped  = str_replace("'", "''", $t);
+    $newLines[] = "    - '" . $escaped . "'";
 }
-$listYaml = rtrim($listYaml);
 
-// Sostituisce la riga tags: 'stringa'
-$newContent = preg_replace('/^tags:\s*.+$/m', $listYaml, $content);
-
-if ($newContent === $content) {
-    die('Nessuna sostituzione effettuata. Controlla il formato del file.');
-}
+// Sostituisce la riga tags: con il blocco lista
+array_splice($lines, $tagsLineIdx, 1, $newLines);
+$newContent = implode("\n", $lines);
 
 file_put_contents($found, $newContent);
 
 echo '<pre>';
-echo "✅ Fix applicato!\n";
+echo "OK Fix applicato!\n";
 echo "File: " . htmlspecialchars($found) . "\n\n";
-echo "Tags originali: " . htmlspecialchars($m[1]) . "\n\n";
-echo "Nuovo YAML:\n" . htmlspecialchars($listYaml) . "\n";
+echo "Tags originali: " . htmlspecialchars($tagsRaw) . "\n\n";
+echo "Nuovo blocco:\n" . htmlspecialchars(implode("\n", $newLines)) . "\n";
 echo '</pre>';
