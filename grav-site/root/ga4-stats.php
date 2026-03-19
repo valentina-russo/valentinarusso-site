@@ -7,7 +7,7 @@
 
 // ── CONFIG ───────────────────────────────────────────────────────────────────
 define('STATS_PASS',   'ValeAdmin2026');
-define('GA4_PROPERTY', 'INSERIRE_PROPERTY_ID');          // ← numero, es. 123456789
+define('GA4_PROPERTY', '527894280');
 define('GA4_SA_FILE',  __DIR__ . '/ga4-service-account.json'); // ← JSON Service Account
 
 // ── AUTH ─────────────────────────────────────────────────────────────────────
