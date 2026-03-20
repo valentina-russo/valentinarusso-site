@@ -179,8 +179,12 @@ body.grav-admin-page{ padding-bottom:58px!important; }
     f.action = BASE + '/admin/pages' + route;
     f.style.display = 'none';
 
+    var now = new Date();
+    var nowStr = now.getFullYear()+'-'+pad2(now.getMonth()+1)+'-'+pad2(now.getDate())
+      +' '+pad2(now.getHours())+':'+pad2(now.getMinutes())+':00';
+
     [['data[title]',title],['data[folder]',slug],['data[route]',route],
-     ['data[name]','item'],['task','continue'],['admin-nonce',nonce]]
+     ['data[name]','item'],['data[date]',nowStr],['task','continue'],['admin-nonce',nonce]]
     .forEach(function(p){
       var i=document.createElement('input');
       i.type='hidden';i.name=p[0];i.value=p[1];f.appendChild(i);
@@ -208,17 +212,23 @@ body.grav-admin-page{ padding-bottom:58px!important; }
         catch(e){ ti.value = jt.value.replace(/^"|"$/g,''); }
       }
       var di = f.querySelector('input[name="data[date]"]');
-      var jd = document.querySelector('input[name="data[_json][header][date]"]');
       if(di && !di.value.trim()){
+        // Data mancante: articolo nuovo o articolo con data non valida.
+        // Comportamento WordPress: la data di creazione si imposta automaticamente
+        // e non cambia mai. Se il datepicker l'ha già valorizzata, di.value non
+        // sarà vuoto e questo blocco non scatta.
+        var jd = document.querySelector('input[name="data[_json][header][date]"]');
         var ts = parseInt(jd ? jd.value : '', 10);
-        // Imposta la data SOLO se abbiamo un timestamp valido da Grav.
-        // NON usare new Date() come fallback: resetterebbe la data di articoli
-        // esistenti a oggi, modificandone la posizione in lista.
+        var dt;
         if(!isNaN(ts) && ts > 0){
-          var dt = new Date(ts*1000);
-          di.value = dt.getFullYear()+'-'+pad2(dt.getMonth()+1)+'-'+pad2(dt.getDate())
-            +' '+pad2(dt.getHours())+':'+pad2(dt.getMinutes())+':00';
+          // Timestamp Unix da Grav (campo nascosto) — converti in stringa leggibile
+          dt = new Date(ts*1000);
+        } else {
+          // Nessun timestamp disponibile → imposta la data corrente (primo salvataggio)
+          dt = new Date();
         }
+        di.value = dt.getFullYear()+'-'+pad2(dt.getMonth()+1)+'-'+pad2(dt.getDate())
+          +' '+pad2(dt.getHours())+':'+pad2(dt.getMinutes())+':00';
       }
       var ni = f.querySelector('input[name="data[name]"]');
       if(!ni){
