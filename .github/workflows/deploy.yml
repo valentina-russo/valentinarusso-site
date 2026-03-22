@@ -61,7 +61,85 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/hd-relazionale/
           dangerous-clean-slate: false
 
+      - name: Deploy articolo generatore-human-design
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/04.blog/generatore-human-design-energia-senza-burnout/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/generatore-human-design-energia-senza-burnout/
+          dangerous-clean-slate: false
 
+      - name: Deploy articolo proiettore-human-design
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/04.blog/proiettore-human-design-invito-lavoro/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/proiettore-human-design-invito-lavoro/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo 12-profili-human-design
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/04.blog/12-profili-human-design-chi-sei/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/12-profili-human-design-chi-sei/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo amor-proprio-human-design
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/04.blog/amor-proprio-human-design/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/amor-proprio-human-design/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo autorita-emozionale-human-design
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/04.blog/autorita-emozionale-human-design-decidere/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/autorita-emozionale-human-design-decidere/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo bg5-selezione-personale
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/bg5-selezione-personale-assumere-design/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/bg5-selezione-personale-assumere-design/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo human-design-azienda-team-leadership
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/human-design-azienda-team-leadership/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/human-design-azienda-team-leadership/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo bg5-partnership-scegliere-socio
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/bg5-partnership-scegliere-socio/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/bg5-partnership-scegliere-socio/
+          dangerous-clean-slate: false
 
       - name: Svuota cache Grav automaticamente
         run: |
