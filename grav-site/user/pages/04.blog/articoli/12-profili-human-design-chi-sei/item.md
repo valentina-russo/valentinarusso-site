@@ -1,6 +1,6 @@
 ---
 title: "I 12 Profili Human Design: chi sei davvero e come funzioni nelle relazioni"
-date: '2026-03-14 10:00:00'
+date: '2026-03-22 10:00:00'
 published: true
 author: "Valentina Russo"
 tags:
