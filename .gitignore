@@ -67,6 +67,12 @@ grav-site/user/pages/05.aziende/02.blog/*
 !grav-site/user/pages/05.aziende/02.blog/bg5-selezione-personale-assumere-design
 !grav-site/user/pages/05.aziende/02.blog/human-design-azienda-team-leadership
 !grav-site/user/pages/05.aziende/02.blog/bg5-partnership-scegliere-socio
+# Eccezioni: landing page SEO locali consulente BG5 per città (deployate via FTP)
+!grav-site/user/pages/11.consulente-bg5-torino
+!grav-site/user/pages/12.consulente-bg5-milano
+!grav-site/user/pages/13.consulente-bg5-roma
+!grav-site/user/pages/14.consulente-bg5-bologna
+!grav-site/user/pages/15.consulente-bg5-italia
 # AI editor config (contiene API key, solo sul server)
 grav-site/root/ai-editor.config.php
 # GA4 Service Account — credenziali Google, MAI in git
