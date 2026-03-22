@@ -1,7 +1,7 @@
 ---
 title: "Generatore Human Design: come usare la tua energia senza finire in burnout"
 date: '2026-03-10 10:00:00'
-published: true
+published: false
 author: "Valentina Russo"
 tags:
     - 'BG5'

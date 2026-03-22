@@ -1,7 +1,7 @@
 ---
 title: "Proiettore Human Design: come lavorare con l'invito (e smettere di esaurirti)"
 date: '2026-03-12 10:00:00'
-published: true
+published: false
 author: "Valentina Russo"
 tags:
     - 'BG5'
