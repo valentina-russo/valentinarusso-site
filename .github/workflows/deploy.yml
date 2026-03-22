@@ -41,6 +41,16 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}
           dangerous-clean-slate: false
 
+      - name: Deploy pages/assets (foto, logo, immagini statiche)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/assets/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/assets/
+          dangerous-clean-slate: false
+
       - name: Deploy pagina workshop-proposta
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
