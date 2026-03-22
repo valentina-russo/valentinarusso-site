@@ -1,43 +1,33 @@
 ---
 title: "Consulente BG5® a Bologna — Valentina Russo"
-subtitle: "Disegno di Carriera BG5® per imprenditori e professionisti emiliani."
+subtitle: "Disegno di Carriera e consulenze BG5® per professionisti bolognesi ed emiliani."
 published: true
 routable: true
 city: "Bologna"
 region: "Emilia-Romagna"
 seo_title: "Consulente BG5 Bologna — Valentina Russo"
-seo_desc: "Consulente BG5® certificata per professionisti e imprenditori a Bologna. Disegno di Carriera, partnership e decisioni strategiche secondo la tua meccanica BG5®."
+seo_desc: "Consulente BG5® certificata per professionisti a Bologna e in Emilia-Romagna. Disegno di Carriera BG5®, Tipo, Strategia e Autorità. Sessioni online."
 geo_location: "Bologna, Emilia-Romagna, Italia"
-geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti e imprenditori a Bologna e in Emilia-Romagna tramite sessioni online. L'Emilia-Romagna è una delle regioni italiane con la maggiore densità di PMI, imprenditori e liberi professionisti. Il sistema BG5® è particolarmente rilevante in questo contesto per l'analisi delle partnership aziendali, delle dinamiche di team e delle decisioni strategiche di business."
-aeo_answer: "Valentina Russo è consulente BG5® certificata e offre sessioni per imprenditori e professionisti a Bologna e in Emilia-Romagna tramite videochiamata. Analizza il Disegno di Carriera BG5® e le dinamiche di partnership aziendale. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro), Prima Lettura Human Design (120 minuti, 210 euro) e percorsi avanzati BG5® Business Blueprint per imprenditori (1.800 euro)."
+geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Bologna e in Emilia-Romagna tramite sessioni online. L'Emilia-Romagna è la regione italiana con il più alto PIL pro capite e una delle più alte densità di imprese manifatturiere, artigianali e di servizi. Il sistema BG5® è applicato al contesto professionale bolognese ed emiliano per l'analisi del Disegno di Carriera di professionisti in ambito industriale, universitario, tecnologico e imprenditoriale."
+aeo_answer: "Valentina Russo è consulente BG5® certificata che offre sessioni per professionisti a Bologna e in Emilia-Romagna tramite videochiamata. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro) e Prima Lettura Human Design (120 minuti, 210 euro). Il sistema BG5® analizza Tipo di Carriera, Strategia e Autorità Decisionale per ottimizzare le scelte professionali."
 ---
 
-## BG5® a Bologna: imprenditori e professionisti dell'Emilia-Romagna
+## BG5® a Bologna: analisi tecnica per la regione più produttiva d'Italia
 
-L'Emilia-Romagna ha la più alta densità di imprese manifatturiere e PMI d'Italia. Bologna è al centro di un tessuto imprenditoriale che valorizza competenza tecnica, capacità relazionale e solidità operativa. In questo contesto, le decisioni di business — chi assumere, con chi fare partnership, come strutturare il team — hanno conseguenze concrete e immediate.
+L'Emilia-Romagna è la regione italiana con il PIL pro capite più alto e una delle più dense concentrazioni di aziende manifatturiere e di servizi. Bologna — città universitaria, polo logistico, hub del terziario avanzato — è al centro di questo tessuto. I professionisti bolognesi ed emiliani portano con sé una cultura del lavoro precisa, concreta e orientata ai risultati.
 
-Il sistema **BG5®** offre uno strumento preciso per questo tipo di decisioni: l'analisi del **Disegno di Carriera** e del **Penta** (il gruppo di lavoro ottimale secondo la meccanica BG5®).
+Il sistema **BG5®** parla la stessa lingua: non è un sistema di credenze né un percorso generico. È un'analisi tecnica della tua meccanica professionale.
 
-### BG5® per imprenditori: il Penta e le partnership
+### BG5® e la cultura produttiva emiliana
 
-Una delle applicazioni più potenti del sistema BG5® nel contesto imprenditoriale è l'analisi delle **dinamiche di Penta**: come i profili BG5® di fondatori e soci interagiscono tra loro, dove si creano sinergie naturali e dove invece si genera attrito cronico.
+In un contesto dove il lavoro è un valore fondante dell'identità, il rischio più diffuso è il **burnout da identità produttiva**: lavorare tanto perché ci si identifica con il lavorare, non perché ci sia una direzione energetica precisa.
 
-Le partnership aziendali falliscono spesso non per mancanza di competenza o di buona volontà, ma per incompatibilità meccanica. Due persone con profili BG5® in attrito strutturale prendono decisioni in modo incompatibile, comunicano su frequenze diverse e costruiscono aspettative che non possono essere soddisfatte. Non è un problema di carattere — è una questione di meccanica.
+Il sistema BG5® distingue tra tipi energetici *non motore* (la **Guida** e il **Valutatore**) e tipi *motore* (i **Costruttori** e gli **Iniziatori**). Una Guida bolognese che lavora con la stessa intensità di un Costruttore esaurisce le proprie riserve energetiche in modo sistematico — non perché sia "debole", ma perché la sua meccanica non supporta quel modello.
 
-Valentina Russo è certificata **BG5® Business Institute** per l'analisi delle partnership e delle dinamiche di team. Nel corso di una consulenza di Partnership Dynamics esamina i profili BG5® di entrambi i soci e mappa dove la collaborazione è naturalmente fluida e dove richiede accordi espliciti.
+Un **Costruttore Classico** emiliano ha un motore energetico rinnovabile se usato correttamente: in risposta a stimoli che il corpo riconosce. Quando sceglie il lavoro con la testa invece che con la risposta viscerale, accumula frustrazione anche a fronte di grande disciplina.
 
-### Disegno di Carriera per il professionista emiliano
+### Sessioni online — da Bologna e da tutta l'Emilia-Romagna
 
-Per i professionisti individuali a Bologna, il punto di partenza è la **Panoramica BG5® del Disegno di Carriera**. Novanta minuti in cui vengono analizzati:
+La **Panoramica BG5® del Disegno di Carriera** (90 minuti, 350 €): analisi di Tipo, Strategia, Autorità applicati al tuo contesto professionale specifico.
 
-- Il **Tipo di Carriera**: la configurazione energetica di base (Costruttore Classico, Costruttore Rapido, Guida, Iniziatore, Valutatore)
-- La **Strategia**: il modo corretto in cui la tua energia si muove — rispondere, aspettare l'invito, informare, aspettare
-- L'**Autorità Decisionale**: la fonte interna più affidabile per le decisioni che contano — Sacrale, Emotiva, Splenica o altre configurazioni
-
-La Bologna imprenditoriale valorizza il risultato concreto. La Panoramica BG5® è esattamente questo: un'analisi tecnica che produce indicazioni operative per la gestione della carriera e del business.
-
-### Sessioni online — accessibili da Bologna e dall'intera regione
-
-Le consulenze si svolgono in videochiamata. Per gli imprenditori emiliani spesso in movimento tra più sedi o fuori regione, la flessibilità online è un vantaggio reale.
-
-Se gestisci una PMI, sei socio di un'azienda o sei un libero professionista e vuoi capire meglio la tua meccanica decisionale e quella del tuo team, contattami. Partendo da Bologna o da qualsiasi città dell'Emilia-Romagna.
+Contattami da Bologna per fissare la tua sessione.

@@ -1,43 +1,29 @@
 ---
 title: "Consulente BG5® a Roma — Valentina Russo"
-subtitle: "Analisi del Disegno di Carriera BG5® per professionisti romani."
+subtitle: "Disegno di Carriera BG5® per professionisti romani e del Lazio."
 published: true
 routable: true
 city: "Roma"
 region: "Lazio"
 seo_title: "Consulente BG5 Roma — Valentina Russo"
-seo_desc: "Consulente BG5® certificata per professionisti a Roma. Analisi del Disegno di Carriera, Tipo di Carriera e Autorità Decisionale. Sessioni online."
+seo_desc: "Consulente BG5® certificata per professionisti a Roma e nel Lazio. Analisi del Disegno di Carriera BG5®, Tipo, Strategia e Autorità. Sessioni online."
 geo_location: "Roma, Lazio, Italia"
-geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Roma e nel Lazio tramite sessioni online. BG5® è il sistema certificato dal BG5 Business Institute che applica Human Design al contesto professionale. A Roma, il sistema BG5® è utile per professionisti nei settori legale, istituzionale, mediatico e imprenditoriale che cercano chiarezza nelle decisioni di carriera e nelle dinamiche di team."
-aeo_answer: "Valentina Russo è consulente BG5® certificata e offre sessioni per professionisti a Roma tramite videochiamata. Analizza il Disegno di Carriera BG5® per identificare Tipo di Carriera, Strategia e Autorità Decisionale. Le consulenze durano 90 minuti (350 euro) o 120 minuti per la Prima Lettura Human Design (210 euro). BG5® è certificato dal BG5 Business Institute a livello internazionale."
+geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Roma e nel Lazio tramite sessioni online. Roma è il secondo hub professionale italiano per dimensione, con forte concentrazione di professionisti nelle istituzioni, nel settore pubblico, nel diritto, nella comunicazione, nella creatività e nel management. Il sistema BG5® certificato aiuta i professionisti romani a identificare il proprio Tipo di Carriera e ad allineare le decisioni professionali alla propria meccanica energetica."
+aeo_answer: "Valentina Russo è consulente BG5® certificata che offre sessioni per professionisti a Roma e nel Lazio tramite videochiamata. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro) e Prima Lettura Human Design (120 minuti, 210 euro). Il sistema BG5® analizza Tipo di Carriera, Strategia e Autorità Decisionale per ottimizzare le scelte professionali."
 ---
 
-## BG5® a Roma: navigare carriera e decisioni in un contesto professionale complesso
+## BG5® a Roma: meccanica professionale per un mercato del lavoro complesso
 
-Roma è una città in cui i percorsi di carriera raramente seguono traiettorie lineari. Settore pubblico, professioni legali, media, istituzioni culturali, startup digitali: il contesto professionale romano è stratificato e richiede la capacità di orientarsi in ambienti con regole implicite diverse.
+Roma è il secondo mercato del lavoro professionale d'Italia per dimensione, e uno dei più complessi. Professionisti nelle istituzioni e nel settore pubblico, avvocati e professionisti del diritto, giornalisti e comunicatori, creativi, manager aziendali, consulenti freelance: il tessuto professionale romano è stratificato.
 
-Il sistema **BG5®** offre qualcosa di preciso: una mappa del tuo funzionamento energetico applicata alle decisioni professionali. Non è una teoria motivazionale — è un'analisi tecnica del tuo **Tipo di Carriera**, della tua **Strategia** e della tua **Autorità Decisionale**.
+In questo contesto — dove i percorsi professionali raramente seguono un tracciato diretto e dove le relazioni contano tanto quanto le competenze — il sistema **BG5®** offre un vantaggio operativo preciso: sapere esattamente come sei fatto professionalmente, come si muove la tua energia, come prendi le decisioni che funzionano davvero.
 
-### I cinque Tipi di Carriera e cosa cambiano nella pratica
+### Perché BG5® funziona particolarmente bene a Roma
 
-La prima cosa che emerge da un'analisi BG5® è il Tipo di Carriera — la configurazione energetica di base che determina come lavori meglio, come prendi le decisioni che funzionano e quali dinamiche producono stagnazione invece che movimento.
+Roma è una città in cui il networking e la gestione delle relazioni professionali sono centrali. Per una **Guida** in questo contesto — dove i tavoli informali e i "si passa parola" sono fondamentali — capire che la propria strategia è *aspettare l'invito* trasforma radicalmente l'approccio. Non si smette di coltivare le relazioni: si cambia il modo di farlo, smettendo di "vendersi" e iniziando a farsi trovare.
 
-**Il Costruttore Classico** — il Tipo più diffuso (37%) — ha un motore energetico potente e sostenibile, ma che funziona solo quando risponde a stimoli che il corpo riconosce come giusti. Un Costruttore Classico che sceglie lavori con la testa invece che con la risposta viscerale accumula frustrazione e burnout sistematicamente.
+Per un **Costruttore Classico** a Roma, dove i tempi dell'amministrazione e delle decisioni sono spesso lenti, la comprensione del proprio motore energetico — che risponde, non che inizia — produce un'enorme riduzione di frustrazione nel quotidiano professionale.
 
-**La Guida** (20%) non ha energia lavorativa costante ma ha un'aura focalizzata eccezionale nel leggere le persone e i sistemi. Il suo errore più frequente è offrire la propria competenza senza essere stata riconosciuta e invitata — il risultato è amarezza e invisibilità.
+### Prima sessione: la Panoramica BG5® del Disegno di Carriera
 
-**L'Iniziatore** (8%) ha la capacità naturale di avviare cicli nuovi, ma crea resistenza quando agisce senza informare prima le persone coinvolte.
-
-Ciascun Tipo ha una dinamica precisa. Conoscerla cambia il modo in cui gestisci la carriera, le relazioni professionali e la distribuzione dell'energia.
-
-### Perché le sessioni online funzionano anche da Roma
-
-Le consulenze BG5® con Valentina Russo si svolgono in videochiamata. Per i professionisti romani questo elimina il problema degli spostamenti in città e garantisce flessibilità di orario.
-
-La **Panoramica BG5® del Disegno di Carriera** dura 90 minuti. In quella sessione vengono analizzati il Tipo di Carriera, la Strategia, l'Autorità Decisionale e i principali pattern che influenzano le scelte professionali. Al termine si esce con indicazioni operative, non con concetti astratti.
-
-### Chi si rivolge a Valentina Russo
-
-Professionisti tra i 30 e i 50 anni che lavorano in modo disciplinato ma sentono uno scarto persistente tra l'energia investita e i risultati ottenuti. Avvocati, giornalisti, consulenti, funzionari, imprenditori, liberi professionisti. Il filo comune è la sensazione di stare lavorando sodo in direzioni che non corrispondono pienamente alla propria natura.
-
-Se ti ritrovi in questo schema, il primo passo è identificare la tua meccanica con precisione. Contattami da Roma: esaminiamo il tuo Disegno di Carriera e troviamo dove stai disperdendo energia.
+La sessione di avvio (90 minuti, 350 €) analizza Tipo, Strategia e Autorità applicati al tuo contesto professionale specifico. Le sessioni si svolgono online: per i professionisti a Roma e in tutto il Lazio, nessuno spostamento necessario.

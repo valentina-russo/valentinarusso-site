@@ -58,6 +58,36 @@
                 <p style="margin-bottom: 0.5rem;"><strong>Whatsapp:</strong> <a href="https://wa.me/393791037653" style="color: var(--primary-color);">+39 379 103 7653</a></p>
                 <p style="margin-bottom: 0.5rem;"><strong>Instagram:</strong> <a href="https://www.instagram.com/valentinarussobg5/" target="_blank" rel="noopener" style="color: var(--primary-color);">@valentinarussobg5</a></p>
             </div>
+
+            {# Link location — Consulente BG5 per città #}
+            {% if not (page.header.corporate is defined and page.header.corporate) %}
+            <div style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid #ece8e3; text-align: center;" data-animate>
+                <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary-color); margin: 0 0 0.75rem 0;">Consulenze disponibili in tutta Italia</p>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 0.9rem; font-size: 0.82rem;">
+                    <a href="{{ grav.base_url }}/consulente-bg5-milano" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Milano</a>
+                    <span style="color: #ccc;">&middot;</span>
+                    <a href="{{ grav.base_url }}/consulente-bg5-torino" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Torino</a>
+                    <span style="color: #ccc;">&middot;</span>
+                    <a href="{{ grav.base_url }}/consulente-bg5-roma" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Roma</a>
+                    <span style="color: #ccc;">&middot;</span>
+                    <a href="{{ grav.base_url }}/consulente-bg5-bologna" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Bologna</a>
+                    <span style="color: #ccc;">&middot;</span>
+                    <a href="{{ grav.base_url }}/consulente-bg5-firenze" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Firenze</a>
+                    <span style="color: #ccc;">&middot;</span>
+                    <a href="{{ grav.base_url }}/consulente-bg5-napoli" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Napoli</a>
+                    <span style="color: #ccc;">&middot;</span>
+                    <a href="{{ grav.base_url }}/consulente-bg5-venezia" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Venezia</a>
+                    <span style="color: #ccc;">&middot;</span>
+                    <a href="{{ grav.base_url }}/consulente-bg5-bari" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Bari</a>
+                    <span style="color: #ccc;">&middot;</span>
+                    <a href="{{ grav.base_url }}/consulente-bg5-palermo" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Palermo</a>
+                    <span style="color: #ccc;">&middot;</span>
+                    <a href="{{ grav.base_url }}/consulente-bg5-verona" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Verona</a>
+                    <span style="color: #ccc;">&middot;</span>
+                    <a href="{{ grav.base_url }}/consulente-bg5-italia" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Tutta Italia &rarr;</a>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
 </main>
