@@ -1,7 +1,7 @@
 ---
 title: "Autorità Emozionale in Human Design: come decidere senza farti travolgere"
-date: '2026-03-17 10:00:00'
-published: false
+date: '2026-03-22 10:00:00'
+published: true
 author: "Valentina Russo"
 tags:
     - 'BG5'
