@@ -145,10 +145,22 @@ function scQuery(string $token, array $body): array {
 }
 
 // ── FETCH DATA ────────────────────────────────────────────────────────────────
-$days      = max(7, min(90, (int)($_GET['days'] ?? 30)));
-$startDate = date('Y-m-d', strtotime("-{$days} days"));
-$endDate   = date('Y-m-d', strtotime('-3 days')); // SC ha 2-3 gg ritardo
-$dateRange = [['startDate' => $startDate, 'endDate' => 'today']];
+// Custom date range
+$customFrom = isset($_GET['from']) ? preg_replace('/[^0-9\-]/', '', $_GET['from']) : null;
+$customTo   = isset($_GET['to'])   ? preg_replace('/[^0-9\-]/', '', $_GET['to'])   : null;
+
+if ($customFrom && $customTo && strtotime($customFrom) && strtotime($customTo)) {
+    $startDate = $customFrom;
+    $endDate   = $customTo;
+    $days      = max(1, (int)round((strtotime($endDate) - strtotime($startDate)) / 86400));
+    $isCustom  = true;
+} else {
+    $isCustom  = false;
+    $days      = max(7, min(365, (int)($_GET['days'] ?? 30)));
+    $startDate = date('Y-m-d', strtotime("-{$days} days"));
+    $endDate   = date('Y-m-d', strtotime('-3 days')); // SC ha 2-3 gg ritardo
+}
+$dateRange = [['startDate' => $startDate, 'endDate' => $isCustom ? $endDate : 'today']];
 
 $error = $scError = null;
 $kpi   = $trend = $pages = $sources = $devices = $countries = [];
@@ -313,6 +325,14 @@ tr:hover td{background:#0f172a;}
 .warn{background:#1c1a07;border:1px solid #854d0e;border-radius:8px;
   padding:1rem 1.25rem;color:#fcd34d;font-size:.85rem;margin-bottom:1rem;}
 .updated{font-size:.7rem;color:#475569;margin-top:.5rem;}
+.custom-range{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
+.custom-range input[type=date]{padding:.28rem .6rem;background:#0f172a;border:1px solid #475569;
+  border-radius:20px;color:#94a3b8;font-size:.78rem;cursor:pointer;outline:none;}
+.custom-range input[type=date]:focus{border-color:#7c3aed;}
+.custom-range .apply-btn{padding:.3rem .85rem;border-radius:20px;border:none;
+  background:#7c3aed;color:#fff;font-size:.78rem;font-weight:700;cursor:pointer;}
+.custom-range .apply-btn:hover{background:#6d28d9;}
+.sep{color:#334155;font-size:.7rem;}
 </style>
 </head>
 <body>
@@ -321,9 +341,21 @@ tr:hover td{background:#0f172a;}
   <div class="hd-title">📊 <span>Statistiche</span> — valentinarussobg5.com</div>
   <div class="hd-right">
     <?php foreach([7,30,90] as $d): ?>
-      <a href="?days=<?=$d?>" class="range-btn <?=$days===$d?'active':''?>">Ultimi <?=$d?> gg</a>
+      <a href="?days=<?=$d?>" class="range-btn <?=(!$isCustom && $days===$d)?'active':''?>">Ultimi <?=$d?> gg</a>
     <?php endforeach; ?>
-    <a href="?days=<?=$days?>&refresh=1" class="refresh-btn">↻ Aggiorna</a>
+    <span class="sep">|</span>
+    <form method="GET" class="custom-range">
+      <input type="date" name="from" value="<?=htmlspecialchars($startDate)?>"
+             max="<?=date('Y-m-d')?>" title="Data inizio">
+      <span class="sep">→</span>
+      <input type="date" name="to" value="<?=htmlspecialchars($endDate)?>"
+             max="<?=date('Y-m-d')?>" title="Data fine">
+      <button type="submit" class="apply-btn">Applica</button>
+    </form>
+    <?php $refreshUrl = $isCustom
+        ? '?from='.urlencode($startDate).'&to='.urlencode($endDate).'&refresh=1'
+        : '?days='.$days.'&refresh=1'; ?>
+    <a href="<?=$refreshUrl?>" class="refresh-btn">↻</a>
     <form method="POST" style="display:inline">
       <button name="logout" value="1" class="logout-btn">Esci</button>
     </form>
