@@ -48,14 +48,16 @@ grav-site/user/pages/*
 !grav-site/user/pages/workshop-proposta
 # Eccezione: tool HD Relazionale (pagina + template deployati via FTP)
 !grav-site/user/pages/hd-relazionale
-# Eccezioni: nuovi articoli bozza privati (deployati via FTP)
+# Eccezioni: nuovi articoli bozza privati (deployati via FTP, dentro /blog/articoli)
 !grav-site/user/pages/04.blog
 grav-site/user/pages/04.blog/*
-!grav-site/user/pages/04.blog/generatore-human-design-energia-senza-burnout
-!grav-site/user/pages/04.blog/proiettore-human-design-invito-lavoro
-!grav-site/user/pages/04.blog/12-profili-human-design-chi-sei
-!grav-site/user/pages/04.blog/amor-proprio-human-design
-!grav-site/user/pages/04.blog/autorita-emozionale-human-design-decidere
+!grav-site/user/pages/04.blog/articoli
+grav-site/user/pages/04.blog/articoli/*
+!grav-site/user/pages/04.blog/articoli/generatore-human-design-energia-senza-burnout
+!grav-site/user/pages/04.blog/articoli/proiettore-human-design-invito-lavoro
+!grav-site/user/pages/04.blog/articoli/12-profili-human-design-chi-sei
+!grav-site/user/pages/04.blog/articoli/amor-proprio-human-design
+!grav-site/user/pages/04.blog/articoli/autorita-emozionale-human-design-decidere
 # Eccezioni: nuovi articoli bozza aziende (deployati via FTP)
 !grav-site/user/pages/05.aziende
 grav-site/user/pages/05.aziende/*
