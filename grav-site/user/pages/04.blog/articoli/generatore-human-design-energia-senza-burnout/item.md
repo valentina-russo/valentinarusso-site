@@ -63,7 +63,7 @@ Come dice Valentina Russo: "Se la risposta è 'uh... ma sì, dai', la pancia ha 
 
 ## Perché la frustrazione è il segnale più utile che hai?
 
-La frustrazione del Costruttore Classico non è un difetto emotivo. È il **Segnale di allineamento** (not-self theme in HD), cioè l'indicatore preciso che stai operando fuori dalla tua meccanica.
+La frustrazione del Costruttore Classico non è un difetto emotivo. È il **segnale dell'Ombra** (not-self theme in HD), cioè l'indicatore preciso che stai operando fuori dalla tua meccanica.
 
 Funziona così: ogni volta che inizi qualcosa senza aver prima ricevuto e ascoltato una risposta viscerale, stai spingendo. Stai usando la mente per scegliere dove mettere l'energia, al posto del corpo. E quando il corpo non ha dato il via libera, l'energia va comunque, ma va controvoglia. Il risultato è uno stato cronico di dispersione: fai le cose, le porti a termine, ma senti che qualcosa non torna. Ti svegli già stanco di quello che devi fare.
 

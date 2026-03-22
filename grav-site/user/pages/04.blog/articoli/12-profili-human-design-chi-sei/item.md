@@ -86,7 +86,7 @@ Questi dodici profili si dividono in tre gruppi. I profili adattivi (1/3, 2/4, 3
 
 ## Perché il profilo che leggi online spesso non ti convince?
 
-La maggior parte delle descrizioni che trovi in rete tratta il profilo come un oroscopo rivisitato: "Sei un 2/4, quindi sei timido ma socievole". Questa semplificazione perde il punto. Il Profilo di Carriera interagisce con il tuo **Tipo di Carriera** (Tipo in HD), con i tuoi centri definiti, con i tuoi canali. Un 3/5 Generatore vive il suo profilo in modo radicalmente diverso da un 3/5 Proiettore.
+La maggior parte delle descrizioni che trovi in rete tratta il profilo come un oroscopo rivisitato: "Sei un 2/4, quindi sei timido ma socievole". Questa semplificazione perde il punto. Il Profilo di Carriera interagisce con il tuo **Tipo di Carriera** (Tipo in HD), con i tuoi centri definiti, con i tuoi canali. Un 3/5 Costruttore Classico vive il suo profilo in modo radicalmente diverso da un 3/5 Guida.
 
 Leggere il profilo isolato è come guardare il copione di un attore senza sapere in quale film recita. Hai le battute, ma ti manca il contesto. Per questo una **Panoramica BG5** completa legge il profilo dentro il disegno complessivo della tua carta.
 
