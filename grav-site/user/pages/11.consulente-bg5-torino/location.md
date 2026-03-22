@@ -3,6 +3,7 @@ title: "Consulente BG5® a Torino — Valentina Russo"
 subtitle: "Disegno di Carriera e consulenze BG5® per professionisti torinesi e piemontesi."
 published: true
 routable: true
+corporate: true
 city: "Torino"
 region: "Piemonte"
 seo_title: "Consulente BG5 Torino — Valentina Russo"

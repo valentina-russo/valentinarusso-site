@@ -3,6 +3,7 @@ title: "Consulente BG5® a Bari — Valentina Russo"
 subtitle: "Disegno di Carriera BG5® per professionisti pugliesi."
 published: true
 routable: true
+corporate: true
 city: "Bari"
 region: "Puglia"
 seo_title: "Consulente BG5 Bari — Valentina Russo"

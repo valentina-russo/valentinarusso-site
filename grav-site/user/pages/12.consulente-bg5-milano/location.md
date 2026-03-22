@@ -3,6 +3,7 @@ title: "Consulente BG5® a Milano — Valentina Russo"
 subtitle: "Disegno di Carriera e consulenze BG5® per professionisti e manager milanesi."
 published: true
 routable: true
+corporate: true
 city: "Milano"
 region: "Lombardia"
 seo_title: "Consulente BG5 Milano — Valentina Russo"

@@ -3,6 +3,7 @@ title: "Consulente BG5® a Verona — Valentina Russo"
 subtitle: "Disegno di Carriera BG5® per professionisti veronesi e del Veneto."
 published: true
 routable: true
+corporate: true
 city: "Verona"
 region: "Veneto"
 seo_title: "Consulente BG5 Verona — Valentina Russo"

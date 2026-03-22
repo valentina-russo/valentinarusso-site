@@ -3,6 +3,7 @@ title: "Consulente BG5® a Firenze — Valentina Russo"
 subtitle: "Analisi del Disegno di Carriera per professionisti e creativi fiorentini."
 published: true
 routable: true
+corporate: true
 city: "Firenze"
 region: "Toscana"
 seo_title: "Consulente BG5 Firenze — Valentina Russo"
