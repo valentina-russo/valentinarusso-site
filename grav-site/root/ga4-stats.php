@@ -149,18 +149,25 @@ function scQuery(string $token, array $body): array {
 $customFrom = isset($_GET['from']) ? preg_replace('/[^0-9\-]/', '', $_GET['from']) : null;
 $customTo   = isset($_GET['to'])   ? preg_replace('/[^0-9\-]/', '', $_GET['to'])   : null;
 
+$scMaxDate = date('Y-m-d', strtotime('-3 days')); // SC ha 2-3 gg ritardo
+
 if ($customFrom && $customTo && strtotime($customFrom) && strtotime($customTo)) {
-    $startDate = $customFrom;
-    $endDate   = $customTo;
-    $days      = max(1, (int)round((strtotime($endDate) - strtotime($startDate)) / 86400));
-    $isCustom  = true;
+    $startDate   = $customFrom;
+    $endDate     = $customTo;
+    $days        = max(1, (int)round((strtotime($endDate) - strtotime($startDate)) / 86400));
+    $isCustom    = true;
 } else {
-    $isCustom  = false;
-    $days      = max(7, min(365, (int)($_GET['days'] ?? 30)));
-    $startDate = date('Y-m-d', strtotime("-{$days} days"));
-    $endDate   = date('Y-m-d', strtotime('-3 days')); // SC ha 2-3 gg ritardo
+    $isCustom    = false;
+    $days        = max(7, min(365, (int)($_GET['days'] ?? 30)));
+    $startDate   = date('Y-m-d', strtotime("-{$days} days"));
+    $endDate     = date('Y-m-d'); // oggi per GA4
 }
-$dateRange = [['startDate' => $startDate, 'endDate' => $isCustom ? $endDate : 'today']];
+// GA4: usa sempre 'today' come end dinamico se non custom, oppure la data selezionata
+$ga4EndDate = $isCustom ? $endDate : 'today';
+// SC: cappato a max 3 gg fa (ritardo API)
+$scEndDate  = min($endDate, $scMaxDate);
+$scTooRecent = $scEndDate < $startDate; // range completamente fuori dalla finestra SC
+$dateRange  = [['startDate' => $startDate, 'endDate' => $ga4EndDate]];
 
 $error = $scError = null;
 $kpi   = $trend = $pages = $sources = $devices = $countries = [];
@@ -212,7 +219,8 @@ if (!$setupNeeded) {
         $scToken = getToken('https://www.googleapis.com/auth/webmasters.readonly');
         if (!$scToken) throw new Exception('Token Search Console non ottenuto.');
 
-        $scRange = ['startDate' => $startDate, 'endDate' => $endDate];
+        if ($scTooRecent) throw new Exception('SC_TOO_RECENT');
+        $scRange = ['startDate' => $startDate, 'endDate' => $scEndDate];
 
         // KPI overview
         $scRaw = scQuery($scToken, array_merge($scRange, ['rowLimit' => 1]));
@@ -470,7 +478,11 @@ tr:hover td{background:#0f172a;}
 <!-- ═══ SEARCH CONSOLE ════════════════════════════════════════════════════ -->
 <div class="section-title">🔍 Google Search Console</div>
 
-<?php if ($scError): ?>
+<?php if ($scError === 'SC_TOO_RECENT'): ?>
+<div class="warn">⏳ Search Console non ha ancora dati per questo intervallo — i dati arrivano con 2-3 giorni di ritardo.<br>
+  <small style="color:#64748b;">Seleziona un periodo che termini almeno il <strong><?=date('d/m/Y', strtotime('-3 days'))?></strong> per vedere i risultati organici.</small>
+</div>
+<?php elseif ($scError): ?>
 <div class="warn">⚠️ Search Console non disponibile: <?=htmlspecialchars($scError)?><br>
   <small style="color:#64748b;">Assicurati che il service account sia stato aggiunto come utente in Search Console e che l'API Search Console sia abilitata.</small>
 </div>
