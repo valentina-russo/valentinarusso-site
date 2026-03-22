@@ -53,6 +53,7 @@ grav-site/user/pages/*
 grav-site/user/pages/04.blog/*
 !grav-site/user/pages/04.blog/articoli
 grav-site/user/pages/04.blog/articoli/*
+!grav-site/user/pages/04.blog/articoli/default.md
 !grav-site/user/pages/04.blog/articoli/generatore-human-design-energia-senza-burnout
 !grav-site/user/pages/04.blog/articoli/proiettore-human-design-invito-lavoro
 !grav-site/user/pages/04.blog/articoli/12-profili-human-design-chi-sei

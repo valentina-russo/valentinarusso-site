@@ -61,6 +61,18 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/hd-relazionale/
           dangerous-clean-slate: false
 
+      - name: Deploy articoli default.md (indice cartella)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/04.blog/articoli/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/
+          dangerous-clean-slate: false
+          exclude: |
+            **/
+
       - name: Deploy articolo generatore-human-design
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
