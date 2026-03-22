@@ -1,7 +1,7 @@
 ---
 title: "Amor proprio e Human Design: smettere di essere qualcuno che non sei"
 date: '2026-03-16 10:00:00'
-published: false
+published: true
 author: "Valentina Russo"
 tags:
     - 'BG5'
