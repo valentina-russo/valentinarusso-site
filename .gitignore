@@ -73,6 +73,12 @@ grav-site/user/pages/05.aziende/02.blog/*
 !grav-site/user/pages/13.consulente-bg5-roma
 !grav-site/user/pages/14.consulente-bg5-bologna
 !grav-site/user/pages/15.consulente-bg5-italia
+!grav-site/user/pages/16.consulente-bg5-firenze
+!grav-site/user/pages/17.consulente-bg5-napoli
+!grav-site/user/pages/18.consulente-bg5-venezia
+!grav-site/user/pages/19.consulente-bg5-bari
+!grav-site/user/pages/20.consulente-bg5-palermo
+!grav-site/user/pages/21.consulente-bg5-verona
 # AI editor config (contiene API key, solo sul server)
 grav-site/root/ai-editor.config.php
 # GA4 Service Account — credenziali Google, MAI in git

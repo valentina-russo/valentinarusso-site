@@ -1,0 +1,9 @@
+enabled: true
+include_onpage_css: false
+built_in_css: true
+ignores:
+  - /admin
+  - /hd-relazionale
+  - /workshop-proposta
+  - /privacy
+  - /terms

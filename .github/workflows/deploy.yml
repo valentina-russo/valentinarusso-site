@@ -203,6 +203,66 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/15.consulente-bg5-italia/
           dangerous-clean-slate: false
 
+      - name: Deploy location page consulente-bg5-firenze
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/16.consulente-bg5-firenze/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/16.consulente-bg5-firenze/
+          dangerous-clean-slate: false
+
+      - name: Deploy location page consulente-bg5-napoli
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/17.consulente-bg5-napoli/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/17.consulente-bg5-napoli/
+          dangerous-clean-slate: false
+
+      - name: Deploy location page consulente-bg5-venezia
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/18.consulente-bg5-venezia/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/18.consulente-bg5-venezia/
+          dangerous-clean-slate: false
+
+      - name: Deploy location page consulente-bg5-bari
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/19.consulente-bg5-bari/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/19.consulente-bg5-bari/
+          dangerous-clean-slate: false
+
+      - name: Deploy location page consulente-bg5-palermo
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/20.consulente-bg5-palermo/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/20.consulente-bg5-palermo/
+          dangerous-clean-slate: false
+
+      - name: Deploy location page consulente-bg5-verona
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/21.consulente-bg5-verona/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/21.consulente-bg5-verona/
+          dangerous-clean-slate: false
+
       - name: Svuota cache Grav automaticamente
         run: |
           sleep 5
