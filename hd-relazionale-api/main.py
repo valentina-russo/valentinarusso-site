@@ -28,7 +28,7 @@ SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*").split(",")
 
 EMBEDDING_MODEL = "voyage-3"       # dimensione 1024
-CLAUDE_MODEL = "claude-opus-4-6"
+CLAUDE_MODEL = "claude-haiku-4-5"
 TOP_K_CHUNKS = 5
 
 # ---------------------------------------------------------------------------
