@@ -9,14 +9,16 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, field_validator
 import anthropic
+import voyageai
 from supabase import create_client, Client
 
-load_dotenv()
+load_dotenv(override=True)
 
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
+VOYAGE_API_KEY = os.getenv("VOYAGE_API_KEY", "")
 SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*").split(",")
@@ -29,6 +31,7 @@ TOP_K_CHUNKS = 5
 # Clients
 # ---------------------------------------------------------------------------
 ai_client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+voyage_client = voyageai.Client(api_key=VOYAGE_API_KEY) if VOYAGE_API_KEY else None
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY) if SUPABASE_URL else None
 
 # ---------------------------------------------------------------------------
@@ -83,16 +86,13 @@ class AnalisiRequest(BaseModel):
 # RAG helpers
 # ---------------------------------------------------------------------------
 def embed_query(text: str) -> list[float]:
-    """Embedding voyage-3 via Anthropic SDK. Fallback zero-vector per test locali."""
+    """Embedding voyage-3 via voyageai SDK. Fallback zero-vector se chiave mancante."""
+    if voyage_client is None:
+        return [0.0] * 1024
     try:
-        # anthropic SDK >= 0.28: client.embeddings.create(model, input)
-        resp = ai_client.embeddings.create(
-            model=EMBEDDING_MODEL,
-            input=[text],
-        )
-        return resp.embeddings[0].values
+        result = voyage_client.embed([text], model=EMBEDDING_MODEL)
+        return result.embeddings[0]
     except Exception:
-        # Zero-vector: solo per test locali senza credenziali
         return [0.0] * 1024
 
 
