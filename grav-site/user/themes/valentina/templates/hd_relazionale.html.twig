@@ -160,6 +160,48 @@
   }
   .hd-reset-btn:hover { border-color: var(--primary-color); color: var(--primary-color); }
 
+  .hd-cta-btn {
+    display: block;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 1.25rem;
+    transition: opacity 0.2s, transform 0.1s;
+    box-sizing: border-box;
+  }
+  .hd-cta-btn:hover { opacity: 0.88; color: #fff; }
+  .hd-cta-btn:active { transform: scale(0.99); }
+
+  .hd-locked {
+    display: none;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: #f5f0f8;
+    border-radius: 14px;
+    border: 1.5px solid var(--secondary-color, #7a5c9e);
+  }
+  .hd-locked-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .hd-locked h3 {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    margin: 0 0 0.5rem;
+  }
+  .hd-locked p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0 0 1.25rem;
+    line-height: 1.6;
+  }
+
   .hd-error {
     display: none;
     background: #fff0f0;
@@ -185,6 +227,13 @@
       <p class="eyebrow" style="font-size:0.78rem; text-transform:uppercase; letter-spacing:.08em; color:var(--primary-color); font-weight:700; margin-bottom:.5rem;">Strumento Gratuito</p>
       <h1>{{ page.title }}</h1>
       <p>{{ page.header.description ?? 'Inserisci i dati qui sotto e ricevi un\'analisi immediata della dinamica tra voi.' }}</p>
+    </div>
+
+    <div class="hd-locked" id="hd-locked">
+      <div class="hd-locked-icon">🔒</div>
+      <h3>Hai già usato questo strumento</h3>
+      <p>Ogni persona può ricevere una sola analisi gratuita. Se vuoi approfondire la tua dinamica relazionale, prenota una consulenza con Valentina.</p>
+      <a href="{{ grav.base_url }}/contatti" class="hd-cta-btn">Prenota una consulenza con Valentina →</a>
     </div>
 
     <div class="hd-form-card" data-animate>
@@ -257,7 +306,8 @@
         <h3>Vuoi capire tutto?</h3>
         <p id="text-upsell"></p>
       </div>
-      <button class="hd-reset-btn" id="reset-btn">← Fai una nuova analisi</button>
+      <a href="{{ grav.base_url }}/contatti" class="hd-cta-btn">Prenota una consulenza con Valentina →</a>
+      <button class="hd-reset-btn" id="reset-btn" style="display:none;">← Fai una nuova analisi</button>
     </div>
 
   </div>
@@ -268,15 +318,24 @@
 <script>
 (function () {
   const API_URL = "{{ page.header.api_url ?? 'http://localhost:8000' }}";
+  const LS_KEY = 'hd_analisi_usata';
 
+  const formCard = document.querySelector('.hd-form-card');
+  const lockedBox = document.getElementById('hd-locked');
   const form = document.getElementById('hd-form');
   const submitBtn = document.getElementById('submit-btn');
   const loading = document.getElementById('hd-loading');
   const errorBox = document.getElementById('hd-error');
   const resultBox = document.getElementById('hd-result');
-  const resetBtn = document.getElementById('reset-btn');
   const charCount = document.getElementById('char-count');
   const textarea = document.getElementById('problema');
+
+  // Gate: se già usato, mostra schermata bloccata
+  if (localStorage.getItem(LS_KEY)) {
+    formCard.style.display = 'none';
+    lockedBox.style.display = 'block';
+    return; // stop tutto il resto
+  }
 
   // Warm-up: ping silenzioso a /health per svegliare Render prima che l'utente invii
   fetch(API_URL + '/health', { method: 'GET' }).catch(() => {});
@@ -323,20 +382,14 @@
 
       const data = await resp.json();
       renderResult(data.result);
+
+      // Segna come usato — da questo momento il form sarà bloccato al prossimo caricamento
+      localStorage.setItem(LS_KEY, '1');
     } catch (err) {
       showError('Si è verificato un errore: ' + err.message + '. Riprova tra qualche istante.');
     } finally {
       setLoading(false);
     }
-  });
-
-  // Reset
-  resetBtn.addEventListener('click', function () {
-    resultBox.classList.remove('visible');
-    setTimeout(() => { resultBox.style.display = 'none'; }, 400);
-    form.reset();
-    charCount.textContent = '0';
-    errorBox.style.display = 'none';
   });
 
   // Helpers
@@ -368,10 +421,11 @@
     document.getElementById('card-diagnosi').style.display = diagnosi ? 'block' : 'none';
     document.getElementById('card-upsell').style.display = upsell ? 'block' : 'none';
 
-    resultBox.style.display = 'block';
-    // Trigger animazione nel prossimo frame
-    requestAnimationFrame(() => resultBox.classList.add('visible'));
+    // Nascondi il form, mostra solo i risultati
+    form.style.display = 'none';
 
+    resultBox.style.display = 'block';
+    requestAnimationFrame(() => resultBox.classList.add('visible'));
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
