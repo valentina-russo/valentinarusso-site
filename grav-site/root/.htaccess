@@ -17,6 +17,16 @@ Options -Indexes
     RewriteCond %{HTTPS} off
     RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
+    ## REDIRECT vecchi URL WordPress → Grav equivalenti (301)
+    RewriteRule ^2025/02/03/relazioni-e-bisogni-emotivi/?$ /blog/relazioni-bisogni-emotivi [R=301,L]
+    RewriteRule ^2025/03/24/la-mente-innamorata1/?$ /blog/la-mente-innamorata-1 [R=301,L]
+    RewriteRule ^category/la-mente-innamorata/?$ /blog [R=301,L]
+    RewriteRule ^info-contatti/?$ /contatti [R=301,L]
+    RewriteRule ^sistema-mentecorpo/?$ /servizi [R=301,L]
+    RewriteRule ^wp-admin/?$ / [R=301,L]
+    RewriteRule ^wp-login\.php$ / [R=301,L]
+    RewriteRule ^feed/?$ / [R=301,L]
+
     ## REDIRECT admin.php → /admin (Grav Admin)
     RewriteRule ^admin\.php$ /admin [R=301,L]
 
