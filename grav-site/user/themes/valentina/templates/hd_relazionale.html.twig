@@ -278,6 +278,9 @@
   const charCount = document.getElementById('char-count');
   const textarea = document.getElementById('problema');
 
+  // Warm-up: ping silenzioso a /health per svegliare Render prima che l'utente invii
+  fetch(API_URL + '/health', { method: 'GET' }).catch(() => {});
+
   // Contatore caratteri
   textarea.addEventListener('input', function () {
     const n = this.value.length;
