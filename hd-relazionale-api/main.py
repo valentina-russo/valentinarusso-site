@@ -5,12 +5,16 @@ Flusso: form → RAG (Supabase pgvector) → Claude haiku → risposta 3 sezioni
 
 import os
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, field_validator
 import anthropic
 import voyageai
 from supabase import create_client, Client
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 
 load_dotenv(override=True)
 
@@ -37,7 +41,11 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY) if SUPABASE_URL els
 # ---------------------------------------------------------------------------
 # App
 # ---------------------------------------------------------------------------
+limiter = Limiter(key_func=get_remote_address)
+
 app = FastAPI(title="HD Relazionale API", version="1.0.0")
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,
@@ -182,7 +190,8 @@ async def health():
 
 
 @app.post("/analisi")
-async def genera_analisi(req: AnalisiRequest):
+@limiter.limit("5/minute;30/hour")
+async def genera_analisi(request: Request, req: AnalisiRequest):
     # Costruisce query per RAG
     rag_query = f"dinamica relazionale {req.tipo_utente} {req.tipo_altro} {req.relazione} {req.problema}"
     context = retrieve_context(rag_query)

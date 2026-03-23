@@ -311,6 +311,9 @@
       });
 
       if (!resp.ok) {
+        if (resp.status === 429) {
+          throw new Error('Hai inviato troppe richieste. Attendi qualche minuto e riprova.');
+        }
         const err = await resp.json().catch(() => ({}));
         throw new Error(err.detail || 'Errore del server (' + resp.status + ')');
       }
