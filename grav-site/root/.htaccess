@@ -5,6 +5,9 @@
 # Disabilita visualizzazione directory
 Options -Indexes
 
+# Charset UTF-8 per file di testo
+AddCharset UTF-8 .txt .md .json .xml
+
 # Abilita mod_rewrite
 <IfModule mod_rewrite.c>
     RewriteEngine On
