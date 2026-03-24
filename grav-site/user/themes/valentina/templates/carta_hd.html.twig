@@ -441,6 +441,29 @@ const CENTER_GATES = {
 };
 for(const [c,gs] of Object.entries(CENTER_GATES)) gs.forEach(g => GATE_TO_CENTER[g]=c);
 
+// Posizioni gate nel SVG bodygraph (viewBox 0 0 596.35 982.96)
+const GATE_POS = {
+  64:[272.5,123.9], 61:[298.2,122.8], 63:[323.4,123.4],
+  47:[273.4,176.4], 24:[297.3,178.5],  4:[324.1,178.5],
+  17:[274.2,220.2], 43:[295.4,264.4], 11:[321.2,220.6],
+  62:[270.1,316.6], 23:[295.0,319.4], 56:[325.4,315.5],
+  35:[345.8,344.8], 12:[344.6,379.1], 45:[347.1,407.4], 33:[322.9,416.6],
+   8:[296.2,414.2], 31:[269.0,414.2], 20:[245.7,380.3], 16:[245.5,344.2],
+   1:[295.1,456.5], 13:[320.3,483.1],  7:[271.8,479.8],
+  10:[228.5,525.5], 25:[361.4,532.8],
+  46:[324.8,570.5],  2:[295.0,593.4], 15:[271.4,567.8],
+  21:[436.8,570.6], 26:[384.4,622.5], 51:[421.6,582.2], 40:[457.8,628.7],
+  36:[563.5,687.1], 22:[529.0,707.8], 37:[509.8,717.4],  6:[480.3,735.0],
+  49:[500.8,749.5], 55:[524.4,759.9], 30:[558.4,782.7],
+   5:[271.6,681.7], 14:[297.3,684.8], 29:[322.5,685.5], 34:[244.1,721.3],
+  59:[343.4,764.3],  9:[321.9,789.0],  3:[294.6,790.4], 42:[269.7,790.2], 27:[244.8,764.3],
+  52:[324.1,846.3], 60:[299.0,845.2], 53:[270.9,845.8],
+  54:[247.6,869.8], 38:[246.0,900.6], 58:[247.9,926.6],
+  41:[343.3,929.8], 39:[341.4,901.1], 19:[342.3,867.6],
+  50:[119.2,734.5], 44:[ 84.6,717.0], 57:[ 62.0,697.6], 48:[ 30.1,686.9],
+  18:[ 39.6,782.9], 28:[ 65.3,769.3], 32:[ 88.6,757.5],
+};
+
 const CHANNELS = [
   [64,47,'HEAD','AJNA'],[61,24,'HEAD','AJNA'],[63,4,'HEAD','AJNA'],
   [17,62,'AJNA','THROAT'],[43,23,'AJNA','THROAT'],[11,56,'AJNA','THROAT'],
@@ -523,7 +546,7 @@ async function calcolaCarta() {
       throw new Error(data.detail || 'Errore nel calcolo della carta.');
     }
 
-    renderRisultati(data, nome);
+    await renderRisultati(data, nome);
   } catch(e) {
     mostraErrore(e.message || 'Si è verificato un errore. Riprova tra qualche istante.');
   } finally {
@@ -589,7 +612,7 @@ function normalizzaRisposta(data) {
   };
 }
 
-function renderRisultati(data, nome) {
+async function renderRisultati(data, nome) {
   const d = normalizzaRisposta(data);
   if(!d) { mostraErrore('Formato risposta non riconosciuto.'); return; }
 
@@ -633,8 +656,8 @@ function renderRisultati(data, nome) {
     return ch || [g1, g2, GATE_TO_CENTER[g1]||'', GATE_TO_CENTER[g2]||''];
   });
 
-  // Bodygraph SVG
-  document.getElementById('carta-bodygraph-wrap').innerHTML = buildBodygraph(blackGates, redGates, definedChannels, definedCenterSet);
+  // Bodygraph SVG (carica il bodygraph vettoriale reale)
+  await loadAndRenderBodygraph(d.gate_colors, definedChannels, definedCenterSet, blackGates, redGates);
 
   // Planet table
   renderPlaneti(d.personality, d.design);
@@ -644,7 +667,65 @@ function renderRisultati(data, nome) {
   document.getElementById('carta-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// ─── Bodygraph SVG ─────────────────────────────────────────────────────────
+// ─── Bodygraph SVG reale ────────────────────────────────────────────────────
+
+async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenterSet, blackGates, redGates) {
+  const wrap = document.getElementById('carta-bodygraph-wrap');
+  const ns = 'http://www.w3.org/2000/svg';
+
+  try {
+    const resp = await fetch('/bodygraph.svg', { cache: 'force-cache' });
+    if(!resp.ok) throw new Error('SVG non trovato');
+    const svgText = await resp.text();
+
+    const parser = new DOMParser();
+    const svgEl = parser.parseFromString(svgText, 'image/svg+xml').documentElement;
+    svgEl.setAttribute('style', 'max-width:520px;width:100%;height:auto;display:block;margin:0 auto');
+
+    const overlay = document.createElementNS(ns, 'g');
+
+    // Canali definiti: linea colorata tra i due gate
+    for(const ch of definedChannels) {
+      const [g1, g2] = [ch[0], ch[1]];
+      const p1 = GATE_POS[g1], p2 = GATE_POS[g2];
+      if(!p1 || !p2) continue;
+      const c1 = gateColors[String(g1)]||'', c2 = gateColors[String(g2)]||'';
+      const col = (c1==='P'&&c2==='P') ? '#1a1a2e' : (c1==='D'&&c2==='D') ? '#c0392b' : '#7a5c9e';
+      const line = document.createElementNS(ns, 'line');
+      line.setAttribute('x1', p1[0]); line.setAttribute('y1', p1[1]);
+      line.setAttribute('x2', p2[0]); line.setAttribute('y2', p2[1]);
+      line.setAttribute('stroke', col);
+      line.setAttribute('stroke-width', '5');
+      line.setAttribute('stroke-linecap', 'round');
+      line.setAttribute('opacity', '0.55');
+      overlay.appendChild(line);
+    }
+
+    // Cerchietti colorati su ogni gate attivo
+    for(const [gStr, c] of Object.entries(gateColors)) {
+      const g = parseInt(gStr);
+      const pos = GATE_POS[g];
+      if(!pos) continue;
+      const fill = c==='P' ? '#1a1a2e' : c==='D' ? '#c0392b' : '#7a5c9e';
+      const circle = document.createElementNS(ns, 'circle');
+      circle.setAttribute('cx', pos[0]); circle.setAttribute('cy', pos[1]);
+      circle.setAttribute('r', '8');
+      circle.setAttribute('fill', fill);
+      circle.setAttribute('opacity', '0.72');
+      overlay.appendChild(circle);
+    }
+
+    svgEl.appendChild(overlay);
+    wrap.innerHTML = '';
+    wrap.appendChild(svgEl);
+
+  } catch(e) {
+    // Fallback: schema geometrico semplificato
+    wrap.innerHTML = buildBodygraph(blackGates, redGates, definedChannels, definedCenterSet);
+  }
+}
+
+// ─── Bodygraph fallback (schema geometrico) ─────────────────────────────────
 
 const C_PRIMARY = '#7a5c9e';
 const C_RED     = '#c0392b';

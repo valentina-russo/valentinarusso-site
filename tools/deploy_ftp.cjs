@@ -44,6 +44,54 @@ async function deployStructural() {
         await client.uploadFrom(path.join(__dirname, "../grav-site/user/themes/valentina/templates/hd_relazionale.html.twig"), "hd_relazionale.html.twig");
         await client.cd(remotePath);
 
+        console.log("Upload del template twig Grav carta_hd.html.twig...");
+        await client.ensureDir("user/themes/valentina/templates");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/user/themes/valentina/templates/carta_hd.html.twig"), "carta_hd.html.twig");
+        await client.cd(remotePath);
+
+        console.log("Upload della pagina carta-hd...");
+        await client.ensureDir("user/pages/carta-hd");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/user/pages/carta-hd/carta_hd.md"), "carta_hd.md");
+        await client.cd(remotePath);
+
+        console.log("Upload llms.txt...");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/root/llms.txt"), "llms.txt");
+        await client.cd(remotePath);
+
+        console.log("Upload bodygraph.svg...");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/user/pages/assets/bodygraph.svg"), "bodygraph.svg");
+        await client.cd(remotePath);
+
+        console.log("Upload la-mente-innamorata-1 (published: false)...");
+        await client.ensureDir("user/pages/04.blog/la-mente-innamorata-1");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/user/pages/04.blog/la-mente-innamorata-1/item.md"), "item.md");
+        await client.cd(remotePath);
+
+        console.log("Upload la-mente-innamorata-2 (published: false)...");
+        await client.ensureDir("user/pages/04.blog/la-mente-innamorata-2");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/user/pages/04.blog/la-mente-innamorata-2/item.md"), "item.md");
+        await client.cd(remotePath);
+
+        console.log("Upload la-mente-innamorata-3 (published: false)...");
+        await client.ensureDir("user/pages/04.blog/la-mente-innamorata-3");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/user/pages/04.blog/la-mente-innamorata-3/item.md"), "item.md");
+        await client.cd(remotePath);
+
+        console.log("Upload bg5-selezione-personale-assumere-design...");
+        await client.ensureDir("user/pages/05.aziende/02.blog/bg5-selezione-personale-assumere-design");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/user/pages/05.aziende/02.blog/bg5-selezione-personale-assumere-design/item.md"), "item.md");
+        await client.cd(remotePath);
+
+        console.log("Upload bg5-partnership-scegliere-socio...");
+        await client.ensureDir("user/pages/05.aziende/02.blog/bg5-partnership-scegliere-socio");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/user/pages/05.aziende/02.blog/bg5-partnership-scegliere-socio/item.md"), "item.md");
+        await client.cd(remotePath);
+
+        console.log("Upload human-design-azienda-team-leadership...");
+        await client.ensureDir("user/pages/05.aziende/02.blog/human-design-azienda-team-leadership");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/user/pages/05.aziende/02.blog/human-design-azienda-team-leadership/item.md"), "item.md");
+        await client.cd(remotePath);
+
         console.log("✅ Deploy strutturale completato.");
     }
     catch (err) {
