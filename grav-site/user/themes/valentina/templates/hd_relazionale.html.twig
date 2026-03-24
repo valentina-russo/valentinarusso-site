@@ -181,27 +181,6 @@
   .hd-cta-btn:hover { opacity: 0.88; color: #fff; }
   .hd-cta-btn:active { transform: scale(0.99); }
 
-  .hd-locked {
-    display: none;
-    text-align: center;
-    padding: 2rem 1.5rem;
-    background: #f5f0f8;
-    border-radius: 14px;
-    border: 1.5px solid var(--secondary-color, #7a5c9e);
-  }
-  .hd-locked-icon { font-size: 2rem; margin-bottom: 0.75rem; }
-  .hd-locked h3 {
-    font-size: 1.1rem;
-    color: var(--primary-color);
-    margin: 0 0 0.5rem;
-  }
-  .hd-locked p {
-    color: #666;
-    font-size: 0.9rem;
-    margin: 0 0 1.25rem;
-    line-height: 1.6;
-  }
-
   .hd-error {
     display: none;
     background: #fff0f0;
@@ -227,13 +206,6 @@
       <p class="eyebrow" style="font-size:0.78rem; text-transform:uppercase; letter-spacing:.08em; color:var(--primary-color); font-weight:700; margin-bottom:.5rem;">Strumento Gratuito</p>
       <h1>{{ page.title }}</h1>
       <p>{{ page.header.description ?? 'Inserisci i dati qui sotto e ricevi un\'analisi immediata della dinamica tra voi.' }}</p>
-    </div>
-
-    <div class="hd-locked" id="hd-locked">
-      <div class="hd-locked-icon">🔒</div>
-      <h3>Hai già usato questo strumento</h3>
-      <p>Ogni persona può ricevere una sola analisi gratuita. Se vuoi approfondire la tua dinamica relazionale, prenota una consulenza con Valentina.</p>
-      <a href="{{ grav.base_url }}/contatti" class="hd-cta-btn">Prenota una consulenza con Valentina →</a>
     </div>
 
     <div class="hd-form-card" data-animate>
@@ -307,7 +279,7 @@
         <p id="text-upsell"></p>
       </div>
       <a href="{{ grav.base_url }}/contatti" class="hd-cta-btn">Prenota una consulenza con Valentina →</a>
-      <button class="hd-reset-btn" id="reset-btn" style="display:none;">← Fai una nuova analisi</button>
+      <button class="hd-reset-btn" id="reset-btn">← Fai una nuova analisi</button>
     </div>
 
   </div>
@@ -318,24 +290,15 @@
 <script>
 (function () {
   const API_URL = "{{ page.header.api_url ?? 'http://localhost:8000' }}";
-  const LS_KEY = 'hd_analisi_usata';
 
-  const formCard = document.querySelector('.hd-form-card');
-  const lockedBox = document.getElementById('hd-locked');
   const form = document.getElementById('hd-form');
   const submitBtn = document.getElementById('submit-btn');
   const loading = document.getElementById('hd-loading');
   const errorBox = document.getElementById('hd-error');
   const resultBox = document.getElementById('hd-result');
+  const resetBtn = document.getElementById('reset-btn');
   const charCount = document.getElementById('char-count');
   const textarea = document.getElementById('problema');
-
-  // Gate: se già usato, mostra schermata bloccata
-  if (localStorage.getItem(LS_KEY)) {
-    formCard.style.display = 'none';
-    lockedBox.style.display = 'block';
-    return; // stop tutto il resto
-  }
 
   // Warm-up: ping silenzioso a /health per svegliare Render prima che l'utente invii
   fetch(API_URL + '/health', { method: 'GET' }).catch(() => {});
@@ -382,9 +345,6 @@
 
       const data = await resp.json();
       renderResult(data.result);
-
-      // Segna come usato — da questo momento il form sarà bloccato al prossimo caricamento
-      localStorage.setItem(LS_KEY, '1');
     } catch (err) {
       showError('Si è verificato un errore: ' + err.message + '. Riprova tra qualche istante.');
     } finally {
@@ -428,6 +388,16 @@
     requestAnimationFrame(() => resultBox.classList.add('visible'));
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+
+  // Reset: torna al form per una nuova analisi
+  resetBtn.addEventListener('click', function () {
+    resultBox.classList.remove('visible');
+    resultBox.style.display = 'none';
+    form.reset();
+    form.style.display = 'block';
+    charCount.textContent = '0';
+    document.querySelector('.hd-form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 
   function extractSection(text, startTag, endTag) {
     const start = text.indexOf(startTag);
