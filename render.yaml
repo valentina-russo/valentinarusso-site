@@ -18,3 +18,5 @@ services:
         sync: false
       - key: ALLOWED_ORIGINS
         value: https://valentinarussobg5.com
+      - key: SIMPLE_CHART_KEY
+        sync: false

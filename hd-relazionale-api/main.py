@@ -26,6 +26,7 @@ VOYAGE_API_KEY = os.getenv("VOYAGE_API_KEY", "")
 SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*").split(",")
+SIMPLE_CHART_KEY = os.getenv("SIMPLE_CHART_KEY", "")
 
 EMBEDDING_MODEL = "voyage-3"       # dimensione 1024
 CLAUDE_MODEL = "claude-haiku-4-5"
@@ -199,6 +200,28 @@ async def query_ai(user_prompt: str) -> str:
 @app.get("/health")
 async def health():
     return {"status": "ok", "model": CLAUDE_MODEL}
+
+
+@app.get("/carta")
+@limiter.limit("5/minute;30/hour")
+async def calcola_carta(
+    request: Request,
+    y: int,
+    m: int,
+    d: int,
+    h: int,
+    min: int,
+    tz: str,
+):
+    if not SIMPLE_CHART_KEY:
+        raise HTTPException(status_code=503, detail="Servizio carta non configurato")
+    import httpx
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        resp = await client.get(
+            "https://api.simplechartcalculator.com/v1/calculate",
+            params={"y": y, "m": m, "d": d, "h": h, "min": min, "tz": tz, "key": SIMPLE_CHART_KEY},
+        )
+    return JSONResponse(content=resp.json(), status_code=resp.status_code)
 
 
 @app.post("/analisi")

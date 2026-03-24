@@ -4,43 +4,204 @@
 
 {% block extra_css %}
 <style>
-  .carta-hd-wrap {
-    max-width: 800px;
+  .carta-wrap {
+    max-width: 860px;
     margin: 0 auto;
     padding: var(--space-lg) var(--space-md);
   }
-  .carta-hd-intro {
+  .carta-intro {
     text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .carta-intro h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .carta-intro p { color: var(--text-muted, #666); font-size: 1rem; max-width: 560px; margin: 0 auto; line-height: 1.6; }
+
+  /* Form */
+  .carta-form-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    padding: 2rem;
     margin-bottom: 2rem;
   }
-  .carta-hd-intro h1 {
-    font-size: clamp(1.6rem, 4vw, 2.2rem);
-    margin-bottom: 0.75rem;
+  .cf-row { display: grid; gap: 1rem; margin-bottom: 1rem; }
+  .cf-row.cols-3 { grid-template-columns: 1fr 1fr 1.5fr; }
+  .cf-row.cols-2 { grid-template-columns: 1fr 1fr; }
+  .cf-row.cols-1 { grid-template-columns: 1fr; }
+  .cf-field label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.35rem;
   }
-  .carta-hd-intro p {
-    color: var(--text-muted, #666);
+  .cf-field input,
+  .cf-field select {
+    width: 100%;
+    border: 1.5px solid #e0dbd7;
+    border-radius: 8px;
+    padding: 0.65rem 0.85rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: #333;
+    background: #faf9f8;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+  .cf-field input:focus,
+  .cf-field select:focus { outline: none; border-color: var(--primary-color); background: #fff; }
+  .cf-hint { font-size: 0.73rem; color: #aaa; margin-top: 0.25rem; }
+  .carta-btn {
+    width: 100%;
+    padding: 0.9rem 1.5rem;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
     font-size: 1rem;
-    max-width: 560px;
-    margin: 0 auto 0.5rem;
-    line-height: 1.6;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: opacity 0.2s, transform 0.1s;
   }
-  .carta-hd-widget {
-    margin: 0 auto;
-  }
-  .carta-hd-cta {
-    margin-top: 2.5rem;
+  .carta-btn:hover:not(:disabled) { opacity: 0.88; }
+  .carta-btn:active:not(:disabled) { transform: scale(0.99); }
+  .carta-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Loading */
+  .carta-loading {
+    display: none;
     text-align: center;
-    padding: 2rem;
+    padding: 2.5rem;
+    color: var(--primary-color);
+  }
+  .carta-loading-dots span {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    margin: 0 3px;
+    animation: dotPulse 1.2s ease-in-out infinite;
+  }
+  .carta-loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .carta-loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dotPulse { 0%,80%,100%{opacity:0.2;transform:scale(0.8)} 40%{opacity:1;transform:scale(1)} }
+
+  /* Error */
+  .carta-error {
+    display: none;
+    background: #fff0f0;
+    border: 1.5px solid #ffcccc;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    color: #c0392b;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Results */
+  .carta-results { display: none; }
+  .carta-name-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .carta-name-header h2 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin: 0 0 0.2rem;
+  }
+  .carta-name-header p { color: #888; font-size: 0.85rem; margin: 0; }
+
+  /* Core cards */
+  .carta-core {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  .core-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 1rem 0.9rem;
+    text-align: center;
+  }
+  .core-card-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--primary-color);
+    margin-bottom: 0.3rem;
+  }
+  .core-card-value {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #2c2c2c;
+    line-height: 1.3;
+  }
+
+  /* Bodygraph */
+  .carta-bodygraph-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  .carta-bodygraph-wrap svg { max-width: 100%; height: auto; }
+
+  /* Planet table */
+  .carta-planets {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+  }
+  .carta-planets h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--primary-color);
+    margin: 0 0 1rem;
+  }
+  .planets-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .planets-table th {
+    text-align: left;
+    padding: 0.4rem 0.6rem;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #999;
+    border-bottom: 1.5px solid #f0ece8;
+  }
+  .planets-table td {
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid #f5f2ef;
+    color: #444;
+  }
+  .planets-table tr:last-child td { border-bottom: none; }
+  .gate-black { color: #1a1a2e; font-weight: 700; }
+  .gate-red   { color: #c0392b; font-weight: 700; }
+
+  /* CTA */
+  .carta-cta {
     background: #f5f0f8;
     border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
   }
-  .carta-hd-cta p {
-    color: #555;
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
-    line-height: 1.6;
-  }
-  .carta-hd-cta a {
+  .carta-cta p { color: #555; font-size: 0.95rem; margin-bottom: 1.25rem; line-height: 1.6; }
+  .carta-cta a {
     display: inline-block;
     padding: 0.9rem 2rem;
     background: var(--primary-color);
@@ -51,27 +212,397 @@
     text-decoration: none;
     transition: opacity 0.2s;
   }
-  .carta-hd-cta a:hover { opacity: 0.88; }
+  .carta-cta a:hover { opacity: 0.88; }
+
+  @media (max-width: 600px) {
+    .cf-row.cols-3 { grid-template-columns: 1fr 1fr; }
+    .cf-row.cols-2 { grid-template-columns: 1fr; }
+    .carta-core { grid-template-columns: repeat(2, 1fr); }
+  }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="carta-hd-wrap">
+<div class="carta-wrap">
 
-  <div class="carta-hd-intro">
+  <div class="carta-intro">
     <h1>{{ page.header.title }}</h1>
     <p>{{ page.header.description }}</p>
   </div>
 
-  <div class="carta-hd-widget">
-    <div id="asccalc-widget"></div>
-    <script src="https://api.simplechartcalculator.com/widget.js?key={{ page.header.api_key }}&theme=light&font=Outfit&width=760&showcore=true&showplanets=true"></script>
+  <div class="carta-form-card">
+    <div class="cf-row cols-1">
+      <div class="cf-field">
+        <label>Nome (opzionale)</label>
+        <input type="text" id="cf-nome" placeholder="Il tuo nome">
+      </div>
+    </div>
+    <div class="cf-row cols-3">
+      <div class="cf-field">
+        <label>Giorno</label>
+        <input type="number" id="cf-day" min="1" max="31" placeholder="15">
+      </div>
+      <div class="cf-field">
+        <label>Mese</label>
+        <input type="number" id="cf-month" min="1" max="12" placeholder="6">
+      </div>
+      <div class="cf-field">
+        <label>Anno</label>
+        <input type="number" id="cf-year" min="1900" max="2025" placeholder="1990">
+      </div>
+    </div>
+    <div class="cf-row cols-2">
+      <div class="cf-field">
+        <label>Ora</label>
+        <input type="number" id="cf-hour" min="0" max="23" placeholder="10">
+      </div>
+      <div class="cf-field">
+        <label>Minuti</label>
+        <input type="number" id="cf-min" min="0" max="59" placeholder="30">
+      </div>
+    </div>
+    <div class="cf-row cols-1">
+      <div class="cf-field">
+        <label>Fuso orario</label>
+        <select id="cf-tz">
+          <option value="Europe/Rome" selected>Italia (Europe/Rome)</option>
+          <option value="Europe/London">Regno Unito (Europe/London)</option>
+          <option value="Europe/Paris">Francia / Belgio (Europe/Paris)</option>
+          <option value="Europe/Berlin">Germania / Austria (Europe/Berlin)</option>
+          <option value="Europe/Madrid">Spagna (Europe/Madrid)</option>
+          <option value="Europe/Zurich">Svizzera (Europe/Zurich)</option>
+          <option value="America/New_York">USA Est (America/New_York)</option>
+          <option value="America/Chicago">USA Centrale (America/Chicago)</option>
+          <option value="America/Los_Angeles">USA Ovest (America/Los_Angeles)</option>
+          <option value="America/Argentina/Buenos_Aires">Argentina</option>
+          <option value="America/Sao_Paulo">Brasile (America/Sao_Paulo)</option>
+          <option value="Asia/Dubai">Emirati Arabi (Asia/Dubai)</option>
+          <option value="Asia/Kolkata">India (Asia/Kolkata)</option>
+          <option value="Asia/Tokyo">Giappone (Asia/Tokyo)</option>
+          <option value="Australia/Sydney">Australia (Australia/Sydney)</option>
+        </select>
+        <div class="cf-hint">Se non sei sicuro, lascia Italia selezionato</div>
+      </div>
+    </div>
+    <button class="carta-btn" id="carta-calcola-btn" onclick="calcolaCarta()">Calcola la mia Carta</button>
   </div>
 
-  <div class="carta-hd-cta">
-    <p>Vuoi capire cosa significa davvero la tua carta? Valentina ti guida in una consulenza Human Design personalizzata.</p>
-    <a href="/contatti">Prenota una consulenza con Valentina</a>
+  <div class="carta-loading" id="carta-loading">
+    <div class="carta-loading-dots"><span></span><span></span><span></span></div>
+    <p style="margin-top:0.75rem;color:#888;font-size:0.9rem;">Calcolo in corso…</p>
+  </div>
+
+  <div class="carta-error" id="carta-error"></div>
+
+  <div class="carta-results" id="carta-results">
+    <div class="carta-name-header" id="carta-name-header"></div>
+    <div class="carta-core" id="carta-core"></div>
+    <div class="carta-bodygraph-wrap" id="carta-bodygraph-wrap"></div>
+    <div class="carta-planets" id="carta-planets"></div>
+    <div class="carta-cta">
+      <p>Il tuo grafico mostra la struttura energetica di base. Una consulenza con Valentina trasforma questi dati in indicazioni pratiche per le tue relazioni, il lavoro e le decisioni quotidiane.</p>
+      <a href="/contatti">Prenota una consulenza con Valentina</a>
+    </div>
   </div>
 
 </div>
+
+<script>
+const API_BASE = 'https://hd-relazionale.onrender.com';
+
+// ─── HD Data ───────────────────────────────────────────────────────────────
+
+const GATE_TO_CENTER = {};
+const CENTER_GATES = {
+  HEAD:   [64,61,63],
+  AJNA:   [47,24,4,17,43,11],
+  THROAT: [62,23,56,35,12,45,33,8,31,20,16],
+  G:      [1,13,25,46,10,15,2,7],
+  HEART:  [51,21,40,26],
+  SPLEEN: [48,57,44,50,32,28,18],
+  SOLAR:  [36,22,37,6,49,55,30],
+  SACRAL: [5,14,29,27,34,9,3,42,59],
+  ROOT:   [38,54,53,60,52,19,39,41,58]
+};
+for(const [c,gs] of Object.entries(CENTER_GATES)) gs.forEach(g => GATE_TO_CENTER[g]=c);
+
+const CHANNELS = [
+  [64,47,'HEAD','AJNA'],[61,24,'HEAD','AJNA'],[63,4,'HEAD','AJNA'],
+  [17,62,'AJNA','THROAT'],[43,23,'AJNA','THROAT'],[11,56,'AJNA','THROAT'],
+  [16,48,'THROAT','SPLEEN'],[20,57,'THROAT','SPLEEN'],
+  [31,7,'THROAT','G'],[8,1,'THROAT','G'],[33,13,'THROAT','G'],[10,20,'THROAT','G'],
+  [45,21,'THROAT','HEART'],[35,36,'THROAT','SOLAR'],[12,22,'THROAT','SOLAR'],
+  [20,34,'THROAT','SACRAL'],
+  [26,44,'HEART','SPLEEN'],[51,25,'HEART','G'],[40,37,'HEART','SOLAR'],
+  [2,14,'G','SACRAL'],[5,15,'G','SACRAL'],[29,46,'G','SACRAL'],
+  [27,50,'SACRAL','SPLEEN'],[34,57,'SACRAL','SPLEEN'],[59,6,'SACRAL','SOLAR'],
+  [3,60,'SACRAL','ROOT'],[9,52,'SACRAL','ROOT'],[42,53,'SACRAL','ROOT'],
+  [18,58,'SPLEEN','ROOT'],[28,38,'SPLEEN','ROOT'],[32,54,'SPLEEN','ROOT'],
+  [30,41,'SOLAR','ROOT'],[39,55,'SOLAR','ROOT'],[19,49,'SOLAR','ROOT']
+];
+
+const TIPO_IT = {
+  'Generator': 'Generatore',
+  'Manifesting Generator': 'Generatore Manifestante',
+  'Projector': 'Proiettore',
+  'Manifestor': 'Manifestatore',
+  'Reflector': 'Riflettore'
+};
+const AUTH_IT = {
+  'Sacral': 'Sacrale','Emotional': 'Emotiva','Splenic': 'Splenica',
+  'Ego Projected': 'Ego Proiettato','Ego Manifested': 'Ego Manifestato',
+  'Self Projected': 'Sé Proiettato','Mental Projector': 'Proiettore Mentale',
+  'Lunar': 'Lunare'
+};
+const DEF_IT = {
+  'Single Definition': 'Definizione Singola',
+  'Split Definition': 'Definizione Spaccata',
+  'Triple Split': 'Tripla Spaccatura',
+  'Quadruple Split': 'Quadrupla Spaccatura',
+  'No Definition': 'Nessuna Definizione'
+};
+const PLANET_IT = {
+  'Sun':'Sole','Earth':'Terra','Moon':'Luna','North Node':'Nodo Nord',
+  'South Node':'Nodo Sud','Mercury':'Mercurio','Venus':'Venere','Mars':'Marte',
+  'Jupiter':'Giove','Saturn':'Saturno','Uranus':'Urano','Neptune':'Nettuno','Pluto':'Plutone'
+};
+const CENTER_IT = {
+  HEAD:'Testa',AJNA:'Mente',THROAT:'Gola',G:'Identità',
+  HEART:'Cuore',SPLEEN:'Milza',SOLAR:'Plesso Solare',SACRAL:'Sacrale',ROOT:'Radice'
+};
+
+// ─── API Call ──────────────────────────────────────────────────────────────
+
+async function calcolaCarta() {
+  const d = parseInt(document.getElementById('cf-day').value);
+  const m = parseInt(document.getElementById('cf-month').value);
+  const y = parseInt(document.getElementById('cf-year').value);
+  const h = parseInt(document.getElementById('cf-hour').value);
+  const min = parseInt(document.getElementById('cf-min').value);
+  const tz = document.getElementById('cf-tz').value;
+  const nome = document.getElementById('cf-nome').value.trim();
+
+  if(!d||!m||!y||isNaN(h)||isNaN(min)) {
+    mostraErrore('Compila giorno, mese, anno, ora e minuti per continuare.');
+    return;
+  }
+  if(y < 1900 || y > 2025) { mostraErrore('Inserisci un anno tra il 1900 e il 2025.'); return; }
+
+  document.getElementById('carta-error').style.display = 'none';
+  document.getElementById('carta-results').style.display = 'none';
+  document.getElementById('carta-loading').style.display = 'block';
+  document.getElementById('carta-calcola-btn').disabled = true;
+
+  try {
+    const url = `${API_BASE}/carta?y=${y}&m=${m}&d=${d}&h=${h}&min=${min}&tz=${encodeURIComponent(tz)}`;
+    const resp = await fetch(url);
+    const data = await resp.json();
+
+    if(!resp.ok || data.status === 'error') {
+      throw new Error(data.detail || data.message || 'Errore nel calcolo della carta.');
+    }
+
+    renderRisultati(data, nome);
+  } catch(e) {
+    mostraErrore(e.message || 'Si è verificato un errore. Riprova tra qualche istante.');
+  } finally {
+    document.getElementById('carta-loading').style.display = 'none';
+    document.getElementById('carta-calcola-btn').disabled = false;
+  }
+}
+
+function mostraErrore(msg) {
+  document.getElementById('carta-loading').style.display = 'none';
+  document.getElementById('carta-calcola-btn').disabled = false;
+  const el = document.getElementById('carta-error');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+// ─── Render Results ────────────────────────────────────────────────────────
+
+function renderRisultati(data, nome) {
+  const core = data.result.Core;
+  const acts = data.result.Activations;
+
+  // Name header
+  const nh = document.getElementById('carta-name-header');
+  if(nome) {
+    nh.innerHTML = `<h2>${escHtml(nome)}</h2><p>Carta Human Design</p>`;
+    nh.style.display = 'block';
+  } else {
+    nh.style.display = 'none';
+  }
+
+  // Core cards
+  const coreEl = document.getElementById('carta-core');
+  const coreItems = [
+    { label: 'Tipo', value: TIPO_IT[core.Type] || core.Type },
+    { label: 'Profilo', value: core.Profile },
+    { label: 'Autorità', value: AUTH_IT[core.Authority] || core.Authority },
+    { label: 'Definizione', value: DEF_IT[core.Definition] || core.Definition },
+    { label: 'Croce', value: core.IncarnationCross },
+  ];
+  coreEl.innerHTML = coreItems.map(i =>
+    `<div class="core-card">
+      <div class="core-card-label">${i.label}</div>
+      <div class="core-card-value">${escHtml(i.value)}</div>
+    </div>`
+  ).join('');
+
+  // Compute active gates
+  const blackGates = new Set(Object.values(acts.Personality).map(p => p.Gate));
+  const redGates   = new Set(Object.values(acts.Design).map(p => p.Gate));
+  const allActive  = new Set([...blackGates, ...redGates]);
+
+  // Defined channels
+  const definedChannels = CHANNELS.filter(([g1,g2]) => allActive.has(g1) && allActive.has(g2));
+  const definedCenterSet = new Set();
+  definedChannels.forEach(([,, c1, c2]) => { definedCenterSet.add(c1); definedCenterSet.add(c2); });
+
+  // Bodygraph SVG
+  document.getElementById('carta-bodygraph-wrap').innerHTML = buildBodygraph(blackGates, redGates, definedChannels, definedCenterSet);
+
+  // Planet table
+  renderPlaneti(acts);
+
+  // Show results
+  document.getElementById('carta-results').style.display = 'block';
+  document.getElementById('carta-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ─── Bodygraph SVG ─────────────────────────────────────────────────────────
+
+const C_PRIMARY = '#7a5c9e';
+const C_RED     = '#c0392b';
+const C_BLACK   = '#1a1a2e';
+const C_UNDEF   = '#f0ece8';
+const C_UNDEF_STROKE = '#d5cfc9';
+
+// Center geometry: cx, cy and shape definitions
+const CENTER_GEO = {
+  HEAD:   { cx:210, cy:35, type:'tri-up',  pts:[[168,62],[252,62],[210,8]] },
+  AJNA:   { cx:210, cy:94, type:'tri-dn',  pts:[[168,68],[252,68],[210,120]] },
+  THROAT: { cx:210, cy:154, type:'rect',   rx:168, ry:138, rw:84, rh:32 },
+  G:      { cx:210, cy:238, type:'diamond',pts:[[210,197],[256,238],[210,279],[164,238]] },
+  HEART:  { cx:290, cy:215, type:'tri-dn', pts:[[265,195],[315,195],[290,240]] },
+  SPLEEN: { cx:83,  cy:335, type:'tri-rt', pts:[[58,306],[58,364],[108,335]] },
+  SOLAR:  { cx:337, cy:335, type:'tri-lt', pts:[[362,306],[362,364],[312,335]] },
+  SACRAL: { cx:210, cy:364, type:'rect',   rx:168, ry:350, rw:84, rh:28 },
+  ROOT:   { cx:210, cy:462, type:'rect',   rx:168, ry:448, rw:84, rh:28 }
+};
+
+// Channel routing: visual connection points between centers
+const CHANNEL_PATHS = {
+  'HEAD-AJNA':   [[210,62],[210,68]],
+  'AJNA-THROAT': [[210,120],[210,138]],
+  'THROAT-G':    [[210,170],[210,197]],
+  'THROAT-HEART':[[252,154],[265,210]],
+  'THROAT-SPLEEN':[[168,154],[108,335]],
+  'THROAT-SOLAR': [[252,154],[312,335]],
+  'THROAT-SACRAL':[[210,170],[210,350]],
+  'G-HEART':     [[256,238],[265,220]],
+  'G-SACRAL':    [[210,279],[210,350]],
+  'HEART-SPLEEN':[[265,232],[108,320]],
+  'HEART-SOLAR': [[315,232],[312,320]],
+  'SACRAL-SPLEEN':[[168,364],[108,345]],
+  'SACRAL-SOLAR': [[252,364],[312,345]],
+  'SACRAL-ROOT':  [[210,378],[210,448]],
+  'SPLEEN-ROOT':  [[73,364],[185,448]],
+  'SOLAR-ROOT':   [[347,364],[235,448]]
+};
+
+function centerPairKey(c1, c2) {
+  const order = ['HEAD','AJNA','THROAT','G','HEART','SPLEEN','SOLAR','SACRAL','ROOT'];
+  return order.indexOf(c1) < order.indexOf(c2) ? `${c1}-${c2}` : `${c2}-${c1}`;
+}
+
+function buildBodygraph(blackGates, redGates, definedChannels, definedCenterSet) {
+  const W = 420, H = 510;
+  let svg = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:inherit">`;
+
+  // Draw channel lines first (behind centers)
+  const activePairs = new Set();
+  definedChannels.forEach(([g1, g2, c1, c2]) => {
+    const key = centerPairKey(c1, c2);
+    if(!activePairs.has(key) && CHANNEL_PATHS[key]) {
+      activePairs.add(key);
+      const [[x1,y1],[x2,y2]] = CHANNEL_PATHS[key];
+      // Determine color based on gate types
+      const g1b = blackGates.has(g1), g1r = redGates.has(g1);
+      const g2b = blackGates.has(g2), g2r = redGates.has(g2);
+      const bothBlack = g1b && !g1r && g2b && !g2r;
+      const bothRed   = !g1b && g1r && !g2b && g2r;
+      const color = bothBlack ? C_BLACK : bothRed ? C_RED : C_PRIMARY;
+      svg += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="4" stroke-linecap="round"/>`;
+    }
+  });
+
+  // Also draw undefined channel outlines (faint) for defined-but-inactive pairs
+  for(const [key, [[x1,y1],[x2,y2]]] of Object.entries(CHANNEL_PATHS)) {
+    if(!activePairs.has(key)) {
+      svg += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${C_UNDEF_STROKE}" stroke-width="2" stroke-linecap="round"/>`;
+    }
+  }
+
+  // Draw centers
+  for(const [name, geo] of Object.entries(CENTER_GEO)) {
+    const isDef = definedCenterSet.has(name);
+    const fill = isDef ? C_PRIMARY : C_UNDEF;
+    const stroke = isDef ? C_PRIMARY : C_UNDEF_STROKE;
+    const textColor = isDef ? '#fff' : '#aaa';
+
+    if(geo.type === 'rect') {
+      svg += `<rect x="${geo.rx}" y="${geo.ry}" width="${geo.rw}" height="${geo.rh}" rx="5" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`;
+    } else {
+      const pts = geo.pts.map(p=>p.join(',')).join(' ');
+      svg += `<polygon points="${pts}" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`;
+    }
+
+    // Center label
+    svg += `<text x="${geo.cx}" y="${geo.cy+5}" text-anchor="middle" fill="${textColor}" font-size="9" font-weight="700" letter-spacing="0.5">${CENTER_IT[name].toUpperCase()}</text>`;
+  }
+
+  svg += '</svg>';
+  return svg;
+}
+
+// ─── Planet Table ──────────────────────────────────────────────────────────
+
+function renderPlaneti(acts) {
+  const planets = ['Sun','Earth','Moon','North Node','South Node','Mercury','Venus','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'];
+  let rows = '';
+  for(const planet of planets) {
+    const p = acts.Personality[planet] || {};
+    const d = acts.Design[planet] || {};
+    const pName = PLANET_IT[planet] || planet;
+    rows += `<tr>
+      <td>${escHtml(pName)}</td>
+      <td class="gate-black">${p.Gate || '–'}.${p.Line || ''}</td>
+      <td class="gate-red">${d.Gate || '–'}.${d.Line || ''}</td>
+    </tr>`;
+  }
+  document.getElementById('carta-planets').innerHTML = `
+    <h3>Attivazioni Planetarie</h3>
+    <table class="planets-table">
+      <thead><tr>
+        <th>Pianeta</th>
+        <th style="color:#1a1a2e">Personalità (cosciente)</th>
+        <th style="color:#c0392b">Design (inconscio)</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+// ─── Utils ─────────────────────────────────────────────────────────────────
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Allow Enter key
+document.addEventListener('keydown', e => {
+  if(e.key === 'Enter') calcolaCarta();
+});
+</script>
 {% endblock %}
