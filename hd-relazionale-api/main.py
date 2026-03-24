@@ -26,7 +26,6 @@ VOYAGE_API_KEY = os.getenv("VOYAGE_API_KEY", "")
 SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*").split(",")
-SIMPLE_CHART_KEY = os.getenv("SIMPLE_CHART_KEY", "")
 
 EMBEDDING_MODEL = "voyage-3"       # dimensione 1024
 CLAUDE_MODEL = "claude-haiku-4-5"
@@ -203,7 +202,7 @@ async def health():
 
 
 @app.get("/carta")
-@limiter.limit("5/minute;30/hour")
+@limiter.limit("10/minute;100/hour")
 async def calcola_carta(
     request: Request,
     y: int,
@@ -211,17 +210,25 @@ async def calcola_carta(
     d: int,
     h: int,
     min: int,
-    tz: str,
+    tz: str = "Europe/Rome",
 ):
-    if not SIMPLE_CHART_KEY:
-        raise HTTPException(status_code=503, detail="Servizio carta non configurato")
-    import httpx
-    async with httpx.AsyncClient(timeout=15.0) as client:
-        resp = await client.get(
-            "https://api.simplechartcalculator.com/v1/calculate",
-            params={"y": y, "m": m, "d": d, "h": h, "min": min, "tz": tz, "key": SIMPLE_CHART_KEY},
-        )
-    return JSONResponse(content=resp.json(), status_code=resp.status_code)
+    """Calcola la Carta Human Design usando pyswisseph (Moshier, no data files)."""
+    # Converti timezone name → offset UTC per il datetime di nascita
+    try:
+        from zoneinfo import ZoneInfo
+        from datetime import datetime as _dt
+        local_dt = _dt(y, m, d, h, min, tzinfo=ZoneInfo(tz))
+        offset_hours = local_dt.utcoffset().total_seconds() / 3600.0
+    except Exception:
+        offset_hours = 1.0  # fallback CET
+
+    try:
+        from hd_calculator import calculate_chart
+        result = calculate_chart(y, m, d, h, min, offset_hours)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Errore nel calcolo: {e}")
+
+    return JSONResponse(content=result)
 
 
 @app.post("/analisi")

@@ -214,6 +214,33 @@
   }
   .carta-cta a:hover { opacity: 0.88; }
 
+  /* City autocomplete */
+  .cf-autocomplete-wrap { position: relative; }
+  .cf-autocomplete-list {
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0; right: 0;
+    background: #fff;
+    border: 1.5px solid var(--primary-color);
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    z-index: 200;
+    max-height: 220px;
+    overflow-y: auto;
+    display: none;
+  }
+  .cf-autocomplete-list li {
+    padding: 0.6rem 0.85rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #333;
+    border-bottom: 1px solid #f5f2ef;
+    list-style: none;
+  }
+  .cf-autocomplete-list li:last-child { border-bottom: none; }
+  .cf-autocomplete-list li:hover { background: #f8f4ff; }
+  .cf-tz-detected { font-size: 0.73rem; color: #7c5cbf; margin-top: 0.25rem; display: none; }
+
   @media (max-width: 600px) {
     .cf-row.cols-3 { grid-template-columns: 1fr 1fr; }
     .cf-row.cols-2 { grid-template-columns: 1fr; }
@@ -237,6 +264,16 @@
         <input type="text" id="cf-nome" placeholder="Il tuo nome">
       </div>
     </div>
+    <div class="cf-row cols-1">
+      <div class="cf-field">
+        <label>Luogo di nascita *</label>
+        <div class="cf-autocomplete-wrap">
+          <input type="text" id="cf-city" placeholder="Es: Milano, Roma, Napoli…" autocomplete="off" required>
+          <ul class="cf-autocomplete-list" id="cf-city-list"></ul>
+        </div>
+        <div class="cf-hint">Inserisci la città — il fuso orario verrà rilevato automaticamente</div>
+      </div>
+    </div>
     <div class="cf-row cols-3">
       <div class="cf-field">
         <label>Giorno</label>
@@ -248,7 +285,7 @@
       </div>
       <div class="cf-field">
         <label>Anno</label>
-        <input type="number" id="cf-year" min="1900" max="2025" placeholder="1990">
+        <input type="number" id="cf-year" min="1900" max="2050" placeholder="1990">
       </div>
     </div>
     <div class="cf-row cols-2">
@@ -281,7 +318,8 @@
           <option value="Asia/Tokyo">Giappone (Asia/Tokyo)</option>
           <option value="Australia/Sydney">Australia (Australia/Sydney)</option>
         </select>
-        <div class="cf-hint">Se non sei sicuro, lascia Italia selezionato</div>
+        <div class="cf-hint">Selezionato automaticamente dalla città</div>
+        <div class="cf-tz-detected" id="cf-tz-detected"></div>
       </div>
     </div>
     <button class="carta-btn" id="carta-calcola-btn" onclick="calcolaCarta()">Calcola la mia Carta</button>
@@ -309,6 +347,83 @@
 
 <script>
 const API_BASE = 'https://hd-relazionale.onrender.com';
+
+// ─── City autocomplete + timezone detection ─────────────────────────────────
+let cityDebounce = null;
+let selectedCityTz = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const cityInput = document.getElementById('cf-city');
+  const cityList  = document.getElementById('cf-city-list');
+  const tzSelect  = document.getElementById('cf-tz');
+  const tzDetected = document.getElementById('cf-tz-detected');
+
+  cityInput.addEventListener('input', () => {
+    clearTimeout(cityDebounce);
+    const q = cityInput.value.trim();
+    if (q.length < 3) { cityList.style.display = 'none'; return; }
+    cityDebounce = setTimeout(() => fetchCities(q), 350);
+  });
+
+  cityInput.addEventListener('blur', () => {
+    setTimeout(() => { cityList.style.display = 'none'; }, 200);
+  });
+
+  async function fetchCities(q) {
+    try {
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&addressdetails=1&featuretype=city`;
+      const res = await fetch(url, { headers: { 'Accept-Language': 'it' } });
+      const data = await res.json();
+      showSuggestions(data);
+    } catch(e) { cityList.style.display = 'none'; }
+  }
+
+  function showSuggestions(places) {
+    cityList.innerHTML = '';
+    if (!places.length) { cityList.style.display = 'none'; return; }
+    places.forEach(p => {
+      const li = document.createElement('li');
+      const parts = [p.display_name.split(',')[0].trim()];
+      if (p.address) {
+        if (p.address.state) parts.push(p.address.state);
+        if (p.address.country) parts.push(p.address.country);
+      }
+      li.textContent = parts.join(', ');
+      li.addEventListener('click', () => selectCity(p, li.textContent));
+      cityList.appendChild(li);
+    });
+    cityList.style.display = 'block';
+  }
+
+  async function selectCity(place, label) {
+    cityInput.value = label;
+    cityList.style.display = 'none';
+    const lat = parseFloat(place.lat);
+    const lng = parseFloat(place.lon);
+    try {
+      const tzRes = await fetch(`https://timeapi.io/api/timezone/coordinate?latitude=${lat}&longitude=${lng}`);
+      const tzData = await tzRes.json();
+      const tz = tzData.timeZone;
+      if (tz) {
+        selectedCityTz = tz;
+        // Try to set the select option; if not present, add it temporarily
+        let found = false;
+        for (const opt of tzSelect.options) {
+          if (opt.value === tz) { tzSelect.value = tz; found = true; break; }
+        }
+        if (!found) {
+          const opt = document.createElement('option');
+          opt.value = tz;
+          opt.textContent = tz;
+          tzSelect.appendChild(opt);
+          tzSelect.value = tz;
+        }
+        tzDetected.textContent = `✓ Fuso orario rilevato: ${tz}`;
+        tzDetected.style.display = 'block';
+      }
+    } catch(e) { /* lascia il fuso orario attuale */ }
+  }
+});
 
 // ─── HD Data ───────────────────────────────────────────────────────────────
 
@@ -381,12 +496,18 @@ async function calcolaCarta() {
   const min = parseInt(document.getElementById('cf-min').value);
   const tz = document.getElementById('cf-tz').value;
   const nome = document.getElementById('cf-nome').value.trim();
+  const city = document.getElementById('cf-city').value.trim();
 
+  if(!city) {
+    mostraErrore('Inserisci il luogo di nascita per continuare.');
+    document.getElementById('cf-city').focus();
+    return;
+  }
   if(!d||!m||!y||isNaN(h)||isNaN(min)) {
     mostraErrore('Compila giorno, mese, anno, ora e minuti per continuare.');
     return;
   }
-  if(y < 1900 || y > 2025) { mostraErrore('Inserisci un anno tra il 1900 e il 2025.'); return; }
+  if(y < 1900 || y > 2050) { mostraErrore('Inserisci un anno tra il 1900 e il 2050.'); return; }
 
   document.getElementById('carta-error').style.display = 'none';
   document.getElementById('carta-results').style.display = 'none';
@@ -398,8 +519,8 @@ async function calcolaCarta() {
     const resp = await fetch(url);
     const data = await resp.json();
 
-    if(!resp.ok || data.status === 'error') {
-      throw new Error(data.detail || data.message || 'Errore nel calcolo della carta.');
+    if(!resp.ok || data.detail) {
+      throw new Error(data.detail || 'Errore nel calcolo della carta.');
     }
 
     renderRisultati(data, nome);
@@ -422,8 +543,7 @@ function mostraErrore(msg) {
 // ─── Render Results ────────────────────────────────────────────────────────
 
 function renderRisultati(data, nome) {
-  const core = data.result.Core;
-  const acts = data.result.Activations;
+  // New API format: data.type, data.profile, etc. (già tradotti in italiano)
 
   // Name header
   const nh = document.getElementById('carta-name-header');
@@ -437,11 +557,10 @@ function renderRisultati(data, nome) {
   // Core cards
   const coreEl = document.getElementById('carta-core');
   const coreItems = [
-    { label: 'Tipo', value: TIPO_IT[core.Type] || core.Type },
-    { label: 'Profilo', value: core.Profile },
-    { label: 'Autorità', value: AUTH_IT[core.Authority] || core.Authority },
-    { label: 'Definizione', value: DEF_IT[core.Definition] || core.Definition },
-    { label: 'Croce', value: core.IncarnationCross },
+    { label: 'Tipo',       value: data.type },
+    { label: 'Profilo',    value: data.profile },
+    { label: 'Autorità',   value: data.authority },
+    { label: 'Definizione',value: data.definition },
   ];
   coreEl.innerHTML = coreItems.map(i =>
     `<div class="core-card">
@@ -450,21 +569,29 @@ function renderRisultati(data, nome) {
     </div>`
   ).join('');
 
-  // Compute active gates
-  const blackGates = new Set(Object.values(acts.Personality).map(p => p.Gate));
-  const redGates   = new Set(Object.values(acts.Design).map(p => p.Gate));
-  const allActive  = new Set([...blackGates, ...redGates]);
+  // Gate sets from gate_colors: P=Personalità(nero), D=Design(rosso), PD=entrambi
+  const blackGates = new Set();
+  const redGates   = new Set();
+  for(const [g, c] of Object.entries(data.gate_colors)) {
+    const gn = parseInt(g);
+    if(c === 'P' || c === 'PD') blackGates.add(gn);
+    if(c === 'D' || c === 'PD') redGates.add(gn);
+  }
 
-  // Defined channels
-  const definedChannels = CHANNELS.filter(([g1,g2]) => allActive.has(g1) && allActive.has(g2));
-  const definedCenterSet = new Set();
-  definedChannels.forEach(([,, c1, c2]) => { definedCenterSet.add(c1); definedCenterSet.add(c2); });
+  // Defined centers and channels from API
+  const definedCenterSet = new Set(data.defined_centers);
+
+  // Look up center pairs for each defined channel
+  const definedChannels = data.defined_channels.map(([g1, g2]) => {
+    const ch = CHANNELS.find(([c1, c2]) => (c1===g1&&c2===g2)||(c1===g2&&c2===g1));
+    return ch || [g1, g2, GATE_TO_CENTER[g1]||'', GATE_TO_CENTER[g2]||''];
+  });
 
   // Bodygraph SVG
   document.getElementById('carta-bodygraph-wrap').innerHTML = buildBodygraph(blackGates, redGates, definedChannels, definedCenterSet);
 
   // Planet table
-  renderPlaneti(acts);
+  renderPlaneti(data.personality, data.design);
 
   // Show results
   document.getElementById('carta-results').style.display = 'block';
@@ -569,17 +696,18 @@ function buildBodygraph(blackGates, redGates, definedChannels, definedCenterSet)
 
 // ─── Planet Table ──────────────────────────────────────────────────────────
 
-function renderPlaneti(acts) {
-  const planets = ['Sun','Earth','Moon','North Node','South Node','Mercury','Venus','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'];
+function renderPlaneti(personality, design) {
+  // Build design lookup by planet_en
+  const designMap = {};
+  design.forEach(p => { designMap[p.planet_en] = p; });
+
   let rows = '';
-  for(const planet of planets) {
-    const p = acts.Personality[planet] || {};
-    const d = acts.Design[planet] || {};
-    const pName = PLANET_IT[planet] || planet;
+  for(const p of personality) {
+    const d = designMap[p.planet_en] || {};
     rows += `<tr>
-      <td>${escHtml(pName)}</td>
-      <td class="gate-black">${p.Gate || '–'}.${p.Line || ''}</td>
-      <td class="gate-red">${d.Gate || '–'}.${d.Line || ''}</td>
+      <td>${escHtml(p.planet_it)}</td>
+      <td class="gate-black">${p.gate}.${p.line}</td>
+      <td class="gate-red">${d.gate || '–'}.${d.line || ''}</td>
     </tr>`;
   }
   document.getElementById('carta-planets').innerHTML = `
