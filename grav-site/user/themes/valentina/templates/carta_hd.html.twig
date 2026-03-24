@@ -542,8 +542,56 @@ function mostraErrore(msg) {
 
 // ─── Render Results ────────────────────────────────────────────────────────
 
+function normalizzaRisposta(data) {
+  // Nuovo formato (hd_calculator): ha gate_colors
+  if(data.gate_colors) return data;
+
+  // Vecchio formato (simplechartcalculator): ha result.Core + result.Activations
+  const core = data.result && data.result.Core;
+  const acts = data.result && data.result.Activations;
+  if(!core || !acts) return null;
+
+  const pArr = Object.entries(acts.Personality).map(([en, v]) => ({
+    planet_en: en, planet_it: PLANET_IT[en] || en, gate: v.Gate, line: v.Line, degrees: 0
+  }));
+  const dArr = Object.entries(acts.Design).map(([en, v]) => ({
+    planet_en: en, planet_it: PLANET_IT[en] || en, gate: v.Gate, line: v.Line, degrees: 0
+  }));
+
+  const blackGates = new Set(pArr.map(p => p.gate));
+  const redGates   = new Set(dArr.map(p => p.gate));
+  const allActive  = new Set([...blackGates, ...redGates]);
+
+  const gate_colors = {};
+  allActive.forEach(g => {
+    const inP = blackGates.has(g), inD = redGates.has(g);
+    gate_colors[String(g)] = (inP && inD) ? 'PD' : inP ? 'P' : 'D';
+  });
+
+  const defined_channels = CHANNELS
+    .filter(([g1,g2]) => allActive.has(g1) && allActive.has(g2))
+    .map(([g1,g2]) => [g1,g2]);
+
+  const defined_centers = [];
+  defined_channels.forEach(([g1,g2]) => {
+    const c1 = GATE_TO_CENTER[g1], c2 = GATE_TO_CENTER[g2];
+    if(c1 && !defined_centers.includes(c1)) defined_centers.push(c1);
+    if(c2 && !defined_centers.includes(c2)) defined_centers.push(c2);
+  });
+
+  return {
+    type:       TIPO_IT[core.Type] || core.Type,
+    profile:    core.Profile,
+    authority:  AUTH_IT[core.Authority] || core.Authority,
+    definition: DEF_IT[core.Definition] || core.Definition,
+    gate_colors, defined_channels, defined_centers,
+    personality: pArr, design: dArr,
+  };
+}
+
 function renderRisultati(data, nome) {
-  // New API format: data.type, data.profile, etc. (già tradotti in italiano)
+  const d = normalizzaRisposta(data);
+  if(!d) { mostraErrore('Formato risposta non riconosciuto.'); return; }
 
   // Name header
   const nh = document.getElementById('carta-name-header');
@@ -557,10 +605,10 @@ function renderRisultati(data, nome) {
   // Core cards
   const coreEl = document.getElementById('carta-core');
   const coreItems = [
-    { label: 'Tipo',       value: data.type },
-    { label: 'Profilo',    value: data.profile },
-    { label: 'Autorità',   value: data.authority },
-    { label: 'Definizione',value: data.definition },
+    { label: 'Tipo',       value: d.type },
+    { label: 'Profilo',    value: d.profile },
+    { label: 'Autorità',   value: d.authority },
+    { label: 'Definizione',value: d.definition },
   ];
   coreEl.innerHTML = coreItems.map(i =>
     `<div class="core-card">
@@ -569,20 +617,18 @@ function renderRisultati(data, nome) {
     </div>`
   ).join('');
 
-  // Gate sets from gate_colors: P=Personalità(nero), D=Design(rosso), PD=entrambi
+  // Gate sets
   const blackGates = new Set();
   const redGates   = new Set();
-  for(const [g, c] of Object.entries(data.gate_colors)) {
+  for(const [g, c] of Object.entries(d.gate_colors)) {
     const gn = parseInt(g);
     if(c === 'P' || c === 'PD') blackGates.add(gn);
     if(c === 'D' || c === 'PD') redGates.add(gn);
   }
 
-  // Defined centers and channels from API
-  const definedCenterSet = new Set(data.defined_centers);
-
-  // Look up center pairs for each defined channel
-  const definedChannels = data.defined_channels.map(([g1, g2]) => {
+  // Defined centers and channels
+  const definedCenterSet = new Set(d.defined_centers);
+  const definedChannels = d.defined_channels.map(([g1, g2]) => {
     const ch = CHANNELS.find(([c1, c2]) => (c1===g1&&c2===g2)||(c1===g2&&c2===g1));
     return ch || [g1, g2, GATE_TO_CENTER[g1]||'', GATE_TO_CENTER[g2]||''];
   });
@@ -591,7 +637,7 @@ function renderRisultati(data, nome) {
   document.getElementById('carta-bodygraph-wrap').innerHTML = buildBodygraph(blackGates, redGates, definedChannels, definedCenterSet);
 
   // Planet table
-  renderPlaneti(data.personality, data.design);
+  renderPlaneti(d.personality, d.design);
 
   // Show results
   document.getElementById('carta-results').style.display = 'block';
