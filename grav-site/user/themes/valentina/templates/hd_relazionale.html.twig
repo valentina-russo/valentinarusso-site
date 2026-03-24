@@ -160,10 +160,22 @@
   }
   .hd-reset-btn:hover { border-color: var(--primary-color); color: var(--primary-color); }
 
+  /* CTA zone — inside upsell card */
+  .hd-cta-zone {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
   .hd-cta-btn {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     width: 100%;
-    padding: 1rem 1.5rem;
+    padding: 0.95rem 1.5rem;
     background: var(--primary-color);
     color: #fff;
     border: none;
@@ -174,12 +186,30 @@
     cursor: pointer;
     text-align: center;
     text-decoration: none;
-    margin-top: 1.25rem;
     transition: opacity 0.2s, transform 0.1s;
     box-sizing: border-box;
   }
   .hd-cta-btn:hover { opacity: 0.88; color: #fff; }
   .hd-cta-btn:active { transform: scale(0.99); }
+
+  .hd-cta-whatsapp {
+    background: #25D366;
+  }
+  .hd-cta-whatsapp:hover { opacity: 0.88; color: #fff; }
+  .hd-cta-whatsapp svg { flex-shrink: 0; }
+
+  /* Social proof */
+  .hd-social-proof {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 0.5rem;
+    letter-spacing: 0.01em;
+  }
+  .hd-social-proof span {
+    font-weight: 700;
+    color: var(--primary-color);
+  }
 
   .hd-error {
     display: none;
@@ -277,9 +307,16 @@
       <div class="hd-result-card hd-card-upsell" id="card-upsell">
         <h3>Vuoi capire tutto?</h3>
         <p id="text-upsell"></p>
+        <div class="hd-cta-zone">
+          <a href="{{ grav.base_url }}/contatti" class="hd-cta-btn">Prenota una consulenza con Valentina</a>
+          <a href="https://wa.me/393791037653?text=Ciao%20Valentina%2C%20ho%20appena%20fatto%20l%27analisi%20relazionale%20sul%20tuo%20sito%20e%20vorrei%20approfondire%20la%20mia%20situazione." class="hd-cta-btn hd-cta-whatsapp" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Scrivimi su WhatsApp
+          </a>
+          <p class="hd-social-proof"><span id="analisi-count">380</span> analisi generate questo mese</p>
+        </div>
       </div>
-      <a href="{{ grav.base_url }}/contatti" class="hd-cta-btn">Prenota una consulenza con Valentina →</a>
-      <button class="hd-reset-btn" id="reset-btn">← Fai una nuova analisi</button>
+      <button class="hd-reset-btn" id="reset-btn">Fai una nuova analisi</button>
     </div>
 
   </div>
@@ -302,6 +339,12 @@
 
   // Warm-up: ping silenzioso a /health per svegliare Render prima che l'utente invii
   fetch(API_URL + '/health', { method: 'GET' }).catch(() => {});
+
+  // Social proof: carica contatore salvato
+  var savedCount = localStorage.getItem('hd_analisi_count');
+  if (savedCount) {
+    document.getElementById('analisi-count').textContent = savedCount;
+  }
 
   // Contatore caratteri
   textarea.addEventListener('input', function () {
@@ -345,6 +388,11 @@
 
       const data = await resp.json();
       renderResult(data.result);
+
+      // Incrementa contatore social proof (locale, parte da 380)
+      var cnt = parseInt(localStorage.getItem('hd_analisi_count') || '380', 10) + 1;
+      localStorage.setItem('hd_analisi_count', String(cnt));
+      document.getElementById('analisi-count').textContent = cnt;
     } catch (err) {
       showError('Si è verificato un errore: ' + err.message + '. Riprova tra qualche istante.');
     } finally {
