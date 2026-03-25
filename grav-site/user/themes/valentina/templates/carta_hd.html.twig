@@ -516,10 +516,10 @@ function phsLabel(color, tone) {
   // Verified: Marco t4→a✓, Valentina t5→a✓, Alessandra t3→b✓
   return `${p.name} (${tone >= 4 ? p.a : p.b})`;
 }
-function envLabel(color) {
+function envLabel(color, tone) {
   const e = HD_ENV[color]; if(!e) return '?';
-  // Sub-type by color odd/even (verified 4/4 profiles)
-  return `${e.name} (${color % 2 === 0 ? e.a : e.b})`;
+  // Sub-type: tone >= 4 → a (first), tone <= 3 → b (second) — same rule as PHS
+  return `${e.name} (${tone >= 4 ? e.a : e.b})`;
 }
 
 function hdDegreesToGateLineColor(deg) {
@@ -708,7 +708,7 @@ async function calculateHDChart(y, m, d, h, min, tzOffset) {
       awareness: arrow(pNode.tone||1),
     },
     dietary_regime: (console.log('PHS DEBUG:', {dSun_gate:dSun.gate, dSun_line:dSun.line, dSun_color:dSun.color, dSun_tone:dSun.tone, dSun_deg:dSun.degrees, dNode_color:dNode.color, dNode_tone:dNode.tone}), phsLabel(dSun.color||1, dSun.tone||1)),
-    environment_name: envLabel(dNode.color||1),
+    environment_name: envLabel(dNode.color||1, dNode.tone||1),
   };
 }
 
