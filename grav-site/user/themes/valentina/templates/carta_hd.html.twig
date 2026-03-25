@@ -512,9 +512,9 @@ const HD_ENV = {
 };
 function phsLabel(color, tone) {
   const p = HD_PHS[color]; if(!p) return '?';
-  // Sub-type: tone 1-4 = a (left/first), tone 5-6 = b (right/second)
-  // Verified on 4 profiles (all tone ≤4 → a). Needs profile with tone 5-6 to confirm b.
-  return `${p.name} (${tone <= 4 ? p.a : p.b})`;
+  // Sub-type: tone >= 4 → a (first), tone <= 3 → b (second)
+  // Verified: Marco t4→a✓, Valentina t5→a✓, Alessandra t3→b✓
+  return `${p.name} (${tone >= 4 ? p.a : p.b})`;
 }
 function envLabel(color) {
   const e = HD_ENV[color]; if(!e) return '?';
@@ -543,7 +543,7 @@ async function calcPlanets(jd) {
   await initSwe();
   const results = [];
   let nnLon = null, sunLon = null;
-  const SWIEPH = 0; // SEFLG_SWIEPH (JPL precision)
+  const SWIEPH = 2; // SEFLG_SWIEPH — force Swiss Ephemeris .se1 files
 
   for (const p of HD_PLANETS) {
     let lon;
@@ -653,13 +653,13 @@ async function calculateHDChart(y, m, d, h, min, tzOffset) {
 
   // Design date: bisection to find exact JD when Sun was 88° before natal Sun
   // (matches humandesignhub reference algo and MicFell's swe.solcross_ut)
-  const SWIEPH = 0;
-  const natalSunLon = _sweCalc(jdBirth, 0, SWIEPH);
+  const SWIEPH2 = 2;
+  const natalSunLon = _sweCalc(jdBirth, 0, SWIEPH2);
   const targetLon = ((natalSunLon - 88.0) % 360 + 360) % 360;
   let lo = jdBirth - 95.0, hi = jdBirth - 80.0;
   for (let i = 0; i < 50; i++) {
     const mid = (lo + hi) / 2;
-    const midLon = _sweCalc(mid, 0, SWIEPH);
+    const midLon = _sweCalc(mid, 0, SWIEPH2);
     let diff = (midLon - targetLon + 180) % 360 - 180;
     if (Math.abs(diff) < 1e-6) { lo = hi = mid; break; }
     if (diff < 0) lo = mid; else hi = mid;
@@ -707,7 +707,7 @@ async function calculateHDChart(y, m, d, h, min, tzOffset) {
       perspective: arrow(pSun.tone||1),
       awareness: arrow(pNode.tone||1),
     },
-    dietary_regime: phsLabel(dSun.color||1, dSun.tone||1),
+    dietary_regime: (console.log('PHS DEBUG:', {dSun_gate:dSun.gate, dSun_line:dSun.line, dSun_color:dSun.color, dSun_tone:dSun.tone, dSun_deg:dSun.degrees, dNode_color:dNode.color, dNode_tone:dNode.tone}), phsLabel(dSun.color||1, dSun.tone||1)),
     environment_name: envLabel(dNode.color||1),
   };
 }
