@@ -192,6 +192,8 @@
   .planets-table tr:last-child td { border-bottom: none; }
   .gate-black { color: #1a1a2e; font-weight: 700; }
   .gate-red   { color: #c0392b; font-weight: 700; }
+  .planet-bg5 { display: block; font-weight: 600; color: #333; font-size: 0.82rem; }
+  .planet-name { display: block; font-size: 0.72rem; color: #aaa; }
 
   /* CTA */
   .carta-cta {
@@ -347,6 +349,11 @@
 
 <script>
 const API_BASE = 'https://hd-relazionale.onrender.com';
+
+// Warmup: ping API silenzioso al caricamento pagina (riduce cold-start Render)
+(function warmup() {
+  setTimeout(() => { fetch(API_BASE + '/health', { method: 'GET', mode: 'no-cors' }).catch(() => {}); }, 800);
+})();
 
 // ─── City autocomplete + timezone detection ─────────────────────────────────
 let cityDebounce = null;
@@ -504,6 +511,22 @@ const PLANET_IT = {
   'South Node':'Nodo Sud','Mercury':'Mercurio','Venus':'Venere','Mars':'Marte',
   'Jupiter':'Giove','Saturn':'Saturno','Uranus':'Urano','Neptune':'Nettuno','Pluto':'Plutone'
 };
+// Lessico BG5 per i pianeti
+const PLANET_BG5 = {
+  'Sun':        'Essenza Profonda',
+  'Earth':      'Equilibrio e Radicamento',
+  'Moon':       'Forza Motrice',
+  'North Node': 'Direzione e Ambienti Futuri',
+  'South Node': 'Direzione e Ambienti Passati',
+  'Mercury':    'Comunicazione e Azione',
+  'Venus':      'Valori',
+  'Mars':       'Energia Immatura',
+  'Jupiter':    'Legge Interiore',
+  'Saturn':     'Giudizio e Disciplina',
+  'Uranus':     'Unicità',
+  'Neptune':    'Tema Celato',
+  'Pluto':      'Verità Interiore'
+};
 const CENTER_IT = {
   HEAD:'Testa',AJNA:'Mente',THROAT:'Gola',G:'Identità',
   HEART:'Cuore',SPLEEN:'Milza',SOLAR:'Plesso Solare',SACRAL:'Sacrale',ROOT:'Radice'
@@ -539,11 +562,17 @@ async function calcolaCarta() {
 
   try {
     const url = `${API_BASE}/carta?y=${y}&m=${m}&d=${d}&h=${h}&min=${min}&tz=${encodeURIComponent(tz)}`;
-    const resp = await fetch(url);
-    const data = await resp.json();
-
-    if(!resp.ok || data.detail) {
-      throw new Error(data.detail || 'Errore nel calcolo della carta.');
+    const cacheKey = `hd_carta_${y}_${m}_${d}_${h}_${min}_${tz}`;
+    let data;
+    const cached = sessionStorage.getItem(cacheKey);
+    if(cached) {
+      try { data = JSON.parse(cached); } catch(e) { data = null; }
+    }
+    if(!data) {
+      const resp = await fetch(url);
+      data = await resp.json();
+      if(!resp.ok || data.detail) throw new Error(data.detail || 'Errore nel calcolo della carta.');
+      try { sessionStorage.setItem(cacheKey, JSON.stringify(data)); } catch(e) {}
     }
 
     await renderRisultati(data, nome);
@@ -669,6 +698,75 @@ async function renderRisultati(data, nome) {
 
 // ─── Bodygraph SVG reale ────────────────────────────────────────────────────
 
+// Colori tradizionali HD per centri definiti
+const CENTER_COLORS = {
+  HEAD:   '#b8d4f0',
+  AJNA:   '#5baa6e',
+  THROAT: '#c49a4e',
+  G:      '#e8c838',
+  HEART:  '#c44040',
+  SPLEEN: '#a07845',
+  SOLAR:  '#e8873a',
+  SACRAL: '#e05858',
+  ROOT:   '#9a8878',
+};
+
+// Sub-path interni dei centri (area interna piena, estratti dal compound path)
+const CENTER_INNER_D = {
+  HEAD:   'M296.25,25.62c-2.97,0-5.62,1.53-7.11,4.1l-50.71,87.84c-1.48,2.57-1.48,5.64,0,8.21,1.48,2.57,4.14,4.1,7.11,4.1h101.43c2.97,0,5.62-1.53,7.11-4.1,1.48-2.57,1.48-5.64,0-8.21l-50.71-87.84c-1.48-2.57-4.14-4.1-7.11-4.1Z',
+  AJNA:   'M245.26,167.9c-2.98,0-5.65,1.54-7.14,4.12-1.49,2.58-1.49,5.67,0,8.25l50.99,88.31c.25.44.55.86.89,1.26,1.72,2.01,4.34,3.07,7.02,2.82,2.69-.25,5.01-1.74,6.37-4.09l50.99-88.31c1.49-2.58,1.49-5.67,0-8.25-1.49-2.58-4.16-4.12-7.14-4.12h-101.97Z',
+  THROAT: 'M248.97,307.32c-6.08,0-11.02,4.95-11.02,11.02v94.55c0,6.08,4.95,11.02,11.02,11.02h94.55c3.44,0,6.63-1.57,8.73-4.3,1.5-1.94,2.29-4.27,2.29-6.72v-94.55c0-6.08-4.95-11.02-11.02-11.02h-94.55Z',
+  G:      'M296.25,448.32c-2.41,0-4.81.92-6.65,2.75l-69.16,69.16c-3.66,3.66-3.66,9.63,0,13.29h0l69.16,69.16c1.78,1.78,4.14,2.75,6.65,2.75s4.87-.98,6.65-2.75l69.16-69.16c1.04-1.04,1.81-2.29,2.27-3.71,1.11-3.39.24-7.06-2.27-9.58l-69.16-69.16c-1.83-1.83-4.24-2.75-6.65-2.75Z',
+  SACRAL: 'M248.97,677.83c-6.08,0-11.02,4.95-11.02,11.02v94.55c0,6.08,4.95,11.02,11.02,11.02h94.55c6.08,0,11.02-4.95,11.02-11.02v-94.55c0-6.08-4.95-11.02-11.02-11.02h-94.55Z',
+  ROOT:   'M248.97,837.88c-6.08,0-11.02,4.95-11.02,11.02v94.55c0,6.08,4.95,11.02,11.02,11.02h94.55c6.08,0,11.02-4.95,11.02-11.02v-94.55c0-6.08-4.95-11.02-11.02-11.02h-94.55Z',
+  SPLEEN: 'M31.15,677.25c-.91,0-1.82.15-2.72.46-2.32.8-4.17,2.55-5.07,4.79-.4.99-.6,2.05-.6,3.13v100.98c0,3.02,1.56,5.73,4.18,7.25,2.62,1.51,5.75,1.51,8.37,0l87.53-50.54c2.59-1.53,4.12-4.24,4.11-7.24-.01-3.01-1.58-5.7-4.18-7.2l-87.45-50.49c-1.31-.76-2.73-1.14-4.17-1.14Z',
+  SOLAR:  'M568.21,677.16c-1.5,0-2.98.4-4.31,1.17l-87.14,50.31c-.56.32-1.09.72-1.58,1.16-1.99,1.83-2.99,4.56-2.69,7.3.31,2.74,1.86,5.12,4.27,6.5l87.14,50.31c2.71,1.56,5.94,1.56,8.64,0,2.71-1.56,4.32-4.36,4.32-7.49v-100.62c0-4.54-3.42-8.25-7.96-8.63-.23-.02-.46-.03-.69-.03Z',
+  HEART:  'M432.48,563.5l-55.39,53.63c-1.82,1.76-2.65,4.09-2.33,6.56.32,2.48,1.77,4.68,3.89,5.87.97.55,2.05.88,3.2.98l76.81,6.68c.57.05,1.14.04,1.72-.04,2.33-.3,4.39-1.64,5.64-3.68,1.24-2.02,1.49-4.46.69-6.69l-21.42-60.31c-.59-1.65-1.67-3.02-3.12-3.95-3.08-1.98-7.07-1.59-9.7.95Z',
+};
+
+// Indici nella prima <g> strutturale per le forme dei centri
+const CENTER_SHAPE_IDX = {
+  HEAD:66, AJNA:67, THROAT:68, G:69, SACRAL:70, ROOT:71, SPLEEN:72, SOLAR:73, HEART:74
+};
+
+// Indici dei figli nella prima <g> strutturale del bodygraph.svg
+// per ogni canale HD (chiavi ordinate crescenti: minGate-maxGate)
+const CHANNEL_PATH_IDX = {
+  '1-8':   [45],
+  '2-14':  [33],
+  '3-60':  [18, 47],
+  '4-63':  [24, 53],
+  '5-15':  [39, 17],
+  '6-59':  [40, 11],
+  '7-31':  [27, 37],
+  '9-52':  [9, 50],
+  '10-20': [26],
+  '11-56': [49],
+  '12-22': [0, 65],
+  '13-33': [19, 51],
+  '16-48': [58],
+  '18-58': [5, 60],
+  '19-49': [43, 12],
+  '20-34': [16],
+  '20-57': [64, 25],
+  '21-45': [54],
+  '23-43': [3, 6, 35, 44],
+  '24-61': [20, 46],
+  '25-51': [15, 55],
+  '26-44': [31, 4],
+  '27-50': [2, 41],
+  '28-38': [13, 63],
+  '29-46': [10],
+  '30-41': [59, 8],
+  '32-54': [7, 42],
+  '34-57': [57],
+  '35-36': [61],
+  '37-40': [1, 34],
+  '39-55': [62, 14],
+  '42-53': [38],
+  '47-64': [36],
+};
+
 async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenterSet, blackGates, redGates) {
   const wrap = document.getElementById('carta-bodygraph-wrap');
   const ns = 'http://www.w3.org/2000/svg';
@@ -682,26 +780,69 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
     const svgEl = parser.parseFromString(svgText, 'image/svg+xml').documentElement;
     svgEl.setAttribute('style', 'max-width:520px;width:100%;height:auto;display:block;margin:0 auto');
 
+    // Prima <g> = gruppo strutturale (centri + canali)
+    const structGroup = svgEl.querySelector('g');
+    const structChildren = structGroup ? Array.from(structGroup.children) : [];
+
+    // ── Centri definiti: colora ring outline + aggiungi fill interno ──────────
+    const centerFillsGroup = document.createElementNS(ns, 'g');
+    for(const c of definedCenterSet) {
+      const col = CENTER_COLORS[c];
+      const innerD = CENTER_INNER_D[c];
+      const idx = CENTER_SHAPE_IDX[c];
+      if(!col) continue;
+      // Colora il ring outline (compound path nella struttura)
+      if(idx !== undefined && structChildren[idx]) {
+        structChildren[idx].setAttribute('fill', col);
+      }
+      // Aggiungi fill interno (sotto i numeri gate)
+      if(innerD) {
+        const fp = document.createElementNS(ns, 'path');
+        fp.setAttribute('d', innerD);
+        fp.setAttribute('fill', col);
+        fp.setAttribute('stroke', 'none');
+        centerFillsGroup.appendChild(fp);
+      }
+    }
+    // Inserisci tra il gruppo strutturale e i numeri gate
+    const gateLabelsGroup = structGroup ? structGroup.nextElementSibling : null;
+    if(gateLabelsGroup) svgEl.insertBefore(centerFillsGroup, gateLabelsGroup);
+    else svgEl.appendChild(centerFillsGroup);
+
     const overlay = document.createElementNS(ns, 'g');
 
-    // Canali definiti: linea colorata tra i due gate
+    // Canali definiti: ricolora i path SVG originali (curvi), fallback linea retta
     for(const ch of definedChannels) {
       const [g1, g2] = [ch[0], ch[1]];
-      const p1 = GATE_POS[g1], p2 = GATE_POS[g2];
-      if(!p1 || !p2) continue;
       const c1 = gateColors[String(g1)]||'', c2 = gateColors[String(g2)]||'';
       const col = (c1==='P'&&c2==='P') ? '#1a1a2e' : (c1==='D'&&c2==='D') ? '#c0392b' : '#7a5c9e';
-      const line = document.createElementNS(ns, 'line');
-      line.setAttribute('x1', p1[0]); line.setAttribute('y1', p1[1]);
-      line.setAttribute('x2', p2[0]); line.setAttribute('y2', p2[1]);
-      line.setAttribute('stroke', col);
-      line.setAttribute('stroke-width', '5');
-      line.setAttribute('stroke-linecap', 'round');
-      line.setAttribute('opacity', '0.55');
-      overlay.appendChild(line);
+      const key = [Math.min(g1,g2), Math.max(g1,g2)].join('-');
+      const idxArr = CHANNEL_PATH_IDX[key];
+
+      if(idxArr) {
+        for(const idx of idxArr) {
+          const el = structChildren[idx];
+          if(!el) continue;
+          el.setAttribute('stroke', col);
+          el.setAttribute('stroke-width', '7');
+          el.setAttribute('fill', 'none');
+          el.removeAttribute('opacity');
+        }
+      } else {
+        // Fallback linea retta per canali non mappati
+        const p1 = GATE_POS[g1], p2 = GATE_POS[g2];
+        if(!p1 || !p2) continue;
+        const line = document.createElementNS(ns, 'line');
+        line.setAttribute('x1', p1[0]); line.setAttribute('y1', p1[1]);
+        line.setAttribute('x2', p2[0]); line.setAttribute('y2', p2[1]);
+        line.setAttribute('stroke', col);
+        line.setAttribute('stroke-width', '7');
+        line.setAttribute('stroke-linecap', 'round');
+        overlay.appendChild(line);
+      }
     }
 
-    // Cerchietti colorati su ogni gate attivo
+    // Cerchietti sui gate attivi (piccoli, per gate fuori dai centri definiti)
     for(const [gStr, c] of Object.entries(gateColors)) {
       const g = parseInt(gStr);
       const pos = GATE_POS[g];
@@ -709,9 +850,9 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
       const fill = c==='P' ? '#1a1a2e' : c==='D' ? '#c0392b' : '#7a5c9e';
       const circle = document.createElementNS(ns, 'circle');
       circle.setAttribute('cx', pos[0]); circle.setAttribute('cy', pos[1]);
-      circle.setAttribute('r', '8');
+      circle.setAttribute('r', '5');
       circle.setAttribute('fill', fill);
-      circle.setAttribute('opacity', '0.72');
+      circle.setAttribute('opacity', '0.65');
       overlay.appendChild(circle);
     }
 
@@ -824,15 +965,15 @@ function buildBodygraph(blackGates, redGates, definedChannels, definedCenterSet)
 // ─── Planet Table ──────────────────────────────────────────────────────────
 
 function renderPlaneti(personality, design) {
-  // Build design lookup by planet_en
   const designMap = {};
   design.forEach(p => { designMap[p.planet_en] = p; });
 
   let rows = '';
   for(const p of personality) {
     const d = designMap[p.planet_en] || {};
+    const bg5 = PLANET_BG5[p.planet_en] || p.planet_it;
     rows += `<tr>
-      <td>${escHtml(p.planet_it)}</td>
+      <td><span class="planet-bg5">${escHtml(bg5)}</span><span class="planet-name">${escHtml(p.planet_it)}</span></td>
       <td class="gate-black">${p.gate}.${p.line}</td>
       <td class="gate-red">${d.gate || '–'}.${d.line || ''}</td>
     </tr>`;
@@ -841,7 +982,7 @@ function renderPlaneti(personality, design) {
     <h3>Attivazioni Planetarie</h3>
     <table class="planets-table">
       <thead><tr>
-        <th>Pianeta</th>
+        <th>Pianeta BG5</th>
         <th style="color:#1a1a2e">Personalità (cosciente)</th>
         <th style="color:#c0392b">Design (inconscio)</th>
       </tr></thead>
