@@ -425,11 +425,26 @@ async function initSwe() {
   if (!SweClass) throw new Error('SwissEphemeris non caricato');
   const inst = new SweClass();
   await inst.init();
+  // Load JPL ephemeris files from CDN for sub-arcsecond precision (required for Tone accuracy)
+  try { await inst.loadStandardEphemeris(); } catch(e) { console.warn('JPL ephemeris not loaded, using Moshier fallback'); }
   _sweMod = inst.module;
-  _sweMod.cwrap('swe_set_ephe_path_wrap', null, ['string'])('');
+  // Load JPL ephemeris files directly into WASM filesystem for sub-arcsecond precision
+  try {
+    const CDN = 'https://cdn.jsdelivr.net/gh/aloistr/swisseph/ephe';
+    try { _sweMod.FS.mkdir('/ephe'); } catch(e) {}
+    const files = ['sepl_18.se1', 'semo_18.se1'];
+    await Promise.all(files.map(async f => {
+      const resp = await fetch(`${CDN}/${f}`);
+      if (resp.ok) _sweMod.FS.writeFile(`/ephe/${f}`, new Uint8Array(await resp.arrayBuffer()));
+    }));
+    _sweMod.cwrap('swe_set_ephe_path_wrap', null, ['string'])('/ephe');
+  } catch(e) {
+    console.warn('JPL files not loaded, using Moshier fallback');
+    _sweMod.cwrap('swe_set_ephe_path_wrap', null, ['string'])('');
+  }
   _sweCalc = (jd, planet, flags) => {
     const ptr = _sweMod.ccall('swe_calc_ut_wrap', 'number', ['number','number','number'], [jd, planet, flags]);
-    return _sweMod.getValue(ptr, 'double'); // longitude is first double
+    return _sweMod.getValue(ptr, 'double');
   };
   _sweJulday = _sweMod.cwrap('swe_julday_wrap', 'number', ['number','number','number','number','number']);
 }
@@ -507,15 +522,13 @@ function envLabel(color, arrowDir) {
 }
 
 function hdDegreesToGateLineColor(deg) {
-  deg = ((deg + HD_RAVE_OFFSET) % 360 + 360) % 360;
-  const idx = Math.min(Math.floor(deg / HD_GATE_SIZE), 63);
-  const gate = HD_GATE_WHEEL[idx];
-  const rem = deg - idx * HD_GATE_SIZE;
-  const line = Math.min(Math.floor(rem / HD_LINE_SIZE) + 1, 6);
-  const rem2 = rem - (line - 1) * HD_LINE_SIZE;
-  const color = Math.min(Math.floor(rem2 / HD_COLOR_SIZE) + 1, 6);
-  const rem3 = rem2 - (color - 1) * HD_COLOR_SIZE;
-  const tone = Math.min(Math.floor(rem3 / HD_TONE_SIZE) + 1, 6);
+  // MicFell multiplication chain method (matches reference HD software)
+  const angle = ((deg + HD_RAVE_OFFSET) % 360 + 360) % 360;
+  const pct = angle / 360;
+  const gate = HD_GATE_WHEEL[Math.min(Math.floor(pct * 64), 63)];
+  const line = Math.floor((pct * 64 * 6) % 6) + 1;
+  const color = Math.floor((pct * 64 * 6 * 6) % 6) + 1;
+  const tone = Math.floor((pct * 64 * 6 * 6 * 6) % 6) + 1;
   return { gate, line, color, tone };
 }
 
@@ -529,7 +542,7 @@ async function calcPlanets(jd) {
   await initSwe();
   const results = [];
   let nnLon = null, sunLon = null;
-  const MOSHIER = 2; // SEFLG_MOSEPH
+  const SWIEPH = 0; // SEFLG_SWIEPH (JPL precision)
 
   for (const p of HD_PLANETS) {
     let lon;
@@ -538,7 +551,7 @@ async function calcPlanets(jd) {
     } else if (p.id === -2) {
       lon = sunLon !== null ? (sunLon + 180) % 360 : 0;
     } else {
-      lon = _sweCalc(jd, p.id, MOSHIER);
+      lon = _sweCalc(jd, p.id, SWIEPH);
       if (p.id === 0) sunLon = lon;
       if (p.id === 11) nnLon = lon;
     }
@@ -637,21 +650,20 @@ async function calculateHDChart(y, m, d, h, min, tzOffset) {
   await initSwe();
   const jdBirth = dateToJD(y, m, d, h, min, tzOffset);
 
-  // Design date: find exact JD when Sun was 88° before natal Sun position
-  const MOSHIER = 2;
-  const natalSunLon = _sweCalc(jdBirth, 0, MOSHIER);
+  // Design date: bisection to find exact JD when Sun was 88° before natal Sun
+  // (matches humandesignhub reference algo and MicFell's swe.solcross_ut)
+  const SWIEPH = 0;
+  const natalSunLon = _sweCalc(jdBirth, 0, SWIEPH);
   const targetLon = ((natalSunLon - 88.0) % 360 + 360) % 360;
-  // Newton's method: start from approximation, refine
-  let jdDesign = jdBirth - 88.736; // initial approximation (~88 days)
-  for (let i = 0; i < 10; i++) {
-    const curSunLon = _sweCalc(jdDesign, 0, MOSHIER);
-    let diff = targetLon - curSunLon;
-    // Handle wrap-around
-    if (diff > 180) diff -= 360;
-    if (diff < -180) diff += 360;
-    if (Math.abs(diff) < 0.0001) break; // ~0.36 arcsec precision
-    jdDesign += diff / 0.9856; // Sun moves ~0.9856°/day
+  let lo = jdBirth - 95.0, hi = jdBirth - 80.0;
+  for (let i = 0; i < 50; i++) {
+    const mid = (lo + hi) / 2;
+    const midLon = _sweCalc(mid, 0, SWIEPH);
+    let diff = (midLon - targetLon + 180) % 360 - 180;
+    if (Math.abs(diff) < 1e-6) { lo = hi = mid; break; }
+    if (diff < 0) lo = mid; else hi = mid;
   }
+  let jdDesign = (lo + hi) / 2;
 
   const personality = await calcPlanets(jdBirth);
   const design = await calcPlanets(jdDesign);
