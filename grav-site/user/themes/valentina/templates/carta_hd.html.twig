@@ -743,7 +743,7 @@ async function renderRisultati(data, nome) {
   });
 
   // Bodygraph SVG (carica il bodygraph vettoriale reale)
-  await loadAndRenderBodygraph(d.gate_colors, definedChannels, definedCenterSet, blackGates, redGates);
+  await loadAndRenderBodygraph(d.gate_colors, definedChannels, definedCenterSet, blackGates, redGates, d.variables);
 
   // Planet table
   renderPlaneti(d.personality, d.design);
@@ -755,7 +755,7 @@ async function renderRisultati(data, nome) {
 
 // ─── Bodygraph SVG reale ────────────────────────────────────────────────────
 
-async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenterSet, blackGates, redGates) {
+async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenterSet, blackGates, redGates, variables) {
   const wrap = document.getElementById('carta-bodygraph-wrap');
   const ns = 'http://www.w3.org/2000/svg';
 
@@ -847,6 +847,47 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
 
     const gatesGroup = svgEl.querySelector('#Gates');
     if(gatesGroup) gatesGroup.removeAttribute('class');
+
+    // ─── 4 Frecce Variabili (P sinistra, D destra) ───
+    if(variables) {
+      const vb = svgEl.getAttribute('viewBox');
+      const vbParts = vb ? vb.split(/\s+/).map(Number) : [0,0,851,1309];
+      const svgW = vbParts[2], headY = 40;
+      const arrLeft = (dir) => dir === 'left' ? '\u25C4' : '\u25BA';
+      const arrRight = (dir) => dir === 'left' ? '\u25C4' : '\u25BA';
+
+      // P arrows left side (Perspective top, Awareness bottom)
+      const pGroup = document.createElementNS(ns, 'g');
+      pGroup.setAttribute('id', 'variables-p');
+      const pArr1 = document.createElementNS(ns, 'text');
+      pArr1.setAttribute('x', '120'); pArr1.setAttribute('y', String(headY));
+      pArr1.setAttribute('text-anchor', 'end'); pArr1.setAttribute('font-size', '32');
+      pArr1.setAttribute('fill', '#1a1a2e'); pArr1.setAttribute('font-weight', 'bold');
+      pArr1.textContent = arrLeft(variables.perspective);
+      const pArr2 = document.createElementNS(ns, 'text');
+      pArr2.setAttribute('x', '120'); pArr2.setAttribute('y', String(headY + 40));
+      pArr2.setAttribute('text-anchor', 'end'); pArr2.setAttribute('font-size', '32');
+      pArr2.setAttribute('fill', '#1a1a2e'); pArr2.setAttribute('font-weight', 'bold');
+      pArr2.textContent = arrLeft(variables.awareness);
+      pGroup.appendChild(pArr1); pGroup.appendChild(pArr2);
+      svgEl.appendChild(pGroup);
+
+      // D arrows right side (Digestion top, Environment bottom)
+      const dGroup = document.createElementNS(ns, 'g');
+      dGroup.setAttribute('id', 'variables-d');
+      const dArr1 = document.createElementNS(ns, 'text');
+      dArr1.setAttribute('x', String(svgW - 120)); dArr1.setAttribute('y', String(headY));
+      dArr1.setAttribute('text-anchor', 'start'); dArr1.setAttribute('font-size', '32');
+      dArr1.setAttribute('fill', '#c0392b'); dArr1.setAttribute('font-weight', 'bold');
+      dArr1.textContent = arrRight(variables.digestion);
+      const dArr2 = document.createElementNS(ns, 'text');
+      dArr2.setAttribute('x', String(svgW - 120)); dArr2.setAttribute('y', String(headY + 40));
+      dArr2.setAttribute('text-anchor', 'start'); dArr2.setAttribute('font-size', '32');
+      dArr2.setAttribute('fill', '#c0392b'); dArr2.setAttribute('font-weight', 'bold');
+      dArr2.textContent = arrRight(variables.environment);
+      dGroup.appendChild(dArr1); dGroup.appendChild(dArr2);
+      svgEl.appendChild(dGroup);
+    }
 
     wrap.innerHTML = '';
     wrap.appendChild(svgEl);

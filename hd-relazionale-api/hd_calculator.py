@@ -22,6 +22,7 @@ GATE_WHEEL = [
 GATE_SIZE  = 360.0 / 64   # 5.625° per gate
 LINE_SIZE  = GATE_SIZE / 6 # 0.9375° per linea
 COLOR_SIZE = LINE_SIZE / 6 # 0.015625° per color
+RAVE_OFFSET = 58.0         # Offset Rave Mandala: Gate 41 L1 inizia a 302° eclittica (360-58)
 
 # ---------------------------------------------------------------------------
 # Canali: 36 coppie (gate_a, gate_b)
@@ -121,7 +122,7 @@ DEFINITION_IT = {
 # ---------------------------------------------------------------------------
 
 def degrees_to_gate_line(deg: float) -> tuple[int, int]:
-    deg = deg % 360.0
+    deg = (deg + RAVE_OFFSET) % 360.0
     idx = int(deg / GATE_SIZE)
     gate = GATE_WHEEL[idx]
     rem  = deg - idx * GATE_SIZE
@@ -131,7 +132,7 @@ def degrees_to_gate_line(deg: float) -> tuple[int, int]:
 
 def degrees_to_gate_line_color(deg: float) -> tuple[int, int, int]:
     """Restituisce gate, line, color (1-6) da gradi eclittici."""
-    deg = deg % 360.0
+    deg = (deg + RAVE_OFFSET) % 360.0
     idx = int(deg / GATE_SIZE)
     gate = GATE_WHEEL[idx]
     rem  = deg - idx * GATE_SIZE
@@ -401,11 +402,30 @@ def calculate_chart(year: int, month: int, day: int,
     dietary_regime = PHS.get(d_sun.get('color', 1), '?')
     environment    = ENV.get(d_node.get('color', 1), '?')
 
+    # Mappa interna HD → chiavi API (il frontend BG5 traduce)
+    TYPE_API = {
+        'Generator': 'Generator',
+        'ManifestingGenerator': 'Manifesting Generator',
+        'Projector': 'Projector',
+        'Manifestor': 'Manifestor',
+        'Reflector': 'Reflector',
+    }
+    AUTH_API = {
+        'Emotional': 'Emotional', 'Sacral': 'Sacral', 'Splenic': 'Splenic',
+        'Ego': 'Ego Manifested', 'G/Self': 'Self Projected',
+        'Mental': 'Mental Projector', 'Lunar': 'Lunar',
+    }
+    DEF_API = {
+        'Single': 'Single Definition', 'Split': 'Split Definition',
+        'TripleSplit': 'Triple Split', 'QuadrupleSplit': 'Quadruple Split',
+        'None': 'No Definition',
+    }
+
     return {
-        'type':             TYPE_IT.get(hd_type, hd_type),
+        'type':             TYPE_API.get(hd_type, hd_type),
         'profile':          profile,
-        'authority':        AUTHORITY_IT.get(authority, authority),
-        'definition':       DEFINITION_IT.get(definition, definition),
+        'authority':        AUTH_API.get(authority, authority),
+        'definition':       DEF_API.get(definition, definition),
         'defined_centers':  sorted(defined_centers),
         'defined_channels': [[g1, g2] for g1, g2 in defined_channels],
         'gate_colors':      {str(k): v for k, v in gate_colors.items()},
