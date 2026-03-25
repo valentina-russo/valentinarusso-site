@@ -680,17 +680,14 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
   const wrap = document.getElementById('carta-bodygraph-wrap');
   const ns = 'http://www.w3.org/2000/svg';
 
-  // Gate ID encoder (simplechartcalculator convention):
-  // gate 34 → '_x33_4', gate 8 → '_x38_', gate 64 → '_x36_4'
-  const gid = (n) => { const s = String(n); return s.length===1 ? `_x3${s}_` : `_x3${s[0]}_${s[1]}`; };
-
-  // Gates with extra path variants (appear in 3+ channels in SVG)
-  const EXTRA_IDS = {
-    10: ['_x31_01','_x31_02'],
-    20: ['_x32_01','_x32_02'],
-    34: ['_x33_41','_x33_42'],
-    57: ['_x35_71','_x35_72'],
-  };
+  // 36 canali HD — dati canonici IHDS (public domain)
+  const CHANNELS = [
+    [1,8],[2,14],[3,60],[4,63],[5,15],[6,59],[7,31],[9,52],
+    [10,20],[10,57],[11,56],[12,22],[13,33],[16,48],[17,62],
+    [18,58],[19,49],[20,34],[20,57],[21,45],[23,43],[24,61],
+    [25,51],[26,44],[27,50],[28,38],[29,46],[30,41],[32,54],
+    [35,36],[37,40],[39,55],[42,53],[47,64]
+  ];
 
   // Center SVG element IDs
   const CTR_ID = {
@@ -699,8 +696,8 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
     SACRAL:'Sacral', SOLAR:'Solar_Plexus', ROOT:'Root'
   };
   const CTR_COL = {
-    HEAD:'#b8d4f0', AJNA:'#5baa6e', THROAT:'#c49a4e', G:'#e8c838',
-    HEART:'#c44040', SPLEEN:'#a07845', SOLAR:'#e8873a', SACRAL:'#e05858', ROOT:'#9a8878'
+    HEAD:'#b4cfe8', AJNA:'#52a363', THROAT:'#b8913e', G:'#d9b82a',
+    HEART:'#b83838', SPLEEN:'#957040', SOLAR:'#d47a2e', SACRAL:'#c94e4e', ROOT:'#8a7868'
   };
 
   try {
@@ -713,30 +710,22 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
     svgEl.setAttribute('style', 'max-width:520px;width:100%;height:auto;display:block;margin:0 auto');
     svgEl.removeAttribute('class');
 
-    const COL_P = '#1a1a2e', COL_D = '#c0392b', COL_EMPTY = '#ccc5bd';
+    const COL_P = '#1a1a2e', COL_D = '#c0392b', COL_EMPTY = '#c8c2bc';
 
-    // ── 1. Reset tutti i path canale a grigio ─────────────────────────────────
-    const channelsGroup = svgEl.querySelector('#Channels');
-    if(channelsGroup) {
-      for(const el of channelsGroup.querySelectorAll('rect,path,polygon')) {
-        el.setAttribute('fill', COL_EMPTY);
-        el.removeAttribute('class');
-      }
-    }
-
-    // ── 2. Costruisci CSS per gate attivi, centri e testi ─────────────────────
+    // ── 1. Costruisci CSS ──────────────────────────────────────────────────────
     const rules = [];
-    // CSS vars per i pattern split (usati dai <pattern> già in <defs>)
     rules.push(`:root{--color-personality:${COL_P};--color-design:${COL_D};--color-empty:${COL_EMPTY};}`);
 
-    // Colore per ogni gate attivo
-    for(const [gStr, c] of Object.entries(gateColors)) {
-      const g = parseInt(gStr);
-      const mainId = gid(g);
-      const extras = EXTRA_IDS[g] || [];
-      const fillVal = c==='P' ? COL_P : c==='D' ? COL_D : 'url(#splitGatePattern)';
-      for(const id of [mainId, ...extras]) {
-        rules.push(`[id="${id}"]{fill:${fillVal}!important;}`);
+    // Colora ogni canale in base ai suoi due gate
+    for(const [g1, g2] of CHANNELS) {
+      const c1 = gateColors[g1];
+      const c2 = gateColors[g2];
+      if(c1 && c2) {
+        const fillVal = (c1==='P' && c2==='P') ? COL_P
+                       : (c1==='D' && c2==='D') ? COL_D
+                       : 'url(#splitGatePattern)';
+        const a = Math.min(g1,g2), b = Math.max(g1,g2);
+        rules.push(`#ch-${a}-${b}{fill:${fillVal}!important;}`);
       }
     }
 
@@ -749,7 +738,7 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
     // Testo gate: attivo = scuro, inattivo = grigio chiaro
     const activeGates = new Set(Object.keys(gateColors).map(Number));
     for(let g=1; g<=64; g++) {
-      rules.push(`#gate-text-${g}{fill:${activeGates.has(g)?'#222':'#bbb'}!important;}`);
+      rules.push(`#gate-text-${g}{fill:${activeGates.has(g)?'#333':'#bbb'}!important;}`);
     }
 
     // Inietta <style> nell'SVG
@@ -759,7 +748,6 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
     styleEl.textContent = rules.join('\n');
     defs.appendChild(styleEl);
 
-    // Rimuovi classi Tailwind dal gruppo Gates (hanno transizioni non necessarie)
     const gatesGroup = svgEl.querySelector('#Gates');
     if(gatesGroup) gatesGroup.removeAttribute('class');
 
