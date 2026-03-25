@@ -484,16 +484,16 @@ const HD_PHS = {
   2: {name:'Gusto', a:'Chiuso', b:'Aperto'},
   3: {name:'Sete', a:'Caldo', b:'Freddo'},
   4: {name:'Tatto', a:'Calmo', b:'Nervoso'},
-  5: {name:'Suono', a:'Bassa Frequenza', b:'Alta Frequenza'},
-  6: {name:'Luce', a:'Diretto', b:'Indiretto'},
+  5: {name:'Suono', a:'Basso', b:'Alto'},
+  6: {name:'Luce', a:'Diretta', b:'Indiretta'},
 };
 const HD_ENV = {
   1: {name:'Grotte', a:'Selettive', b:'Non-Selettive'},
   2: {name:'Mercati', a:'Interni', b:'Esterni'},
   3: {name:'Cucine', a:'Chiuse', b:'Aperte'},
-  4: {name:'Montagne', a:'Attive', b:'Passive'},
-  5: {name:'Valli', a:'Strette', b:'Larghe'},
-  6: {name:'Rive', a:'Naturali', b:'Artificiali'},
+  4: {name:'Montagne', a:'Attivo', b:'Passivo'},
+  5: {name:'Valli', a:'Stretto', b:'Largo'},
+  6: {name:'Rive', a:'Naturale', b:'Artificiale'},
 };
 function phsLabel(color, tone) {
   const p = HD_PHS[color]; if(!p) return '?';
@@ -675,17 +675,11 @@ async function calculateHDChart(y, m, d, h, min, tzOffset) {
   const pSun = personality.find(p => p.planet_en === 'Sun') || {};
   const dSun = design.find(p => p.planet_en === 'Sun') || {};
 
-  // Variables: use Mean Node (ID 10) for Color arrows, odd=left even=right
-  const pMeanNodeLon = _sweCalc(jdBirth, 10, 2);
-  const dMeanNodeLon = _sweCalc(jdDesign, 10, 2);
-  const pMeanNode = hdDegreesToGateLineColor(pMeanNodeLon);
-  const dMeanNode = hdDegreesToGateLineColor(dMeanNodeLon);
-
-  // Arrow: odd color (1,3,5) = left, even color (2,4,6) = right
-  const arrow = c => (c % 2 === 1) ? 'left' : 'right';
-
-  // For display: use True Node gates but Mean Node colors for arrows
+  // Variables: determined by TONE (not Color). Tone 1-3=left, 4-6=right
+  // Source: MicFell/human_design_engine (verified open-source HD engine)
+  const arrow = t => t <= 3 ? 'left' : 'right';
   const dNode = design.find(p => p.planet_en === 'North Node') || {};
+  const pNode = personality.find(p => p.planet_en === 'North Node') || {};
 
   return {
     type, profile, authority, definition,
@@ -693,8 +687,10 @@ async function calculateHDChart(y, m, d, h, min, tzOffset) {
     defined_channels: defChannels.map(([a,b]) => [a,b]),
     gate_colors, personality, design,
     variables: {
-      digestion: arrow(dSun.color||1), environment: arrow(dMeanNode.color||1),
-      perspective: arrow(pSun.color||1), awareness: arrow(pMeanNode.color||1),
+      digestion: arrow(dSun.tone||1),
+      environment: arrow(dNode.tone||1),
+      perspective: arrow(pSun.tone||1),
+      awareness: arrow(pNode.tone||1),
     },
     dietary_regime: phsLabel(dSun.color||1, dSun.tone||1),
     environment_name: envLabel(dNode.color||1, dNode.tone||1),
@@ -993,10 +989,13 @@ async function renderRisultati(data, nome) {
     { label: 'Definizione',       value: d.definition },
   ];
 
-  // Variables/PHS/Environment: disabled until Color calculation is calibrated
-  // if(d.dietary_regime) coreItems.push({ label: 'Regime Alimentare', value: d.dietary_regime });
-  // if(d.environment) coreItems.push({ label: 'Ambiente', value: d.environment });
-  // if(d.variables) { ... }
+  if(d.dietary_regime) coreItems.push({ label: 'Regime Alimentare', value: d.dietary_regime });
+  if(d.environment) coreItems.push({ label: 'Ambiente', value: d.environment });
+  if(d.variables) {
+    const arrowSymbol = (dir) => dir === 'left' ? '\u25C4' : '\u25BA';
+    const varStr = `${arrowSymbol(d.variables.digestion)} ${arrowSymbol(d.variables.perspective)} ${arrowSymbol(d.variables.environment)} ${arrowSymbol(d.variables.awareness)}`;
+    coreItems.push({ label: 'Variabili', value: varStr });
+  }
 
   coreEl.innerHTML = coreItems.map(i =>
     `<div class="core-card">
@@ -1128,7 +1127,28 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
     if(gatesGroup) gatesGroup.removeAttribute('class');
 
     // ─── 4 Frecce Variabili (P sinistra, D destra) ───
-    // SVG arrows disabled until Color calculation is calibrated
+    if(variables) {
+      const toArrow = (dir) => dir === 'left' ? '\u25C4' : '\u25BA';
+      const headCenter = 426;
+      const arrowY = 30;
+      const arrowGap = 35;
+      const arrowOffset = 80;
+      const mkArrow = (x, y, text, color) => {
+        const el = document.createElementNS(ns, 'text');
+        el.setAttribute('x', String(x)); el.setAttribute('y', String(y));
+        el.setAttribute('text-anchor', 'middle'); el.setAttribute('font-size', '28');
+        el.setAttribute('fill', color); el.setAttribute('font-weight', 'bold');
+        el.textContent = text; return el;
+      };
+      const g = document.createElementNS(ns, 'g');
+      g.setAttribute('id', 'hd-variables');
+      // D (Design/red) LEFT, P (Personality/black) RIGHT
+      g.appendChild(mkArrow(headCenter - arrowOffset, arrowY, toArrow(variables.digestion), '#c0392b'));
+      g.appendChild(mkArrow(headCenter - arrowOffset, arrowY + arrowGap, toArrow(variables.environment), '#c0392b'));
+      g.appendChild(mkArrow(headCenter + arrowOffset, arrowY, toArrow(variables.perspective), '#1a1a2e'));
+      g.appendChild(mkArrow(headCenter + arrowOffset, arrowY + arrowGap, toArrow(variables.awareness), '#1a1a2e'));
+      svgEl.appendChild(g);
+    }
 
     wrap.innerHTML = '';
     wrap.appendChild(svgEl);
