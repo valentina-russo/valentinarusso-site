@@ -704,7 +704,7 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
   };
 
   try {
-    const resp = await fetch('/bodygraph.svg', { cache: 'force-cache' });
+    const resp = await fetch('/bodygraph.svg', { cache: 'no-cache' });
     if(!resp.ok) throw new Error('SVG non trovato');
     const svgText = await resp.text();
 
