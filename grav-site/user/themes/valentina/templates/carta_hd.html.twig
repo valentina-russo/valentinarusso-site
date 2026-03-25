@@ -488,20 +488,22 @@ const HD_PHS = {
   6: {name:'Luce', a:'Diretta', b:'Indiretta'},
 };
 const HD_ENV = {
-  1: {name:'Grotte', a:'Selettive', b:'Non-Selettive'},
-  2: {name:'Mercati', a:'Interni', b:'Esterni'},
-  3: {name:'Cucine', a:'Chiuse', b:'Aperte'},
+  1: {name:'Grotte', a:'Selettivo', b:'Aperto'},
+  2: {name:'Mercati', a:'Esterno', b:'Interno'},
+  3: {name:'Cucine', a:'Umido', b:'Secco'},
   4: {name:'Montagne', a:'Attivo', b:'Passivo'},
   5: {name:'Valli', a:'Stretto', b:'Largo'},
   6: {name:'Rive', a:'Naturale', b:'Artificiale'},
 };
 function phsLabel(color, tone) {
   const p = HD_PHS[color]; if(!p) return '?';
-  return `${p.name} (${tone >= 4 ? p.a : p.b})`;
+  // Sub-type determined by COLOR odd/even (verified on 3 profiles)
+  return `${p.name} (${color % 2 === 0 ? p.a : p.b})`;
 }
-function envLabel(color, tone) {
+function envLabel(color, arrowDir) {
   const e = HD_ENV[color]; if(!e) return '?';
-  return `${e.name} (${tone <= 3 ? e.a : e.b})`;
+  // Sub-type follows arrow direction: left (strategic) = a, right (receptive) = b
+  return `${e.name} (${arrowDir === 'left' ? e.a : e.b})`;
 }
 
 function hdDegreesToGateLineColor(deg) {
@@ -693,7 +695,7 @@ async function calculateHDChart(y, m, d, h, min, tzOffset) {
       awareness: arrow(pNode.tone||1),
     },
     dietary_regime: phsLabel(dSun.color||1, dSun.tone||1),
-    environment_name: envLabel(dNode.color||1, dNode.tone||1),
+    environment_name: envLabel(dNode.color||1, arrow(dNode.tone||1)),
   };
 }
 
