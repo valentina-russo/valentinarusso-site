@@ -466,7 +466,7 @@ const HD_PLANETS = [
   {id: 0,  it:'Sole',      en:'Sun'},       // SE_SUN
   {id:-2,  it:'Terra',      en:'Earth'},     // calculated
   {id: 1,  it:'Luna',       en:'Moon'},      // SE_MOON
-  {id:11,  it:'Nodo Nord',  en:'North Node'},// SE_MEAN_NODE
+  {id:11,  it:'Nodo Nord',  en:'North Node'},// SE_TRUE_NODE
   {id:-1,  it:'Nodo Sud',   en:'South Node'},// calculated
   {id: 2,  it:'Mercurio',   en:'Mercury'},
   {id: 3,  it:'Venere',     en:'Venus'},
@@ -497,7 +497,7 @@ const HD_ENV = {
 };
 function phsLabel(color, tone) {
   const p = HD_PHS[color]; if(!p) return '?';
-  return `${p.name} (${tone <= 3 ? p.a : p.b})`;
+  return `${p.name} (${tone >= 4 ? p.a : p.b})`;
 }
 function envLabel(color, tone) {
   const e = HD_ENV[color]; if(!e) return '?';
@@ -673,10 +673,19 @@ async function calculateHDChart(y, m, d, h, min, tzOffset) {
   }
 
   const pSun = personality.find(p => p.planet_en === 'Sun') || {};
-  const pNode = personality.find(p => p.planet_en === 'North Node') || {};
   const dSun = design.find(p => p.planet_en === 'Sun') || {};
+
+  // Variables: use Mean Node (ID 10) for Color arrows, odd=left even=right
+  const pMeanNodeLon = _sweCalc(jdBirth, 10, 2);
+  const dMeanNodeLon = _sweCalc(jdDesign, 10, 2);
+  const pMeanNode = hdDegreesToGateLineColor(pMeanNodeLon);
+  const dMeanNode = hdDegreesToGateLineColor(dMeanNodeLon);
+
+  // Arrow: odd color (1,3,5) = left, even color (2,4,6) = right
+  const arrow = c => (c % 2 === 1) ? 'left' : 'right';
+
+  // For display: use True Node gates but Mean Node colors for arrows
   const dNode = design.find(p => p.planet_en === 'North Node') || {};
-  const arrow = c => c <= 3 ? 'left' : 'right';
 
   return {
     type, profile, authority, definition,
@@ -684,8 +693,8 @@ async function calculateHDChart(y, m, d, h, min, tzOffset) {
     defined_channels: defChannels.map(([a,b]) => [a,b]),
     gate_colors, personality, design,
     variables: {
-      digestion: arrow(dSun.color||1), environment: arrow(dNode.color||1),
-      perspective: arrow(pSun.color||1), awareness: arrow(pNode.color||1),
+      digestion: arrow(dSun.color||1), environment: arrow(dMeanNode.color||1),
+      perspective: arrow(pSun.color||1), awareness: arrow(pMeanNode.color||1),
     },
     dietary_regime: phsLabel(dSun.color||1, dSun.tone||1),
     environment_name: envLabel(dNode.color||1, dNode.tone||1),
@@ -984,14 +993,10 @@ async function renderRisultati(data, nome) {
     { label: 'Definizione',       value: d.definition },
   ];
 
-  // Add variables + PHS + environment if available
-  if(d.dietary_regime) coreItems.push({ label: 'Regime Alimentare', value: d.dietary_regime });
-  if(d.environment) coreItems.push({ label: 'Ambiente', value: d.environment });
-  if(d.variables) {
-    const arrowSymbol = (dir) => dir === 'left' ? '◄' : '►';
-    const varStr = `${arrowSymbol(d.variables.digestion)} ${arrowSymbol(d.variables.environment)} ${arrowSymbol(d.variables.perspective)} ${arrowSymbol(d.variables.awareness)}`;
-    coreItems.push({ label: 'Variabili', value: varStr });
-  }
+  // Variables/PHS/Environment: disabled until Color calculation is calibrated
+  // if(d.dietary_regime) coreItems.push({ label: 'Regime Alimentare', value: d.dietary_regime });
+  // if(d.environment) coreItems.push({ label: 'Ambiente', value: d.environment });
+  // if(d.variables) { ... }
 
   coreEl.innerHTML = coreItems.map(i =>
     `<div class="core-card">
@@ -1123,45 +1128,7 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
     if(gatesGroup) gatesGroup.removeAttribute('class');
 
     // ─── 4 Frecce Variabili (P sinistra, D destra) ───
-    if(variables) {
-      const vb = svgEl.getAttribute('viewBox');
-      const vbParts = vb ? vb.split(/\s+/).map(Number) : [0,0,851,1309];
-      const svgW = vbParts[2], headY = 40;
-      const arrLeft = (dir) => dir === 'left' ? '\u25C4' : '\u25BA';
-      const arrRight = (dir) => dir === 'left' ? '\u25C4' : '\u25BA';
-
-      // P arrows left side (Perspective top, Awareness bottom)
-      const pGroup = document.createElementNS(ns, 'g');
-      pGroup.setAttribute('id', 'variables-p');
-      const pArr1 = document.createElementNS(ns, 'text');
-      pArr1.setAttribute('x', '120'); pArr1.setAttribute('y', String(headY));
-      pArr1.setAttribute('text-anchor', 'end'); pArr1.setAttribute('font-size', '32');
-      pArr1.setAttribute('fill', '#1a1a2e'); pArr1.setAttribute('font-weight', 'bold');
-      pArr1.textContent = arrLeft(variables.perspective);
-      const pArr2 = document.createElementNS(ns, 'text');
-      pArr2.setAttribute('x', '120'); pArr2.setAttribute('y', String(headY + 40));
-      pArr2.setAttribute('text-anchor', 'end'); pArr2.setAttribute('font-size', '32');
-      pArr2.setAttribute('fill', '#1a1a2e'); pArr2.setAttribute('font-weight', 'bold');
-      pArr2.textContent = arrLeft(variables.awareness);
-      pGroup.appendChild(pArr1); pGroup.appendChild(pArr2);
-      svgEl.appendChild(pGroup);
-
-      // D arrows right side (Digestion top, Environment bottom)
-      const dGroup = document.createElementNS(ns, 'g');
-      dGroup.setAttribute('id', 'variables-d');
-      const dArr1 = document.createElementNS(ns, 'text');
-      dArr1.setAttribute('x', String(svgW - 120)); dArr1.setAttribute('y', String(headY));
-      dArr1.setAttribute('text-anchor', 'start'); dArr1.setAttribute('font-size', '32');
-      dArr1.setAttribute('fill', '#c0392b'); dArr1.setAttribute('font-weight', 'bold');
-      dArr1.textContent = arrRight(variables.digestion);
-      const dArr2 = document.createElementNS(ns, 'text');
-      dArr2.setAttribute('x', String(svgW - 120)); dArr2.setAttribute('y', String(headY + 40));
-      dArr2.setAttribute('text-anchor', 'start'); dArr2.setAttribute('font-size', '32');
-      dArr2.setAttribute('fill', '#c0392b'); dArr2.setAttribute('font-weight', 'bold');
-      dArr2.textContent = arrRight(variables.environment);
-      dGroup.appendChild(dArr1); dGroup.appendChild(dArr2);
-      svgEl.appendChild(dGroup);
-    }
+    // SVG arrows disabled until Color calculation is calibrated
 
     wrap.innerHTML = '';
     wrap.appendChild(svgEl);
