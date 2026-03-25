@@ -62,6 +62,10 @@ async function deployStructural() {
         await client.uploadFrom(path.join(__dirname, "../grav-site/user/pages/assets/bodygraph.svg"), "bodygraph.svg");
         await client.cd(remotePath);
 
+        console.log("Upload chart.svg...");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/user/pages/assets/chart.svg"), "chart.svg");
+        await client.cd(remotePath);
+
         console.log("Upload la-mente-innamorata-1 (published: false)...");
         await client.ensureDir("user/pages/04.blog/la-mente-innamorata-1");
         await client.uploadFrom(path.join(__dirname, "../grav-site/user/pages/04.blog/la-mente-innamorata-1/item.md"), "item.md");

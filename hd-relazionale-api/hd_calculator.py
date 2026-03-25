@@ -21,6 +21,7 @@ GATE_WHEEL = [
 
 GATE_SIZE  = 360.0 / 64   # 5.625° per gate
 LINE_SIZE  = GATE_SIZE / 6 # 0.9375° per linea
+COLOR_SIZE = LINE_SIZE / 6 # 0.015625° per color
 
 # ---------------------------------------------------------------------------
 # Canali: 36 coppie (gate_a, gate_b)
@@ -128,6 +129,18 @@ def degrees_to_gate_line(deg: float) -> tuple[int, int]:
     return gate, line
 
 
+def degrees_to_gate_line_color(deg: float) -> tuple[int, int, int]:
+    """Restituisce gate, line, color (1-6) da gradi eclittici."""
+    deg = deg % 360.0
+    idx = int(deg / GATE_SIZE)
+    gate = GATE_WHEEL[idx]
+    rem  = deg - idx * GATE_SIZE
+    line = min(int(rem / LINE_SIZE) + 1, 6)
+    rem2 = rem - (line - 1) * LINE_SIZE
+    color = min(int(rem2 / COLOR_SIZE) + 1, 6)
+    return gate, line, color
+
+
 def datetime_to_jd(year: int, month: int, day: int,
                    hour: int, minute: int, tz_offset: float) -> float:
     """Converte data/ora locale in Julian Day (UTC)."""
@@ -158,11 +171,13 @@ def calc_planets(jd: float) -> list[dict]:
                 nn_lon = lon
 
         gate, line = degrees_to_gate_line(lon)
+        _, _, color = degrees_to_gate_line_color(lon)
         results.append({
             'planet_it': name_it,
             'planet_en': name_en,
             'gate':      gate,
             'line':      line,
+            'color':     color,
             'degrees':   round(lon, 4),
         })
 
@@ -346,6 +361,46 @@ def calculate_chart(year: int, month: int, day: int,
         else:
             gate_colors[g] = 'D'
 
+    # ---- Variabili (4 frecce) ----
+    # Color 1-3 = sinistra (strategico), 4-6 = destra (ricettivo)
+    p_sun  = next((p for p in personality if p['planet_en'] == 'Sun'), {})
+    p_node = next((p for p in personality if p['planet_en'] == 'NorthNode'), {})
+    d_sun  = next((p for p in design if p['planet_en'] == 'Sun'), {})
+    d_node = next((p for p in design if p['planet_en'] == 'NorthNode'), {})
+
+    def arrow(color_val):
+        return 'left' if color_val <= 3 else 'right'
+
+    variables = {
+        'digestion':   arrow(d_sun.get('color', 1)),   # Freccia 1: Sole Design
+        'environment': arrow(d_node.get('color', 1)),   # Freccia 2: Nodo Design
+        'perspective': arrow(p_sun.get('color', 1)),    # Freccia 3: Sole Personalità
+        'awareness':   arrow(p_node.get('color', 1)),   # Freccia 4: Nodo Personalità
+    }
+
+    # ---- Regime alimentare (PHS) — Color del Sole Design ----
+    PHS = {
+        1: 'Appetito (Consecutivo)',
+        2: 'Gusto (Aperto)',
+        3: 'Sete (Caldo)',
+        4: 'Tatto (Calmo)',
+        5: 'Suono (Esterno)',
+        6: 'Luce (Diretto)',
+    }
+
+    # ---- Ambiente — Color del Nodo Nord Design ----
+    ENV = {
+        1: 'Grotte',
+        2: 'Mercati',
+        3: 'Cucine',
+        4: 'Montagne',
+        5: 'Valli',
+        6: 'Rive',
+    }
+
+    dietary_regime = PHS.get(d_sun.get('color', 1), '?')
+    environment    = ENV.get(d_node.get('color', 1), '?')
+
     return {
         'type':             TYPE_IT.get(hd_type, hd_type),
         'profile':          profile,
@@ -356,4 +411,7 @@ def calculate_chart(year: int, month: int, day: int,
         'gate_colors':      {str(k): v for k, v in gate_colors.items()},
         'personality':      personality,
         'design':           design,
+        'variables':        variables,
+        'dietary_regime':   dietary_regime,
+        'environment':      environment,
     }

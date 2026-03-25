@@ -118,9 +118,9 @@
   /* Core cards */
   .carta-core {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 0.75rem;
-    margin-bottom: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
   }
   .core-card {
     background: #fff;
@@ -172,28 +172,70 @@
   .planets-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem;
+    font-size: 0.78rem;
   }
   .planets-table th {
     text-align: left;
-    padding: 0.4rem 0.6rem;
+    padding: 0.25rem 0.4rem;
     font-weight: 700;
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: #999;
     border-bottom: 1.5px solid #f0ece8;
   }
   .planets-table td {
-    padding: 0.45rem 0.6rem;
+    padding: 0.25rem 0.4rem;
     border-bottom: 1px solid #f5f2ef;
     color: #444;
+    line-height: 1.2;
   }
   .planets-table tr:last-child td { border-bottom: none; }
   .gate-black { color: #1a1a2e; font-weight: 700; }
   .gate-red   { color: #c0392b; font-weight: 700; }
-  .planet-bg5 { display: block; font-weight: 600; color: #333; font-size: 0.82rem; }
-  .planet-name { display: block; font-size: 0.72rem; color: #aaa; }
+  .planet-bg5 { font-weight: 600; color: #333; font-size: 0.78rem; }
+  .planet-name { font-size: 0.65rem; color: #aaa; margin-left: 0.3rem; }
+
+  /* Desktop 2-col layout */
+  .carta-desktop-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  @media (min-width: 900px) {
+    .carta-desktop-layout {
+      flex-direction: row;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+    .carta-col-left {
+      flex: 0 0 45%;
+      max-width: 45%;
+      position: sticky;
+      top: 1rem;
+    }
+    .carta-col-right {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  /* PDF button */
+  .carta-pdf-btn {
+    display: block;
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    margin-top: 2rem;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .carta-pdf-btn:hover { opacity: 0.88; }
 
   /* CTA */
   .carta-cta {
@@ -201,6 +243,7 @@
     border-radius: 16px;
     padding: 2rem;
     text-align: center;
+    margin-top: 2.5rem;
   }
   .carta-cta p { color: #555; font-size: 0.95rem; margin-bottom: 1.25rem; line-height: 1.6; }
   .carta-cta a {
@@ -248,6 +291,21 @@
     .cf-row.cols-2 { grid-template-columns: 1fr; }
     .carta-core { grid-template-columns: repeat(2, 1fr); }
   }
+  @media (min-width: 601px) and (max-width: 899px) {
+    .carta-core { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  @media print {
+    header, footer, .carta-intro, .carta-form, .carta-cta,
+    .carta-pdf-btn, .cf-autocomplete-list, nav { display: none !important; }
+    .carta-results { display: block !important; }
+    .carta-desktop-layout { flex-direction: column !important; }
+    .carta-col-left { flex: 1 !important; max-width: 100% !important; position: static !important; }
+    .carta-bodygraph-wrap svg { max-width: 500px; margin: 0 auto; }
+    .core-card { box-shadow: none; border: 1px solid #eee; }
+    .carta-planets { box-shadow: none; border: 1px solid #eee; }
+    body { background: #fff; }
+  }
 </style>
 {% endblock %}
 
@@ -264,16 +322,6 @@
       <div class="cf-field">
         <label>Nome (opzionale)</label>
         <input type="text" id="cf-nome" placeholder="Il tuo nome">
-      </div>
-    </div>
-    <div class="cf-row cols-1">
-      <div class="cf-field">
-        <label>Luogo di nascita *</label>
-        <div class="cf-autocomplete-wrap">
-          <input type="text" id="cf-city" placeholder="Es: Milano, Roma, Napoli…" autocomplete="off" required>
-          <ul class="cf-autocomplete-list" id="cf-city-list"></ul>
-        </div>
-        <div class="cf-hint">Inserisci la città — il fuso orario verrà rilevato automaticamente</div>
       </div>
     </div>
     <div class="cf-row cols-3">
@@ -298,6 +346,16 @@
       <div class="cf-field">
         <label>Minuti</label>
         <input type="number" id="cf-min" min="0" max="59" placeholder="30">
+      </div>
+    </div>
+    <div class="cf-row cols-1">
+      <div class="cf-field">
+        <label>Luogo di nascita *</label>
+        <div class="cf-autocomplete-wrap">
+          <input type="text" id="cf-city" placeholder="Es: Milano, Roma, Napoli…" autocomplete="off" required>
+          <ul class="cf-autocomplete-list" id="cf-city-list"></ul>
+        </div>
+        <div class="cf-hint">Inserisci la città — il fuso orario verrà rilevato automaticamente</div>
       </div>
     </div>
     <div class="cf-row cols-1">
@@ -337,8 +395,15 @@
   <div class="carta-results" id="carta-results">
     <div class="carta-name-header" id="carta-name-header"></div>
     <div class="carta-core" id="carta-core"></div>
-    <div class="carta-bodygraph-wrap" id="carta-bodygraph-wrap"></div>
-    <div class="carta-planets" id="carta-planets"></div>
+    <div class="carta-desktop-layout">
+      <div class="carta-col-left">
+        <div class="carta-bodygraph-wrap" id="carta-bodygraph-wrap"></div>
+      </div>
+      <div class="carta-col-right">
+        <div class="carta-planets" id="carta-planets"></div>
+        <button class="carta-pdf-btn" id="carta-pdf-btn" onclick="scaricaPDF()">Scarica PDF</button>
+      </div>
+    </div>
     <div class="carta-cta">
       <p>Il tuo grafico mostra la struttura energetica di base. Una consulenza con Valentina trasforma questi dati in indicazioni pratiche per le tue relazioni, il lavoro e le decisioni quotidiane.</p>
       <a href="/contatti">Prenota una consulenza con Valentina</a>
@@ -465,24 +530,28 @@ const CHANNELS = [
 ];
 
 const TIPO_IT = {
-  'Generator': 'Generatore',
-  'Manifesting Generator': 'Generatore Manifestante',
-  'Projector': 'Proiettore',
-  'Manifestor': 'Manifestatore',
-  'Reflector': 'Riflettore'
+  'Generator': 'Costruttore Classico',
+  'Manifesting Generator': 'Costruttore Rapido',
+  'Projector': 'Guida',
+  'Manifestor': 'Iniziatore',
+  'Reflector': 'Valutatore'
 };
 const AUTH_IT = {
-  'Sacral': 'Sacrale','Emotional': 'Emotiva','Splenic': 'Splenica',
-  'Ego Projected': 'Ego Proiettato','Ego Manifested': 'Ego Manifestato',
-  'Self Projected': 'Sé Proiettato','Mental Projector': 'Proiettore Mentale',
+  'Sacral': 'Sacrale / Risorsa Energetica',
+  'Emotional': 'Emotiva / Intelligenza Emotiva',
+  'Splenic': 'Splenica / Istintiva',
+  'Ego Projected': 'Ego / Proiettata',
+  'Ego Manifested': 'Ego / Manifestata',
+  'Self Projected': 'del Sé / G Center Proiettata',
+  'Mental Projector': 'Ambientale / Mentale',
   'Lunar': 'Lunare'
 };
 const DEF_IT = {
-  'Single Definition': 'Definizione Singola',
-  'Split Definition': 'Definizione Spaccata',
-  'Triple Split': 'Tripla Spaccatura',
-  'Quadruple Split': 'Quadrupla Spaccatura',
-  'No Definition': 'Nessuna Definizione'
+  'Single Definition': 'Assimilazione Indipendente',
+  'Split Definition': 'Assimilazione Collaborativa',
+  'Triple Split': 'Assimilazione Sintetizzante',
+  'Quadruple Split': 'Assimilazione Soggettiva',
+  'No Definition': 'Assimilazione Oggettiva'
 };
 const PLANET_IT = {
   'Sun':'Sole','Earth':'Terra','Moon':'Luna','North Node':'Nodo Nord',
@@ -506,8 +575,8 @@ const PLANET_BG5 = {
   'Pluto':      'Verità Interiore'
 };
 const CENTER_IT = {
-  HEAD:'Testa',AJNA:'Mente',THROAT:'Gola',G:'Identità',
-  HEART:'Cuore',SPLEEN:'Milza',SOLAR:'Plesso Solare',SACRAL:'Sacrale',ROOT:'Radice'
+  HEAD:'Testa',AJNA:'Mente',THROAT:'Comunicazione-Azione',G:'Identità',
+  HEART:'Cuore/Volontà',SPLEEN:'Milza/Bazo',SOLAR:'Intelligenza Emotiva',SACRAL:'Risorsa Energetica',ROOT:'Spinta e Persistenza'
 };
 
 // ─── API Call ──────────────────────────────────────────────────────────────
@@ -635,11 +704,21 @@ async function renderRisultati(data, nome) {
   // Core cards
   const coreEl = document.getElementById('carta-core');
   const coreItems = [
-    { label: 'Tipo',       value: d.type },
-    { label: 'Profilo',    value: d.profile },
-    { label: 'Autorità',   value: d.authority },
-    { label: 'Definizione',value: d.definition },
+    { label: 'Tipo di Carriera',  value: d.type },
+    { label: 'Profilo',           value: d.profile },
+    { label: 'Autorità',          value: d.authority },
+    { label: 'Definizione',       value: d.definition },
   ];
+
+  // Add variables + PHS + environment if available
+  if(d.dietary_regime) coreItems.push({ label: 'Regime Alimentare', value: d.dietary_regime });
+  if(d.environment) coreItems.push({ label: 'Ambiente', value: d.environment });
+  if(d.variables) {
+    const arrowSymbol = (dir) => dir === 'left' ? '◄' : '►';
+    const varStr = `${arrowSymbol(d.variables.digestion)} ${arrowSymbol(d.variables.environment)} ${arrowSymbol(d.variables.perspective)} ${arrowSymbol(d.variables.awareness)}`;
+    coreItems.push({ label: 'Variabili', value: varStr });
+  }
+
   coreEl.innerHTML = coreItems.map(i =>
     `<div class="core-card">
       <div class="core-card-label">${i.label}</div>
@@ -690,6 +769,7 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
   ];
 
   // Center SVG element IDs
+  // Center IDs matching hdkit SVG (renamed in adapt script)
   const CTR_ID = {
     HEAD:'Head', AJNA:'Ajna', THROAT:'Throat', G:'G',
     HEART:'Heart', SPLEEN:'Splenic_Center',
@@ -701,7 +781,7 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
   };
 
   try {
-    const resp = await fetch('/bodygraph.svg?v=20260325c', { cache: 'no-cache' });
+    const resp = await fetch('/chart.svg', { cache: 'no-cache' });
     if(!resp.ok) throw new Error('SVG non trovato');
     const svgText = await resp.text();
 
@@ -716,29 +796,46 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
     const rules = [];
     rules.push(`:root{--color-personality:${COL_P};--color-design:${COL_D};--color-empty:${COL_EMPTY};}`);
 
-    // Colora ogni canale in base ai suoi due gate
-    for(const [g1, g2] of CHANNELS) {
-      const c1 = gateColors[g1];
-      const c2 = gateColors[g2];
-      if(c1 && c2) {
-        const fillVal = (c1==='P' && c2==='P') ? COL_P
-                       : (c1==='D' && c2==='D') ? COL_D
-                       : 'url(#splitGatePattern)';
-        const a = Math.min(g1,g2), b = Math.max(g1,g2);
-        rules.push(`#ch-${a}-${b}{fill:${fillVal}!important;}`);
+    // Colora OGNI gate attivo — hdkit SVG ha id="Gate{n}" per ogni mezza-strip.
+    // Gate hanging (partner non attivo) = mezza linea colorata.
+    // Gate in canale completo = entrambe le metà colorate.
+    // Colore: P solo = nero, D solo = rosso, P+D = strisce bicolore.
+    for(let g=1; g<=64; g++) {
+      const col = gateColors[g];
+      if(!col) continue;
+      const fillVal = (col==='P') ? COL_P
+                    : (col==='D') ? COL_D
+                    : 'url(#splitGatePattern)'; // Both P+D
+      rules.push(`#Gate${g}{fill:${fillVal}!important;}`);
+    }
+    // Integration connectors: color if any integration gate is active
+    const intGateIds = [10,20,34,57];
+    for(const ig of intGateIds) {
+      if(gateColors[ig]) {
+        const col = gateColors[ig];
+        const fillVal = (col==='P') ? COL_P : (col==='D') ? COL_D : 'url(#splitGatePattern)';
+        rules.push(`#GateConnect${ig}{fill:${fillVal}!important;}`);
       }
+    }
+    if(intGateIds.some(g => gateColors[g])) {
+      rules.push(`#GateSpan{fill:${gateColors[20]?((gateColors[20]==='P')?COL_P:(gateColors[20]==='D')?COL_D:'url(#splitGatePattern)'):COL_EMPTY}!important;}`);
     }
 
     // Centri definiti
     for(const c of definedCenterSet) {
       const svgId = CTR_ID[c], col = CTR_COL[c];
-      if(svgId && col) rules.push(`#${svgId}{fill:${col}!important;}`);
+      if(svgId && col) rules.push(`#${svgId} path{fill:${col}!important;}`);
     }
 
-    // Testo gate: attivo = scuro, inattivo = grigio chiaro
+    // Gate attivi: quadrato nero + testo bianco. Inattivi: bianco alpha.
     const activeGates = new Set(Object.keys(gateColors).map(Number));
     for(let g=1; g<=64; g++) {
-      rules.push(`#gate-text-${g}{fill:${activeGates.has(g)?'#333':'#bbb'}!important;}`);
+      if(activeGates.has(g)) {
+        rules.push(`#GateText${g}{fill:#fff!important;font-weight:bold!important;opacity:1!important;}`);
+        rules.push(`#GateTextBg${g} path,#GateTextBg${g} circle{fill:#1a1a2e!important;rx:3!important;ry:3!important;}`);
+      } else {
+        rules.push(`#GateText${g}{fill:#fff!important;opacity:0.4!important;}`);
+      }
     }
 
     // Inietta <style> nell'SVG
@@ -858,16 +955,26 @@ function buildBodygraph(blackGates, redGates, definedChannels, definedCenterSet)
 
 // ─── Planet Table ──────────────────────────────────────────────────────────
 
+const PLANET_ORDER = [
+  'Sun','Earth','Moon','North Node','South Node',
+  'Mercury','Venus','Mars','Jupiter','Saturn',
+  'Uranus','Neptune','Pluto'
+];
+
 function renderPlaneti(personality, design) {
   const designMap = {};
   design.forEach(p => { designMap[p.planet_en] = p; });
+  const persMap = {};
+  personality.forEach(p => { persMap[p.planet_en] = p; });
 
   let rows = '';
-  for(const p of personality) {
+  for(const key of PLANET_ORDER) {
+    const p = persMap[key];
+    if(!p) continue;
     const d = designMap[p.planet_en] || {};
     const bg5 = PLANET_BG5[p.planet_en] || p.planet_it;
     rows += `<tr>
-      <td><span class="planet-bg5">${escHtml(bg5)}</span><span class="planet-name">${escHtml(p.planet_it)}</span></td>
+      <td><span class="planet-bg5">${escHtml(bg5)}</span><span class="planet-name">(${escHtml(p.planet_it)})</span></td>
       <td class="gate-black">${p.gate}.${p.line}</td>
       <td class="gate-red">${d.gate || '–'}.${d.line || ''}</td>
     </tr>`;
@@ -888,6 +995,44 @@ function renderPlaneti(personality, design) {
 
 function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── PDF Download ─────────────────────────────────────────────────────────
+
+function scaricaPDF() {
+  const results = document.getElementById('carta-results');
+  const btn = document.getElementById('carta-pdf-btn');
+  const cta = document.querySelector('.carta-cta');
+  const form = document.querySelector('.carta-form');
+  const header = document.querySelector('header');
+  const footer = document.querySelector('footer');
+  const intro = document.querySelector('.carta-intro');
+
+  // Hide non-print elements
+  if(btn) btn.style.display = 'none';
+  if(cta) cta.style.display = 'none';
+  if(form) form.style.display = 'none';
+  if(header) header.style.display = 'none';
+  if(footer) footer.style.display = 'none';
+  if(intro) intro.style.display = 'none';
+
+  // Force single column for print
+  const layout = document.querySelector('.carta-desktop-layout');
+  if(layout) layout.style.flexDirection = 'column';
+  const colLeft = document.querySelector('.carta-col-left');
+  if(colLeft) { colLeft.style.flex = '1'; colLeft.style.maxWidth = '100%'; colLeft.style.position = 'static'; }
+
+  window.print();
+
+  // Restore
+  if(btn) btn.style.display = '';
+  if(cta) cta.style.display = '';
+  if(form) form.style.display = '';
+  if(header) header.style.display = '';
+  if(footer) footer.style.display = '';
+  if(intro) intro.style.display = '';
+  if(layout) layout.style.flexDirection = '';
+  if(colLeft) { colLeft.style.flex = ''; colLeft.style.maxWidth = ''; colLeft.style.position = ''; }
 }
 
 // Allow Enter key
