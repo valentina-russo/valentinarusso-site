@@ -810,44 +810,97 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
     else svgEl.appendChild(centerFillsGroup);
 
     const overlay = document.createElementNS(ns, 'g');
+    const COL_P = '#1a1a2e', COL_D = '#c0392b';
 
-    // Canali definiti: ricolora i path SVG originali (curvi), fallback linea retta
+    // Applica stile a un elemento SVG canale (o crea linea fallback)
+    function applyChannelStyle(el, c1, c2) {
+      const pureP = c1==='P' && c2==='P';
+      const pureD = c1==='D' && c2==='D';
+      el.setAttribute('stroke-width', '7');
+      el.setAttribute('fill', 'none');
+      el.removeAttribute('opacity');
+      if(pureP) {
+        el.setAttribute('stroke', COL_P);
+      } else if(pureD) {
+        el.setAttribute('stroke', COL_D);
+      } else {
+        // Misto: tratteggio nero alternato al rosso
+        el.setAttribute('stroke', COL_P);
+        el.setAttribute('stroke-dasharray', '11,11');
+        const clone = el.cloneNode(true);
+        clone.setAttribute('stroke', COL_D);
+        clone.setAttribute('stroke-dashoffset', '11');
+        overlay.appendChild(clone);
+      }
+    }
+
+    // ── Canali definiti ─────────────────────────────────────────────────────
+    const definedChannelKeys = new Set();
     for(const ch of definedChannels) {
       const [g1, g2] = [ch[0], ch[1]];
       const c1 = gateColors[String(g1)]||'', c2 = gateColors[String(g2)]||'';
-      const col = (c1==='P'&&c2==='P') ? '#1a1a2e' : (c1==='D'&&c2==='D') ? '#c0392b' : '#7a5c9e';
       const key = [Math.min(g1,g2), Math.max(g1,g2)].join('-');
+      definedChannelKeys.add(key);
       const idxArr = CHANNEL_PATH_IDX[key];
 
       if(idxArr) {
         for(const idx of idxArr) {
           const el = structChildren[idx];
-          if(!el) continue;
-          el.setAttribute('stroke', col);
-          el.setAttribute('stroke-width', '7');
-          el.setAttribute('fill', 'none');
-          el.removeAttribute('opacity');
+          if(el) applyChannelStyle(el, c1, c2);
         }
       } else {
-        // Fallback linea retta per canali non mappati
+        // Fallback linea retta
         const p1 = GATE_POS[g1], p2 = GATE_POS[g2];
         if(!p1 || !p2) continue;
-        const line = document.createElementNS(ns, 'line');
-        line.setAttribute('x1', p1[0]); line.setAttribute('y1', p1[1]);
-        line.setAttribute('x2', p2[0]); line.setAttribute('y2', p2[1]);
-        line.setAttribute('stroke', col);
-        line.setAttribute('stroke-width', '7');
-        line.setAttribute('stroke-linecap', 'round');
-        overlay.appendChild(line);
+        const pureP = c1==='P' && c2==='P', pureD = c1==='D' && c2==='D';
+        for(const [col, off] of pureP ? [[COL_P,null]] : pureD ? [[COL_D,null]] : [[COL_P,'0'],[COL_D,'11']]) {
+          const line = document.createElementNS(ns, 'line');
+          line.setAttribute('x1', p1[0]); line.setAttribute('y1', p1[1]);
+          line.setAttribute('x2', p2[0]); line.setAttribute('y2', p2[1]);
+          line.setAttribute('stroke', col);
+          line.setAttribute('stroke-width', '7');
+          line.setAttribute('stroke-linecap', 'round');
+          if(off !== null) { line.setAttribute('stroke-dasharray', '11,11'); line.setAttribute('stroke-dashoffset', off); }
+          overlay.appendChild(line);
+        }
       }
     }
 
-    // Cerchietti sui gate attivi (piccoli, per gate fuori dai centri definiti)
+    // ── Hanging gates (mezzo canale) ────────────────────────────────────────
+    const activeGates = new Set(Object.keys(gateColors).map(Number));
     for(const [gStr, c] of Object.entries(gateColors)) {
       const g = parseInt(gStr);
       const pos = GATE_POS[g];
       if(!pos) continue;
-      const fill = c==='P' ? '#1a1a2e' : c==='D' ? '#c0392b' : '#7a5c9e';
+      const col = c==='P' ? COL_P : COL_D;
+      for(const [ch1, ch2] of CHANNELS) {
+        const partner = ch1===g ? ch2 : ch2===g ? ch1 : null;
+        if(partner === null) continue;
+        const key = [Math.min(g,partner), Math.max(g,partner)].join('-');
+        if(definedChannelKeys.has(key)) continue; // canale già completo
+        if(activeGates.has(partner)) continue;    // partner attivo → canale definito
+        const ppos = GATE_POS[partner];
+        if(!ppos) continue;
+        // Linea dal gate verso il 30% della distanza (stub corto e discreto)
+        const mx = pos[0] + (ppos[0]-pos[0])*0.30;
+        const my = pos[1] + (ppos[1]-pos[1])*0.30;
+        const stub = document.createElementNS(ns, 'line');
+        stub.setAttribute('x1', pos[0]); stub.setAttribute('y1', pos[1]);
+        stub.setAttribute('x2', mx);     stub.setAttribute('y2', my);
+        stub.setAttribute('stroke', col);
+        stub.setAttribute('stroke-width', '2.5');
+        stub.setAttribute('stroke-linecap', 'round');
+        stub.setAttribute('opacity', '0.4');
+        overlay.appendChild(stub);
+      }
+    }
+
+    // ── Cerchietti gate attivi ──────────────────────────────────────────────
+    for(const [gStr, c] of Object.entries(gateColors)) {
+      const g = parseInt(gStr);
+      const pos = GATE_POS[g];
+      if(!pos) continue;
+      const fill = c==='P' ? COL_P : c==='D' ? COL_D : '#7a5c9e';
       const circle = document.createElementNS(ns, 'circle');
       circle.setAttribute('cx', pos[0]); circle.setAttribute('cy', pos[1]);
       circle.setAttribute('r', '5');
