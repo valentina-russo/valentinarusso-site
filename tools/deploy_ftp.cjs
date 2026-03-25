@@ -62,8 +62,19 @@ async function deployStructural() {
         await client.uploadFrom(path.join(__dirname, "../grav-site/user/pages/assets/bodygraph.svg"), "bodygraph.svg");
         await client.cd(remotePath);
 
+        console.log("Upload swisseph.wasm alla root (WASM loader lo cerca qui)...");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/user/themes/valentina/js/swisseph.wasm"), "swisseph.wasm");
+        await client.cd(remotePath);
+
         console.log("Upload chart.svg...");
         await client.uploadFrom(path.join(__dirname, "../grav-site/user/pages/assets/chart.svg"), "chart.svg");
+        await client.cd(remotePath);
+
+        console.log("Upload SwissEphemeris JS/WASM (calcolo HD client-side)...");
+        await client.ensureDir("user/themes/valentina/js");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/user/themes/valentina/js/swe-hd.js"), "swe-hd.js");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/user/themes/valentina/js/swisseph.js"), "swisseph.js");
+        await client.uploadFrom(path.join(__dirname, "../grav-site/user/themes/valentina/js/swisseph.wasm"), "swisseph.wasm");
         await client.cd(remotePath);
 
         console.log("Upload la-mente-innamorata-1 (published: false)...");

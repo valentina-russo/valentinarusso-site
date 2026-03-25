@@ -412,13 +412,285 @@
 
 </div>
 
+<script src="/user/themes/valentina/js/swe-hd.js"></script>
 <script>
-const API_BASE = 'https://hd-relazionale.onrender.com';
 
-// Warmup: ping API silenzioso al caricamento pagina (riduce cold-start Render)
-(function warmup() {
-  setTimeout(() => { fetch(API_BASE + '/health', { method: 'GET', mode: 'no-cors' }).catch(() => {}); }, 800);
-})();
+// ─── HD Calculator Client-Side (no API) ──────────────────────────────────────
+let _sweMod = null;
+let _sweCalc = null;
+let _sweJulday = null;
+async function initSwe() {
+  if (_sweMod) return;
+  const SweClass = window.SwissEphemeris;
+  if (!SweClass) throw new Error('SwissEphemeris non caricato');
+  const inst = new SweClass();
+  await inst.init();
+  _sweMod = inst.module;
+  _sweMod.cwrap('swe_set_ephe_path_wrap', null, ['string'])('');
+  _sweCalc = (jd, planet, flags) => {
+    const ptr = _sweMod.ccall('swe_calc_ut_wrap', 'number', ['number','number','number'], [jd, planet, flags]);
+    return _sweMod.getValue(ptr, 'double'); // longitude is first double
+  };
+  _sweJulday = _sweMod.cwrap('swe_julday_wrap', 'number', ['number','number','number','number','number']);
+}
+
+const HD_GATE_WHEEL = [
+  41,19,13,49,30,55,37,63,22,36,25,17,21,51,42,3,27,24,2,23,
+  8,20,16,35,45,12,15,52,39,53,62,56,31,33,7,4,29,59,40,64,
+  47,6,46,18,48,57,32,50,28,44,1,43,14,34,9,5,26,11,10,58,
+  38,54,61,60
+];
+const HD_GATE_SIZE = 360.0/64, HD_LINE_SIZE = HD_GATE_SIZE/6, HD_COLOR_SIZE = HD_LINE_SIZE/6, HD_TONE_SIZE = HD_COLOR_SIZE/6;
+const HD_RAVE_OFFSET = 58.0;
+
+const HD_CHANNELS = [
+  [64,47],[61,24],[63,4],[17,62],[43,23],[11,56],[16,48],[20,57],
+  [31,7],[8,1],[33,13],[10,20],[45,21],[35,36],[12,22],[20,34],
+  [26,44],[51,25],[40,37],[2,14],[5,15],[29,46],[27,50],[34,57],
+  [59,6],[3,60],[9,52],[42,53],[18,58],[28,38],[32,54],[30,41],
+  [39,55],[19,49]
+];
+
+const HD_GATE_CENTER = {};
+[64,61,63].forEach(g => HD_GATE_CENTER[g]='HEAD');
+[47,24,4,17,43,11].forEach(g => HD_GATE_CENTER[g]='AJNA');
+[62,23,56,16,31,8,33,45,35,12,20].forEach(g => HD_GATE_CENTER[g]='THROAT');
+[7,13,1,10,25,15,2,46].forEach(g => HD_GATE_CENTER[g]='G');
+[21,51,26,40].forEach(g => HD_GATE_CENTER[g]='HEART');
+[48,57,44,50,32,28,18].forEach(g => HD_GATE_CENTER[g]='SPLEEN');
+[36,22,37,6,30,55,49].forEach(g => HD_GATE_CENTER[g]='SOLAR');
+[34,5,14,29,3,42,9,27,59].forEach(g => HD_GATE_CENTER[g]='SACRAL');
+[53,60,52,54,58,38,41,39,19].forEach(g => HD_GATE_CENTER[g]='ROOT');
+
+const HD_PLANETS = [
+  {id: 0,  it:'Sole',      en:'Sun'},       // SE_SUN
+  {id:-2,  it:'Terra',      en:'Earth'},     // calculated
+  {id: 1,  it:'Luna',       en:'Moon'},      // SE_MOON
+  {id:11,  it:'Nodo Nord',  en:'North Node'},// SE_MEAN_NODE
+  {id:-1,  it:'Nodo Sud',   en:'South Node'},// calculated
+  {id: 2,  it:'Mercurio',   en:'Mercury'},
+  {id: 3,  it:'Venere',     en:'Venus'},
+  {id: 4,  it:'Marte',      en:'Mars'},
+  {id: 5,  it:'Giove',      en:'Jupiter'},
+  {id: 6,  it:'Saturno',    en:'Saturn'},
+  {id: 7,  it:'Urano',      en:'Uranus'},
+  {id: 8,  it:'Nettuno',    en:'Neptune'},
+  {id: 9,  it:'Plutone',    en:'Pluto'},
+];
+
+// PHS: Color → base name, Tone 1-3 → sub A, Tone 4-6 → sub B
+const HD_PHS = {
+  1: {name:'Appetito', a:'Consecutivo', b:'Alternato'},
+  2: {name:'Gusto', a:'Chiuso', b:'Aperto'},
+  3: {name:'Sete', a:'Caldo', b:'Freddo'},
+  4: {name:'Tatto', a:'Calmo', b:'Nervoso'},
+  5: {name:'Suono', a:'Bassa Frequenza', b:'Alta Frequenza'},
+  6: {name:'Luce', a:'Diretto', b:'Indiretto'},
+};
+const HD_ENV = {
+  1: {name:'Grotte', a:'Selettive', b:'Non-Selettive'},
+  2: {name:'Mercati', a:'Interni', b:'Esterni'},
+  3: {name:'Cucine', a:'Chiuse', b:'Aperte'},
+  4: {name:'Montagne', a:'Attive', b:'Passive'},
+  5: {name:'Valli', a:'Strette', b:'Larghe'},
+  6: {name:'Rive', a:'Naturali', b:'Artificiali'},
+};
+function phsLabel(color, tone) {
+  const p = HD_PHS[color]; if(!p) return '?';
+  return `${p.name} (${tone <= 3 ? p.a : p.b})`;
+}
+function envLabel(color, tone) {
+  const e = HD_ENV[color]; if(!e) return '?';
+  return `${e.name} (${tone <= 3 ? e.a : e.b})`;
+}
+
+function hdDegreesToGateLineColor(deg) {
+  deg = ((deg + HD_RAVE_OFFSET) % 360 + 360) % 360;
+  const idx = Math.min(Math.floor(deg / HD_GATE_SIZE), 63);
+  const gate = HD_GATE_WHEEL[idx];
+  const rem = deg - idx * HD_GATE_SIZE;
+  const line = Math.min(Math.floor(rem / HD_LINE_SIZE) + 1, 6);
+  const rem2 = rem - (line - 1) * HD_LINE_SIZE;
+  const color = Math.min(Math.floor(rem2 / HD_COLOR_SIZE) + 1, 6);
+  const rem3 = rem2 - (color - 1) * HD_COLOR_SIZE;
+  const tone = Math.min(Math.floor(rem3 / HD_TONE_SIZE) + 1, 6);
+  return { gate, line, color, tone };
+}
+
+function dateToJD(y, m, d, h, min, tzOffset) {
+  // Use Swiss Ephemeris julday for precision
+  const utcH = h + min / 60.0 - tzOffset;
+  return _sweJulday(y, m, d, utcH, 1); // 1 = Gregorian
+}
+
+async function calcPlanets(jd) {
+  await initSwe();
+  const results = [];
+  let nnLon = null, sunLon = null;
+  const MOSHIER = 2; // SEFLG_MOSEPH
+
+  for (const p of HD_PLANETS) {
+    let lon;
+    if (p.id === -1) {
+      lon = nnLon !== null ? (nnLon + 180) % 360 : 0;
+    } else if (p.id === -2) {
+      lon = sunLon !== null ? (sunLon + 180) % 360 : 0;
+    } else {
+      lon = _sweCalc(jd, p.id, MOSHIER);
+      if (p.id === 0) sunLon = lon;
+      if (p.id === 11) nnLon = lon;
+    }
+
+    const glc = hdDegreesToGateLineColor(lon);
+    results.push({
+      planet_it: p.it, planet_en: p.en,
+      gate: glc.gate, line: glc.line, color: glc.color, tone: glc.tone,
+      degrees: Math.round(lon * 10000) / 10000
+    });
+  }
+  return results;
+}
+
+function hdGetDefinedChannels(activeGates) {
+  return HD_CHANNELS.filter(([g1,g2]) => activeGates.has(g1) && activeGates.has(g2));
+}
+
+function hdGetDefinedCenters(activeGates) {
+  const def = new Set();
+  for (const [g1,g2] of HD_CHANNELS) {
+    if (activeGates.has(g1) && activeGates.has(g2)) {
+      if (HD_GATE_CENTER[g1]) def.add(HD_GATE_CENTER[g1]);
+      if (HD_GATE_CENTER[g2]) def.add(HD_GATE_CENTER[g2]);
+    }
+  }
+  return def;
+}
+
+function hdCalcType(defCenters, defChannels) {
+  const motors = new Set(['SACRAL','HEART','SOLAR','ROOT']);
+  const hasMotor = [...defCenters].some(c => motors.has(c));
+  if (!defCenters.size || !hasMotor) return 'Reflector';
+
+  function motorToThroat(start, visited = new Set()) {
+    if (visited.has(start)) return false;
+    visited.add(start);
+    if (start === 'THROAT') return true;
+    const adj = new Set();
+    for (const [g1,g2] of defChannels) {
+      const c1 = HD_GATE_CENTER[g1]||'', c2 = HD_GATE_CENTER[g2]||'';
+      if (c1 === start) adj.add(c2);
+      else if (c2 === start) adj.add(c1);
+    }
+    return [...adj].some(c => motorToThroat(c, new Set(visited)));
+  }
+
+  const hasSacral = defCenters.has('SACRAL');
+  const sacralToThroat = hasSacral && motorToThroat('SACRAL');
+  const otherMotorToThroat = [...motors].filter(m => m !== 'SACRAL' && defCenters.has(m)).some(m => motorToThroat(m));
+
+  if (hasSacral) return sacralToThroat ? 'Manifesting Generator' : 'Generator';
+  return otherMotorToThroat ? 'Manifestor' : 'Projector';
+}
+
+function hdCalcProfile(personality, design) {
+  const sunP = personality.find(p => p.planet_en === 'Sun');
+  const sunD = design.find(p => p.planet_en === 'Sun');
+  if (!sunP || !sunD) return '?/?';
+  return `${sunP.line}/${sunD.line}`;
+}
+
+function hdCalcAuthority(defCenters) {
+  const order = [['SOLAR','Emotional'],['SACRAL','Sacral'],['SPLEEN','Splenic'],['HEART','Ego Manifested'],['G','Self Projected']];
+  for (const [c, auth] of order) {
+    if (defCenters.has(c)) return auth;
+  }
+  return defCenters.size ? 'Mental Projector' : 'Lunar';
+}
+
+function hdCalcDefinition(defCenters, defChannels) {
+  if (!defCenters.size) return 'No Definition';
+  const adj = {};
+  for (const c of defCenters) adj[c] = new Set();
+  for (const [g1,g2] of defChannels) {
+    const c1 = HD_GATE_CENTER[g1]||'', c2 = HD_GATE_CENTER[g2]||'';
+    if (adj[c1] && adj[c2]) { adj[c1].add(c2); adj[c2].add(c1); }
+  }
+  const visited = new Set();
+  let components = 0;
+  for (const c of defCenters) {
+    if (visited.has(c)) continue;
+    components++;
+    const stack = [c];
+    while (stack.length) {
+      const n = stack.pop();
+      if (visited.has(n)) continue;
+      visited.add(n);
+      for (const nb of (adj[n]||[])) { if (!visited.has(nb)) stack.push(nb); }
+    }
+  }
+  return {1:'Single Definition',2:'Split Definition',3:'Triple Split',4:'Quadruple Split'}[components] || 'Quadruple Split';
+}
+
+async function calculateHDChart(y, m, d, h, min, tzOffset) {
+  await initSwe();
+  const jdBirth = dateToJD(y, m, d, h, min, tzOffset);
+
+  // Design date: find exact JD when Sun was 88° before natal Sun position
+  const MOSHIER = 2;
+  const natalSunLon = _sweCalc(jdBirth, 0, MOSHIER);
+  const targetLon = ((natalSunLon - 88.0) % 360 + 360) % 360;
+  // Newton's method: start from approximation, refine
+  let jdDesign = jdBirth - 88.736; // initial approximation (~88 days)
+  for (let i = 0; i < 10; i++) {
+    const curSunLon = _sweCalc(jdDesign, 0, MOSHIER);
+    let diff = targetLon - curSunLon;
+    // Handle wrap-around
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+    if (Math.abs(diff) < 0.0001) break; // ~0.36 arcsec precision
+    jdDesign += diff / 0.9856; // Sun moves ~0.9856°/day
+  }
+
+  const personality = await calcPlanets(jdBirth);
+  const design = await calcPlanets(jdDesign);
+
+  const activeGates = new Set();
+  [...personality, ...design].forEach(p => activeGates.add(p.gate));
+
+  const defChannels = hdGetDefinedChannels(activeGates);
+  const defCenters = hdGetDefinedCenters(activeGates);
+
+  const type = hdCalcType(defCenters, defChannels);
+  const profile = hdCalcProfile(personality, design);
+  const authority = hdCalcAuthority(defCenters);
+  const definition = hdCalcDefinition(defCenters, defChannels);
+
+  const pGates = new Set(personality.map(p => p.gate));
+  const dGates = new Set(design.map(p => p.gate));
+  const gate_colors = {};
+  for (const g of new Set([...pGates, ...dGates])) {
+    gate_colors[String(g)] = (pGates.has(g) && dGates.has(g)) ? 'PD' : pGates.has(g) ? 'P' : 'D';
+  }
+
+  const pSun = personality.find(p => p.planet_en === 'Sun') || {};
+  const pNode = personality.find(p => p.planet_en === 'North Node') || {};
+  const dSun = design.find(p => p.planet_en === 'Sun') || {};
+  const dNode = design.find(p => p.planet_en === 'North Node') || {};
+  const arrow = c => c <= 3 ? 'left' : 'right';
+
+  return {
+    type, profile, authority, definition,
+    defined_centers: [...defCenters].sort(),
+    defined_channels: defChannels.map(([a,b]) => [a,b]),
+    gate_colors, personality, design,
+    variables: {
+      digestion: arrow(dSun.color||1), environment: arrow(dNode.color||1),
+      perspective: arrow(pSun.color||1), awareness: arrow(pNode.color||1),
+    },
+    dietary_regime: phsLabel(dSun.color||1, dSun.tone||1),
+    environment_name: envLabel(dNode.color||1, dNode.tone||1),
+  };
+}
 
 // ─── City autocomplete + timezone detection ─────────────────────────────────
 let cityDebounce = null;
@@ -608,19 +880,16 @@ async function calcolaCarta() {
   document.getElementById('carta-calcola-btn').disabled = true;
 
   try {
-    const url = `${API_BASE}/carta?y=${y}&m=${m}&d=${d}&h=${h}&min=${min}&tz=${encodeURIComponent(tz)}`;
-    const cacheKey = `hd_carta_${y}_${m}_${d}_${h}_${min}_${tz}`;
-    let data;
-    const cached = sessionStorage.getItem(cacheKey);
-    if(cached) {
-      try { data = JSON.parse(cached); } catch(e) { data = null; }
-    }
-    if(!data) {
-      const resp = await fetch(url);
-      data = await resp.json();
-      if(!resp.ok || data.detail) throw new Error(data.detail || 'Errore nel calcolo della carta.');
-      try { sessionStorage.setItem(cacheKey, JSON.stringify(data)); } catch(e) {}
-    }
+    // Calcolo timezone offset
+    const localDt = new Date(y, m - 1, d, h, min);
+    const tzDate = new Date(localDt.toLocaleString('en-US', { timeZone: tz }));
+    const utcDate = new Date(localDt.toLocaleString('en-US', { timeZone: 'UTC' }));
+    const tzOffset = (tzDate - utcDate) / 3600000;
+
+    // Calcolo HD interamente client-side (no API)
+    const data = await calculateHDChart(y, m, d, h, min, tzOffset);
+    // Fix campo ambiente (il rendering si aspetta 'environment' non 'environment_name')
+    if (data.environment_name) { data.environment = data.environment_name; delete data.environment_name; }
 
     await renderRisultati(data, nome);
   } catch(e) {
@@ -642,8 +911,13 @@ function mostraErrore(msg) {
 // ─── Render Results ────────────────────────────────────────────────────────
 
 function normalizzaRisposta(data) {
-  // Nuovo formato (hd_calculator): ha gate_colors
-  if(data.gate_colors) return data;
+  // Formato locale (client-side) o API: ha gate_colors — applica traduzione BG5
+  if(data.gate_colors) {
+    data.type = TIPO_IT[data.type] || data.type;
+    data.authority = AUTH_IT[data.authority] || data.authority;
+    data.definition = DEF_IT[data.definition] || data.definition;
+    return data;
+  }
 
   // Vecchio formato (simplechartcalculator): ha result.Core + result.Activations
   const core = data.result && data.result.Core;
