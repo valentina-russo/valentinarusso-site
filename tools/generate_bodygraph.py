@@ -1,9 +1,9 @@
 """
 BODYGRAPH SVG GENERATOR — implementazione originale valentinarussobg5.com
 ViewBox: 0 0 420 660  (vs simplechartcalculator: 368.725 x 575.826)
-Canali: polygon strip calcolati da gate positions
+Canali: polygon strip calcolati da gate positions (w=5.0)
 Gate marker: rect arrotondati (non cerchi)
-Font: "Georgia, serif" (non Arial Bold)
+Font: "Arial, sans-serif" (non Georgia)
 Coordinate: scale 420/368.725 x 660/575.826 — tutti i valori numerici diversi
 """
 import math
@@ -22,7 +22,7 @@ REF_GATES = {
     5:(173.5,436.5), 6:(301.5,436.5), 7:(173.5,295.0), 8:(185.5,242.0),
     9:(198.5,481.5), 10:(154.5,313.0), 11:(194.5,132.0), 12:(205.5,230.0),
     13:(196.5,295.0), 14:(184.0,436.5), 15:(171.5,333.0), 16:(161.5,208.0),
-    17:(173.5,132.0), 18:(23.5,461.5), 19:(205.5,533.5), 20:(161.5,230.0),
+    17:(173.5,132.0), 18:(23.5,461.5), 19:(205.5,533.5), 20:(154.5,230.0),
     21:(245.0,340.0), 22:(329.5,414.0), 23:(184.0,198.5), 24:(184.0,101.5),
     25:(208.5,320.0), 26:(222.5,361.5), 27:(161.5,474.0), 28:(35.5,454.5),
     29:(196.5,436.5), 30:(343.5,461.5), 31:(171.5,242.0), 32:(46.5,448.5),
@@ -43,7 +43,7 @@ CHANNELS = [
     (10,20),(10,57),(11,56),(12,22),(13,33),(16,48),(17,62),
     (18,58),(19,49),(20,34),(20,57),(21,45),(23,43),(24,61),
     (25,51),(26,44),(27,50),(28,38),(29,46),(30,41),(32,54),
-    (35,36),(37,40),(39,55),(42,53),(47,64)
+    (34,57),(35,36),(37,40),(39,55),(42,53),(47,64)
 ]
 
 # ---- Center geometry ----
@@ -95,7 +95,7 @@ def tri_poly(pts, id_, fill):
     coords = ' '.join(f"{x},{y}" for x, y in pts)
     return f'<polygon id="{id_}" points="{coords}" fill="{fill}" stroke="none" class="hd-center"/>'
 
-def channel_strip(g1, g2, w=6.5):
+def channel_strip(g1, g2, w=5.0):
     x1, y1 = GATE_POS[g1]; x2, y2 = GATE_POS[g2]
     dx = x2-x1; dy = y2-y1
     length = math.hypot(dx, dy)
@@ -156,8 +156,8 @@ for g in range(1, 65):
     )
     parts.append(
         f'<text id="gate-text-{g}" x="{gx}" y="{gy+2.5}" '
-        f'text-anchor="middle" font-family="Georgia, serif" font-size="7" '
-        f'font-weight="bold" fill="#999" class="hd-gate-text">{g}</text>'
+        f'text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" '
+        f'font-weight="normal" fill="#888" class="hd-gate-text">{g}</text>'
     )
 parts.append('</g>')
 

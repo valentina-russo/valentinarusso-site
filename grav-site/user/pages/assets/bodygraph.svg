@@ -3,40 +3,41 @@
 <pattern id="splitGatePattern" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="5" height="2.5" fill="var(--color-personality)"/><rect y="2.5" width="5" height="2.5" fill="var(--color-design)"/></pattern>
 </defs>
 <g id="Channels">
-<polygon id="ch-1-8" points="214.6,326.7 214.6,277.4 208.1,277.4 208.1,326.7" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-2-14" points="208.1,393.0 206.4,500.2 212.8,500.4 214.5,393.2" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-3-60" points="208.1,551.8 206.4,594.2 212.8,594.4 214.5,552.0" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-4-63" points="227.1,116.3 227.1,82.0 220.6,82.0 220.6,116.3" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-5-15" points="200.8,500.2 198.5,381.6 192.1,381.8 194.4,500.4" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-6-59" points="342.2,497.3 232.9,540.3 235.3,546.3 344.6,503.3" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-7-31" points="200.8,338.0 198.5,277.3 192.1,277.5 194.4,338.2" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-9-52" points="222.9,551.7 220.6,594.1 227.0,594.5 229.3,552.1" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-10-20" points="179.2,359.1 187.2,263.9 180.8,263.3 172.8,358.5" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-10-57" points="173.9,356.3 40.6,472.0 44.8,477.0 178.1,361.3" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-11-56" points="218.3,151.4 220.6,227.6 227.0,227.4 224.7,151.2" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-12-22" points="231.4,265.4 372.6,476.3 378.0,472.7 236.8,261.8" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-13-33" points="227.1,338.1 227.1,277.4 220.6,277.4 220.6,338.1" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-16-48" points="181.3,236.5 24.1,462.3 29.5,466.1 186.7,240.3" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-17-62" points="194.4,151.2 192.1,227.4 198.5,227.6 200.8,151.4" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-18-58" points="24.9,531.6 182.1,647.9 185.9,642.7 28.7,526.4" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-19-49" points="236.0,614.1 367.0,516.7 363.2,511.5 232.2,608.9" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-20-34" points="180.8,263.6 180.8,512.3 187.2,512.3 187.2,263.6" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-20-57" points="181.3,261.8 40.0,472.7 45.4,476.3 186.7,265.4" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-21-45" points="282.1,388.5 239.4,276.2 233.4,278.6 276.1,390.9" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-23-43" points="212.8,227.5 212.8,173.1 206.3,173.1 206.3,227.5" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-24-61" points="212.8,116.3 212.8,82.0 206.3,82.0 206.3,116.3" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-25-51" points="234.8,368.7 261.0,406.5 266.4,402.7 240.2,364.9" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-26-44" points="252.3,411.3 60.4,483.6 62.6,489.6 254.5,417.3" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-27-50" points="185.2,540.3 78.1,497.3 75.7,503.3 182.8,546.3" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-28-38" points="38.5,523.5 182.1,630.7 185.9,625.5 42.3,518.3" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-29-46" points="227.1,500.3 227.1,381.7 220.6,381.7 220.6,500.3" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-30-41" points="389.4,526.4 232.2,642.7 236.0,647.9 393.2,531.6" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-32-54" points="51.1,516.7 182.1,614.1 185.9,608.9 54.9,511.5" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-35-36" points="231.4,240.3 389.1,466.1 394.5,462.3 236.8,236.5" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-37-40" points="356.2,486.2 293.0,412.2 288.0,416.4 351.2,490.4" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-39-55" points="236.0,630.7 379.5,523.9 375.7,518.7 232.2,625.5" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-42-53" points="192.1,551.9 192.1,594.3 198.6,594.3 198.6,551.9" fill="#c8c2bc" class="hd-channel"/>
-<polygon id="ch-47-64" points="198.6,116.3 198.6,82.0 192.1,82.0 192.1,116.3" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-1-8" points="213.8,326.7 213.8,277.4 208.8,277.4 208.8,326.7" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-2-14" points="208.8,393.1 207.1,500.3 212.1,500.3 213.8,393.1" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-3-60" points="208.8,551.8 207.1,594.2 212.1,594.4 213.8,552.0" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-4-63" points="226.3,116.3 226.3,82.0 221.3,82.0 221.3,116.3" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-5-15" points="200.1,500.3 197.8,381.7 192.8,381.7 195.1,500.3" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-6-59" points="342.5,498.0 233.2,541.0 235.0,545.6 344.3,502.6" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-7-31" points="200.1,338.0 197.8,277.3 192.8,277.5 195.1,338.2" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-9-52" points="223.6,551.8 221.3,594.2 226.3,594.4 228.6,552.0" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-10-20" points="178.5,358.8 178.5,263.6 173.5,263.6 173.5,358.8" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-10-57" points="174.4,356.9 41.1,472.6 44.3,476.4 177.6,360.7" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-11-56" points="219.0,151.4 221.3,227.6 226.3,227.4 224.0,151.2" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-12-22" points="232.0,265.0 373.2,475.9 377.4,473.1 236.2,262.2" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-13-33" points="226.3,338.1 226.3,277.4 221.3,277.4 221.3,338.1" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-16-48" points="181.9,237.0 24.7,462.8 28.9,465.6 186.1,239.8" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-17-62" points="195.1,151.2 192.8,227.4 197.8,227.6 200.1,151.4" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-18-58" points="25.3,531.0 182.5,647.3 185.5,643.3 28.3,527.0" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-19-49" points="235.6,613.5 366.6,516.1 363.6,512.1 232.6,609.5" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-20-34" points="173.5,263.7 181.5,512.4 186.5,512.2 178.5,263.5" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-20-57" points="173.9,262.3 40.6,473.2 44.8,475.8 178.1,264.9" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-21-45" points="281.4,388.8 238.7,276.5 234.1,278.3 276.8,390.6" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-23-43" points="212.1,227.5 212.1,173.1 207.1,173.1 207.1,227.5" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-24-61" points="212.1,116.3 212.1,82.0 207.1,82.0 207.1,116.3" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-25-51" points="235.4,368.2 261.6,406.0 265.8,403.2 239.6,365.4" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-26-44" points="252.5,412.0 60.6,484.3 62.4,488.9 254.3,416.6" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-27-50" points="184.9,541.0 77.8,498.0 76.0,502.6 183.1,545.6" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-28-38" points="38.9,522.9 182.5,630.1 185.5,626.1 41.9,518.9" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-29-46" points="226.3,500.3 226.3,381.7 221.3,381.7 221.3,500.3" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-30-41" points="389.8,527.0 232.6,643.3 235.6,647.3 392.8,531.0" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-32-54" points="51.5,516.1 182.5,613.5 185.5,609.5 54.5,512.1" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-34-57" points="184.6,509.9 43.3,472.1 42.1,476.9 183.4,514.7" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-35-36" points="232.1,239.8 389.8,465.6 393.8,462.8 236.1,237.0" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-37-40" points="355.6,486.7 292.4,412.7 288.6,415.9 351.8,489.9" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-39-55" points="235.6,630.1 379.1,523.3 376.1,519.3 232.6,626.1" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-42-53" points="192.8,551.9 192.8,594.3 197.8,594.3 197.8,551.9" fill="#c8c2bc" class="hd-channel"/>
+<polygon id="ch-47-64" points="197.8,116.3 197.8,82.0 192.8,82.0 192.8,116.3" fill="#c8c2bc" class="hd-channel"/>
 </g>
 <g id="Centers">
 <polygon id="Head" points="210.0,7.0 167.1,90.3 252.9,90.3" fill="#cdc6be" stroke="none" class="hd-center"/>
@@ -51,132 +52,132 @@
 </g>
 <g id="Gates" class="pointer-events-none select-none">
 <rect id="gate-bg-1" x="206.3" y="321.7" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-1" x="211.3" y="329.2" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">1</text>
+<text id="gate-text-1" x="211.3" y="329.2" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">1</text>
 <rect id="gate-bg-2" x="206.3" y="388.1" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-2" x="211.3" y="395.6" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">2</text>
+<text id="gate-text-2" x="211.3" y="395.6" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">2</text>
 <rect id="gate-bg-3" x="206.3" y="546.9" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-3" x="211.3" y="554.4" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">3</text>
+<text id="gate-text-3" x="211.3" y="554.4" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">3</text>
 <rect id="gate-bg-4" x="218.8" y="111.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-4" x="223.8" y="118.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">4</text>
+<text id="gate-text-4" x="223.8" y="118.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">4</text>
 <rect id="gate-bg-5" x="192.6" y="495.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-5" x="197.6" y="502.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">5</text>
+<text id="gate-text-5" x="197.6" y="502.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">5</text>
 <rect id="gate-bg-6" x="338.4" y="495.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-6" x="343.4" y="502.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">6</text>
+<text id="gate-text-6" x="343.4" y="502.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">6</text>
 <rect id="gate-bg-7" x="192.6" y="333.1" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-7" x="197.6" y="340.6" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">7</text>
+<text id="gate-text-7" x="197.6" y="340.6" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">7</text>
 <rect id="gate-bg-8" x="206.3" y="272.4" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-8" x="211.3" y="279.9" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">8</text>
+<text id="gate-text-8" x="211.3" y="279.9" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">8</text>
 <rect id="gate-bg-9" x="221.1" y="546.9" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-9" x="226.1" y="554.4" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">9</text>
+<text id="gate-text-9" x="226.1" y="554.4" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">9</text>
 <rect id="gate-bg-10" x="171.0" y="353.8" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-10" x="176.0" y="361.3" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">10</text>
+<text id="gate-text-10" x="176.0" y="361.3" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">10</text>
 <rect id="gate-bg-11" x="216.5" y="146.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-11" x="221.5" y="153.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">11</text>
+<text id="gate-text-11" x="221.5" y="153.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">11</text>
 <rect id="gate-bg-12" x="229.1" y="258.6" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-12" x="234.1" y="266.1" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">12</text>
+<text id="gate-text-12" x="234.1" y="266.1" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">12</text>
 <rect id="gate-bg-13" x="218.8" y="333.1" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-13" x="223.8" y="340.6" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">13</text>
+<text id="gate-text-13" x="223.8" y="340.6" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">13</text>
 <rect id="gate-bg-14" x="204.6" y="495.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-14" x="209.6" y="502.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">14</text>
+<text id="gate-text-14" x="209.6" y="502.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">14</text>
 <rect id="gate-bg-15" x="190.3" y="376.7" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-15" x="195.3" y="384.2" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">15</text>
+<text id="gate-text-15" x="195.3" y="384.2" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">15</text>
 <rect id="gate-bg-16" x="179.0" y="233.4" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-16" x="184.0" y="240.9" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">16</text>
+<text id="gate-text-16" x="184.0" y="240.9" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">16</text>
 <rect id="gate-bg-17" x="192.6" y="146.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-17" x="197.6" y="153.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">17</text>
+<text id="gate-text-17" x="197.6" y="153.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">17</text>
 <rect id="gate-bg-18" x="21.8" y="524.0" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-18" x="26.8" y="531.5" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">18</text>
+<text id="gate-text-18" x="26.8" y="531.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">18</text>
 <rect id="gate-bg-19" x="229.1" y="606.5" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-19" x="234.1" y="614.0" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">19</text>
-<rect id="gate-bg-20" x="179.0" y="258.6" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-20" x="184.0" y="266.1" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">20</text>
+<text id="gate-text-19" x="234.1" y="614.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">19</text>
+<rect id="gate-bg-20" x="171.0" y="258.6" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
+<text id="gate-text-20" x="176.0" y="266.1" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">20</text>
 <rect id="gate-bg-21" x="274.1" y="384.7" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-21" x="279.1" y="392.2" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">21</text>
+<text id="gate-text-21" x="279.1" y="392.2" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">21</text>
 <rect id="gate-bg-22" x="370.3" y="469.5" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-22" x="375.3" y="477.0" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">22</text>
+<text id="gate-text-22" x="375.3" y="477.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">22</text>
 <rect id="gate-bg-23" x="204.6" y="222.5" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-23" x="209.6" y="230.0" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">23</text>
+<text id="gate-text-23" x="209.6" y="230.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">23</text>
 <rect id="gate-bg-24" x="204.6" y="111.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-24" x="209.6" y="118.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">24</text>
+<text id="gate-text-24" x="209.6" y="118.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">24</text>
 <rect id="gate-bg-25" x="232.5" y="361.8" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-25" x="237.5" y="369.3" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">25</text>
+<text id="gate-text-25" x="237.5" y="369.3" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">25</text>
 <rect id="gate-bg-26" x="248.4" y="409.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-26" x="253.4" y="416.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">26</text>
+<text id="gate-text-26" x="253.4" y="416.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">26</text>
 <rect id="gate-bg-27" x="179.0" y="538.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-27" x="184.0" y="545.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">27</text>
+<text id="gate-text-27" x="184.0" y="545.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">27</text>
 <rect id="gate-bg-28" x="35.4" y="515.9" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-28" x="40.4" y="523.4" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">28</text>
+<text id="gate-text-28" x="40.4" y="523.4" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">28</text>
 <rect id="gate-bg-29" x="218.8" y="495.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-29" x="223.8" y="502.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">29</text>
+<text id="gate-text-29" x="223.8" y="502.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">29</text>
 <rect id="gate-bg-30" x="386.3" y="524.0" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-30" x="391.3" y="531.5" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">30</text>
+<text id="gate-text-30" x="391.3" y="531.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">30</text>
 <rect id="gate-bg-31" x="190.3" y="272.4" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-31" x="195.3" y="279.9" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">31</text>
+<text id="gate-text-31" x="195.3" y="279.9" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">31</text>
 <rect id="gate-bg-32" x="48.0" y="509.1" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-32" x="53.0" y="516.6" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">32</text>
+<text id="gate-text-32" x="53.0" y="516.6" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">32</text>
 <rect id="gate-bg-33" x="218.8" y="272.4" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-33" x="223.8" y="279.9" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">33</text>
+<text id="gate-text-33" x="223.8" y="279.9" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">33</text>
 <rect id="gate-bg-34" x="179.0" y="507.29999999999995" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-34" x="184.0" y="514.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">34</text>
+<text id="gate-text-34" x="184.0" y="514.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">34</text>
 <rect id="gate-bg-35" x="229.1" y="233.4" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-35" x="234.1" y="240.9" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">35</text>
+<text id="gate-text-35" x="234.1" y="240.9" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">35</text>
 <rect id="gate-bg-36" x="386.8" y="459.2" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-36" x="391.8" y="466.7" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">36</text>
+<text id="gate-text-36" x="391.8" y="466.7" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">36</text>
 <rect id="gate-bg-37" x="348.7" y="483.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-37" x="353.7" y="490.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">37</text>
+<text id="gate-text-37" x="353.7" y="490.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">37</text>
 <rect id="gate-bg-38" x="179.0" y="623.1" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-38" x="184.0" y="630.6" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">38</text>
+<text id="gate-text-38" x="184.0" y="630.6" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">38</text>
 <rect id="gate-bg-39" x="229.1" y="623.1" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-39" x="234.1" y="630.6" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">39</text>
+<text id="gate-text-39" x="234.1" y="630.6" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">39</text>
 <rect id="gate-bg-40" x="285.5" y="409.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-40" x="290.5" y="416.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">40</text>
+<text id="gate-text-40" x="290.5" y="416.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">40</text>
 <rect id="gate-bg-41" x="229.1" y="640.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-41" x="234.1" y="647.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">41</text>
+<text id="gate-text-41" x="234.1" y="647.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">41</text>
 <rect id="gate-bg-42" x="190.3" y="546.9" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-42" x="195.3" y="554.4" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">42</text>
+<text id="gate-text-42" x="195.3" y="554.4" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">42</text>
 <rect id="gate-bg-43" x="204.6" y="168.1" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-43" x="209.6" y="175.6" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">43</text>
+<text id="gate-text-43" x="209.6" y="175.6" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">43</text>
 <rect id="gate-bg-44" x="56.5" y="481.6" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-44" x="61.5" y="489.1" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">44</text>
+<text id="gate-text-44" x="61.5" y="489.1" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">44</text>
 <rect id="gate-bg-45" x="231.4" y="272.4" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-45" x="236.4" y="279.9" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">45</text>
+<text id="gate-text-45" x="236.4" y="279.9" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">45</text>
 <rect id="gate-bg-46" x="218.8" y="376.7" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-46" x="223.8" y="384.2" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">46</text>
+<text id="gate-text-46" x="223.8" y="384.2" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">46</text>
 <rect id="gate-bg-47" x="190.3" y="111.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-47" x="195.3" y="118.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">47</text>
+<text id="gate-text-47" x="195.3" y="118.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">47</text>
 <rect id="gate-bg-48" x="21.8" y="459.2" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-48" x="26.8" y="466.7" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">48</text>
+<text id="gate-text-48" x="26.8" y="466.7" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">48</text>
 <rect id="gate-bg-49" x="360.1" y="509.1" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-49" x="365.1" y="516.6" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">49</text>
+<text id="gate-text-49" x="365.1" y="516.6" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">49</text>
 <rect id="gate-bg-50" x="71.9" y="495.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-50" x="76.9" y="502.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">50</text>
+<text id="gate-text-50" x="76.9" y="502.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">50</text>
 <rect id="gate-bg-51" x="258.7" y="399.6" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-51" x="263.7" y="407.1" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">51</text>
+<text id="gate-text-51" x="263.7" y="407.1" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">51</text>
 <rect id="gate-bg-52" x="218.8" y="589.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-52" x="223.8" y="596.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">52</text>
+<text id="gate-text-52" x="223.8" y="596.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">52</text>
 <rect id="gate-bg-53" x="190.3" y="589.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-53" x="195.3" y="596.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">53</text>
+<text id="gate-text-53" x="195.3" y="596.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">53</text>
 <rect id="gate-bg-54" x="179.0" y="606.5" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-54" x="184.0" y="614.0" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">54</text>
+<text id="gate-text-54" x="184.0" y="614.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">54</text>
 <rect id="gate-bg-55" x="372.6" y="516.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-55" x="377.6" y="523.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">55</text>
+<text id="gate-text-55" x="377.6" y="523.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">55</text>
 <rect id="gate-bg-56" x="218.8" y="222.5" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-56" x="223.8" y="230.0" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">56</text>
+<text id="gate-text-56" x="223.8" y="230.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">56</text>
 <rect id="gate-bg-57" x="37.7" y="469.5" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-57" x="42.7" y="477.0" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">57</text>
+<text id="gate-text-57" x="42.7" y="477.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">57</text>
 <rect id="gate-bg-58" x="179.0" y="640.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-58" x="184.0" y="647.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">58</text>
+<text id="gate-text-58" x="184.0" y="647.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">58</text>
 <rect id="gate-bg-59" x="229.1" y="538.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-59" x="234.1" y="545.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">59</text>
+<text id="gate-text-59" x="234.1" y="545.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">59</text>
 <rect id="gate-bg-60" x="204.6" y="589.3" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-60" x="209.6" y="596.8" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">60</text>
+<text id="gate-text-60" x="209.6" y="596.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">60</text>
 <rect id="gate-bg-61" x="204.6" y="77.0" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-61" x="209.6" y="84.5" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">61</text>
+<text id="gate-text-61" x="209.6" y="84.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">61</text>
 <rect id="gate-bg-62" x="190.3" y="222.5" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-62" x="195.3" y="230.0" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">62</text>
+<text id="gate-text-62" x="195.3" y="230.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">62</text>
 <rect id="gate-bg-63" x="218.8" y="77.0" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-63" x="223.8" y="84.5" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">63</text>
+<text id="gate-text-63" x="223.8" y="84.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">63</text>
 <rect id="gate-bg-64" x="190.3" y="77.0" width="10" height="10" rx="2" ry="2" fill="none" class="hd-gate-bg"/>
-<text id="gate-text-64" x="195.3" y="84.5" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#999" class="hd-gate-text">64</text>
+<text id="gate-text-64" x="195.3" y="84.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6.5" font-weight="normal" fill="#888" class="hd-gate-text">64</text>
 </g>
 </svg>
