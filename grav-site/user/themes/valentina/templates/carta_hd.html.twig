@@ -512,13 +512,14 @@ const HD_ENV = {
 };
 function phsLabel(color, tone) {
   const p = HD_PHS[color]; if(!p) return '?';
-  // Sub-type determined by COLOR odd/even (verified on 3 profiles)
-  return `${p.name} (${color % 2 === 0 ? p.a : p.b})`;
+  // Sub-type: tone 1-4 = a (left/first), tone 5-6 = b (right/second)
+  // Verified on 4 profiles (all tone ≤4 → a). Needs profile with tone 5-6 to confirm b.
+  return `${p.name} (${tone <= 4 ? p.a : p.b})`;
 }
-function envLabel(color, arrowDir) {
+function envLabel(color) {
   const e = HD_ENV[color]; if(!e) return '?';
-  // Sub-type follows arrow direction: left (strategic) = a, right (receptive) = b
-  return `${e.name} (${arrowDir === 'left' ? e.a : e.b})`;
+  // Sub-type by color odd/even (verified 4/4 profiles)
+  return `${e.name} (${color % 2 === 0 ? e.a : e.b})`;
 }
 
 function hdDegreesToGateLineColor(deg) {
@@ -707,7 +708,7 @@ async function calculateHDChart(y, m, d, h, min, tzOffset) {
       awareness: arrow(pNode.tone||1),
     },
     dietary_regime: phsLabel(dSun.color||1, dSun.tone||1),
-    environment_name: envLabel(dNode.color||1, arrow(dNode.tone||1)),
+    environment_name: envLabel(dNode.color||1),
   };
 }
 
