@@ -495,16 +495,18 @@ const HD_PLANETS = [
 
 // PHS: Color → base name, Tone 1-3 → sub A, Tone 4-6 → sub B
 const HD_PHS = {
+  // a = left (tone 1-3, strategic), b = right (tone 4-6, receptive)
   1: {name:'Appetito', a:'Consecutivo', b:'Alternato'},
-  2: {name:'Gusto', a:'Chiuso', b:'Aperto'},
+  2: {name:'Gusto', a:'Aperto', b:'Chiuso'},
   3: {name:'Sete', a:'Caldo', b:'Freddo'},
   4: {name:'Tatto', a:'Calmo', b:'Nervoso'},
-  5: {name:'Suono', a:'Basso', b:'Alto'},
+  5: {name:'Suono', a:'Alto', b:'Basso'},
   6: {name:'Luce', a:'Diretta', b:'Indiretta'},
 };
 const HD_ENV = {
+  // a = left (tone 1-3), b = right (tone 4-6)
   1: {name:'Grotte', a:'Selettivo', b:'Aperto'},
-  2: {name:'Mercati', a:'Esterno', b:'Interno'},
+  2: {name:'Mercati', a:'Interno', b:'Esterno'},
   3: {name:'Cucine', a:'Umido', b:'Secco'},
   4: {name:'Montagne', a:'Attivo', b:'Passivo'},
   5: {name:'Valli', a:'Stretto', b:'Largo'},
@@ -512,14 +514,13 @@ const HD_ENV = {
 };
 function phsLabel(color, tone) {
   const p = HD_PHS[color]; if(!p) return '?';
-  // Sub-type: tone >= 4 → a (first), tone <= 3 → b (second)
-  // Verified: Marco t4→a✓, Valentina t5→a✓, Alessandra t3→b✓
-  return `${p.name} (${tone >= 4 ? p.a : p.b})`;
+  // Sub-type follows arrow: tone 1-3 → left (a), tone 4-6 → right (b)
+  return `${p.name} (${tone <= 3 ? p.a : p.b})`;
 }
 function envLabel(color, tone) {
   const e = HD_ENV[color]; if(!e) return '?';
-  // Sub-type: tone >= 4 → a (first), tone <= 3 → b (second) — same rule as PHS
-  return `${e.name} (${tone >= 4 ? e.a : e.b})`;
+  // Sub-type follows arrow: tone 1-3 → left (a), tone 4-6 → right (b)
+  return `${e.name} (${tone <= 3 ? e.a : e.b})`;
 }
 
 function hdDegreesToGateLineColor(deg) {
@@ -1008,7 +1009,8 @@ async function renderRisultati(data, nome) {
   if(d.environment) coreItems.push({ label: 'Ambiente', value: d.environment });
   if(d.variables) {
     const arrowSymbol = (dir) => dir === 'left' ? '\u25C4' : '\u25BA';
-    const varStr = `${arrowSymbol(d.variables.digestion)} ${arrowSymbol(d.variables.perspective)} ${arrowSymbol(d.variables.environment)} ${arrowSymbol(d.variables.awareness)}`;
+    // Order matches SVG layout: P-top P-bottom D-top D-bottom (perspective awareness digestion environment)
+    const varStr = `${arrowSymbol(d.variables.perspective)} ${arrowSymbol(d.variables.digestion)} ${arrowSymbol(d.variables.awareness)} ${arrowSymbol(d.variables.environment)}`;
     coreItems.push({ label: 'Variabili', value: varStr });
   }
 
@@ -1157,11 +1159,11 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
       };
       const g = document.createElementNS(ns, 'g');
       g.setAttribute('id', 'hd-variables');
-      // D (Design/red) LEFT, P (Personality/black) RIGHT
-      g.appendChild(mkArrow(headCenter - arrowOffset, arrowY, toArrow(variables.digestion), '#c0392b'));
-      g.appendChild(mkArrow(headCenter - arrowOffset, arrowY + arrowGap, toArrow(variables.environment), '#c0392b'));
-      g.appendChild(mkArrow(headCenter + arrowOffset, arrowY, toArrow(variables.perspective), '#1a1a2e'));
-      g.appendChild(mkArrow(headCenter + arrowOffset, arrowY + arrowGap, toArrow(variables.awareness), '#1a1a2e'));
+      // Standard HD: P (Personality/black) LEFT, D (Design/red) RIGHT
+      g.appendChild(mkArrow(headCenter - arrowOffset, arrowY, toArrow(variables.perspective), '#1a1a2e'));
+      g.appendChild(mkArrow(headCenter - arrowOffset, arrowY + arrowGap, toArrow(variables.awareness), '#1a1a2e'));
+      g.appendChild(mkArrow(headCenter + arrowOffset, arrowY, toArrow(variables.digestion), '#c0392b'));
+      g.appendChild(mkArrow(headCenter + arrowOffset, arrowY + arrowGap, toArrow(variables.environment), '#c0392b'));
       svgEl.appendChild(g);
     }
 
