@@ -1,0 +1,386 @@
+[
+  {
+    "gate": 41,
+    "RA": "Distraction",
+    "J": "The Unexpected",
+    "LA": "The Unexpected"
+  },
+  {
+    "gate": 19,
+    "RA": "The Alpha",
+    "J": "The Way",
+    "LA": "The Way"
+  },
+  {
+    "gate": 13,
+    "RA": "Refinement",
+    "J": "Direction",
+    "LA": "Direction"
+  },
+  {
+    "gate": 49,
+    "RA": "Explanation",
+    "J": "Explanation",
+    "LA": "Explanation"
+  },
+  {
+    "gate": 30,
+    "RA": "Revolution",
+    "J": "Contagion",
+    "LA": "Contagion"
+  },
+  {
+    "gate": 55,
+    "RA": "Evolve",
+    "J": "Evolve",
+    "LA": "Evolve"
+  },
+  {
+    "gate": 37,
+    "RA": "Planning",
+    "J": "Planning",
+    "LA": "Planning"
+  },
+  {
+    "gate": 63,
+    "RA": "Migration",
+    "J": "Consciousness",
+    "LA": "Consciousness"
+  },
+  {
+    "gate": 22,
+    "RA": "Rulership",
+    "J": "Rulership",
+    "LA": "Rulership"
+  },
+  {
+    "gate": 36,
+    "RA": "Experience",
+    "J": "Experience",
+    "LA": "Crisis"
+  },
+  {
+    "gate": 25,
+    "RA": "Love",
+    "J": "Love",
+    "LA": "Love"
+  },
+  {
+    "gate": 17,
+    "RA": "Service",
+    "J": "Service",
+    "LA": "Service"
+  },
+  {
+    "gate": 21,
+    "RA": "Tension",
+    "J": "Tension",
+    "LA": "Endeavor"
+  },
+  {
+    "gate": 51,
+    "RA": "Penetration",
+    "J": "Penetration",
+    "LA": "Penetration"
+  },
+  {
+    "gate": 42,
+    "RA": "Material World",
+    "J": "Material World",
+    "LA": "Material World"
+  },
+  {
+    "gate": 3,
+    "RA": "Laws",
+    "J": "Laws",
+    "LA": "Mutation"
+  },
+  {
+    "gate": 27,
+    "RA": "The Unexpected",
+    "J": "The Unexpected",
+    "LA": "Alignment"
+  },
+  {
+    "gate": 24,
+    "RA": "The Way",
+    "J": "The Way",
+    "LA": "The Way"
+  },
+  {
+    "gate": 2,
+    "RA": "Direction",
+    "J": "Direction",
+    "LA": "Direction"
+  },
+  {
+    "gate": 23,
+    "RA": "Explanation",
+    "J": "Explanation",
+    "LA": "Explanation"
+  },
+  {
+    "gate": 8,
+    "RA": "Dedication",
+    "J": "Contagion",
+    "LA": "Contagion"
+  },
+  {
+    "gate": 20,
+    "RA": "Uncertainty",
+    "J": "Evolve",
+    "LA": "Evolve"
+  },
+  {
+    "gate": 16,
+    "RA": "Planning",
+    "J": "Planning",
+    "LA": "Planning"
+  },
+  {
+    "gate": 35,
+    "RA": "Identification",
+    "J": "Consciousness",
+    "LA": "Consciousness"
+  },
+  {
+    "gate": 45,
+    "RA": "Separation",
+    "J": "Rulership",
+    "LA": "Rulership"
+  },
+  {
+    "gate": 12,
+    "RA": "Confrontation",
+    "J": "Experience",
+    "LA": "Experience"
+  },
+  {
+    "gate": 15,
+    "RA": "Education",
+    "J": "Love",
+    "LA": "Love"
+  },
+  {
+    "gate": 52,
+    "RA": "Prevention",
+    "J": "Service",
+    "LA": "Service"
+  },
+  {
+    "gate": 39,
+    "RA": "Demands",
+    "J": "Tension",
+    "LA": "Tension"
+  },
+  {
+    "gate": 53,
+    "RA": "Individualism",
+    "J": "Penetration",
+    "LA": "Penetration"
+  },
+  {
+    "gate": 62,
+    "RA": "Beginnings",
+    "J": "Material World",
+    "LA": "Material World"
+  },
+  {
+    "gate": 56,
+    "RA": "Obscuration",
+    "J": "Laws 2",
+    "LA": "Laws 2"
+  },
+  {
+    "gate": 31,
+    "RA": "Distraction",
+    "J": "The Unexpected",
+    "LA": "The Unexpected"
+  },
+  {
+    "gate": 33,
+    "RA": "The Alpha",
+    "J": "The Alpha",
+    "LA": "The Way"
+  },
+  {
+    "gate": 7,
+    "RA": "The Way",
+    "J": "Refinement",
+    "LA": "Direction"
+  },
+  {
+    "gate": 4,
+    "RA": "Direction",
+    "J": "Masks",
+    "LA": "Explanation"
+  },
+  {
+    "gate": 29,
+    "RA": "Explanation",
+    "J": "Revolution",
+    "LA": "Contagion"
+  },
+  {
+    "gate": 59,
+    "RA": "Contagion",
+    "J": "Industry",
+    "LA": "Industry"
+  },
+  {
+    "gate": 40,
+    "RA": "Evolve",
+    "J": "Spirit",
+    "LA": "Planning"
+  },
+  {
+    "gate": 64,
+    "RA": "Planning",
+    "J": "Migration",
+    "LA": "Consciousness"
+  },
+  {
+    "gate": 47,
+    "RA": "Consciousness",
+    "J": "Dominion",
+    "LA": "Dominion"
+  },
+  {
+    "gate": 6,
+    "RA": "Rulership",
+    "J": "Informing",
+    "LA": "Informing"
+  },
+  {
+    "gate": 46,
+    "RA": "Experience",
+    "J": "The Material Plane",
+    "LA": "The Material Plane"
+  },
+  {
+    "gate": 18,
+    "RA": "Love",
+    "J": "Healing",
+    "LA": "Service"
+  },
+  {
+    "gate": 48,
+    "RA": "Service",
+    "J": "Upheaval",
+    "LA": "Upheaval"
+  },
+  {
+    "gate": 57,
+    "RA": "Tension",
+    "J": "Endeavor",
+    "LA": "Endeavor"
+  },
+  {
+    "gate": 32,
+    "RA": "Penetration",
+    "J": "Intuition",
+    "LA": "Material World"
+  },
+  {
+    "gate": 50,
+    "RA": "Material World",
+    "J": "Limitation",
+    "LA": "Limitation"
+  },
+  {
+    "gate": 28,
+    "RA": "Laws",
+    "J": "Wishes",
+    "LA": "Wishes"
+  },
+  {
+    "gate": 44,
+    "RA": "The Unexpected",
+    "J": "Alignment",
+    "LA": "The Way"
+  },
+  {
+    "gate": 1,
+    "RA": "The Way",
+    "J": "Incarnation",
+    "LA": "Direction"
+  },
+  {
+    "gate": 43,
+    "RA": "Direction",
+    "J": "Defiance",
+    "LA": "Defiance"
+  },
+  {
+    "gate": 14,
+    "RA": "Explanation",
+    "J": "Dedication",
+    "LA": "Contagion"
+  },
+  {
+    "gate": 34,
+    "RA": "Contagion",
+    "J": "Uncertainty",
+    "LA": "Evolve"
+  },
+  {
+    "gate": 9,
+    "RA": "Evolve",
+    "J": "Duality",
+    "LA": "Planning"
+  },
+  {
+    "gate": 5,
+    "RA": "Planning",
+    "J": "Identification",
+    "LA": "Consciousness"
+  },
+  {
+    "gate": 26,
+    "RA": "Habits",
+    "J": "Rulership",
+    "LA": "Rulership"
+  },
+  {
+    "gate": 11,
+    "RA": "Rulership",
+    "J": "Confrontation",
+    "LA": "Experience"
+  },
+  {
+    "gate": 10,
+    "RA": "Ideas",
+    "J": "Love",
+    "LA": "Love"
+  },
+  {
+    "gate": 58,
+    "RA": "Prevention",
+    "J": "Service 4",
+    "LA": "Service 4"
+  },
+  {
+    "gate": 38,
+    "RA": "Demands",
+    "J": "Tension",
+    "LA": "Tension"
+  },
+  {
+    "gate": 54,
+    "RA": "Individualism",
+    "J": "Penetration",
+    "LA": "Penetration"
+  },
+  {
+    "gate": 61,
+    "RA": "Cycles",
+    "J": "Material World",
+    "LA": "Material World"
+  },
+  {
+    "gate": 60,
+    "RA": "Obscuration",
+    "J": "Laws",
+    "LA": "Laws"
+  }
+]

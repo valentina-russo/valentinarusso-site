@@ -872,6 +872,98 @@ const CENTER_IT = {
   HEART:'Cuore/Volontà',SPLEEN:'Milza/Bazo',SOLAR:'Intelligenza Emotiva',SACRAL:'Risorsa Energetica',ROOT:'Spinta e Persistenza'
 };
 
+// ─── Incarnation Cross (BG5 Life Work) ───────────────────────────────────
+// P = Personal Focus (RA), T = Transpersonal Focus (LA), S = Steadfast Focus (J)
+// Crawled from bg5businessinstitute.com/get-your-chart — 2026-03-25
+const CROSS_BG5 = {
+  1:{P:'The Way',T:'Incarnation',S:'Incarnation'},
+  2:{P:'Direction',T:'Defiance',S:'Direction'},
+  3:{P:'Laws',T:'Wishes',S:'Laws'},
+  4:{P:'Explanation',T:'Masks',S:'Masks'},
+  5:{P:'Consciousness',T:'Identification',S:'Identification'},
+  6:{P:'Rulership',T:'Informing',S:'Informing'},
+  7:{P:'Direction',T:'Refinement',S:'Refinement'},
+  8:{P:'Contagion',T:'Dedication',S:'Contagion'},
+  9:{P:'Planning',T:'Duality',S:'Duality'},
+  10:{P:'Love',T:'Love',S:'Ideas'},
+  11:{P:'Experience',T:'Confrontation',S:'Confrontation'},
+  12:{P:'Experience',T:'Confrontation',S:'Experience'},
+  13:{P:'Direction',T:'Refinement',S:'Direction'},
+  14:{P:'Contagion',T:'Dedication',S:'Dedication'},
+  15:{P:'Love',T:'Education',S:'Love'},
+  16:{P:'Planning',T:'Identification',S:'Planning'},
+  17:{P:'Service',T:'Upheaval',S:'Service'},
+  18:{P:'Service',T:'Healing',S:'Healing'},
+  19:{P:'The Way',T:'The Alpha',S:'The Way'},
+  20:{P:'Evolve',T:'Uncertainty',S:'Evolve'},
+  21:{P:'Tension',T:'Endeavor',S:'Tension'},
+  22:{P:'Rulership',T:'Informing',S:'Rulership'},
+  23:{P:'Explanation',T:'Dedication',S:'Explanation'},
+  24:{P:'The Way',T:'Incarnation',S:'The Way'},
+  25:{P:'Love',T:'Healing',S:'Love'},
+  26:{P:'Rulership',T:'Rulership',S:'Habits'},
+  27:{P:'The Unexpected',T:'Alignment',S:'The Unexpected'},
+  28:{P:'Laws',T:'Wishes',S:'Wishes'},
+  29:{P:'Contagion',T:'Revolution',S:'Revolution'},
+  30:{P:'Contagion',T:'Revolution',S:'Contagion'},
+  31:{P:'The Unexpected',T:'Distraction',S:'The Unexpected'},
+  32:{P:'Material World',T:'The Clarion',S:'Intuition'},
+  33:{P:'The Way',T:'The Alpha',S:'The Alpha'},
+  34:{P:'Evolve',T:'Uncertainty',S:'Uncertainty'},
+  35:{P:'Consciousness',T:'Identification',S:'Consciousness'},
+  36:{P:'Experience',T:'The Material Plane',S:'Crisis'},
+  37:{P:'Planning',T:'Migration',S:'Planning'},
+  38:{P:'Tension',T:'Demands',S:'Tension'},
+  39:{P:'Tension',T:'Demands',S:'Tension'},
+  40:{P:'Planning',T:'Spirit',S:'Spirit'},
+  41:{P:'The Unexpected',T:'Distraction',S:'The Unexpected'},
+  42:{P:'Material World',T:'Limitation',S:'Material World'},
+  43:{P:'Direction',T:'Defiance',S:'Defiance'},
+  44:{P:'The Way',T:'Alignment',S:'Alignment'},
+  45:{P:'Rulership',T:'Separation',S:'Rulership'},
+  46:{P:'Experience',T:'The Material Plane',S:'The Material Plane'},
+  47:{P:'Consciousness',T:'Dominion',S:'Dominion'},
+  48:{P:'Service',T:'Upheaval',S:'Upheaval'},
+  49:{P:'Explanation',T:'Revolution',S:'Explanation'},
+  50:{P:'Material World',T:'Limitation',S:'Limitation'},
+  51:{P:'Penetration',T:'The Clarion',S:'Penetration'},
+  52:{P:'Service',T:'Prevention',S:'Service'},
+  53:{P:'Penetration',T:'Individualism',S:'Penetration'},
+  54:{P:'Penetration',T:'Individualism',S:'Penetration'},
+  55:{P:'Evolve',T:'Spirit',S:'Evolve'},
+  56:{P:'Laws 2',T:'Obscuration',S:'Laws 2'},
+  57:{P:'Tension',T:'Endeavor',S:'Endeavor'},
+  58:{P:'Service 4',T:'Prevention',S:'Service 4'},
+  59:{P:'Contagion',T:'Industry',S:'Industry'},
+  60:{P:'Laws',T:'Obscuration',S:'Laws'},
+  61:{P:'Material World',T:'Cycles',S:'Material World'},
+  62:{P:'Material World',T:'Material World',S:'Beginnings'},
+  63:{P:'Consciousness',T:'Migration',S:'Consciousness'},
+  64:{P:'Consciousness',T:'Migration',S:'Migration'}
+};
+const QUARTER_NAMES = {1:'Mente',2:'Forma',3:'Relazioni',4:'Trasformazione'};
+const GATE_WHEEL=[41,19,13,49,30,55,37,63,22,36,25,17,21,51,42,3,27,24,2,23,8,20,16,35,45,12,15,52,39,53,62,56,31,33,7,4,29,59,40,64,47,6,46,18,48,57,32,50,28,44,1,43,14,34,9,5,26,11,10,58,38,54,61,60];
+
+function getIncarnationCross(pSunGate, profileStr) {
+  const cross = CROSS_BG5[pSunGate] || {P:'?',T:'?',S:'?'};
+  // Quarter from P Sun position in Rave Wheel
+  const idx = GATE_WHEEL.indexOf(pSunGate);
+  let quarter;
+  if(idx >= 2 && idx <= 17) quarter = 1;
+  else if(idx >= 18 && idx <= 33) quarter = 2;
+  else if(idx >= 34 && idx <= 49) quarter = 3;
+  else quarter = 4; // indices 50-63, 0-1
+  // Focus type from profile
+  const [l1, l2] = profileStr.split('/').map(Number);
+  let focusKey, focusLabel;
+  if(l1 === 4 && l2 === 1) { focusKey='S'; focusLabel='Focus Fisso'; }
+  else if(l1 <= 3) { focusKey='P'; focusLabel='Focus Personale'; }
+  else { focusKey='T'; focusLabel='Focus Transpersonale'; }
+  const name = cross[focusKey] || cross.P;
+  const quarterName = QUARTER_NAMES[quarter];
+  return `${name}, ${focusLabel}, ${quarterName}`;
+}
+
 // ─── API Call ──────────────────────────────────────────────────────────────
 
 async function calcolaCarta() {
@@ -1005,14 +1097,18 @@ async function renderRisultati(data, nome) {
     { label: 'Definizione',       value: d.definition },
   ];
 
-  if(d.dietary_regime) coreItems.push({ label: 'Regime Alimentare', value: d.dietary_regime });
-  if(d.environment) coreItems.push({ label: 'Ambiente', value: d.environment });
-  if(d.variables) {
-    const arrowSymbol = (dir) => dir === 'left' ? '\u25C4' : '\u25BA';
-    // Order matches SVG layout: P-top P-bottom D-top D-bottom (perspective awareness digestion environment)
-    const varStr = `${arrowSymbol(d.variables.perspective)} ${arrowSymbol(d.variables.digestion)} ${arrowSymbol(d.variables.awareness)} ${arrowSymbol(d.variables.environment)}`;
-    coreItems.push({ label: 'Variabili', value: varStr });
+  // Incarnation Cross
+  if(d.personality && d.personality.length > 0) {
+    const pSunGate = d.personality.find(p => p.planet_en === 'Sun');
+    if(pSunGate) {
+      const cross = getIncarnationCross(pSunGate.gate, d.profile);
+      coreItems.push({ label: 'Tema di Vita', value: cross });
+    }
   }
+
+  // PHS e Ambiente oscurati per ora — da riattivare quando il calcolo è verificato al 100%
+  // if(d.dietary_regime) coreItems.push({ label: 'Regime Alimentare', value: d.dietary_regime });
+  // if(d.environment) coreItems.push({ label: 'Ambiente', value: d.environment });
 
   coreEl.innerHTML = coreItems.map(i =>
     `<div class="core-card">
