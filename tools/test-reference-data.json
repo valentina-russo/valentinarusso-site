@@ -963,5 +963,26 @@
       "01-08"
     ],
     "variable": "DLR-PLL"
+  },
+  {
+    "name": "Mary Terry",
+    "birth_date": "1982-01-29",
+    "birth_time": "18:00",
+    "birth_place": "Putignano",
+    "tz": "Europe/Rome",
+    "type": "Manifesting Generator",
+    "type_code": "MGP",
+    "profile": "2/5",
+    "definition": "Split",
+    "cross": "LAX The Four Ways 4",
+    "authority": "Sacral",
+    "channels": [
+      "10-34",
+      "16-48",
+      "13-33",
+      "20-57",
+      "34-57"
+    ],
+    "variable": "DRR-PRL"
   }
 ]
