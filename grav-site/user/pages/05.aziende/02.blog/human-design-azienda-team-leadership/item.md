@@ -1,15 +1,9 @@
 ---
 title: 'Human Design in azienda: come usarlo per team e leadership'
 date: '2026-03-20 10:00:00'
-published: false
+published: true
 author: 'Valentina Russo'
-tags:
-    - 'BG5 azienda'
-    - 'Leadership Human Design'
-    - 'Team design BG5'
-    - 'Tipi di Carriera management'
-    - 'Analisi Penta team'
-    - 'BG5 management'
+tags: 'BG5 azienda,Leadership Human Design,Team design BG5,Tipi di Carriera management,Analisi Penta team,BG5 management'
 featured_image: /user/images/blog/blog-5.png
 image_alt: 'Manager che osserva la mappa BG5 del proprio team durante una riunione strategica'
 image_title: 'BG5 applicato alla leadership aziendale e alla gestione dei team'

@@ -295,16 +295,51 @@
     .carta-core { grid-template-columns: repeat(4, 1fr); }
   }
 
+  /* PDF Layout (screen: hidden) */
+  #pdf-layout { display: none; }
+
   @media print {
-    header, footer, .carta-intro, .carta-form, .carta-cta,
-    .carta-pdf-btn, .cf-autocomplete-list, nav { display: none !important; }
-    .carta-results { display: block !important; }
-    .carta-desktop-layout { flex-direction: column !important; }
-    .carta-col-left { flex: 1 !important; max-width: 100% !important; position: static !important; }
-    .carta-bodygraph-wrap svg { max-width: 500px; margin: 0 auto; }
-    .core-card { box-shadow: none; border: 1px solid #eee; }
-    .carta-planets { box-shadow: none; border: 1px solid #eee; }
-    body { background: #fff; }
+    @page { size: A4; margin: 0.4cm 0.7cm; }
+    body { background: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    header, footer, nav, .carta-intro, .carta-form, .carta-cta, .carta-results,
+    .carta-pdf-btn, .cf-autocomplete-list, .carta-wrap > *:not(#pdf-layout),
+    .carta-name-header, .carta-core, .carta-desktop-layout, .carta-error,
+    .carta-form-wrap, .carta-wrap > .carta-intro { display: none !important; }
+    #pdf-layout { display: block !important; font-family: 'Outfit', Arial, sans-serif; color: #222; }
+    .pdf-header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2.5px solid #b8913e; padding-bottom: 8px; margin-bottom: 14px; }
+    .pdf-header-right { font-size: 11pt; color: #444; text-align: right; }
+    .pdf-brand { font-size: 16pt; font-weight: 800; color: #1a1a2e; }
+    .pdf-brand-sub { font-size: 10pt; color: #8b7355; }
+    .pdf-body { display: flex; gap: 16px; margin-bottom: 14px; }
+    .pdf-col-left { flex: 0 0 300px; }
+    .pdf-col-left svg { width: 300px !important; height: auto !important; max-width: 300px !important; }
+    .pdf-col-right { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    .pdf-card { border: 1px solid #e5e0da; border-radius: 4px; padding: 6px 10px; }
+    .pdf-card-label { font-size: 7pt; text-transform: uppercase; letter-spacing: 0.5px; color: #8b7355; font-weight: 600; margin-bottom: 1px; }
+    .pdf-card-value { font-size: 11pt; font-weight: 700; color: #1a1a2e; }
+    .pdf-card-desc { font-size: 7.5pt; color: #555; line-height: 1.3; margin-top: 2px; }
+    .pdf-planets { margin-bottom: 14px; }
+    .pdf-planets-grid { }
+    .pdf-planets-col { }
+    .pdf-planets table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+    .pdf-planets th { background: #f5f2ef; font-size: 7pt; text-transform: uppercase; color: #8b7355; padding: 3px 6px; text-align: left; border-bottom: 1px solid #ddd; }
+    .pdf-planets td { padding: 2.5px 6px; border-bottom: 1px solid #f0ece8; }
+    .pdf-planets td:nth-child(2) { font-weight: 600; color: #1a1a2e; }
+    .pdf-planets td:nth-child(3) { font-weight: 600; color: #c0392b; }
+    .pdf-cta { background: linear-gradient(135deg, #1a1a2e 0%, #2d2a4a 100%); border: none; border-radius: 12px; padding: 18px 22px; position: relative; overflow: hidden; }
+    .pdf-cta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #b8913e, #d4a843, #b8913e); }
+    .pdf-cta-inner { display: flex; align-items: center; gap: 18px; }
+    .pdf-cta-photo { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid #b8913e; flex-shrink: 0; }
+    .pdf-cta-content { flex: 1; }
+    .pdf-cta-badge { font-size: 6.5pt; text-transform: uppercase; letter-spacing: 2px; color: #b8913e; font-weight: 700; margin-bottom: 5px; }
+    .pdf-cta-title { font-size: 13pt; font-weight: 800; color: #fff; margin-bottom: 5px; line-height: 1.3; }
+    .pdf-cta-text { font-size: 9pt; color: #c8c2bc; margin-bottom: 8px; line-height: 1.4; }
+    .pdf-cta-button { display: inline-block; background: linear-gradient(135deg, #b8913e, #d4a843); color: #1a1a2e; font-size: 10pt; font-weight: 800; padding: 6px 24px; border-radius: 5px; margin-bottom: 6px; }
+    .pdf-cta-links { font-size: 8pt; color: #8b8178; }
+    .pdf-cta-links span { margin: 0 5px; }
+    .pdf-cta { page-break-inside: avoid; }
+    .pdf-footer { font-size: 6pt; color: #999; text-align: center; padding-top: 3px; margin-top: 4px; }
   }
 </style>
 {% endblock %}
@@ -408,6 +443,65 @@
       <p>Il tuo grafico mostra la struttura energetica di base. Una consulenza con Valentina trasforma questi dati in indicazioni pratiche per le tue relazioni, il lavoro e le decisioni quotidiane.</p>
       <a href="/contatti">Prenota una consulenza con Valentina</a>
     </div>
+  </div>
+
+  <!-- PDF Print Layout (hidden on screen, visible only during print) -->
+  <div id="pdf-layout">
+    <div class="pdf-header">
+      <div class="pdf-header-left">
+        <span class="pdf-brand">Valentina Russo</span> <span class="pdf-brand-sub">— Analista Certificata BG5®</span>
+      </div>
+      <div class="pdf-header-right" id="pdf-person-info"></div>
+    </div>
+    <div class="pdf-body">
+      <div class="pdf-col-left" id="pdf-bodygraph"></div>
+      <div class="pdf-col-right">
+        <div class="pdf-card" id="pdf-tipo">
+          <div class="pdf-card-label">Tipo di Carriera</div>
+          <div class="pdf-card-value"></div>
+          <div class="pdf-card-desc"></div>
+        </div>
+        <div class="pdf-card" id="pdf-profilo">
+          <div class="pdf-card-label">Profilo</div>
+          <div class="pdf-card-value"></div>
+          <div class="pdf-card-desc"></div>
+        </div>
+        <div class="pdf-card" id="pdf-autorita">
+          <div class="pdf-card-label">Autorità</div>
+          <div class="pdf-card-value"></div>
+          <div class="pdf-card-desc"></div>
+        </div>
+        <div class="pdf-card" id="pdf-definizione">
+          <div class="pdf-card-label">Definizione</div>
+          <div class="pdf-card-value"></div>
+          <div class="pdf-card-desc"></div>
+        </div>
+        <div class="pdf-card" id="pdf-croce">
+          <div class="pdf-card-label">Tema di Vita</div>
+          <div class="pdf-card-value"></div>
+        </div>
+      </div>
+    </div>
+    <div class="pdf-planets"><div class="pdf-planets-grid" id="pdf-planets"></div></div>
+    <div class="pdf-cta">
+      <div class="pdf-cta-inner">
+        <img src="/user/pages/assets/valentina-privati.jpg" alt="Valentina Russo" class="pdf-cta-photo">
+        <div class="pdf-cta-content">
+          <div class="pdf-cta-badge">Il prossimo passo</div>
+          <div class="pdf-cta-title">Questi dati raccontano come funzioni davvero.</div>
+          <div class="pdf-cta-text">Una consulenza con Valentina trasforma numeri e grafici in decisioni concrete: come gestire la tua energia, quali relazioni ti potenziano, e quale direzione professionale è allineata al tuo design.</div>
+          <div class="pdf-cta-button">Prenota la tua consulenza</div>
+          <div class="pdf-cta-links">
+            <span>WhatsApp: +39 379 103 7653</span>
+            <span>|</span>
+            <span>valentinarussobg5.com/contatti</span>
+            <span>|</span>
+            <span>@valentinarussobg5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pdf-footer">© 2026 Valentina Russo — BG5® Analyst | valentinarussobg5.com | Questo report è generato automaticamente e non sostituisce una consulenza professionale.</div>
   </div>
 
 </div>
@@ -586,7 +680,7 @@ function hdGetDefinedCenters(activeGates) {
 function hdCalcType(defCenters, defChannels) {
   const motors = new Set(['SACRAL','HEART','SOLAR','ROOT']);
   const hasMotor = [...defCenters].some(c => motors.has(c));
-  if (!defCenters.size || !hasMotor) return 'Reflector';
+  if (!defCenters.size) return 'Reflector';
 
   function motorToThroat(start, visited = new Set()) {
     if (visited.has(start)) return false;
@@ -693,7 +787,8 @@ async function calculateHDChart(y, m, d, h, min, tzOffset) {
 
   // Variables: determined by TONE (not Color). Tone 1-3=left, 4-6=right
   // Source: MicFell/human_design_engine (verified open-source HD engine)
-  const arrow = t => t <= 3 ? 'left' : 'right';
+  const arrowSun = t => t <= 3 ? 'left' : 'right';
+  const arrowNode = t => t <= 3 ? 'left' : 'right'; // Same rule as Sun
   const dNode = design.find(p => p.planet_en === 'North Node') || {};
   const pNode = personality.find(p => p.planet_en === 'North Node') || {};
 
@@ -703,10 +798,10 @@ async function calculateHDChart(y, m, d, h, min, tzOffset) {
     defined_channels: defChannels.map(([a,b]) => [a,b]),
     gate_colors, personality, design,
     variables: {
-      digestion: arrow(dSun.tone||1),
-      environment: arrow(dNode.tone||1),
-      perspective: arrow(pSun.tone||1),
-      awareness: arrow(pNode.tone||1),
+      digestion: arrowSun(dSun.tone||1),
+      environment: arrowNode(dNode.tone||1),
+      perspective: arrowSun(pSun.tone||1),
+      awareness: arrowNode(pNode.tone||1),
     },
     dietary_regime: (console.log('PHS DEBUG:', {dSun_gate:dSun.gate, dSun_line:dSun.line, dSun_color:dSun.color, dSun_tone:dSun.tone, dSun_deg:dSun.degrees, dNode_color:dNode.color, dNode_tone:dNode.tone}), phsLabel(dSun.color||1, dSun.tone||1)),
     environment_name: envLabel(dNode.color||1, dNode.tone||1),
@@ -870,6 +965,46 @@ const PLANET_BG5 = {
 const CENTER_IT = {
   HEAD:'Testa',AJNA:'Mente',THROAT:'Comunicazione-Azione',G:'Identità',
   HEART:'Cuore/Volontà',SPLEEN:'Milza/Bazo',SOLAR:'Intelligenza Emotiva',SACRAL:'Risorsa Energetica',ROOT:'Spinta e Persistenza'
+};
+
+// ─── PDF Descriptions (from knowledge-base/*.md) ────────────────────────
+const PDF_DESC_TIPO = {
+  'Costruttore Classico': 'Energia sostenibile per costruire e creare. Strategia: rispondere agli stimoli della vita, ascoltando la risposta viscerale della pancia. Segnale corretto: soddisfazione.',
+  'Costruttore Rapido': 'Stessa energia del Classico con accesso diretto alla manifestazione. Strategia: rispondere poi agire rapidamente, informando gli altri. Segnale: soddisfazione.',
+  'Iniziatore': 'Aura chiusa e potente, può dare inizio alle cose dal nulla. Strategia: informare le persone coinvolte prima di agire. Segnale: pace interiore.',
+  'Guida': 'Aura focalizzata che penetra l\'altro. Eccelle nel lavoro 1:1 e nella gestione. Strategia: aspettare il riconoscimento e l\'invito. Segnale: successo.',
+  'Valutatore': 'Aura campionante che riflette l\'ambiente. Nessun centro definito. Strategia: aspettare un ciclo lunare (28 giorni) prima di decidere. Segnale: sorpresa.'
+};
+const PDF_DESC_PROFILO = {
+  '1/3': 'Scoperta attraverso l\'indagine e la sperimentazione pratica. Accumula conoscenze teoriche e le mette alla prova nella realtà. Porta esperienza concreta testata sul campo.',
+  '1/4': 'Basi solide condivise attraverso relazioni di fiducia. La sua conoscenza vale quanto la sua rete. Influenza attraverso amicizie e contatti fidati.',
+  '2/4': 'Talento naturale che emerge quando viene chiamato dal proprio cerchio. Ha bisogno di solitudine per ricaricarsi ma viene attivato dalle relazioni.',
+  '2/5': 'Talento naturale su cui gli altri proiettano grandi aspettative. La reputazione precede la persona. Porta soluzioni pratiche attese da molti.',
+  '3/5': 'Impara attraverso l\'errore e porta soluzioni alla collettività. Il fallimento è il suo maestro. La reputazione può essere ferita quando la linea 3 sbaglia pubblicamente.',
+  '3/6': 'Tre fasi: 0-30 prove ed errori intensi, 30-50 distacco e osservazione, 50+ modello di vita autentica. L\'autorevolezza è guadagnata, non teorica.',
+  '4/1': 'Fondamenta della conoscenza espresse attraverso le relazioni. Lavora meglio in ambienti dove la fiducia è già stabilita. Le relazioni sono il vettore del suo impatto.',
+  '4/6': 'Tre fasi evolutive con il fondamento delle relazioni. La rete di amicizie è la piattaforma da cui emerge come modello nella seconda metà della vita.',
+  '5/1': 'Portatore di soluzioni pratiche con basi solide. Alta visibilità e proiezioni forti. La sua efficacia dipende dalla solidità delle sue fondamenta.',
+  '5/2': 'La collettività proietta soluzioni che porta inconsapevolmente attraverso il suo talento naturale. Paradosso di chi viene visto come guru senza riconoscersi.',
+  '6/2': 'Talento naturale spesso non riconosciuto nelle prime fasi. Nella terza fase diventa un vero modello grazie all\'autenticità, non all\'immagine.',
+  '6/3': 'Fase intensa di prove ed errori più tre fasi evolutive. Impara dai propri errori, si distacca, poi diventa guida autentica con saggezza pratica e incarnata.'
+};
+const PDF_DESC_AUTH = {
+  'Sacrale / Risorsa Energetica': 'La risposta del Sacrale è immediata e viscerale: un suono gutturale "uh-huh" (sì) o "uh-uh" (no) che arriva prima della mente. Ascolta la pancia, non la testa.',
+  'Emotiva / Intelligenza Emotiva': 'L\'onda emotiva sale e scende continuamente. Le decisioni corrette emergono dopo aver attraversato più cicli: aspetta che l\'entusiasmo si assesti.',
+  'Splenica / Istintiva': 'L\'intuizione parla una sola volta, sottovoce, nel momento presente. Se viene ignorata, non si ripete. Fidati del primo impulso spontaneo.',
+  'Ego / Manifestata': 'Ciò che il cuore vuole è la guida. "Voglio farlo" o "non voglio farlo" senza giustificazioni elaborate. La forza di volontà è la bussola.',
+  'Ego / Proiettata': 'La volontà emerge parlando con altri. Il focus è sulla domanda "cosa voglio davvero?" che emerge nel dialogo, non nella riflessione solitaria.',
+  'del Sé / G Center Proiettata': 'La verità emerge parlando ad alta voce con persone fidate. Non si tratta di chiedere consiglio ma di ascoltare sé stessi mentre si parla.',
+  'Ambientale / Mentale': 'Nessuna autorità interiore tradizionale. La guida viene dall\'ambiente e dalle persone di fiducia. Porta le decisioni fuori, discutile con più persone.',
+  'Lunare': 'Aspetta un ciclo lunare completo (28-29 giorni) prima delle decisioni importanti. La Luna passa per tutti i 64 gate, dando una prospettiva completa.'
+};
+const PDF_DESC_DEF = {
+  'Assimilazione Indipendente': 'Tutti i centri definiti sono connessi tra loro. Processo energetico autosufficiente e costante.',
+  'Assimilazione Collaborativa': 'Due gruppi separati di centri definiti. Cerca naturalmente l\'altro che colma il vuoto nelle relazioni e nel lavoro.',
+  'Assimilazione Sintetizzante': 'Tre gruppi separati. Ha bisogno di diversità di persone e ambienti per sentirsi completo.',
+  'Assimilazione Soggettiva': 'Quattro gruppi distinti. Il processo di assimilazione richiede tempo e varietà di esperienze.',
+  'Assimilazione Oggettiva': 'Nessun centro definito. Assorbe e riflette l\'energia di chi lo circonda, campionatore dell\'umanità.'
 };
 
 // ─── Incarnation Cross (BG5 Life Work) ───────────────────────────────────
@@ -1078,6 +1213,10 @@ function normalizzaRisposta(data) {
 async function renderRisultati(data, nome) {
   const d = normalizzaRisposta(data);
   if(!d) { mostraErrore('Formato risposta non riconosciuto.'); return; }
+
+  // Save for PDF
+  _lastCartaData = d;
+  _lastCartaNome = nome;
 
   // Name header
   const nh = document.getElementById('carta-name-header');
@@ -1414,40 +1553,108 @@ function escHtml(s) {
 
 // ─── PDF Download ─────────────────────────────────────────────────────────
 
+// Store last calculated data for PDF
+let _lastCartaData = null;
+let _lastCartaNome = null;
+
+function preparaPDF() {
+  if(!_lastCartaData) return;
+  const d = _lastCartaData;
+  const nome = _lastCartaNome;
+
+  // Person name + birth info in header right
+  const personEl = document.getElementById('pdf-person-info');
+  const gg = document.querySelector('[placeholder="15"]')?.value || '';
+  const mm = document.querySelector('[placeholder="6"]')?.value || '';
+  const aa = document.querySelector('[placeholder="1990"]')?.value || '';
+  const hh = document.querySelector('[placeholder="10"]')?.value || '';
+  const mn = document.querySelector('[placeholder="30"]')?.value || '';
+  const luogo = document.getElementById('cf-city')?.value || '';
+  const birthStr = `${gg}/${mm}/${aa} ore ${hh}:${mn.padStart(2,'0')}` + (luogo ? ` — ${escHtml(luogo)}` : '');
+  personEl.innerHTML = (nome ? `<strong>${escHtml(nome)}</strong><br>` : '') + birthStr;
+
+  // Clone bodygraph SVG — fix CSS vars for print compatibility
+  const srcSvg = document.querySelector('.carta-bodygraph-wrap svg');
+  const pdfBg = document.getElementById('pdf-bodygraph');
+  pdfBg.innerHTML = '';
+  if(srcSvg) {
+    const clone = srcSvg.cloneNode(true);
+    clone.style.maxWidth = '300px';
+    clone.style.width = '300px';
+    clone.style.height = 'auto';
+    // Fix mixed channels for print: SVG patterns don't print reliably.
+    // Replace url(#splitGatePattern) with a solid bicolor gradient using 2 halves.
+    // First, fix the pattern itself
+    const pattern = clone.querySelector('#splitGatePattern');
+    if(pattern) {
+      const rects = pattern.querySelectorAll('rect');
+      rects.forEach(r => {
+        const fill = r.getAttribute('fill');
+        if(fill && fill.includes('--color-personality')) r.setAttribute('fill', '#1a1a2e');
+        if(fill && fill.includes('--color-design')) r.setAttribute('fill', '#c0392b');
+      });
+    }
+    // Then replace all pattern fills with a solid half-half color for print safety
+    const styleEl = clone.querySelector('style');
+    if(styleEl) {
+      styleEl.textContent = styleEl.textContent.replace(/url\(#splitGatePattern\)/g, '#6b2d3e');
+    }
+    // Also fix inline styles
+    clone.querySelectorAll('*').forEach(el => {
+      const s = el.getAttribute('style');
+      if(s && s.includes('splitGatePattern')) {
+        el.setAttribute('style', s.replace(/url\(#splitGatePattern\)/g, '#6b2d3e'));
+      }
+      // Fix any fill attributes too
+      const f = el.getAttribute('fill');
+      if(f && f.includes('splitGatePattern')) {
+        el.setAttribute('fill', '#6b2d3e');
+      }
+    });
+    pdfBg.appendChild(clone);
+  }
+
+  // Core cards with descriptions
+  const setCard = (id, value, descMap) => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.querySelector('.pdf-card-value').textContent = value;
+    const descEl = el.querySelector('.pdf-card-desc');
+    if(descEl) descEl.textContent = descMap[value] || '';
+  };
+
+  setCard('pdf-tipo', d.type, PDF_DESC_TIPO);
+  setCard('pdf-profilo', d.profile, PDF_DESC_PROFILO);
+  setCard('pdf-autorita', d.authority, PDF_DESC_AUTH);
+  setCard('pdf-definizione', d.definition, PDF_DESC_DEF);
+
+  // Incarnation cross
+  if(d.personality && d.personality.length > 0) {
+    const pSun = d.personality.find(p => p.planet_en === 'Sun');
+    if(pSun) {
+      const cross = getIncarnationCross(pSun.gate, d.profile);
+      const croceEl = document.getElementById('pdf-croce');
+      if(croceEl) croceEl.querySelector('.pdf-card-value').textContent = cross;
+    }
+  }
+
+  // Planet table — single column
+  const PLANET_ORDER_PDF = ['Sun','Earth','Moon','North Node','South Node','Mercury','Venus','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'];
+  const pdfPlanets = document.getElementById('pdf-planets');
+  let tbl = '<table><thead><tr><th>Funzione BG5</th><th>Personalità</th><th>Design</th></tr></thead><tbody>';
+  for(const pKey of PLANET_ORDER_PDF) {
+    const pp = (d.personality||[]).find(p => p.planet_en === pKey);
+    const dp = (d.design||[]).find(p => p.planet_en === pKey);
+    const bg5Name = PLANET_BG5[pKey] || PLANET_IT[pKey] || pKey;
+    tbl += `<tr><td>${bg5Name}</td><td>${pp ? pp.gate+'.'+pp.line : '-'}</td><td>${dp ? dp.gate+'.'+dp.line : '-'}</td></tr>`;
+  }
+  tbl += '</tbody></table>';
+  pdfPlanets.innerHTML = tbl;
+}
+
 function scaricaPDF() {
-  const results = document.getElementById('carta-results');
-  const btn = document.getElementById('carta-pdf-btn');
-  const cta = document.querySelector('.carta-cta');
-  const form = document.querySelector('.carta-form');
-  const header = document.querySelector('header');
-  const footer = document.querySelector('footer');
-  const intro = document.querySelector('.carta-intro');
-
-  // Hide non-print elements
-  if(btn) btn.style.display = 'none';
-  if(cta) cta.style.display = 'none';
-  if(form) form.style.display = 'none';
-  if(header) header.style.display = 'none';
-  if(footer) footer.style.display = 'none';
-  if(intro) intro.style.display = 'none';
-
-  // Force single column for print
-  const layout = document.querySelector('.carta-desktop-layout');
-  if(layout) layout.style.flexDirection = 'column';
-  const colLeft = document.querySelector('.carta-col-left');
-  if(colLeft) { colLeft.style.flex = '1'; colLeft.style.maxWidth = '100%'; colLeft.style.position = 'static'; }
-
+  preparaPDF();
   window.print();
-
-  // Restore
-  if(btn) btn.style.display = '';
-  if(cta) cta.style.display = '';
-  if(form) form.style.display = '';
-  if(header) header.style.display = '';
-  if(footer) footer.style.display = '';
-  if(intro) intro.style.display = '';
-  if(layout) layout.style.flexDirection = '';
-  if(colLeft) { colLeft.style.flex = ''; colLeft.style.maxWidth = ''; colLeft.style.position = ''; }
 }
 
 // Allow Enter key

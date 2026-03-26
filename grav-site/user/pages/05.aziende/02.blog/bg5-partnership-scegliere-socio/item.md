@@ -1,7 +1,7 @@
 ---
 title: 'BG5 e partnership: come scegliere il socio giusto con il design'
 date: '2026-03-21 10:00:00'
-published: false
+published: true
 author: 'Valentina Russo'
 tags:
     - 'BG5 partnership'

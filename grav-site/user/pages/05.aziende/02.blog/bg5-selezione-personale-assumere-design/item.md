@@ -1,7 +1,7 @@
 ---
 title: 'BG5 e selezione del personale: assumere per design, non per intuizione'
 date: '2026-03-19 10:00:00'
-published: false
+published: true
 author: 'Valentina Russo'
 tags:
     - 'BG5 selezione personale'

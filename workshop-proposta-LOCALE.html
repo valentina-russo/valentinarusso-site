@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop Scopri il tuo Disegno | Valentina Russo</title>
+
+    <!-- CSS di Progetto (Fonte di Verità) -->
+    <link rel="stylesheet" href="./src/style.css">
+
+    <style>
+        :root {
+            --hero-gradient: linear-gradient(135deg, rgba(182, 131, 151, 0.05) 0%, rgba(93, 174, 177, 0.05) 100%);
+            /* Professional Spacing Rhythm */
+            --standard-section-padding: 5rem;
+            --standard-card-gap: 2rem;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            line-height: 1.6;
+        }
+
+        .section-padding {
+            padding: var(--standard-section-padding) 0;
+        }
+
+        /* Video styling */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 24px;
+            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--soft-gray);
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* CTA Band Overrides */
+        .cta-band {
+            background: linear-gradient(145deg, #B68397 0%, #7a5c6e 100%);
+            color: white;
+            border-radius: 40px;
+            margin: 2rem 1rem;
+            padding: 5rem 2rem;
+        }
+
+        /* Bio Grid */
+        .bio-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        /* Custom Card Enhancements for Landing Page */
+        .lp-card {
+            background: white;
+            border-radius: 32px;
+            border: 1px solid var(--soft-gray);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .lp-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .lp-card-content {
+            padding: 2.5rem;
+            flex-grow: 1;
+        }
+
+        /* Fix for Icon + Heading alignment */
+        .icon-heading-group {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .icon-heading-group .icon {
+            font-size: 2.5rem;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .icon-heading-group h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+        }
+
+        /* Win-Win Overlap Fix */
+        .badge-card {
+            padding-top: 3.5rem !important;
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .section-padding {
+                padding: 3.5rem 0;
+            }
+
+            .bio-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .icon-heading-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .lp-card-content {
+                padding: 1.5rem;
+            }
+
+            .cta-band {
+                padding: 3rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header" style="background: white; border-bottom: 1px solid var(--soft-gray); padding: 1rem 0;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="logo">
+                    <div class="serif"
+                        style="font-size: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
+                        Valentina Russo</div>
+                    <div
+                        style="font-size: 0.7rem; letter-spacing: 0.2em; color: var(--primary-color); font-weight: 600;">
+                        MENTAL ADVISOR & ANALYST</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO -->
+        <section class="section-padding" style="background: var(--hero-gradient); text-align: center;">
+            <div class="container" style="max-width: 900px;">
+                <p class="text-uppercase"
+                    style="color: var(--primary-color); font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 1.5rem;">
+                    Per Centri Olistici
+                </p>
+                <h1 class="serif"
+                    style="font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1.1; margin-bottom: 1.5rem;">
+                    Scopri il tuo<br><em style="font-style: italic; color: var(--primary-color);">Disegno</em>
+                </h1>
+                <p class="serif italic" style="font-size: 1.6rem; color: #555; margin-bottom: 2.5rem;">
+                    La Scienza della Differenziazione per il Benessere Consapevole
+                </p>
+                <div
+                    style="padding: 1rem 2rem; background: rgba(182, 131, 151, 0.08); display: inline-block; border-radius: 50px; font-weight: 600;">
+                    Format: <strong>Masterclass Interattiva</strong> | Durata: <strong>90-120 min</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIDEO -->
+        <section style="padding-bottom: 5rem;">
+            <div class="container" style="max-width: 960px;">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/WPieOX8GoO0?rel=0"
+                        title="Workshop Scopri il tuo Disegno - Valentina Russo"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- CERTIFICAZIONE -->
+        <section style="padding-bottom: 5rem;">
+            <div class="container" style="max-width: 900px; text-align: center;">
+                <div
+                    style="display: inline-flex; flex-direction: column; align-items: center; gap: 1.5rem; background: white; border: 1px solid var(--soft-gray); border-radius: 32px; padding: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+                    <img src="./public/assets/bg5-certified.png" alt="BG5 Certified — Jovian Archive"
+                        style="height: 90px; width: auto;">
+                    <p style="font-size: 1.05rem; line-height: 1.7; color: #555; max-width: 640px; margin: 0;">
+                        Questo è l'<strong>unico logo ufficiale</strong> rilasciato da Jovian Archive — la casa madre
+                        del sistema BG5® e Human Design.
+                        Qualunque proposta priva di questa certificazione non garantisce l'accuratezza del metodo
+                        originale.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- IL CONCETTO -->
+        <section class="section-padding" style="background: white;">
+            <div class="container" style="max-width: 1000px;">
+                <div class="lp-card" style="box-shadow: 0 20px 50px rgba(0,0,0,0.04);">
+                    <div class="lp-card-content" style="text-align: center; padding: 4rem 3rem;">
+                        <h2 class="serif"
+                            style="color: var(--primary-color); margin-bottom: 2.5rem; font-size: clamp(2rem, 5vw, 2.75rem);">
+                            Più di un oroscopo,<br>più di un test di personalità
+                        </h2>
+                        <p
+                            style="font-size: 1.3rem; line-height: 1.8; color: #444; margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                            I frequentatori dei centri olistici cercano risposte a domande profonde: <em>"Perché ripeto
+                                sempre gli stessi schemi?"</em>, <em>"Perché mi mancano le energie?"</em>, <em>"Come
+                                posso prendere decisioni migliori?"</em>
+                        </p>
+                        <div
+                            style="background: var(--bg-color); padding: 2.5rem; border-radius: 24px; border-left: 6px solid var(--primary-color); text-align: left;">
+                            <p style="font-size: 1.15rem; line-height: 1.8; margin: 0;">
+                                <strong>Lo Human Design</strong> offre una mappa meccanica e precisa basata su saggezze
+                                antiche (I'Ching, Astrologia, Chakra) e scienza moderna (Genetica, Fisica Quantistica).
+                                È lo strumento più avanzato per l'auto-conoscenza oggi disponibile.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTENUTO DELL'EVENTO -->
+        <section class="section-padding" style="background: #fafafa;">
+            <div class="container">
+                <h2 class="serif text-center"
+                    style="color: var(--primary-color); margin-bottom: 4rem; font-size: 2.5rem;">
+                    Il contenuto dell'evento
+                </h2>
+                <div class="blog-grid">
+                    <div class="lp-card">
+                        <div class="lp-card-content">
+                            <div class="icon-heading-group">
+                                <span class="icon">✦</span>
+                                <h3>I 4 Tipi Energetici</h3>
+                            </div>
+                            <p style="color: #666; line-height: 1.7;">Ognuno di noi processa energia in modo unico.
+                                Capire il proprio tipo elimina la resistenza e la frustrazione nella vita di tutti i
+                                giorni.</p>
+                        </div>
+                    </div>
+                    <div class="lp-card">
+                        <div class="lp-card-content">
+                            <div class="icon-heading-group">
+                                <span class="icon" style="color: var(--secondary-color);">❂</span>
+                                <h3 style="color: var(--secondary-color);">Strategia e Autorità</h3>
+                            </div>
+                            <p style="color: #666; line-height: 1.7;">La mente non è fatta per decidere. Insegneremo
+                                dove risiede la tua vera bussola decisionale (Pancia? Emozioni?) per vivere in
+                                allineamento.</p>
+                        </div>
+                    </div>
+                    <div class="lp-card">
+                        <div class="lp-card-content">
+                            <div class="icon-heading-group">
+                                <span class="icon" style="color: var(--accent-color);">✧</span>
+                                <h3 style="color: var(--accent-color);">La Carta Unica</h3>
+                            </div>
+                            <p style="color: #666; line-height: 1.7;">Ogni partecipante riceverà la propria
+                                <strong>Carta del Rave</strong> stampata per seguire la lezione in modo totalmente
+                                interattivo e personale.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHI CONDUCE -->
+        <section class="section-padding">
+            <div class="container">
+                <div class="bio-grid">
+                    <div>
+                        <h2 class="serif" style="font-size: 3.5rem; margin-bottom: 1rem;">Chi conduce</h2>
+                        <p class="serif italic"
+                            style="color: var(--primary-color); font-size: 1.5rem; margin-bottom: 2rem;">Human Design
+                            Analyst & Mental Advisor</p>
+                        <p style="line-height: 1.8; font-size: 1.15rem; margin-bottom: 1.5rem; color: #444;">
+                            Valentina traduce la complessità del sistema BG5® in <strong>istruzioni pratiche</strong>
+                            per la vita quotidiana, con un approccio logico e diretto.
+                        </p>
+                        <p style="line-height: 1.8; font-size: 1.15rem; color: #444;">
+                            Il suo obiettivo è fornire una chiave di lettura strutturale della propria natura per
+                            eliminare le frizioni energetiche e vivere con chiarezza.
+                        </p>
+                    </div>
+                    <div style="border-radius: 40px; overflow: hidden; box-shadow: 0 40px 80px -15px rgba(0,0,0,0.12);">
+                        <img src="./public/assets/valentina-privati.jpg" alt="Valentina Russo"
+                            style="width: 100%; height: auto; display: block;">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VANTAGGI PER IL CENTRO -->
+        <section class="cta-band">
+            <div class="container">
+                <h2 class="serif text-center" style="color: white; font-size: 3rem; margin-bottom: 4rem;">
+                    Perché ospitare questo workshop?
+                </h2>
+                <div class="blog-grid">
+                    <div class="lp-card"
+                        style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                        <div class="lp-card-content">
+                            <h3 style="color: white; margin-bottom: 1rem; font-family: var(--font-heading);">Qualità
+                                Premium</h3>
+                            <p style="line-height: 1.7; opacity: 0.95;">Un sistema all'avanguardia che differenzia il
+                                vostro centro dal resto della proposta territoriale.</p>
+                        </div>
+                    </div>
+                    <div class="lp-card"
+                        style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                        <div class="lp-card-content">
+                            <h3 style="color: white; margin-bottom: 1rem; font-family: var(--font-heading);">
+                                Fidelizzazione</h3>
+                            <p style="line-height: 1.7; opacity: 0.95;">Uno strumento che potenzia i tuoi percorsi
+                                attuali, offrendo una base scientifica alla consapevolezza.</p>
+                        </div>
+                    </div>
+                    <div class="lp-card"
+                        style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                        <div class="lp-card-content">
+                            <h3 style="color: white; margin-bottom: 1rem; font-family: var(--font-heading);">Zero
+                                Rischio</h3>
+                            <p style="line-height: 1.7; opacity: 0.95;">Format "chiavi in mano". Valentina gestisce
+                                materiali e contenuti; voi offrite spazio e visibilità.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROPOSTA ECONOMICA -->
+        <section class="section-padding">
+            <div class="container" style="max-width: 960px;">
+                <h2 class="serif text-center"
+                    style="color: var(--primary-color); margin-bottom: 5rem; font-size: 2.75rem;">
+                    Un modello Win-Win
+                </h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;" class="pricing-grid-custom">
+                    <!-- CARD A -->
+                    <div class="lp-card badge-card"
+                        style="border: 2.5px solid var(--primary-color); box-shadow: 0 20px 40px rgba(0,0,0,0.05);">
+                        <div
+                            style="position: absolute; top: -16px; left: 50%; transform: translateX(-50%); background: var(--primary-color); color: white; padding: 0.6rem 1.75rem; border-radius: 50px; font-size: 0.75rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap; box-shadow: 0 5px 15px rgba(182,131,151,0.3);">
+                            Modello Consigliato
+                        </div>
+                        <div class="lp-card-content">
+                            <h3 style="color: var(--primary-color); margin-bottom: 0.5rem; font-size: 1.4rem;">Opzione A
+                            </h3>
+                            <p
+                                style="font-weight: 800; font-size: 1.75rem; margin-bottom: 1.25rem; color: var(--text-color); line-height: 1;">
+                                Revenue Share</p>
+                            <p style="line-height: 1.8; color: #555;">Il Centro trattiene una percentuale (30-40%)
+                                sull'intero incasso. <strong>Nessun costo fisso o rischio imprenditoriale.</strong></p>
+                        </div>
+                    </div>
+                    <!-- CARD B -->
+                    <div class="lp-card">
+                        <div class="lp-card-content" style="padding-top: 3.5rem;">
+                            <h3 style="color: #666; margin-bottom: 0.5rem; font-size: 1.4rem;">Opzione B</h3>
+                            <p
+                                style="font-weight: 800; font-size: 1.75rem; margin-bottom: 1.25rem; color: var(--text-color); line-height: 1;">
+                                Flat Fee</p>
+                            <p style="line-height: 1.8; color: #555;">Il Centro paga un gettone fisso per la masterclass
+                                e gestisce autonomamente il prezzo del biglietto, trattenendo il surplus.</p>
+                        </div>
+                    </div>
+                </div>
+                <p
+                    style="margin-top: 4rem; font-style: italic; color: #999; text-align: center; font-size: 1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                    * È possibile prevedere giornate di Letture Individuali Human Design nei giorni successivi, portando
+                    traffico ricorrente al Centro.
+                </p>
+            </div>
+        </section>
+
+        <!-- CTA FINALE -->
+        <section class="section-padding"
+            style="background: white; border-top: 1px solid var(--soft-gray); text-align: center;">
+            <div class="container" style="max-width: 800px;">
+                <h2 class="serif" style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 2rem;">
+                    Collaboriamo?
+                </h2>
+                <p
+                    style="font-size: 1.35rem; line-height: 1.6; opacity: 0.9; margin-bottom: 3.5rem; max-width: 650px; margin-left: auto; margin-right: auto;">
+                    Prenota una call interlocutoria di 15 minuti per valutare fattibilità e date per il tuo centro.
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center;">
+                    <a href="mailto:info@valentinarussobg5.com"
+                        style="display: inline-block; background: var(--primary-color); color: white; padding: 1.4rem 4rem; border-radius: 60px; text-decoration: none; font-weight: 700; font-size: 1.25rem; box-shadow: 0 15px 30px rgba(182,131,151,0.25); transition: transform 0.2s ease;">
+                        Richiedi Info
+                    </a>
+                    <div style="font-size: 1.2rem; color: var(--text-color);">
+                        WhatsApp: <strong>+39 349 745 1014</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer
+        style="text-align: center; padding: 4rem 0; color: #bbb; font-size: 0.8rem; letter-spacing: 1.5px; background: #fafafa; border-top: 1px solid var(--soft-gray); text-transform: uppercase;">
+        © 2026 VALENTINA RUSSO | HUMAN DESIGN ANALYST & MENTAL ADVISOR
+    </footer>
+
+</body>
+
+</html>

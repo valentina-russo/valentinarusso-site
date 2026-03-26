@@ -1,0 +1,20 @@
+[
+  {
+    "name": "grav-site-1560a18-admin",
+    "value": "sfnv4dcecm1bbt9lknmpbh3tdd",
+    "domain": "valentinarussobg5.com",
+    "path": "/",
+    "expires": "2026-03-13T11:32:33Z",
+    "secure": true,
+    "httpOnly": true,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "cookieadmin_consent",
+    "value": "{\"accept\":\"true\",\"consent\":\"3e3b7345-43a7-4710-b577-245ae100e567\"}",
+    "domain": "valentinarussobg5.com",
+    "path": "/",
+    "secure": false,
+    "httpOnly": false
+  }
+]
