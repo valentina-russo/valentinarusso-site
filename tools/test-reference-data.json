@@ -711,32 +711,9 @@
     "variable": "DRR-PRL"
   },
   {
-    "name": "Giulia Melis",
-    "birth_date": "1995-09-11",
-    "birth_time": "19:40",
-    "birth_place": "Milano",
-    "tz": "Europe/Rome",
-    "type": "Manifesting Generator",
-    "type_code": "MGP",
-    "profile": "2/4",
-    "definition": "Split",
-    "cross": "LAX Eden 3",
-    "authority": "Sacral",
-    "channels": [
-      "10-20",
-      "12-22",
-      "02-14",
-      "25-51",
-      "29-46",
-      "34-57",
-      "35-36"
-    ],
-    "variable": "DLL-PLL"
-  },
-  {
     "name": "Francesca Speranza",
-    "birth_date": "1982-06-06",
-    "birth_time": "08:00",
+    "birth_date": "1982-06-01",
+    "birth_time": "00:15",
     "birth_place": "Milano",
     "tz": "Europe/Rome",
     "type": "Generator",
@@ -752,31 +729,9 @@
     "variable": "DLR-PLL"
   },
   {
-    "name": "Mary Terry",
-    "birth_date": "1981-01-12",
-    "birth_time": "20:00",
-    "birth_place": "Putignano",
-    "tz": "Europe/Rome",
-    "type": "Manifesting Generator",
-    "type_code": "MGP",
-    "profile": "2/5",
-    "definition": "Split",
-    "cross": "LAX The Four Ways 4",
-    "authority": "Sacral",
-    "channels": [
-      "10-34",
-      "16-48",
-      "20-57",
-      "34-57",
-      "43-23",
-      "45-21"
-    ],
-    "variable": "DRR-PRL"
-  },
-  {
     "name": "Elisa Bucco",
     "birth_date": "1985-09-11",
-    "birth_time": "08:24",
+    "birth_time": "00:00",
     "birth_place": "Cosenza",
     "tz": "Europe/Rome",
     "type": "Manifesting Generator",
@@ -798,7 +753,7 @@
   {
     "name": "Nika Instagram",
     "birth_date": "1977-09-24",
-    "birth_time": "15:00",
+    "birth_time": "09:00",
     "birth_place": "Nola",
     "tz": "Europe/Rome",
     "type": "Generator",
