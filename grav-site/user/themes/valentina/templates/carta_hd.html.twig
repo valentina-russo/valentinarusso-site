@@ -1394,11 +1394,11 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
       };
       const g = document.createElementNS(ns, 'g');
       g.setAttribute('id', 'hd-variables');
-      // Standard HD: P (Personality/black) LEFT, D (Design/red) RIGHT
-      g.appendChild(mkArrow(headCenter - arrowOffset, arrowY, toArrow(variables.perspective), '#1a1a2e'));
-      g.appendChild(mkArrow(headCenter - arrowOffset, arrowY + arrowGap, toArrow(variables.awareness), '#1a1a2e'));
-      g.appendChild(mkArrow(headCenter + arrowOffset, arrowY, toArrow(variables.digestion), '#c0392b'));
-      g.appendChild(mkArrow(headCenter + arrowOffset, arrowY + arrowGap, toArrow(variables.environment), '#c0392b'));
+      // Standard HD: D (Design/red) LEFT, P (Personality/black) RIGHT
+      g.appendChild(mkArrow(headCenter - arrowOffset, arrowY, toArrow(variables.digestion), '#c0392b'));
+      g.appendChild(mkArrow(headCenter - arrowOffset, arrowY + arrowGap, toArrow(variables.environment), '#c0392b'));
+      g.appendChild(mkArrow(headCenter + arrowOffset, arrowY, toArrow(variables.awareness), '#1a1a2e'));
+      g.appendChild(mkArrow(headCenter + arrowOffset, arrowY + arrowGap, toArrow(variables.perspective), '#1a1a2e'));
       svgEl.appendChild(g);
     }
 
