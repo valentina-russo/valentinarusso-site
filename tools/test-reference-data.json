@@ -310,24 +310,6 @@
     "variable": "DRL-PLL"
   },
   {
-    "name": "Giulia Sovilla",
-    "birth_date": "1988-09-12",
-    "birth_time": "08:05",
-    "birth_place": "Cittadella",
-    "tz": "Europe/Rome",
-    "type": "Generator",
-    "type_code": "GP",
-    "profile": "3/5",
-    "definition": "Split",
-    "cross": "RAX Rulership 3",
-    "authority": "Sacral",
-    "channels": [
-      "10-34",
-      "32-54"
-    ],
-    "variable": "DRL-PLR"
-  },
-  {
     "name": "Barbara Crusco",
     "birth_date": "1986-06-14",
     "birth_time": "05:00",
@@ -692,25 +674,6 @@
     "variable": "DRL-PRR"
   },
   {
-    "name": "Ragazzo Giulia Melis",
-    "birth_date": "1998-10-29",
-    "birth_time": "14:17",
-    "birth_place": "Milano",
-    "tz": "Europe/Rome",
-    "type": "Projector",
-    "type_code": "PSP",
-    "profile": "5/1",
-    "definition": "Single",
-    "cross": "LAX Alignment 2",
-    "authority": "Splenic",
-    "channels": [
-      "10-57",
-      "20-57",
-      "34-57"
-    ],
-    "variable": "DRR-PRL"
-  },
-  {
     "name": "Francesca Speranza",
     "birth_date": "1982-06-06",
     "birth_time": "15:00",
@@ -868,25 +831,6 @@
       "34-57"
     ],
     "variable": "DLR-PRR"
-  },
-  {
-    "name": "Valeria Milan",
-    "birth_date": "1973-09-16",
-    "birth_time": "12:50",
-    "birth_place": "Vicenza",
-    "tz": "Europe/Rome",
-    "type": "Generator",
-    "type_code": "GP",
-    "profile": "3/6",
-    "definition": "Single",
-    "cross": "LAX Eden 3",
-    "authority": "Sacral",
-    "channels": [
-      "10-34",
-      "10-57",
-      "34-57"
-    ],
-    "variable": "DLL-PRR"
   },
   {
     "name": "Ludovica d'Alessandro",
