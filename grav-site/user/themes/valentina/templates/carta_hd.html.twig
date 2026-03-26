@@ -555,7 +555,7 @@ const HD_RAVE_OFFSET = 58.0;
 const HD_CHANNELS = [
   [64,47],[61,24],[63,4],[17,62],[43,23],[11,56],[16,48],[20,57],
   [31,7],[8,1],[33,13],[10,20],[45,21],[35,36],[12,22],[20,34],
-  [10,34],[26,44],[51,25],[40,37],[2,14],[5,15],[29,46],[27,50],[34,57],
+  [10,34],[10,57],[26,44],[51,25],[40,37],[2,14],[5,15],[29,46],[27,50],[34,57],
   [59,6],[3,60],[9,52],[42,53],[18,58],[28,38],[32,54],[30,41],
   [39,55],[19,49]
 ];
@@ -696,11 +696,11 @@ function hdCalcType(defCenters, defChannels) {
   }
 
   const hasSacral = defCenters.has('SACRAL');
-  const sacralToThroat = hasSacral && motorToThroat('SACRAL');
-  const otherMotorToThroat = [...motors].filter(m => m !== 'SACRAL' && defCenters.has(m)).some(m => motorToThroat(m));
+  // Any defined motor connected to Throat (directly or transitively)
+  const anyMotorToThroat = [...motors].filter(m => defCenters.has(m)).some(m => motorToThroat(m));
 
-  if (hasSacral) return sacralToThroat ? 'Manifesting Generator' : 'Generator';
-  return otherMotorToThroat ? 'Manifestor' : 'Projector';
+  if (hasSacral) return anyMotorToThroat ? 'Manifesting Generator' : 'Generator';
+  return anyMotorToThroat ? 'Manifestor' : 'Projector';
 }
 
 function hdCalcProfile(personality, design) {
