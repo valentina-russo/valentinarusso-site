@@ -1972,6 +1972,13 @@ async function hdSaveConfirm() {
     const csrfJ = await csrfR.json();
     if (!csrfJ.ok) { hdSaveMsg('Sessione scaduta. Ricarica la pagina.', 'err'); return; }
 
+    // Cattura SVG bodygraph per anteprima in "Le mie Carte"
+    let svgPreview = '';
+    const svgEl = document.querySelector('#carta-bodygraph-wrap svg');
+    if (svgEl) { svgPreview = svgEl.outerHTML; }
+
+    const saveData = Object.assign({}, d, { svg_preview: svgPreview });
+
     const body = {
       action:      'save',
       chart_name:  name,
@@ -1982,7 +1989,7 @@ async function hdSaveConfirm() {
       birth_min:   min,
       birth_city:  city,
       birth_tz:    tz,
-      chart_json:  JSON.stringify(d),
+      chart_json:  JSON.stringify(saveData),
       csrf:        csrfJ.data.token
     };
 

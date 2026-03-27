@@ -7,11 +7,11 @@
 /* ── Layout base ── */
 body {
     background: linear-gradient(160deg, #B68397 0%, #8A6FA8 45%, #3A5A8A 80%, #1E3A5F 100%) !important;
-    background-attachment: fixed !important;
+    background-attachment: scroll !important;
     min-height: 100vh;
 }
 body header {
-    background: rgba(255,255,255,0.12) !important;
+    background: rgba(50, 20, 80, 0.82) !important;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(255,255,255,0.2) !important;
@@ -36,26 +36,65 @@ body footer a:hover { color: #fff !important; }
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255,255,255,0.25);
     border-radius: 20px;
-    padding: 1.5rem;
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
 }
 .mc-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.25rem;
     margin-top: 2rem;
 }
+
+/* ── Card layout con SVG ── */
+.mc-card-body {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+.mc-card-svg {
+    flex-shrink: 0;
+    width: 88px;
+    height: 106px;
+    overflow: hidden;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+}
+.mc-card-svg svg {
+    width: 88px !important;
+    height: auto !important;
+    display: block;
+}
+.mc-card-info { flex: 1; min-width: 0; }
 .mc-card-name {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: #fff;
     word-break: break-word;
+    margin-bottom: 0.4rem;
+}
+.mc-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-bottom: 0.5rem;
+}
+.mc-badge {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 50px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.22);
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.9);
+    white-space: nowrap;
 }
 .mc-card-meta {
-    font-size: 0.82rem;
-    color: rgba(255,255,255,0.6);
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.5;
 }
 .mc-card-actions {
     display: flex;
@@ -229,7 +268,7 @@ body footer a:hover { color: #fff !important; }
 
         const countEl = document.getElementById('mc-count');
         countEl.textContent = _charts.length === 0 ? '' :
-            _charts.length === 1 ? '1 carta salvata' : _charts.length + ' carte salvate (max 50)';
+            _charts.length === 1 ? '1 carta salvata' : _charts.length + ' carte salvate (max 10)';
 
         const grid = document.getElementById('mc-grid');
         grid.innerHTML = '';
@@ -254,12 +293,28 @@ body footer a:hover { color: #fff !important; }
         const dateStr = formatDate(chart.birth_day, chart.birth_month, chart.birth_year);
         const createdStr = chart.created_at ? chart.created_at.slice(0, 10) : '';
 
+        // Badge tipo — primo termine prima della virgola
+        const tipoShort = chart.tipo ? chart.tipo.split(' ')[0] + (chart.tipo.includes('Rapido') ? ' Rapido' : '') : '';
+
+        // SVG preview
+        const svgHtml = chart.svg_preview
+            ? `<div class="mc-card-svg">${chart.svg_preview}</div>`
+            : '';
+
         div.innerHTML = `
-            <div class="mc-card-name" id="name-${chart.id}">${escHtml(chart.chart_name)}</div>
-            <div class="mc-card-meta">
-                ${escHtml(dateStr)} · ${escHtml(chart.birth_city || '')}
+            <div class="mc-card-body">
+                ${svgHtml}
+                <div class="mc-card-info">
+                    <div class="mc-card-name" id="name-${chart.id}">${escHtml(chart.chart_name)}</div>
+                    <div class="mc-badges">
+                        ${chart.tipo    ? `<span class="mc-badge">${escHtml(chart.tipo)}</span>` : ''}
+                        ${chart.profilo ? `<span class="mc-badge">Profilo ${escHtml(chart.profilo)}</span>` : ''}
+                        ${chart.autorita ? `<span class="mc-badge">${escHtml(chart.autorita.split('/')[0].trim())}</span>` : ''}
+                    </div>
+                    <div class="mc-card-meta">${escHtml(dateStr)} · ${escHtml(chart.birth_city || '')}</div>
+                    <div class="mc-card-meta">Salvata il ${escHtml(createdStr)}</div>
+                </div>
             </div>
-            <div class="mc-card-meta">Salvata il ${escHtml(createdStr)}</div>
             <div class="mc-card-actions">
                 <button class="mc-btn mc-btn-primary" onclick="loadChart(${chart.id})">Carica</button>
                 <button class="mc-btn mc-btn-outline" onclick="startRename(${chart.id})">Rinomina</button>

@@ -44,14 +44,26 @@ hdErr('Metodo non consentito.', 405);
 function handleList(array $user): void {
     $stmt = hdDb()->prepare(
         'SELECT id, chart_name, birth_day, birth_month, birth_year,
-                birth_city, created_at
+                birth_city, created_at, chart_json
          FROM hd_charts
          WHERE user_id = ?
          ORDER BY created_at DESC
-         LIMIT 100'
+         LIMIT 10'
     );
     $stmt->execute([$user['id']]);
-    hdOk($stmt->fetchAll());
+    $rows = $stmt->fetchAll();
+
+    foreach ($rows as &$row) {
+        $data = json_decode($row['chart_json'], true) ?: [];
+        $row['tipo']        = $data['type']        ?? '';
+        $row['profilo']     = $data['profile']      ?? '';
+        $row['autorita']    = $data['authority']    ?? '';
+        $row['svg_preview'] = $data['svg_preview']  ?? '';
+        unset($row['chart_json']);
+    }
+    unset($row);
+
+    hdOk($rows);
 }
 
 function handleGet(array $user, int $chartId): void {
@@ -82,14 +94,14 @@ function handleSave(array $user, array $b): void {
                          ->execute([$user['id']]) ?: 0;
     $countStmt = hdDb()->prepare('SELECT COUNT(*) FROM hd_charts WHERE user_id = ?');
     $countStmt->execute([$user['id']]);
-    if ((int)$countStmt->fetchColumn() >= 50) {
-        hdErr('Hai raggiunto il limite di 50 carte salvate. Elimina una carta per continuarne a salvare.');
+    if ((int)$countStmt->fetchColumn() >= 10) {
+        hdErr('Hai raggiunto il limite di 10 carte salvate. Elimina una carta per continuare a salvare.');
     }
 
     // Valida chart_json
     $chartJson = $b['chart_json'] ?? '';
     if (!$chartJson || json_decode($chartJson) === null) hdErr('Dati carta non validi.');
-    if (strlen($chartJson) > 300000) hdErr('Dati carta troppo grandi.');
+    if (strlen($chartJson) > 600000) hdErr('Dati carta troppo grandi.');
 
     $day   = (int)($b['birth_day']   ?? 0);
     $month = (int)($b['birth_month'] ?? 0);
