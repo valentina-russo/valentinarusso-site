@@ -328,6 +328,90 @@
   #pdf-layout .pdf-cta-links span { margin: 0 5px; }
   #pdf-layout .pdf-footer { font-size: 5.5pt; color: #999; text-align: center; padding-top: 4px; margin-top: 4px; }
 
+  /* ── Genera Carta: gradient page styling ──────────────────────────────── */
+  body {
+    background: linear-gradient(160deg, #B68397 0%, #8A6FA8 45%, #3A5A8A 80%, #1E3A5F 100%) !important;
+    background-attachment: fixed !important;
+    min-height: 100vh;
+  }
+  body header {
+    background: rgba(255,255,255,0.12) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.2) !important;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  body header .brand-name,
+  body header .brand-tagline,
+  body header #main-nav a { color: #fff !important; }
+  body header #main-nav a:hover { color: rgba(255,255,255,0.7) !important; }
+  body header .menu-toggle { color: #fff !important; }
+  body footer { background: rgba(255,255,255,0.08) !important; backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.15) !important; }
+  body footer a, body footer div { color: rgba(255,255,255,0.75) !important; }
+  body footer a:hover { color: #fff !important; }
+
+  .carta-intro h1 { color: #fff !important; }
+  .carta-intro .carta-tagline {
+    font-style: italic;
+    font-family: var(--font-serif, 'Playfair Display', serif);
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.88);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Tips bar */
+  .gc-tips-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    flex-wrap: wrap;
+  }
+  .gc-tips-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 160px;
+  }
+  .gc-tips-num {
+    background: rgba(255,255,255,0.3);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.72rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .gc-tips-text { color: rgba(255,255,255,0.88); font-size: 0.82rem; line-height: 1.45; }
+  .gc-tips-text strong { color: #fff; display: block; }
+
+  /* After results: CTA style override */
+  .carta-cta {
+    background: rgba(255,255,255,0.15) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.25) !important;
+    border-radius: 30px !important;
+  }
+  .carta-cta p { color: rgba(255,255,255,0.88) !important; }
+  .carta-cta a { background: #fff !important; color: var(--primary-color) !important; }
+  .carta-cta a:hover { opacity: 0.9 !important; }
+
   @media print {
     @page { size: A4; margin: 0.4cm 0.7cm; }
     body { background: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -379,7 +463,22 @@
 
   <div class="carta-intro">
     <h1>{{ page.header.title }}</h1>
-    <p>{{ page.header.description }}</p>
+    <p class="carta-tagline">Il primo passo verso la consapevolezza del tuo disegno unico.</p>
+  </div>
+
+  <div class="gc-tips-bar">
+    <div class="gc-tips-item">
+      <div class="gc-tips-num">1</div>
+      <div class="gc-tips-text"><strong>Data di nascita</strong>Giorno, mese e anno completi.</div>
+    </div>
+    <div class="gc-tips-item">
+      <div class="gc-tips-num">2</div>
+      <div class="gc-tips-text"><strong>Ora esatta</strong>Anche pochi minuti cambiano il risultato. Cercala sull'estratto di nascita integrale.</div>
+    </div>
+    <div class="gc-tips-item">
+      <div class="gc-tips-num">3</div>
+      <div class="gc-tips-text"><strong>Luogo di nascita</strong>Inserisci la città — il fuso orario viene rilevato automaticamente.</div>
+    </div>
   </div>
 
   <div class="carta-form-card">
@@ -470,8 +569,8 @@
       </div>
     </div>
     <div class="carta-cta">
-      <p>Il tuo grafico mostra la struttura energetica di base. Una consulenza con Valentina trasforma questi dati in indicazioni pratiche per le tue relazioni, il lavoro e le decisioni quotidiane.</p>
-      <a href="/contatti">Prenota una consulenza con Valentina</a>
+      <p>La tua carta mostra la struttura energetica di base. Una lettura professionale con Valentina trasforma questi dati in indicazioni concrete per le tue relazioni, il lavoro e le decisioni di tutti i giorni.</p>
+      <a href="/contatti">Prenota una Prima Lettura</a>
     </div>
   </div>
 
