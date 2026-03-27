@@ -1,0 +1,703 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block title %}Account | Valentina Russo{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ── Layout base ── */
+body {
+    background: linear-gradient(160deg, #B68397 0%, #8A6FA8 45%, #3A5A8A 80%, #1E3A5F 100%) !important;
+    background-attachment: fixed !important;
+    min-height: 100vh;
+}
+body header {
+    background: rgba(255,255,255,0.12) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.2) !important;
+    position: sticky; top: 0; z-index: 1000;
+}
+body header .brand-name,
+body header .brand-tagline,
+body header #main-nav a { color: #fff !important; }
+body header #main-nav a:hover { color: rgba(255,255,255,0.7) !important; }
+body header .menu-toggle { color: #fff !important; }
+body h1, body h2, body h3 { color: #fff !important; }
+body h4 { color: #FDE8B0 !important; }
+body p, body label, body .text-small { color: rgba(255,255,255,0.88); }
+body footer { background: rgba(255,255,255,0.08) !important; backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.15) !important; }
+body footer a, body footer div { color: rgba(255,255,255,0.75) !important; }
+body footer a:hover { color: #fff !important; }
+
+/* ── Card glass ── */
+.acc-card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 24px;
+    padding: 2.5rem;
+    max-width: 520px;
+    margin: 0 auto;
+}
+.acc-card-wide {
+    max-width: 760px;
+}
+
+/* ── Tabs ── */
+.acc-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2rem;
+    border-radius: 50px;
+    background: rgba(0,0,0,0.15);
+    padding: 4px;
+}
+.acc-tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.65rem 1.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    transition: all 0.2s;
+    border: none;
+    background: transparent;
+}
+.acc-tab.active {
+    background: rgba(255,255,255,0.25);
+    color: #fff;
+}
+
+/* ── Forms ── */
+.acc-field {
+    margin-bottom: 1.25rem;
+}
+.acc-field label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255,255,255,0.75) !important;
+    margin-bottom: 0.4rem;
+}
+.acc-field input[type="text"],
+.acc-field input[type="email"],
+.acc-field input[type="password"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+.acc-field input::placeholder { color: rgba(255,255,255,0.45); }
+.acc-field input:focus { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.18); }
+
+/* ── Checkbox ── */
+.acc-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+.acc-check input[type="checkbox"] {
+    margin-top: 2px;
+    accent-color: #FDE8B0;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+.acc-check span {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.5;
+}
+.acc-check a { color: #FDE8B0; text-decoration: underline; }
+
+/* ── Buttons ── */
+.acc-btn {
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    border-radius: 50px;
+    border: none;
+    background: #FDE8B0;
+    color: #1E3A5F;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    margin-top: 0.5rem;
+}
+.acc-btn:hover { opacity: 0.9; }
+.acc-btn:active { transform: scale(0.98); }
+.acc-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.acc-btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.5);
+    color: #fff;
+}
+.acc-btn-outline:hover { background: rgba(255,255,255,0.1); opacity: 1; }
+.acc-btn-danger {
+    background: rgba(220,50,50,0.8);
+    color: #fff;
+    border: 1px solid rgba(220,50,50,0.5);
+}
+.acc-btn-danger:hover { background: rgba(200,30,30,0.9); opacity: 1; }
+.acc-btn-sm {
+    width: auto;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.85rem;
+    margin-top: 0;
+}
+
+/* ── Messages ── */
+.acc-msg {
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: none;
+}
+.acc-msg.show { display: block; }
+.acc-msg-ok  { background: rgba(50,200,100,0.2); border: 1px solid rgba(50,200,100,0.4); color: #b6f5c8; }
+.acc-msg-err { background: rgba(220,50,50,0.2);  border: 1px solid rgba(220,50,50,0.4);  color: #ffb3b3; }
+.acc-msg-info { background: rgba(255,220,100,0.15); border: 1px solid rgba(255,220,100,0.35); color: #FDE8B0; }
+
+/* ── Profile sections ── */
+.acc-section {
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding-top: 2rem;
+    margin-top: 2rem;
+}
+.acc-meta {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.55) !important;
+}
+
+/* ── Forgot link ── */
+.acc-forgot {
+    text-align: right;
+    margin-top: -0.75rem;
+    margin-bottom: 1rem;
+}
+.acc-forgot a {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.6);
+    text-decoration: underline;
+    cursor: pointer;
+}
+.acc-forgot a:hover { color: #FDE8B0; }
+
+/* ── Panel visibility ── */
+[data-panel] { display: none; }
+[data-panel].active { display: block; }
+</style>
+{% endblock %}
+
+{% block content %}
+<main style="overflow-x: hidden;">
+<section class="section-padding">
+<div class="container">
+    <div class="text-center" style="max-width: 520px; margin: 0 auto 2.5rem;">
+        <h1 id="acc-page-title" style="margin-bottom: 0.5rem;">Il tuo Account</h1>
+        <p class="serif italic" style="color: rgba(255,255,255,0.8);">Accedi per salvare le tue carte Human Design.</p>
+    </div>
+
+    {# ─── Pannello: loading ─────────────────────────────────── #}
+    <div id="panel-loading" data-panel class="active" style="text-align:center; padding: 2rem 0;">
+        <p style="color: rgba(255,255,255,0.6);">Caricamento…</p>
+    </div>
+
+    {# ─── Pannello: reset password (da link email) ──────────── #}
+    <div id="panel-reset" data-panel>
+        <div class="acc-card">
+            <h3 style="margin-bottom: 1.5rem; text-align:center;">Nuova Password</h3>
+            <div id="reset-msg" class="acc-msg"></div>
+            <form id="form-reset" novalidate>
+                <input type="hidden" id="reset-token" value="">
+                <div class="acc-field">
+                    <label for="reset-password">Nuova password</label>
+                    <input type="password" id="reset-password" placeholder="Almeno 8 caratteri" autocomplete="new-password">
+                </div>
+                <div class="acc-field">
+                    <label for="reset-password2">Conferma password</label>
+                    <input type="password" id="reset-password2" placeholder="Ripeti la password" autocomplete="new-password">
+                </div>
+                <button type="submit" class="acc-btn" id="reset-btn">Aggiorna Password</button>
+            </form>
+        </div>
+    </div>
+
+    {# ─── Pannello: login / registrazione ───────────────────── #}
+    <div id="panel-auth" data-panel>
+        <div class="acc-card">
+            <div class="acc-tabs" role="tablist">
+                <button class="acc-tab active" id="tab-login-btn" role="tab" aria-controls="tab-login" aria-selected="true" onclick="switchTab('login')">Accedi</button>
+                <button class="acc-tab" id="tab-register-btn" role="tab" aria-controls="tab-register" aria-selected="false" onclick="switchTab('register')">Registrati</button>
+            </div>
+
+            {# Login #}
+            <div id="tab-login" role="tabpanel">
+                <div id="login-msg" class="acc-msg"></div>
+                <form id="form-login" novalidate>
+                    <div class="acc-field">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" placeholder="la-tua@email.com" autocomplete="email">
+                    </div>
+                    <div class="acc-field" style="margin-bottom: 0.5rem;">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="La tua password" autocomplete="current-password">
+                    </div>
+                    <div class="acc-forgot">
+                        <a onclick="switchTab('forgot')">Password dimenticata?</a>
+                    </div>
+                    <button type="submit" class="acc-btn" id="login-btn">Accedi</button>
+                </form>
+            </div>
+
+            {# Registrazione #}
+            <div id="tab-register" role="tabpanel" style="display:none;">
+                <div id="register-msg" class="acc-msg"></div>
+                <form id="form-register" novalidate>
+                    <div class="acc-field">
+                        <label for="reg-name">Nome (opzionale)</label>
+                        <input type="text" id="reg-name" placeholder="Come vuoi essere chiamata/o" autocomplete="given-name">
+                    </div>
+                    <div class="acc-field">
+                        <label for="reg-email">Email</label>
+                        <input type="email" id="reg-email" placeholder="la-tua@email.com" autocomplete="email">
+                    </div>
+                    <div class="acc-field">
+                        <label for="reg-password">Password</label>
+                        <input type="password" id="reg-password" placeholder="Almeno 8 caratteri" autocomplete="new-password">
+                    </div>
+                    <div style="margin: 1.25rem 0 1rem;">
+                        <div class="acc-check">
+                            <input type="checkbox" id="reg-gdpr">
+                            <span>Ho letto e accetto la <a href="{{ grav.base_url }}/privacy" target="_blank">Privacy Policy</a>. Acconsento al trattamento dei dati per la gestione dell'account e il salvataggio delle carte Human Design.</span>
+                        </div>
+                        <div class="acc-check">
+                            <input type="checkbox" id="reg-age">
+                            <span>Dichiaro di avere almeno 16 anni.</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="acc-btn" id="register-btn">Crea Account</button>
+                </form>
+            </div>
+
+            {# Password dimenticata #}
+            <div id="tab-forgot" role="tabpanel" style="display:none;">
+                <div style="margin-bottom: 1.5rem;">
+                    <a onclick="switchTab('login')" style="font-size:0.85rem; color:rgba(255,255,255,0.6); cursor:pointer;">← Torna al login</a>
+                </div>
+                <h4 style="margin-bottom: 1rem;">Recupera Password</h4>
+                <div id="forgot-msg" class="acc-msg"></div>
+                <form id="form-forgot" novalidate>
+                    <div class="acc-field">
+                        <label for="forgot-email">Email</label>
+                        <input type="email" id="forgot-email" placeholder="la-tua@email.com" autocomplete="email">
+                    </div>
+                    <button type="submit" class="acc-btn" id="forgot-btn">Invia Link di Reset</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {# ─── Pannello: profilo (loggata/o) ─────────────────────── #}
+    <div id="panel-profile" data-panel>
+        <div class="acc-card acc-card-wide">
+
+            {# Intestazione profilo #}
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom: 1.5rem;">
+                <div>
+                    <h3 id="profile-name" style="margin:0; color:#fff !important;"></h3>
+                    <p id="profile-email" class="acc-meta" style="margin:0.25rem 0 0;"></p>
+                </div>
+                <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+                    <a href="{{ grav.base_url }}/le-mie-carte" class="acc-btn acc-btn-outline acc-btn-sm" style="text-decoration:none; display:inline-block; text-align:center;">Le mie Carte</a>
+                    <button onclick="doLogout()" class="acc-btn acc-btn-outline acc-btn-sm">Esci</button>
+                </div>
+            </div>
+
+            <div id="profile-msg" class="acc-msg"></div>
+
+            {# Cambia password #}
+            <div class="acc-section">
+                <h4 style="margin-bottom: 1.25rem;">Cambia Password</h4>
+                <form id="form-change-pw" novalidate>
+                    <div class="acc-field">
+                        <label for="cp-old">Password attuale</label>
+                        <input type="password" id="cp-old" placeholder="Password attuale" autocomplete="current-password">
+                    </div>
+                    <div class="acc-field">
+                        <label for="cp-new">Nuova password</label>
+                        <input type="password" id="cp-new" placeholder="Almeno 8 caratteri" autocomplete="new-password">
+                    </div>
+                    <div class="acc-field">
+                        <label for="cp-new2">Conferma nuova password</label>
+                        <input type="password" id="cp-new2" placeholder="Ripeti la nuova password" autocomplete="new-password">
+                    </div>
+                    <button type="submit" class="acc-btn acc-btn-outline acc-btn-sm" id="cp-btn" style="width:auto;">Aggiorna Password</button>
+                </form>
+            </div>
+
+            {# Esporta dati GDPR #}
+            <div class="acc-section">
+                <h4 style="margin-bottom: 0.5rem;">Esporta i tuoi Dati</h4>
+                <p class="text-small" style="margin-bottom: 1rem;">Scarica una copia di tutti i dati che abbiamo su di te (GDPR Art. 20 — Portabilità dei dati).</p>
+                <button onclick="doExport()" class="acc-btn acc-btn-outline acc-btn-sm" style="width:auto;">Scarica i miei Dati (JSON)</button>
+            </div>
+
+            {# Elimina account GDPR #}
+            <div class="acc-section">
+                <h4 style="color: #ffb3b3 !important; margin-bottom: 0.5rem;">Elimina Account</h4>
+                <p class="text-small" style="margin-bottom: 1rem;">Elimina permanentemente il tuo account e tutti i dati salvati (GDPR Art. 17 — Diritto all'oblio). Questa azione è irreversibile.</p>
+                <div id="delete-panel" style="display:none;">
+                    <div id="delete-msg" class="acc-msg"></div>
+                    <form id="form-delete" novalidate>
+                        <div class="acc-field">
+                            <label for="del-password">Conferma con la tua password</label>
+                            <input type="password" id="del-password" placeholder="La tua password attuale" autocomplete="current-password">
+                        </div>
+                        <div class="acc-field">
+                            <label for="del-confirm">Digita ELIMINA per confermare</label>
+                            <input type="text" id="del-confirm" placeholder="ELIMINA" autocomplete="off">
+                        </div>
+                        <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+                            <button type="submit" class="acc-btn acc-btn-danger acc-btn-sm" id="del-btn" style="width:auto;">Elimina Definitivamente</button>
+                            <button type="button" onclick="document.getElementById('delete-panel').style.display='none'" class="acc-btn acc-btn-outline acc-btn-sm" style="width:auto;">Annulla</button>
+                        </div>
+                    </form>
+                </div>
+                <button onclick="document.getElementById('delete-panel').style.display='block'; this.style.display='none'" id="delete-show-btn" class="acc-btn acc-btn-danger acc-btn-sm" style="width:auto;">Elimina Account</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</section>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function() {
+    const BASE = 'https://valentinarussobg5.com';
+
+    // ── Utility ──────────────────────────────────────────────────
+    function showPanel(id) {
+        document.querySelectorAll('[data-panel]').forEach(p => p.classList.remove('active'));
+        const el = document.getElementById(id);
+        if (el) el.classList.add('active');
+    }
+
+    function msg(id, text, type) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = text;
+        el.className = 'acc-msg show acc-msg-' + type;
+    }
+    function msgHide(id) {
+        const el = document.getElementById(id);
+        if (el) { el.className = 'acc-msg'; el.textContent = ''; }
+    }
+
+    function btnLoading(id, loading, label) {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        btn.disabled = loading;
+        if (label) btn.textContent = loading ? '...' : label;
+    }
+
+    async function getCsrf(forAction) {
+        const r = await fetch(BASE + '/hd-auth.php?action=csrf&for=' + forAction, { credentials: 'include' });
+        const j = await r.json();
+        return j.ok ? j.data.token : null;
+    }
+
+    async function apiFetch(url, body) {
+        const r = await fetch(BASE + url, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        return r.json();
+    }
+
+    // ── URL params ───────────────────────────────────────────────
+    const params = new URLSearchParams(location.search);
+
+    // ── Init: check auth ─────────────────────────────────────────
+    async function init() {
+        // Reset password da link email
+        if (params.get('action') === 'reset' && params.get('token')) {
+            document.getElementById('reset-token').value = params.get('token');
+            showPanel('panel-reset');
+            return;
+        }
+
+        try {
+            const r = await fetch(BASE + '/hd-auth.php?action=me', { credentials: 'include' });
+            const j = await r.json();
+            if (j.ok && j.data) {
+                setProfileUser(j.data);
+                showPanel('panel-profile');
+
+                if (params.get('verified') === '1') {
+                    msg('profile-msg', 'Email verificata con successo. Benvenuta/o!', 'ok');
+                }
+            } else {
+                showPanel('panel-auth');
+                if (params.get('error') === 'token_invalido') {
+                    msg('login-msg', 'Il link di verifica non è valido o è già stato usato.', 'err');
+                }
+            }
+        } catch(e) {
+            showPanel('panel-auth');
+        }
+    }
+
+    function setProfileUser(user) {
+        document.getElementById('profile-name').textContent = user.name || 'Benvenuta/o';
+        document.getElementById('profile-email').textContent = user.email || '';
+        document.getElementById('acc-page-title').textContent = user.name ? 'Ciao, ' + user.name : 'Il tuo Account';
+    }
+
+    // ── Tabs ─────────────────────────────────────────────────────
+    window.switchTab = function(tab) {
+        ['login','register','forgot'].forEach(t => {
+            const panel = document.getElementById('tab-' + t);
+            const btn   = document.getElementById('tab-' + t + '-btn');
+            if (panel) panel.style.display = 'none';
+            if (btn)   btn.classList.remove('active');
+        });
+        const active = document.getElementById('tab-' + tab);
+        const activeBtn = document.getElementById('tab-' + tab + '-btn');
+        if (active) active.style.display = 'block';
+        if (activeBtn) activeBtn.classList.add('active');
+    };
+
+    // ── Login ─────────────────────────────────────────────────────
+    document.getElementById('form-login').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        msgHide('login-msg');
+        const email    = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+        if (!email || !password) { msg('login-msg', 'Inserisci email e password.', 'err'); return; }
+
+        btnLoading('login-btn', true, 'Accedi');
+        try {
+            const csrf = await getCsrf('login');
+            const j = await apiFetch('/hd-auth.php', { action: 'login', email, password, csrf });
+            if (j.ok) {
+                setProfileUser(j.data);
+                showPanel('panel-profile');
+                history.replaceState(null, '', location.pathname);
+            } else {
+                msg('login-msg', j.error || 'Errore di accesso.', 'err');
+            }
+        } catch(e) {
+            msg('login-msg', 'Errore di rete. Riprova.', 'err');
+        } finally {
+            btnLoading('login-btn', false, 'Accedi');
+        }
+    });
+
+    // ── Register ──────────────────────────────────────────────────
+    document.getElementById('form-register').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        msgHide('register-msg');
+        const name     = document.getElementById('reg-name').value.trim();
+        const email    = document.getElementById('reg-email').value.trim();
+        const password = document.getElementById('reg-password').value;
+        const gdpr     = document.getElementById('reg-gdpr').checked;
+        const age      = document.getElementById('reg-age').checked;
+
+        if (!email || !password) { msg('register-msg', 'Inserisci email e password.', 'err'); return; }
+        if (!gdpr) { msg('register-msg', 'Devi accettare la Privacy Policy.', 'err'); return; }
+        if (!age)  { msg('register-msg', 'Devi avere almeno 16 anni.', 'err'); return; }
+
+        btnLoading('register-btn', true, 'Crea Account');
+        try {
+            const csrf = await getCsrf('register');
+            const j = await apiFetch('/hd-auth.php', { action: 'register', name, email, password, gdpr, age, csrf });
+            if (j.ok) {
+                msg('register-msg', j.data.message || 'Controlla la tua email per completare la registrazione.', 'ok');
+                document.getElementById('form-register').reset();
+            } else {
+                msg('register-msg', j.error || 'Errore durante la registrazione.', 'err');
+            }
+        } catch(e) {
+            msg('register-msg', 'Errore di rete. Riprova.', 'err');
+        } finally {
+            btnLoading('register-btn', false, 'Crea Account');
+        }
+    });
+
+    // ── Forgot password ───────────────────────────────────────────
+    document.getElementById('form-forgot').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        msgHide('forgot-msg');
+        const email = document.getElementById('forgot-email').value.trim();
+        if (!email) { msg('forgot-msg', 'Inserisci la tua email.', 'err'); return; }
+
+        btnLoading('forgot-btn', true, 'Invia Link di Reset');
+        try {
+            const csrf = await getCsrf('forgot');
+            const j = await apiFetch('/hd-auth.php', { action: 'forgot', email, csrf });
+            if (j.ok) {
+                msg('forgot-msg', j.data.message || "Se l'email è registrata, riceverai un link a breve.", 'ok');
+            } else {
+                msg('forgot-msg', j.error || 'Errore. Riprova.', 'err');
+            }
+        } catch(e) {
+            msg('forgot-msg', 'Errore di rete. Riprova.', 'err');
+        } finally {
+            btnLoading('forgot-btn', false, 'Invia Link di Reset');
+        }
+    });
+
+    // ── Reset password ────────────────────────────────────────────
+    document.getElementById('form-reset').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        msgHide('reset-msg');
+        const token    = document.getElementById('reset-token').value;
+        const password = document.getElementById('reset-password').value;
+        const password2 = document.getElementById('reset-password2').value;
+
+        if (password !== password2) { msg('reset-msg', 'Le password non coincidono.', 'err'); return; }
+        if (password.length < 8) { msg('reset-msg', 'La password deve avere almeno 8 caratteri.', 'err'); return; }
+
+        btnLoading('reset-btn', true, 'Aggiorna Password');
+        try {
+            const csrf = await getCsrf('reset');
+            const j = await apiFetch('/hd-auth.php', { action: 'reset', token, password, csrf });
+            if (j.ok) {
+                msg('reset-msg', j.data.message || 'Password aggiornata. Ora puoi accedere.', 'ok');
+                setTimeout(() => {
+                    history.replaceState(null, '', location.pathname);
+                    showPanel('panel-auth');
+                    switchTab('login');
+                }, 2000);
+            } else {
+                msg('reset-msg', j.error || 'Errore. Il link potrebbe essere scaduto.', 'err');
+            }
+        } catch(e) {
+            msg('reset-msg', 'Errore di rete. Riprova.', 'err');
+        } finally {
+            btnLoading('reset-btn', false, 'Aggiorna Password');
+        }
+    });
+
+    // ── Logout ────────────────────────────────────────────────────
+    window.doLogout = async function() {
+        try {
+            await apiFetch('/hd-auth.php', { action: 'logout' });
+        } catch(e) {}
+        showPanel('panel-auth');
+        switchTab('login');
+        document.getElementById('acc-page-title').textContent = 'Il tuo Account';
+    };
+
+    // ── Cambia password ───────────────────────────────────────────
+    document.getElementById('form-change-pw').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        msgHide('profile-msg');
+        const oldPw = document.getElementById('cp-old').value;
+        const newPw = document.getElementById('cp-new').value;
+        const newPw2 = document.getElementById('cp-new2').value;
+
+        if (!oldPw || !newPw) { msg('profile-msg', 'Compila tutti i campi.', 'err'); return; }
+        if (newPw !== newPw2) { msg('profile-msg', 'Le nuove password non coincidono.', 'err'); return; }
+        if (newPw.length < 8) { msg('profile-msg', 'La nuova password deve avere almeno 8 caratteri.', 'err'); return; }
+
+        btnLoading('cp-btn', true, 'Aggiorna Password');
+        try {
+            const csrf = await getCsrf('change_password');
+            const j = await apiFetch('/hd-account.php', { action: 'change_password', old_password: oldPw, new_password: newPw, csrf });
+            if (j.ok) {
+                msg('profile-msg', j.data.message || 'Password aggiornata. Effettua di nuovo il login.', 'ok');
+                document.getElementById('form-change-pw').reset();
+                setTimeout(() => {
+                    showPanel('panel-auth');
+                    switchTab('login');
+                }, 2500);
+            } else {
+                msg('profile-msg', j.error || 'Errore.', 'err');
+            }
+        } catch(e) {
+            msg('profile-msg', 'Errore di rete. Riprova.', 'err');
+        } finally {
+            btnLoading('cp-btn', false, 'Aggiorna Password');
+        }
+    });
+
+    // ── Esporta dati ──────────────────────────────────────────────
+    window.doExport = async function() {
+        try {
+            const r = await fetch(BASE + '/hd-account.php', {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'export' })
+            });
+            if (!r.ok) { alert('Errore durante l\'esportazione.'); return; }
+            const blob = await r.blob();
+            const url  = URL.createObjectURL(blob);
+            const a    = document.createElement('a');
+            a.href     = url;
+            a.download = 'hd-export-' + new Date().toISOString().slice(0,10) + '.json';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        } catch(e) {
+            alert('Errore di rete. Riprova.');
+        }
+    };
+
+    // ── Elimina account ───────────────────────────────────────────
+    document.getElementById('form-delete').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        msgHide('delete-msg');
+        const password = document.getElementById('del-password').value;
+        const confirm  = document.getElementById('del-confirm').value;
+
+        if (!password) { msg('delete-msg', 'Inserisci la tua password.', 'err'); return; }
+        if (confirm !== 'ELIMINA') { msg('delete-msg', 'Digita esattamente ELIMINA nel campo di conferma.', 'err'); return; }
+
+        btnLoading('del-btn', true, 'Elimina Definitivamente');
+        try {
+            const csrf = await getCsrf('delete_account');
+            const j = await apiFetch('/hd-account.php', { action: 'delete', password, confirm, csrf });
+            if (j.ok) {
+                msg('delete-msg', 'Account eliminato. Tutti i tuoi dati sono stati rimossi.', 'ok');
+                setTimeout(() => {
+                    showPanel('panel-auth');
+                    switchTab('register');
+                }, 2500);
+            } else {
+                msg('delete-msg', j.error || 'Errore.', 'err');
+            }
+        } catch(e) {
+            msg('delete-msg', 'Errore di rete. Riprova.', 'err');
+        } finally {
+            btnLoading('del-btn', false, 'Elimina Definitivamente');
+        }
+    });
+
+    // ── Start ─────────────────────────────────────────────────────
+    init();
+})();
+</script>
+{% endblock %}

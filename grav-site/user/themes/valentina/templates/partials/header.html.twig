@@ -34,8 +34,32 @@
                 <li><a href="{{ grav.base_url }}/contatti">Contatti</a></li>
                 <li><a href="{{ grav.base_url }}/aziende" class="btn"
                        style="background-color: var(--corp-primary); color: white; padding: 0.4rem 1rem; font-size: 0.85rem; border-radius: 4px;">Percorso Aziende</a></li>
+                <li>
+                    <a href="{{ grav.base_url }}/account" id="hd-account-link" aria-label="Account"
+                       title="Il mio account"
+                       style="display:inline-flex; align-items:center; gap:0.35rem; padding:0.35rem 0.75rem; border-radius:50px; border:1px solid currentColor; font-size:0.82rem; opacity:0.75; transition:opacity 0.2s; text-decoration:none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                        <span id="hd-account-label">Account</span>
+                    </a>
+                </li>
             </ul>
             {% endif %}
         </nav>
+        <script>
+        (function(){
+          var el = document.getElementById('hd-account-label');
+          if (!el) return;
+          fetch('https://valentinarussobg5.com/hd-auth.php?action=me', { credentials: 'include' })
+            .then(r => r.json())
+            .then(j => {
+              if (j.ok && j.data && j.data.name) {
+                el.textContent = j.data.name.split(' ')[0];
+                var link = document.getElementById('hd-account-link');
+                if (link) link.style.opacity = '1';
+              }
+            })
+            .catch(function(){});
+        })();
+        </script>
     </div>
 </header>

@@ -51,6 +51,11 @@ grav-site/user/pages/*
 # Eccezione: calcolatore Carta Human Design — ora su /genera-carta (pagina + template deployati via FTP)
 !grav-site/user/pages/09.genera-carta
 !grav-site/user/pages/carta-hd
+# Eccezione: HD Account System — pagine account e carte
+!grav-site/user/pages/22.account
+!grav-site/user/pages/23.le-mie-carte
+# Eccezione: pagina parallela calcolatore con account (test)
+!grav-site/user/pages/24.genera-carta-v2
 # Eccezioni: nuovi articoli bozza privati (deployati via FTP, dentro /blog/articoli)
 !grav-site/user/pages/04.blog
 grav-site/user/pages/04.blog/*
@@ -87,6 +92,8 @@ grav-site/user/pages/05.aziende/02.blog/*
 !grav-site/user/pages/21.consulente-bg5-verona
 # AI editor config (contiene API key, solo sul server)
 grav-site/root/ai-editor.config.php
+# HD Account System — credenziali DB (solo sul server, mai in git)
+grav-site/root/hd-db-config.php
 # GA4 Service Account — credenziali Google, MAI in git
 grav-site/root/ga4-service-account.json
 hd-relazionale-api/.env
