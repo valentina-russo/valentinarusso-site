@@ -295,8 +295,38 @@
     .carta-core { grid-template-columns: repeat(4, 1fr); }
   }
 
-  /* PDF Layout (screen: hidden) */
-  #pdf-layout { display: none; }
+  /* PDF Layout (screen: hidden, shown off-screen during html2pdf render) */
+  #pdf-layout { display: none; font-family: 'Outfit', Arial, sans-serif; color: #222; }
+  #pdf-layout .pdf-header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2.5px solid #b8913e; padding-bottom: 8px; margin-bottom: 12px; }
+  #pdf-layout .pdf-header-right { font-size: 10pt; color: #444; text-align: right; }
+  #pdf-layout .pdf-brand { font-size: 15pt; font-weight: 800; color: #1a1a2e; }
+  #pdf-layout .pdf-brand-sub { font-size: 9pt; color: #8b7355; }
+  #pdf-layout .pdf-body { display: flex; gap: 14px; margin-bottom: 12px; }
+  #pdf-layout .pdf-col-left { flex: 0 0 290px; }
+  #pdf-layout .pdf-col-left img, #pdf-layout .pdf-col-left svg { width: 290px !important; height: auto !important; max-width: 290px !important; }
+  #pdf-layout .pdf-col-right { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+  #pdf-layout .pdf-card { border: 1px solid #e5e0da; border-radius: 4px; padding: 5px 10px; }
+  #pdf-layout .pdf-card-label { font-size: 6.5pt; text-transform: uppercase; letter-spacing: 0.5px; color: #8b7355; font-weight: 600; margin-bottom: 1px; }
+  #pdf-layout .pdf-card-value { font-size: 10pt; font-weight: 700; color: #1a1a2e; }
+  #pdf-layout .pdf-card-desc { font-size: 7pt; color: #555; line-height: 1.3; margin-top: 2px; }
+  #pdf-layout .pdf-planets { margin-bottom: 10px; }
+  #pdf-layout .pdf-planets table { width: 100%; border-collapse: collapse; font-size: 8pt; }
+  #pdf-layout .pdf-planets th { background: #f5f2ef; font-size: 6.5pt; text-transform: uppercase; color: #8b7355; padding: 3px 5px; text-align: left; border-bottom: 1px solid #ddd; }
+  #pdf-layout .pdf-planets td { padding: 2px 5px; border-bottom: 1px solid #f0ece8; }
+  #pdf-layout .pdf-planets td:nth-child(2) { font-weight: 600; color: #1a1a2e; }
+  #pdf-layout .pdf-planets td:nth-child(3) { font-weight: 600; color: #c0392b; }
+  #pdf-layout .pdf-cta { background: linear-gradient(135deg, #1a1a2e 0%, #2d2a4a 100%); border: none; border-radius: 10px; padding: 16px 20px; position: relative; overflow: hidden; }
+  #pdf-layout .pdf-cta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #b8913e, #d4a843, #b8913e); }
+  #pdf-layout .pdf-cta-inner { display: flex; align-items: center; gap: 16px; }
+  #pdf-layout .pdf-cta-photo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #b8913e; flex-shrink: 0; }
+  #pdf-layout .pdf-cta-content { flex: 1; }
+  #pdf-layout .pdf-cta-badge { font-size: 6pt; text-transform: uppercase; letter-spacing: 2px; color: #b8913e; font-weight: 700; margin-bottom: 4px; }
+  #pdf-layout .pdf-cta-title { font-size: 12pt; font-weight: 800; color: #fff; margin-bottom: 4px; line-height: 1.25; }
+  #pdf-layout .pdf-cta-text { font-size: 8pt; color: #c8c2bc; margin-bottom: 6px; line-height: 1.35; }
+  #pdf-layout .pdf-cta-button { display: inline-block; background: linear-gradient(135deg, #b8913e, #d4a843); color: #1a1a2e; font-size: 9pt; font-weight: 800; padding: 5px 22px; border-radius: 5px; margin-bottom: 5px; }
+  #pdf-layout .pdf-cta-links { font-size: 7.5pt; color: #8b8178; }
+  #pdf-layout .pdf-cta-links span { margin: 0 5px; }
+  #pdf-layout .pdf-footer { font-size: 5.5pt; color: #999; text-align: center; padding-top: 4px; margin-top: 4px; }
 
   @media print {
     @page { size: A4; margin: 0.4cm 0.7cm; }
@@ -479,6 +509,7 @@
         <div class="pdf-card" id="pdf-croce">
           <div class="pdf-card-label">Tema di Vita</div>
           <div class="pdf-card-value"></div>
+          <div class="pdf-card-desc"></div>
         </div>
       </div>
     </div>
@@ -506,6 +537,7 @@
 
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
 <script src="/user/themes/valentina/js/swe-hd.js"></script>
 <script>
 
@@ -803,7 +835,7 @@ async function calculateHDChart(y, m, d, h, min, tzOffset) {
       perspective: arrowSun(pSun.tone||1),
       awareness: arrowNode(pNode.tone||1),
     },
-    dietary_regime: (console.log('PHS DEBUG:', {dSun_gate:dSun.gate, dSun_line:dSun.line, dSun_color:dSun.color, dSun_tone:dSun.tone, dSun_deg:dSun.degrees, dNode_color:dNode.color, dNode_tone:dNode.tone}), phsLabel(dSun.color||1, dSun.tone||1)),
+    dietary_regime: phsLabel(dSun.color||1, dSun.tone||1),
     environment_name: envLabel(dNode.color||1, dNode.tone||1),
   };
 }
@@ -1011,70 +1043,70 @@ const PDF_DESC_DEF = {
 // P = Personal Focus (RA), T = Transpersonal Focus (LA), S = Steadfast Focus (J)
 // Crawled from bg5businessinstitute.com/get-your-chart — 2026-03-25
 const CROSS_BG5 = {
-  1:{P:'The Way',T:'Incarnation',S:'Incarnation'},
-  2:{P:'Direction',T:'Defiance',S:'Direction'},
-  3:{P:'Laws',T:'Wishes',S:'Laws'},
-  4:{P:'Explanation',T:'Masks',S:'Masks'},
-  5:{P:'Consciousness',T:'Identification',S:'Identification'},
-  6:{P:'Rulership',T:'Informing',S:'Informing'},
-  7:{P:'Direction',T:'Refinement',S:'Refinement'},
-  8:{P:'Contagion',T:'Dedication',S:'Contagion'},
-  9:{P:'Planning',T:'Duality',S:'Duality'},
-  10:{P:'Love',T:'Love',S:'Ideas'},
-  11:{P:'Experience',T:'Confrontation',S:'Confrontation'},
-  12:{P:'Experience',T:'Confrontation',S:'Experience'},
-  13:{P:'Direction',T:'Refinement',S:'Direction'},
-  14:{P:'Contagion',T:'Dedication',S:'Dedication'},
-  15:{P:'Love',T:'Education',S:'Love'},
-  16:{P:'Planning',T:'Identification',S:'Planning'},
-  17:{P:'Service',T:'Upheaval',S:'Service'},
-  18:{P:'Service',T:'Healing',S:'Healing'},
-  19:{P:'The Way',T:'The Alpha',S:'The Way'},
-  20:{P:'Evolve',T:'Uncertainty',S:'Evolve'},
-  21:{P:'Tension',T:'Endeavor',S:'Tension'},
-  22:{P:'Rulership',T:'Informing',S:'Rulership'},
-  23:{P:'Explanation',T:'Dedication',S:'Explanation'},
-  24:{P:'The Way',T:'Incarnation',S:'The Way'},
-  25:{P:'Love',T:'Healing',S:'Love'},
-  26:{P:'Rulership',T:'Rulership',S:'Habits'},
-  27:{P:'The Unexpected',T:'Alignment',S:'The Unexpected'},
-  28:{P:'Laws',T:'Wishes',S:'Wishes'},
-  29:{P:'Contagion',T:'Revolution',S:'Revolution'},
-  30:{P:'Contagion',T:'Revolution',S:'Contagion'},
-  31:{P:'The Unexpected',T:'Distraction',S:'The Unexpected'},
-  32:{P:'Material World',T:'The Clarion',S:'Intuition'},
-  33:{P:'The Way',T:'The Alpha',S:'The Alpha'},
-  34:{P:'Evolve',T:'Uncertainty',S:'Uncertainty'},
-  35:{P:'Consciousness',T:'Identification',S:'Consciousness'},
-  36:{P:'Experience',T:'The Material Plane',S:'Crisis'},
-  37:{P:'Planning',T:'Migration',S:'Planning'},
-  38:{P:'Tension',T:'Demands',S:'Tension'},
-  39:{P:'Tension',T:'Demands',S:'Tension'},
-  40:{P:'Planning',T:'Spirit',S:'Spirit'},
-  41:{P:'The Unexpected',T:'Distraction',S:'The Unexpected'},
-  42:{P:'Material World',T:'Limitation',S:'Material World'},
-  43:{P:'Direction',T:'Defiance',S:'Defiance'},
-  44:{P:'The Way',T:'Alignment',S:'Alignment'},
-  45:{P:'Rulership',T:'Separation',S:'Rulership'},
-  46:{P:'Experience',T:'The Material Plane',S:'The Material Plane'},
-  47:{P:'Consciousness',T:'Dominion',S:'Dominion'},
-  48:{P:'Service',T:'Upheaval',S:'Upheaval'},
-  49:{P:'Explanation',T:'Revolution',S:'Explanation'},
-  50:{P:'Material World',T:'Limitation',S:'Limitation'},
-  51:{P:'Penetration',T:'The Clarion',S:'Penetration'},
-  52:{P:'Service',T:'Prevention',S:'Service'},
-  53:{P:'Penetration',T:'Individualism',S:'Penetration'},
-  54:{P:'Penetration',T:'Individualism',S:'Penetration'},
-  55:{P:'Evolve',T:'Spirit',S:'Evolve'},
-  56:{P:'Laws 2',T:'Obscuration',S:'Laws 2'},
-  57:{P:'Tension',T:'Endeavor',S:'Endeavor'},
-  58:{P:'Service 4',T:'Prevention',S:'Service 4'},
-  59:{P:'Contagion',T:'Industry',S:'Industry'},
-  60:{P:'Laws',T:'Obscuration',S:'Laws'},
-  61:{P:'Material World',T:'Cycles',S:'Material World'},
-  62:{P:'Material World',T:'Material World',S:'Beginnings'},
-  63:{P:'Consciousness',T:'Migration',S:'Consciousness'},
-  64:{P:'Consciousness',T:'Migration',S:'Migration'}
+  1:{P:'della Direzione',T:'del Dissenso',S:"dell'Auto-espressione"},
+  2:{P:'della Direzione',T:'del Dissenso',S:'del Guidatore'},
+  3:{P:'delle Leggi',T:'dei Desideri',S:'della Mutazione'},
+  4:{P:'della Spiegazione',T:'della Rivoluzione',S:'della Formulazione'},
+  5:{P:'della Consapevolezza',T:'della Separazione',S:'delle Abitudini'},
+  6:{P:"dell'Esperienza",T:'del Piano Materiale',S:"dell'Attrito"},
+  7:{P:'della Direzione',T:"dell'Inquadramento",S:"dell'Interazione"},
+  8:{P:'del Contagio',T:"dell'Incertezza",S:'del Contributo'},
+  9:{P:'della Pianificazione',T:"dell'Identificazione",S:'della Convergenza'},
+  10:{P:"dell'Amore",T:'della Prevenzione',S:'del Comportamento'},
+  11:{P:"dell'Esperienza",T:"dell'Educazione",S:'delle Idee'},
+  12:{P:"dell'Esperienza",T:"dell'Educazione",S:'della Formulazione'},
+  13:{P:'della Direzione',T:"dell'Inquadramento",S:"dell'Ascolto"},
+  14:{P:'del Contagio',T:"dell'Incertezza",S:'del Potenziamento'},
+  15:{P:"dell'Amore",T:'della Prevenzione',S:'degli Estremi'},
+  16:{P:'della Pianificazione',T:"dell'Identificazione",S:'della Sperimentazione'},
+  17:{P:'del Servizio',T:'dello Sconvolgimento',S:'delle Opinioni'},
+  18:{P:'del Servizio',T:'dello Sconvolgimento',S:'della Correzione'},
+  19:{P:'della Bussola',T:'del Perfezionamento',S:'del Bisogno'},
+  20:{P:'del Rinnovamento',T:'della Dualità',S:'del Presente'},
+  21:{P:'della Tensione',T:"dell'Auto-realizzazione",S:'del Controllo'},
+  22:{P:'del Governo',T:"dell'Informazione",S:'della Grazia'},
+  23:{P:'della Spiegazione',T:"dell'Impegno Intellettuale",S:"dell'Assimilazione"},
+  24:{P:'della Bussola',T:'della Metamorfosi',S:'della Razionalizzazione'},
+  25:{P:"dell'Amore",T:'della Guarigione',S:"dell'Innocenza"},
+  26:{P:'del Governo',T:'del Confronto',S:'della Persuasione'},
+  27:{P:"dell'Inaspettato",T:"dell'Allineamento",S:'del Prendersi Cura'},
+  28:{P:"dell'Inaspettato",T:"dell'Allineamento",S:'dei Rischi'},
+  29:{P:'del Contagio',T:'della Produttività',S:'della Fedeltà'},
+  30:{P:'del Contagio',T:'della Produttività',S:'della Disponibilità'},
+  31:{P:"dell'Inaspettato",T:"dell'Alpha",S:"dell'Influenza"},
+  32:{P:'del Mondo Materiale',T:'della Limitazione',S:'della Conservazione'},
+  33:{P:'della Bussola',T:'del Perfezionamento',S:'del Ritiro'},
+  34:{P:'del Rinnovamento',T:'della Dualità',S:"dell'Autonomia"},
+  35:{P:'della Consapevolezza',T:'della Separazione',S:'della Sperimentazione Adattiva'},
+  36:{P:"dell'Esperienza",T:'del Piano Materiale',S:'della Crisi'},
+  37:{P:'della Pianificazione',T:'della Migrazione',S:'della Negoziazione'},
+  38:{P:'della Tensione',T:"dell'Individualismo",S:"dell'Opposizione"},
+  39:{P:'della Tensione',T:"dell'Individualismo",S:'della Provocazione'},
+  40:{P:'della Pianificazione',T:'della Migrazione',S:'del Distacco'},
+  41:{P:"dell'Inaspettato",T:"dell'Alpha",S:'della Fantasia'},
+  42:{P:'del Mondo Materiale',T:'della Limitazione',S:'del Completamento'},
+  43:{P:'della Spiegazione',T:"dell'Impegno Intellettuale",S:"dell'Intuizione"},
+  44:{P:'della Bussola',T:'della Metamorfosi',S:"dell'Allerta"},
+  45:{P:'del Governo',T:'del Confronto',S:'del Dominio'},
+  46:{P:"dell'Amore",T:'della Guarigione',S:'della Sincronia'},
+  47:{P:'del Governo',T:"dell'Informazione",S:'della Chiarezza'},
+  48:{P:'della Tensione',T:"dell'Auto-realizzazione",S:'della Profondità'},
+  49:{P:'della Spiegazione',T:'della Rivoluzione',S:'dei Principi'},
+  50:{P:'delle Leggi',T:'dei Desideri',S:'dei Valori'},
+  51:{P:'della Penetrazione',T:"dell'Avvertimento",S:'dello Shock'},
+  52:{P:'del Servizio',T:'delle Esigenze',S:'della Quiete'},
+  53:{P:'della Penetrazione',T:'dei Cicli',S:'degli Inizi'},
+  54:{P:'della Penetrazione',T:'dei Cicli',S:"dell'Ambizione"},
+  55:{P:'del Rinnovamento',T:'della Dedizione',S:'della Focalizzazione Emotiva'},
+  56:{P:'delle Leggi',T:'della Distrazione',S:'della Stimolazione'},
+  57:{P:'della Penetrazione',T:"dell'Avvertimento",S:"dell'Intuizione"},
+  58:{P:'del Servizio',T:'delle Esigenze',S:'della Vitalità'},
+  59:{P:'del Rinnovamento',T:'della Dedizione',S:'della Strategia'},
+  60:{P:'delle Leggi',T:'della Distrazione',S:'del Rigore'},
+  61:{P:'del Mondo Materiale',T:"dell'Oscuramento",S:'del Pensiero'},
+  62:{P:'del Mondo Materiale',T:"dell'Oscuramento",S:'dei Dettagli'},
+  63:{P:'della Consapevolezza',T:'del Possesso',S:'dei Dubbi'},
+  64:{P:'della Consapevolezza',T:'del Possesso',S:'della Confusione'}
 };
 const QUARTER_NAMES = {1:'Mente',2:'Forma',3:'Relazioni',4:'Trasformazione'};
 const GATE_WHEEL=[41,19,13,49,30,55,37,63,22,36,25,17,21,51,42,3,27,24,2,23,8,20,16,35,45,12,15,52,39,53,62,56,31,33,7,4,29,59,40,64,47,6,46,18,48,57,32,50,28,44,1,43,14,34,9,5,26,11,10,58,38,54,61,60];
@@ -1092,8 +1124,8 @@ function getIncarnationCross(pSunGate, profileStr) {
   const [l1, l2] = profileStr.split('/').map(Number);
   let focusKey, focusLabel;
   if(l1 === 4 && l2 === 1) { focusKey='S'; focusLabel='Focus Fisso'; }
-  else if(l1 <= 3) { focusKey='P'; focusLabel='Focus Personale'; }
-  else { focusKey='T'; focusLabel='Focus Transpersonale'; }
+  else if(l1 >= 5) { focusKey='T'; focusLabel='Focus Transpersonale'; }
+  else { focusKey='P'; focusLabel='Focus Personale'; }
   const name = cross[focusKey] || cross.P;
   const quarterName = QUARTER_NAMES[quarter];
   return `${name}, ${focusLabel}, ${quarterName}`;
@@ -1245,9 +1277,16 @@ async function renderRisultati(data, nome) {
     }
   }
 
-  // PHS e Ambiente oscurati per ora — da riattivare quando il calcolo è verificato al 100%
-  // if(d.dietary_regime) coreItems.push({ label: 'Regime Alimentare', value: d.dietary_regime });
-  // if(d.environment) coreItems.push({ label: 'Ambiente', value: d.environment });
+  // Variable string (Jovian Archive format)
+  if(d.variables) {
+    const dS = d.variables.digestion === 'left' ? 'L' : 'R';
+    const dN = d.variables.environment === 'left' ? 'L' : 'R';
+    const pS = d.variables.perspective === 'left' ? 'L' : 'R';
+    const pN = d.variables.awareness === 'left' ? 'L' : 'R';
+    coreItems.push({ label: 'Variabile', value: `P${pS}${pN} D${dS}${dN}` });
+  }
+  if(d.dietary_regime) coreItems.push({ label: 'Regime Alimentare', value: d.dietary_regime });
+  if(d.environment) coreItems.push({ label: 'Ambiente', value: d.environment });
 
   coreEl.innerHTML = coreItems.map(i =>
     `<div class="core-card">
@@ -1395,10 +1434,11 @@ async function loadAndRenderBodygraph(gateColors, definedChannels, definedCenter
       const g = document.createElementNS(ns, 'g');
       g.setAttribute('id', 'hd-variables');
       // Standard HD: D (Design/red) LEFT, P (Personality/black) RIGHT
+      // Left=Design(red) Digestion/Environment, Right=Personality(black) Awareness/Perspective (Jovian Archive standard)
       g.appendChild(mkArrow(headCenter - arrowOffset, arrowY, toArrow(variables.digestion), '#c0392b'));
       g.appendChild(mkArrow(headCenter - arrowOffset, arrowY + arrowGap, toArrow(variables.environment), '#c0392b'));
-      g.appendChild(mkArrow(headCenter + arrowOffset, arrowY, toArrow(variables.awareness), '#1a1a2e'));
-      g.appendChild(mkArrow(headCenter + arrowOffset, arrowY + arrowGap, toArrow(variables.perspective), '#1a1a2e'));
+      g.appendChild(mkArrow(headCenter + arrowOffset, arrowY, toArrow(variables.perspective), '#1a1a2e'));
+      g.appendChild(mkArrow(headCenter + arrowOffset, arrowY + arrowGap, toArrow(variables.awareness), '#1a1a2e'));
       svgEl.appendChild(g);
     }
 
@@ -1557,7 +1597,7 @@ function escHtml(s) {
 let _lastCartaData = null;
 let _lastCartaNome = null;
 
-function preparaPDF() {
+async function preparaPDF() {
   if(!_lastCartaData) return;
   const d = _lastCartaData;
   const nome = _lastCartaNome;
@@ -1573,45 +1613,55 @@ function preparaPDF() {
   const birthStr = `${gg}/${mm}/${aa} ore ${hh}:${mn.padStart(2,'0')}` + (luogo ? ` — ${escHtml(luogo)}` : '');
   personEl.innerHTML = (nome ? `<strong>${escHtml(nome)}</strong><br>` : '') + birthStr;
 
-  // Clone bodygraph SVG — fix CSS vars for print compatibility
+  // Convert bodygraph SVG to PNG image for html2pdf compatibility
   const srcSvg = document.querySelector('.carta-bodygraph-wrap svg');
   const pdfBg = document.getElementById('pdf-bodygraph');
   pdfBg.innerHTML = '';
   if(srcSvg) {
     const clone = srcSvg.cloneNode(true);
-    clone.style.maxWidth = '300px';
-    clone.style.width = '300px';
-    clone.style.height = 'auto';
-    // Fix mixed channels for print: SVG patterns don't print reliably.
-    // Replace url(#splitGatePattern) with a solid bicolor gradient using 2 halves.
-    // First, fix the pattern itself
+    // Fix patterns and CSS vars
     const pattern = clone.querySelector('#splitGatePattern');
     if(pattern) {
-      const rects = pattern.querySelectorAll('rect');
-      rects.forEach(r => {
+      pattern.querySelectorAll('rect').forEach(r => {
         const fill = r.getAttribute('fill');
         if(fill && fill.includes('--color-personality')) r.setAttribute('fill', '#1a1a2e');
         if(fill && fill.includes('--color-design')) r.setAttribute('fill', '#c0392b');
       });
     }
-    // Then replace all pattern fills with a solid half-half color for print safety
     const styleEl = clone.querySelector('style');
-    if(styleEl) {
-      styleEl.textContent = styleEl.textContent.replace(/url\(#splitGatePattern\)/g, '#6b2d3e');
-    }
-    // Also fix inline styles
+    if(styleEl) styleEl.textContent = styleEl.textContent.replace(/url\(#splitGatePattern\)/g, '#6b2d3e');
     clone.querySelectorAll('*').forEach(el => {
       const s = el.getAttribute('style');
-      if(s && s.includes('splitGatePattern')) {
-        el.setAttribute('style', s.replace(/url\(#splitGatePattern\)/g, '#6b2d3e'));
-      }
-      // Fix any fill attributes too
+      if(s && s.includes('splitGatePattern')) el.setAttribute('style', s.replace(/url\(#splitGatePattern\)/g, '#6b2d3e'));
       const f = el.getAttribute('fill');
-      if(f && f.includes('splitGatePattern')) {
-        el.setAttribute('fill', '#6b2d3e');
-      }
+      if(f && f.includes('splitGatePattern')) el.setAttribute('fill', '#6b2d3e');
     });
-    pdfBg.appendChild(clone);
+    // Render SVG to canvas then to PNG data URL
+    try {
+      clone.setAttribute('width', '560');
+      clone.setAttribute('height', '860');
+      const svgData = new XMLSerializer().serializeToString(clone);
+      const svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
+      const url = URL.createObjectURL(svgBlob);
+      const img = new Image();
+      await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = url; });
+      const canvas = document.createElement('canvas');
+      canvas.width = 560; canvas.height = 860;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, 560, 860);
+      ctx.drawImage(img, 0, 0, 560, 860);
+      URL.revokeObjectURL(url);
+      const pngImg = document.createElement('img');
+      pngImg.src = canvas.toDataURL('image/png');
+      pngImg.style.width = '290px';
+      pngImg.style.height = 'auto';
+      pdfBg.appendChild(pngImg);
+    } catch(e) {
+      // Fallback: use SVG directly
+      clone.style.width = '240px'; clone.style.height = 'auto';
+      pdfBg.appendChild(clone);
+    }
   }
 
   // Core cards with descriptions
@@ -1628,13 +1678,28 @@ function preparaPDF() {
   setCard('pdf-autorita', d.authority, PDF_DESC_AUTH);
   setCard('pdf-definizione', d.definition, PDF_DESC_DEF);
 
-  // Incarnation cross
+  // Incarnation cross with description
   if(d.personality && d.personality.length > 0) {
     const pSun = d.personality.find(p => p.planet_en === 'Sun');
     if(pSun) {
       const cross = getIncarnationCross(pSun.gate, d.profile);
       const croceEl = document.getElementById('pdf-croce');
-      if(croceEl) croceEl.querySelector('.pdf-card-value').textContent = cross;
+      if(croceEl) {
+        croceEl.querySelector('.pdf-card-value').textContent = cross;
+        const descEl = croceEl.querySelector('.pdf-card-desc');
+        if(descEl) {
+          // Description based on quarter (determined by Sun gate position in Rave wheel)
+          const gateIdx = HD_GATE_WHEEL.indexOf(pSun.gate);
+          const quarter = gateIdx < 16 ? 'Mente' : gateIdx < 32 ? 'Forma' : gateIdx < 48 ? 'Relazioni' : 'Trasformazione';
+          const quarterDesc = {
+            'Mente': 'Il tuo scopo di vita emerge attraverso la mente e l\'ispirazione. Sei qui per portare chiarezza mentale e nuove idee nel mondo.',
+            'Forma': 'Il tuo scopo di vita si realizza attraverso il corpo e la forma materiale. Sei qui per costruire, creare strutture e dare forma concreta alle cose.',
+            'Relazioni': 'Il tuo scopo di vita si esprime attraverso le relazioni. Sei qui per connetterti con gli altri e trasformare la qualità delle interazioni umane.',
+            'Trasformazione': 'Il tuo scopo di vita è legato alla trasformazione. Sei qui per attraversare cambiamenti profondi e guidare gli altri nel processo di evoluzione.'
+          };
+          descEl.textContent = quarterDesc[quarter] || '';
+        }
+      }
     }
   }
 
@@ -1652,9 +1717,50 @@ function preparaPDF() {
   pdfPlanets.innerHTML = tbl;
 }
 
-function scaricaPDF() {
-  preparaPDF();
-  window.print();
+async function scaricaPDF() {
+  await preparaPDF();
+  const el = document.getElementById('pdf-layout');
+  const btn = document.getElementById('carta-pdf-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Generando PDF…'; }
+
+  // Nascondi tutto il resto e mostra solo il pdf-layout per html2canvas
+  const cartaWrap = document.querySelector('.carta-wrap');
+  const origDisplay = cartaWrap.style.display;
+  document.querySelectorAll('header,footer,nav,.carta-intro,.carta-form-card,.carta-results,.carta-loading,.carta-error,.carta-cta').forEach(e => e.style.display = 'none');
+
+  el.style.display = 'block';
+  el.style.width = '190mm';
+  el.style.background = '#fff';
+  el.style.padding = '5mm 8mm';
+  el.style.margin = '0 auto';
+
+  window.scrollTo(0, 0);
+  await new Promise(r => setTimeout(r, 500));
+
+  const nome = (document.getElementById('cf-nome')?.value || 'carta-hd').trim();
+  const filename = (nome ? nome.replace(/\s+/g, '-').toLowerCase() : 'carta-hd') + '-human-design.pdf';
+
+  try {
+    const opt = {
+      margin: 0,
+      filename,
+      image: { type: 'jpeg', quality: 0.95 },
+      html2canvas: { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff', scrollY: 0, y: 0 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    await html2pdf().set(opt).from(el).save();
+  } catch(e) {
+    console.error('html2pdf failed, fallback to print:', e);
+    window.print();
+  }
+
+  // Ripristina
+  el.style.display = 'none';
+  el.style.width = '';
+  el.style.padding = '';
+  el.style.margin = '';
+  document.querySelectorAll('header,footer,nav,.carta-intro,.carta-form-card,.carta-results,.carta-loading,.carta-error,.carta-cta').forEach(e => e.style.display = '');
+  if (btn) { btn.disabled = false; btn.textContent = 'Scarica PDF'; }
 }
 
 // Allow Enter key
