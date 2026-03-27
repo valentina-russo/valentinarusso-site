@@ -1,0 +1,361 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block title %}Le mie Carte | Valentina Russo{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ── Layout base ── */
+body {
+    background: linear-gradient(160deg, #B68397 0%, #8A6FA8 45%, #3A5A8A 80%, #1E3A5F 100%) !important;
+    background-attachment: fixed !important;
+    min-height: 100vh;
+}
+body header {
+    background: rgba(255,255,255,0.12) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.2) !important;
+    position: sticky; top: 0; z-index: 1000;
+}
+body header .brand-name,
+body header .brand-tagline,
+body header #main-nav a { color: #fff !important; }
+body header #main-nav a:hover { color: rgba(255,255,255,0.7) !important; }
+body header .menu-toggle { color: #fff !important; }
+body h1, body h2, body h3 { color: #fff !important; }
+body h4 { color: #FDE8B0 !important; }
+body p, body label, body .text-small { color: rgba(255,255,255,0.88); }
+body footer { background: rgba(255,255,255,0.08) !important; backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.15) !important; }
+body footer a, body footer div { color: rgba(255,255,255,0.75) !important; }
+body footer a:hover { color: #fff !important; }
+
+/* ── Card ── */
+.mc-card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.mc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+}
+.mc-card-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    word-break: break-word;
+}
+.mc-card-meta {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.6);
+}
+.mc-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+}
+
+/* ── Buttons ── */
+.mc-btn {
+    padding: 0.45rem 1rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: opacity 0.2s;
+}
+.mc-btn:hover { opacity: 0.85; }
+.mc-btn-primary { background: #FDE8B0; color: #1E3A5F; }
+.mc-btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.4); color: #fff; }
+.mc-btn-danger  { background: rgba(220,50,50,0.5); border: 1px solid rgba(220,50,50,0.4); color: #ffb3b3; }
+
+/* ── Top bar ── */
+.mc-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* ── Empty state ── */
+.mc-empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 24px;
+    margin-top: 2rem;
+}
+
+/* ── Messages ── */
+.mc-msg {
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: none;
+}
+.mc-msg.show { display: block; }
+.mc-msg-ok  { background: rgba(50,200,100,0.2); border: 1px solid rgba(50,200,100,0.4); color: #b6f5c8; }
+.mc-msg-err { background: rgba(220,50,50,0.2);  border: 1px solid rgba(220,50,50,0.4);  color: #ffb3b3; }
+
+/* ── Rename input ── */
+.mc-rename-input {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    color: #fff;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+.mc-rename-input::placeholder { color: rgba(255,255,255,0.4); }
+
+/* ── Count ── */
+.mc-count { font-size: 0.82rem; color: rgba(255,255,255,0.5); }
+
+/* ── Loading ── */
+#mc-loading { text-align: center; padding: 3rem; color: rgba(255,255,255,0.5); }
+</style>
+{% endblock %}
+
+{% block content %}
+<main style="overflow-x: hidden;">
+<section class="section-padding">
+<div class="container" style="max-width: 1000px;">
+
+    <div id="mc-loading">Caricamento…</div>
+
+    <div id="mc-content" style="display:none;">
+        <div class="mc-topbar">
+            <div>
+                <h1 style="margin-bottom: 0.25rem;">Le mie Carte</h1>
+                <p class="mc-count" id="mc-count"></p>
+            </div>
+            <div style="display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap;">
+                <a href="{{ grav.base_url }}/genera-carta" style="padding: 0.5rem 1.2rem; background: #FDE8B0; color: #1E3A5F; font-weight: 700; font-size: 0.85rem; border-radius: 50px; text-decoration: none;">+ Nuova Carta</a>
+                <a href="{{ grav.base_url }}/account" style="font-size: 0.82rem; color: rgba(255,255,255,0.6); text-decoration: underline;">Account</a>
+            </div>
+        </div>
+
+        <div id="mc-msg" class="mc-msg"></div>
+
+        <div id="mc-empty" class="mc-empty" style="display:none;">
+            <h3 style="margin-bottom: 1rem;">Nessuna carta salvata</h3>
+            <p style="margin-bottom: 1.5rem;">Calcola la tua prima carta Human Design e salvala qui per ritrovarla in qualsiasi momento.</p>
+            <a href="{{ grav.base_url }}/genera-carta" style="padding: 0.65rem 1.5rem; background: #FDE8B0; color: #1E3A5F; font-weight: 700; border-radius: 50px; text-decoration: none;">Calcola la tua Carta</a>
+        </div>
+
+        <div class="mc-grid" id="mc-grid"></div>
+    </div>
+
+    <div id="mc-unauth" style="display:none; text-align:center; padding: 4rem 1rem;">
+        <h3 style="margin-bottom: 1rem;">Accesso richiesto</h3>
+        <p style="margin-bottom: 1.5rem;">Accedi al tuo account per vedere le carte salvate.</p>
+        <a href="{{ grav.base_url }}/account" style="padding: 0.65rem 1.5rem; background: #FDE8B0; color: #1E3A5F; font-weight: 700; border-radius: 50px; text-decoration: none;">Accedi</a>
+    </div>
+
+</div>
+</section>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function() {
+    const BASE = '{{ grav.base_url_absolute }}';
+    let _charts = [];
+
+    function msg(text, type) {
+        const el = document.getElementById('mc-msg');
+        el.textContent = text;
+        el.className = 'mc-msg show mc-msg-' + type;
+        setTimeout(() => { el.className = 'mc-msg'; }, 4000);
+    }
+
+    async function getCsrf(forAction) {
+        const r = await fetch(BASE + '/hd-auth.php?action=csrf&for=' + forAction, { credentials: 'include' });
+        const j = await r.json();
+        return j.ok ? j.data.token : null;
+    }
+
+    async function apiFetch(url, body) {
+        const r = await fetch(BASE + url, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        return r.json();
+    }
+
+    // ── Carica lista ──────────────────────────────────────────────
+    async function loadCharts() {
+        try {
+            const r = await fetch(BASE + '/hd-charts.php?action=list', { credentials: 'include' });
+            const j = await r.json();
+            if (!j.ok) {
+                if (r.status === 401) {
+                    document.getElementById('mc-loading').style.display = 'none';
+                    document.getElementById('mc-unauth').style.display = 'block';
+                    return;
+                }
+                throw new Error(j.error);
+            }
+            _charts = j.data || [];
+            renderCharts();
+        } catch(e) {
+            document.getElementById('mc-loading').style.display = 'none';
+            document.getElementById('mc-unauth').style.display = 'block';
+        }
+    }
+
+    function renderCharts() {
+        document.getElementById('mc-loading').style.display = 'none';
+        document.getElementById('mc-content').style.display = 'block';
+
+        const countEl = document.getElementById('mc-count');
+        countEl.textContent = _charts.length === 0 ? '' :
+            _charts.length === 1 ? '1 carta salvata' : _charts.length + ' carte salvate (max 50)';
+
+        const grid = document.getElementById('mc-grid');
+        grid.innerHTML = '';
+
+        if (_charts.length === 0) {
+            document.getElementById('mc-empty').style.display = 'block';
+            return;
+        }
+        document.getElementById('mc-empty').style.display = 'none';
+
+        _charts.forEach(chart => {
+            const card = buildCard(chart);
+            grid.appendChild(card);
+        });
+    }
+
+    function buildCard(chart) {
+        const div = document.createElement('div');
+        div.className = 'mc-card';
+        div.dataset.id = chart.id;
+
+        const dateStr = formatDate(chart.birth_day, chart.birth_month, chart.birth_year);
+        const createdStr = chart.created_at ? chart.created_at.slice(0, 10) : '';
+
+        div.innerHTML = `
+            <div class="mc-card-name" id="name-${chart.id}">${escHtml(chart.chart_name)}</div>
+            <div class="mc-card-meta">
+                ${escHtml(dateStr)} · ${escHtml(chart.birth_city || '')}
+            </div>
+            <div class="mc-card-meta">Salvata il ${escHtml(createdStr)}</div>
+            <div class="mc-card-actions">
+                <button class="mc-btn mc-btn-primary" onclick="loadChart(${chart.id})">Carica</button>
+                <button class="mc-btn mc-btn-outline" onclick="startRename(${chart.id})">Rinomina</button>
+                <button class="mc-btn mc-btn-danger" onclick="deleteChart(${chart.id})">Elimina</button>
+            </div>
+            <div id="rename-row-${chart.id}" style="display:none;">
+                <input type="text" class="mc-rename-input" id="rename-input-${chart.id}"
+                    value="${escAttr(chart.chart_name)}" placeholder="Nuovo nome" maxlength="100">
+                <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+                    <button class="mc-btn mc-btn-primary" onclick="confirmRename(${chart.id})">Salva</button>
+                    <button class="mc-btn mc-btn-outline" onclick="cancelRename(${chart.id})">Annulla</button>
+                </div>
+            </div>
+        `;
+        return div;
+    }
+
+    function formatDate(d, m, y) {
+        const months = ['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+        return d + ' ' + (months[m-1] || m) + ' ' + y;
+    }
+
+    function escHtml(s) {
+        return String(s || '')
+            .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+            .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+    function escAttr(s) {
+        return String(s || '').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    // ── Carica carta nel calcolatore ──────────────────────────────
+    window.loadChart = async function(id) {
+        try {
+            const r = await fetch(BASE + '/hd-charts.php?action=get&id=' + id, { credentials: 'include' });
+            const j = await r.json();
+            if (!j.ok) { msg(j.error || 'Errore nel caricamento.', 'err'); return; }
+            // Salva in sessionStorage → carta_hd.html.twig la rileva all'avvio
+            sessionStorage.setItem('hd_load_chart', JSON.stringify(j.data));
+            window.location.href = '{{ grav.base_url }}/genera-carta';
+        } catch(e) {
+            msg('Errore di rete. Riprova.', 'err');
+        }
+    };
+
+    // ── Rinomina ──────────────────────────────────────────────────
+    window.startRename = function(id) {
+        document.getElementById('rename-row-' + id).style.display = 'block';
+        document.getElementById('rename-input-' + id).focus();
+    };
+    window.cancelRename = function(id) {
+        document.getElementById('rename-row-' + id).style.display = 'none';
+    };
+    window.confirmRename = async function(id) {
+        const newName = document.getElementById('rename-input-' + id).value.trim();
+        if (!newName) { msg('Inserisci un nome.', 'err'); return; }
+        try {
+            const csrf = await getCsrf('rename_chart');
+            const j = await apiFetch('/hd-charts.php', { action: 'rename', chart_id: id, chart_name: newName, csrf });
+            if (j.ok) {
+                // Aggiorna nome nel DOM e nell'array locale
+                document.getElementById('name-' + id).textContent = newName;
+                document.getElementById('rename-row-' + id).style.display = 'none';
+                const idx = _charts.findIndex(c => c.id === id);
+                if (idx >= 0) _charts[idx].chart_name = newName;
+                msg('Nome aggiornato.', 'ok');
+            } else {
+                msg(j.error || 'Errore.', 'err');
+            }
+        } catch(e) {
+            msg('Errore di rete.', 'err');
+        }
+    };
+
+    // ── Elimina ───────────────────────────────────────────────────
+    window.deleteChart = async function(id) {
+        const chart = _charts.find(c => c.id === id);
+        const name  = chart ? chart.chart_name : 'questa carta';
+        if (!confirm('Eliminare "' + name + '"? L\'operazione è irreversibile.')) return;
+        try {
+            const csrf = await getCsrf('delete_chart');
+            const j = await apiFetch('/hd-charts.php', { action: 'delete', chart_id: id, csrf });
+            if (j.ok) {
+                _charts = _charts.filter(c => c.id !== id);
+                renderCharts();
+                msg('Carta eliminata.', 'ok');
+            } else {
+                msg(j.error || 'Errore.', 'err');
+            }
+        } catch(e) {
+            msg('Errore di rete.', 'err');
+        }
+    };
+
+    // ── Start ─────────────────────────────────────────────────────
+    loadCharts();
+})();
+</script>
+{% endblock %}

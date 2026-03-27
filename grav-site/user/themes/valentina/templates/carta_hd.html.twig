@@ -565,7 +565,37 @@
       </div>
       <div class="carta-col-right">
         <div class="carta-planets" id="carta-planets"></div>
+        {% if page.header.hd_account_enabled %}
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top: 1rem;">
+          <button class="carta-pdf-btn" id="carta-pdf-btn" onclick="scaricaPDF()" style="margin-top:0; flex:1; min-width:140px;">Scarica PDF</button>
+          <button class="carta-pdf-btn" id="carta-save-btn" onclick="hdSaveOpen()" style="margin-top:0; flex:1; min-width:140px; background:#fff; color:var(--primary-color);">Salva Carta</button>
+        </div>
+
+        <!-- Pannello salvataggio carta -->
+        <div id="hd-save-panel" style="display:none; margin-top:1rem; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); border-radius:16px; padding:1.25rem;">
+          <div id="hd-save-msg" style="display:none; padding:0.65rem 0.9rem; border-radius:10px; font-size:0.88rem; margin-bottom:0.9rem;"></div>
+          <!-- Form salvataggio (visibile solo se loggata) -->
+          <div id="hd-save-form">
+            <label style="display:block; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:rgba(255,255,255,0.7); margin-bottom:0.4rem;">Nome della carta</label>
+            <input type="text" id="hd-save-name" maxlength="100" placeholder="Es. Marco, La mia carta…"
+              style="width:100%; padding:0.65rem 0.9rem; border-radius:10px; border:1px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.1); color:#fff; font-size:0.95rem; box-sizing:border-box; margin-bottom:0.9rem;">
+            <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
+              <button onclick="hdSaveConfirm()" style="flex:1; min-width:120px; padding:0.55rem 1rem; background:#FDE8B0; color:#1E3A5F; font-weight:700; border:none; border-radius:50px; cursor:pointer; font-size:0.88rem;">Salva</button>
+              <button onclick="hdSaveClose()" style="flex:1; min-width:80px; padding:0.55rem 1rem; background:transparent; border:1px solid rgba(255,255,255,0.35); color:#fff; border-radius:50px; cursor:pointer; font-size:0.88rem;">Annulla</button>
+            </div>
+          </div>
+          <!-- Prompt login (visibile solo se non loggata) -->
+          <div id="hd-save-login" style="display:none; text-align:center;">
+            <p style="color:rgba(255,255,255,0.85); font-size:0.9rem; margin-bottom:0.9rem;">Crea un account gratuito per salvare le tue carte e ritrovarle in qualsiasi momento.</p>
+            <div style="display:flex; gap:0.65rem; justify-content:center; flex-wrap:wrap;">
+              <a href="{{ grav.base_url }}/account" style="padding:0.55rem 1.2rem; background:#FDE8B0; color:#1E3A5F; font-weight:700; border-radius:50px; text-decoration:none; font-size:0.88rem;">Accedi o Registrati</a>
+              <button onclick="hdSaveClose()" style="padding:0.55rem 1rem; background:transparent; border:1px solid rgba(255,255,255,0.35); color:#fff; border-radius:50px; cursor:pointer; font-size:0.88rem;">Annulla</button>
+            </div>
+          </div>
+        </div>
+        {% else %}
         <button class="carta-pdf-btn" id="carta-pdf-btn" onclick="scaricaPDF()">Scarica PDF</button>
+        {% endif %}
       </div>
     </div>
     <div class="carta-cta">
@@ -1866,5 +1896,143 @@ async function scaricaPDF() {
 document.addEventListener('keydown', e => {
   if(e.key === 'Enter') calcolaCarta();
 });
+
+{% if page.header.hd_account_enabled %}
+// ─── Salva Carta ──────────────────────────────────────────────────────────
+
+const HD_BASE = 'https://valentinarussobg5.com';
+
+function hdSaveMsg(text, type) {
+  const el = document.getElementById('hd-save-msg');
+  if (!el) return;
+  el.style.display = 'block';
+  el.textContent = text;
+  el.style.background = type === 'ok'
+    ? 'rgba(50,200,100,0.2)' : 'rgba(220,50,50,0.2)';
+  el.style.border = type === 'ok'
+    ? '1px solid rgba(50,200,100,0.4)' : '1px solid rgba(220,50,50,0.4)';
+  el.style.color = type === 'ok' ? '#b6f5c8' : '#ffb3b3';
+}
+
+async function hdSaveOpen() {
+  if (!_lastCartaData) return;
+  const panel = document.getElementById('hd-save-panel');
+  if (!panel) return;
+  panel.style.display = 'block';
+  document.getElementById('hd-save-msg').style.display = 'none';
+
+  // Controlla se loggata/o
+  try {
+    const r = await fetch(HD_BASE + '/hd-auth.php?action=me', { credentials: 'include' });
+    const j = await r.json();
+    if (j.ok && j.data) {
+      // Loggata — mostra form salvataggio con nome pre-compilato
+      document.getElementById('hd-save-form').style.display = 'block';
+      document.getElementById('hd-save-login').style.display = 'none';
+      const nameInput = document.getElementById('hd-save-name');
+      if (nameInput && !nameInput.value && _lastCartaNome) {
+        nameInput.value = _lastCartaNome;
+      }
+    } else {
+      // Non loggata — mostra prompt login
+      document.getElementById('hd-save-form').style.display = 'none';
+      document.getElementById('hd-save-login').style.display = 'block';
+    }
+  } catch(e) {
+    document.getElementById('hd-save-form').style.display = 'none';
+    document.getElementById('hd-save-login').style.display = 'block';
+  }
+}
+
+function hdSaveClose() {
+  const panel = document.getElementById('hd-save-panel');
+  if (panel) panel.style.display = 'none';
+}
+
+async function hdSaveConfirm() {
+  if (!_lastCartaData) return;
+  const nameInput = document.getElementById('hd-save-name');
+  const name = nameInput ? nameInput.value.trim() : '';
+  if (!name) { hdSaveMsg('Inserisci un nome per la carta.', 'err'); return; }
+
+  const d = _lastCartaData;
+
+  // Recupera dati form dalla pagina
+  const day   = parseInt(document.getElementById('cf-day')?.value || '0', 10);
+  const month = parseInt(document.getElementById('cf-month')?.value || '0', 10);
+  const year  = parseInt(document.getElementById('cf-year')?.value || '0', 10);
+  const hour  = parseInt(document.getElementById('cf-hour')?.value || '0', 10);
+  const min   = parseInt(document.getElementById('cf-min')?.value || '0', 10);
+  const city  = document.getElementById('cf-city')?.value || '';
+  const tz    = document.getElementById('cf-tz')?.value || 'Europe/Rome';
+
+  try {
+    // Ottieni CSRF token
+    const csrfR = await fetch(HD_BASE + '/hd-auth.php?action=csrf&for=save_chart', { credentials: 'include' });
+    const csrfJ = await csrfR.json();
+    if (!csrfJ.ok) { hdSaveMsg('Sessione scaduta. Ricarica la pagina.', 'err'); return; }
+
+    const body = {
+      action:      'save',
+      chart_name:  name,
+      birth_day:   day,
+      birth_month: month,
+      birth_year:  year,
+      birth_hour:  hour,
+      birth_min:   min,
+      birth_city:  city,
+      birth_tz:    tz,
+      chart_json:  JSON.stringify(d),
+      csrf:        csrfJ.data.token
+    };
+
+    const r = await fetch(HD_BASE + '/hd-charts.php', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const j = await r.json();
+
+    if (j.ok) {
+      hdSaveMsg('Carta salvata! Trovala in "Le mie Carte".', 'ok');
+      setTimeout(() => hdSaveClose(), 2500);
+    } else {
+      hdSaveMsg(j.error || 'Errore durante il salvataggio.', 'err');
+    }
+  } catch(e) {
+    hdSaveMsg('Errore di rete. Riprova.', 'err');
+  }
+}
+
+// ─── Carica carta da sessionStorage (redirect da /le-mie-carte) ───────────
+
+(function() {
+  const stored = sessionStorage.getItem('hd_load_chart');
+  if (!stored) return;
+  sessionStorage.removeItem('hd_load_chart');
+  try {
+    const chart = JSON.parse(stored);
+    // Pre-popola i campi form
+    const setVal = (id, v) => { const el = document.getElementById(id); if (el && v !== undefined) el.value = v; };
+    setVal('cf-day',   chart.birth_day);
+    setVal('cf-month', chart.birth_month);
+    setVal('cf-year',  chart.birth_year);
+    setVal('cf-hour',  chart.birth_hour);
+    setVal('cf-min',   chart.birth_min);
+    setVal('cf-city',  chart.birth_city);
+    if (chart.birth_tz) {
+      const tzSel = document.getElementById('cf-tz');
+      if (tzSel) tzSel.value = chart.birth_tz;
+    }
+    // Carica direttamente i risultati già calcolati
+    if (chart.chart_data) {
+      document.addEventListener('DOMContentLoaded', () => {
+        renderRisultati(chart.chart_data, chart.chart_name || '');
+      });
+    }
+  } catch(e) {}
+})();
+{% endif %}
 </script>
 {% endblock %}

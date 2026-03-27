@@ -293,6 +293,36 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/21.consulente-bg5-verona/
           dangerous-clean-slate: false
 
+      - name: Deploy pagina genera-carta-v2 (test con account)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/24.genera-carta-v2/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/24.genera-carta-v2/
+          dangerous-clean-slate: false
+
+      - name: Deploy pagina account (HD Account System)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/22.account/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/22.account/
+          dangerous-clean-slate: false
+
+      - name: Deploy pagina le-mie-carte (HD Account System)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/23.le-mie-carte/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/23.le-mie-carte/
+          dangerous-clean-slate: false
+
       - name: Svuota cache Grav automaticamente
         run: |
           sleep 5
