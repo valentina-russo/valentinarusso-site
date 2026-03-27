@@ -299,7 +299,7 @@ body footer a:hover { color: #fff !important; }
             if (!j.ok) { msg(j.error || 'Errore nel caricamento.', 'err'); return; }
             // Salva in sessionStorage → carta_hd.html.twig la rileva all'avvio
             sessionStorage.setItem('hd_load_chart', JSON.stringify(j.data));
-            window.location.href = '{{ grav.base_url }}/genera-carta-v2';
+            window.location.href = '{{ grav.base_url }}/genera-carta';
         } catch(e) {
             msg('Errore di rete. Riprova.', 'err');
         }
