@@ -71,7 +71,17 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/hd-relazionale/
           dangerous-clean-slate: false
 
-      - name: Deploy pagina carta-hd (calcolatore Carta Human Design)
+      - name: Deploy pagina genera-carta (calcolatore Human Design)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/09.genera-carta/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/09.genera-carta/
+          dangerous-clean-slate: false
+
+      - name: Deploy pagina carta-hd (unpublished, redirect legacy)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.ARUBA_FTP_HOST }}

@@ -48,7 +48,8 @@ grav-site/user/pages/*
 !grav-site/user/pages/workshop-proposta
 # Eccezione: tool HD Relazionale (pagina + template deployati via FTP)
 !grav-site/user/pages/hd-relazionale
-# Eccezione: calcolatore Carta Human Design (pagina + template deployati via FTP)
+# Eccezione: calcolatore Carta Human Design — ora su /genera-carta (pagina + template deployati via FTP)
+!grav-site/user/pages/09.genera-carta
 !grav-site/user/pages/carta-hd
 # Eccezioni: nuovi articoli bozza privati (deployati via FTP, dentro /blog/articoli)
 !grav-site/user/pages/04.blog
