@@ -214,10 +214,10 @@
   .gcb-em-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.18); border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; }
   .gcb-em-card-title { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.9); margin-bottom: 0.75rem; }
   .gcb-em-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .gcb-em-dot--em { background: #E6A756; }
-  .gcb-em-dot--a { background: #7a5c6e; }
-  .gcb-em-dot--b { background: #3d7a8a; }
-  .gcb-em-dot--ab { background: #5a8a6e; }
+  .gcb-em-dot--em { background: linear-gradient(90deg,#8b3ea8 50%,#2e8a7a 50%); }
+  .gcb-em-dot--a { background: #8b3ea8; }
+  .gcb-em-dot--b { background: #2e8a7a; }
+  .gcb-em-dot--ab { background: linear-gradient(135deg,#8b3ea8 50%,#2e8a7a 50%); }
   .gcb-em-card-body { font-size: 0.88rem; color: rgba(255,255,255,0.78); line-height: 1.6; }
   .gcb-em-card-body p { margin: 0 0 0.5rem; }
   .gcb-em-card-body ul { margin: 0.25rem 0 0; padding-left: 1.25rem; }
@@ -671,10 +671,9 @@
 
       <!-- Legend -->
       <div class="gcb-legend">
-        <div class="gcb-legend-item"><span class="gcb-legend-dot" style="background:#7a5c6e"></span><span id="gcb-legend-a">Persona A</span></div>
-        <div class="gcb-legend-item"><span class="gcb-legend-dot" style="background:#3d7a8a"></span><span id="gcb-legend-b">Persona B</span></div>
-        <div class="gcb-legend-item"><span class="gcb-legend-dot" style="background:#E6A756"></span><span>Canale EM</span></div>
-        <div class="gcb-legend-item"><span class="gcb-legend-dot" style="background:#5a8a6e"></span><span>Entrambi</span></div>
+        <div class="gcb-legend-item"><span class="gcb-legend-dot" style="background:#8b3ea8"></span><span id="gcb-legend-a">Persona A</span></div>
+        <div class="gcb-legend-item"><span class="gcb-legend-dot" style="background:#2e8a7a"></span><span id="gcb-legend-b">Persona B</span></div>
+        <div class="gcb-legend-item"><span class="gcb-legend-dot" style="background:linear-gradient(90deg,#8b3ea8 50%,#2e8a7a 50%)"></span><span>Gate in comune</span></div>
       </div>
 
       <!-- Tab bar (mobile only) -->
@@ -1046,8 +1045,9 @@ async function loadAndRenderBodygraph(gateColors,definedChannels,definedCenterSe
   const CTR_ID={HEAD:'Head',AJNA:'Ajna',THROAT:'Throat',G:'G',HEART:'Heart',SPLEEN:'Splenic_Center',SACRAL:'Sacral',SOLAR:'Solar_Plexus',ROOT:'Root'};
   const CTR_COL={HEAD:'#b4cfe8',AJNA:'#52a363',THROAT:'#b8913e',G:'#d9b82a',HEART:'#b83838',SPLEEN:'#957040',SOLAR:'#d47a2e',SACRAL:'#c94e4e',ROOT:'#8a7868'};
   const COL_P='#1a1a2e',COL_D='#c0392b',COL_EMPTY='#c8c2bc';
-  const COL_A='#7a5c6e',COL_B='#3d7a8a',COL_EM='#E6A756',COL_AB='#5a8a6e';
-  function gcFill(col){if(!compositeMode)return col==='P'?COL_P:col==='D'?COL_D:'url(#splitGatePattern)';return col==='A'?COL_A:col==='B'?COL_B:col==='EM'?COL_EM:COL_AB;}
+  const COL_A='#8b3ea8',COL_B='#2e8a7a';
+  const AB_PAT_ID='splitAB_'+(targetId||'x').replace(/[^a-z0-9]/gi,'_');
+  function gcFill(col){if(!compositeMode)return col==='P'?COL_P:col==='D'?COL_D:'url(#splitGatePattern)';return col==='A'?COL_A:col==='B'?COL_B:`url(#${AB_PAT_ID})`;}
   try{
     const resp=await fetch('/chart.svg',{cache:'no-cache'});if(!resp.ok)throw new Error('SVG non trovato');
     const svgEl=(new DOMParser()).parseFromString(await resp.text(),'image/svg+xml').documentElement;
@@ -1063,6 +1063,14 @@ async function loadAndRenderBodygraph(gateColors,definedChannels,definedCenterSe
     const activeGates=new Set(Object.keys(gateColors).map(Number));
     for(let g=1;g<=64;g++){if(activeGates.has(g)){rules.push(`#GateText${g}{fill:#fff!important;font-weight:bold!important;opacity:1!important;}`);rules.push(`#GateTextBg${g} path,#GateTextBg${g} circle{fill:#1a1a2e!important;}`);}else{rules.push(`#GateText${g}{fill:#fff!important;opacity:0.4!important;}`);}}
     let defs=svgEl.querySelector('defs');if(!defs){defs=document.createElementNS(ns,'defs');svgEl.insertBefore(defs,svgEl.firstChild);}
+    if(compositeMode){
+      const pat=document.createElementNS(ns,'pattern');
+      pat.setAttribute('id',AB_PAT_ID);pat.setAttribute('x','0');pat.setAttribute('y','0');
+      pat.setAttribute('width','1');pat.setAttribute('height','1');pat.setAttribute('patternUnits','objectBoundingBox');
+      const r1=document.createElementNS(ns,'rect');r1.setAttribute('x','0');r1.setAttribute('y','0');r1.setAttribute('width','0.5');r1.setAttribute('height','1');r1.setAttribute('fill',COL_A);
+      const r2=document.createElementNS(ns,'rect');r2.setAttribute('x','0.5');r2.setAttribute('y','0');r2.setAttribute('width','0.5');r2.setAttribute('height','1');r2.setAttribute('fill',COL_B);
+      pat.appendChild(r1);pat.appendChild(r2);defs.appendChild(pat);
+    }
     const styleEl=document.createElementNS(ns,'style');styleEl.textContent=rules.join('\n');defs.appendChild(styleEl);
     const gg=svgEl.querySelector('#Gates');if(gg)gg.removeAttribute('class');
     if(variables&&!compositeMode){
@@ -1341,7 +1349,10 @@ async function renderConnectionChart(chartA,chartB,nomeA,nomeB){
     if(bFull&&!aFull&&(a1||a2))compromessoGates.push({gates:[g1,g2],dominant:'B',disadvantaged:'A',disadvantagedGate:a1?g1:g2});
   }
   const compositeGateColors={};
-  for(const g of allActive){const inA=activeA.has(g),inB=activeB.has(g);if(inA&&inB)compositeGateColors[String(g)]='AB';else if(emGates.has(g))compositeGateColors[String(g)]='EM';else if(inA)compositeGateColors[String(g)]='A';else compositeGateColors[String(g)]='B';}
+  // Ogni gate è colorato in base a CHI ce l'ha, non al tipo di canale
+  // A solo → viola A, B solo → verde B, entrambi → split A+B
+  // I canali EM mostrano naturalmente metà A + metà B (le due braccia si vedono con colori diversi)
+  for(const g of allActive){const inA=activeA.has(g),inB=activeB.has(g);compositeGateColors[String(g)]=inA&&inB?'AB':inA?'A':'B';}
   const compDefChan=hdGetDefinedChannels(allActive).map(([a,b])=>{const ch=CHANNELS.find(([c1,c2])=>(c1===a&&c2===b)||(c1===b&&c2===a));return ch||[a,b,HD_GATE_CENTER[a]||'',HD_GATE_CENTER[b]||''];});
   const compDefCenters=hdGetDefinedCenters(allActive);
   _gcbRendered.a=false;_gcbRendered.b=false;_gcbRendered.conn=false;
