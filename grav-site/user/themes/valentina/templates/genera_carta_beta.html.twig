@@ -274,6 +274,45 @@
   .gcb-btn-done { background: rgba(55,155,95,0.85) !important; }
   .gcb-btn-done:hover:not(:disabled) { opacity: 1 !important; background: rgba(55,155,95,0.85) !important; }
 
+  /* ── Date/time row ── */
+  .cf-row-datetime { display: flex; gap: 0.75rem; align-items: flex-start; flex-wrap: wrap; }
+  .cf-field-date { flex: 1.6; min-width: 160px; }
+  .cf-field-time { flex: 1; min-width: 110px; }
+  /* Native date/time inputs — styled to match other fields */
+  input[type="date"], input[type="time"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border-radius: 10px;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-sizing: border-box;
+    color-scheme: dark;
+  }
+  input[type="date"]:focus, input[type="time"]:focus {
+    outline: none;
+    border-color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.18);
+  }
+  /* Mobile compact form */
+  @media (max-width: 640px) {
+    .carta-form-card { padding: 1rem 0.9rem 1.1rem; }
+    .cf-field label { font-size: 0.7rem; margin-bottom: 0.18rem; }
+    .cf-field input, .cf-field select { padding: 0.55rem 0.75rem; font-size: 0.88rem; }
+    input[type="date"], input[type="time"] { padding: 0.55rem 0.75rem; font-size: 0.88rem; }
+    .cf-row { gap: 0.5rem; margin-bottom: 0.5rem; }
+    .cf-row-datetime { gap: 0.5rem; }
+    .cf-hint { font-size: 0.68rem; margin-top: 0.2rem; }
+    .carta-btn { padding: 0.8rem 1.2rem; font-size: 0.95rem; margin-top: 0.5rem; }
+    .gcb-form-col-label { font-size: 0.78rem; margin-bottom: 0.4rem; }
+  }
+
   /* ── Mode selector ── */
   .gcb-mode-sel { display: flex; gap: 0.75rem; margin-bottom: 2rem; }
   .gcb-mode-card { flex: 1; padding: 1rem 0.75rem; border-radius: 14px; border: 2px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.07); cursor: pointer; text-align: center; transition: border-color 0.2s, background 0.2s; }
@@ -382,14 +421,15 @@
       {% if page.header.hd_account_enabled %}
       <button type="button" class="gcb-pick-btn" onclick="gcbPickerOpen('a')">⬇ Scegli dalle mie carte</button>
       {% endif %}
-      <div class="cf-row cols-3">
-        <div class="cf-field"><label>Giorno</label><input type="number" id="cf-day" min="1" max="31" placeholder="15"></div>
-        <div class="cf-field"><label>Mese</label><input type="number" id="cf-month" min="1" max="12" placeholder="6"></div>
-        <div class="cf-field"><label>Anno</label><input type="number" id="cf-year" min="1900" max="2050" placeholder="1990"></div>
-      </div>
-      <div class="cf-row cols-2">
-        <div class="cf-field"><label>Ora</label><input type="number" id="cf-hour" min="0" max="23" placeholder="10"></div>
-        <div class="cf-field"><label>Minuti</label><input type="number" id="cf-min" min="0" max="59" placeholder="30"></div>
+      <div class="cf-row cf-row-datetime">
+        <div class="cf-field cf-field-date">
+          <label>Data di nascita</label>
+          <input type="date" id="cf-date" min="1900-01-01" max="2050-12-31">
+        </div>
+        <div class="cf-field cf-field-time">
+          <label>Ora di nascita</label>
+          <input type="time" id="cf-time">
+        </div>
       </div>
       <div class="cf-row cols-1">
         <div class="cf-field">
@@ -447,14 +487,15 @@
       {% if page.header.hd_account_enabled %}
       <button type="button" class="gcb-pick-btn" onclick="gcbPickerOpen('b')">⬇ Scegli dalle mie carte</button>
       {% endif %}
-      <div class="cf-row cols-3">
-        <div class="cf-field"><label>Giorno</label><input type="number" id="gcb-b-day" min="1" max="31" placeholder="15"></div>
-        <div class="cf-field"><label>Mese</label><input type="number" id="gcb-b-month" min="1" max="12" placeholder="6"></div>
-        <div class="cf-field"><label>Anno</label><input type="number" id="gcb-b-year" min="1900" max="2050" placeholder="1990"></div>
-      </div>
-      <div class="cf-row cols-2">
-        <div class="cf-field"><label>Ora</label><input type="number" id="gcb-b-hour" min="0" max="23" placeholder="10"></div>
-        <div class="cf-field"><label>Minuti</label><input type="number" id="gcb-b-min" min="0" max="59" placeholder="30"></div>
+      <div class="cf-row cf-row-datetime">
+        <div class="cf-field cf-field-date">
+          <label>Data di nascita</label>
+          <input type="date" id="gcb-b-date" min="1900-01-01" max="2050-12-31">
+        </div>
+        <div class="cf-field cf-field-time">
+          <label>Ora di nascita</label>
+          <input type="time" id="gcb-b-time">
+        </div>
       </div>
       <div class="cf-row cols-1">
         <div class="cf-field">
@@ -853,11 +894,18 @@ function getIncarnationCross(pSunGate,profileStr){
 
 // ─── Zone 1: calcolaCarta ─────────────────────────────────────────────────────
 async function calcolaCarta(){
-  const d=parseInt(document.getElementById('cf-day').value),m=parseInt(document.getElementById('cf-month').value),y=parseInt(document.getElementById('cf-year').value);
-  const h=parseInt(document.getElementById('cf-hour').value),min=parseInt(document.getElementById('cf-min').value);
+  const dateVal=document.getElementById('cf-date').value;
+  const timeVal=document.getElementById('cf-time').value;
+  const dateParts=dateVal?dateVal.split('-'):[];
+  const timeParts=timeVal?timeVal.split(':'):[];
+  const y=dateParts[0]?parseInt(dateParts[0]):NaN;
+  const m=dateParts[1]?parseInt(dateParts[1]):NaN;
+  const d=dateParts[2]?parseInt(dateParts[2]):NaN;
+  const h=timeParts[0]!==undefined?parseInt(timeParts[0]):NaN;
+  const min=timeParts[1]!==undefined?parseInt(timeParts[1]):NaN;
   const tz=document.getElementById('cf-tz').value,nome=document.getElementById('cf-nome').value.trim(),city=document.getElementById('cf-city').value.trim();
   if(!city){mostraErrore('Inserisci il luogo di nascita per continuare.');document.getElementById('cf-city').focus();return;}
-  if(!d||!m||!y||isNaN(h)||isNaN(min)){mostraErrore('Compila giorno, mese, anno, ora e minuti.');return;}
+  if(!d||!m||!y||isNaN(h)||isNaN(min)){mostraErrore('Compila data, ora e luogo di nascita.');return;}
   if(y<1900||y>2050){mostraErrore('Anno tra il 1900 e il 2050.');return;}
   document.getElementById('carta-error').style.display='none';
   document.getElementById('carta-results').style.display='none';
@@ -1097,9 +1145,9 @@ function gcbUnlockFormB(nomeA){
   const formCardA=document.querySelector('#gcb-form-col-a .carta-form-card');
   const doneText=document.getElementById('gcb-form-done-text');
   if(doneText){
-    const day=document.getElementById('cf-day')?.value||'';
-    const month=document.getElementById('cf-month')?.value||'';
-    const year=document.getElementById('cf-year')?.value||'';
+    const dateVal=document.getElementById('cf-date')?.value||'';
+    const parts=dateVal?dateVal.split('-'):[];
+    const day=parts[2]||'';const month=parts[1]||'';const year=parts[0]||'';
     const city=(document.getElementById('cf-city')?.value||'').split(',')[0].trim();
     doneText.textContent=(nomeA||'Persona A')+(day&&month&&year?' · '+day+'/'+month+'/'+year:'')+(city?' · '+city:'');
   }
@@ -1160,11 +1208,18 @@ async function renderBodygraphB(){
 }
 
 async function calcolaConnessione(){
-  const d=parseInt(document.getElementById('gcb-b-day').value),m=parseInt(document.getElementById('gcb-b-month').value),y=parseInt(document.getElementById('gcb-b-year').value);
-  const h=parseInt(document.getElementById('gcb-b-hour').value),min=parseInt(document.getElementById('gcb-b-min').value);
+  const dateVal=document.getElementById('gcb-b-date').value;
+  const timeVal=document.getElementById('gcb-b-time').value;
+  const dateParts=dateVal?dateVal.split('-'):[];
+  const timeParts=timeVal?timeVal.split(':'):[];
+  const y=dateParts[0]?parseInt(dateParts[0]):NaN;
+  const m=dateParts[1]?parseInt(dateParts[1]):NaN;
+  const d=dateParts[2]?parseInt(dateParts[2]):NaN;
+  const h=timeParts[0]!==undefined?parseInt(timeParts[0]):NaN;
+  const min=timeParts[1]!==undefined?parseInt(timeParts[1]):NaN;
   const tz=document.getElementById('gcb-b-tz').value,nome=document.getElementById('gcb-b-nome').value.trim(),city=document.getElementById('gcb-b-city').value.trim();
   if(!city){mostraErroreB('Inserisci il luogo di nascita della seconda persona.');document.getElementById('gcb-b-city').focus();return;}
-  if(!d||!m||!y||isNaN(h)||isNaN(min)){mostraErroreB('Compila tutti i campi della seconda persona.');return;}
+  if(!d||!m||!y||isNaN(h)||isNaN(min)){mostraErroreB('Compila data, ora e luogo di nascita della seconda persona.');return;}
   if(y<1900||y>2050){mostraErroreB('Anno non valido.');return;}
   if(!_lastChartA){mostraErroreB('Prima calcola la carta della Persona A.');return;}
   document.getElementById('gcb-error-b').style.display='none';
@@ -1292,10 +1347,18 @@ function gcbPickerClose(){document.getElementById('gcb-picker-overlay')?.classLi
 function gcbPickerSelect(idx){
   const c=_gcbPickerCharts?.[idx];if(!c)return;
   const pfx=_gcbPickerTarget==='b'?'gcb-b-':'cf-';
-  const sv=(sfx,v)=>{const el=document.getElementById(pfx+sfx);if(el&&v!==undefined&&v!==null)el.value=v;};
-  sv('nome',c.chart_name);sv('day',c.birth_day);sv('month',c.birth_month);sv('year',c.birth_year);
-  sv('hour',c.birth_hour!==undefined?c.birth_hour:'');sv('min',c.birth_min!==undefined?c.birth_min:'');
-  sv('city',c.birth_city||'');
+  const sv=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined&&v!==null)el.value=v;};
+  sv(pfx+'nome',c.chart_name);
+  // Populate native date input (YYYY-MM-DD)
+  const d2=c.birth_day?String(c.birth_day).padStart(2,'0'):'';
+  const mo=c.birth_month?String(c.birth_month).padStart(2,'0'):'';
+  const yr=c.birth_year||'';
+  if(yr&&mo&&d2)sv(pfx+'date',yr+'-'+mo+'-'+d2);
+  // Populate native time input (HH:MM)
+  const hr=c.birth_hour!==undefined?String(c.birth_hour).padStart(2,'0'):'00';
+  const mn=c.birth_min!==undefined?String(c.birth_min).padStart(2,'0'):'00';
+  sv(pfx+'time',hr+':'+mn);
+  sv(pfx+'city',c.birth_city||'');
   if(c.birth_tz){const ts=document.getElementById(pfx+'tz');if(ts)ts.value=c.birth_tz;}
   gcbPickerClose();
 }
@@ -1314,8 +1377,10 @@ async function hdSaveConfirm(){
   if(!_lastCartaData)return;
   const ni=document.getElementById('hd-save-name'),name=ni?ni.value.trim():'';if(!name){hdSaveMsg('Inserisci un nome per la carta.','err');return;}
   const d=_lastCartaData;
-  const day=parseInt(document.getElementById('cf-day')?.value||'0',10),month=parseInt(document.getElementById('cf-month')?.value||'0',10),year=parseInt(document.getElementById('cf-year')?.value||'0',10);
-  const hour=parseInt(document.getElementById('cf-hour')?.value||'0',10),min=parseInt(document.getElementById('cf-min')?.value||'0',10);
+  const _dv=document.getElementById('cf-date')?.value||'',_dp=_dv.split('-');
+  const _tv=document.getElementById('cf-time')?.value||'',_tp=_tv.split(':');
+  const day=parseInt(_dp[2]||'0',10),month=parseInt(_dp[1]||'0',10),year=parseInt(_dp[0]||'0',10);
+  const hour=parseInt(_tp[0]||'0',10),min=parseInt(_tp[1]||'0',10);
   const city=document.getElementById('cf-city')?.value||'',tz=document.getElementById('cf-tz')?.value||'Europe/Rome';
   try{
     const csrfR=await fetch(HD_BASE+'/hd-auth.php?action=csrf&for=save_chart',{credentials:'include'}),csrfJ=await csrfR.json();
@@ -1334,7 +1399,15 @@ async function hdSaveConfirm(){
   try{
     const chart=JSON.parse(stored);
     const sv=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined)el.value=v;};
-    sv('cf-day',chart.birth_day);sv('cf-month',chart.birth_month);sv('cf-year',chart.birth_year);sv('cf-hour',chart.birth_hour);sv('cf-min',chart.birth_min);sv('cf-city',chart.birth_city);
+    // Populate native date/time inputs from stored chart data
+    const d2=chart.birth_day?String(chart.birth_day).padStart(2,'0'):'';
+    const mo=chart.birth_month?String(chart.birth_month).padStart(2,'0'):'';
+    const yr=chart.birth_year||'';
+    const hr=chart.birth_hour!==undefined?String(chart.birth_hour).padStart(2,'0'):'00';
+    const mn=chart.birth_min!==undefined?String(chart.birth_min).padStart(2,'0'):'00';
+    if(yr&&mo&&d2)sv('cf-date',yr+'-'+mo+'-'+d2);
+    sv('cf-time',hr+':'+mn);
+    sv('cf-city',chart.birth_city);
     if(chart.birth_tz){const ts=document.getElementById('cf-tz');if(ts)ts.value=chart.birth_tz;}
     if(chart.chart_data)document.addEventListener('DOMContentLoaded',()=>{renderRisultati(chart.chart_data,chart.chart_name||'');});
   }catch(e){}
