@@ -1414,7 +1414,16 @@ async function gcbPickerOpen(target){
   try{
     if(!_gcbPickerCharts){
       const r=await fetch(HD_BASE+'/hd-charts.php?action=list',{credentials:'include'}),j=await r.json();
-      if(!j.ok)throw new Error(j.error||'Non autenticato');
+      if(!j.ok){
+        // Not logged in — show friendly login prompt instead of generic error
+        listEl.innerHTML=`<div style="text-align:center;padding:2rem 1.5rem;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">🔒</div>
+          <p style="color:#3a2560;font-weight:700;font-size:1rem;margin:0 0 0.4rem;">Accedi per usare le carte salvate</p>
+          <p style="color:#888;font-size:0.85rem;margin:0 0 1.25rem;">Crea un account gratuito o accedi per salvare e richiamare le tue carte.</p>
+          <a href="/account" style="display:inline-block;background:#6b4fa8;color:#fff;padding:0.65rem 1.5rem;border-radius:20px;text-decoration:none;font-weight:700;font-size:0.9rem;">Vai all'account →</a>
+        </div>`;
+        return;
+      }
       _gcbPickerCharts=j.data||[];
     }
     if(_gcbPickerCharts.length===0){
@@ -1425,7 +1434,7 @@ async function gcbPickerOpen(target){
         return`<div class="gcb-picker-item" onclick="gcbPickerSelect(${i})"><div class="gcb-picker-item-name">${escHtml(c.chart_name)}</div>${d||c.birth_city?`<div class="gcb-picker-item-meta">${d}${d&&c.birth_city?' · ':''}${escHtml(c.birth_city||'')}</div>`:''}</div>`;
       }).join('');
     }
-  }catch(e){listEl.innerHTML=`<div style="text-align:center;padding:2rem;color:#c0392b;font-size:0.88rem;">Errore nel caricamento.<br><small>Effettua l'accesso per usare le tue carte.</small></div>`;}
+  }catch(e){listEl.innerHTML=`<div style="text-align:center;padding:2rem;color:#c0392b;font-size:0.88rem;">Errore di rete.<br><small>Controlla la connessione e riprova.</small></div>`;}
 }
 function gcbPickerClose(){document.getElementById('gcb-picker-overlay')?.classList.remove('gcb-picker-overlay--open');}
 function gcbPickerSelect(idx){
