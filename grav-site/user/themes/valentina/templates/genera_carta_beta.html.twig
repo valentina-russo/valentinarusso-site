@@ -1170,6 +1170,8 @@ async function renderConnectionChart(chartA,chartB,nomeA,nomeB){
   gcbSetTab('conn');
   document.getElementById('gcb-results').scrollIntoView({behavior:'smooth',block:'start'});
   renderEmAnalysis(emChannels,dominanzaChannels,compromessoGates,nomeA,nomeB);
+  renderBodygraphA();
+  renderBodygraphB();
 }
 
 function renderEmAnalysis(emChannels,dominanzaChannels,compromessoGates,nomeA,nomeB){
