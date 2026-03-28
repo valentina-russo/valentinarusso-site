@@ -1100,7 +1100,9 @@ async function renderConnectionChart(chartA,chartB,nomeA,nomeB){
     const aFull=a1&&a2,bFull=b1&&b2,aNone=!a1&&!a2,bNone=!b1&&!b2;
     if(aFull&&bNone)dominanzaChannels.push({gates:[g1,g2],dominant:'A'});
     if(bFull&&aNone)dominanzaChannels.push({gates:[g1,g2],dominant:'B'});
-    if((a1&&b1&&!a2&&!b2)||(!a1&&!b1&&a2&&b2))compromessoGates.push({gates:[g1,g2]});
+    // Compromesso: una persona ha il canale completo, l'altra ha solo UNA delle due porte
+    if(aFull&&!bFull&&(b1||b2))compromessoGates.push({gates:[g1,g2],dominant:'A',disadvantaged:'B',disadvantagedGate:b1?g1:g2});
+    if(bFull&&!aFull&&(a1||a2))compromessoGates.push({gates:[g1,g2],dominant:'B',disadvantaged:'A',disadvantagedGate:a1?g1:g2});
   }
   const compositeGateColors={};
   for(const g of allActive){const inA=activeA.has(g),inB=activeB.has(g);if(inA&&inB)compositeGateColors[String(g)]='AB';else if(emGates.has(g))compositeGateColors[String(g)]='EM';else if(inA)compositeGateColors[String(g)]='A';else compositeGateColors[String(g)]='B';}
@@ -1126,7 +1128,14 @@ function renderEmAnalysis(emChannels,dominanzaChannels,compromessoGates,nomeA,no
   let html='';
   if(emChannels.length>0)html+=`<div class="gcb-em-card"><div class="gcb-em-card-title"><span class="gcb-em-dot gcb-em-dot--em"></span>Canali Elettromagnetici<span class="gcb-em-count-badge">${emChannels.length}</span></div><div class="gcb-em-card-body"><p>${escHtml(nomeA)} e ${escHtml(nomeB)} si completano su questi canali — uno ha un gate, l'altro ha quello opposto. La connessione EM attiva qualcosa che nessuno dei due possiede da solo.</p><ul>${emChannels.map(c=>`<li>Canale ${c.gates[0]}–${c.gates[1]}</li>`).join('')}</ul></div></div>`;
   if(dominanzaChannels.length>0){const dA=dominanzaChannels.filter(c=>c.dominant==='A'),dB=dominanzaChannels.filter(c=>c.dominant==='B');html+=`<div class="gcb-em-card"><div class="gcb-em-card-title"><span class="gcb-em-dot gcb-em-dot--a"></span>Canali di Dominanza<span class="gcb-em-count-badge">${dominanzaChannels.length}</span></div><div class="gcb-em-card-body"><p>Un partner ha il canale completo, l'altro non attiva nessuno dei due gate. Chi ha il canale porta quella frequenza nella relazione.</p>${dA.length?`<p><strong>${escHtml(nomeA)}:</strong> ${dA.map(c=>c.gates.join('–')).join(', ')}</p>`:''}${dB.length?`<p><strong>${escHtml(nomeB)}:</strong> ${dB.map(c=>c.gates.join('–')).join(', ')}</p>`:''}</div></div>`;}
-  if(compromessoGates.length>0)html+=`<div class="gcb-em-card"><div class="gcb-em-card-title"><span class="gcb-em-dot gcb-em-dot--ab"></span>Canali di Compromesso<span class="gcb-em-count-badge">${compromessoGates.length}</span></div><div class="gcb-em-card-body"><p>Entrambi attivano lo stesso gate ma non completano il canale. Può creare accordo ma anche tensione sulla stessa frequenza.</p><ul>${compromessoGates.map(c=>`<li>Canale ${c.gates[0]}–${c.gates[1]}</li>`).join('')}</ul></div></div>`;
+  if(compromessoGates.length>0){
+    const rows=compromessoGates.map(c=>{
+      const domName=c.dominant==='A'?escHtml(nomeA):escHtml(nomeB);
+      const disName=c.disadvantaged==='A'?escHtml(nomeA):escHtml(nomeB);
+      return`<li>Canale ${c.gates[0]}–${c.gates[1]} — ${domName} ha il canale completo, ${disName} porta solo la porta ${c.disadvantagedGate}: non viene riconosciuta da ${domName} perché quel canale è già presente nel suo disegno.</li>`;
+    }).join('');
+    html+=`<div class="gcb-em-card"><div class="gcb-em-card-title"><span class="gcb-em-dot gcb-em-dot--ab"></span>Canali di Compromesso<span class="gcb-em-count-badge">${compromessoGates.length}</span></div><div class="gcb-em-card-body"><p>Una persona ha il canale completo, l'altra porta solo una delle due porte. Chi ha il canale intero non riesce a vedere né a riconoscere nell'altra la porta che porta.</p><ul>${rows}</ul></div></div>`;
+  }
   if(!html)html=`<div class="gcb-em-card"><div class="gcb-em-card-body"><p>Nessun canale condiviso o elettromagnetico tra ${escHtml(nomeA)} e ${escHtml(nomeB)}. Le due carte sono energeticamente indipendenti.</p></div></div>`;
   el.innerHTML=html;el.style.display='block';
 }
