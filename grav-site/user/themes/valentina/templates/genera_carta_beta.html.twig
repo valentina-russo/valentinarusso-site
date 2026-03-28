@@ -253,15 +253,16 @@
   .gcb-step2-lock-title { color: #fff; font-size: 0.88rem; font-weight: 700; margin: 0 0 0.3rem; }
   .gcb-step2-lock-sub { color: rgba(255,255,255,0.58); font-size: 0.75rem; margin: 0; line-height: 1.45; }
   /* Form A done bar (couple mode, after calculation) */
-  .gcb-form-done-bar { display: none; align-items: center; justify-content: space-between; padding: 0.6rem 0 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.12); margin-bottom: 0.5rem; }
-  .gcb-form-done-bar-text { color: rgba(255,255,255,0.9); font-size: 0.82rem; font-weight: 600; }
-  .gcb-form-edit-btn { background: none; border: none; color: rgba(255,255,255,0.45); font-size: 0.72rem; cursor: pointer; text-decoration: underline; padding: 0; font-family: inherit; }
+  .gcb-form-done-bar { display: none; align-items: center; justify-content: space-between; padding: 0.6rem 0 0.8rem; border-bottom: 1px solid rgba(107,79,168,0.15); margin-bottom: 0.5rem; }
+  .gcb-form-done-bar-text { color: #5a3e8a; font-size: 0.82rem; font-weight: 700; }
+  .gcb-form-edit-btn { background: none; border: none; color: rgba(90,62,138,0.55); font-size: 0.72rem; cursor: pointer; text-decoration: underline; padding: 0; font-family: inherit; }
   .gcb-form-card--collapsed .gcb-form-done-bar { display: flex; }
   .gcb-form-card--collapsed .cf-row,
   .gcb-form-card--collapsed .cf-city-wrap,
   .gcb-form-card--collapsed .cf-tz-row,
   .gcb-form-card--collapsed #hd-account-picker-btn { display: none !important; }
   .gcb-form-card--collapsed .carta-btn { display: none !important; }
+  .gcb-form-card--collapsed .gcb-pick-btn { display: none !important; }
   /* Carousel swipe dots (mobile only) */
   .gcb-swipe-dots { display: none; justify-content: center; gap: 7px; margin-top: 0.65rem; }
   .gcb-swipe-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.22); transition: background 0.25s; }
@@ -1212,9 +1213,11 @@ async function renderConnectionChart(chartA,chartB,nomeA,nomeB){
   if(sub)sub.textContent=`${emChannels.length} canali EM · ${dominanzaChannels.length} dominanza · ${compromessoGates.length} compromesso`;
   await loadAndRenderBodygraph(compositeGateColors,compDefChan,compDefCenters,null,null,null,'gcb-bg-conn',true);
   _gcbRendered.conn=true;
+  const z2el=document.getElementById('gcb-zone-2');
+  if(z2el){z2el.style.display='block';requestAnimationFrame(()=>requestAnimationFrame(()=>{z2el.classList.add('gcb-zone-2--visible');}));}
   document.getElementById('gcb-results').style.display='block';
   gcbSetTab('conn');
-  document.getElementById('gcb-results').scrollIntoView({behavior:'smooth',block:'start'});
+  setTimeout(()=>{document.getElementById('gcb-results')?.scrollIntoView({behavior:'smooth',block:'start'});},60);
   renderEmAnalysis(emChannels,dominanzaChannels,compromessoGates,nomeA,nomeB);
   renderBodygraphA();
   renderBodygraphB();
