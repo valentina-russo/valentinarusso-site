@@ -1078,29 +1078,15 @@ async function loadAndRenderBodygraph(gateColors,definedChannels,definedCenterSe
     const svgEl=(new DOMParser()).parseFromString(await resp.text(),'image/svg+xml').documentElement;
     svgEl.setAttribute('style','max-width:520px;width:100%;height:auto;display:block;margin:0 auto');
     svgEl.removeAttribute('class');
-    // IMPORTANT: <style> inside inline SVG is global in HTML — not scoped to the SVG.
-    // All three bodygraph panels share the same element IDs (#Gate1 … #Gate64).
-    // Without scoping, the last-in-DOM <style> overrides all others, making all three
-    // panels show the same colors. Fix: prefix every rule with the container ID.
-    const sc=(targetId?`#${targetId} `:'');
-    const rules=[];
-    for(let g=1;g<=64;g++){const col=gateColors[g]||gateColors[String(g)];if(!col)continue;rules.push(`${sc}#Gate${g}{fill:${gcFill(col)}!important;}`);}
-    // Gate4, Gate11, Gate17, Gate31, Gate53 have NO path in SVG Channels group.
-    // When active, apply color to partner gate's path so the channel arm is visible.
-    {const MGP={'4':63,'11':56,'17':62,'31':7,'53':42};
-    for(const[mg,pg] of Object.entries(MGP)){
-      const mc=gateColors[mg]||gateColors[Number(mg)];if(!mc)continue;
-      const pc=gateColors[pg]||gateColors[String(pg)];
-      if(!pc){rules.push(`${sc}#Gate${pg}{fill:${gcFill(mc)}!important;}`);}
-      else if(compositeMode&&gcFill(mc)!==gcFill(pc)){rules.push(`${sc}#Gate${pg}{fill:url(#${AB_PAT_ID})!important;}`);}
-    }}
-    const intIds=[10,20,34,57];
-    for(const ig of intIds){const col=gateColors[ig]||gateColors[String(ig)];if(col)rules.push(`${sc}#GateConnect${ig}{fill:${gcFill(col)}!important;}`);}
-    if(intIds.some(g=>gateColors[g]||gateColors[String(g)])){const col20=gateColors[20]||gateColors['20'];rules.push(`${sc}#GateSpan{fill:${col20?gcFill(col20):COL_EMPTY}!important;}`);}
-    for(const c of definedCenterSet){const svgId=CTR_ID[c],col=CTR_COL[c];if(svgId&&col)rules.push(`${sc}#${svgId} path{fill:${col}!important;}`);}
-    const activeGates=new Set(Object.keys(gateColors).map(Number));
-    for(let g=1;g<=64;g++){if(activeGates.has(g)){rules.push(`${sc}#GateText${g}{fill:#fff!important;font-weight:bold!important;opacity:1!important;}`);rules.push(`${sc}#GateTextBg${g} path,${sc}#GateTextBg${g} circle{fill:#1a1a2e!important;}`);}else{rules.push(`${sc}#GateText${g}{fill:#fff!important;opacity:0.4!important;}`);}}
+    // Direct SVG attribute manipulation — naturally scoped to this SVG instance.
+    // No <style> injection into global HTML stylesheet → no ID conflicts between panels.
+    const sfEl=id=>svgEl.querySelector(`#${id}`);
+    const setF=(id,col)=>{const el=sfEl(id);if(el)el.setAttribute('fill',col);};
+    // 1. Defs: fix splitGatePattern (removes CSS-var dependency) + create AB pattern
     let defs=svgEl.querySelector('defs');if(!defs){defs=document.createElementNS(ns,'defs');svgEl.insertBefore(defs,svgEl.firstChild);}
+    const spRects=svgEl.querySelectorAll('#splitGatePattern rect');
+    if(spRects[0])spRects[0].setAttribute('fill',COL_P);
+    if(spRects[1])spRects[1].setAttribute('fill',COL_D);
     if(compositeMode){
       const pat=document.createElementNS(ns,'pattern');
       pat.setAttribute('id',AB_PAT_ID);pat.setAttribute('x','0');pat.setAttribute('y','0');
@@ -1109,7 +1095,29 @@ async function loadAndRenderBodygraph(gateColors,definedChannels,definedCenterSe
       const r2=document.createElementNS(ns,'rect');r2.setAttribute('x','0.5');r2.setAttribute('y','0');r2.setAttribute('width','0.5');r2.setAttribute('height','1');r2.setAttribute('fill',COL_B);
       pat.appendChild(r1);pat.appendChild(r2);defs.appendChild(pat);
     }
-    const styleEl=document.createElementNS(ns,'style');styleEl.textContent=rules.join('\n');defs.appendChild(styleEl);
+    // 2. Color active gate channel arms
+    for(let g=1;g<=64;g++){const col=gateColors[g]||gateColors[String(g)];if(col)setF(`Gate${g}`,gcFill(col));}
+    // Gate4,11,17,31,53 have NO path in SVG Channels — apply color to partner gate path
+    {const MGP={'4':63,'11':56,'17':62,'31':7,'53':42};
+    for(const[mg,pg] of Object.entries(MGP)){
+      const mc=gateColors[mg]||gateColors[Number(mg)];if(!mc)continue;
+      const pc=gateColors[pg]||gateColors[String(pg)];
+      if(!pc)setF(`Gate${pg}`,gcFill(mc));
+      else if(compositeMode&&gcFill(mc)!==gcFill(pc))setF(`Gate${pg}`,`url(#${AB_PAT_ID})`);
+    }}
+    // 3. Integration connectors (gates 10,20,34,57) and GateSpan
+    const intIds=[10,20,34,57];
+    for(const ig of intIds){const col=gateColors[ig]||gateColors[String(ig)];if(col)setF(`GateConnect${ig}`,gcFill(col));}
+    if(intIds.some(g=>gateColors[g]||gateColors[String(g)])){const col20=gateColors[20]||gateColors['20'];setF('GateSpan',col20?gcFill(col20):COL_EMPTY);}
+    // 4. Center fills
+    for(const c of definedCenterSet){const svgId=CTR_ID[c],col=CTR_COL[c];if(svgId&&col)svgEl.querySelectorAll(`#${svgId} path`).forEach(el=>el.setAttribute('fill',col));}
+    // 5. Gate text & background
+    const activeGates=new Set(Object.keys(gateColors).map(Number));
+    for(let g=1;g<=64;g++){
+      const tEl=sfEl(`GateText${g}`);
+      if(tEl){tEl.setAttribute('fill','#fff');tEl.setAttribute('opacity',activeGates.has(g)?'1':'0.4');if(activeGates.has(g))tEl.setAttribute('font-weight','bold');}
+      if(activeGates.has(g))svgEl.querySelectorAll(`#GateTextBg${g} path,#GateTextBg${g} circle`).forEach(el=>el.setAttribute('fill','#1a1a2e'));
+    }
     const gg=svgEl.querySelector('#Gates');if(gg)gg.removeAttribute('class');
     if(variables&&!compositeMode){
       const toArrow=dir=>dir==='left'?'\u25C4':'\u25BA';
