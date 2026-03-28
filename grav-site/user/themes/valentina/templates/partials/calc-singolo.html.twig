@@ -62,10 +62,15 @@
 @media (min-width: 768px) { #carta-calculator .carta-desktop-layout { grid-template-columns: auto 1fr; align-items: stretch; } }
 #carta-calculator .carta-bodygraph-wrap { display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid var(--soft-gray, #e8e4df); border-radius: 16px; padding: 1rem; }
 #carta-calculator .carta-bodygraph-wrap svg { max-width: 300px; width: 100%; height: auto; display: block; }
+/* Mobile: pianeti sotto il bodygraph, altezza libera */
 #carta-calculator .carta-col-planets { display: flex; flex-direction: column; }
-#carta-calculator .carta-planets { flex: 1; overflow-y: auto; max-height: 420px; background: #fff; border: 1px solid var(--soft-gray, #e8e4df); border-radius: 16px; padding: 1rem; }
-@media (min-width: 768px) { #carta-calculator .carta-planets { max-height: none; overflow-y: auto; } }
-#carta-calculator .carta-planets h3 { font-size: 1rem; color: var(--primary-color, #6b4fa8); margin: 0 0 0.6rem; position: sticky; top: 0; background: #fff; padding-bottom: 0.4rem; }
+#carta-calculator .carta-planets { overflow-y: auto; max-height: 360px; background: #fff; border: 1px solid var(--soft-gray, #e8e4df); border-radius: 16px; padding: 1rem; }
+/* Desktop: pianeti stessa altezza del bodygraph, scorre dentro */
+@media (min-width: 768px) {
+  #carta-calculator .carta-col-planets { min-height: 0; }
+  #carta-calculator .carta-planets { flex: 1; min-height: 0; max-height: 100%; overflow-y: auto; }
+}
+#carta-calculator .carta-planets h3 { font-size: 1rem; color: var(--primary-color, #6b4fa8); margin: 0 0 0.6rem; position: sticky; top: 0; background: #fff; padding-bottom: 0.4rem; z-index: 1; }
 #carta-calculator .planets-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
 #carta-calculator .planets-table th { background: #f5f0eb; color: #8b7355; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.3rem 0.5rem; text-align: left; border-bottom: 1px solid #e8e4df; position: sticky; top: 2rem; }
 #carta-calculator .planets-table td { padding: 0.22rem 0.5rem; border-bottom: 1px solid #f0ece8; color: #333; }
