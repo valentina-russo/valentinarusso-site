@@ -224,6 +224,27 @@
   .gcb-em-card-body li { margin-bottom: 0.2rem; }
   .gcb-em-count-badge { display: inline-block; background: rgba(255,255,255,0.15); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 10px; margin-left: 0.3rem; }
 
+  /* Panel chips (tipo / profilo / autorità sotto i bodygraph individuali) */
+  .gcb-panel-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; justify-content: center; margin-top: 0.8rem; padding: 0 0.25rem; }
+  .gcb-panel-chip { border-radius: 20px; padding: 0.22rem 0.65rem; font-size: 0.7rem; font-weight: 600; line-height: 1.3; }
+  .gcb-panel-chip--a { background: rgba(139,62,168,0.13); color: #6b2d9e; }
+  .gcb-panel-chip--b { background: rgba(46,138,122,0.13); color: #1a6b5c; }
+
+  /* Analisi connessione: tema + profili + definizione */
+  #gcb-conn-analysis { margin-top: 1.5rem; }
+  .gcb-analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 640px) { .gcb-analysis-grid { grid-template-columns: 1fr; } }
+  .gcb-analysis-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.18); border-radius: 14px; padding: 1.2rem 1.4rem; }
+  .gcb-analysis-lbl { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.5); margin-bottom: 0.45rem; }
+  .gcb-analysis-title { font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 0.3rem; }
+  .gcb-analysis-desc { font-size: 0.82rem; color: rgba(255,255,255,0.72); line-height: 1.55; }
+  .gcb-theme-number { font-size: 2rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.35rem; }
+  .gcb-profile-rel-badge { display: inline-block; padding: 0.22rem 0.75rem; border-radius: 20px; font-weight: 700; font-size: 0.82rem; margin-bottom: 0.4rem; }
+  .gcb-profile-rel--risonanza { background: rgba(139,62,168,0.3); color: #e0c8ff; }
+  .gcb-profile-rel--armonia   { background: rgba(46,138,122,0.3); color: #b8ece4; }
+  .gcb-profile-rel--dissonanza{ background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); }
+  .gcb-profile-pair { font-size: 0.77rem; color: rgba(255,255,255,0.5); margin-bottom: 0.4rem; }
+
   /* Zone 2 results mini header */
   .gcb-conn-names { text-align: center; margin-bottom: 1.5rem; }
   .gcb-conn-names h3 { color: #fff; font-size: 1.1rem; margin: 0; }
@@ -689,6 +710,7 @@
           <div class="gcb-panel" id="gcb-panel-a" role="tabpanel">
             <p class="gcb-panel-label" id="gcb-label-a">Persona A</p>
             <div class="carta-bodygraph-wrap" id="gcb-bg-a"></div>
+            <div class="gcb-panel-chips" id="gcb-chips-a"></div>
           </div>
           <div class="gcb-panel gcb-panel--active" id="gcb-panel-conn" role="tabpanel">
             <p class="gcb-panel-label">Composito</p>
@@ -697,6 +719,7 @@
           <div class="gcb-panel" id="gcb-panel-b" role="tabpanel">
             <p class="gcb-panel-label" id="gcb-label-b">Persona B</p>
             <div class="carta-bodygraph-wrap" id="gcb-bg-b"></div>
+            <div class="gcb-panel-chips" id="gcb-chips-b"></div>
           </div>
         </div>
       </div>
@@ -709,6 +732,8 @@
 
       <!-- EM Analysis -->
       <div class="gcb-em-section" id="gcb-em-analysis"></div>
+      <!-- Analisi connessione: tema, profili, definizione composito -->
+      <div id="gcb-conn-analysis"></div>
     </div>
   </div><!-- /gcb-zone-2 -->
 
@@ -1342,6 +1367,72 @@ async function calcolaConnessione(){
   finally{document.getElementById('gcb-loading-b').style.display='none';document.getElementById('gcb-calcola-b-btn').disabled=false;}
 }
 
+// ─── Profilo: risonanza / armonia / dissonanza ────────────────────────────────
+function gcbProfileRelation(profA,profB){
+  const parseP=p=>p.split('/').map(Number).filter(n=>!isNaN(n));
+  const[a1,a2]=parseP(profA);const[b1,b2]=parseP(profB);
+  if(!a1||!a2||!b1||!b2)return'dissonanza';
+  if(a1===b1||a1===b2||a2===b1||a2===b2)return'risonanza';
+  const isHarm=(x,y)=>[[1,4],[2,5],[3,6]].some(([p,q])=>(x===p&&y===q)||(x===q&&y===p));
+  if((isHarm(a1,b1)&&isHarm(a2,b2))||(isHarm(a1,b2)&&isHarm(a2,b1)))return'armonia';
+  return'dissonanza';
+}
+
+// ─── Analisi connessione (tema + profili + definizione composito) ──────────────
+function renderConnAnalysis(compDefCenters,compDefChan,chartA,chartB,nomeA,nomeB){
+  const el=document.getElementById('gcb-conn-analysis');if(!el)return;
+  // 1. Tema della connessione
+  const def=compDefCenters.size,white=9-def;
+  const theme=`${def}+${white}`;
+  const themeDescs={
+    '9+0':'Tutti e 9 i centri sono attivi nel composito. Connessione totale: la coppia porta una quantità di energia definita molto alta.',
+    '8+1':'Otto centri attivi, uno aperto. Connessione molto strutturata con un unico spazio di apertura e crescita reciproca.',
+    '7+2':'Sette centri attivi, due aperti. Connessione forte e stabile, con margini di esplorazione condivisa.',
+    '6+3':'Sei centri attivi, tre aperti. Connessione bilanciata: struttura solida e ampio spazio per stimolarsi a vicenda.',
+    '5+4':'Cinque centri attivi, quattro aperti. La coppia ha molto spazio bianco: l\'attrazione nasce dall\'esplorazione più che da una struttura comune.',
+  };
+  const themeDesc=themeDescs[theme]||`${def} centri attivi, ${white} aperti nel composito.`;
+  // 2. Definizione del composito
+  const defRaw=hdCalcDefinition(compDefCenters,compDefChan);
+  const DEF_COMP={'No Definition':'Nessuna Definizione','Single Definition':'Definizione Singola','Split Definition':'Scissione Semplice','Triple Split':'Tripla Scissione','Quadruple Split':'Quadrupla Scissione'};
+  const defIT=DEF_COMP[defRaw]||defRaw;
+  const defDescs={
+    'No Definition':'Nessun centro definito nel composito.',
+    'Single Definition':'Tutti i centri attivi sono connessi tra loro. La coppia forma un circuito energetico continuo e coerente.',
+    'Split Definition':'Due isole separate di centri definiti. Le due persone si completano colmando la scissione: c\'è forte attrazione, ma anche tensione da gestire.',
+    'Triple Split':'Tre gruppi separati. La coppia ha bisogno di tempo — e spesso di persone esterne — per trovare coerenza interna.',
+    'Quadruple Split':'Quattro gruppi separati. Entrambi i partner sono molto indipendenti energeticamente: la relazione richiede consapevolezza.'
+  };
+  const defDesc=defDescs[defRaw]||'';
+  // 3. Relazione tra profili
+  const profA=chartA.profile||'?/?',profB=chartB.profile||'?/?';
+  const rel=gcbProfileRelation(profA,profB);
+  const relLabels={risonanza:'Risonanza',armonia:'Armonia',dissonanza:'Dissonanza'};
+  const relDescs={
+    risonanza:'Entrambi condividono almeno una linea del profilo. C\'è un riconoscimento immediato e una comprensione istintiva del modo in cui l\'altro funziona.',
+    armonia:'I profili si rispondono per linee armoniche (1↔4, 2↔5, 3↔6). Le due persone si bilanciano e si completano in modo naturale.',
+    dissonanza:'I profili non hanno linee comuni né armoniche. La relazione può essere stimolante per le differenze, ma richiede consapevolezza reciproca.'
+  };
+  el.innerHTML=`<div class="gcb-analysis-grid">
+    <div class="gcb-analysis-card">
+      <div class="gcb-analysis-lbl">Tema della Connessione</div>
+      <div class="gcb-theme-number">${theme}</div>
+      <div class="gcb-analysis-desc">${themeDesc}</div>
+    </div>
+    <div class="gcb-analysis-card">
+      <div class="gcb-analysis-lbl">Definizione del Composito</div>
+      <div class="gcb-analysis-title">${escHtml(defIT)}</div>
+      <div class="gcb-analysis-desc">${defDesc}</div>
+    </div>
+    <div class="gcb-analysis-card" style="grid-column:1/-1">
+      <div class="gcb-analysis-lbl">Relazione tra i Profili</div>
+      <div><span class="gcb-profile-rel-badge gcb-profile-rel--${rel}">${relLabels[rel]}</span></div>
+      <div class="gcb-profile-pair">${escHtml(nomeA)}: ${profA} &nbsp;·&nbsp; ${escHtml(nomeB)}: ${profB}</div>
+      <div class="gcb-analysis-desc">${relDescs[rel]}</div>
+    </div>
+  </div>`;
+}
+
 async function renderConnectionChart(chartA,chartB,nomeA,nomeB){
   const activeA=new Set(Object.keys(chartA.gate_colors).map(Number));
   const activeB=new Set(Object.keys(chartB.gate_colors).map(Number));
@@ -1379,6 +1470,12 @@ async function renderConnectionChart(chartA,chartB,nomeA,nomeB){
   gcbSetTab('conn');
   setTimeout(()=>{document.getElementById('gcb-results')?.scrollIntoView({behavior:'smooth',block:'start'});},60);
   renderEmAnalysis(emChannels,dominanzaChannels,compromessoGates,nomeA,nomeB);
+  renderConnAnalysis(compDefCenters,compDefChan,chartA,chartB,nomeA,nomeB);
+  // Chips tipo/profilo/autorità nei pannelli individuali
+  const chipsA=document.getElementById('gcb-chips-a');
+  if(chipsA)chipsA.innerHTML=[chartA.type,`Profilo ${chartA.profile||''}`,chartA.authority].filter(Boolean).map(v=>`<span class="gcb-panel-chip gcb-panel-chip--a">${escHtml(v)}</span>`).join('');
+  const chipsB=document.getElementById('gcb-chips-b');
+  if(chipsB)chipsB.innerHTML=[chartB.type,`Profilo ${chartB.profile||''}`,chartB.authority].filter(Boolean).map(v=>`<span class="gcb-panel-chip gcb-panel-chip--b">${escHtml(v)}</span>`).join('');
   renderBodygraphA();
   renderBodygraphB();
 }
