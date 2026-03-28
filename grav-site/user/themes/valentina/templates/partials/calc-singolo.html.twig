@@ -1,4 +1,5 @@
-{# Partial: calcolatore carta Human Design singola (pagine città) #}
+{# Partial: calcolatore carta Human Design singola (pagine città + genera_carta) #}
+{% set _cs_mode = mode ?? 'city' %}
 <section id="carta-calculator" style="padding: 3.5rem 0 4rem;">
 <style>
 /* ── Contenitore ── */
@@ -184,15 +185,17 @@
         <div class="carta-planets" id="cs-planets"></div>
       </div>
     </div>
+    {% if _cs_mode != 'genera' %}
     <div class="csingle-cta">
       <p>La tua carta mostra la struttura energetica di base. Una lettura con Valentina trasforma questi dati in indicazioni concrete per il lavoro, le relazioni e le decisioni di tutti i giorni.</p>
       <a href="{{ grav.base_url }}/contatti">Prenota una Prima Lettura →</a>
     </div>
+    {% endif %}
   </div>
 
 </div>
 
-<script src="/user/themes/valentina/js/swe-hd.js"></script>
+{% if _cs_mode != 'genera' %}<script src="/user/themes/valentina/js/swe-hd.js"></script>{% endif %}
 <script>
 // ─── Swiss Ephemeris ──────────────────────────────────────────────────────────
 var _csSweMod=null,_csSweCalc=null,_csSweJulday=null;
@@ -430,6 +433,7 @@ async function csRenderRisultati(raw,nome){
 
   document.getElementById('cs-results').style.display='block';
   setTimeout(function(){document.getElementById('cs-results').scrollIntoView({behavior:'smooth',block:'start'});},60);
+  if(typeof window._csAfterRender === 'function') window._csAfterRender(d, nome);
 }
 
 // ─── City autocomplete ────────────────────────────────────────────────────────

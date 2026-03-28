@@ -407,10 +407,9 @@
     @page { size: A4; margin: 0.4cm 0.7cm; }
     body { background: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    header, footer, nav, .carta-intro, .carta-form, .carta-cta, .carta-results,
+    header, footer, nav, #carta-calculator, .carta-form-card, .carta-cta,
     .carta-pdf-btn, .cf-autocomplete-list, .carta-wrap > *:not(#pdf-layout),
-    .carta-name-header, .carta-core, .carta-desktop-layout, .carta-error,
-    .carta-form-wrap, .gcb-progress, .gcb-connect-cta, .gcb-zone-2 { display: none !important; }
+    .gcb-progress, .gcb-connect-cta, #gcb-zone-2, #gcb-extra-actions { display: none !important; }
     #pdf-layout { display: block !important; }
   }
 </style>
@@ -468,79 +467,46 @@
       </div>
     </div>
 
-    <!-- ── Forms row: 1-col in single mode, 2-col in couple mode ── -->
-    <div class="gcb-forms-row" id="gcb-forms-row">
+    {# ── Calcolatore singolo (sostituisce il vecchio form A) ── #}
+    {% include 'partials/calc-singolo.html.twig' with {'mode': 'genera'} %}
 
-    <!-- Colonna A -->
-    <div class="gcb-form-col" id="gcb-form-col-a">
-    <div class="gcb-form-col-label">Persona A</div>
-    <div class="carta-form-card" id="gcb-form-card-a">
-      <div class="gcb-form-done-bar" id="gcb-form-done-bar">
-        <span class="gcb-form-done-bar-text" id="gcb-form-done-text"></span>
-        <button class="gcb-form-edit-btn" onclick="gcbEditFormA()">Modifica</button>
-      </div>
-      <div class="cf-row cols-1">
-        <div class="cf-field">
-          <label>Nome (opzionale)</label>
-          <input type="text" id="cf-nome" placeholder="Il tuo nome">
-        </div>
-      </div>
+    {# ── Azioni post-calcolo: PDF + Connect CTA ── #}
+    <div id="gcb-extra-actions" style="display:none; max-width:720px; margin:0 auto; padding:0 1.25rem 2rem;">
       {% if page.header.hd_account_enabled %}
-      <button type="button" class="gcb-pick-btn" onclick="gcbPickerOpen('a')">📂 Scegli una carta salvata</button>
+      <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top: 1rem;">
+        <button class="carta-pdf-btn" id="carta-pdf-btn" onclick="scaricaPDF()" style="margin-top:0; flex:1; min-width:140px;">Scarica PDF</button>
+        <button class="carta-pdf-btn" id="carta-save-btn" onclick="hdSaveOpen()" style="margin-top:0; flex:1; min-width:140px; background:#fff; color:var(--primary-color);">Salva Carta</button>
+      </div>
+      <div id="hd-save-panel" style="display:none; margin-top:1rem; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); border-radius:16px; padding:1.25rem;">
+        <div id="hd-save-msg" style="display:none; padding:0.65rem 0.9rem; border-radius:10px; font-size:0.88rem; margin-bottom:0.9rem;"></div>
+        <div id="hd-save-form">
+          <label style="display:block; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:rgba(255,255,255,0.7); margin-bottom:0.4rem;">Nome della carta</label>
+          <input type="text" id="hd-save-name" maxlength="100" placeholder="Es. Marco, La mia carta…" style="width:100%; padding:0.65rem 0.9rem; border-radius:10px; border:1px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.1); color:#fff; font-size:0.95rem; box-sizing:border-box; margin-bottom:0.9rem;">
+          <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
+            <button onclick="hdSaveConfirm()" style="flex:1; min-width:120px; padding:0.55rem 1rem; background:#FDE8B0; color:#1E3A5F; font-weight:700; border:none; border-radius:50px; cursor:pointer; font-size:0.88rem;">Salva</button>
+            <button onclick="hdSaveClose()" style="flex:1; min-width:80px; padding:0.55rem 1rem; background:transparent; border:1px solid rgba(255,255,255,0.35); color:#fff; border-radius:50px; cursor:pointer; font-size:0.88rem;">Annulla</button>
+          </div>
+        </div>
+        <div id="hd-save-login" style="display:none; text-align:center;">
+          <p style="color:rgba(255,255,255,0.85); font-size:0.9rem; margin-bottom:0.9rem;">Crea un account gratuito per salvare le tue carte.</p>
+          <div style="display:flex; gap:0.65rem; justify-content:center; flex-wrap:wrap;">
+            <a href="{{ grav.base_url }}/account" style="padding:0.55rem 1.2rem; background:#FDE8B0; color:#1E3A5F; font-weight:700; border-radius:50px; text-decoration:none; font-size:0.88rem;">Accedi o Registrati</a>
+            <button onclick="hdSaveClose()" style="padding:0.55rem 1rem; background:transparent; border:1px solid rgba(255,255,255,0.35); color:#fff; border-radius:50px; cursor:pointer; font-size:0.88rem;">Annulla</button>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <button class="carta-pdf-btn" id="carta-pdf-btn" onclick="scaricaPDF()" style="margin-top:1rem;">Scarica PDF</button>
       {% endif %}
-      <div class="cf-row cf-row-datetime">
-        <div class="cf-field cf-field-date">
-          <label>📅 Data di nascita</label>
-          <div class="cf-dt-wrap">
-            <input type="date" id="cf-date" min="1900-01-01" max="2050-12-31">
-            <span class="cf-dt-ph" id="cf-date-ph" aria-hidden="true">gg / mm / aaaa</span>
-          </div>
-        </div>
-        <div class="cf-field cf-field-time">
-          <label>🕐 Ora di nascita</label>
-          <div class="cf-dt-wrap">
-            <input type="time" id="cf-time">
-            <span class="cf-dt-ph" id="cf-time-ph" aria-hidden="true">ora : min</span>
-          </div>
-        </div>
+      <div class="gcb-connect-cta" id="gcb-connect-cta" style="display:none;">
+        <h3>Scopri come sei in relazione</h3>
+        <p>Calcola la Carta di Coppia per vedere come la tua energia si intreccia con quella di un'altra persona.</p>
+        <button class="gcb-connect-btn" onclick="gcbAttivaZona2()">Confrontati con qualcuno</button>
       </div>
-      <div class="cf-row cols-1">
-        <div class="cf-field">
-          <label>📍 Luogo di nascita *</label>
-          <div class="cf-autocomplete-wrap">
-            <input type="text" id="cf-city" placeholder="Es: Milano, Roma, Napoli…" autocomplete="off" required>
-            <ul class="cf-autocomplete-list" id="cf-city-list"></ul>
-          </div>
-          <div class="cf-hint">Inserisci la città — il fuso orario verrà rilevato automaticamente</div>
-        </div>
-      </div>
-      <div class="cf-row cols-1">
-        <div class="cf-field">
-          <label>Fuso orario</label>
-          <select id="cf-tz">
-            <option value="Europe/Rome" selected>Italia (Europe/Rome)</option>
-            <option value="Europe/London">Regno Unito (Europe/London)</option>
-            <option value="Europe/Paris">Francia / Belgio (Europe/Paris)</option>
-            <option value="Europe/Berlin">Germania / Austria (Europe/Berlin)</option>
-            <option value="Europe/Madrid">Spagna (Europe/Madrid)</option>
-            <option value="Europe/Zurich">Svizzera (Europe/Zurich)</option>
-            <option value="America/New_York">USA Est (America/New_York)</option>
-            <option value="America/Chicago">USA Centrale (America/Chicago)</option>
-            <option value="America/Los_Angeles">USA Ovest (America/Los_Angeles)</option>
-            <option value="America/Argentina/Buenos_Aires">Argentina</option>
-            <option value="America/Sao_Paulo">Brasile (America/Sao_Paulo)</option>
-            <option value="Asia/Dubai">Emirati Arabi (Asia/Dubai)</option>
-            <option value="Asia/Kolkata">India (Asia/Kolkata)</option>
-            <option value="Asia/Tokyo">Giappone (Asia/Tokyo)</option>
-            <option value="Australia/Sydney">Australia (Australia/Sydney)</option>
-          </select>
-          <div class="cf-hint">Selezionato automaticamente dalla città</div>
-          <div class="cf-tz-detected" id="cf-tz-detected"></div>
-        </div>
-      </div>
-      <button class="carta-btn" id="carta-calcola-btn" onclick="calcolaCarta()">Calcola la mia Carta</button>
     </div>
-    </div><!-- /gcb-form-col-a -->
+
+    <!-- ── Forms row: visibile solo in couple mode, contiene solo col B ── -->
+    <div class="gcb-forms-row" id="gcb-forms-row">
 
     <!-- Colonna B (visibile solo in couple mode) -->
     <div class="gcb-form-col" id="gcb-form-col-b">
@@ -621,59 +587,6 @@
 
     </div><!-- /gcb-forms-row -->
 
-    <div class="carta-loading" id="carta-loading">
-      <div class="carta-loading-dots"><span></span><span></span><span></span></div>
-      <p style="margin-top:0.75rem;color:#888;font-size:0.9rem;">Calcolo in corso…</p>
-    </div>
-    <div class="carta-error" id="carta-error"></div>
-
-    <div class="carta-results" id="carta-results">
-      <div class="carta-name-header" id="carta-name-header"></div>
-      <div class="carta-core" id="carta-core"></div>
-      <div class="carta-desktop-layout">
-        <div class="carta-col-left">
-          <div class="carta-bodygraph-wrap" id="carta-bodygraph-wrap"></div>
-        </div>
-        <div class="carta-col-right">
-          <div class="carta-planets" id="carta-planets"></div>
-          {% if page.header.hd_account_enabled %}
-          <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top: 1rem;">
-            <button class="carta-pdf-btn" id="carta-pdf-btn" onclick="scaricaPDF()" style="margin-top:0; flex:1; min-width:140px;">Scarica PDF</button>
-            <button class="carta-pdf-btn" id="carta-save-btn" onclick="hdSaveOpen()" style="margin-top:0; flex:1; min-width:140px; background:#fff; color:var(--primary-color);">Salva Carta</button>
-          </div>
-          <div id="hd-save-panel" style="display:none; margin-top:1rem; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); border-radius:16px; padding:1.25rem;">
-            <div id="hd-save-msg" style="display:none; padding:0.65rem 0.9rem; border-radius:10px; font-size:0.88rem; margin-bottom:0.9rem;"></div>
-            <div id="hd-save-form">
-              <label style="display:block; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:rgba(255,255,255,0.7); margin-bottom:0.4rem;">Nome della carta</label>
-              <input type="text" id="hd-save-name" maxlength="100" placeholder="Es. Marco, La mia carta…" style="width:100%; padding:0.65rem 0.9rem; border-radius:10px; border:1px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.1); color:#fff; font-size:0.95rem; box-sizing:border-box; margin-bottom:0.9rem;">
-              <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
-                <button onclick="hdSaveConfirm()" style="flex:1; min-width:120px; padding:0.55rem 1rem; background:#FDE8B0; color:#1E3A5F; font-weight:700; border:none; border-radius:50px; cursor:pointer; font-size:0.88rem;">Salva</button>
-                <button onclick="hdSaveClose()" style="flex:1; min-width:80px; padding:0.55rem 1rem; background:transparent; border:1px solid rgba(255,255,255,0.35); color:#fff; border-radius:50px; cursor:pointer; font-size:0.88rem;">Annulla</button>
-              </div>
-            </div>
-            <div id="hd-save-login" style="display:none; text-align:center;">
-              <p style="color:rgba(255,255,255,0.85); font-size:0.9rem; margin-bottom:0.9rem;">Crea un account gratuito per salvare le tue carte.</p>
-              <div style="display:flex; gap:0.65rem; justify-content:center; flex-wrap:wrap;">
-                <a href="{{ grav.base_url }}/account" style="padding:0.55rem 1.2rem; background:#FDE8B0; color:#1E3A5F; font-weight:700; border-radius:50px; text-decoration:none; font-size:0.88rem;">Accedi o Registrati</a>
-                <button onclick="hdSaveClose()" style="padding:0.55rem 1rem; background:transparent; border:1px solid rgba(255,255,255,0.35); color:#fff; border-radius:50px; cursor:pointer; font-size:0.88rem;">Annulla</button>
-              </div>
-            </div>
-          </div>
-          {% else %}
-          <button class="carta-pdf-btn" id="carta-pdf-btn" onclick="scaricaPDF()">Scarica PDF</button>
-          {% endif %}
-          <div class="carta-cta">
-            <p>La tua carta mostra la struttura energetica di base. Una lettura professionale con Valentina trasforma questi dati in indicazioni concrete per le tue relazioni, il lavoro e le decisioni di tutti i giorni.</p>
-            <a href="/contatti">Prenota una Prima Lettura</a>
-          </div>
-          <div class="gcb-connect-cta" id="gcb-connect-cta">
-            <h3>Scopri come sei in relazione</h3>
-            <p>Calcola la Carta di Coppia per vedere come la tua energia si intreccia con quella di un'altra persona.</p>
-            <button class="gcb-connect-btn" onclick="gcbAttivaZona2()">Confrontati con qualcuno</button>
-          </div>
-        </div>
-      </div>
-    </div>
   </div><!-- /gcb-zone-1 -->
 
   <!-- ═══ ZONE 2: Carta di Coppia — risultati ═══ -->
@@ -939,10 +852,9 @@ function initCityAutocomplete(cityInputId,cityListId,tzSelectId,tzDetectedId){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-  initCityAutocomplete('cf-city','cf-city-list','cf-tz','cf-tz-detected');
   initCityAutocomplete('gcb-b-city','gcb-b-city-list','gcb-b-tz','gcb-b-tz-detected');
   // Custom placeholder for date/time inputs on iOS (-webkit-appearance:none hides native hint)
-  ['cf-date','cf-time','gcb-b-date','gcb-b-time'].forEach(id=>{
+  ['gcb-b-date','gcb-b-time'].forEach(id=>{
     const inp=document.getElementById(id);
     const ph=document.getElementById(id+'-ph');
     if(!inp||!ph)return;
@@ -1031,6 +943,29 @@ function normalizzaRisposta(data){
 }
 
 let _lastCartaData=null,_lastCartaNome=null,_lastChartA=null,_lastChartB=null,_lastNomeB=null;
+
+// ─── Bridge: partial calc-singolo → genera_carta state ───────────────────────
+window._csAfterRender = function(d, nome) {
+  _lastCartaData = d;
+  _lastChartA = d;
+  _lastCartaNome = nome;
+  // Show extra actions (PDF button + connect CTA)
+  const extra = document.getElementById('gcb-extra-actions');
+  if(extra) extra.style.display = 'block';
+  // Progress bar
+  const prog = document.getElementById('gcb-progress');
+  if(prog) prog.classList.add('gcb-progress--show');
+  // Connect CTA or unlock form B
+  if(typeof _gcbMode !== 'undefined' && _gcbMode === 'couple') {
+    gcbUnlockFormB(nome);
+  } else {
+    const cta = document.getElementById('gcb-connect-cta');
+    if(cta) {
+      if(nome) { const btn = cta.querySelector('.gcb-connect-btn'); if(btn) btn.textContent = 'Confronta ' + nome + ' con qualcuno'; }
+      cta.style.display = 'block';
+    }
+  }
+};
 
 function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
@@ -1165,11 +1100,13 @@ function renderPlaneti(personality,design){
 async function preparaPDF(){
   if(!_lastCartaData)return;
   const d=_lastCartaData,nome=_lastCartaNome;
-  const gg=document.querySelector('[placeholder="15"]')?.value||'',mm=document.querySelector('[placeholder="6"]')?.value||'',aa=document.querySelector('[placeholder="1990"]')?.value||'',hh=document.querySelector('[placeholder="10"]')?.value||'',mn=document.querySelector('[placeholder="30"]')?.value||'';
-  const luogo=document.getElementById('cf-city')?.value||'';
-  const birthStr=`${gg}/${mm}/${aa} ore ${hh}:${String(mn).padStart(2,'0')}`+(luogo?` — ${escHtml(luogo)}`:'');
-  document.getElementById('pdf-person-info').innerHTML=(nome?`<strong>${escHtml(nome)}</strong><br>`:'')+birthStr;
-  const srcSvg=document.querySelector('#carta-bodygraph-wrap svg'),pdfBg=document.getElementById('pdf-bodygraph');
+  const dateVal=document.getElementById('cs-date')?.value||'',timeVal=document.getElementById('cs-time')?.value||'';
+  const dp=dateVal?dateVal.split('-'):[];const tp=timeVal?timeVal.split(':'):[];
+  const birthStr=(dp[2]||'')+'/'+(dp[1]||'')+'/'+(dp[0]||'')+' ore '+(tp[0]||'00')+':'+(tp[1]||'00').padStart(2,'0');
+  const luogo=document.getElementById('cs-city')?.value||'';
+  const birthStrFull=birthStr+(luogo?' — '+escHtml(luogo):'');
+  document.getElementById('pdf-person-info').innerHTML=(nome?`<strong>${escHtml(nome)}</strong><br>`:'')+birthStrFull;
+  const srcSvg=document.querySelector('#cs-bodygraph-wrap svg'),pdfBg=document.getElementById('pdf-bodygraph');
   pdfBg.innerHTML='';
   if(srcSvg){
     const clone=srcSvg.cloneNode(true);
@@ -1198,13 +1135,13 @@ async function scaricaPDF(){
   await preparaPDF();
   const el=document.getElementById('pdf-layout'),btn=document.getElementById('carta-pdf-btn');
   if(btn){btn.disabled=true;btn.textContent='Generando PDF…';}
-  document.querySelectorAll('header,footer,nav,.carta-intro,.carta-form-card,.carta-results,.carta-loading,.carta-error,.carta-cta,.gcb-connect-cta,#gcb-zone-2,.gcb-progress').forEach(e=>e.style.display='none');
+  document.querySelectorAll('header,footer,nav,#carta-calculator,.carta-form-card,.gcb-connect-cta,#gcb-zone-2,.gcb-progress,#gcb-extra-actions').forEach(e=>e.style.display='none');
   el.style.cssText='display:block;width:190mm;max-height:277mm;overflow:hidden;background:#fff;padding:5mm 8mm;box-sizing:border-box;margin:0 auto';
   window.scrollTo(0,0);await new Promise(r=>setTimeout(r,500));
-  const nome=(document.getElementById('cf-nome')?.value||'carta-hd').trim();
+  const nome=(document.getElementById('cs-nome')?.value||'carta-hd').trim();
   try{await html2pdf().set({margin:0,filename:(nome?nome.replace(/\s+/g,'-').toLowerCase():'carta-hd')+'-human-design.pdf',image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,logging:false,backgroundColor:'#ffffff',scrollY:0,y:0},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:'avoid-all'}}).from(el).save();}catch(e){window.print();}
   el.style.cssText='display:none';
-  document.querySelectorAll('header,footer,nav,.carta-intro,.carta-form-card,.carta-results,.carta-loading,.carta-error,.carta-cta,.gcb-connect-cta,#gcb-zone-2,.gcb-progress').forEach(e=>e.style.display='');
+  document.querySelectorAll('header,footer,nav,#carta-calculator,.carta-form-card,.gcb-connect-cta,#gcb-zone-2,.gcb-progress,#gcb-extra-actions').forEach(e=>e.style.display='');
   if(btn){btn.disabled=false;btn.textContent='Scarica PDF';}
 }
 
@@ -1218,7 +1155,7 @@ function gcbSetMode(mode){
   const colB=document.getElementById('gcb-form-col-b');
   const z2=document.getElementById('gcb-zone-2');
   const z2hdr=document.getElementById('gcb-zone2-header');
-  const btnA=document.getElementById('carta-calcola-btn');
+  const btnA=document.getElementById('cs-calcola-btn');
   if(mode==='couple'){
     if(formsRow)formsRow.classList.add('gcb-forms-couple');
     if(colB)colB.style.display='block';
@@ -1257,9 +1194,8 @@ function gcbSetMode(mode){
     if(z2&&!_lastChartA){z2.style.display='none';z2.classList.remove('gcb-zone-2--visible');z2.classList.remove('gcb-zone-2--has-results');}
     if(z2hdr)z2hdr.style.display='';
     if(_lastChartA)document.getElementById('gcb-connect-cta')?.style&&(document.getElementById('gcb-connect-cta').style.display='block');
-    // Reset button text + restore form A
+    // Reset button text
     if(btnA){btnA.textContent='Calcola la mia Carta';btnA.classList.remove('gcb-btn-done');}
-    document.querySelector('#gcb-form-col-a .carta-form-card')?.classList.remove('gcb-form-card--collapsed');
   }
 }
 
@@ -1268,36 +1204,32 @@ function gcbUnlockFormB(nomeA){
   const cardB=document.getElementById('gcb-form-card-b');
   if(lock){lock.classList.remove('gcb-step2-lock--visible');}
   if(cardB){cardB.classList.remove('gcb-form-locked');}
-  const btnA=document.getElementById('carta-calcola-btn');
+  const btnA=document.getElementById('cs-calcola-btn');
   if(btnA){
     btnA.textContent='✓ '+(nomeA?nomeA+' calcolata':'Carta calcolata');
     btnA.classList.add('gcb-btn-done');
   }
-  // Collapse Form A to compact summary
-  const formCardA=document.querySelector('#gcb-form-col-a .carta-form-card');
+  // Summary text from partial's fields
+  const dateVal=document.getElementById('cs-date')?.value||'';
+  const parts=dateVal?dateVal.split('-'):[];
+  const day=parts[2]||'';const month=parts[1]||'';const year=parts[0]||'';
+  const city=(document.getElementById('cs-city')?.value||'').split(',')[0].trim();
   const doneText=document.getElementById('gcb-form-done-text');
-  if(doneText){
-    const dateVal=document.getElementById('cf-date')?.value||'';
-    const parts=dateVal?dateVal.split('-'):[];
-    const day=parts[2]||'';const month=parts[1]||'';const year=parts[0]||'';
-    const city=(document.getElementById('cf-city')?.value||'').split(',')[0].trim();
-    doneText.textContent=(nomeA||'Persona A')+(day&&month&&year?' · '+day+'/'+month+'/'+year:'')+(city?' · '+city:'');
-  }
-  if(formCardA) formCardA.classList.add('gcb-form-card--collapsed');
+  if(doneText)doneText.textContent=(nomeA||'Persona A')+(day&&month&&year?' · '+day+'/'+month+'/'+year:'')+(city?' · '+city:'');
+  // Show form B and scroll to it
+  const colB=document.getElementById('gcb-form-col-b');
+  if(colB)colB.style.display='block';
   setTimeout(()=>{
-    document.getElementById('gcb-form-col-b')?.scrollIntoView({behavior:'smooth',block:'start'});
-    // Pulse form B card to attract attention, then focus first input
+    colB?.scrollIntoView({behavior:'smooth',block:'start'});
     setTimeout(()=>{
-      const cardB=document.getElementById('gcb-form-card-b');
-      if(cardB){cardB.classList.add('gcb-form-b-pulse');cardB.addEventListener('animationend',()=>cardB.classList.remove('gcb-form-b-pulse'),{once:true});}
+      const cardB2=document.getElementById('gcb-form-card-b');
+      if(cardB2){cardB2.classList.add('gcb-form-b-pulse');cardB2.addEventListener('animationend',()=>cardB2.classList.remove('gcb-form-b-pulse'),{once:true});}
       document.getElementById('gcb-b-nome')?.focus();
     },200);
   },350);
 }
 
-function gcbEditFormA(){
-  document.querySelector('#gcb-form-col-a .carta-form-card')?.classList.remove('gcb-form-card--collapsed');
-}
+function gcbEditFormA(){ /* no-op: form A is now the calc-singolo partial */ }
 
 function gcbAttivaZona2(){
   if(_gcbMode==='couple')return;
