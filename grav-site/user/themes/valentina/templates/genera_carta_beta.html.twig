@@ -187,14 +187,17 @@
   .gcb-tabs-bar { display: flex; border-bottom: 2px solid rgba(255,255,255,0.2); margin-bottom: 1.5rem; }
   .gcb-tab-btn { flex: 1; padding: 0.75rem 0.5rem; border: none; background: none; cursor: pointer; font-family: inherit; font-size: 0.82rem; font-weight: 700; color: rgba(255,255,255,0.45); text-align: center; border-bottom: 2.5px solid transparent; margin-bottom: -2px; transition: color 0.2s, border-color 0.2s; min-height: 44px; }
   .gcb-tab-btn[aria-selected="true"] { color: #fff; border-bottom-color: #fff; }
-  .gcb-panel { display: none; }
-  .gcb-panel.gcb-panel--active { display: block; }
+  /* Carousel mobile */
+  .gcb-panels-grid { overflow: hidden; }
+  .gcb-carousel-track { display: flex; width: 300%; transition: transform 0.38s cubic-bezier(0.4,0,0.2,1); will-change: transform; }
+  .gcb-panel { width: calc(100% / 3); flex-shrink: 0; min-width: 0; }
   .gcb-panel-label { text-align: center; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.5); margin-bottom: 0.75rem; }
 
   @media (min-width: 900px) {
     .gcb-tabs-bar { display: none; }
-    .gcb-panels-grid { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 1rem; align-items: start; }
-    .gcb-panel { display: block; }
+    .gcb-panels-grid { overflow: visible; }
+    .gcb-carousel-track { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 1rem; width: 100%; transform: none !important; transition: none; }
+    .gcb-panel { width: auto; flex-shrink: unset; }
   }
 
   /* Composite legend */
@@ -222,6 +225,29 @@
   .gcb-conn-names h3 { color: #fff; font-size: 1.1rem; margin: 0; }
   .gcb-conn-names p { color: rgba(255,255,255,0.65); font-size: 0.82rem; margin: 0.25rem 0 0; }
 
+  /* ── Mode selector ── */
+  .gcb-mode-sel { display: flex; gap: 0.75rem; margin-bottom: 2rem; }
+  .gcb-mode-card { flex: 1; padding: 1rem 0.75rem; border-radius: 14px; border: 2px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.07); cursor: pointer; text-align: center; transition: border-color 0.2s, background 0.2s; }
+  .gcb-mode-card--active { border-color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.15); }
+  .gcb-mode-card-icon { font-size: 1.3rem; margin-bottom: 0.3rem; }
+  .gcb-mode-card-title { font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 0.15rem; }
+  .gcb-mode-card-desc { font-size: 0.72rem; color: rgba(255,255,255,0.55); line-height: 1.35; }
+
+  /* ── Account chart picker ── */
+  .gcb-pick-btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.85rem; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; color: rgba(255,255,255,0.82); font-size: 0.77rem; font-weight: 600; cursor: pointer; margin-bottom: 0.6rem; transition: background 0.15s; font-family: inherit; }
+  .gcb-pick-btn:hover { background: rgba(255,255,255,0.2); }
+  .gcb-picker-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: flex-end; justify-content: center; }
+  .gcb-picker-overlay--open { display: flex; }
+  .gcb-picker-sheet { background: #fff; border-radius: 20px 20px 0 0; width: 100%; max-width: 520px; max-height: 65vh; overflow-y: auto; padding: 1.25rem 1.25rem 2.5rem; }
+  .gcb-picker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; }
+  .gcb-picker-header-title { font-weight: 700; color: #333; font-size: 0.97rem; }
+  .gcb-picker-close { background: none; border: none; font-size: 1.6rem; cursor: pointer; color: #aaa; line-height: 1; padding: 0; }
+  .gcb-picker-item { padding: 0.85rem 0.5rem; border-radius: 10px; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid #f0ece8; }
+  .gcb-picker-item:last-child { border-bottom: none; }
+  .gcb-picker-item:hover { background: #f5f3f1; }
+  .gcb-picker-item-name { font-weight: 700; color: var(--primary-color, #5b3a6b); font-size: 0.92rem; }
+  .gcb-picker-item-meta { font-size: 0.77rem; color: #888; margin-top: 0.15rem; }
+
   @media print {
     @page { size: A4; margin: 0.4cm 0.7cm; }
     body { background: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -237,6 +263,20 @@
 
 {% block content %}
 <div class="carta-wrap">
+
+  <!-- Mode selector -->
+  <div class="gcb-mode-sel">
+    <div class="gcb-mode-card gcb-mode-card--active" id="gcb-mode-single" onclick="gcbSetMode('single')">
+      <div class="gcb-mode-card-icon">◉</div>
+      <div class="gcb-mode-card-title">La mia carta</div>
+      <div class="gcb-mode-card-desc">Calcola la tua carta Human Design</div>
+    </div>
+    <div class="gcb-mode-card" id="gcb-mode-couple" onclick="gcbSetMode('couple')">
+      <div class="gcb-mode-card-icon">⊕</div>
+      <div class="gcb-mode-card-title">Carta di coppia</div>
+      <div class="gcb-mode-card-desc">Confronta due persone insieme</div>
+    </div>
+  </div>
 
   <!-- Progress nav -->
   <div class="gcb-progress" id="gcb-progress">
@@ -280,6 +320,9 @@
           <input type="text" id="cf-nome" placeholder="Il tuo nome">
         </div>
       </div>
+      {% if page.header.hd_account_enabled %}
+      <button type="button" class="gcb-pick-btn" onclick="gcbPickerOpen('a')">⬇ Scegli dalle mie carte</button>
+      {% endif %}
       <div class="cf-row cols-3">
         <div class="cf-field"><label>Giorno</label><input type="number" id="cf-day" min="1" max="31" placeholder="15"></div>
         <div class="cf-field"><label>Mese</label><input type="number" id="cf-month" min="1" max="12" placeholder="6"></div>
@@ -398,6 +441,9 @@
           <input type="text" id="gcb-b-nome" placeholder="Nome della seconda persona">
         </div>
       </div>
+      {% if page.header.hd_account_enabled %}
+      <button type="button" class="gcb-pick-btn" onclick="gcbPickerOpen('b')">⬇ Scegli dalle mie carte</button>
+      {% endif %}
       <div class="cf-row cols-3">
         <div class="cf-field"><label>Giorno</label><input type="number" id="gcb-b-day" min="1" max="31" placeholder="15"></div>
         <div class="cf-field"><label>Mese</label><input type="number" id="gcb-b-month" min="1" max="12" placeholder="6"></div>
@@ -472,19 +518,21 @@
         <button class="gcb-tab-btn" id="gcb-tab-b" role="tab" aria-selected="false" aria-controls="gcb-panel-b" onclick="gcbSetTab('b')">Persona B</button>
       </div>
 
-      <!-- Panels grid (desktop: all 3 shown; mobile: one at a time) -->
+      <!-- Panels grid (desktop: all 3 shown; mobile: carousel sliding) -->
       <div class="gcb-panels-grid">
-        <div class="gcb-panel" id="gcb-panel-a" role="tabpanel">
-          <p class="gcb-panel-label" id="gcb-label-a">Persona A</p>
-          <div class="carta-bodygraph-wrap" id="gcb-bg-a"></div>
-        </div>
-        <div class="gcb-panel gcb-panel--active" id="gcb-panel-conn" role="tabpanel">
-          <p class="gcb-panel-label">Composito</p>
-          <div class="carta-bodygraph-wrap" id="gcb-bg-conn"></div>
-        </div>
-        <div class="gcb-panel" id="gcb-panel-b" role="tabpanel">
-          <p class="gcb-panel-label" id="gcb-label-b">Persona B</p>
-          <div class="carta-bodygraph-wrap" id="gcb-bg-b"></div>
+        <div class="gcb-carousel-track" id="gcb-carousel-track">
+          <div class="gcb-panel" id="gcb-panel-a" role="tabpanel">
+            <p class="gcb-panel-label" id="gcb-label-a">Persona A</p>
+            <div class="carta-bodygraph-wrap" id="gcb-bg-a"></div>
+          </div>
+          <div class="gcb-panel gcb-panel--active" id="gcb-panel-conn" role="tabpanel">
+            <p class="gcb-panel-label">Composito</p>
+            <div class="carta-bodygraph-wrap" id="gcb-bg-conn"></div>
+          </div>
+          <div class="gcb-panel" id="gcb-panel-b" role="tabpanel">
+            <p class="gcb-panel-label" id="gcb-label-b">Persona B</p>
+            <div class="carta-bodygraph-wrap" id="gcb-bg-b"></div>
+          </div>
         </div>
       </div>
 
@@ -526,6 +574,19 @@
     </div>
     <div class="pdf-footer">© 2026 Valentina Russo — BG5® Analyst | valentinarussobg5.com | Questo report è generato automaticamente e non sostituisce una consulenza professionale.</div>
   </div>
+
+  {% if page.header.hd_account_enabled %}
+  <!-- Account chart picker bottom sheet -->
+  <div class="gcb-picker-overlay" id="gcb-picker-overlay" onclick="gcbPickerClose()">
+    <div class="gcb-picker-sheet" onclick="event.stopPropagation()">
+      <div class="gcb-picker-header">
+        <span class="gcb-picker-header-title">Scegli una carta salvata</span>
+        <button class="gcb-picker-close" onclick="gcbPickerClose()" aria-label="Chiudi">×</button>
+      </div>
+      <div id="gcb-picker-list"></div>
+    </div>
+  </div>
+  {% endif %}
 
 </div><!-- /carta-wrap -->
 
@@ -899,7 +960,26 @@ async function scaricaPDF(){
 }
 
 // ─── Zone 2: Connection Chart ─────────────────────────────────────────────────
+let _gcbMode='single';
+
+function gcbSetMode(mode){
+  _gcbMode=mode;
+  ['single','couple'].forEach(m=>{document.getElementById('gcb-mode-'+m)?.classList.toggle('gcb-mode-card--active',m===mode);});
+  const z2=document.getElementById('gcb-zone-2');
+  if(mode==='couple'){
+    if(z2){z2.style.display='block';z2.classList.add('gcb-zone-2--visible');}
+    const cta=document.getElementById('gcb-connect-cta');if(cta)cta.style.display='none';
+    const prog=document.getElementById('gcb-progress');if(prog)prog.classList.add('gcb-progress--show');
+    document.getElementById('gcb-step-2')?.classList.add('gcb-step--done');
+    setTimeout(()=>{z2?.scrollIntoView({behavior:'smooth',block:'nearest'});},80);
+  } else {
+    if(z2&&!_lastChartA){z2.style.display='none';z2.classList.remove('gcb-zone-2--visible');}
+    if(_lastChartA){document.getElementById('gcb-connect-cta').style.display='block';}
+  }
+}
+
 function gcbAttivaZona2(){
+  if(_gcbMode==='couple')return;
   const zone2=document.getElementById('gcb-zone-2');if(!zone2)return;
   zone2.style.display='block';
   requestAnimationFrame(()=>{requestAnimationFrame(()=>{zone2.classList.add('gcb-zone-2--visible');});});
@@ -909,12 +989,15 @@ function gcbAttivaZona2(){
 
 const _gcbRendered={a:false,b:false,conn:false};
 
+const _gcbTabIdx={a:0,conn:1,b:2};
 function gcbSetTab(tab){
   ['a','b','conn'].forEach(t=>{
     const btn=document.getElementById(`gcb-tab-${t}`),panel=document.getElementById(`gcb-panel-${t}`);
     if(btn)btn.setAttribute('aria-selected',t===tab?'true':'false');
     if(panel)panel.classList.toggle('gcb-panel--active',t===tab);
   });
+  const track=document.getElementById('gcb-carousel-track');
+  if(track)track.style.transform=`translateX(-${(_gcbTabIdx[tab]||0)*33.333}%)`;
   if(tab==='a'&&!_gcbRendered.a)renderBodygraphA();
   if(tab==='b'&&!_gcbRendered.b)renderBodygraphB();
 }
@@ -1012,6 +1095,42 @@ document.addEventListener('keydown',e=>{if(e.key==='Enter'){const ae=document.ac
 {% if page.header.hd_account_enabled %}
 // ─── Salva Carta ──────────────────────────────────────────────────────────────
 const HD_BASE='https://valentinarussobg5.com';
+
+// ─── Account chart picker ──────────────────────────────────────────────────────
+let _gcbPickerTarget=null,_gcbPickerCharts=null;
+async function gcbPickerOpen(target){
+  _gcbPickerTarget=target;
+  const overlay=document.getElementById('gcb-picker-overlay'),listEl=document.getElementById('gcb-picker-list');
+  if(!overlay||!listEl)return;
+  listEl.innerHTML='<div style="text-align:center;padding:2rem;color:#888;font-size:0.9rem;">Caricamento…</div>';
+  overlay.classList.add('gcb-picker-overlay--open');
+  try{
+    if(!_gcbPickerCharts){
+      const r=await fetch(HD_BASE+'/hd-charts.php?action=list',{credentials:'include'}),j=await r.json();
+      if(!j.ok)throw new Error(j.error||'Non autenticato');
+      _gcbPickerCharts=j.data||[];
+    }
+    if(_gcbPickerCharts.length===0){
+      listEl.innerHTML='<div style="text-align:center;padding:2rem;color:#888;font-size:0.88rem;">Nessuna carta salvata ancora.<br>Calcola e salva una carta per usarla qui.</div>';
+    } else {
+      listEl.innerHTML=_gcbPickerCharts.map((c,i)=>{
+        const d=c.birth_day&&c.birth_month&&c.birth_year?`${c.birth_day}/${c.birth_month}/${c.birth_year}`:'';
+        return`<div class="gcb-picker-item" onclick="gcbPickerSelect(${i})"><div class="gcb-picker-item-name">${escHtml(c.chart_name)}</div>${d||c.birth_city?`<div class="gcb-picker-item-meta">${d}${d&&c.birth_city?' · ':''}${escHtml(c.birth_city||'')}</div>`:''}</div>`;
+      }).join('');
+    }
+  }catch(e){listEl.innerHTML=`<div style="text-align:center;padding:2rem;color:#c0392b;font-size:0.88rem;">Errore nel caricamento.<br><small>Effettua l'accesso per usare le tue carte.</small></div>`;}
+}
+function gcbPickerClose(){document.getElementById('gcb-picker-overlay')?.classList.remove('gcb-picker-overlay--open');}
+function gcbPickerSelect(idx){
+  const c=_gcbPickerCharts?.[idx];if(!c)return;
+  const pfx=_gcbPickerTarget==='b'?'gcb-b-':'cf-';
+  const sv=(sfx,v)=>{const el=document.getElementById(pfx+sfx);if(el&&v!==undefined&&v!==null)el.value=v;};
+  sv('nome',c.chart_name);sv('day',c.birth_day);sv('month',c.birth_month);sv('year',c.birth_year);
+  sv('hour',c.birth_hour!==undefined?c.birth_hour:'');sv('min',c.birth_min!==undefined?c.birth_min:'');
+  sv('city',c.birth_city||'');
+  if(c.birth_tz){const ts=document.getElementById(pfx+'tz');if(ts)ts.value=c.birth_tz;}
+  gcbPickerClose();
+}
 function hdSaveMsg(text,type){const el=document.getElementById('hd-save-msg');if(!el)return;el.style.display='block';el.textContent=text;el.style.background=type==='ok'?'rgba(50,200,100,0.2)':'rgba(220,50,50,0.2)';el.style.border=type==='ok'?'1px solid rgba(50,200,100,0.4)':'1px solid rgba(220,50,50,0.4)';el.style.color=type==='ok'?'#b6f5c8':'#ffb3b3';}
 async function hdSaveOpen(){
   if(!_lastCartaData)return;
