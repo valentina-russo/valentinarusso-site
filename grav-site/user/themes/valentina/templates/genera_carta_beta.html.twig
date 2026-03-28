@@ -225,6 +225,26 @@
   .gcb-conn-names h3 { color: #fff; font-size: 1.1rem; margin: 0; }
   .gcb-conn-names p { color: rgba(255,255,255,0.65); font-size: 0.82rem; margin: 0.25rem 0 0; }
 
+  /* ── Forms row (1-col single / 2-col couple) ── */
+  .gcb-forms-row { display: grid; grid-template-columns: 1fr; }
+  #gcb-form-col-b { display: none; }
+  .gcb-form-col-label { display: none; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem; padding: 0 0.25rem; }
+  /* Couple active */
+  .gcb-forms-couple { grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .gcb-forms-couple .gcb-form-col-label { display: block; }
+  .gcb-forms-couple .carta-form-card { padding: 1.25rem 1rem; }
+  .gcb-forms-couple .cf-field input, .gcb-forms-couple .cf-field select { font-size: 0.85rem; padding: 0.48rem 0.65rem; }
+  .gcb-forms-couple .cf-row { gap: 0.45rem; }
+  .gcb-forms-couple .cf-field label { font-size: 0.7rem; }
+  .gcb-forms-couple .carta-btn { padding: 0.72rem 1rem; font-size: 0.88rem; }
+  /* Hide intro/tips in couple mode */
+  .gcb-single-only { transition: opacity 0.25s; }
+  .gcb-single-only.gcb-hidden { display: none; }
+  /* Mobile: stack couple forms */
+  @media (max-width: 640px) {
+    .gcb-forms-couple { grid-template-columns: 1fr; }
+  }
+
   /* ── Mode selector ── */
   .gcb-mode-sel { display: flex; gap: 0.75rem; margin-bottom: 2rem; }
   .gcb-mode-card { flex: 1; padding: 1rem 0.75rem; border-radius: 14px; border: 2px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.07); cursor: pointer; text-align: center; transition: border-color 0.2s, background 0.2s; }
@@ -293,12 +313,12 @@
 
   <!-- ═══ ZONE 1: Carta Individuale ═══ -->
   <div id="gcb-zone-1">
-    <div class="carta-intro">
+    <div class="carta-intro gcb-single-only">
       <h1>{{ page.header.title }}</h1>
       <p class="carta-tagline">Il primo passo verso la consapevolezza del tuo disegno unico.</p>
     </div>
 
-    <div class="gc-tips-bar">
+    <div class="gc-tips-bar gcb-single-only">
       <div class="gc-tips-item">
         <div class="gc-tips-num">1</div>
         <div class="gc-tips-text"><strong>Data di nascita</strong>Giorno, mese e anno completi.</div>
@@ -313,6 +333,12 @@
       </div>
     </div>
 
+    <!-- ── Forms row: 1-col in single mode, 2-col in couple mode ── -->
+    <div class="gcb-forms-row" id="gcb-forms-row">
+
+    <!-- Colonna A -->
+    <div class="gcb-form-col" id="gcb-form-col-a">
+    <div class="gcb-form-col-label">Persona A</div>
     <div class="carta-form-card">
       <div class="cf-row cols-1">
         <div class="cf-field">
@@ -368,6 +394,74 @@
       </div>
       <button class="carta-btn" id="carta-calcola-btn" onclick="calcolaCarta()">Calcola la mia Carta</button>
     </div>
+    </div><!-- /gcb-form-col-a -->
+
+    <!-- Colonna B (visibile solo in couple mode) -->
+    <div class="gcb-form-col" id="gcb-form-col-b">
+    <div class="gcb-form-col-label">Persona B</div>
+    <div class="carta-form-card">
+      <div class="cf-row cols-1">
+        <div class="cf-field">
+          <label>Nome (opzionale)</label>
+          <input type="text" id="gcb-b-nome" placeholder="Nome della seconda persona">
+        </div>
+      </div>
+      {% if page.header.hd_account_enabled %}
+      <button type="button" class="gcb-pick-btn" onclick="gcbPickerOpen('b')">⬇ Scegli dalle mie carte</button>
+      {% endif %}
+      <div class="cf-row cols-3">
+        <div class="cf-field"><label>Giorno</label><input type="number" id="gcb-b-day" min="1" max="31" placeholder="15"></div>
+        <div class="cf-field"><label>Mese</label><input type="number" id="gcb-b-month" min="1" max="12" placeholder="6"></div>
+        <div class="cf-field"><label>Anno</label><input type="number" id="gcb-b-year" min="1900" max="2050" placeholder="1990"></div>
+      </div>
+      <div class="cf-row cols-2">
+        <div class="cf-field"><label>Ora</label><input type="number" id="gcb-b-hour" min="0" max="23" placeholder="10"></div>
+        <div class="cf-field"><label>Minuti</label><input type="number" id="gcb-b-min" min="0" max="59" placeholder="30"></div>
+      </div>
+      <div class="cf-row cols-1">
+        <div class="cf-field">
+          <label>Luogo di nascita *</label>
+          <div class="cf-autocomplete-wrap">
+            <input type="text" id="gcb-b-city" placeholder="Es: Milano, Roma, Napoli…" autocomplete="off">
+            <ul class="cf-autocomplete-list" id="gcb-b-city-list"></ul>
+          </div>
+          <div class="cf-hint">Inserisci la città — fuso orario automatico</div>
+        </div>
+      </div>
+      <div class="cf-row cols-1">
+        <div class="cf-field">
+          <label>Fuso orario</label>
+          <select id="gcb-b-tz">
+            <option value="Europe/Rome" selected>Italia (Europe/Rome)</option>
+            <option value="Europe/London">Regno Unito</option>
+            <option value="Europe/Paris">Francia / Belgio</option>
+            <option value="Europe/Berlin">Germania / Austria</option>
+            <option value="Europe/Madrid">Spagna</option>
+            <option value="Europe/Zurich">Svizzera</option>
+            <option value="America/New_York">USA Est</option>
+            <option value="America/Chicago">USA Centrale</option>
+            <option value="America/Los_Angeles">USA Ovest</option>
+            <option value="America/Argentina/Buenos_Aires">Argentina</option>
+            <option value="America/Sao_Paulo">Brasile</option>
+            <option value="Asia/Dubai">Emirati Arabi</option>
+            <option value="Asia/Kolkata">India</option>
+            <option value="Asia/Tokyo">Giappone</option>
+            <option value="Australia/Sydney">Australia</option>
+          </select>
+          <div class="cf-hint">Selezionato automaticamente dalla città</div>
+          <div class="cf-tz-detected" id="gcb-b-tz-detected"></div>
+        </div>
+      </div>
+      <button class="carta-btn" id="gcb-calcola-b-btn" onclick="calcolaConnessione()">Calcola la Connessione</button>
+    </div>
+    <div class="carta-loading" id="gcb-loading-b">
+      <div class="carta-loading-dots"><span></span><span></span><span></span></div>
+      <p style="margin-top:0.75rem;color:#888;font-size:0.9rem;">Calcolo connessione…</p>
+    </div>
+    <div class="carta-error" id="gcb-error-b"></div>
+    </div><!-- /gcb-form-col-b -->
+
+    </div><!-- /gcb-forms-row -->
 
     <div class="carta-loading" id="carta-loading">
       <div class="carta-loading-dots"><span></span><span></span><span></span></div>
@@ -426,75 +520,12 @@
     </div>
   </div><!-- /gcb-zone-1 -->
 
-  <!-- ═══ ZONE 2: Carta di Coppia ═══ -->
+  <!-- ═══ ZONE 2: Carta di Coppia — risultati ═══ -->
   <div class="gcb-zone-2" id="gcb-zone-2">
-    <div class="gcb-zone-header">
+    <div class="gcb-zone-header" id="gcb-zone2-header">
       <h2>Carta di Coppia</h2>
       <p>Inserisci i dati dell'altra persona per calcolare la connessione</p>
     </div>
-
-    <div class="carta-form-card">
-      <div style="margin-bottom:1rem;"><span class="gcb-persona-b-badge">Seconda Persona</span></div>
-      <div class="cf-row cols-1">
-        <div class="cf-field">
-          <label>Nome (opzionale)</label>
-          <input type="text" id="gcb-b-nome" placeholder="Nome della seconda persona">
-        </div>
-      </div>
-      {% if page.header.hd_account_enabled %}
-      <button type="button" class="gcb-pick-btn" onclick="gcbPickerOpen('b')">⬇ Scegli dalle mie carte</button>
-      {% endif %}
-      <div class="cf-row cols-3">
-        <div class="cf-field"><label>Giorno</label><input type="number" id="gcb-b-day" min="1" max="31" placeholder="15"></div>
-        <div class="cf-field"><label>Mese</label><input type="number" id="gcb-b-month" min="1" max="12" placeholder="6"></div>
-        <div class="cf-field"><label>Anno</label><input type="number" id="gcb-b-year" min="1900" max="2050" placeholder="1990"></div>
-      </div>
-      <div class="cf-row cols-2">
-        <div class="cf-field"><label>Ora</label><input type="number" id="gcb-b-hour" min="0" max="23" placeholder="10"></div>
-        <div class="cf-field"><label>Minuti</label><input type="number" id="gcb-b-min" min="0" max="59" placeholder="30"></div>
-      </div>
-      <div class="cf-row cols-1">
-        <div class="cf-field">
-          <label>Luogo di nascita *</label>
-          <div class="cf-autocomplete-wrap">
-            <input type="text" id="gcb-b-city" placeholder="Es: Milano, Roma, Napoli…" autocomplete="off">
-            <ul class="cf-autocomplete-list" id="gcb-b-city-list"></ul>
-          </div>
-          <div class="cf-hint">Inserisci la città — il fuso orario verrà rilevato automaticamente</div>
-        </div>
-      </div>
-      <div class="cf-row cols-1">
-        <div class="cf-field">
-          <label>Fuso orario</label>
-          <select id="gcb-b-tz">
-            <option value="Europe/Rome" selected>Italia (Europe/Rome)</option>
-            <option value="Europe/London">Regno Unito (Europe/London)</option>
-            <option value="Europe/Paris">Francia / Belgio (Europe/Paris)</option>
-            <option value="Europe/Berlin">Germania / Austria (Europe/Berlin)</option>
-            <option value="Europe/Madrid">Spagna (Europe/Madrid)</option>
-            <option value="Europe/Zurich">Svizzera (Europe/Zurich)</option>
-            <option value="America/New_York">USA Est (America/New_York)</option>
-            <option value="America/Chicago">USA Centrale (America/Chicago)</option>
-            <option value="America/Los_Angeles">USA Ovest (America/Los_Angeles)</option>
-            <option value="America/Argentina/Buenos_Aires">Argentina</option>
-            <option value="America/Sao_Paulo">Brasile (America/Sao_Paulo)</option>
-            <option value="Asia/Dubai">Emirati Arabi (Asia/Dubai)</option>
-            <option value="Asia/Kolkata">India (Asia/Kolkata)</option>
-            <option value="Asia/Tokyo">Giappone (Asia/Tokyo)</option>
-            <option value="Australia/Sydney">Australia (Australia/Sydney)</option>
-          </select>
-          <div class="cf-hint">Selezionato automaticamente dalla città</div>
-          <div class="cf-tz-detected" id="gcb-b-tz-detected"></div>
-        </div>
-      </div>
-      <button class="carta-btn" id="gcb-calcola-b-btn" onclick="calcolaConnessione()">Calcola la Connessione</button>
-    </div>
-
-    <div class="carta-loading" id="gcb-loading-b">
-      <div class="carta-loading-dots"><span></span><span></span><span></span></div>
-      <p style="margin-top:0.75rem;color:#888;font-size:0.9rem;">Calcolo connessione…</p>
-    </div>
-    <div class="carta-error" id="gcb-error-b"></div>
 
     <!-- Zone 2 results -->
     <div id="gcb-results" style="display:none">
@@ -965,16 +996,26 @@ let _gcbMode='single';
 function gcbSetMode(mode){
   _gcbMode=mode;
   ['single','couple'].forEach(m=>{document.getElementById('gcb-mode-'+m)?.classList.toggle('gcb-mode-card--active',m===mode);});
+  const formsRow=document.getElementById('gcb-forms-row');
+  const colB=document.getElementById('gcb-form-col-b');
   const z2=document.getElementById('gcb-zone-2');
+  const z2hdr=document.getElementById('gcb-zone2-header');
   if(mode==='couple'){
+    if(formsRow)formsRow.classList.add('gcb-forms-couple');
+    if(colB)colB.style.display='block';
+    document.querySelectorAll('.gcb-single-only').forEach(el=>el.classList.add('gcb-hidden'));
+    document.getElementById('gcb-connect-cta')?.style&&(document.getElementById('gcb-connect-cta').style.display='none');
     if(z2){z2.style.display='block';z2.classList.add('gcb-zone-2--visible');}
-    const cta=document.getElementById('gcb-connect-cta');if(cta)cta.style.display='none';
+    if(z2hdr)z2hdr.style.display='none';
     const prog=document.getElementById('gcb-progress');if(prog)prog.classList.add('gcb-progress--show');
     document.getElementById('gcb-step-2')?.classList.add('gcb-step--done');
-    setTimeout(()=>{z2?.scrollIntoView({behavior:'smooth',block:'nearest'});},80);
   } else {
+    if(formsRow)formsRow.classList.remove('gcb-forms-couple');
+    if(colB)colB.style.display='none';
+    document.querySelectorAll('.gcb-single-only').forEach(el=>el.classList.remove('gcb-hidden'));
     if(z2&&!_lastChartA){z2.style.display='none';z2.classList.remove('gcb-zone-2--visible');}
-    if(_lastChartA){document.getElementById('gcb-connect-cta').style.display='block';}
+    if(z2hdr)z2hdr.style.display='';
+    if(_lastChartA)document.getElementById('gcb-connect-cta')?.style&&(document.getElementById('gcb-connect-cta').style.display='block');
   }
 }
 
