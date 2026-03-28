@@ -252,6 +252,21 @@
   .gcb-step2-lock-icon { font-size: 1.7rem; margin-bottom: 0.65rem; opacity: 0.75; }
   .gcb-step2-lock-title { color: #fff; font-size: 0.88rem; font-weight: 700; margin: 0 0 0.3rem; }
   .gcb-step2-lock-sub { color: rgba(255,255,255,0.58); font-size: 0.75rem; margin: 0; line-height: 1.45; }
+  /* Form A done bar (couple mode, after calculation) */
+  .gcb-form-done-bar { display: none; align-items: center; justify-content: space-between; padding: 0.6rem 0 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.12); margin-bottom: 0.5rem; }
+  .gcb-form-done-bar-text { color: rgba(255,255,255,0.9); font-size: 0.82rem; font-weight: 600; }
+  .gcb-form-edit-btn { background: none; border: none; color: rgba(255,255,255,0.45); font-size: 0.72rem; cursor: pointer; text-decoration: underline; padding: 0; font-family: inherit; }
+  .gcb-form-card--collapsed .gcb-form-done-bar { display: flex; }
+  .gcb-form-card--collapsed .cf-row,
+  .gcb-form-card--collapsed .cf-city-wrap,
+  .gcb-form-card--collapsed .cf-tz-row,
+  .gcb-form-card--collapsed #hd-account-picker-btn { display: none !important; }
+  .gcb-form-card--collapsed .carta-btn { display: none !important; }
+  /* Carousel swipe dots (mobile only) */
+  .gcb-swipe-dots { display: none; justify-content: center; gap: 7px; margin-top: 0.65rem; }
+  .gcb-swipe-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.22); transition: background 0.25s; }
+  .gcb-swipe-dot--active { background: rgba(255,255,255,0.85); }
+  @media (max-width: 899px) { .gcb-swipe-dots { display: flex; } }
   #gcb-form-card-b.gcb-form-locked { opacity: 0.18; pointer-events: none; filter: blur(2px); user-select: none; transition: opacity 0.4s, filter 0.4s; }
   #gcb-form-card-b { transition: opacity 0.4s, filter 0.4s; }
   /* Form A done state */
@@ -352,7 +367,11 @@
     <!-- Colonna A -->
     <div class="gcb-form-col" id="gcb-form-col-a">
     <div class="gcb-form-col-label">Persona A</div>
-    <div class="carta-form-card">
+    <div class="carta-form-card" id="gcb-form-card-a">
+      <div class="gcb-form-done-bar" id="gcb-form-done-bar">
+        <span class="gcb-form-done-bar-text" id="gcb-form-done-text"></span>
+        <button class="gcb-form-edit-btn" onclick="gcbEditFormA()">Modifica</button>
+      </div>
       <div class="cf-row cols-1">
         <div class="cf-field">
           <label>Nome (opzionale)</label>
@@ -583,6 +602,12 @@
             <div class="carta-bodygraph-wrap" id="gcb-bg-b"></div>
           </div>
         </div>
+      </div>
+      <!-- Swipe dots (mobile only) -->
+      <div class="gcb-swipe-dots" id="gcb-swipe-dots">
+        <span class="gcb-swipe-dot" id="gcb-dot-a"></span>
+        <span class="gcb-swipe-dot gcb-swipe-dot--active" id="gcb-dot-conn"></span>
+        <span class="gcb-swipe-dot" id="gcb-dot-b"></span>
       </div>
 
       <!-- EM Analysis -->
@@ -1028,7 +1053,8 @@ function gcbSetMode(mode){
     if(colB)colB.style.display='block';
     document.querySelectorAll('.gcb-single-only').forEach(el=>el.classList.add('gcb-hidden'));
     document.getElementById('gcb-connect-cta')?.style&&(document.getElementById('gcb-connect-cta').style.display='none');
-    if(z2){z2.style.display='block';z2.classList.add('gcb-zone-2--visible');}
+    const gcbResultsEl=document.getElementById('gcb-results');
+    if(z2&&gcbResultsEl&&gcbResultsEl.style.display==='block'){z2.style.display='block';z2.classList.add('gcb-zone-2--visible');}
     if(z2hdr)z2hdr.style.display='none';
     const prog=document.getElementById('gcb-progress');if(prog)prog.classList.add('gcb-progress--show');
     document.getElementById('gcb-step-2')?.classList.add('gcb-step--done');
@@ -1050,8 +1076,9 @@ function gcbSetMode(mode){
     if(z2&&!_lastChartA){z2.style.display='none';z2.classList.remove('gcb-zone-2--visible');}
     if(z2hdr)z2hdr.style.display='';
     if(_lastChartA)document.getElementById('gcb-connect-cta')?.style&&(document.getElementById('gcb-connect-cta').style.display='block');
-    // Reset button text
+    // Reset button text + restore form A
     if(btnA){btnA.textContent='Calcola la mia Carta';btnA.classList.remove('gcb-btn-done');}
+    document.querySelector('#gcb-form-col-a .carta-form-card')?.classList.remove('gcb-form-card--collapsed');
   }
 }
 
@@ -1065,7 +1092,22 @@ function gcbUnlockFormB(nomeA){
     btnA.textContent='✓ '+(nomeA?nomeA+' calcolata':'Carta calcolata');
     btnA.classList.add('gcb-btn-done');
   }
+  // Collapse Form A to compact summary
+  const formCardA=document.querySelector('#gcb-form-col-a .carta-form-card');
+  const doneText=document.getElementById('gcb-form-done-text');
+  if(doneText){
+    const day=document.getElementById('cf-day')?.value||'';
+    const month=document.getElementById('cf-month')?.value||'';
+    const year=document.getElementById('cf-year')?.value||'';
+    const city=(document.getElementById('cf-city')?.value||'').split(',')[0].trim();
+    doneText.textContent=(nomeA||'Persona A')+(day&&month&&year?' · '+day+'/'+month+'/'+year:'')+(city?' · '+city:'');
+  }
+  if(formCardA) formCardA.classList.add('gcb-form-card--collapsed');
   setTimeout(()=>{document.getElementById('gcb-form-col-b')?.scrollIntoView({behavior:'smooth',block:'start'});},350);
+}
+
+function gcbEditFormA(){
+  document.querySelector('#gcb-form-col-a .carta-form-card')?.classList.remove('gcb-form-card--collapsed');
 }
 
 function gcbAttivaZona2(){
@@ -1078,13 +1120,17 @@ function gcbAttivaZona2(){
 }
 
 const _gcbRendered={a:false,b:false,conn:false};
+let _gcbCurrentTab='conn';
 
 const _gcbTabIdx={a:0,conn:1,b:2};
 function gcbSetTab(tab){
+  _gcbCurrentTab=tab;
   ['a','b','conn'].forEach(t=>{
     const btn=document.getElementById(`gcb-tab-${t}`),panel=document.getElementById(`gcb-panel-${t}`);
     if(btn)btn.setAttribute('aria-selected',t===tab?'true':'false');
     if(panel)panel.classList.toggle('gcb-panel--active',t===tab);
+    const dot=document.getElementById('gcb-dot-'+t);
+    if(dot)dot.classList.toggle('gcb-swipe-dot--active',t===tab);
   });
   const track=document.getElementById('gcb-carousel-track');
   if(track)track.style.transform=`translateX(-${(_gcbTabIdx[tab]||0)*33.333}%)`;
@@ -1192,6 +1238,24 @@ function renderEmAnalysis(emChannels,dominanzaChannels,compromessoGates,nomeA,no
 }
 
 document.addEventListener('keydown',e=>{if(e.key==='Enter'){const ae=document.activeElement;if(ae&&ae.id&&(ae.id.startsWith('cf-')||ae.closest('#gcb-zone-1')))calcolaCarta();}});
+
+// ─── Touch swipe carousel ─────────────────────────────────────────────────────
+(function(){
+  let _ts=null;
+  const wrap=document.querySelector('.gcb-panels-grid');
+  if(!wrap)return;
+  wrap.addEventListener('touchstart',e=>{_ts=e.touches[0].clientX;},{passive:true});
+  wrap.addEventListener('touchend',e=>{
+    if(_ts===null)return;
+    const dx=e.changedTouches[0].clientX-_ts;
+    _ts=null;
+    if(Math.abs(dx)<45)return;
+    const tabs=['a','conn','b'];
+    const curIdx=tabs.indexOf(_gcbCurrentTab);
+    if(dx<0&&curIdx<2)gcbSetTab(tabs[curIdx+1]);
+    else if(dx>0&&curIdx>0)gcbSetTab(tabs[curIdx-1]);
+  },{passive:true});
+})();
 
 {% if page.header.hd_account_enabled %}
 // ─── Salva Carta ──────────────────────────────────────────────────────────────
