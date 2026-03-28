@@ -1056,6 +1056,15 @@ async function loadAndRenderBodygraph(gateColors,definedChannels,definedCenterSe
     const rules=[];
     rules.push(`:root{--color-personality:${COL_P};--color-design:${COL_D};--color-empty:${COL_EMPTY};}`);
     for(let g=1;g<=64;g++){const col=gateColors[g]||gateColors[String(g)];if(!col)continue;rules.push(`#Gate${g}{fill:${gcFill(col)}!important;}`);}
+    // Gate4, Gate11, Gate17, Gate31, Gate53 have NO path in SVG Channels group.
+    // When active, apply color to partner gate's path so the channel arm is visible.
+    {const MGP={'4':63,'11':56,'17':62,'31':7,'53':42};
+    for(const[mg,pg] of Object.entries(MGP)){
+      const mc=gateColors[mg]||gateColors[Number(mg)];if(!mc)continue;
+      const pc=gateColors[pg]||gateColors[String(pg)];
+      if(!pc){rules.push(`#Gate${pg}{fill:${gcFill(mc)}!important;}`);}
+      else if(compositeMode&&gcFill(mc)!==gcFill(pc)){rules.push(`#Gate${pg}{fill:url(#${AB_PAT_ID})!important;}`);}
+    }}
     const intIds=[10,20,34,57];
     for(const ig of intIds){const col=gateColors[ig]||gateColors[String(ig)];if(col)rules.push(`#GateConnect${ig}{fill:${gcFill(col)}!important;}`);}
     if(intIds.some(g=>gateColors[g]||gateColors[String(g)])){const col20=gateColors[20]||gateColors['20'];rules.push(`#GateSpan{fill:${col20?gcFill(col20):COL_EMPTY}!important;}`);}
