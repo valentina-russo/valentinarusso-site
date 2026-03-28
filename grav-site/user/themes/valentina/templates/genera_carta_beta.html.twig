@@ -297,7 +297,11 @@
   .cf-field-time { flex: 1; min-width: 110px; }
   /* Native date/time inputs — on white card background */
   input[type="date"], input[type="time"] {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
     width: 100%;
+    max-width: 100%;
     padding: 0.7rem 0.9rem;
     border-radius: 10px;
     border: 1.5px solid rgba(107,79,168,0.35);
@@ -314,6 +318,9 @@
     border-color: #6b4fa8;
     background: #f0eaf8;
   }
+  /* Ensure fields don't overflow on iOS */
+  .cf-field-date, .cf-field-time { overflow: hidden; }
+  .cf-row-datetime { overflow: hidden; }
   /* Mobile compact form */
   @media (max-width: 640px) {
     .carta-form-card { padding: 1rem 0.9rem 1.1rem; }
