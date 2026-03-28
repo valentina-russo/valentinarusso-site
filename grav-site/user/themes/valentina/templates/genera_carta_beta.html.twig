@@ -296,7 +296,24 @@
   .cf-field-date { flex: 1.6; min-width: 160px; }
   .cf-field-time { flex: 1; min-width: 110px; }
   /* Native date/time inputs — on white card background */
+  /* Date/time wrapper + custom placeholder for iOS */
+  .cf-dt-wrap { position: relative; }
+  .cf-dt-ph {
+    position: absolute;
+    inset: 0;
+    padding: 0.7rem 0.9rem;
+    color: #a093c0;
+    font-size: 0.95rem;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    background: #f7f5fc;
+  }
+  .cf-dt-ph.cf-dt-ph--hidden { display: none; }
   input[type="date"], input[type="time"] {
+    -webkit-appearance: none;
+    appearance: none;
     display: block;
     width: 100%;
     min-width: 0;
@@ -312,15 +329,15 @@
     font-weight: 500;
     cursor: pointer;
     box-sizing: border-box;
+    position: relative;
+    z-index: 1;
   }
   input[type="date"]:focus, input[type="time"]:focus {
     outline: none;
     border-color: #6b4fa8;
     background: #f0eaf8;
   }
-  /* Clip iOS native chrome overflow inside container */
-  .cf-field-date, .cf-field-time { overflow: hidden; min-width: 0; }
-  .cf-row-datetime { overflow: hidden; }
+  .cf-field-date, .cf-field-time { min-width: 0; }
   /* Mobile compact form */
   @media (max-width: 640px) {
     .carta-form-card { padding: 1rem 0.9rem 1.1rem; }
@@ -450,11 +467,17 @@
       <div class="cf-row cf-row-datetime">
         <div class="cf-field cf-field-date">
           <label>📅 Data di nascita</label>
-          <input type="date" id="cf-date" min="1900-01-01" max="2050-12-31">
+          <div class="cf-dt-wrap">
+            <input type="date" id="cf-date" min="1900-01-01" max="2050-12-31">
+            <span class="cf-dt-ph" id="cf-date-ph" aria-hidden="true">gg / mm / aaaa</span>
+          </div>
         </div>
         <div class="cf-field cf-field-time">
           <label>🕐 Ora di nascita</label>
-          <input type="time" id="cf-time">
+          <div class="cf-dt-wrap">
+            <input type="time" id="cf-time">
+            <span class="cf-dt-ph" id="cf-time-ph" aria-hidden="true">ora : min</span>
+          </div>
         </div>
       </div>
       <div class="cf-row cols-1">
@@ -516,11 +539,17 @@
       <div class="cf-row cf-row-datetime">
         <div class="cf-field cf-field-date">
           <label>📅 Data di nascita</label>
-          <input type="date" id="gcb-b-date" min="1900-01-01" max="2050-12-31">
+          <div class="cf-dt-wrap">
+            <input type="date" id="gcb-b-date" min="1900-01-01" max="2050-12-31">
+            <span class="cf-dt-ph" id="gcb-b-date-ph" aria-hidden="true">gg / mm / aaaa</span>
+          </div>
         </div>
         <div class="cf-field cf-field-time">
           <label>🕐 Ora di nascita</label>
-          <input type="time" id="gcb-b-time">
+          <div class="cf-dt-wrap">
+            <input type="time" id="gcb-b-time">
+            <span class="cf-dt-ph" id="gcb-b-time-ph" aria-hidden="true">ora : min</span>
+          </div>
         </div>
       </div>
       <div class="cf-row cols-1">
@@ -887,6 +916,17 @@ function initCityAutocomplete(cityInputId,cityListId,tzSelectId,tzDetectedId){
 document.addEventListener('DOMContentLoaded',()=>{
   initCityAutocomplete('cf-city','cf-city-list','cf-tz','cf-tz-detected');
   initCityAutocomplete('gcb-b-city','gcb-b-city-list','gcb-b-tz','gcb-b-tz-detected');
+  // Custom placeholder for date/time inputs on iOS (-webkit-appearance:none hides native hint)
+  ['cf-date','cf-time','gcb-b-date','gcb-b-time'].forEach(id=>{
+    const inp=document.getElementById(id);
+    const ph=document.getElementById(id+'-ph');
+    if(!inp||!ph)return;
+    const upd=()=>ph.classList.toggle('cf-dt-ph--hidden',!!inp.value);
+    inp.addEventListener('focus',()=>ph.classList.add('cf-dt-ph--hidden'));
+    inp.addEventListener('blur',upd);
+    inp.addEventListener('change',upd);
+    upd();
+  });
 });
 
 // ─── Translation tables ───────────────────────────────────────────────────────
