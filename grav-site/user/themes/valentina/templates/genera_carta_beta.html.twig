@@ -338,6 +338,11 @@
   /* ── Account chart picker ── */
   .gcb-pick-btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.85rem; background: rgba(107,79,168,0.08); border: 1px solid rgba(107,79,168,0.3); border-radius: 20px; color: #6b4fa8; font-size: 0.77rem; font-weight: 600; cursor: pointer; margin-bottom: 0.6rem; transition: background 0.15s; font-family: inherit; }
   .gcb-pick-btn:hover { background: rgba(107,79,168,0.15); }
+  @media (max-width: 640px) {
+    .gcb-pick-btn { width: 100%; justify-content: center; border-radius: 10px; padding: 0.6rem 1rem; font-size: 0.85rem; }
+    .cf-row-datetime { flex-direction: column; }
+    .cf-field-date, .cf-field-time { min-width: 0; flex: none; width: 100%; }
+  }
   .gcb-picker-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: flex-end; justify-content: center; }
   .gcb-picker-overlay--open { display: flex; }
   .gcb-picker-sheet { background: #fff; border-radius: 20px 20px 0 0; width: 100%; max-width: 520px; max-height: 65vh; overflow-y: auto; padding: 1.25rem 1.25rem 2.5rem; }
