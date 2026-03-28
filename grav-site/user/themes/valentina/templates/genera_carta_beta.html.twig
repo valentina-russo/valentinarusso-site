@@ -41,8 +41,10 @@
   /* Results */
   .carta-results { display: none; }
   .carta-name-header { text-align: center; margin-bottom: 1.5rem; }
-  .carta-name-header h2 { font-size: 1.4rem; color: var(--primary-color); margin: 0 0 0.2rem; }
-  .carta-name-header p { color: #888; font-size: 0.85rem; margin: 0; }
+  .carta-name-header h2 { font-size: 1.4rem; color: #fff; margin: 0 0 0.2rem; }
+  .carta-name-header p { color: rgba(255,255,255,0.72); font-size: 0.85rem; margin: 0; }
+  .carta-results { overflow-x: hidden; max-width: 100%; }
+  .carta-bodygraph-wrap svg { max-width: 100%; height: auto; display: block; }
 
   /* Core cards */
   .carta-core { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; margin-bottom: 1.5rem; }
@@ -83,6 +85,7 @@
   .carta-cta p { color: #555; font-size: 0.95rem; margin-bottom: 1.25rem; line-height: 1.6; }
   .carta-cta a { display: inline-block; padding: 0.9rem 2rem; background: var(--primary-color); color: #fff; border-radius: 10px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: opacity 0.2s; }
   .carta-cta a:hover { opacity: 0.88; }
+  .gcb-connect-cta { margin-top: 1rem; }
 
   /* City autocomplete */
   .cf-autocomplete-wrap { position: relative; }
@@ -638,19 +641,17 @@
           {% else %}
           <button class="carta-pdf-btn" id="carta-pdf-btn" onclick="scaricaPDF()">Scarica PDF</button>
           {% endif %}
+          <div class="carta-cta">
+            <p>La tua carta mostra la struttura energetica di base. Una lettura professionale con Valentina trasforma questi dati in indicazioni concrete per le tue relazioni, il lavoro e le decisioni di tutti i giorni.</p>
+            <a href="/contatti">Prenota una Prima Lettura</a>
+          </div>
+          <div class="gcb-connect-cta" id="gcb-connect-cta">
+            <h3>Scopri come sei in relazione</h3>
+            <p>Calcola la Carta di Coppia per vedere come la tua energia si intreccia con quella di un'altra persona.</p>
+            <button class="gcb-connect-btn" onclick="gcbAttivaZona2()">Confrontati con qualcuno</button>
+          </div>
         </div>
       </div>
-      <div class="carta-cta">
-        <p>La tua carta mostra la struttura energetica di base. Una lettura professionale con Valentina trasforma questi dati in indicazioni concrete per le tue relazioni, il lavoro e le decisioni di tutti i giorni.</p>
-        <a href="/contatti">Prenota una Prima Lettura</a>
-      </div>
-    </div>
-
-    <!-- Connect CTA (shown after Zone 1 calc) -->
-    <div class="gcb-connect-cta" id="gcb-connect-cta">
-      <h3>Scopri come sei in relazione</h3>
-      <p>Calcola la Carta di Coppia per vedere come la tua energia si intreccia con quella di un'altra persona.</p>
-      <button class="gcb-connect-btn" onclick="gcbAttivaZona2()">Confrontati con qualcuno</button>
     </div>
   </div><!-- /gcb-zone-1 -->
 
@@ -1143,10 +1144,10 @@ async function scaricaPDF(){
   const el=document.getElementById('pdf-layout'),btn=document.getElementById('carta-pdf-btn');
   if(btn){btn.disabled=true;btn.textContent='Generando PDF…';}
   document.querySelectorAll('header,footer,nav,.carta-intro,.carta-form-card,.carta-results,.carta-loading,.carta-error,.carta-cta,.gcb-connect-cta,#gcb-zone-2,.gcb-progress').forEach(e=>e.style.display='none');
-  el.style.cssText='display:block;width:190mm;background:#fff;padding:5mm 8mm;margin:0 auto';
+  el.style.cssText='display:block;width:190mm;max-height:277mm;overflow:hidden;background:#fff;padding:5mm 8mm;box-sizing:border-box;margin:0 auto';
   window.scrollTo(0,0);await new Promise(r=>setTimeout(r,500));
   const nome=(document.getElementById('cf-nome')?.value||'carta-hd').trim();
-  try{await html2pdf().set({margin:0,filename:(nome?nome.replace(/\s+/g,'-').toLowerCase():'carta-hd')+'-human-design.pdf',image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,logging:false,backgroundColor:'#ffffff',scrollY:0,y:0},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(el).save();}catch(e){window.print();}
+  try{await html2pdf().set({margin:0,filename:(nome?nome.replace(/\s+/g,'-').toLowerCase():'carta-hd')+'-human-design.pdf',image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,logging:false,backgroundColor:'#ffffff',scrollY:0,y:0},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:'avoid-all'}}).from(el).save();}catch(e){window.print();}
   el.style.cssText='display:none';
   document.querySelectorAll('header,footer,nav,.carta-intro,.carta-form-card,.carta-results,.carta-loading,.carta-error,.carta-cta,.gcb-connect-cta,#gcb-zone-2,.gcb-progress').forEach(e=>e.style.display='');
   if(btn){btn.disabled=false;btn.textContent='Scarica PDF';}
