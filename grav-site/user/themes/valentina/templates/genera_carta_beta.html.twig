@@ -176,7 +176,8 @@
   .gcb-connect-btn:active { transform: scale(0.98); }
 
   /* ── Zone 2 ── */
-  .gcb-zone-2 { display: none; opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease; padding-top: 3rem; border-top: 1.5px solid rgba(255,255,255,0.15); margin-top: 2rem; }
+  .gcb-zone-2 { display: none; opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease; padding-top: 0; border-top: none; margin-top: 0; }
+  .gcb-zone-2.gcb-zone-2--has-results { padding-top: 3rem; border-top: 1.5px solid rgba(255,255,255,0.15); margin-top: 2rem; }
   .gcb-zone-2.gcb-zone-2--visible { opacity: 1; transform: translateY(0); }
   .gcb-zone-header { text-align: center; margin-bottom: 2rem; }
   .gcb-zone-header h2 { font-size: clamp(1.4rem, 3.5vw, 1.9rem); color: #fff; margin: 0 0 0.5rem; }
@@ -270,6 +271,22 @@
   @media (max-width: 899px) { .gcb-swipe-dots { display: flex; } }
   #gcb-form-card-b.gcb-form-locked { opacity: 0.18; pointer-events: none; filter: blur(2px); user-select: none; transition: opacity 0.4s, filter 0.4s; }
   #gcb-form-card-b { transition: opacity 0.4s, filter 0.4s; }
+  /* Form B pulse on unlock */
+  @keyframes gcbFormBPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.45); }
+    60%  { box-shadow: 0 0 0 14px rgba(255,255,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+  }
+  .gcb-form-b-pulse { animation: gcbFormBPulse 0.75s ease-out; }
+  /* Bodygraph panels — adequate height on mobile */
+  @media (max-width: 899px) {
+    .gcb-panel .carta-bodygraph-wrap { min-height: 300px; display: flex; align-items: center; justify-content: center; }
+    .gcb-panel .carta-bodygraph-wrap svg { width: 100%; max-width: 340px; height: auto; }
+  }
+  /* Couple mode compact header */
+  #gcb-couple-header { display: none; text-align: center; margin-bottom: 1.5rem; }
+  #gcb-couple-header h1 { font-size: clamp(1.3rem,4vw,1.8rem); color: #fff; margin: 0 0 0.3rem; }
+  #gcb-couple-header p { color: rgba(255,255,255,0.72); font-size: 0.88rem; margin: 0; }
   /* Form A done state */
   .gcb-btn-done { background: rgba(55,155,95,0.85) !important; }
   .gcb-btn-done:hover:not(:disabled) { opacity: 1 !important; background: rgba(55,155,95,0.85) !important; }
@@ -1102,6 +1119,15 @@ function gcbSetMode(mode){
     if(colB)colB.style.display='block';
     document.querySelectorAll('.gcb-single-only').forEach(el=>el.classList.add('gcb-hidden'));
     document.getElementById('gcb-connect-cta')?.style&&(document.getElementById('gcb-connect-cta').style.display='none');
+    // Show compact couple header
+    let gcbCHdr=document.getElementById('gcb-couple-header');
+    if(!gcbCHdr){
+      gcbCHdr=document.createElement('div');gcbCHdr.id='gcb-couple-header';
+      gcbCHdr.innerHTML='<h1>Carta di Coppia</h1><p>Inserisci i dati di entrambe le persone</p>';
+      const modeBar=document.getElementById('gcb-forms-row');
+      if(modeBar&&modeBar.parentNode)modeBar.parentNode.insertBefore(gcbCHdr,modeBar);
+    }
+    gcbCHdr.style.display='block';
     const gcbResultsEl=document.getElementById('gcb-results');
     if(z2&&gcbResultsEl&&gcbResultsEl.style.display==='block'){z2.style.display='block';z2.classList.add('gcb-zone-2--visible');}
     if(z2hdr)z2hdr.style.display='none';
@@ -1122,7 +1148,8 @@ function gcbSetMode(mode){
     if(formsRow)formsRow.classList.remove('gcb-forms-couple');
     if(colB)colB.style.display='none';
     document.querySelectorAll('.gcb-single-only').forEach(el=>el.classList.remove('gcb-hidden'));
-    if(z2&&!_lastChartA){z2.style.display='none';z2.classList.remove('gcb-zone-2--visible');}
+    const gcbCHdr=document.getElementById('gcb-couple-header');if(gcbCHdr)gcbCHdr.style.display='none';
+    if(z2&&!_lastChartA){z2.style.display='none';z2.classList.remove('gcb-zone-2--visible');z2.classList.remove('gcb-zone-2--has-results');}
     if(z2hdr)z2hdr.style.display='';
     if(_lastChartA)document.getElementById('gcb-connect-cta')?.style&&(document.getElementById('gcb-connect-cta').style.display='block');
     // Reset button text + restore form A
@@ -1152,7 +1179,15 @@ function gcbUnlockFormB(nomeA){
     doneText.textContent=(nomeA||'Persona A')+(day&&month&&year?' · '+day+'/'+month+'/'+year:'')+(city?' · '+city:'');
   }
   if(formCardA) formCardA.classList.add('gcb-form-card--collapsed');
-  setTimeout(()=>{document.getElementById('gcb-form-col-b')?.scrollIntoView({behavior:'smooth',block:'start'});},350);
+  setTimeout(()=>{
+    document.getElementById('gcb-form-col-b')?.scrollIntoView({behavior:'smooth',block:'start'});
+    // Pulse form B card to attract attention, then focus first input
+    setTimeout(()=>{
+      const cardB=document.getElementById('gcb-form-card-b');
+      if(cardB){cardB.classList.add('gcb-form-b-pulse');cardB.addEventListener('animationend',()=>cardB.classList.remove('gcb-form-b-pulse'),{once:true});}
+      document.getElementById('gcb-b-nome')?.focus();
+    },200);
+  },350);
 }
 
 function gcbEditFormA(){
@@ -1269,7 +1304,7 @@ async function renderConnectionChart(chartA,chartB,nomeA,nomeB){
   await loadAndRenderBodygraph(compositeGateColors,compDefChan,compDefCenters,null,null,null,'gcb-bg-conn',true);
   _gcbRendered.conn=true;
   const z2el=document.getElementById('gcb-zone-2');
-  if(z2el){z2el.style.display='block';requestAnimationFrame(()=>requestAnimationFrame(()=>{z2el.classList.add('gcb-zone-2--visible');}));}
+  if(z2el){z2el.classList.add('gcb-zone-2--has-results');z2el.style.display='block';requestAnimationFrame(()=>requestAnimationFrame(()=>{z2el.classList.add('gcb-zone-2--visible');}));}
   document.getElementById('gcb-results').style.display='block';
   gcbSetTab('conn');
   setTimeout(()=>{document.getElementById('gcb-results')?.scrollIntoView({behavior:'smooth',block:'start'});},60);
