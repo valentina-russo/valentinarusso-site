@@ -323,6 +323,16 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/23.le-mie-carte/
           dangerous-clean-slate: false
 
+      - name: Deploy pagina genera-carta-beta (connection chart staging)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/25.genera-carta-beta/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/25.genera-carta-beta/
+          dangerous-clean-slate: false
+
       - name: Svuota cache Grav automaticamente
         run: |
           sleep 5
