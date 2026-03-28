@@ -245,6 +245,19 @@
     .gcb-forms-couple { grid-template-columns: 1fr; }
   }
 
+  /* ── Wizard: lock overlay form B ── */
+  #gcb-form-col-b { position: relative; }
+  .gcb-step2-lock { position: absolute; inset: 2.2rem 0 0 0; border-radius: 16px; background: rgba(15,10,35,0.75); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem 1.5rem; z-index: 5; transition: opacity 0.4s, visibility 0.4s; opacity: 0; visibility: hidden; }
+  .gcb-step2-lock--visible { opacity: 1; visibility: visible; }
+  .gcb-step2-lock-icon { font-size: 1.7rem; margin-bottom: 0.65rem; opacity: 0.75; }
+  .gcb-step2-lock-title { color: #fff; font-size: 0.88rem; font-weight: 700; margin: 0 0 0.3rem; }
+  .gcb-step2-lock-sub { color: rgba(255,255,255,0.58); font-size: 0.75rem; margin: 0; line-height: 1.45; }
+  #gcb-form-card-b.gcb-form-locked { opacity: 0.18; pointer-events: none; filter: blur(2px); user-select: none; transition: opacity 0.4s, filter 0.4s; }
+  #gcb-form-card-b { transition: opacity 0.4s, filter 0.4s; }
+  /* Form A done state */
+  .gcb-btn-done { background: rgba(55,155,95,0.85) !important; }
+  .gcb-btn-done:hover:not(:disabled) { opacity: 1 !important; background: rgba(55,155,95,0.85) !important; }
+
   /* ── Mode selector ── */
   .gcb-mode-sel { display: flex; gap: 0.75rem; margin-bottom: 2rem; }
   .gcb-mode-card { flex: 1; padding: 1rem 0.75rem; border-radius: 14px; border: 2px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.07); cursor: pointer; text-align: center; transition: border-color 0.2s, background 0.2s; }
@@ -399,7 +412,12 @@
     <!-- Colonna B (visibile solo in couple mode) -->
     <div class="gcb-form-col" id="gcb-form-col-b">
     <div class="gcb-form-col-label">Persona B</div>
-    <div class="carta-form-card">
+    <div class="gcb-step2-lock" id="gcb-step2-lock">
+      <div class="gcb-step2-lock-icon">🔒</div>
+      <p class="gcb-step2-lock-title">Prima completa la tua carta</p>
+      <p class="gcb-step2-lock-sub">Inserisci i tuoi dati e premi "Continua"</p>
+    </div>
+    <div class="carta-form-card gcb-form-locked" id="gcb-form-card-b">
       <div class="cf-row cols-1">
         <div class="cf-field">
           <label>Nome (opzionale)</label>
@@ -869,11 +887,15 @@ async function renderRisultati(data,nome){
   const definedChannels=d.defined_channels.map(([g1,g2])=>{const ch=CHANNELS.find(([c1,c2])=>(c1===g1&&c2===g2)||(c1===g2&&c2===g1));return ch||[g1,g2,GATE_TO_CENTER[g1]||'',GATE_TO_CENTER[g2]||''];});
   await loadAndRenderBodygraph(d.gate_colors,definedChannels,definedCenterSet,blackGates,redGates,d.variables,'carta-bodygraph-wrap',false);
   renderPlaneti(d.personality,d.design);
-  document.getElementById('carta-results').style.display='block';
-  document.getElementById('carta-results').scrollIntoView({behavior:'smooth',block:'start'});
   const prog=document.getElementById('gcb-progress');if(prog)prog.classList.add('gcb-progress--show');
-  const cta=document.getElementById('gcb-connect-cta');
-  if(cta){if(nome){const btn=cta.querySelector('.gcb-connect-btn');if(btn)btn.textContent=`Confronta ${nome} con qualcuno`;}cta.style.display='block';}
+  if(_gcbMode==='couple'){
+    gcbUnlockFormB(nome);
+  } else {
+    document.getElementById('carta-results').style.display='block';
+    document.getElementById('carta-results').scrollIntoView({behavior:'smooth',block:'start'});
+    const cta=document.getElementById('gcb-connect-cta');
+    if(cta){if(nome){const btn=cta.querySelector('.gcb-connect-btn');if(btn)btn.textContent=`Confronta ${nome} con qualcuno`;}cta.style.display='block';}
+  }
 }
 
 // ─── Bodygraph renderer ───────────────────────────────────────────────────────
@@ -1000,6 +1022,7 @@ function gcbSetMode(mode){
   const colB=document.getElementById('gcb-form-col-b');
   const z2=document.getElementById('gcb-zone-2');
   const z2hdr=document.getElementById('gcb-zone2-header');
+  const btnA=document.getElementById('carta-calcola-btn');
   if(mode==='couple'){
     if(formsRow)formsRow.classList.add('gcb-forms-couple');
     if(colB)colB.style.display='block';
@@ -1009,6 +1032,17 @@ function gcbSetMode(mode){
     if(z2hdr)z2hdr.style.display='none';
     const prog=document.getElementById('gcb-progress');if(prog)prog.classList.add('gcb-progress--show');
     document.getElementById('gcb-step-2')?.classList.add('gcb-step--done');
+    if(_lastChartA){
+      // A already calculated — unlock B immediately
+      gcbUnlockFormB(_lastCartaNome);
+    } else {
+      // Lock B, change A button to "Continua"
+      const lock=document.getElementById('gcb-step2-lock');
+      const cardB=document.getElementById('gcb-form-card-b');
+      if(lock)lock.classList.add('gcb-step2-lock--visible');
+      if(cardB)cardB.classList.add('gcb-form-locked');
+      if(btnA&&!btnA.classList.contains('gcb-btn-done'))btnA.textContent='Continua →';
+    }
   } else {
     if(formsRow)formsRow.classList.remove('gcb-forms-couple');
     if(colB)colB.style.display='none';
@@ -1016,7 +1050,22 @@ function gcbSetMode(mode){
     if(z2&&!_lastChartA){z2.style.display='none';z2.classList.remove('gcb-zone-2--visible');}
     if(z2hdr)z2hdr.style.display='';
     if(_lastChartA)document.getElementById('gcb-connect-cta')?.style&&(document.getElementById('gcb-connect-cta').style.display='block');
+    // Reset button text
+    if(btnA){btnA.textContent='Calcola la mia Carta';btnA.classList.remove('gcb-btn-done');}
   }
+}
+
+function gcbUnlockFormB(nomeA){
+  const lock=document.getElementById('gcb-step2-lock');
+  const cardB=document.getElementById('gcb-form-card-b');
+  if(lock){lock.classList.remove('gcb-step2-lock--visible');}
+  if(cardB){cardB.classList.remove('gcb-form-locked');}
+  const btnA=document.getElementById('carta-calcola-btn');
+  if(btnA){
+    btnA.textContent='✓ '+(nomeA?nomeA+' calcolata':'Carta calcolata');
+    btnA.classList.add('gcb-btn-done');
+  }
+  setTimeout(()=>{document.getElementById('gcb-form-col-b')?.scrollIntoView({behavior:'smooth',block:'start'});},350);
 }
 
 function gcbAttivaZona2(){
