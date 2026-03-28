@@ -65,16 +65,16 @@
 /* Mobile: pianeti sotto il bodygraph, altezza libera */
 #carta-calculator .carta-col-planets { display: flex; flex-direction: column; }
 #carta-calculator .carta-planets { overflow-y: auto; max-height: 360px; background: #fff; border: 1px solid var(--soft-gray, #e8e4df); border-radius: 16px; padding: 1rem; }
-/* Desktop: pianeti stessa altezza del bodygraph — altezza impostata via JS */
+/* Desktop: tutto schiacciato, nessuno scroll */
 @media (min-width: 768px) {
-  /* Una riga per pianeta: nome + (sottotitolo) inline */
-  #carta-calculator .planet-bg5 { display: inline; font-size: 0.72rem; }
-  #carta-calculator .planet-name { display: inline; font-size: 0.68rem; color: #aaa; margin-left: 0.2rem; }
-  #carta-calculator .planets-table th { padding: 0.2rem 0.45rem; font-size: 0.58rem; }
-  #carta-calculator .planets-table td { padding: 0.13rem 0.45rem; }
-  #carta-calculator .gate-black, #carta-calculator .gate-red { font-size: 0.78rem; }
+  #carta-calculator .planet-bg5 { display: inline; font-size: 0.7rem; }
+  #carta-calculator .planet-name { display: inline; font-size: 0.65rem; color: #aaa; margin-left: 0.15rem; }
+  #carta-calculator .planets-table { font-size: 0.7rem; line-height: 1.1; }
+  #carta-calculator .planets-table th { padding: 0.15rem 0.4rem; font-size: 0.55rem; }
+  #carta-calculator .planets-table td { padding: 0.06rem 0.4rem; border-bottom: 1px solid #f5f2ef; }
+  #carta-calculator .gate-black, #carta-calculator .gate-red { font-size: 0.72rem; }
 }
-#carta-calculator .carta-planets h3 { font-size: 0.9rem; color: var(--primary-color, #6b4fa8); margin: 0 0 0.4rem; }
+#carta-calculator .carta-planets h3 { font-size: 0.88rem; color: var(--primary-color, #6b4fa8); margin: 0 0 0.3rem; }
 #carta-calculator .planets-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
 #carta-calculator .planets-table th { background: #f5f0eb; color: #8b7355; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.3rem 0.5rem; text-align: left; border-bottom: 1px solid #e8e4df; position: sticky; top: 2rem; }
 #carta-calculator .planets-table td { padding: 0.22rem 0.5rem; border-bottom: 1px solid #f0ece8; color: #333; }
@@ -429,11 +429,7 @@ async function csRenderRisultati(raw,nome){
   csRenderPlanets(d.personality,d.design);
 
   document.getElementById('cs-results').style.display='block';
-  // Dopo il render leggo l'altezza reale del bodygraph e la applico alla colonna pianeti
-  setTimeout(function(){
-    csSyncPlanetsHeight();
-    document.getElementById('cs-results').scrollIntoView({behavior:'smooth',block:'start'});
-  },60);
+  setTimeout(function(){document.getElementById('cs-results').scrollIntoView({behavior:'smooth',block:'start'});},60);
 }
 
 // ─── City autocomplete ────────────────────────────────────────────────────────
@@ -458,17 +454,6 @@ async function csRenderRisultati(raw,nome){
 });
 
 // ─── Calcola (funzione globale) ───────────────────────────────────────────────
-// Legge l'altezza reale del bodygraph e la imposta come max-height sui pianeti
-function csSyncPlanetsHeight(){
-  if(window.innerWidth < 768) return; // mobile: altezza libera
-  var bg=document.getElementById('cs-bodygraph-wrap');
-  var pl=document.getElementById('cs-planets');
-  if(!bg||!pl)return;
-  pl.style.maxHeight=bg.offsetHeight+'px';
-  pl.style.overflowY='auto';
-}
-window.addEventListener('resize',function(){csSyncPlanetsHeight();});
-
 window.csCalcola = async function(){
   var dateVal=document.getElementById('cs-date').value;
   var timeVal=document.getElementById('cs-time').value;
