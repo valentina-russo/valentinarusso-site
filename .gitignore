@@ -56,6 +56,8 @@ grav-site/user/pages/*
 !grav-site/user/pages/23.le-mie-carte
 # Eccezione: pagina parallela calcolatore con account (test)
 !grav-site/user/pages/24.genera-carta-v2
+# Eccezione: pagina beta connection chart
+!grav-site/user/pages/25.genera-carta-beta
 # Eccezioni: nuovi articoli bozza privati (deployati via FTP, dentro /blog/articoli)
 !grav-site/user/pages/04.blog
 grav-site/user/pages/04.blog/*
