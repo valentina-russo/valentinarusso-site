@@ -54,8 +54,8 @@
       <p class="serif italic" style="font-size: 1.2rem; color: var(--primary-color); margin-bottom: 2rem; max-width: 700px; margin-inline: auto;" data-animate>
         {{ page.header.subtitle ?? 'Consulenze individuali BG5® e Human Design per carriera, relazioni e business.' }}
       </p>
-      <a href="{{ grav.base_url }}/aziende/contatti" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.9rem 2rem; background-color: var(--corp-primary);" data-animate>
-        Prenota una consulenza
+      <a href="#carta-calculator" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.9rem 2rem; background-color: var(--corp-primary);" data-animate onclick="event.preventDefault();document.getElementById('carta-calculator').scrollIntoView({behavior:'smooth',block:'start'});">
+        Calcola la tua Carta →
       </a>
     </div>
   </section>
@@ -95,6 +95,9 @@
 
         </div>
       </div>
+
+      {# Calcolatore Carta Human Design #}
+      {% include 'partials/calc-singolo.html.twig' %}
 
       {# Chi sono #}
       <div style="margin-top: 4rem; display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center; background: var(--white); border: 1px solid var(--soft-gray); border-radius: 16px; padding: 2rem;" data-animate>

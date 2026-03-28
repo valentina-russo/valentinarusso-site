@@ -1104,6 +1104,7 @@ async function loadAndRenderBodygraph(gateColors,definedChannels,definedCenterSe
       const pc=gateColors[pg]||gateColors[String(pg)];
       if(!pc)setF(`Gate${pg}`,gcFill(mc));
       else if(compositeMode&&gcFill(mc)!==gcFill(pc))setF(`Gate${pg}`,`url(#${AB_PAT_ID})`);
+      else if(!compositeMode&&mc!==pc)setF(`Gate${pg}`,gcFill('PD'));
     }}
     // 3. Integration connectors (gates 10,20,34,57) and GateSpan
     const intIds=[10,20,34,57];
