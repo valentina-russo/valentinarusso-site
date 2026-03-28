@@ -59,13 +59,18 @@
 
 /* Bodygraph + pianeti */
 #carta-calculator .carta-desktop-layout { display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: start; }
-@media (min-width: 768px) { #carta-calculator .carta-desktop-layout { grid-template-columns: auto 1fr; } }
+@media (min-width: 768px) { #carta-calculator .carta-desktop-layout { grid-template-columns: auto 1fr; align-items: stretch; } }
 #carta-calculator .carta-bodygraph-wrap { display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid var(--soft-gray, #e8e4df); border-radius: 16px; padding: 1rem; }
 #carta-calculator .carta-bodygraph-wrap svg { max-width: 300px; width: 100%; height: auto; display: block; }
-#carta-calculator .carta-planets h3 { font-size: 1rem; color: var(--primary-color, #6b4fa8); margin: 0 0 0.75rem; }
+#carta-calculator .carta-col-planets { display: flex; flex-direction: column; }
+#carta-calculator .carta-planets { flex: 1; overflow-y: auto; max-height: 420px; background: #fff; border: 1px solid var(--soft-gray, #e8e4df); border-radius: 16px; padding: 1rem; }
+@media (min-width: 768px) { #carta-calculator .carta-planets { max-height: none; overflow-y: auto; } }
+#carta-calculator .carta-planets h3 { font-size: 1rem; color: var(--primary-color, #6b4fa8); margin: 0 0 0.6rem; position: sticky; top: 0; background: #fff; padding-bottom: 0.4rem; }
 #carta-calculator .planets-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-#carta-calculator .planets-table th { background: #f5f0eb; color: #8b7355; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.45rem 0.6rem; text-align: left; border-bottom: 1px solid #e8e4df; }
-#carta-calculator .planets-table td { padding: 0.35rem 0.6rem; border-bottom: 1px solid #f0ece8; color: #333; }
+#carta-calculator .planets-table th { background: #f5f0eb; color: #8b7355; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.3rem 0.5rem; text-align: left; border-bottom: 1px solid #e8e4df; position: sticky; top: 2rem; }
+#carta-calculator .planets-table td { padding: 0.22rem 0.5rem; border-bottom: 1px solid #f0ece8; color: #333; }
+#carta-calculator .planet-bg5 { font-size: 0.75rem; }
+#carta-calculator .planet-name { font-size: 0.62rem; }
 #carta-calculator .planet-bg5 { display: block; font-size: 0.8rem; color: #1a1a2e; font-weight: 600; }
 #carta-calculator .planet-name { display: block; font-size: 0.68rem; color: #aaa; }
 #carta-calculator .gate-black { color: #1a1a2e; font-weight: 700; }
@@ -166,7 +171,7 @@
       <div>
         <div class="carta-bodygraph-wrap" id="cs-bodygraph-wrap"></div>
       </div>
-      <div>
+      <div class="carta-col-planets">
         <div class="carta-planets" id="cs-planets"></div>
       </div>
     </div>
