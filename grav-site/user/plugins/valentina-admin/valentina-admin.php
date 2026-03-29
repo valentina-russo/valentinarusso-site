@@ -122,6 +122,51 @@ body.grav-admin-page{ padding-bottom:58px!important; }
 @keyframes vb-spin{to{transform:rotate(360deg)}}
 #vb-rewrite-overlay p{color:#fff;font-size:1rem;font-weight:600;max-width:360px;text-align:center;}
 
+/* LinkedIn modal */
+#vb-linkedin-modal{
+  display:none;position:fixed;inset:0;z-index:99998;
+  background:rgba(10,20,40,.85);
+  align-items:center;justify-content:center;
+}
+#vb-linkedin-modal.show{display:flex;}
+#vb-linkedin-modal .vb-li-card{
+  background:#fff;border-radius:16px;padding:28px 24px;
+  max-width:560px;width:calc(100vw - 48px);
+  box-shadow:0 12px 48px rgba(0,0,0,.4);
+}
+#vb-linkedin-modal .vb-li-header{
+  display:flex;align-items:center;gap:10px;margin-bottom:16px;
+}
+#vb-linkedin-modal .vb-li-header svg{width:28px;height:28px;}
+#vb-linkedin-modal .vb-li-header span{
+  font-size:1.1rem;font-weight:700;color:#0a66c2;
+}
+#vb-linkedin-modal textarea{
+  width:100%;min-height:200px;border:1.5px solid #d1d5db;
+  border-radius:10px;padding:12px;font-family:inherit;
+  font-size:.9rem;line-height:1.55;resize:vertical;
+  color:#1a1a2e;box-sizing:border-box;
+}
+#vb-linkedin-modal textarea:focus{outline:none;border-color:#0a66c2;}
+#vb-linkedin-modal .vb-li-note{
+  font-size:.75rem;color:#888;margin-top:8px;line-height:1.4;
+}
+#vb-linkedin-modal .vb-li-actions{
+  display:flex;gap:10px;margin-top:16px;
+}
+#vb-linkedin-modal .vb-li-actions button{
+  border:none;border-radius:8px;padding:10px 20px;
+  cursor:pointer;font-size:.88rem;font-weight:700;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:opacity .15s;
+}
+#vb-linkedin-modal .vb-li-actions button:hover{opacity:.85;}
+.vb-li-copy{background:#0a66c2;color:#fff;}
+.vb-li-open{background:#16a34a;color:#fff;}
+.vb-li-close{background:#e5e7eb;color:#475569;margin-left:auto;}
+/* LinkedIn button in action bar */
+.vb-ab-linkedin{background:#0a66c2;color:#fff;}
+
 /* Image prompt panel */
 #vb-img-prompt{
   position:fixed;bottom:24px;right:24px;z-index:99999;
@@ -425,6 +470,99 @@ body.grav-admin-page{ padding-bottom:58px!important; }
     el.dispatchEvent(new Event('input',  { bubbles: true }));
     el.dispatchEvent(new Event('change', { bubbles: true }));
     return true;
+  }
+
+  /* ── LINKEDIN POST ──────────────────── */
+  function vbLinkedIn(){
+    var url   = window.location.href;
+    var isAz  = !!url.match(/\/admin\/pages\/aziende\/blog\//);
+    var slugM = url.match(/\/admin\/pages\/(?:aziende\/blog|blog\/articoli)\/([^/?#]+)/);
+    var slug  = slugM ? slugM[1] : '';
+
+    /* Leggi titolo */
+    var titleEl = document.querySelector('input[name="data[title]"]');
+    var jsonEl  = document.querySelector('input[name="data[_json][header][title]"]');
+    var title = '';
+    if(titleEl && titleEl.value.trim()) title = titleEl.value.trim();
+    else if(jsonEl && jsonEl.value){
+      try{ title = JSON.parse(jsonEl.value); }catch(e){ title = jsonEl.value.replace(/^"|"$/g,''); }
+    }
+
+    /* Leggi description */
+    var descEl = document.querySelector('input[name="data[header][description]"],textarea[name="data[header][description]"]');
+    var descJ  = document.querySelector('input[name="data[_json][header][description]"]');
+    var desc = '';
+    if(descEl && descEl.value.trim()) desc = descEl.value.trim();
+    else if(descJ && descJ.value){
+      try{ desc = JSON.parse(descJ.value); }catch(e){ desc = descJ.value.replace(/^"|"$/g,''); }
+    }
+
+    /* Leggi tags */
+    var tagsEl = document.querySelector('input[name="data[header][tags]"],input[name="data[_json][header][tags]"]');
+    var tags = '';
+    if(tagsEl && tagsEl.value){
+      try{
+        var arr = JSON.parse(tagsEl.value);
+        if(Array.isArray(arr)){
+          tags = arr.map(function(t){return '#'+t.replace(/[^a-zA-Z0-9àèéìòùÀÈÉÌÒÙ]+/g,'');}).join(' ');
+        }
+      }catch(e){ tags = '#HumanDesign #BG5'; }
+    }
+    if(!tags) tags = '#HumanDesign #BG5 #CarrieraConsapevole';
+
+    /* Costruisci URL articolo */
+    var articleUrl = isAz
+      ? 'https://valentinarussobg5.com/aziende/blog/' + slug
+      : 'https://valentinarussobg5.com/blog/articoli/' + slug;
+
+    /* Genera testo post LinkedIn */
+    var post = title + '\\n\\n';
+    if(desc) post += desc + '\\n\\n';
+    post += '\\u{1F449} Leggi l\\u2019articolo completo \\u2192 ' + articleUrl + '\\n\\n';
+    post += tags;
+
+    /* Mostra modale */
+    var existing = document.getElementById('vb-linkedin-modal');
+    if(existing) existing.remove();
+
+    var modal = document.createElement('div');
+    modal.id = 'vb-linkedin-modal';
+    modal.className = 'show';
+    modal.innerHTML =
+      '<div class="vb-li-card">' +
+        '<div class="vb-li-header">' +
+          '<svg viewBox="0 0 24 24" fill="#0a66c2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>' +
+          '<span>Post LinkedIn</span>' +
+        '</div>' +
+        '<textarea id="vb-li-text">' + escHtml(post) + '</textarea>' +
+        '<div class="vb-li-note">Modifica il testo se vuoi, poi copia e incolla su LinkedIn. L\\u2019immagine dell\\u2019articolo viene caricata automaticamente da LinkedIn quando incolli il link.</div>' +
+        '<div class="vb-li-actions">' +
+          '<button class="vb-li-copy" id="vb-li-copy"><i class="fa fa-clipboard"></i> Copia testo</button>' +
+          '<button class="vb-li-open" id="vb-li-open"><i class="fa fa-external-link"></i> Apri LinkedIn</button>' +
+          '<button class="vb-li-close" id="vb-li-close">Chiudi</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(modal);
+
+    /* Event listeners */
+    document.getElementById('vb-li-copy').addEventListener('click', function(){
+      var txt = document.getElementById('vb-li-text').value;
+      navigator.clipboard.writeText(txt).then(function(){
+        var btn = document.getElementById('vb-li-copy');
+        if(btn){ btn.innerHTML = '<i class="fa fa-check"></i> Copiato!'; setTimeout(function(){ if(btn) btn.innerHTML = '<i class="fa fa-clipboard"></i> Copia testo'; }, 2000); }
+      });
+    });
+    document.getElementById('vb-li-open').addEventListener('click', function(){
+      window.open('https://www.linkedin.com/feed/?shareActive=true', '_blank');
+    });
+    document.getElementById('vb-li-close').addEventListener('click', function(){
+      var m = document.getElementById('vb-linkedin-modal');
+      if(m) m.remove();
+    });
+    /* Chiudi cliccando fuori */
+    modal.addEventListener('click', function(e){
+      if(e.target === modal) modal.remove();
+    });
   }
 
   /* ── PANEL: image prompt ─────────────── */
@@ -856,6 +994,11 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       bMeta.innerHTML = '<i class="fa fa-tags"></i> Genera Metadati';
       bMeta.addEventListener('click', function(){ vbGenerateMeta(); });
 
+      var bLinkedin = document.createElement('button');
+      bLinkedin.className = 'vb-ab-linkedin';
+      bLinkedin.innerHTML = '<i class="fa fa-linkedin"></i> LinkedIn';
+      bLinkedin.addEventListener('click', function(){ vbLinkedIn(); });
+
       var bElimina = document.createElement('button');
       bElimina.className = 'vb-ab-elimina';
       bElimina.innerHTML = '<i class="fa fa-trash"></i> Elimina';
@@ -878,6 +1021,7 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       right.appendChild(bRewrite);
       right.appendChild(bFull);
       right.appendChild(bMeta);
+      right.appendChild(bLinkedin);
       right.appendChild(bElimina);
 
       bar.appendChild(left);
