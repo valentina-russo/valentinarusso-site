@@ -526,10 +526,10 @@ body.grav-admin-page{ padding-bottom:58px!important; }
           : 'https://valentinarussobg5.com/' + (isAz ? 'aziende/blog/' : 'blog/articoli/') + slug + '/' + iv;
       }
     }
-    /* Fallback: cerca la prima immagine nella pagina admin */
+    /* Fallback: cerca la prima immagine nella pagina admin (Dropzone thumbnails di Grav) */
     if(!featImg){
-      var adminImg = document.querySelector('.thumbs-list img, .page-media img');
-      if(adminImg && adminImg.src) featImg = adminImg.src.replace(/\?.*$/,'');
+      var adminImg = document.querySelector('[data-dz-thumbnail], .dz-image img, .thumbs-list img, .page-media img');
+      if(adminImg && adminImg.src && adminImg.src.indexOf('placeholder') === -1) featImg = adminImg.src.replace(/\?.*$/,'');
     }
 
     /* Costruisci URL articolo */
