@@ -57,39 +57,55 @@ if (!$text) {
 $imageUrn = null;
 $imageUrl  = $_POST['imageUrl'] ?? '';
 
+$debugLog = [];
+
 if ($imageUrl) {
-    // Step 1: Initialize upload
-    $initPayload = [
-        'initializeUploadRequest' => [
-            'owner' => 'urn:li:person:' . $personUrn,
-        ]
-    ];
+    $debugLog[] = 'imageUrl: ' . $imageUrl;
 
-    $ch = curl_init('https://api.linkedin.com/rest/images?action=initializeUpload');
+    // Step 1: Download image (use curl, not file_get_contents)
+    $ch = curl_init($imageUrl);
     curl_setopt_array($ch, [
-        CURLOPT_POST           => true,
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER     => [
-            'Authorization: Bearer ' . $accessToken,
-            'Content-Type: application/json',
-            'X-Restli-Protocol-Version: 2.0.0',
-            'LinkedIn-Version: 202503',
-        ],
-        CURLOPT_POSTFIELDS     => json_encode($initPayload),
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_TIMEOUT        => 15,
+        CURLOPT_SSL_VERIFYPEER => false,
     ]);
-    $initResp = curl_exec($ch);
-    $initCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $imgData = curl_exec($ch);
+    $imgCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $imgSize = strlen($imgData ?: '');
     curl_close($ch);
+    $debugLog[] = 'img download: HTTP ' . $imgCode . ', size ' . $imgSize;
 
-    $initData = json_decode($initResp, true);
-    $uploadUrl = $initData['value']['uploadUrl'] ?? null;
-    $imageUrn  = $initData['value']['image'] ?? null;
+    if ($imgData && $imgSize > 1000) {
+        // Step 2: Initialize LinkedIn upload
+        $initPayload = [
+            'initializeUploadRequest' => [
+                'owner' => 'urn:li:person:' . $personUrn,
+            ]
+        ];
 
-    if ($uploadUrl && $imageUrn) {
-        // Step 2: Download image from our server
-        $imgData = file_get_contents($imageUrl);
+        $ch = curl_init('https://api.linkedin.com/rest/images?action=initializeUpload');
+        curl_setopt_array($ch, [
+            CURLOPT_POST           => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER     => [
+                'Authorization: Bearer ' . $accessToken,
+                'Content-Type: application/json',
+                'X-Restli-Protocol-Version: 2.0.0',
+                'LinkedIn-Version: 202503',
+            ],
+            CURLOPT_POSTFIELDS     => json_encode($initPayload),
+        ]);
+        $initResp = curl_exec($ch);
+        $initCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
 
-        if ($imgData) {
+        $initData  = json_decode($initResp, true);
+        $uploadUrl = $initData['value']['uploadUrl'] ?? null;
+        $imageUrn  = $initData['value']['image'] ?? null;
+        $debugLog[] = 'init upload: HTTP ' . $initCode . ', urn: ' . ($imageUrn ?: 'null');
+
+        if ($uploadUrl && $imageUrn) {
             // Step 3: Upload binary to LinkedIn
             $ch = curl_init($uploadUrl);
             curl_setopt_array($ch, [
@@ -104,14 +120,16 @@ if ($imageUrl) {
             $uploadResp = curl_exec($ch);
             $uploadCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
+            $debugLog[] = 'img upload: HTTP ' . $uploadCode;
 
             if ($uploadCode < 200 || $uploadCode >= 300) {
-                $imageUrn = null; // Upload failed, post without image
+                $imageUrn = null;
             }
         } else {
             $imageUrn = null;
         }
     } else {
+        $debugLog[] = 'img download FAILED';
         $imageUrn = null;
     }
 }
@@ -169,6 +187,7 @@ curl_close($ch);
 if ($httpCode === 201 || $httpCode === 200) {
     echo json_encode([
         'ok'      => true,
+        'debug'   => $debugLog,
         'message' => 'Post pubblicato su LinkedIn!',
         'httpCode' => $httpCode,
     ]);

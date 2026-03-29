@@ -602,6 +602,7 @@ body.grav-admin-page{ padding-bottom:58px!important; }
         .then(function(r){return r.json();})
         .then(function(d){
           if(d.ok){
+            var imgInfo = (d.debug && d.debug.length) ? '\\n\\nDebug: ' + d.debug.join(' | ') : '';
             btn.innerHTML = '<i class="fa fa-check"></i> Pubblicato!';
             btn.style.background = '#166534';
             setTimeout(function(){
@@ -614,7 +615,8 @@ body.grav-admin-page{ padding-bottom:58px!important; }
             if(d.needsAuth){
               window.open('/linkedin-callback.php', '_blank');
             } else {
-              alert('Errore: ' + d.error);
+              var dbg = (d.debug && d.debug.length) ? '\\n\\nDebug: ' + d.debug.join(' | ') : '';
+              alert('Errore: ' + d.error + dbg);
             }
           }
         })
