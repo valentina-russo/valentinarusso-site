@@ -86,7 +86,7 @@ curl_setopt_array($ch, [
         'Authorization: Bearer ' . $accessToken,
         'Content-Type: application/json',
         'X-Restli-Protocol-Version: 2.0.0',
-        'LinkedIn-Version: 202405',
+        'LinkedIn-Version: 202503',
     ],
     CURLOPT_POSTFIELDS     => json_encode($payload),
 ]);
