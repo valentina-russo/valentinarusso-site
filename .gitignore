@@ -35,6 +35,10 @@ nul
 # Claude internal
 .claude/
 
+# LinkedIn API secrets (deployed manually, never in git)
+grav-site/root/linkedin-config.php
+grav-site/root/linkedin-token.json
+
 # Grav locale — plugin non deployati (già installati su Aruba)
 grav-site/user/plugins/*
 # Eccezione: plugin custom non installabile via Grav admin, va in git

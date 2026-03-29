@@ -162,8 +162,13 @@ body.grav-admin-page{ padding-bottom:58px!important; }
 }
 #vb-linkedin-modal .vb-li-actions button:hover{opacity:.85;}
 .vb-li-copy{background:#0a66c2;color:#fff;}
-.vb-li-open{background:#16a34a;color:#fff;}
+.vb-li-publish{background:#16a34a;color:#fff;}
+.vb-li-publish:disabled{opacity:.5;cursor:not-allowed;}
+.vb-li-open{background:#64748b;color:#fff;}
 .vb-li-close{background:#e5e7eb;color:#475569;margin-left:auto;}
+.vb-li-status{font-size:.75rem;padding:4px 10px;border-radius:6px;margin-bottom:12px;display:inline-block;}
+.vb-li-status-ok{background:#dcfce7;color:#166534;}
+.vb-li-status-no{background:#fef2f2;color:#991b1b;}
 /* LinkedIn button in action bar */
 .vb-ab-linkedin{background:#0a66c2;color:#fff;}
 
@@ -534,24 +539,83 @@ body.grav-admin-page{ padding-bottom:58px!important; }
           '<svg viewBox="0 0 24 24" fill="#0a66c2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>' +
           '<span>Post LinkedIn</span>' +
         '</div>' +
+        '<div id="vb-li-status-wrap"></div>' +
         '<textarea id="vb-li-text">' + escHtml(post) + '</textarea>' +
-        '<div class="vb-li-note">Modifica il testo se vuoi, poi copia e incolla su LinkedIn. L\\u2019immagine dell\\u2019articolo viene caricata automaticamente da LinkedIn quando incolli il link.</div>' +
+        '<div class="vb-li-note">Modifica il testo, poi pubblica direttamente o copia e incolla manualmente.</div>' +
         '<div class="vb-li-actions">' +
-          '<button class="vb-li-copy" id="vb-li-copy"><i class="fa fa-clipboard"></i> Copia testo</button>' +
-          '<button class="vb-li-open" id="vb-li-open"><i class="fa fa-external-link"></i> Apri LinkedIn</button>' +
+          '<button class="vb-li-publish" id="vb-li-publish"><i class="fa fa-paper-plane"></i> Pubblica su LinkedIn</button>' +
+          '<button class="vb-li-copy" id="vb-li-copy"><i class="fa fa-clipboard"></i> Copia</button>' +
+          '<button class="vb-li-open" id="vb-li-open"><i class="fa fa-external-link"></i> Manuale</button>' +
           '<button class="vb-li-close" id="vb-li-close">Chiudi</button>' +
         '</div>' +
       '</div>';
     document.body.appendChild(modal);
 
-    /* Event listeners */
+    /* Check connessione LinkedIn */
+    fetch('/linkedin-post.php', {method:'POST', body:new URLSearchParams({pass:'ValeAdmin2026',text:'test',dry:'1'}), credentials:'include'})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        var wrap = document.getElementById('vb-li-status-wrap');
+        if(!wrap) return;
+        if(d.needsAuth){
+          wrap.innerHTML = '<span class="vb-li-status vb-li-status-no">LinkedIn non connesso</span> <a href="/linkedin-callback.php" style="font-size:.75rem;color:#0a66c2;font-weight:600;">Connetti ora</a>';
+          var pb = document.getElementById('vb-li-publish');
+          if(pb) pb.disabled = true;
+        } else {
+          wrap.innerHTML = '<span class="vb-li-status vb-li-status-ok">LinkedIn connesso</span>';
+        }
+      }).catch(function(){});
+
+    /* Pubblica direttamente */
+    document.getElementById('vb-li-publish').addEventListener('click', function(){
+      var btn = this;
+      var txt = document.getElementById('vb-li-text').value;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Pubblicazione...';
+
+      var fd = new URLSearchParams();
+      fd.append('pass', 'ValeAdmin2026');
+      fd.append('text', txt);
+      fd.append('articleUrl', articleUrl);
+      fd.append('title', title);
+      fd.append('description', desc);
+
+      fetch('/linkedin-post.php', {method:'POST', body:fd, credentials:'include'})
+        .then(function(r){return r.json();})
+        .then(function(d){
+          if(d.ok){
+            btn.innerHTML = '<i class="fa fa-check"></i> Pubblicato!';
+            btn.style.background = '#166534';
+            setTimeout(function(){
+              var m = document.getElementById('vb-linkedin-modal');
+              if(m) m.remove();
+            }, 2000);
+          } else {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa fa-paper-plane"></i> Pubblica su LinkedIn';
+            if(d.needsAuth){
+              window.open('/linkedin-callback.php', '_blank');
+            } else {
+              alert('Errore: ' + d.error);
+            }
+          }
+        })
+        .catch(function(err){
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa fa-paper-plane"></i> Pubblica su LinkedIn';
+          alert('Errore di rete: ' + err);
+        });
+    });
+
+    /* Copia */
     document.getElementById('vb-li-copy').addEventListener('click', function(){
       var txt = document.getElementById('vb-li-text').value;
       navigator.clipboard.writeText(txt).then(function(){
         var btn = document.getElementById('vb-li-copy');
-        if(btn){ btn.innerHTML = '<i class="fa fa-check"></i> Copiato!'; setTimeout(function(){ if(btn) btn.innerHTML = '<i class="fa fa-clipboard"></i> Copia testo'; }, 2000); }
+        if(btn){ btn.innerHTML = '<i class="fa fa-check"></i> Copiato!'; setTimeout(function(){ if(btn) btn.innerHTML = '<i class="fa fa-clipboard"></i> Copia'; }, 2000); }
       });
     });
+    /* Apri manuale */
     document.getElementById('vb-li-open').addEventListener('click', function(){
       window.open('https://www.linkedin.com/feed/?shareActive=true', '_blank');
     });
@@ -559,7 +623,6 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       var m = document.getElementById('vb-linkedin-modal');
       if(m) m.remove();
     });
-    /* Chiudi cliccando fuori */
     modal.addEventListener('click', function(e){
       if(e.target === modal) modal.remove();
     });
