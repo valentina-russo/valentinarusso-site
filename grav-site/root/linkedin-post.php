@@ -59,6 +59,23 @@ $imageUrl  = $_POST['imageUrl'] ?? '';
 
 $debugLog = [];
 
+// Se imageUrl non fornito, estrai og:image dall'articolo
+if (!$imageUrl && $articleUrl) {
+    $ch = curl_init($articleUrl);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_TIMEOUT        => 10,
+        CURLOPT_SSL_VERIFYPEER => false,
+    ]);
+    $html = curl_exec($ch);
+    curl_close($ch);
+    if ($html && preg_match('/<meta\s+property=["\']og:image["\']\s+content=["\']([^"\']+)["\']/i', $html, $m)) {
+        $imageUrl = $m[1];
+        $debugLog[] = 'og:image extracted: ' . $imageUrl;
+    }
+}
+
 if ($imageUrl) {
     $debugLog[] = 'imageUrl: ' . $imageUrl;
 
