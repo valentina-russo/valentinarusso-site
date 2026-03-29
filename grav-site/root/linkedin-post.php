@@ -53,6 +53,69 @@ if (!$text) {
     exit;
 }
 
+// Upload image to LinkedIn if provided
+$imageUrn = null;
+$imageUrl  = $_POST['imageUrl'] ?? '';
+
+if ($imageUrl) {
+    // Step 1: Initialize upload
+    $initPayload = [
+        'initializeUploadRequest' => [
+            'owner' => 'urn:li:person:' . $personUrn,
+        ]
+    ];
+
+    $ch = curl_init('https://api.linkedin.com/rest/images?action=initializeUpload');
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER     => [
+            'Authorization: Bearer ' . $accessToken,
+            'Content-Type: application/json',
+            'X-Restli-Protocol-Version: 2.0.0',
+            'LinkedIn-Version: 202503',
+        ],
+        CURLOPT_POSTFIELDS     => json_encode($initPayload),
+    ]);
+    $initResp = curl_exec($ch);
+    $initCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    $initData = json_decode($initResp, true);
+    $uploadUrl = $initData['value']['uploadUrl'] ?? null;
+    $imageUrn  = $initData['value']['image'] ?? null;
+
+    if ($uploadUrl && $imageUrn) {
+        // Step 2: Download image from our server
+        $imgData = file_get_contents($imageUrl);
+
+        if ($imgData) {
+            // Step 3: Upload binary to LinkedIn
+            $ch = curl_init($uploadUrl);
+            curl_setopt_array($ch, [
+                CURLOPT_CUSTOMREQUEST  => 'PUT',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER     => [
+                    'Authorization: Bearer ' . $accessToken,
+                    'Content-Type: application/octet-stream',
+                ],
+                CURLOPT_POSTFIELDS     => $imgData,
+            ]);
+            $uploadResp = curl_exec($ch);
+            $uploadCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($uploadCode < 200 || $uploadCode >= 300) {
+                $imageUrn = null; // Upload failed, post without image
+            }
+        } else {
+            $imageUrn = null;
+        }
+    } else {
+        $imageUrn = null;
+    }
+}
+
 // Build LinkedIn post payload
 $payload = [
     'author'          => 'urn:li:person:' . $personUrn,
@@ -66,8 +129,14 @@ $payload = [
     'lifecycleState'  => 'PUBLISHED',
 ];
 
-// If article URL provided, add as article content
-if ($articleUrl) {
+// Add image or article content
+if ($imageUrn) {
+    $payload['content'] = [
+        'media' => [
+            'id' => $imageUrn,
+        ]
+    ];
+} elseif ($articleUrl) {
     $payload['content'] = [
         'article' => [
             'source'      => $articleUrl,

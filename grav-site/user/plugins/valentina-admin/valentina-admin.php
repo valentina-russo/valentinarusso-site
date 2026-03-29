@@ -515,6 +515,23 @@ body.grav-admin-page{ padding-bottom:58px!important; }
     }
     if(!tags) tags = '#HumanDesign #BG5 #CarrieraConsapevole';
 
+    /* Leggi immagine */
+    var imgEl = document.querySelector('input[name="data[header][featured_image]"],input[name="data[_json][header][featured_image]"]');
+    var featImg = '';
+    if(imgEl && imgEl.value){
+      var iv = imgEl.value.replace(/^"|"$/g,'');
+      if(iv && iv.indexOf('placeholder') === -1){
+        featImg = iv.indexOf('/') !== -1
+          ? 'https://valentinarussobg5.com' + iv
+          : 'https://valentinarussobg5.com/' + (isAz ? 'aziende/blog/' : 'blog/articoli/') + slug + '/' + iv;
+      }
+    }
+    /* Fallback: cerca la prima immagine nella pagina admin */
+    if(!featImg){
+      var adminImg = document.querySelector('.thumbs-list img, .page-media img');
+      if(adminImg && adminImg.src) featImg = adminImg.src.replace(/\?.*$/,'');
+    }
+
     /* Costruisci URL articolo */
     var articleUrl = isAz
       ? 'https://valentinarussobg5.com/aziende/blog/' + slug
@@ -579,6 +596,7 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       fd.append('articleUrl', articleUrl);
       fd.append('title', title);
       fd.append('description', desc);
+      if(featImg) fd.append('imageUrl', featImg);
 
       fetch('/linkedin-post.php', {method:'POST', body:fd, credentials:'include'})
         .then(function(r){return r.json();})
