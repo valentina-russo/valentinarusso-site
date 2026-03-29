@@ -58,8 +58,9 @@ class ValentinaAdminPlugin extends Plugin
   position:fixed;bottom:0;left:0;right:0;z-index:9000;
   background:#0f172a;border-top:1px solid #1e293b;
   display:flex;align-items:center;justify-content:space-between;
-  padding:8px 20px;gap:12px;
+  padding:8px 20px;gap:8px 12px;
   box-shadow:0 -4px 16px rgba(0,0,0,.4);
+  flex-wrap:wrap;
 }
 #vb-action-bar .vb-ab-left{
   display:flex;align-items:center;gap:8px;
@@ -78,7 +79,7 @@ class ValentinaAdminPlugin extends Plugin
   border-radius:4px;padding:2px 9px;font-size:.72rem;cursor:pointer;
 }
 #vb-action-bar .vb-ab-rename:hover{background:#334155;color:#e2e8f0;}
-#vb-action-bar .vb-ab-right{display:flex;align-items:center;gap:8px;}
+#vb-action-bar .vb-ab-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 #vb-action-bar button{
   border:none;border-radius:6px;cursor:pointer;
   font-size:.85rem;font-weight:600;padding:7px 18px;
