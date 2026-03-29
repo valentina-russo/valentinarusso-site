@@ -1101,10 +1101,10 @@ body.grav-admin-page{ padding-bottom:58px!important; }
 
       right.appendChild(bBozza);
       right.appendChild(bPub);
+      right.appendChild(bLinkedin);
       right.appendChild(bRewrite);
       right.appendChild(bFull);
       right.appendChild(bMeta);
-      right.appendChild(bLinkedin);
       right.appendChild(bElimina);
 
       bar.appendChild(left);
