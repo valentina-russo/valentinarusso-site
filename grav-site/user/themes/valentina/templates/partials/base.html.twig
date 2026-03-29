@@ -83,21 +83,26 @@
     {
       "@context": "https://schema.org",
       "@type": "Person",
+      "@id": "{{ grav.base_url_absolute }}/#valentina-russo",
       "name": "Valentina Russo",
       "givenName": "Valentina",
       "familyName": "Russo",
       "url": "{{ grav.base_url_absolute }}",
       "image": "{{ grav.base_url_absolute }}/user/pages/assets/valentina.jpg",
-      "description": "Consulente BG5® e Human Design per carriera, relazioni e amor proprio.",
+      "description": "Consulente BG5® certificata e Human Design Analyst. Tra le poche professioniste italiane con certificazione ufficiale BG5® Business Institute. Specializzata in career development, business strategy e dinamiche relazionali.",
       "jobTitle": ["BG5® Consultant", "Human Design Analyst", "Career & Business Professional"],
-      "knowsAbout": ["BG5 System", "Human Design", "Career Consulting", "Business Strategy", "Personal Development"],
+      "knowsAbout": ["BG5 System", "Human Design", "Career Consulting", "Business Strategy", "Personal Development", "Team Composition Analysis", "Organizational Dynamics"],
       "qualifications": [
         {
           "@type": "EducationalOccupationalCredential",
-          "name": "BG5® Business Institute Certified",
+          "name": "BG5® Career & Business Professional",
           "credentialCategory": "Professional Certification",
-          "url": "https://www.humandesignbusiness.com/",
-          "credentialHasExpire": false
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "BG5® Business Institute",
+            "url": "https://www.humandesignbusiness.com/"
+          },
+          "url": "https://bg5businessinstitute.com/professionals?id=399d41b3-612b-48d1-88b9-7bc26ed71418"
         },
         {
           "@type": "EducationalOccupationalCredential",
@@ -106,9 +111,14 @@
         }
       ],
       "sameAs": [
-        "https://www.instagram.com/valentinarussobg5/"
+        "https://www.instagram.com/valentinarussobg5/",
+        "https://bg5businessinstitute.com/professionals?id=399d41b3-612b-48d1-88b9-7bc26ed71418"
       ],
-      "website": "{{ grav.base_url_absolute }}"
+      "email": "consulenze@valentinarussobg5.com",
+      "worksFor": {
+        "@type": "Organization",
+        "@id": "{{ grav.base_url_absolute }}/#organization"
+      }
     }
     </script>
 
@@ -117,13 +127,26 @@
     {
       "@context": "https://schema.org",
       "@type": "Organization",
+      "@id": "{{ grav.base_url_absolute }}/#organization",
       "name": "Valentina Russo — BG5® Consultant",
       "url": "{{ grav.base_url_absolute }}",
       "logo": "{{ grav.base_url_absolute }}/user/pages/assets/logo.png",
       "description": "BG5® Business Institute Certified Consultant e Human Design Analyst specializzata in career, relazioni e business strategy.",
+      "email": "consulenze@valentinarussobg5.com",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "consulenze@valentinarussobg5.com",
+        "availableLanguage": ["Italian", "English"]
+      },
+      "founder": {
+        "@type": "Person",
+        "@id": "{{ grav.base_url_absolute }}/#valentina-russo"
+      },
       "sameAs": [
         "https://www.instagram.com/valentinarussobg5/",
-        "https://www.humandesignbusiness.com/"
+        "https://www.humandesignbusiness.com/",
+        "https://bg5businessinstitute.com/professionals?id=399d41b3-612b-48d1-88b9-7bc26ed71418"
       ],
       "memberOf": [
         {
@@ -142,9 +165,8 @@
       "@type": "Service",
       "name": "BG5® Consulting & Human Design Analysis",
       "provider": {
-        "@type": "LocalBusiness",
-        "name": "Valentina Russo",
-        "url": "{{ grav.base_url_absolute }}"
+        "@type": "Person",
+        "@id": "{{ grav.base_url_absolute }}/#valentina-russo"
       },
       "areaServed": "IT",
       "hasOfferingDetails": [
@@ -189,9 +211,11 @@
       "areaServed": ["IT", "Italia"],
       "serviceType": ["Career Coaching", "Business Consulting", "Human Design Analysis", "BG5 Consulting"],
       "priceRange": "€€€",
+      "email": "consulenze@valentinarussobg5.com",
       "sameAs": [
         "https://www.instagram.com/valentinarussobg5/",
-        "https://www.humandesignbusiness.com/"
+        "https://www.humandesignbusiness.com/",
+        "https://bg5businessinstitute.com/professionals?id=399d41b3-612b-48d1-88b9-7bc26ed71418"
       ],
       "knowsLanguage": ["it", "en"]
     }
