@@ -958,6 +958,9 @@ body.grav-admin-page{ padding-bottom:58px!important; }
 
   /* ── DOM READY ───────────────────────── */
   document.addEventListener('DOMContentLoaded', function(){
+    /* Escludi admin dal tracking GA4 su tutto il sito */
+    try{ localStorage.setItem('vr_no_track','1'); }catch(e){}
+
     var overlay = document.createElement('div');
     overlay.id = 'vb-rewrite-overlay';
     overlay.innerHTML = '<div class="vb-spinner"></div><p>Elaborazione in corso...</p>';
