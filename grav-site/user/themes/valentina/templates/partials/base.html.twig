@@ -15,9 +15,9 @@
     {# Google Search Console — verifica proprietà #}
     <meta name="google-site-verification" content="hVvQ2yByWi_wqkv5-CpFa5ifdITtkTIsE1wBWU6WgOQ">
 
-    {# Google Analytics 4 — escludi traffico interno via localStorage flag #}
+    {# Google Analytics 4 — escludi admin (localStorage) e bot/Playwright (user-agent) #}
     <script>
-    if(!localStorage.getItem('vr_no_track')){
+    if(!localStorage.getItem('vr_no_track') && !/HeadlessChrome|Playwright|Puppeteer|PhantomJS/i.test(navigator.userAgent)){
       var s=document.createElement('script');s.async=true;
       s.src='https://www.googletagmanager.com/gtag/js?id=G-GHR1HCYPY4';
       document.head.appendChild(s);
