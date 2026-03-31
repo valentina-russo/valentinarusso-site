@@ -35,8 +35,8 @@
     {% endif %}
 
     {# Open Graph #}
-    <meta property="og:title" content="{{ page.header.seo_title ?? page.title }}">
-    <meta property="og:description" content="{{ page.header.seo_desc ?? page.header.description ?? '' }}">
+    <meta property="og:title" content="{% block og_title %}{{ page.header.seo_title ?? page.title }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ page.header.seo_desc ?? page.header.description ?? '' }}{% endblock %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ page.url(true) }}">
     {% set og_image = '' %}
