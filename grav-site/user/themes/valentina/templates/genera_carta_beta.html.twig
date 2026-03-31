@@ -2,6 +2,32 @@
 
 {% block title %}{{ page.header.seo_title }}{% endblock %}
 
+{% block schema %}
+{{ parent() }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Calcolatore Carta Human Design Gratuito",
+  "description": "Calcola gratis la tua carta Human Design (BodyGraph) inserendo data, ora e luogo di nascita. Scopri Tipo Energetico, Strategia, Autorità e Profilo.",
+  "url": "{{ grav.base_url_absolute }}/genera-carta",
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Valentina Russo",
+    "url": "{{ grav.base_url_absolute }}/chi-sono"
+  },
+  "inLanguage": "it"
+}
+</script>
+{% endblock %}
+
 {% block extra_css %}
 <style>
   .carta-wrap {
@@ -703,6 +729,9 @@
   {% endif %}
 
 </div><!-- /carta-wrap -->
+
+{# ── SEO Content Block ── #}
+{% include 'partials/seo-calcolatore.html.twig' %}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
 <script src="/user/themes/valentina/js/swe-hd.js"></script>
