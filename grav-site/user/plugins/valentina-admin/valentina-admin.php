@@ -194,6 +194,146 @@ body.grav-admin-page{ padding-bottom:58px!important; }
   border:none;border-radius:6px;padding:6px 14px;
   cursor:pointer;font-size:.82rem;font-weight:600;
 }
+
+/* ── Social Media Generator ── */
+.vb-ab-social{
+  background:linear-gradient(135deg,#f09433 0%,#dc2743 50%,#bc1888 100%);
+  color:#fff;
+}
+#vb-social-modal{
+  display:none;position:fixed;inset:0;z-index:99997;
+  background:rgba(5,10,20,.92);
+  align-items:flex-start;justify-content:center;
+  overflow-y:auto;padding:24px 16px;
+}
+#vb-social-modal.show{display:flex;}
+#vb-social-modal .vb-sm-card{
+  background:#0f172a;border-radius:20px;
+  width:min(840px,calc(100vw - 32px));
+  box-shadow:0 24px 80px rgba(0,0,0,.65);
+  border:1px solid #1e293b;margin:auto;
+}
+#vb-social-modal .vb-sm-header{
+  display:flex;align-items:center;gap:10px;
+  padding:20px 24px 0;
+}
+#vb-social-modal .vb-sm-header h3{
+  font-size:1.12rem;font-weight:700;margin:0;flex:1;
+  background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+#vb-social-modal .vb-sm-close{
+  background:none;border:none;color:#64748b;font-size:1.5rem;
+  cursor:pointer;padding:4px 8px;line-height:1;border-radius:6px;
+}
+#vb-social-modal .vb-sm-close:hover{color:#f1f5f9;background:#1e293b;}
+.vb-sm-tabs{
+  display:flex;gap:4px;padding:14px 24px 0;
+  border-bottom:1px solid #1e293b;margin-bottom:0;
+}
+.vb-sm-tabs button{
+  border:none;background:none;color:#64748b;
+  font-size:.84rem;font-weight:600;padding:8px 16px;
+  border-bottom:2px solid transparent;cursor:pointer;
+  border-radius:6px 6px 0 0;transition:color .15s;
+}
+.vb-sm-tabs button.active{color:#f1f5f9;border-bottom-color:#B68397;}
+.vb-sm-tabs button:hover:not(.active){color:#94a3b8;}
+.vb-sm-panel{padding:16px 24px 0;}
+.vb-sm-panel[hidden]{display:none;}
+.vb-sm-panel textarea{
+  width:100%;min-height:150px;background:#1e293b;
+  border:1.5px solid #334155;border-radius:10px;
+  padding:12px;color:#f1f5f9;font-family:inherit;
+  font-size:.88rem;line-height:1.55;resize:vertical;
+  box-sizing:border-box;
+}
+.vb-sm-panel textarea:focus{outline:none;border-color:#B68397;}
+.vb-sm-article-info{
+  background:#1e293b;border-radius:10px;padding:16px;
+  color:#94a3b8;font-size:.85rem;line-height:1.55;
+}
+.vb-sm-article-info strong{color:#f1f5f9;display:block;margin-bottom:6px;font-size:.9rem;}
+.vb-sm-load-btn{
+  margin-top:10px;background:#B68397;color:#fff;
+  border:none;border-radius:8px;padding:8px 18px;
+  font-size:.84rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+}
+.vb-sm-load-btn:hover{opacity:.85;}
+.vb-sm-config{
+  padding:12px 24px;display:flex;gap:12px;flex-wrap:wrap;
+  border-top:1px solid #1e293b;margin-top:14px;
+}
+.vb-sm-config-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.vb-sm-config-row label{
+  color:#64748b;font-size:.75rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;
+}
+.vb-sm-config-row button{
+  border:1.5px solid #334155;background:none;color:#94a3b8;
+  border-radius:20px;padding:4px 14px;font-size:.8rem;
+  font-weight:600;cursor:pointer;transition:all .15s;
+}
+.vb-sm-config-row button.active{background:#1e3a5f;border-color:#1e3a5f;color:#fff;}
+.vb-sm-config-row button:hover:not(.active){border-color:#B68397;color:#f1f5f9;}
+.vb-sm-gen-wrap{padding:12px 24px 20px;border-top:1px solid #1e293b;}
+#vb-sm-generate{
+  width:100%;background:linear-gradient(135deg,#B68397,#1e3a5f);
+  color:#fff;border:none;border-radius:10px;
+  padding:14px;font-size:1rem;font-weight:700;
+  cursor:pointer;transition:opacity .15s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+#vb-sm-generate:hover{opacity:.88;}
+#vb-sm-generate:disabled{opacity:.45;cursor:not-allowed;}
+#vb-sm-preview{padding:0 24px 24px;}
+.vb-sm-preview-hdr{
+  display:flex;align-items:center;padding:14px 0 10px;
+  border-top:1px solid #1e293b;
+}
+.vb-sm-preview-hdr h4{color:#f1f5f9;font-size:.92rem;font-weight:700;margin:0;}
+.vb-sm-slides-strip{
+  display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;
+  scrollbar-width:thin;scrollbar-color:#334155 transparent;
+}
+.vb-sm-slides-strip::-webkit-scrollbar{height:4px;}
+.vb-sm-slides-strip::-webkit-scrollbar-thumb{background:#334155;border-radius:4px;}
+.vb-sm-slide-wrap{
+  flex-shrink:0;cursor:pointer;border-radius:8px;overflow:hidden;
+  border:2px solid transparent;transition:border-color .15s;
+}
+.vb-sm-slide-wrap.active{border-color:#B68397;}
+.vb-sm-slide-wrap canvas{display:block;width:175px;height:175px;}
+.vb-sm-cap-wrap{margin-top:12px;}
+.vb-sm-cap-wrap label{
+  color:#64748b;font-size:.74rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px;
+}
+#vb-sm-caption{
+  width:100%;min-height:90px;background:#1e293b;
+  border:1.5px solid #334155;border-radius:8px;
+  padding:10px 12px;color:#f1f5f9;font-size:.84rem;
+  line-height:1.55;resize:vertical;font-family:inherit;box-sizing:border-box;
+}
+.vb-sm-ht-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.vb-sm-ht{
+  background:#1e293b;color:#B68397;border:1px solid #334155;
+  border-radius:20px;padding:3px 12px;font-size:.8rem;font-weight:600;
+}
+.vb-sm-dl-row{display:flex;gap:10px;margin-top:14px;}
+#vb-sm-regen{
+  background:#475569;color:#f1f5f9;border:none;border-radius:8px;
+  padding:10px 20px;font-size:.88rem;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+}
+#vb-sm-regen:hover{background:#64748b;}
+#vb-sm-download{
+  background:#16a34a;color:#fff;border:none;border-radius:8px;
+  padding:10px 20px;font-size:.88rem;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+}
+#vb-sm-download:hover{background:#15803d;}
+#vb-sm-download:disabled{opacity:.5;cursor:not-allowed;}
 </style>
 <script>
 (function(){
@@ -1086,6 +1226,11 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       bLinkedin.innerHTML = '<i class="fa fa-linkedin"></i> LinkedIn';
       bLinkedin.addEventListener('click', function(){ vbLinkedIn(); });
 
+      var bSocial = document.createElement('button');
+      bSocial.className = 'vb-ab-social';
+      bSocial.innerHTML = '<i class="fa fa-instagram"></i> Social';
+      bSocial.addEventListener('click', function(){ vbSocial(); });
+
       var bElimina = document.createElement('button');
       bElimina.className = 'vb-ab-elimina';
       bElimina.innerHTML = '<i class="fa fa-trash"></i> Elimina';
@@ -1106,6 +1251,7 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       right.appendChild(bBozza);
       right.appendChild(bPub);
       right.appendChild(bLinkedin);
+      right.appendChild(bSocial);
       right.appendChild(bRewrite);
       right.appendChild(bFull);
       right.appendChild(bMeta);
@@ -1117,6 +1263,304 @@ body.grav-admin-page{ padding-bottom:58px!important; }
     }, 300);
 
   });
+
+  /* ── SOCIAL GENERATOR — state ── */
+  var _smSlides   = [];
+  var _smCaption  = '';
+  var _smHashtags = [];
+  var _smFontsOk  = false;
+
+  function vbEnsureFonts(cb) {
+    if (_smFontsOk) { cb(); return; }
+    if (!document.getElementById('vb-gf')) {
+      var lk = document.createElement('link');
+      lk.id = 'vb-gf'; lk.rel = 'stylesheet';
+      lk.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Outfit:wght@400;700;800&display=swap';
+      document.head.appendChild(lk);
+    }
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function(){ _smFontsOk = true; cb(); });
+    } else {
+      setTimeout(function(){ _smFontsOk = true; cb(); }, 1800);
+    }
+  }
+
+  function smWrap(ctx, text, x, y, maxW, font, lhMul, color, align) {
+    if (!text) return y;
+    ctx.font = font; ctx.fillStyle = color; ctx.textAlign = align || 'left';
+    var fsize = parseInt((font.match(/(\d+)px/) || ['0','34'])[1], 10);
+    var lh = fsize * lhMul;
+    var words = String(text).split(' ');
+    var line = ''; var curY = y;
+    for (var i = 0; i < words.length; i++) {
+      var test = line + words[i] + ' ';
+      if (ctx.measureText(test).width > maxW && i > 0) {
+        ctx.fillText(line.trim(), x, curY); line = words[i] + ' '; curY += lh;
+      } else { line = test; }
+    }
+    if (line.trim()) ctx.fillText(line.trim(), x, curY);
+    return curY + lh;
+  }
+
+  function smRender(canvas, slide, idx) {
+    var ctx = canvas.getContext('2d');
+    var W = 1080, H = 1080;
+    canvas.width = W; canvas.height = H;
+    var isGrad = (slide.type === 'hook' || slide.type === 'cta');
+    if (isGrad) {
+      var g = ctx.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0, '#B68397'); g.addColorStop(1, '#1E3A5F');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    } else {
+      ctx.fillStyle = '#FAF5F8'; ctx.fillRect(0, 0, W, H);
+      var strip = ctx.createLinearGradient(0, 0, W, 0);
+      strip.addColorStop(0, '#B68397'); strip.addColorStop(1, '#1E3A5F');
+      ctx.fillStyle = strip; ctx.fillRect(0, 0, W, 10);
+      ctx.font = '800 28px Outfit'; ctx.fillStyle = 'rgba(30,58,95,0.22)';
+      ctx.textAlign = 'left'; ctx.fillText(String(idx + 1).padStart(2,'0'), 80, 110);
+      ctx.font = '400 25px Outfit'; ctx.fillStyle = 'rgba(30,58,95,0.35)';
+      ctx.textAlign = 'right'; ctx.fillText('@valentinarussobg5', W - 80, H - 48);
+    }
+    var PAD = 80; var CX = PAD; var CW = W - PAD * 2;
+    if (slide.type === 'hook') {
+      smWrap(ctx, slide.title || '', W/2, 330, CW, '700 84px "Playfair Display"', 1.15, '#FFFFFF', 'center');
+      smWrap(ctx, slide.subtitle || '', W/2, 560, CW, '400 35px Outfit', 1.5, 'rgba(255,255,255,0.82)', 'center');
+      ctx.font = '800 27px Outfit'; ctx.fillStyle = 'rgba(255,255,255,0.6)';
+      ctx.textAlign = 'center'; ctx.fillText('Scorri \u2192', W/2, H - 72);
+    } else if (slide.type === 'cta') {
+      smWrap(ctx, slide.ask || '', W/2, 350, CW, '700 70px "Playfair Display"', 1.15, '#FFFFFF', 'center');
+      ctx.fillStyle = 'rgba(182,131,151,0.75)'; ctx.fillRect(W/2 - 60, 468, 120, 3);
+      ctx.font = '400 31px Outfit'; ctx.fillStyle = 'rgba(255,255,255,0.78)';
+      ctx.textAlign = 'center'; ctx.fillText(slide.instruction || '', W/2, 540);
+      ctx.font = '800 27px Outfit'; ctx.fillStyle = 'rgba(255,255,255,0.42)';
+      ctx.fillText('@valentinarussobg5', W/2, H - 72);
+    } else if (slide.layout === 'quote') {
+      ctx.fillStyle = '#B68397'; ctx.fillRect(CX, 155, 6, 220);
+      smWrap(ctx, '\u201C' + (slide.quote || '') + '\u201D', CX + 28, 210, CW - 28, 'italic 700 64px "Playfair Display"', 1.25, '#2C2C2C', 'left');
+    } else if (slide.layout === 'list') {
+      smWrap(ctx, slide.headline || '', CX, 170, CW, '700 56px "Playfair Display"', 1.15, '#2C2C2C', 'left');
+      var by = 340;
+      (slide.bullets || []).slice(0,3).forEach(function(b) {
+        ctx.fillStyle = '#B68397'; ctx.beginPath();
+        ctx.arc(CX + 14, by - 7, 9, 0, Math.PI * 2); ctx.fill();
+        ctx.font = '400 33px Outfit'; ctx.fillStyle = '#2C2C2C'; ctx.textAlign = 'left';
+        ctx.fillText(String(b), CX + 40, by); by += 92;
+      });
+    } else {
+      ctx.fillStyle = '#B68397'; ctx.fillRect(CX, 145, 6, 270);
+      smWrap(ctx, slide.headline || '', CX + 24, 200, CW - 24, '700 56px "Playfair Display"', 1.15, '#2C2C2C', 'left');
+      smWrap(ctx, slide.body || '', CX + 24, 450, CW - 24, '400 31px Outfit', 1.62, '#2C2C2C', 'left');
+    }
+  }
+
+  function vbSocial() {
+    var existing = document.getElementById('vb-social-modal');
+    if (existing) { existing.classList.add('show'); return; }
+    var modal = document.createElement('div');
+    modal.id = 'vb-social-modal'; modal.className = 'show';
+    modal.innerHTML =
+      '<div class="vb-sm-card">' +
+        '<div class="vb-sm-header">' +
+          '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="url(#smi)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+            '<defs><linearGradient id="smi" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f09433"/><stop offset="50%" stop-color="#dc2743"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs>' +
+            '<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>' +
+            '<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>' +
+            '<line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>' +
+          '</svg>' +
+          '<h3>Social Media Generator</h3>' +
+          '<button class="vb-sm-close" id="vb-sm-close-btn">\u00D7</button>' +
+        '</div>' +
+        '<div class="vb-sm-tabs">' +
+          '<button class="active" data-tab="text"><i class="fa fa-pencil"></i> Testo libero</button>' +
+          '<button data-tab="article"><i class="fa fa-file-text-o"></i> Da questo articolo</button>' +
+        '</div>' +
+        '<div class="vb-sm-panel" id="vb-sm-panel-text">' +
+          '<textarea id="vb-sm-input" placeholder="Scrivi un\'idea, incolla un concetto BG5, descrivi un tema..."></textarea>' +
+        '</div>' +
+        '<div class="vb-sm-panel" id="vb-sm-panel-article" hidden>' +
+          '<div class="vb-sm-article-info">' +
+            '<strong id="vb-sm-art-title">Nessun articolo caricato</strong>' +
+            '<span id="vb-sm-art-preview">Apri un articolo nell\'editor e clicca il bottone qui sotto.</span>' +
+          '</div>' +
+          '<button class="vb-sm-load-btn" id="vb-sm-load-art"><i class="fa fa-download"></i> Carica articolo corrente</button>' +
+        '</div>' +
+        '<div class="vb-sm-config">' +
+          '<div class="vb-sm-config-row">' +
+            '<label>Tono</label>' +
+            '<button class="active" data-tone="professional">Professionale</button>' +
+            '<button data-tone="warm">Caldo</button>' +
+            '<button data-tone="direct">Diretto</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="vb-sm-gen-wrap">' +
+          '<button id="vb-sm-generate"><i class="fa fa-magic"></i> Genera Carosello (7 slide)</button>' +
+        '</div>' +
+        '<div id="vb-sm-preview" hidden>' +
+          '<div class="vb-sm-preview-hdr"><h4><i class="fa fa-picture-o"></i> Anteprima &mdash; 7 slide 1080&times;1080px</h4></div>' +
+          '<div class="vb-sm-slides-strip" id="vb-sm-slides-strip"></div>' +
+          '<div class="vb-sm-cap-wrap">' +
+            '<label>Caption</label>' +
+            '<textarea id="vb-sm-caption"></textarea>' +
+            '<label style="margin-top:10px;">Hashtag</label>' +
+            '<div class="vb-sm-ht-row" id="vb-sm-ht-row"></div>' +
+          '</div>' +
+          '<div class="vb-sm-dl-row">' +
+            '<button id="vb-sm-regen"><i class="fa fa-refresh"></i> Rigenera</button>' +
+            '<button id="vb-sm-download"><i class="fa fa-download"></i> Scarica ZIP</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(modal);
+
+    var activeTone = 'professional';
+    var activeTab  = 'text';
+    var articleData = null;
+
+    document.getElementById('vb-sm-close-btn').addEventListener('click', function(){ modal.classList.remove('show'); });
+    modal.addEventListener('click', function(e){ if (e.target === modal) modal.classList.remove('show'); });
+
+    modal.querySelectorAll('.vb-sm-tabs button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        modal.querySelectorAll('.vb-sm-tabs button').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active'); activeTab = btn.getAttribute('data-tab');
+        document.getElementById('vb-sm-panel-text').hidden    = (activeTab !== 'text');
+        document.getElementById('vb-sm-panel-article').hidden = (activeTab !== 'article');
+      });
+    });
+
+    modal.querySelectorAll('[data-tone]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        modal.querySelectorAll('[data-tone]').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active'); activeTone = btn.getAttribute('data-tone');
+      });
+    });
+
+    document.getElementById('vb-sm-load-art').addEventListener('click', function(){
+      var cms = getCMs();
+      var titleEl = document.querySelector('input[name="data[title]"]');
+      var title   = (titleEl && titleEl.value.trim()) ? titleEl.value.trim() : 'Articolo';
+      var body    = cms.body ? cms.body.getValue().trim() : '';
+      if (!body) { alert('Editor corpo articolo non trovato. Apri il tab Contenuto prima.'); return; }
+      articleData = { title: title, body: body };
+      document.getElementById('vb-sm-art-title').textContent   = title;
+      document.getElementById('vb-sm-art-preview').textContent = body.substring(0,200).replace(/[#*\[\]_]/g,'').trim() + (body.length > 200 ? '\u2026' : '');
+    });
+
+    document.getElementById('vb-sm-generate').addEventListener('click', function(){
+      var btn = this; var inputText = '';
+      if (activeTab === 'article') {
+        if (!articleData) { alert('Clicca prima "Carica articolo corrente".'); return; }
+        inputText = articleData.title + '\\n\\n' + articleData.body;
+      } else {
+        inputText = (document.getElementById('vb-sm-input').value || '').trim();
+      }
+      if (!inputText) { alert('Inserisci del testo prima di generare.'); return; }
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Generazione in corso...';
+      var fd = new FormData();
+      fd.append('pass',       'ValeAdmin2026');
+      fd.append('input_type', activeTab === 'article' ? 'article' : 'text');
+      fd.append('input_text', inputText);
+      fd.append('format',     'carousel');
+      fd.append('tone',       activeTone);
+      fetch('/social-generate.php', { method:'POST', body:fd, credentials:'include' })
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa fa-magic"></i> Genera Carosello (7 slide)';
+          if (!data.ok) { alert('Errore: ' + data.error); return; }
+          _smSlides   = data.slides   || [];
+          _smCaption  = data.caption  || '';
+          _smHashtags = data.hashtags || [];
+          renderPreview();
+        })
+        .catch(function(err){
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa fa-magic"></i> Genera Carosello (7 slide)';
+          alert('Errore di rete: ' + err);
+        });
+    });
+
+    function renderPreview() {
+      document.getElementById('vb-sm-preview').hidden = false;
+      var strip = document.getElementById('vb-sm-slides-strip');
+      strip.innerHTML = '';
+      vbEnsureFonts(function(){
+        _smSlides.forEach(function(slide, i){
+          var wrap = document.createElement('div');
+          wrap.className = 'vb-sm-slide-wrap' + (i === 0 ? ' active' : '');
+          var cv = document.createElement('canvas');
+          smRender(cv, slide, i); wrap.appendChild(cv); strip.appendChild(wrap);
+          wrap.addEventListener('click', function(){
+            strip.querySelectorAll('.vb-sm-slide-wrap').forEach(function(w){ w.classList.remove('active'); });
+            wrap.classList.add('active');
+          });
+        });
+      });
+      var capEl = document.getElementById('vb-sm-caption');
+      if (capEl) capEl.value = _smCaption;
+      var htRow = document.getElementById('vb-sm-ht-row');
+      if (htRow) {
+        htRow.innerHTML = '';
+        _smHashtags.forEach(function(ht){
+          var span = document.createElement('span');
+          span.className = 'vb-sm-ht'; span.textContent = '#' + ht;
+          htRow.appendChild(span);
+        });
+      }
+    }
+
+    document.getElementById('vb-sm-regen').addEventListener('click', function(){
+      document.getElementById('vb-sm-generate').click();
+    });
+
+    document.getElementById('vb-sm-download').addEventListener('click', function(){
+      var btn = this;
+      if (!_smSlides.length) { alert('Genera prima il carosello.'); return; }
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Preparazione ZIP...';
+      vbEnsureFonts(function(){
+        function doZip() {
+          var zip = new JSZip();
+          var promises = _smSlides.map(function(slide, i){
+            return new Promise(function(resolve){
+              var cv = document.createElement('canvas');
+              smRender(cv, slide, i);
+              cv.toBlob(function(blob){
+                zip.file('slide-' + String(i+1).padStart(2,'0') + '.png', blob);
+                resolve();
+              }, 'image/png');
+            });
+          });
+          var capEl  = document.getElementById('vb-sm-caption');
+          var capTxt = (capEl ? capEl.value : _smCaption) + '\\n\\n' + _smHashtags.map(function(h){ return '#' + h; }).join(' ');
+          zip.file('caption.txt', capTxt);
+          Promise.all(promises).then(function(){
+            return zip.generateAsync({ type:'blob' });
+          }).then(function(blob){
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a'); a.href = url;
+            a.download = 'carosello-instagram.zip'; a.click();
+            setTimeout(function(){ URL.revokeObjectURL(url); }, 3000);
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa fa-download"></i> Scarica ZIP';
+          }).catch(function(err){
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa fa-download"></i> Scarica ZIP';
+            alert('Errore ZIP: ' + err);
+          });
+        }
+        if (typeof JSZip === 'undefined') {
+          var s = document.createElement('script');
+          s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+          s.onload  = doZip;
+          s.onerror = function(){ btn.disabled=false; btn.innerHTML='<i class="fa fa-download"></i> Scarica ZIP'; alert('Errore caricamento JSZip.'); };
+          document.head.appendChild(s);
+        } else { doZip(); }
+      });
+    });
+  }
+
 })();
 </script>
 HTML;
