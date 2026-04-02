@@ -353,6 +353,33 @@ body.grav-admin-page{ padding-bottom:58px!important; }
 }
 #vb-sm-download:hover{background:#15803d;}
 #vb-sm-download:disabled{opacity:.5;cursor:not-allowed;}
+/* Pannello edit slide */
+#vb-sm-edit-panel{
+  background:#1e293b;border-radius:10px;padding:14px 16px;
+  margin-top:10px;border:1px solid #334155;
+}
+#vb-sm-edit-panel .vb-ep-title{
+  font-size:.74rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.06em;color:#64748b;margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+#vb-sm-edit-panel .vb-ep-title span{color:#94a3b8;}
+.vb-ep-field{ margin-bottom:8px; }
+.vb-ep-field label{
+  display:block;font-size:.72rem;font-weight:700;color:#64748b;
+  text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;
+}
+.vb-ep-field input, .vb-ep-field textarea{
+  width:100%;background:#0f172a;border:1.5px solid #334155;
+  border-radius:7px;padding:8px 10px;color:#f1f5f9;
+  font-family:inherit;font-size:.85rem;line-height:1.5;
+  box-sizing:border-box;resize:vertical;
+}
+.vb-ep-field input:focus, .vb-ep-field textarea:focus{
+  outline:none;border-color:#B68397;
+}
+.vb-ep-bullets{ display:flex;flex-direction:column;gap:5px; }
+.vb-ep-bullets input{ margin-bottom:0; }
 </style>
 <script>
 (function(){
@@ -1305,8 +1332,12 @@ body.grav-admin-page{ padding-bottom:58px!important; }
     }
   }
 
+  /* Rimuove markdown **bold** e *italic* dal testo canvas */
+  function smStrip(s){ return s ? String(s).replace(/\*\*([^*]+)\*\*/g,'$1').replace(/\*([^*]+)\*/g,'$1').trim() : ''; }
+
   function smWrap(ctx, text, x, y, maxW, font, lhMul, color, align) {
     if (!text) return y;
+    text = smStrip(text);
     ctx.font = font; ctx.fillStyle = color; ctx.textAlign = align || 'left';
     var fsize = parseInt((font.match(/(\d+)px/) || ['0','34'])[1], 10);
     var lh = fsize * lhMul;
@@ -1429,8 +1460,12 @@ body.grav-admin-page{ padding-bottom:58px!important; }
           '<button id="vb-sm-generate"><i class="fa fa-magic"></i> Genera Carosello (7 slide)</button>' +
         '</div>' +
         '<div id="vb-sm-preview" hidden>' +
-          '<div class="vb-sm-preview-hdr"><h4><i class="fa fa-picture-o"></i> Anteprima &mdash; 7 slide 1080&times;1080px</h4></div>' +
+          '<div class="vb-sm-preview-hdr"><h4><i class="fa fa-picture-o"></i> Anteprima &mdash; clicca per ingrandire o modificare</h4></div>' +
           '<div class="vb-sm-slides-strip" id="vb-sm-slides-strip"></div>' +
+          '<div id="vb-sm-edit-panel" hidden>' +
+            '<div class="vb-ep-title"><i class="fa fa-pencil"></i> Modifica slide <span id="vb-ep-label"></span></div>' +
+            '<div id="vb-ep-fields"></div>' +
+          '</div>' +
           '<div class="vb-sm-cap-wrap">' +
             '<label>Caption</label>' +
             '<textarea id="vb-sm-caption"></textarea>' +
@@ -1524,6 +1559,77 @@ body.grav-admin-page{ padding-bottom:58px!important; }
         });
     });
 
+    /* Ridisegna la thumbnail nella strip per l'indice dato */
+    function redrawThumb(idx) {
+      var wraps = document.querySelectorAll('.vb-sm-slide-wrap');
+      var wrap  = wraps[idx];
+      if (!wrap) return;
+      var cv = wrap.querySelector('canvas');
+      if (!cv) return;
+      smRender(cv, _smSlides[idx], idx, _smFormatH);
+    }
+
+    /* Pannello edit inline */
+    function showEditPanel(idx) {
+      var slide  = _smSlides[idx];
+      var panel  = document.getElementById('vb-sm-edit-panel');
+      var label  = document.getElementById('vb-ep-label');
+      var fields = document.getElementById('vb-ep-fields');
+      if (!panel || !fields) return;
+      panel.hidden = false;
+      label.textContent = 'Slide ' + (idx + 1) + ' — ' + (slide.type === 'hook' ? 'Hook' : slide.type === 'cta' ? 'CTA' : slide.layout || 'Contenuto');
+      fields.innerHTML  = '';
+
+      function makeField(lbl, key, val, multiline) {
+        var d = document.createElement('div'); d.className = 'vb-ep-field';
+        var l = document.createElement('label'); l.textContent = lbl; d.appendChild(l);
+        var el = document.createElement(multiline ? 'textarea' : 'input');
+        if (multiline) el.rows = 3;
+        el.value = smStrip(val || '');
+        el.addEventListener('input', function(){
+          slide[key] = el.value;
+          redrawThumb(idx);
+        });
+        d.appendChild(el); fields.appendChild(d);
+      }
+      function makeBullets(lbl, bullets) {
+        var d = document.createElement('div'); d.className = 'vb-ep-field';
+        var l = document.createElement('label'); l.textContent = lbl; d.appendChild(l);
+        var wrap = document.createElement('div'); wrap.className = 'vb-ep-bullets';
+        bullets.forEach(function(b, bi){
+          var inp = document.createElement('input');
+          inp.value = smStrip(b || '');
+          inp.placeholder = 'Punto ' + (bi + 1);
+          inp.addEventListener('input', function(){ slide.bullets[bi] = inp.value; redrawThumb(idx); });
+          wrap.appendChild(inp);
+        });
+        d.appendChild(wrap); fields.appendChild(d);
+      }
+
+      if (slide.type === 'hook') {
+        makeField('Titolo', 'title', slide.title);
+        makeField('Sottotitolo', 'subtitle', slide.subtitle, true);
+      } else if (slide.type === 'cta') {
+        makeField('CTA principale', 'ask', slide.ask);
+        makeField('Istruzione', 'instruction', slide.instruction);
+      } else if (slide.layout === 'quote') {
+        makeField('Citazione', 'quote', slide.quote, true);
+      } else if (slide.layout === 'list') {
+        makeField('Titolo', 'headline', slide.headline);
+        makeBullets('Punti', slide.bullets || ['','','']);
+      } else {
+        makeField('Titolo', 'headline', slide.headline);
+        makeField('Testo', 'body', slide.body, true);
+      }
+
+      /* Bottone ingrandisci */
+      var btnLb = document.createElement('button');
+      btnLb.style.cssText = 'margin-top:10px;background:#0f172a;border:1px solid #334155;color:#94a3b8;border-radius:7px;padding:6px 14px;font-size:.8rem;cursor:pointer;';
+      btnLb.innerHTML = '<i class="fa fa-expand"></i> Ingrandisci anteprima';
+      btnLb.addEventListener('click', function(){ showLightbox(idx); });
+      fields.appendChild(btnLb);
+    }
+
     function showLightbox(startIdx) {
       var existing = document.getElementById('vb-sm-lightbox');
       if (existing) existing.remove();
@@ -1581,8 +1687,9 @@ body.grav-admin-page{ padding-bottom:58px!important; }
           wrap.addEventListener('click', function(){
             strip.querySelectorAll('.vb-sm-slide-wrap').forEach(function(w){ w.classList.remove('active'); });
             wrap.classList.add('active');
-            showLightbox(i);
+            showEditPanel(i);
           });
+          wrap.addEventListener('dblclick', function(e){ e.stopPropagation(); showLightbox(i); });
         });
       });
       var capEl = document.getElementById('vb-sm-caption');
