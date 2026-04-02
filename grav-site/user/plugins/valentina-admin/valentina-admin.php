@@ -303,7 +303,26 @@ body.grav-admin-page{ padding-bottom:58px!important; }
   border:2px solid transparent;transition:border-color .15s;
 }
 .vb-sm-slide-wrap.active{border-color:#B68397;}
-.vb-sm-slide-wrap canvas{display:block;width:175px;height:175px;}
+.vb-sm-slide-wrap canvas{display:block;width:180px;}
+/* Lightbox */
+#vb-sm-lightbox{
+  display:none;position:fixed;inset:0;z-index:199999;
+  background:rgba(0,0,0,.92);align-items:center;justify-content:center;flex-direction:column;gap:14px;
+}
+#vb-sm-lightbox.show{display:flex;}
+#vb-sm-lightbox canvas{border-radius:8px;box-shadow:0 8px 48px rgba(0,0,0,.6);max-width:calc(100vw - 40px);max-height:calc(100vh - 120px);}
+#vb-sm-lightbox .vb-lb-nav{display:flex;gap:12px;align-items:center;}
+#vb-sm-lightbox .vb-lb-nav button{
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;
+  border-radius:50%;width:40px;height:40px;font-size:1.2rem;cursor:pointer;transition:background .15s;
+}
+#vb-sm-lightbox .vb-lb-nav button:hover{background:rgba(255,255,255,.25);}
+#vb-sm-lightbox .vb-lb-counter{color:rgba(255,255,255,.55);font-size:.85rem;min-width:48px;text-align:center;}
+#vb-sm-lightbox .vb-lb-close{
+  position:absolute;top:16px;right:20px;background:none;border:none;
+  color:rgba(255,255,255,.5);font-size:2rem;cursor:pointer;line-height:1;
+}
+#vb-sm-lightbox .vb-lb-close:hover{color:#fff;}
 .vb-sm-cap-wrap{margin-top:12px;}
 .vb-sm-cap-wrap label{
   color:#64748b;font-size:.74rem;font-weight:700;
@@ -1269,6 +1288,7 @@ body.grav-admin-page{ padding-bottom:58px!important; }
   var _smCaption  = '';
   var _smHashtags = [];
   var _smFontsOk  = false;
+  var _smFormatH  = 1080; /* 1080=1:1  1350=4:5  1920=9:16 */
 
   function vbEnsureFonts(cb) {
     if (_smFontsOk) { cb(); return; }
@@ -1302,10 +1322,12 @@ body.grav-admin-page{ padding-bottom:58px!important; }
     return curY + lh;
   }
 
-  function smRender(canvas, slide, idx) {
+  function smRender(canvas, slide, idx, outH) {
     var ctx = canvas.getContext('2d');
-    var W = 1080, H = 1080;
+    var W = 1080, H = outH || _smFormatH || 1080;
     canvas.width = W; canvas.height = H;
+    /* Y proporzionale — tutti i valori Y sono frazioni di H */
+    var cy = function(f){ return Math.round(f * H); };
     var isGrad = (slide.type === 'hook' || slide.type === 'cta');
     if (isGrad) {
       var g = ctx.createLinearGradient(0, 0, W, H);
@@ -1316,40 +1338,45 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       var strip = ctx.createLinearGradient(0, 0, W, 0);
       strip.addColorStop(0, '#B68397'); strip.addColorStop(1, '#1E3A5F');
       ctx.fillStyle = strip; ctx.fillRect(0, 0, W, 10);
-      ctx.font = '800 28px Outfit'; ctx.fillStyle = 'rgba(30,58,95,0.22)';
-      ctx.textAlign = 'left'; ctx.fillText(String(idx + 1).padStart(2,'0'), 80, 110);
-      ctx.font = '400 25px Outfit'; ctx.fillStyle = 'rgba(30,58,95,0.35)';
-      ctx.textAlign = 'right'; ctx.fillText('@valentinarussobg5', W - 80, H - 48);
+      ctx.font = '800 28px Outfit'; ctx.fillStyle = 'rgba(30,58,95,0.20)';
+      ctx.textAlign = 'left'; ctx.fillText(String(idx + 1).padStart(2,'0'), 80, cy(0.10));
+      ctx.font = '400 25px Outfit'; ctx.fillStyle = 'rgba(30,58,95,0.32)';
+      ctx.textAlign = 'right'; ctx.fillText('@valentinarussobg5', W - 80, H - 44);
     }
-    var PAD = 80; var CX = PAD; var CW = W - PAD * 2;
+    var PAD = 80; var CW = W - PAD * 2;
     if (slide.type === 'hook') {
-      smWrap(ctx, slide.title || '', W/2, 330, CW, '700 84px "Playfair Display"', 1.15, '#FFFFFF', 'center');
-      smWrap(ctx, slide.subtitle || '', W/2, 560, CW, '400 35px Outfit', 1.5, 'rgba(255,255,255,0.82)', 'center');
-      ctx.font = '800 27px Outfit'; ctx.fillStyle = 'rgba(255,255,255,0.6)';
-      ctx.textAlign = 'center'; ctx.fillText('Scorri \u2192', W/2, H - 72);
+      smWrap(ctx, slide.title || '', W/2, cy(0.29), CW, '700 84px "Playfair Display"', 1.15, '#FFFFFF', 'center');
+      smWrap(ctx, slide.subtitle || '', W/2, cy(0.52), CW, '400 34px Outfit', 1.55, 'rgba(255,255,255,0.80)', 'center');
+      ctx.font = '800 26px Outfit'; ctx.fillStyle = 'rgba(255,255,255,0.55)';
+      ctx.textAlign = 'center'; ctx.fillText('Scorri \u2192', W/2, H - 68);
     } else if (slide.type === 'cta') {
-      smWrap(ctx, slide.ask || '', W/2, 350, CW, '700 70px "Playfair Display"', 1.15, '#FFFFFF', 'center');
-      ctx.fillStyle = 'rgba(182,131,151,0.75)'; ctx.fillRect(W/2 - 60, 468, 120, 3);
-      ctx.font = '400 31px Outfit'; ctx.fillStyle = 'rgba(255,255,255,0.78)';
-      ctx.textAlign = 'center'; ctx.fillText(slide.instruction || '', W/2, 540);
-      ctx.font = '800 27px Outfit'; ctx.fillStyle = 'rgba(255,255,255,0.42)';
-      ctx.fillText('@valentinarussobg5', W/2, H - 72);
+      smWrap(ctx, slide.ask || '', W/2, cy(0.30), CW, '700 70px "Playfair Display"', 1.15, '#FFFFFF', 'center');
+      ctx.fillStyle = 'rgba(182,131,151,0.75)'; ctx.fillRect(W/2 - 60, cy(0.435), 120, 3);
+      ctx.font = '400 30px Outfit'; ctx.fillStyle = 'rgba(255,255,255,0.78)';
+      ctx.textAlign = 'center'; ctx.fillText(slide.instruction || '', W/2, cy(0.500));
+      ctx.font = '800 26px Outfit'; ctx.fillStyle = 'rgba(255,255,255,0.38)';
+      ctx.fillText('@valentinarussobg5', W/2, H - 68);
     } else if (slide.layout === 'quote') {
-      ctx.fillStyle = '#B68397'; ctx.fillRect(CX, 155, 6, 220);
-      smWrap(ctx, '\u201C' + (slide.quote || '') + '\u201D', CX + 28, 210, CW - 28, 'italic 700 64px "Playfair Display"', 1.25, '#2C2C2C', 'left');
+      /* Decoratore top centrato */
+      ctx.fillStyle = '#B68397'; ctx.fillRect(W/2 - 40, cy(0.138), 80, 5); ctx.borderRadius = 4;
+      smWrap(ctx, '\u201C' + (slide.quote || '') + '\u201D', W/2, cy(0.22), CW, 'italic 700 62px "Playfair Display"', 1.28, '#2C2C2C', 'center');
     } else if (slide.layout === 'list') {
-      smWrap(ctx, slide.headline || '', CX, 170, CW, '700 56px "Playfair Display"', 1.15, '#2C2C2C', 'left');
-      var by = 340;
+      smWrap(ctx, slide.headline || '', W/2, cy(0.175), CW, '700 54px "Playfair Display"', 1.15, '#2C2C2C', 'center');
+      /* Bullets centrati come blocco */
+      var bx = PAD + 32; var bw = CW - 32;
+      var by2 = cy(0.340);
       (slide.bullets || []).slice(0,3).forEach(function(b) {
         ctx.fillStyle = '#B68397'; ctx.beginPath();
-        ctx.arc(CX + 14, by - 7, 9, 0, Math.PI * 2); ctx.fill();
+        ctx.arc(bx - 18, by2 - 9, 9, 0, Math.PI * 2); ctx.fill();
         ctx.font = '400 33px Outfit'; ctx.fillStyle = '#2C2C2C'; ctx.textAlign = 'left';
-        ctx.fillText(String(b), CX + 40, by); by += 92;
+        ctx.fillText(String(b), bx, by2); by2 += 95;
       });
     } else {
-      ctx.fillStyle = '#B68397'; ctx.fillRect(CX, 145, 6, 270);
-      smWrap(ctx, slide.headline || '', CX + 24, 200, CW - 24, '700 56px "Playfair Display"', 1.15, '#2C2C2C', 'left');
-      smWrap(ctx, slide.body || '', CX + 24, 450, CW - 24, '400 31px Outfit', 1.62, '#2C2C2C', 'left');
+      /* Standard — testo centrato */
+      smWrap(ctx, slide.headline || '', W/2, cy(0.195), CW, '700 54px "Playfair Display"', 1.18, '#2C2C2C', 'center');
+      /* Linea decorativa centrata */
+      ctx.fillStyle = '#B68397'; ctx.fillRect(W/2 - 40, cy(0.395), 80, 4);
+      smWrap(ctx, slide.body || '', W/2, cy(0.440), CW - 40, '400 30px Outfit', 1.65, '#2C2C2C', 'center');
     }
   }
 
@@ -1385,6 +1412,12 @@ body.grav-admin-page{ padding-bottom:58px!important; }
           '<button class="vb-sm-load-btn" id="vb-sm-load-art"><i class="fa fa-download"></i> Carica articolo corrente</button>' +
         '</div>' +
         '<div class="vb-sm-config">' +
+          '<div class="vb-sm-config-row">' +
+            '<label>Formato</label>' +
+            '<button class="active" data-fmt="1080">\u25A0 1:1 Post</button>' +
+            '<button data-fmt="1350">\u2395 4:5 Verticale</button>' +
+            '<button data-fmt="1920">\u2016 9:16 Storia</button>' +
+          '</div>' +
           '<div class="vb-sm-config-row">' +
             '<label>Tono</label>' +
             '<button class="active" data-tone="professional">Professionale</button>' +
@@ -1425,6 +1458,16 @@ body.grav-admin-page{ padding-bottom:58px!important; }
         btn.classList.add('active'); activeTab = btn.getAttribute('data-tab');
         document.getElementById('vb-sm-panel-text').hidden    = (activeTab !== 'text');
         document.getElementById('vb-sm-panel-article').hidden = (activeTab !== 'article');
+      });
+    });
+
+    /* Formato */
+    modal.querySelectorAll('[data-fmt]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        modal.querySelectorAll('[data-fmt]').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        _smFormatH = parseInt(btn.getAttribute('data-fmt'), 10);
+        if (_smSlides.length) renderPreview(); /* re-render se ci sono slide */
       });
     });
 
@@ -1481,19 +1524,64 @@ body.grav-admin-page{ padding-bottom:58px!important; }
         });
     });
 
+    function showLightbox(startIdx) {
+      var existing = document.getElementById('vb-sm-lightbox');
+      if (existing) existing.remove();
+      var lb = document.createElement('div');
+      lb.id = 'vb-sm-lightbox'; lb.className = 'show';
+      lb.innerHTML =
+        '<button class="vb-lb-close">\u00D7</button>' +
+        '<canvas id="vb-lb-cv"></canvas>' +
+        '<div class="vb-lb-nav">' +
+          '<button id="vb-lb-prev">\u2190</button>' +
+          '<span class="vb-lb-counter" id="vb-lb-counter"></span>' +
+          '<button id="vb-lb-next">\u2192</button>' +
+        '</div>';
+      document.body.appendChild(lb);
+      var cur = startIdx;
+      function drawLb() {
+        var cv = document.getElementById('vb-lb-cv');
+        smRender(cv, _smSlides[cur], cur, _smFormatH);
+        var maxW = Math.min(window.innerWidth - 40, 540);
+        var maxH = window.innerHeight - 120;
+        var scaleW = maxW / 1080;
+        var scaleH = maxH / _smFormatH;
+        var scale  = Math.min(scaleW, scaleH);
+        cv.style.width  = Math.round(1080 * scale) + 'px';
+        cv.style.height = Math.round(_smFormatH * scale) + 'px';
+        document.getElementById('vb-lb-counter').textContent = (cur + 1) + ' / ' + _smSlides.length;
+      }
+      drawLb();
+      lb.querySelector('.vb-lb-close').addEventListener('click', function(){ lb.remove(); });
+      lb.addEventListener('click', function(e){ if (e.target === lb) lb.remove(); });
+      document.getElementById('vb-lb-prev').addEventListener('click', function(){ cur = (cur - 1 + _smSlides.length) % _smSlides.length; drawLb(); });
+      document.getElementById('vb-lb-next').addEventListener('click', function(){ cur = (cur + 1) % _smSlides.length; drawLb(); });
+      document.addEventListener('keydown', function kd(e){
+        if (e.key === 'Escape'){ lb.remove(); document.removeEventListener('keydown', kd); }
+        if (e.key === 'ArrowRight'){ cur = (cur + 1) % _smSlides.length; drawLb(); }
+        if (e.key === 'ArrowLeft') { cur = (cur - 1 + _smSlides.length) % _smSlides.length; drawLb(); }
+      });
+    }
+
     function renderPreview() {
       document.getElementById('vb-sm-preview').hidden = false;
       var strip = document.getElementById('vb-sm-slides-strip');
       strip.innerHTML = '';
+      var thumbH = Math.round(180 * (_smFormatH / 1080));
       vbEnsureFonts(function(){
         _smSlides.forEach(function(slide, i){
           var wrap = document.createElement('div');
           wrap.className = 'vb-sm-slide-wrap' + (i === 0 ? ' active' : '');
+          wrap.title = 'Clicca per ingrandire';
           var cv = document.createElement('canvas');
-          smRender(cv, slide, i); wrap.appendChild(cv); strip.appendChild(wrap);
+          smRender(cv, slide, i, _smFormatH);
+          cv.style.width  = '180px';
+          cv.style.height = thumbH + 'px';
+          wrap.appendChild(cv); strip.appendChild(wrap);
           wrap.addEventListener('click', function(){
             strip.querySelectorAll('.vb-sm-slide-wrap').forEach(function(w){ w.classList.remove('active'); });
             wrap.classList.add('active');
+            showLightbox(i);
           });
         });
       });
@@ -1525,7 +1613,7 @@ body.grav-admin-page{ padding-bottom:58px!important; }
           var promises = _smSlides.map(function(slide, i){
             return new Promise(function(resolve){
               var cv = document.createElement('canvas');
-              smRender(cv, slide, i);
+              smRender(cv, slide, i, _smFormatH);
               cv.toBlob(function(blob){
                 zip.file('slide-' + String(i+1).padStart(2,'0') + '.png', blob);
                 resolve();
