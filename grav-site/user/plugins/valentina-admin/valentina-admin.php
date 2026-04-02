@@ -1316,6 +1316,7 @@ body.grav-admin-page{ padding-bottom:58px!important; }
   var _smHashtags = [];
   var _smFontsOk  = false;
   var _smFormatH  = 1080; /* 1080=1:1  1350=4:5  1920=9:16 */
+  var _smAlign    = 'center'; /* 'center' | 'left' */
 
   function vbEnsureFonts(cb) {
     if (_smFontsOk) { cb(); return; }
@@ -1375,7 +1376,10 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       ctx.textAlign = 'right'; ctx.fillText('@valentinarussobg5', W - 80, H - 44);
     }
     var PAD = 80; var CW = W - PAD * 2;
+    var al  = _smAlign; /* 'center' | 'left' */
+    var tx  = al === 'center' ? W / 2 : PAD; /* x di ancoraggio testo */
     if (slide.type === 'hook') {
+      /* Hook e CTA sempre centrati indipendentemente da _smAlign */
       smWrap(ctx, slide.title || '', W/2, cy(0.29), CW, '700 84px "Playfair Display"', 1.15, '#FFFFFF', 'center');
       smWrap(ctx, slide.subtitle || '', W/2, cy(0.52), CW, '400 34px Outfit', 1.55, 'rgba(255,255,255,0.80)', 'center');
       ctx.font = '800 26px Outfit'; ctx.fillStyle = 'rgba(255,255,255,0.55)';
@@ -1388,26 +1392,40 @@ body.grav-admin-page{ padding-bottom:58px!important; }
       ctx.font = '800 26px Outfit'; ctx.fillStyle = 'rgba(255,255,255,0.38)';
       ctx.fillText('@valentinarussobg5', W/2, H - 68);
     } else if (slide.layout === 'quote') {
-      /* Decoratore top centrato */
-      ctx.fillStyle = '#B68397'; ctx.fillRect(W/2 - 40, cy(0.138), 80, 5); ctx.borderRadius = 4;
-      smWrap(ctx, '\u201C' + (slide.quote || '') + '\u201D', W/2, cy(0.22), CW, 'italic 700 62px "Playfair Display"', 1.28, '#2C2C2C', 'center');
+      ctx.fillStyle = '#B68397';
+      if (al === 'center') { ctx.fillRect(W/2 - 40, cy(0.138), 80, 5); }
+      else { ctx.fillRect(PAD, cy(0.138), 80, 5); }
+      smWrap(ctx, '\u201C' + (slide.quote || '') + '\u201D', tx, cy(0.22), CW, 'italic 700 62px "Playfair Display"', 1.28, '#2C2C2C', al);
     } else if (slide.layout === 'list') {
-      smWrap(ctx, slide.headline || '', W/2, cy(0.175), CW, '700 54px "Playfair Display"', 1.15, '#2C2C2C', 'center');
-      /* Bullets centrati come blocco */
-      var bx = PAD + 32; var bw = CW - 32;
+      smWrap(ctx, slide.headline || '', tx, cy(0.175), CW, '700 54px "Playfair Display"', 1.15, '#2C2C2C', al);
       var by2 = cy(0.340);
-      (slide.bullets || []).slice(0,3).forEach(function(b) {
-        ctx.fillStyle = '#B68397'; ctx.beginPath();
-        ctx.arc(bx - 18, by2 - 9, 9, 0, Math.PI * 2); ctx.fill();
-        ctx.font = '400 33px Outfit'; ctx.fillStyle = '#2C2C2C'; ctx.textAlign = 'left';
-        ctx.fillText(String(b), bx, by2); by2 += 95;
-      });
+      if (al === 'center') {
+        /* Bullets: blocco centrato — calcola larghezza max per centrarlo */
+        var bullets = (slide.bullets || []).slice(0,3);
+        var bFont = '400 33px Outfit'; ctx.font = bFont;
+        var maxBW = 0;
+        bullets.forEach(function(b){ var w = ctx.measureText(smStrip(String(b))).width + 32; if(w > maxBW) maxBW = w; });
+        var bBlockX = W/2 - maxBW/2 + 20;
+        bullets.forEach(function(b){
+          ctx.fillStyle = '#B68397'; ctx.beginPath();
+          ctx.arc(bBlockX - 18, by2 - 9, 9, 0, Math.PI * 2); ctx.fill();
+          ctx.font = bFont; ctx.fillStyle = '#2C2C2C'; ctx.textAlign = 'left';
+          ctx.fillText(smStrip(String(b)), bBlockX, by2); by2 += 95;
+        });
+      } else {
+        var bx = PAD + 32;
+        (slide.bullets || []).slice(0,3).forEach(function(b){
+          ctx.fillStyle = '#B68397'; ctx.beginPath();
+          ctx.arc(bx - 18, by2 - 9, 9, 0, Math.PI * 2); ctx.fill();
+          ctx.font = '400 33px Outfit'; ctx.fillStyle = '#2C2C2C'; ctx.textAlign = 'left';
+          ctx.fillText(smStrip(String(b)), bx, by2); by2 += 95;
+        });
+      }
     } else {
-      /* Standard — testo centrato */
-      smWrap(ctx, slide.headline || '', W/2, cy(0.195), CW, '700 54px "Playfair Display"', 1.18, '#2C2C2C', 'center');
-      /* Linea decorativa centrata */
-      ctx.fillStyle = '#B68397'; ctx.fillRect(W/2 - 40, cy(0.395), 80, 4);
-      smWrap(ctx, slide.body || '', W/2, cy(0.440), CW - 40, '400 30px Outfit', 1.65, '#2C2C2C', 'center');
+      smWrap(ctx, slide.headline || '', tx, cy(0.195), CW, '700 54px "Playfair Display"', 1.18, '#2C2C2C', al);
+      if (al === 'center') { ctx.fillStyle = '#B68397'; ctx.fillRect(W/2 - 40, cy(0.395), 80, 4); }
+      else { ctx.fillStyle = '#B68397'; ctx.fillRect(PAD, cy(0.395), 80, 4); }
+      smWrap(ctx, slide.body || '', tx, cy(0.440), CW - 40, '400 30px Outfit', 1.65, '#2C2C2C', al);
     }
   }
 
@@ -1448,6 +1466,11 @@ body.grav-admin-page{ padding-bottom:58px!important; }
             '<button class="active" data-fmt="1080">\u25A0 1:1 Post</button>' +
             '<button data-fmt="1350">\u2395 4:5 Verticale</button>' +
             '<button data-fmt="1920">\u2016 9:16 Storia</button>' +
+          '</div>' +
+          '<div class="vb-sm-config-row">' +
+            '<label>Allineamento</label>' +
+            '<button class="active" data-align="center">\u2261 Centro</button>' +
+            '<button data-align="left">\u2630 Sinistra</button>' +
           '</div>' +
           '<div class="vb-sm-config-row">' +
             '<label>Tono</label>' +
@@ -1493,6 +1516,16 @@ body.grav-admin-page{ padding-bottom:58px!important; }
         btn.classList.add('active'); activeTab = btn.getAttribute('data-tab');
         document.getElementById('vb-sm-panel-text').hidden    = (activeTab !== 'text');
         document.getElementById('vb-sm-panel-article').hidden = (activeTab !== 'article');
+      });
+    });
+
+    /* Allineamento */
+    modal.querySelectorAll('[data-align]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        modal.querySelectorAll('[data-align]').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        _smAlign = btn.getAttribute('data-align');
+        if (_smSlides.length) renderPreview();
       });
     });
 
