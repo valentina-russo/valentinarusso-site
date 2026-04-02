@@ -44,6 +44,12 @@ if (!$personUrn) {
     exit;
 }
 
+// Dry run — solo verifica connessione, non pubblica nulla
+if (!empty($_POST['dry'])) {
+    echo json_encode(['ok' => true, 'dry' => true, 'message' => 'Token valido']);
+    exit;
+}
+
 // Get post data
 $text       = $_POST['text'] ?? '';
 $articleUrl = $_POST['articleUrl'] ?? '';
