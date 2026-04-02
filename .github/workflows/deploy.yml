@@ -153,6 +153,66 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/autorita-emozionale-human-design-decidere/
           dangerous-clean-slate: false
 
+      - name: Deploy articolo burnout-lavoro-energia
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/04.blog/articoli/burnout-lavoro-energia-tipo-energetico/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/burnout-lavoro-energia-tipo-energetico/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo cambio-carriera-40-anni
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/04.blog/articoli/cambio-carriera-40-anni-lavoro-giusto/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/cambio-carriera-40-anni-lavoro-giusto/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo ansia-decisionale
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/04.blog/articoli/ansia-decisionale-come-scegliere-senza-bloccarsi/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/ansia-decisionale-come-scegliere-senza-bloccarsi/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo relazione-ti-svuota
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/04.blog/articoli/relazione-ti-svuota-energia-compatibilita/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/relazione-ti-svuota-energia-compatibilita/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo freelance-sempre-stanco
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/04.blog/articoli/freelance-sempre-stanco-energia-proiettore/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/freelance-sempre-stanco-energia-proiettore/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo farsi-valere-lavoro
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/04.blog/articoli/farsi-valere-lavoro-senza-forzare/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/farsi-valere-lavoro-senza-forzare/
+          dangerous-clean-slate: false
+
       - name: Deploy articolo bg5-selezione-personale
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -181,6 +241,46 @@ jobs:
           password: ${{ secrets.ARUBA_FTP_PASS }}
           local-dir: ./grav-site/user/pages/05.aziende/02.blog/bg5-partnership-scegliere-socio/
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/bg5-partnership-scegliere-socio/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo team-non-funziona
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/team-non-funziona-dinamiche-gruppo/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/team-non-funziona-dinamiche-gruppo/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo collega-tossico
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/collega-tossico-energia-incompatibile/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/collega-tossico-energia-incompatibile/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo assumere-persona-sbagliata
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/assumere-persona-sbagliata-selezione-design/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/assumere-persona-sbagliata-selezione-design/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo leadership-naturale
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/leadership-naturale-chi-guida-davvero/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/leadership-naturale-chi-guida-davvero/
           dangerous-clean-slate: false
 
       - name: Deploy location page consulente-bg5-torino
