@@ -73,12 +73,9 @@ grav-site/user/pages/04.blog/articoli/*
 !grav-site/user/pages/04.blog/articoli/12-profili-human-design-chi-sei
 !grav-site/user/pages/04.blog/articoli/amor-proprio-human-design
 !grav-site/user/pages/04.blog/articoli/autorita-emozionale-human-design-decidere
-!grav-site/user/pages/04.blog/articoli/burnout-lavoro-energia-tipo-energetico
-!grav-site/user/pages/04.blog/articoli/cambio-carriera-40-anni-lavoro-giusto
 !grav-site/user/pages/04.blog/articoli/ansia-decisionale-come-scegliere-senza-bloccarsi
 !grav-site/user/pages/04.blog/articoli/relazione-ti-svuota-energia-compatibilita
-!grav-site/user/pages/04.blog/articoli/freelance-sempre-stanco-energia-proiettore
-!grav-site/user/pages/04.blog/articoli/farsi-valere-lavoro-senza-forzare
+# burnout, cambio-carriera, farsi-valere, freelance: spostati in 05.aziende/02.blog
 # Eccezioni: nuovi articoli bozza aziende (deployati via FTP)
 !grav-site/user/pages/05.aziende
 grav-site/user/pages/05.aziende/*

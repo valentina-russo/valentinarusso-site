@@ -9,7 +9,7 @@ tags:
     - 'Human Design'
     - 'Aura'
     - 'Compatibilità'
-featured_image: /user/images/blog/placeholder.jpg
+featured_image: relazione-energia-compatibilita.png
 image_alt: "Due silhouette con campi energetici che si sovrappongono, rappresentando la dinamica energetica nelle relazioni"
 image_title: "Relazioni e compatibilità energetica"
 image_caption: "La tua energia cambia in base a chi hai intorno."
@@ -34,28 +34,28 @@ faq:
 
 Ci sono relazioni che ti lasciano più stanco di una giornata di lavoro, e non perché litigate o perché il rapporto sia conflittuale in modo evidente. Puoi passare una serata con qualcuno e tornare a casa con la sensazione di essere stato svuotato da dentro, una stanchezza che non corrisponde a nulla di specifico che sia accaduto. Il consiglio abituale è stabilire confini, comunicare meglio, lavorare su te stesso. Sono tutte cose utili, ma ignorano un livello più fondamentale del problema.
 
-Il tuo campo energetico cambia fisicamente in base a chi hai vicino. Nel sistema Human Design, ogni persona ha un'aura con una forma e una meccanica specifica, e quando due aure si sovrappongono, entrambe le persone sperimentano energie che non avrebbero da sole. Questa non è una metafora: è una meccanica calcolabile dalla carta di nascita di entrambi.
+Il tuo **campo energetico** cambia fisicamente in base a chi hai vicino. Nel sistema Human Design, ogni persona ha un'**aura** con una forma e una meccanica specifica, e quando due aure si sovrappongono, entrambe le persone sperimentano energie che non avrebbero da sole. Questa non è una metafora: è una meccanica calcolabile dalla carta di nascita di entrambi.
 
 ## Come funziona il condizionamento energetico tra due persone?
 
 La carta Human Design mostra nove centri energetici, ognuno legato a una funzione specifica: identità, emozioni, intuito, comunicazione, pressione mentale, ispirazione, volontà, energia vitale e direzione. Ogni centro può essere definito (colorato nella carta, energia fissa e costante) oppure aperto (bianco, ricettivo, amplifica ciò che riceve dall'esterno).
 
-Quando stai con una persona che ha un centro definito che tu hai aperto, il tuo corpo amplifica l'energia di quel centro. Se il tuo partner ha il centro emozionale definito e tu lo hai aperto, le sue emozioni entrano nel tuo campo e le senti amplificate: la sua irritazione diventa la tua ansia, il suo entusiasmo diventa la tua euforia, e il suo umore basso diventa il tuo esaurimento. Il problema è che la maggior parte delle persone non sa di stare amplificando energia altrui e la scambia per la propria.
+Quando stai con una persona che ha un centro definito che tu hai aperto, il tuo corpo amplifica l'energia di quel centro. Se il tuo partner ha il **centro emozionale** definito e tu lo hai aperto, le sue emozioni entrano nel tuo campo e le senti amplificate: la sua irritazione diventa la tua ansia, il suo entusiasmo diventa la tua euforia, e il suo umore basso diventa il tuo esaurimento. Il problema è che la maggior parte delle persone non sa di stare amplificando energia altrui e la scambia per la propria.
 
-Questo meccanismo spiega perché con certe persone ti senti stranamente agitato, motivato, insicuro o energizzato in modi che non corrispondono a come ti senti quando sei solo. I tuoi centri aperti funzionano come antenne, e chi hai intorno determina cosa quelle antenne ricevono.
+Questo meccanismo spiega perché con certe persone ti senti stranamente agitato, motivato, insicuro o energizzato in modi che non corrispondono a come ti senti quando sei solo. I tuoi **centri aperti** funzionano come antenne, e chi hai intorno determina cosa quelle antenne ricevono.
 
 ## Perché alcune relazioni ti caricano e altre ti svuotano?
 
 La differenza sta nella combinazione specifica dei centri. Quando i centri aperti di una persona vengono definiti in modo armonico dal partner, il risultato è un'esperienza di completezza: senti energie nuove che ti espandono, impari cose su te stesso attraverso l'altra persona, e la relazione genera crescita per entrambi. Questo accade quando la consapevolezza è presente, cioè quando sai che stai sperimentando l'energia dell'altro e non la confondi con la tua.
 
-Quando invece l'amplificazione è inconsapevole, il centro aperto diventa un punto di condizionamento: il tuo corpo cerca di gestire un'energia che non gli appartiene e si esaurisce nel tentativo. Il centro emozionale aperto cerca di placare emozioni che non sono sue. Il centro del cuore aperto cerca di dimostrare il proprio valore per compensare la volontà dell'altro. Il centro sacrale aperto cerca di tenere il ritmo lavorativo del partner che ha energia sostenibile.
+Quando invece l'amplificazione è inconsapevole, il centro aperto diventa un punto di **condizionamento**: il tuo corpo cerca di gestire un'energia che non gli appartiene e si esaurisce nel tentativo. Il centro emozionale aperto cerca di placare emozioni che non sono sue. Il centro del cuore aperto cerca di dimostrare il proprio valore per compensare la volontà dell'altro. Il centro sacrale aperto cerca di tenere il ritmo lavorativo del partner che ha energia sostenibile.
 
 Nessuna di queste dinamiche è "colpa" di qualcuno. Sono il risultato meccanico della sovrapposizione di due campi energetici, e si risolvono con la consapevolezza di cosa sta succedendo, non con la terapia di coppia generica.
 
 ## Cosa fare quando una relazione ti sta svuotando?
 
-Il primo passo è calcolare entrambe le carte. La [carta Human Design gratuita](/genera-carta) mostra i centri definiti e aperti di ciascuno. Confrontando le due carte si vede immediatamente dove avviene l'amplificazione: se il tuo centro emozionale è aperto e quello del partner è definito, sai che le emozioni intense che senti quando siete insieme sono energia che stai amplificando dal suo campo.
+Il primo passo è calcolare entrambe le carte. La [carta Human Design gratuita](/genera-carta) mostra i **centri definiti** e aperti di ciascuno. Confrontando le due carte si vede immediatamente dove avviene l'amplificazione: se il tuo centro emozionale è aperto e quello del partner è definito, sai che le emozioni intense che senti quando siete insieme sono energia che stai amplificando dal suo campo.
 
 Il secondo passo è sperimentare la differenza. Passa qualche ora da solo e osserva come cambia il tuo stato: la tensione che sentivi è ancora lì o se ne è andata? L'agitazione persiste o si dissolve? Questa verifica empirica ti mostra in tempo reale quanto del tuo stato emotivo è tuo e quanto è assorbito dall'esterno.
 
-Il terzo passo, per chi vuole mappare la dinamica in profondità, è la lettura di coppia che analizza il composito (la combinazione dei due Design) e identifica canali elettromagnetici, attrazioni e punti di attrito strutturali. Questa mappa non dice se una relazione è "giusta" o "sbagliata" ma mostra con precisione dove ciascuno dei due sta sperimentando condizionamento, e la consapevolezza di quel meccanismo cambia radicalmente il modo in cui i due partner interagiscono.
+Il terzo passo, per chi vuole mappare la dinamica in profondità, è la **lettura di coppia** che analizza il **composito** (la combinazione dei due Design) e identifica canali elettromagnetici, attrazioni e punti di attrito strutturali. Questa mappa non dice se una relazione è "giusta" o "sbagliata" ma mostra con precisione dove ciascuno dei due sta sperimentando condizionamento, e la consapevolezza di quel meccanismo cambia radicalmente il modo in cui i due partner interagiscono.

@@ -9,7 +9,7 @@ tags:
     - 'Human Design'
     - 'Autorità Interiore'
     - 'Autorità Emozionale'
-featured_image: /user/images/blog/placeholder.jpg
+featured_image: ansia-decisionale.png
 image_alt: "Persona a un bivio che rappresenta l'ansia decisionale e la paralisi da scelta"
 image_title: "Ansia decisionale e Autorità Interiore"
 image_caption: "La paralisi decisionale ha una causa precisa nel tuo Design."
@@ -35,9 +35,9 @@ faq:
         answer: "No. Human Design non è psicoterapia e non tratta disturbi clinici. È un sistema di analisi della meccanica individuale che può spiegare perché certi processi decisionali generano ansia in certe persone. Se l'ansia decisionale è accompagnata da sintomi che interferiscono significativamente con la vita quotidiana, il supporto psicologico resta il percorso appropriato."
 ---
 
-Stai per firmare un contratto e ti blocchi. Ti propongono un progetto e rimandi la risposta per settimane. Devi scegliere tra due opzioni e finisci per non sceglierne nessuna, sperando che il tempo decida al posto tuo. L'ansia decisionale è una delle esperienze più comuni e meno comprese della vita adulta, e il consiglio che ricevi di solito ("fidati del tuo istinto", "segui il cuore", "fai una lista pro e contro") è così generico da essere inutile per chiunque abbia provato a seguirlo senza successo.
+Stai per firmare un contratto e ti blocchi. Ti propongono un progetto e rimandi la risposta per settimane. Devi scegliere tra due opzioni e finisci per non sceglierne nessuna, sperando che il tempo decida al posto tuo. L'**ansia decisionale** è una delle esperienze più comuni e meno comprese della vita adulta, e il consiglio che ricevi di solito ("fidati del tuo istinto", "segui il cuore", "fai una lista pro e contro") è così generico da essere inutile per chiunque abbia provato a seguirlo senza successo.
 
-Il punto che sfugge alla maggior parte delle persone è che il sistema decisionale del corpo funziona in modo radicalmente diverso da individuo a individuo. Nel sistema Human Design, questa differenza si chiama Autorità Interiore, e scoprire la tua cambia il modo in cui affronti ogni scelta.
+Il punto che sfugge alla maggior parte delle persone è che il sistema decisionale del corpo funziona in modo radicalmente diverso da individuo a individuo. Nel sistema Human Design, questa differenza si chiama **Autorità Interiore**, e scoprire la tua cambia il modo in cui affronti ogni scelta.
 
 ## Perché la mente è il posto peggiore da cui decidere?
 
@@ -49,7 +49,7 @@ Nel sistema Human Design, la mente ha un ruolo prezioso ma specifico: è un'auto
 
 ## Come funziona l'Autorità Emozionale (e perché il 50% delle persone decide "lentamente")?
 
-Circa metà della popolazione mondiale ha quello che in Human Design si chiama Autorità Emozionale. Queste persone hanno il centro del Plesso Solare (il centro emozionale) definito nella loro carta, il che significa che vivono un'onda emotiva costante: alti, bassi, e tutto ciò che sta nel mezzo. L'onda non si ferma mai e non si può controllare, si può solo imparare a riconoscerla.
+Circa metà della popolazione mondiale ha quello che in Human Design si chiama **Autorità Emozionale**. Queste persone hanno il centro del Plesso Solare (il centro emozionale) definito nella loro carta, il che significa che vivono un'**onda emotiva** costante: alti, bassi, e tutto ciò che sta nel mezzo. L'onda non si ferma mai e non si può controllare, si può solo imparare a riconoscerla.
 
 Per chi ha Autorità Emozionale, la risposta corretta a una decisione importante emerge solo quando l'onda si è stabilizzata abbastanza da vedere con chiarezza. Decidere durante un picco emotivo (entusiasmo, innamoramento, eccitazione per un'opportunità) è tanto rischioso quanto decidere durante un punto basso (paura, scoraggiamento, frustrazione), perché in entrambi i casi l'onda sta distorcendo la percezione. La chiarezza arriva in una zona intermedia, una sensazione meno intensa ma più stabile, e ci vuole tempo per raggiungerla.
 
@@ -57,9 +57,9 @@ Questo significa che se hai Autorità Emozionale, l'ansia che senti prima di una
 
 ## Chi decide velocemente e chi deve aspettare?
 
-Chi ha Autorità Sacrale (circa il 35% della popolazione, tipicamente i Generatori e i Generatori Manifestanti con Plesso Solare aperto) ha un sistema decisionale che risponde in tempo reale. Il corpo produce un sì o un no viscerale quasi istantaneo di fronte a una proposta concreta, e quella risposta è affidabile. L'ansia di queste persone nasce quasi sempre dal non fidarsi della risposta del corpo e dal lasciare che la mente la sovrascriva con dubbi e razionalizzazioni.
+Chi ha **Autorità Sacrale** (circa il 35% della popolazione, tipicamente i Generatori e i Generatori Manifestanti con Plesso Solare aperto) ha un sistema decisionale che risponde in tempo reale. Il corpo produce un sì o un no viscerale quasi istantaneo di fronte a una proposta concreta, e quella **risposta viscerale** è affidabile. L'ansia di queste persone nasce quasi sempre dal non fidarsi della risposta del corpo e dal lasciare che la mente la sovrascriva con dubbi e razionalizzazioni.
 
-Chi ha Autorità Splenica (circa il 10%) riceve un segnale intuitivo che arriva una sola volta, nel momento esatto in cui si confronta con la situazione. È un sussurro, una sensazione sottile e fugace, e se la persona lo ignora aspettando una conferma dalla mente, il segnale scompare e viene sostituito da un ragionamento che può portare in qualsiasi direzione.
+Chi ha **Autorità Splenica** (circa il 10%) riceve un segnale intuitivo che arriva una sola volta, nel momento esatto in cui si confronta con la situazione. È un sussurro, un'**intuizione** sottile e fugace, e se la persona lo ignora aspettando una conferma dalla mente, il segnale scompare e viene sostituito da un ragionamento che può portare in qualsiasi direzione.
 
 Ci sono anche autorità più rare (Autorità del Sé, Autorità Mentale proiettata, Autorità Lunare per i Riflettori) che funzionano con meccanismi ancora diversi, ma il principio di base è lo stesso: il corpo sa prima della mente, e ogni corpo sa in modo diverso.
 
