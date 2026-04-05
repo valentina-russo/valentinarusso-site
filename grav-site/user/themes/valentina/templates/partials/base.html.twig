@@ -31,8 +31,10 @@
     {# GEO meta tags #}
     {% if page.header.geo_location is defined and page.header.geo_location %}
     <meta name="geo.placename" content="{{ page.header.geo_location }}">
-    <meta name="geo.region" content="IT">
+    {% else %}
+    <meta name="geo.placename" content="Torino, Italia">
     {% endif %}
+    <meta name="geo.region" content="IT">
 
     {# Open Graph #}
     <meta property="og:title" content="{% block og_title %}{{ page.header.seo_title ?? page.title }}{% endblock %}">
@@ -89,6 +91,7 @@
       "@type": "Person",
       "@id": "{{ grav.base_url_absolute }}/#valentina-russo",
       "name": "Valentina Russo",
+      "alternateName": "Valentina Russo BG5",
       "givenName": "Valentina",
       "familyName": "Russo",
       "url": "{{ grav.base_url_absolute }}",
@@ -133,7 +136,8 @@
       "@context": "https://schema.org",
       "@type": "Organization",
       "@id": "{{ grav.base_url_absolute }}/#organization",
-      "name": "Valentina Russo — BG5® Consultant",
+      "name": "Valentina Russo",
+      "alternateName": "Valentina Russo BG5 Consultant",
       "url": "{{ grav.base_url_absolute }}",
       "logo": "{{ grav.base_url_absolute }}/user/pages/assets/logo.png",
       "description": "BG5® Business Institute Certified Consultant e Human Design Analyst specializzata in career, relazioni e business strategy.",
@@ -175,29 +179,72 @@
         "@id": "{{ grav.base_url_absolute }}/#valentina-russo"
       },
       "areaServed": "IT",
-      "hasOfferingDetails": [
-        {
-          "@type": "Offering",
-          "name": "Prima Lettura Human Design",
-          "description": "Sessione intensiva di 2 ore per decodificare il tuo Tipo Energetico, Strategia e Autorità interna.",
-          "price": "210",
-          "priceCurrency": "EUR"
-        },
-        {
-          "@type": "Offering",
-          "name": "Percorsi BG5® Business",
-          "description": "Consulenze per liberi professionisti e imprenditori su career optimization e business strategy.",
-          "price": "1800",
-          "priceCurrency": "EUR"
-        },
-        {
-          "@type": "Offering",
-          "name": "Vita e Relazioni",
-          "description": "Percorsi per ripulire condizionamenti e comprendere relazioni con consapevolezza del design.",
-          "price": "500",
-          "priceCurrency": "EUR"
-        }
-      ]
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Servizi BG5® e Human Design",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Prima Lettura Human Design",
+              "description": "Sessione intensiva di 2 ore per decodificare Tipo Energetico, Strategia e Autorità interna."
+            },
+            "price": "210",
+            "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Oltre l'Ombra",
+              "description": "Percorso di 3 sessioni da 90 min. Decondiciona schemi ripetitivi e frustrazioni."
+            },
+            "price": "500",
+            "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Ri-Conoscersi",
+              "description": "Percorso individuale di 10 sessioni da 90 min. Esplora il tema generale del contributo personale."
+            },
+            "price": "1200",
+            "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Sinfonia a Due",
+              "description": "Percorso di coppia di 9 sessioni da 90 min. Analisi connessioni elettromagnetiche tra i design."
+            },
+            "price": "1800",
+            "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "BG5® Business Blueprint",
+              "description": "Percorso di 15 sessioni per liberi professionisti e imprenditori su career optimization e business strategy."
+            },
+            "price": "1800",
+            "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "BG5® Partnership Dynamics",
+              "description": "Percorso per soci e co-fondatori. Compatibilità energetica e dinamiche comunicative tra partner."
+            },
+            "price": "2200",
+            "priceCurrency": "EUR"
+          }
+        ]
+      }
     }
     </script>
 
@@ -205,13 +252,16 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Valentina Russo — BG5® Consultant & Human Design Analyst",
+      "@type": "ProfessionalService",
+      "name": "Valentina Russo",
+      "alternateName": "Valentina Russo BG5 Consultant",
       "url": "{{ grav.base_url_absolute }}",
       "image": "{{ grav.base_url_absolute }}/user/pages/assets/valentina.jpg",
       "description": "Consulente BG5® certificata specializzata in career coaching, business strategy e human design per professionisti e imprenditori italiani.",
       "address": {
         "@type": "PostalAddress",
+        "addressLocality": "Torino",
+        "addressRegion": "Piemonte",
         "addressCountry": "IT"
       },
       "areaServed": ["IT", "Italia"],
@@ -272,6 +322,38 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Puoi generare la tua carta gratuitamente sul sito nella sezione 'Genera la tua carta'. Avrai bisogno di data, ora e luogo di nascita. La carta ti mostra il tuo Tipo, Strategia e Autorità, i primi passi per comprendere come sei progettato."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quanto costa una consulenza con Valentina Russo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La Prima Lettura Human Design costa €210 (sessione di 2 ore). I percorsi approfonditi vanno da €500 (Oltre l'Ombra, 3 sessioni) a €2.200 (BG5® Partnership Dynamics). Tutti i prezzi sono su valentinarussobg5.com/servizi."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Le consulenze di Valentina Russo si possono fare online?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sì. Tutte le sessioni sono disponibili in videochiamata per clienti in tutta Italia e all'estero. Valentina Russo ha sede a Torino e opera online in tutta Italia."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "BG5® è adatto anche per le aziende e i team?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sì. BG5® nasce come sistema applicato al contesto professionale e aziendale. Valentina Russo offre servizi per team aziendali: analisi della composizione energetica del gruppo, selezione del personale, identificazione dei leader naturali e compatibilità tra soci."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual è la differenza tra Human Design e BG5®?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Human Design analizza la persona nella sua totalità: vita, relazioni, scopo. BG5® è l'applicazione professionale dello stesso sistema, con focus specifico su carriera, team e business. Stessa meccanica energetica, contesto applicativo diverso."
           }
         }
       ]

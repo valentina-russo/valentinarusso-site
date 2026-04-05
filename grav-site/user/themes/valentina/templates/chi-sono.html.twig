@@ -2,6 +2,20 @@
 
 {% block title %}Chi Sono | Valentina Russo{% endblock %}
 
+{% block schema %}
+{{ parent() }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "dateModified": "{{ page.modified|date('c') }}",
+  "mainEntity": {
+    "@id": "{{ grav.base_url_absolute }}/#valentina-russo"
+  }
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <main class="section-padding">
     <div class="container">

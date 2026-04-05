@@ -2,6 +2,124 @@
 
 {% block title %}Servizi | Valentina Russo{% endblock %}
 
+{% block schema %}
+{{ parent() }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Servizi di Consulenza BG5® e Human Design — Valentina Russo",
+  "description": "Catalogo completo dei servizi di consulenza BG5® e Human Design di Valentina Russo per privati e professionisti.",
+  "url": "{{ grav.base_url_absolute }}/servizi",
+  "numberOfItems": 6,
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "Service",
+        "name": "Prima Lettura Human Design",
+        "description": "Sessione di 2 ore per decodificare il tuo Tipo Energetico, Strategia, Autorità Interna e Profilo. Punto di ingresso obbligato. Include registrazione audio/video e materiali PDF personalizzati.",
+        "url": "{{ grav.base_url_absolute }}/servizi#percorso",
+        "provider": { "@id": "{{ grav.base_url_absolute }}/#valentina-russo" },
+        "offers": {
+          "@type": "Offer",
+          "price": "210",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "Service",
+        "name": "Oltre l'Ombra",
+        "description": "Percorso di 3 sessioni da 90 minuti. Decondiciona schemi ripetitivi e frustrazioni. Area: Vita e Relazioni.",
+        "url": "{{ grav.base_url_absolute }}/servizi#relazioni",
+        "provider": { "@id": "{{ grav.base_url_absolute }}/#valentina-russo" },
+        "offers": {
+          "@type": "Offer",
+          "price": "500",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@type": "Service",
+        "name": "Ri-Conoscersi",
+        "description": "Percorso individuale di 10 sessioni da 90 minuti. Esplora il tema generale del contributo e come manifesti il tuo scopo nel mondo.",
+        "url": "{{ grav.base_url_absolute }}/servizi#relazioni",
+        "provider": { "@id": "{{ grav.base_url_absolute }}/#valentina-russo" },
+        "offers": {
+          "@type": "Offer",
+          "price": "1200",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "Service",
+        "name": "Sinfonia a Due",
+        "description": "Percorso di coppia di 9 sessioni da 90 minuti. Analisi delle connessioni elettromagnetiche tra i due design.",
+        "url": "{{ grav.base_url_absolute }}/servizi#relazioni",
+        "provider": { "@id": "{{ grav.base_url_absolute }}/#valentina-russo" },
+        "offers": {
+          "@type": "Offer",
+          "price": "1800",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "item": {
+        "@type": "Service",
+        "name": "BG5® Business Blueprint",
+        "description": "Percorso di 15 sessioni da 90 minuti per liberi professionisti, consulenti e imprenditori indipendenti. Ottimizzazione della carriera e della strategia business.",
+        "url": "{{ grav.base_url_absolute }}/servizi#carriera",
+        "provider": { "@id": "{{ grav.base_url_absolute }}/#valentina-russo" },
+        "offers": {
+          "@type": "Offer",
+          "price": "1800",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "item": {
+        "@type": "Service",
+        "name": "BG5® Partnership Dynamics",
+        "description": "Percorso per soci e co-fondatori. Analisi della compatibilità energetica e delle dinamiche comunicative nella partnership.",
+        "url": "{{ grav.base_url_absolute }}/servizi#carriera",
+        "provider": { "@id": "{{ grav.base_url_absolute }}/#valentina-russo" },
+        "offers": {
+          "@type": "Offer",
+          "price": "2200",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock"
+        }
+      }
+    }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <main>
     <section class="section-padding">
