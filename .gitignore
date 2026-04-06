@@ -74,8 +74,7 @@ grav-site/user/pages/04.blog/articoli/*
 !grav-site/user/pages/04.blog/articoli/amor-proprio-human-design
 !grav-site/user/pages/04.blog/articoli/autorita-emozionale-human-design-decidere
 !grav-site/user/pages/04.blog/articoli/ansia-decisionale-come-scegliere-senza-bloccarsi
-!grav-site/user/pages/04.blog/articoli/relazione-ti-svuota-energia-compatibilita
-# burnout, cambio-carriera, farsi-valere, freelance: spostati in 05.aziende/02.blog
+# burnout, cambio-carriera, farsi-valere, freelance, relazione-ti-svuota: spostati in 05.aziende/02.blog
 # Eccezioni: nuovi articoli bozza aziende (deployati via FTP)
 !grav-site/user/pages/05.aziende
 grav-site/user/pages/05.aziende/*
@@ -88,6 +87,7 @@ grav-site/user/pages/05.aziende/02.blog/*
 !grav-site/user/pages/05.aziende/02.blog/collega-tossico-energia-incompatibile
 !grav-site/user/pages/05.aziende/02.blog/assumere-persona-sbagliata-selezione-design
 !grav-site/user/pages/05.aziende/02.blog/leadership-naturale-chi-guida-davvero
+!grav-site/user/pages/05.aziende/02.blog/relazione-ti-svuota-energia-compatibilita
 # Eccezione: assets statici (foto, logo) — deployati via FTP
 !grav-site/user/pages/assets
 !grav-site/user/pages/assets/**
