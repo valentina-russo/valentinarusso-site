@@ -98,7 +98,7 @@ gpm:
     method: auto
     verify_peer: true
 
-reverse_proxy_setup: false
+reverse_proxy_setup: true
 
 languages:
     supported:

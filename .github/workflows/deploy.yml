@@ -442,3 +442,16 @@ jobs:
           if [ "$STATUS" != "200" ]; then
             echo "Attenzione: cache-clear ha restituito $STATUS (non bloccante)"
           fi
+
+      - name: Purge Cloudflare CDN cache
+        if: always()
+        run: |
+          CF_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/purge_cache" \
+            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}')
+          echo "Cloudflare purge HTTP status: $CF_STATUS"
+          if [ "$CF_STATUS" != "200" ]; then
+            echo "Attenzione: Cloudflare purge ha restituito $CF_STATUS (non bloccante)"
+          fi
