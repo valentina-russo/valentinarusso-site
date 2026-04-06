@@ -153,26 +153,6 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/autorita-emozionale-human-design-decidere/
           dangerous-clean-slate: false
 
-      - name: Deploy articolo burnout-lavoro-energia
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.ARUBA_FTP_HOST }}
-          username: ${{ secrets.ARUBA_FTP_USER }}
-          password: ${{ secrets.ARUBA_FTP_PASS }}
-          local-dir: ./grav-site/user/pages/04.blog/articoli/burnout-lavoro-energia-tipo-energetico/
-          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/burnout-lavoro-energia-tipo-energetico/
-          dangerous-clean-slate: false
-
-      - name: Deploy articolo cambio-carriera-40-anni
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.ARUBA_FTP_HOST }}
-          username: ${{ secrets.ARUBA_FTP_USER }}
-          password: ${{ secrets.ARUBA_FTP_PASS }}
-          local-dir: ./grav-site/user/pages/04.blog/articoli/cambio-carriera-40-anni-lavoro-giusto/
-          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/cambio-carriera-40-anni-lavoro-giusto/
-          dangerous-clean-slate: false
-
       - name: Deploy articolo ansia-decisionale
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -181,36 +161,6 @@ jobs:
           password: ${{ secrets.ARUBA_FTP_PASS }}
           local-dir: ./grav-site/user/pages/04.blog/articoli/ansia-decisionale-come-scegliere-senza-bloccarsi/
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/ansia-decisionale-come-scegliere-senza-bloccarsi/
-          dangerous-clean-slate: false
-
-      - name: Deploy articolo relazione-ti-svuota
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.ARUBA_FTP_HOST }}
-          username: ${{ secrets.ARUBA_FTP_USER }}
-          password: ${{ secrets.ARUBA_FTP_PASS }}
-          local-dir: ./grav-site/user/pages/04.blog/articoli/relazione-ti-svuota-energia-compatibilita/
-          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/relazione-ti-svuota-energia-compatibilita/
-          dangerous-clean-slate: false
-
-      - name: Deploy articolo freelance-sempre-stanco
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.ARUBA_FTP_HOST }}
-          username: ${{ secrets.ARUBA_FTP_USER }}
-          password: ${{ secrets.ARUBA_FTP_PASS }}
-          local-dir: ./grav-site/user/pages/04.blog/articoli/freelance-sempre-stanco-energia-proiettore/
-          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/freelance-sempre-stanco-energia-proiettore/
-          dangerous-clean-slate: false
-
-      - name: Deploy articolo farsi-valere-lavoro
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.ARUBA_FTP_HOST }}
-          username: ${{ secrets.ARUBA_FTP_USER }}
-          password: ${{ secrets.ARUBA_FTP_PASS }}
-          local-dir: ./grav-site/user/pages/04.blog/articoli/farsi-valere-lavoro-senza-forzare/
-          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/farsi-valere-lavoro-senza-forzare/
           dangerous-clean-slate: false
 
       - name: Deploy articolo bg5-selezione-personale
@@ -281,6 +231,56 @@ jobs:
           password: ${{ secrets.ARUBA_FTP_PASS }}
           local-dir: ./grav-site/user/pages/05.aziende/02.blog/leadership-naturale-chi-guida-davvero/
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/leadership-naturale-chi-guida-davvero/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo relazione-ti-svuota (aziende)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/relazione-ti-svuota-energia-compatibilita/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/relazione-ti-svuota-energia-compatibilita/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo burnout-lavoro-energia (aziende)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/burnout-lavoro-energia-tipo-energetico/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/burnout-lavoro-energia-tipo-energetico/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo cambio-carriera-40-anni (aziende)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/cambio-carriera-40-anni-lavoro-giusto/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/cambio-carriera-40-anni-lavoro-giusto/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo freelance-sempre-stanco (aziende)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/freelance-sempre-stanco-energia-proiettore/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/freelance-sempre-stanco-energia-proiettore/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo farsi-valere-lavoro (aziende)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/farsi-valere-lavoro-senza-forzare/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/farsi-valere-lavoro-senza-forzare/
           dangerous-clean-slate: false
 
       - name: Deploy location page consulente-bg5-torino
@@ -443,15 +443,3 @@ jobs:
             echo "Attenzione: cache-clear ha restituito $STATUS (non bloccante)"
           fi
 
-      - name: Purge Cloudflare CDN cache
-        if: always()
-        run: |
-          CF_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/purge_cache" \
-            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            --data '{"purge_everything":true}')
-          echo "Cloudflare purge HTTP status: $CF_STATUS"
-          if [ "$CF_STATUS" != "200" ]; then
-            echo "Attenzione: Cloudflare purge ha restituito $CF_STATUS (non bloccante)"
-          fi
