@@ -88,6 +88,10 @@ grav-site/user/pages/05.aziende/02.blog/*
 !grav-site/user/pages/05.aziende/02.blog/assumere-persona-sbagliata-selezione-design
 !grav-site/user/pages/05.aziende/02.blog/leadership-naturale-chi-guida-davvero
 !grav-site/user/pages/05.aziende/02.blog/relazione-ti-svuota-energia-compatibilita
+!grav-site/user/pages/05.aziende/02.blog/burnout-lavoro-energia-tipo-energetico
+!grav-site/user/pages/05.aziende/02.blog/cambio-carriera-40-anni-lavoro-giusto
+!grav-site/user/pages/05.aziende/02.blog/freelance-sempre-stanco-energia-proiettore
+!grav-site/user/pages/05.aziende/02.blog/farsi-valere-lavoro-senza-forzare
 # Eccezione: assets statici (foto, logo) — deployati via FTP
 !grav-site/user/pages/assets
 !grav-site/user/pages/assets/**
