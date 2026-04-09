@@ -1,0 +1,13 @@
+# SEC-011: Block execution of PHP (and other server-side scripts) in this upload directory.
+# Files here are static assets only — no script should ever execute from this path.
+
+<FilesMatch "\.(php|php3|php4|php5|php7|phtml|phar|shtml|cgi|pl|py|rb|sh)$">
+    Require all denied
+</FilesMatch>
+
+# Belt-and-suspenders: remove PHP handler even if deny is bypassed
+<FilesMatch "\.php$">
+    SetHandler default-handler
+</FilesMatch>
+
+Options -ExecCGI -Indexes

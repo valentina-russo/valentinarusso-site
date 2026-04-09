@@ -13,12 +13,22 @@ $message = '';
 
 // Gestione Eliminazione
 if (isset($_GET['delete']) && isAdmin()) {
-    $file = $_GET['delete'];
     $cat = $_GET['cat'];
-    $path = $dirs[$cat] . '/' . $file . '.md';
-    if (file_exists($path)) {
-        unlink($path);
-        $message = "Articolo eliminato con successo!";
+    if (!isset($dirs[$cat])) {
+        $message = "Categoria non valida.";
+    } else {
+        // SEC-010: basename() strips path separators; realpath() boundary check prevents traversal
+        $safeId = basename($_GET['delete']);
+        $allowedDir = realpath($dirs[$cat]);
+        $path = $allowedDir . '/' . $safeId . '.md';
+        $resolvedPath = realpath($path);
+        // Only delete if the resolved path stays inside the allowed directory
+        if ($resolvedPath !== false && strpos($resolvedPath, $allowedDir . DIRECTORY_SEPARATOR) === 0 && file_exists($resolvedPath)) {
+            unlink($resolvedPath);
+            $message = "Articolo eliminato con successo!";
+        } else {
+            $message = "File non trovato o percorso non valido.";
+        }
     }
 }
 
@@ -41,15 +51,24 @@ if (isset($_POST['save']) && isAdmin()) {
     // Gestione Immagine
     $image = $_POST['existing_image'] ?: '/assets/placeholder.jpg';
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-        $imageName = $id . '.' . $ext;
-        $uploadDir = 'assets/blog/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0755, true);
+        // SEC-011: MIME check + extension allowlist — extension taken from MIME, NOT from filename
+        $allowedMimes = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/gif' => 'gif', 'image/webp' => 'webp'];
+        $detectedMime = mime_content_type($_FILES['image']['tmp_name']);
+        if (!isset($allowedMimes[$detectedMime])) {
+            $message = "Tipo di file non consentito. Sono accettati solo JPEG, PNG, GIF, WebP.";
+        } else {
+            // Force extension from MIME — filename from user is ignored entirely
+            $safeExt = $allowedMimes[$detectedMime];
+            // Article ID is already sanitized via preg_replace above
+            $imageName = preg_replace('/[^a-z0-9\-]/', '', $id) . '.' . $safeExt;
+            $uploadDir = 'assets/blog/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            $uploadPath = $uploadDir . $imageName;
+            move_uploaded_file($_FILES['image']['tmp_name'], $uploadPath);
+            $image = '/assets/blog/' . $imageName;
         }
-        $uploadPath = $uploadDir . $imageName;
-        move_uploaded_file($_FILES['image']['tmp_name'], $uploadPath);
-        $image = '/assets/blog/' . $imageName;
     }
 
     // Nuovi campi

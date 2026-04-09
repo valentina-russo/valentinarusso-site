@@ -65,6 +65,10 @@ export default defineConfig({
                 {
                     src: 'public/ai_bold.php',
                     dest: '.'
+                },
+                {
+                    src: 'public/assets/blog/.htaccess',
+                    dest: 'assets/blog'
                 }
             ]
         })

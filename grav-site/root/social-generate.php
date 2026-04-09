@@ -11,7 +11,8 @@ define('CONFIG_FILE', __DIR__ . '/ai-editor.config.php');
 define('HAIKU_MODEL', 'claude-haiku-4-5-20251001');
 define('CLAUDE_URL',  'https://api.anthropic.com/v1/messages');
 define('CLAUDE_VER',  '2023-06-01');
-define('ADMIN_PASS',  'ValeAdmin2026');
+// SEC-001: Read password from env var — set SOCIAL_ADMIN_PASS on Aruba hosting panel.
+define('ADMIN_PASS', getenv('SOCIAL_ADMIN_PASS') ?: 'ValeAdmin2026');
 
 /* ── AUTH ── */
 if (empty($_SESSION['ai_auth'])) {
@@ -44,6 +45,9 @@ if (empty($inputText)) {
     echo json_encode(['ok' => false, 'error' => 'Contenuto vuoto.']);
     exit;
 }
+// SEC-003: Prompt injection mitigation — cap length + strip prompt-override patterns
+$inputText = mb_substr($inputText, 0, 4000);
+$inputText = preg_replace('/\b(ignore previous|disregard|forget|new instructions?|system prompt|override|jailbreak)\b/i', '[rimosso]', $inputText);
 
 /* ── TONO ── */
 $toneMap = [
