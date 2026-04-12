@@ -1856,7 +1856,24 @@ async function preparaPDF() {
 
           const variantDesc = ' Il numero ' + variant + ' indica la tua variante specifica all\'interno di questa famiglia di croci: quattro espressioni diverse dello stesso tema, ciascuna con una sfumatura unica.';
 
-          descEl.textContent = (angleDesc[angleKey] || '') + (quarterDesc[quarter] || '') + variantDesc;
+          const profileCross = {
+            '1/3': ' Con il tuo profilo 1/3, questo tema lo attraversi scavando a fondo e poi mettendo alla prova quello che hai trovato. Prima hai bisogno di costruirti delle basi solide, di capire come funziona davvero, e poi la vita ti chiede di sperimentare sul campo, dove scopri cosa regge e cosa va lasciato andare. Gli errori lungo la strada sono il tuo modo naturale di affinare la direzione.',
+            '1/4': ' Con il tuo profilo 1/4, questo tema lo porti nel mondo attraverso le relazioni di fiducia che costruisci nel tempo. Prima studi, ti prepari, ti dai delle fondamenta su cui poggiare, e poi condividi quello che sai con le persone che fanno gi\u00e0 parte della tua vita. La tua rete \u00e8 il canale attraverso cui il tuo scopo si trasmette.',
+            '2/4': ' Con il tuo profilo 2/4, questo tema emerge attraverso un talento che spesso non riconosci da solo. Hai bisogno di spazio per ricaricarti, e poi sono le persone intorno a te che ti chiamano, che vedono qualcosa in te che tu dai per scontato. Le tue amicizie e i tuoi contatti sono la porta da cui il tuo scopo entra nella realt\u00e0.',
+            '2/5': ' Con il tuo profilo 2/5, questo tema si esprime attraverso un dono che gli altri percepiscono prima di te. Le persone proiettano su di te aspettative pratiche, ti cercano come chi pu\u00f2 risolvere qualcosa, anche quando tu vorresti solo restare nel tuo spazio. Gestire questa tensione tra la tua natura riservata e la chiamata collettiva \u00e8 parte del tuo percorso.',
+            '3/5': ' Con il tuo profilo 3/5, questo tema lo scopri facendo, sbagliando e ricominciando. La tua vita \u00e8 un laboratorio dove ogni tentativo che non va a buon fine ti insegna qualcosa che poi diventa utile anche per gli altri. La tua reputazione si costruisce sulla capacit\u00e0 di trasformare l\'esperienza diretta in soluzioni pratiche.',
+            '3/6': ' Con il tuo profilo 3/6, questo tema lo vivi in tre fasi distinte. Nella prima parte della vita sperimenti intensamente e impari dai tuoi errori, poi ti ritiri a osservare con distacco quello che hai attraversato, e nella terza fase diventi un punto di riferimento credibile perch\u00e9 hai vissuto tutto sulla tua pelle.',
+            '4/6': ' Con il tuo profilo 4/6, questo tema matura lentamente attraverso le relazioni e il tempo. Costruisci fiducia con le persone della tua rete, osservi, ti prendi lo spazio per capire, e nella seconda met\u00e0 della vita diventi una guida autentica per chi ti conosce davvero. La pazienza \u00e8 parte integrante del tuo cammino.',
+            '4/1': ' Con il tuo profilo 4/1, questo tema segue una traiettoria precisa e rara. Le tue basi di conoscenza sono solide e le condividi attraverso relazioni di fiducia gi\u00e0 consolidate. Il tuo percorso ha una qualit\u00e0 geometrica, quasi inevitabile, e quando sei allineato a questa direzione tutto scorre con una chiarezza che le persone intorno a te riconoscono.',
+            '5/1': ' Con il tuo profilo 5/1, questo tema ti rende visibile come portatore di soluzioni concrete. Gli altri proiettano su di te l\'aspettativa di chi sa risolvere i problemi, e la tua efficacia dipende dalla solidit\u00e0 delle fondamenta che ti sei costruito. Quando le tue basi sono aggiornate e robuste, rispondi a quella chiamata collettiva senza sforzo.',
+            '5/2': ' Con il tuo profilo 5/2, questo tema ti attraversa in modo paradossale: gli altri vedono in te una risorsa pratica, ti cercano per quello che puoi dare, mentre tu spesso non riconosci fino in fondo il talento che porti. Hai bisogno di tempo da solo per ricaricarti, e poi la vita ti richiama fuori con le sue richieste.',
+            '6/2': ' Con il tuo profilo 6/2, questo tema richiede tempo per manifestarsi pienamente. Nella prima parte della vita c\'\u00e8 un talento naturale che lavora sotto traccia, poi arriva una fase di distacco e osservazione, e nella terza fase diventi un esempio vivente di come si pu\u00f2 incarnare il proprio scopo senza forzature, semplicemente essendo chi sei.',
+            '6/3': ' Con il tuo profilo 6/3, questo tema si rivela attraverso un percorso accidentato che porta saggezza concreta. La prima fase della vita \u00e8 intensa e fatta di prove dirette, la seconda ti chiede di fare un passo indietro e guardare il quadro completo, e nella terza fase porti tutto quello che hai attraversato come materiale vivo per guidare gli altri.'
+          };
+
+          const profileDesc = profileCross[d.profile] || '';
+
+          descEl.textContent = (angleDesc[angleKey] || '') + (quarterDesc[quarter] || '') + variantDesc + profileDesc;
         }
       }
     }
