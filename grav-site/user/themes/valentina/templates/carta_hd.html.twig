@@ -1827,16 +1827,36 @@ async function preparaPDF() {
         croceEl.querySelector('.pdf-card-value').textContent = cross;
         const descEl = croceEl.querySelector('.pdf-card-desc');
         if(descEl) {
-          // Description based on quarter (determined by Sun gate position in Rave wheel)
           const gateIdx = GATE_WHEEL.indexOf(pSun.gate);
           const quarter = gateIdx < 16 ? 'Mente' : gateIdx < 32 ? 'Forma' : gateIdx < 48 ? 'Relazioni' : 'Trasformazione';
-          const quarterDesc = {
-            'Mente': 'Il tuo scopo di vita emerge attraverso la mente e l\'ispirazione. Sei qui per portare chiarezza mentale e nuove idee nel mondo.',
-            'Forma': 'Il tuo scopo di vita si realizza attraverso il corpo e la forma materiale. Sei qui per costruire, creare strutture e dare forma concreta alle cose.',
-            'Relazioni': 'Il tuo scopo di vita si esprime attraverso le relazioni. Sei qui per connetterti con gli altri e trasformare la qualità delle interazioni umane.',
-            'Trasformazione': 'Il tuo scopo di vita è legato alla trasformazione. Sei qui per attraversare cambiamenti profondi e guidare gli altri nel processo di evoluzione.'
+          const [l1, l2] = d.profile.split('/').map(Number);
+          let angleKey;
+          if(l1 === 4 && l2 === 1) angleKey = 'J';
+          else if(l1 >= 5) angleKey = 'T';
+          else angleKey = 'P';
+          let variant;
+          if(angleKey === 'T') {
+            variant = Math.floor(GATE_WHEEL.indexOf(pEarth.gate) / 16) + 1;
+          } else {
+            variant = Math.floor(gateIdx / 16) + 1;
+          }
+
+          const angleDesc = {
+            'P': 'La tua Croce di Incarnazione racconta il tema che attraversa tutta la tua vita, dal lavoro alle relazioni fino alle scelte che senti di dover fare anche quando non sai spiegarle. \u00C8 composta dai quattro gate dei luminari alla tua nascita (Sole e Terra, lato conscio e inconscio) e rappresenta la direzione verso cui il tuo cammino tende a portarti, qualunque strada tu prenda. Il tuo angolo \u00e8 personale (Right Angle): il percorso si svolge prima di tutto dentro di te, e quello che cambia intorno a te arriva come conseguenza naturale della tua trasformazione interiore. Ogni volta che cambi settore, citt\u00e0 o progetto, questo tema torna a farsi sentire.',
+            'T': 'La tua Croce di Incarnazione racconta il tema che attraversa tutta la tua vita, dal lavoro alle relazioni fino alle scelte che senti di dover fare anche quando non sai spiegarle. \u00C8 composta dai quattro gate dei luminari alla tua nascita (Sole e Terra, lato conscio e inconscio) e rappresenta la direzione verso cui il tuo cammino tende a portarti, qualunque strada tu prenda. Il tuo angolo \u00e8 transpersonale (Left Angle): il tuo percorso si compie attraverso gli altri. Le persone che incontri, le collaborazioni che accetti e gli scambi che ti toccano davvero sono il veicolo attraverso cui il tuo tema di vita prende forma concreta.',
+            'J': 'La tua Croce di Incarnazione racconta il tema che attraversa tutta la tua vita, dal lavoro alle relazioni fino alle scelte che senti di dover fare anche quando non sai spiegarle. \u00C8 composta dai quattro gate dei luminari alla tua nascita (Sole e Terra, lato conscio e inconscio) e rappresenta la direzione verso cui il tuo cammino tende a portarti, qualunque strada tu prenda. Il tuo angolo \u00e8 fisso (Juxtaposition): il tuo percorso segue una traiettoria molto precisa, quasi geometrica, con poche deviazioni. Quando sei allineato a questa direzione senti una chiarezza rara, e quando te ne allontani il disagio ti riporta indietro.'
           };
-          descEl.textContent = quarterDesc[quarter] || '';
+
+          const quarterDesc = {
+            'Mente': ' Il tuo tema nasce nel Quartiere della Mente: lo scopo emerge attraverso l\'ispirazione e la capacit\u00e0 di vedere le cose da una prospettiva che altri non colgono.',
+            'Forma': ' Il tuo tema nasce nel Quartiere della Forma: lo scopo prende corpo attraverso il fare, il costruire, il dare struttura concreta a ci\u00f2 che senti.',
+            'Relazioni': ' Il tuo tema nasce nel Quartiere delle Relazioni: lo scopo si esprime nell\'incontro con l\'altro, e le tue connessioni pi\u00f9 significative ne sono la prova.',
+            'Trasformazione': ' Il tuo tema nasce nel Quartiere della Trasformazione: lo scopo ti porta attraverso cambiamenti profondi e cicli di rinascita che lasciano il segno.'
+          };
+
+          const variantDesc = ' Il numero ' + variant + ' indica la tua variante specifica all\'interno di questa famiglia di croci: quattro espressioni diverse dello stesso tema, ciascuna con una sfumatura unica.';
+
+          descEl.textContent = (angleDesc[angleKey] || '') + (quarterDesc[quarter] || '') + variantDesc;
         }
       }
     }
