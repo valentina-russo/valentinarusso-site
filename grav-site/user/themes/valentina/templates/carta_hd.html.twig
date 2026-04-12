@@ -1819,15 +1819,16 @@ async function preparaPDF() {
   // Incarnation cross with description
   if(d.personality && d.personality.length > 0) {
     const pSun = d.personality.find(p => p.planet_en === 'Sun');
-    if(pSun) {
-      const cross = getIncarnationCross(pSun.gate, d.profile);
+    const pEarth = d.personality.find(p => p.planet_en === 'Earth');
+    if(pSun && pEarth) {
+      const cross = getIncarnationCross(pSun.gate, pEarth.gate, d.profile);
       const croceEl = document.getElementById('pdf-croce');
       if(croceEl) {
         croceEl.querySelector('.pdf-card-value').textContent = cross;
         const descEl = croceEl.querySelector('.pdf-card-desc');
         if(descEl) {
           // Description based on quarter (determined by Sun gate position in Rave wheel)
-          const gateIdx = HD_GATE_WHEEL.indexOf(pSun.gate);
+          const gateIdx = GATE_WHEEL.indexOf(pSun.gate);
           const quarter = gateIdx < 16 ? 'Mente' : gateIdx < 32 ? 'Forma' : gateIdx < 48 ? 'Relazioni' : 'Trasformazione';
           const quarterDesc = {
             'Mente': 'Il tuo scopo di vita emerge attraverso la mente e l\'ispirazione. Sei qui per portare chiarezza mentale e nuove idee nel mondo.',
