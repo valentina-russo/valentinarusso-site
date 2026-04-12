@@ -1240,7 +1240,7 @@ const CROSS_BG5 = {
 const QUARTER_NAMES = {1:'Mente',2:'Forma',3:'Relazioni',4:'Trasformazione'};
 const GATE_WHEEL=[41,19,13,49,30,55,37,63,22,36,25,17,21,51,42,3,27,24,2,23,8,20,16,35,45,12,15,52,39,53,62,56,31,33,7,4,29,59,40,64,47,6,46,18,48,57,32,50,28,44,1,43,14,34,9,5,26,11,10,58,38,54,61,60];
 
-function getIncarnationCross(pSunGate, profileStr) {
+function getIncarnationCross(pSunGate, pEarthGate, profileStr) {
   const cross = CROSS_BG5[pSunGate] || {P:'?',T:'?',S:'?'};
   // Quarter from P Sun position in Rave Wheel
   const idx = GATE_WHEEL.indexOf(pSunGate);
@@ -1255,9 +1255,17 @@ function getIncarnationCross(pSunGate, profileStr) {
   if(l1 === 4 && l2 === 1) { focusKey='S'; focusLabel='Focus Fisso'; }
   else if(l1 >= 5) { focusKey='T'; focusLabel='Focus Transpersonale'; }
   else { focusKey='P'; focusLabel='Focus Personale'; }
+  // Variant 1-4: RA/J = Sun P quarter, LA = Earth P quarter
+  let variant;
+  if(focusKey === 'T') {
+    const earthIdx = GATE_WHEEL.indexOf(pEarthGate);
+    variant = Math.floor(earthIdx / 16) + 1;
+  } else {
+    variant = Math.floor(idx / 16) + 1;
+  }
   const name = cross[focusKey] || cross.P;
   const quarterName = QUARTER_NAMES[quarter];
-  return `${name}, ${focusLabel}, ${quarterName}`;
+  return `${name} ${variant}, ${focusLabel}, ${quarterName}`;
 }
 
 // ─── API Call ──────────────────────────────────────────────────────────────
@@ -1400,8 +1408,9 @@ async function renderRisultati(data, nome) {
   // Incarnation Cross
   if(d.personality && d.personality.length > 0) {
     const pSunGate = d.personality.find(p => p.planet_en === 'Sun');
-    if(pSunGate) {
-      const cross = getIncarnationCross(pSunGate.gate, d.profile);
+    const pEarthGate = d.personality.find(p => p.planet_en === 'Earth');
+    if(pSunGate && pEarthGate) {
+      const cross = getIncarnationCross(pSunGate.gate, pEarthGate.gate, d.profile);
       coreItems.push({ label: 'Tema di Vita', value: cross });
     }
   }

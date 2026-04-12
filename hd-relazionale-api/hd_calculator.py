@@ -118,6 +118,103 @@ DEFINITION_IT = {
 }
 
 # ---------------------------------------------------------------------------
+# Croce di Incarnazione — 48 temi × 4 varianti = 192 croci
+# Nome BG5 indicizzato per gate del Sole P (focus P = Right Angle)
+# ---------------------------------------------------------------------------
+CROSS_NAMES = {
+    # Quarter 1 — Mente (gate wheel index 0-15)
+    41: "dell'Inaspettato", 19: "dell'Alpha", 13: "del Perfezionamento",
+    49: "della Spiegazione", 30: "del Contagio", 55: "del Rinnovamento",
+    37: "della Pianificazione", 63: "della Consapevolezza",
+    22: "del Governo", 36: "dell'Esperienza", 25: "dell'Amore",
+    17: "del Servizio", 21: "della Tensione", 51: "della Penetrazione",
+    42: "del Mondo Materiale", 3: "delle Leggi",
+    # Quarter 2 — Forma (index 16-31)
+    27: "dell'Inaspettato", 24: "della Bussola", 2: "della Direzione",
+    23: "della Spiegazione", 8: "del Contagio", 20: "del Rinnovamento",
+    16: "della Pianificazione", 35: "della Consapevolezza",
+    45: "del Governo", 12: "dell'Esperienza", 15: "dell'Amore",
+    52: "del Servizio", 39: "della Tensione", 53: "della Penetrazione",
+    62: "del Mondo Materiale", 56: "delle Leggi",
+    # Quarter 3 — Relazioni (index 32-47)
+    31: "dell'Inaspettato", 33: "dell'Alpha", 7: "della Bussola",
+    4: "della Direzione", 29: "della Spiegazione", 59: "del Contagio",
+    40: "del Rinnovamento", 64: "della Pianificazione",
+    47: "della Consapevolezza", 6: "del Governo", 46: "dell'Esperienza",
+    18: "dell'Amore", 48: "del Servizio", 57: "della Tensione",
+    32: "della Penetrazione", 50: "delle Leggi",
+    # Quarter 4 — Trasformazione (index 48-63)
+    28: "dell'Inaspettato", 44: "della Bussola", 1: "della Direzione",
+    43: "della Spiegazione", 14: "del Contagio", 34: "del Rinnovamento",
+    9: "della Pianificazione", 5: "della Consapevolezza",
+    26: "del Governo", 11: "dell'Esperienza", 10: "dell'Amore",
+    58: "del Servizio", 38: "della Tensione", 54: "della Penetrazione",
+    61: "del Mondo Materiale", 60: "delle Leggi",
+}
+
+QUARTER_NAMES = {1: 'Mente', 2: 'Forma', 3: 'Relazioni', 4: 'Trasformazione'}
+
+ANGLE_IT = {
+    'Right Angle': 'Right Angle',
+    'Juxtaposition': 'Juxtaposition',
+    'Left Angle': 'Left Angle',
+}
+
+
+def calc_incarnation_cross(personality: list[dict], design: list[dict],
+                           profile: str) -> dict:
+    """Calcola la Croce di Incarnazione dai 4 luminari (Sole/Terra P+D)."""
+    sun_p = next((p for p in personality if p['planet_en'] == 'Sun'), None)
+    earth_p = next((p for p in personality if p['planet_en'] == 'Earth'), None)
+    sun_d = next((p for p in design if p['planet_en'] == 'Sun'), None)
+    earth_d = next((p for p in design if p['planet_en'] == 'Earth'), None)
+
+    if not all([sun_p, earth_p, sun_d, earth_d]):
+        return {'name': '?', 'variant': 0, 'angle': '?', 'quarter': '?',
+                'gates': [0, 0, 0, 0], 'full_name': '?'}
+
+    gate = sun_p['gate']
+
+    # Quartiere del Sole di Personalità
+    sun_p_idx = GATE_WHEEL.index(gate)
+    quarter_num = (sun_p_idx // 16) + 1
+    quarter = QUARTER_NAMES.get(quarter_num, '?')
+
+    # Angolo dal profilo
+    l1, l2 = profile.split('/')
+    l1 = int(l1)
+    if l1 == 4 and int(l2) == 1:
+        angle = 'Juxtaposition'
+    elif l1 >= 5:
+        angle = 'Left Angle'
+    else:
+        angle = 'Right Angle'
+
+    # Variante 1-4: per RA/J = quartiere del Sole P, per LA = quartiere della Terra P
+    # (Terra è sempre a 180° = 2 quartieri di distanza dal Sole)
+    if angle == 'Left Angle':
+        earth_p_idx = GATE_WHEEL.index(earth_p['gate'])
+        variant = (earth_p_idx // 16) + 1
+    else:
+        variant = quarter_num
+
+    # Nome tema
+    theme = CROSS_NAMES.get(gate, '?')
+
+    gates = [sun_p['gate'], earth_p['gate'], sun_d['gate'], earth_d['gate']]
+    full_name = f"{angle} Cross {theme} {variant}"
+
+    return {
+        'name': theme,
+        'variant': variant,
+        'angle': angle,
+        'quarter': quarter,
+        'gates': gates,
+        'full_name': full_name,
+    }
+
+
+# ---------------------------------------------------------------------------
 # Utilità
 # ---------------------------------------------------------------------------
 
@@ -261,13 +358,13 @@ def calc_type(defined_centers: set[str], defined_channels: list) -> str:
     return 'Projector'
 
 
-def calc_profile(personality: list[dict]) -> str:
+def calc_profile(personality: list[dict], design: list[dict]) -> str:
+    """Profilo = linea Sole Personalità / linea Sole Design."""
     sun_p = next((p for p in personality if p['planet_en'] == 'Sun'), None)
-    # Terra è sempre opposta al Sole, con linea armonica
-    earth_p = next((p for p in personality if p['planet_en'] == 'Earth'), None)
-    if not sun_p or not earth_p:
+    sun_d = next((p for p in design if p['planet_en'] == 'Sun'), None)
+    if not sun_p or not sun_d:
         return '?/?'
-    return f"{sun_p['line']}/{earth_p['line']}"
+    return f"{sun_p['line']}/{sun_d['line']}"
 
 
 def calc_authority(defined_centers: set[str]) -> str:
@@ -345,7 +442,7 @@ def calculate_chart(year: int, month: int, day: int,
     defined_centers  = get_defined_centers(active_gates)
 
     hd_type    = calc_type(defined_centers, defined_channels)
-    profile    = calc_profile(personality)
+    profile    = calc_profile(personality, design)
     authority  = calc_authority(defined_centers)
     definition = calc_definition(defined_centers, defined_channels)
 
@@ -421,6 +518,8 @@ def calculate_chart(year: int, month: int, day: int,
         'None': 'No Definition',
     }
 
+    cross = calc_incarnation_cross(personality, design, profile)
+
     return {
         'type':             TYPE_API.get(hd_type, hd_type),
         'profile':          profile,
@@ -434,4 +533,5 @@ def calculate_chart(year: int, month: int, day: int,
         'variables':        variables,
         'dietary_regime':   dietary_regime,
         'environment':      environment,
+        'incarnation_cross': cross,
     }
