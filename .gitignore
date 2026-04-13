@@ -62,6 +62,8 @@ grav-site/user/pages/*
 !grav-site/user/pages/24.genera-carta-v2
 # Eccezione: pagina beta connection chart
 !grav-site/user/pages/25.genera-carta-beta
+# Eccezione: BG5 Blueprint — landing page prodotto
+!grav-site/user/pages/26.bg5-blueprint
 # Eccezioni: nuovi articoli bozza privati (deployati via FTP, dentro /blog/articoli)
 !grav-site/user/pages/04.blog
 grav-site/user/pages/04.blog/*
@@ -114,3 +116,11 @@ grav-site/root/hd-db-config.php
 # GA4 Service Account — credenziali Google, MAI in git
 grav-site/root/ga4-service-account.json
 hd-relazionale-api/.env
+# BG5 Blueprint generator — API key Anthropic, MAI in git
+tools/bg5-generator/.env
+tools/bg5-generator/jobs/
+tools/bg5-generator/pdfs/
+tools/bg5-generator/logs/
+# Qualsiasi .env in qualunque sottocartella (safety net)
+**/.env
+**/.env.local

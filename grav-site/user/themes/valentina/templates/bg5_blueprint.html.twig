@@ -1,0 +1,1387 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block title %}BG5 Business Blueprint — La tua analisi energetica professionale | Valentina Russo{% endblock %}
+
+{% block schema %}
+{{ parent() }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "BG5 Business Blueprint",
+  "description": "Report PDF personalizzato di 40-65 pagine che traduce la tua configurazione BG5/Human Design in una strategia concreta per il tuo lavoro e la tua attività.",
+  "url": "{{ grav.base_url_absolute }}/bg5-blueprint",
+  "provider": { "@id": "{{ grav.base_url_absolute }}/#valentina-russo" },
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Carta Essenziale",
+      "price": "90",
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock"
+    },
+    {
+      "@type": "Offer",
+      "name": "Blueprint Completo",
+      "price": "147",
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock"
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ── BG5 Blueprint Landing — Token extra ── */
+:root {
+  --bp-gold:          #C48A3A;
+  --bp-navy-deep:     #0F1A29;
+  --bp-rosa-wash:     #F5ECF0;
+  --bp-teal-wash:     #E8F4F4;
+  --bp-gold-glow:     rgba(196,138,58,.30);
+  --bp-rosa-glow:     rgba(201,118,138,.12);
+  --bp-navy-glow:     rgba(15,26,41,.35);
+  --bp-parchment:     #FAF7F5;
+  --bp-soft-parchment:#EAE5E1;
+  --bp-rosa:          #C9768A;
+  --bp-teal:          #4A8C8C;
+  --bp-navy:          #1A2332;
+  --bp-text:          #2D2926;
+  --bp-text-muted:    #6B6560;
+  --bp-white:         #FFFFFF;
+}
+
+/* ── Reset & Base ── */
+.bp-landing * { box-sizing: border-box; }
+.bp-landing { font-family: 'Outfit', sans-serif; color: var(--bp-text); }
+.bp-landing h1, .bp-landing h2, .bp-landing h3,
+.bp-landing .bp-price { font-family: 'Playfair Display', serif; }
+
+.bp-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ── Eyebrow label ── */
+.bp-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: .8125rem;
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--bp-rosa);
+  margin-bottom: 1.25rem;
+}
+.bp-eyebrow::before,
+.bp-eyebrow::after {
+  content: '';
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: var(--bp-rosa);
+}
+
+/* H2 con ornamento ── */
+.bp-section-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--bp-navy);
+  line-height: 1.2;
+  margin-bottom: .75rem;
+}
+.bp-section-sub {
+  font-size: 1.0625rem;
+  color: var(--bp-text-muted);
+  line-height: 1.65;
+  max-width: 620px;
+}
+
+/* ── Sezione separatore curva ── */
+.bp-section {
+  position: relative;
+  padding: 5rem 0;
+}
+.bp-section--white   { background: var(--bp-white); }
+.bp-section--parchment { background: var(--bp-parchment); }
+.bp-section--soft    { background: var(--bp-soft-parchment); }
+.bp-section--dark    { background: var(--bp-navy-deep); }
+.bp-section--gradient {
+  background: linear-gradient(180deg, var(--bp-parchment) 0%, #F0EBF2 100%);
+}
+
+/* ── Scroll reveal ── */
+.bp-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.bp-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@supports (animation-timeline: view()) {
+  .bp-reveal {
+    animation: bp-fade-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes bp-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ══════════════════════════════════════════
+   1. HERO
+══════════════════════════════════════════ */
+.bp-hero {
+  min-height: min(100dvh, 820px);
+  background: var(--bp-parchment);
+  display: flex;
+  align-items: center;
+  padding: 5rem 0 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.bp-hero__bg-grid {
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 520px; height: 520px;
+  background-image:
+    radial-gradient(circle, var(--bp-soft-parchment) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  opacity: .55;
+  pointer-events: none;
+}
+.bp-hero__bg-glow {
+  position: absolute;
+  bottom: -80px; right: -80px;
+  width: 420px; height: 420px;
+  background: radial-gradient(circle at 60% 60%, rgba(26,35,50,.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.bp-hero__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+}
+.bp-hero__h1 {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.1;
+  margin: 0 0 1.5rem;
+  color: var(--bp-navy);
+}
+.bp-hero__h1 span { color: var(--bp-rosa); }
+.bp-hero__sub {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: var(--bp-text);
+  max-width: 560px;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
+}
+.bp-hero__cta-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.bp-btn-primary {
+  display: inline-block;
+  background: var(--bp-rosa);
+  color: var(--bp-white);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 1rem 2.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+  letter-spacing: .02em;
+}
+.bp-btn-primary:hover { background: #B5697B; transform: translateY(-1px); }
+
+.bp-btn-outline {
+  display: inline-block;
+  color: var(--bp-rosa);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: .9rem 2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 2px solid var(--bp-rosa);
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.bp-btn-outline:hover { background: var(--bp-bp-rosa-wash); }
+
+.bp-hero__meta {
+  font-size: .8125rem;
+  color: var(--bp-text-muted);
+  margin-top: .75rem;
+}
+.bp-hero__scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: bp-bounce .85s ease-in-out infinite alternate;
+  color: var(--bp-text-muted);
+  font-size: 1.3rem;
+  text-decoration: none;
+}
+@keyframes bp-bounce {
+  from { transform: translateX(-50%) translateY(0); }
+  to   { transform: translateX(-50%) translateY(6px); }
+}
+
+
+/* ══════════════════════════════════════════
+   2. COS'È IL BLUEPRINT
+══════════════════════════════════════════ */
+.bp-what__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 4rem;
+  align-items: center;
+}
+.bp-what__list {
+  list-style: none;
+  padding: 0;
+  margin: 1.75rem 0 0;
+}
+.bp-what__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: .875rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--bp-text);
+}
+.bp-what__list li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  background: var(--bp-teal);
+  border-radius: 50%;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='9' viewBox='0 0 12 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4L4.5 7.5L11 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Mockup documento */
+.bp-doc-mockup {
+  position: relative;
+  transform: rotate(2deg);
+}
+.bp-doc-inner {
+  background: var(--bp-white);
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(26,35,50,.18), 0 4px 16px rgba(26,35,50,.10);
+  padding: 2rem 1.75rem;
+  min-height: 320px;
+}
+.bp-doc-header {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1.5px solid var(--bp-soft-parchment);
+}
+.bp-doc-header-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bp-rosa-wash, #F5ECF0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bp-doc-line {
+  height: 10px;
+  border-radius: 5px;
+  background: var(--bp-soft-parchment);
+  margin-bottom: .6rem;
+}
+.bp-doc-line--short { width: 55%; }
+.bp-doc-line--med   { width: 75%; }
+.bp-doc-line--full  { width: 100%; }
+.bp-doc-line--rosa  { background: rgba(201,118,138,.25); width: 45%; }
+.bp-doc-line--teal  { background: rgba(74,140,140,.2); width: 60%; }
+.bp-doc-badge {
+  display: inline-block;
+  background: var(--bp-teal-wash, #E8F4F4);
+  color: var(--bp-teal);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .3rem .7rem;
+  border-radius: 100px;
+  margin-bottom: 1rem;
+}
+
+
+/* ══════════════════════════════════════════
+   3. COSA CONTIENE
+══════════════════════════════════════════ */
+.bp-contains__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+.bp-tier-panel {
+  border-radius: 8px;
+  padding: 2.5rem 2rem;
+}
+.bp-tier-panel--essenziale {
+  background: var(--bp-rosa-wash, #F5ECF0);
+  border: 1.5px solid rgba(201,118,138,.3);
+}
+.bp-tier-panel--completo {
+  background: var(--bp-navy);
+  color: var(--bp-white);
+}
+.bp-tier-panel__title {
+  font-family: 'Outfit', sans-serif;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+.bp-tier-panel--essenziale .bp-tier-panel__title { color: var(--bp-rosa); }
+.bp-tier-panel--completo .bp-tier-panel__title { color: var(--bp-gold, #C48A3A); }
+
+.bp-tier-panel__heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 .3rem;
+  line-height: 1.2;
+}
+.bp-tier-panel--essenziale .bp-tier-panel__heading { color: var(--bp-navy); }
+.bp-tier-panel--completo .bp-tier-panel__heading { color: var(--bp-white); }
+
+.bp-tier-panel__count {
+  font-size: .875rem;
+  margin-bottom: 1.75rem;
+}
+.bp-tier-panel--essenziale .bp-tier-panel__count { color: var(--bp-text-muted); }
+.bp-tier-panel--completo .bp-tier-panel__count { color: rgba(245,236,240,.6); }
+
+.bp-section-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.bp-section-list li {
+  display: flex;
+  align-items: baseline;
+  gap: .875rem;
+  padding: .5rem 0;
+  border-bottom: 1px solid;
+  font-size: .9rem;
+  line-height: 1.5;
+}
+.bp-tier-panel--essenziale .bp-section-list li { border-color: rgba(201,118,138,.15); color: var(--bp-text); }
+.bp-tier-panel--completo .bp-section-list li { border-color: rgba(245,236,240,.1); color: rgba(245,236,240,.85); }
+.bp-tier-panel--completo .bp-section-list li:last-child { border-bottom: none; }
+.bp-tier-panel--essenziale .bp-section-list li:last-child { border-bottom: none; }
+
+.bp-section-num {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.bp-tier-panel--essenziale .bp-section-num { color: var(--bp-rosa); }
+.bp-tier-panel--completo .bp-section-num { color: var(--bp-gold, #C48A3A); }
+
+.bp-section-list li.extra {
+  font-style: italic;
+}
+.bp-tier-panel--completo .bp-section-list li.extra { color: #C48A3A; }
+
+
+/* ══════════════════════════════════════════
+   4. PER CHI È
+══════════════════════════════════════════ */
+.bp-forchi__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+.bp-profile-card {
+  background: var(--bp-white);
+  border-radius: 8px;
+  border: 1px solid var(--bp-soft-parchment);
+  padding: 2rem 1.75rem 1.75rem;
+  transition: box-shadow .2s;
+}
+.bp-profile-card:hover {
+  box-shadow: 0 8px 32px var(--bp-rosa-glow);
+}
+.bp-profile-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bp-teal-wash, #E8F4F4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  color: var(--bp-teal);
+}
+.bp-profile-card h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--bp-navy);
+  margin: 0 0 .75rem;
+}
+.bp-profile-card p {
+  font-size: .9375rem;
+  line-height: 1.65;
+  color: var(--bp-text);
+  margin: 0 0 1.25rem;
+}
+.bp-profile-tag {
+  font-size: .8125rem;
+  font-style: italic;
+  color: var(--bp-rosa);
+}
+
+
+/* ══════════════════════════════════════════
+   5. COME FUNZIONA
+══════════════════════════════════════════ */
+.bp-steps__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  margin-top: 3rem;
+  position: relative;
+}
+.bp-steps__grid::before {
+  content: '';
+  position: absolute;
+  top: 32px;
+  left: calc(16.66% + 1rem);
+  right: calc(16.66% + 1rem);
+  height: 1px;
+  border-top: 2px dashed var(--bp-soft-parchment);
+  z-index: 0;
+}
+.bp-step {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+.bp-step__num {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 5rem;
+  line-height: 1;
+  color: var(--bp-soft-parchment);
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.bp-step__icon {
+  position: relative;
+  z-index: 1;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--bp-teal-wash, #E8F4F4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  color: var(--bp-teal);
+}
+.bp-step h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--bp-navy);
+  margin: 0 0 .625rem;
+  position: relative;
+  z-index: 1;
+}
+.bp-step p {
+  font-size: .9375rem;
+  line-height: 1.65;
+  color: var(--bp-text);
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ══════════════════════════════════════════
+   6. PRICING
+══════════════════════════════════════════ */
+.bp-pricing__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: end;
+  max-width: 860px;
+  margin: 3rem auto 0;
+}
+.bp-pricing-card {
+  border-radius: 8px;
+  position: relative;
+}
+
+/* Essenziale */
+.bp-pricing-card--ess {
+  background: var(--bp-white);
+  border: 1.5px solid var(--bp-rosa);
+  padding: 2.5rem 2rem;
+  box-shadow: 0 4px 24px var(--bp-rosa-glow);
+}
+.bp-pricing-card--ess .bp-price {
+  font-size: 3rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--bp-navy);
+  line-height: 1;
+}
+.bp-pricing-card--ess .bp-price-label {
+  font-size: .875rem;
+  color: var(--bp-text-muted);
+  margin-bottom: 1.75rem;
+}
+.bp-pricing-card--ess .bp-cta { margin-top: 2rem; }
+
+/* Completo */
+.bp-pricing-card--comp {
+  background: var(--bp-navy-deep);
+  padding: 3.5rem 2rem;
+  box-shadow: 0 12px 48px var(--bp-navy-glow), 0 0 0 1px rgba(196,138,58,.3);
+}
+.bp-pricing-badge {
+  display: block;
+  text-align: center;
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: var(--bp-gold);
+  color: var(--bp-white);
+  font-family: 'Outfit', sans-serif;
+  font-size: .6875rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: .375rem 1.25rem;
+  border-radius: 100px;
+  box-shadow: 0 2px 12px var(--bp-gold-glow);
+}
+.bp-pricing-card--comp .bp-price {
+  font-size: 3.5rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--bp-rosa-wash, #F5ECF0);
+  line-height: 1;
+}
+.bp-pricing-card--comp .bp-price-label {
+  font-size: .875rem;
+  color: rgba(245,236,240,.55);
+  margin-bottom: 1.75rem;
+}
+.bp-pricing-card--comp .bp-cta { margin-top: 2rem; }
+.bp-pricing-card--comp .bp-btn-primary {
+  background: var(--bp-rosa);
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+.bp-pricing-card__title {
+  font-family: 'Outfit', sans-serif;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+.bp-pricing-card--ess .bp-pricing-card__title { color: var(--bp-rosa); }
+.bp-pricing-card--comp .bp-pricing-card__title { color: var(--bp-gold); }
+
+.bp-pricing-card__name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 .25rem;
+}
+.bp-pricing-card--ess .bp-pricing-card__name { color: var(--bp-navy); }
+.bp-pricing-card--comp .bp-pricing-card__name { color: var(--bp-white); }
+
+.bp-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+.bp-feature-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  padding: .5rem 0;
+  font-size: .9375rem;
+  line-height: 1.5;
+  border-bottom: 1px solid;
+}
+.bp-feature-list li:last-child { border-bottom: none; }
+.bp-pricing-card--ess .bp-feature-list li { border-color: var(--bp-soft-parchment); color: var(--bp-text); }
+.bp-pricing-card--comp .bp-feature-list li { border-color: rgba(245,236,240,.1); color: rgba(245,236,240,.85); }
+
+.bp-feature-check {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  color: var(--bp-teal);
+  font-size: .875rem;
+}
+.bp-feature-extra {
+  color: var(--bp-gold);
+  font-weight: 600;
+  font-size: .8125rem;
+}
+
+.bp-pricing__footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: .875rem;
+  color: var(--bp-text-muted);
+}
+.bp-pricing__footer a { color: var(--bp-rosa); }
+
+.bp-btn-outline-ess {
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: var(--bp-rosa);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: .9rem 2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 2px solid var(--bp-rosa);
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.bp-btn-outline-ess:hover { background: var(--bp-rosa-wash); }
+
+
+/* ══════════════════════════════════════════
+   7. FORM
+══════════════════════════════════════════ */
+.bp-form-wrap {
+  max-width: 600px;
+  margin: 0 auto;
+}
+.bp-section--dark .bp-section-title { color: var(--bp-rosa-wash, #F5ECF0); }
+.bp-section--dark .bp-section-sub { color: rgba(245,236,240,.65); }
+.bp-section--dark .bp-eyebrow { color: var(--bp-gold); }
+.bp-section--dark .bp-eyebrow::before,
+.bp-section--dark .bp-eyebrow::after { background: var(--bp-gold); }
+
+.bp-form { margin-top: 2.5rem; }
+.bp-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.bp-form-group {
+  margin-bottom: 1.25rem;
+}
+.bp-form-group label {
+  display: block;
+  font-size: .875rem;
+  font-weight: 600;
+  color: rgba(245,236,240,.8);
+  margin-bottom: .4rem;
+}
+.bp-form-group input,
+.bp-form-group select {
+  width: 100%;
+  padding: .8rem 1rem;
+  background: rgba(255,255,255,.08);
+  border: 1.5px solid rgba(245,236,240,.2);
+  border-radius: 4px;
+  color: var(--bp-white);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  transition: border-color .2s;
+}
+.bp-form-group input:focus,
+.bp-form-group select:focus {
+  outline: 2px solid var(--bp-rosa);
+  outline-offset: 2px;
+  border-color: var(--bp-rosa);
+}
+.bp-form-group input::placeholder { color: rgba(245,236,240,.35); }
+.bp-form-group select option { background: var(--bp-navy-deep); color: var(--bp-white); }
+
+.bp-form-radio-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.bp-form-radio {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  cursor: pointer;
+  font-size: .9375rem;
+  color: rgba(245,236,240,.85);
+  padding: .75rem 1.25rem;
+  border: 1.5px solid rgba(245,236,240,.2);
+  border-radius: 4px;
+  transition: border-color .2s, background .2s;
+  flex: 1;
+  min-width: 200px;
+}
+.bp-form-radio:has(input:checked) {
+  border-color: var(--bp-rosa);
+  background: rgba(201,118,138,.12);
+}
+.bp-form-radio input { accent-color: var(--bp-rosa); }
+.bp-form-radio strong { display: block; font-weight: 700; color: var(--bp-white); }
+.bp-form-radio span { font-size: .8125rem; color: rgba(245,236,240,.55); }
+
+.bp-form-submit {
+  width: 100%;
+  padding: 1.125rem;
+  background: var(--bp-rosa);
+  color: var(--bp-white);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.0625rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+  margin-top: .5rem;
+}
+.bp-form-submit:hover { background: #B5697B; transform: translateY(-1px); }
+.bp-form-note {
+  text-align: center;
+  font-size: .8125rem;
+  color: rgba(139,157,181,.8);
+  margin-top: .75rem;
+}
+.bp-form-success {
+  display: none;
+  text-align: center;
+  padding: 2rem;
+  background: rgba(74,140,140,.15);
+  border: 1.5px solid var(--bp-teal);
+  border-radius: 8px;
+  color: var(--bp-white);
+  margin-top: 1rem;
+}
+
+
+/* ══════════════════════════════════════════
+   8. FAQ
+══════════════════════════════════════════ */
+.bp-faq-wrap {
+  max-width: 720px;
+  margin: 3rem auto 0;
+}
+.bp-faq-item {
+  border-bottom: 1px solid var(--bp-soft-parchment);
+}
+.bp-faq-item:first-child { border-top: 1px solid var(--bp-soft-parchment); }
+.bp-faq-q {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 1.25rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--bp-navy);
+  transition: color .2s;
+}
+.bp-faq-q:hover { color: var(--bp-rosa); }
+.bp-faq-q:focus { outline: 2px solid var(--bp-rosa); outline-offset: 2px; }
+.bp-faq-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--bp-soft-parchment);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--bp-rosa);
+  transition: transform .3s;
+}
+.bp-faq-item.open .bp-faq-icon { transform: rotate(45deg); }
+.bp-faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s ease, padding .35s ease;
+}
+.bp-faq-item.open .bp-faq-a { max-height: 400px; padding-bottom: 1.25rem; }
+.bp-faq-a p {
+  font-size: .9375rem;
+  line-height: 1.7;
+  color: var(--bp-text);
+  margin: 0;
+}
+
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .bp-what__grid { grid-template-columns: 1fr; }
+  .bp-doc-mockup { display: none; }
+  .bp-contains__grid { grid-template-columns: 1fr; }
+  .bp-forchi__grid { grid-template-columns: 1fr; }
+  .bp-steps__grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .bp-steps__grid::before { display: none; }
+  .bp-step { text-align: left; }
+  .bp-step__num { display: none; }
+  .bp-step__icon { margin: 0 0 1rem; }
+  .bp-pricing__grid { grid-template-columns: 1fr; }
+  .bp-pricing-card--comp { order: -1; }
+  .bp-section-title { font-size: 1.75rem; }
+  .bp-hero__h1 { font-size: 2.25rem; }
+}
+@media (max-width: 600px) {
+  .bp-section { padding: 3.5rem 0; }
+  .bp-hero { padding: 4rem 0 3rem; min-height: auto; }
+  .bp-form-row { grid-template-columns: 1fr; }
+  .bp-hero__cta-group { flex-direction: column; align-items: flex-start; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="bp-landing">
+
+{# ══════════════════════════════════════════
+   1. HERO
+══════════════════════════════════════════ #}
+<section class="bp-hero">
+  <div class="bp-hero__bg-grid" aria-hidden="true"></div>
+  <div class="bp-hero__bg-glow" aria-hidden="true"></div>
+  <div class="bp-container">
+    <div class="bp-hero__inner">
+      <p class="bp-eyebrow">Human Design applicato al business</p>
+      <h1 class="bp-hero__h1">
+        La tua carta energetica.<br>
+        <span>La tua strategia di business.</span>
+      </h1>
+      <p class="bp-hero__sub">
+        Un report PDF di 40–65 pagine che traduce la tua configurazione BG5 in decisioni concrete: come lavori, come vendi, come cresci — basato sulla tua mappa unica.
+      </p>
+      <div class="bp-hero__cta-group">
+        <a href="#ordine" class="bp-btn-primary">Scopri il tuo Blueprint</a>
+        <a href="#contiene" class="bp-btn-outline">Cosa contiene →</a>
+      </div>
+      <p class="bp-hero__meta">A partire da €90 · Consegna in 5 giorni lavorativi</p>
+    </div>
+  </div>
+  <a href="#blueprint" class="bp-hero__scroll" aria-label="Scorri in basso">↓</a>
+</section>
+
+
+{# ══════════════════════════════════════════
+   2. COS'È IL BLUEPRINT
+══════════════════════════════════════════ #}
+<section class="bp-section bp-section--white" id="blueprint">
+  <div class="bp-container">
+    <div class="bp-what__grid">
+      <div>
+        <p class="bp-eyebrow">Cos'è</p>
+        <h2 class="bp-section-title">Non un oroscopo.<br>Una mappa operativa.</h2>
+        <p class="bp-section-sub">
+          Il BG5 Business Blueprint è un documento personalizzato costruito sulla tua carta BG5/Human Design. Non parla in astratto di "energia" — ti dice come sei configurata per lavorare, decidere e costruire un'attività che non ti esaurisca.
+        </p>
+        <ul class="bp-what__list">
+          <li>Analisi del tuo Tipo di Carriera BG5 e di come genera valore nel tempo</li>
+          <li>Come funziona la tua autorità decisionale in contesti professionali reali</li>
+          <li>Centri definiti = i tuoi superpoteri costanti. Centri aperti = dove assorbi gli altri</li>
+          <li>Canali attivi, porte sospese e croce di incarnazione applicati al tuo lavoro</li>
+          <li>Contesto ottimale: dieta cognitiva, ambiente fisico, variabile PHS</li>
+        </ul>
+      </div>
+      <div class="bp-doc-mockup bp-reveal" aria-hidden="true">
+        <div class="bp-doc-inner">
+          <div class="bp-doc-header">
+            <div class="bp-doc-header-circle">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#C9768A" stroke-width="1.5">
+                <circle cx="10" cy="10" r="8"/><path d="M10 6v4l3 2"/>
+              </svg>
+            </div>
+            <div style="flex:1">
+              <div class="bp-doc-line bp-doc-line--rosa"></div>
+              <div class="bp-doc-line bp-doc-line--short"></div>
+            </div>
+          </div>
+          <span class="bp-doc-badge">BG5 Business Blueprint</span>
+          <div class="bp-doc-line bp-doc-line--full" style="margin-bottom:.8rem"></div>
+          <div class="bp-doc-line bp-doc-line--med"></div>
+          <div class="bp-doc-line bp-doc-line--full"></div>
+          <div class="bp-doc-line bp-doc-line--short" style="margin-bottom:1.5rem"></div>
+          <div class="bp-doc-line bp-doc-line--teal" style="margin-bottom:.5rem"></div>
+          <div class="bp-doc-line bp-doc-line--full"></div>
+          <div class="bp-doc-line bp-doc-line--med"></div>
+          <div style="height:.5rem"></div>
+          <div class="bp-doc-line bp-doc-line--full"></div>
+          <div class="bp-doc-line bp-doc-line--short"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{# ══════════════════════════════════════════
+   3. COSA CONTIENE
+══════════════════════════════════════════ #}
+<section class="bp-section bp-section--parchment" id="contiene">
+  <div class="bp-container">
+    <div style="text-align:center">
+      <p class="bp-eyebrow" style="justify-content:center">Cosa contiene</p>
+      <h2 class="bp-section-title" style="margin:0 auto .75rem">Due versioni, un solo documento base.</h2>
+      <p class="bp-section-sub" style="margin:0 auto">La Carta Essenziale copre l'identità energetica completa. Il Blueprint Completo aggiunge le applicazioni di marketing, comunicazione e vendita.</p>
+    </div>
+    <div class="bp-contains__grid">
+      <div class="bp-tier-panel bp-tier-panel--essenziale bp-reveal">
+        <p class="bp-tier-panel__title">Carta Essenziale</p>
+        <h3 class="bp-tier-panel__heading">Identità energetica</h3>
+        <p class="bp-tier-panel__count">15 sezioni · ~40 pagine</p>
+        <ol class="bp-section-list">
+          <li><span class="bp-section-num">01</span>Apertura e orientamento al documento</li>
+          <li><span class="bp-section-num">02</span>La tua carta BG5 spiegata</li>
+          <li><span class="bp-section-num">03</span>Tipo di Carriera e Strategia</li>
+          <li><span class="bp-section-num">04</span>Autorità Interiore</li>
+          <li><span class="bp-section-num">05</span>Il tuo Profilo</li>
+          <li><span class="bp-section-num">06</span>La tua Definizione</li>
+          <li><span class="bp-section-num">07</span>Firma di allineamento e Non-Sé</li>
+          <li><span class="bp-section-num">08</span>Centri Definiti — i tuoi superpoteri</li>
+          <li><span class="bp-section-num">09</span>Centri Aperti — saggezza e trappole</li>
+          <li><span class="bp-section-num">10</span>Il tuo Campo di Attrazione</li>
+          <li><span class="bp-section-num">11</span>Canali Attivi — talenti strutturali</li>
+          <li><span class="bp-section-num">12</span>Porte sospese</li>
+          <li><span class="bp-section-num">13</span>Croce di Incarnazione</li>
+          <li><span class="bp-section-num">14</span>Variabile, Dieta cognitiva, Ambiente</li>
+          <li><span class="bp-section-num">15</span>Sintesi e 7 suggerimenti pratici</li>
+        </ol>
+      </div>
+      <div class="bp-tier-panel bp-tier-panel--completo bp-reveal">
+        <p class="bp-tier-panel__title">Blueprint Completo</p>
+        <h3 class="bp-tier-panel__heading" style="color:#fff">Identità + Marketing</h3>
+        <p class="bp-tier-panel__count">19 sezioni · ~55 pagine</p>
+        <p style="font-size:.875rem;color:rgba(245,236,240,.6);margin:0 0 1rem">Tutte le 15 sezioni dell'Essenziale, più:</p>
+        <ol class="bp-section-list" start="16">
+          <li class="extra"><span class="bp-section-num">16</span>Offerte allineate ai tuoi Centri</li>
+          <li class="extra"><span class="bp-section-num">17</span>La tua Voce di Gola: come comunicare</li>
+          <li class="extra"><span class="bp-section-num">18</span>Vendita allineata al tuo design</li>
+          <li class="extra"><span class="bp-section-num">19</span>Strategia contenuti per i tuoi Centri</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{# ══════════════════════════════════════════
+   4. PER CHI È
+══════════════════════════════════════════ #}
+<section class="bp-section bp-section--soft">
+  <div class="bp-container">
+    <div style="text-align:center">
+      <p class="bp-eyebrow" style="justify-content:center">Per chi è</p>
+      <h2 class="bp-section-title" style="margin:0 auto .75rem">Non è per tutti. È per chi vuole capire come è fatta.</h2>
+    </div>
+    <div class="bp-forchi__grid">
+      <div class="bp-profile-card bp-reveal">
+        <div class="bp-profile-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+        </div>
+        <h3>La libera professionista solitaria</h3>
+        <p>Lavori da sola e senti che la tua energia non è illimitata come quella degli altri. Vuoi capire come sei strutturata per lavorare — e smettere di imitare modelli che non ti appartengono.</p>
+        <p class="bp-profile-tag">"questo sei tu se..." non riesci ad applicare i consigli di business generici</p>
+      </div>
+      <div class="bp-profile-card bp-reveal">
+        <div class="bp-profile-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="8" r="3"/><circle cx="15" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6h6c3.3 0 6 2.7 6 6"/>
+          </svg>
+        </div>
+        <h3>L'imprenditrice con un piccolo team</h3>
+        <p>Hai collaboratori e le dinamiche di gruppo non sempre funzionano. Vuoi capire il tuo ruolo naturale — come delegare bene e come non bruciare la tua energia nel gestire gli altri.</p>
+        <p class="bp-profile-tag">"questo sei tu se..." le riunioni ti prosciugano e ti senti spesso fraintesa</p>
+      </div>
+      <div class="bp-profile-card bp-reveal">
+        <div class="bp-profile-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <h3>Chi è in transizione professionale</h3>
+        <p>Stai cambiando direzione, costruendo qualcosa di nuovo o uscendo da un percorso che non ti appartiene più. Vuoi un punto fermo su come sei fatta prima di decidere cosa fare.</p>
+        <p class="bp-profile-tag">"questo sei tu se..." senti che qualcosa non torna ma non sai cosa cambiare</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{# ══════════════════════════════════════════
+   5. COME FUNZIONA
+══════════════════════════════════════════ #}
+<section class="bp-section bp-section--white">
+  <div class="bp-container">
+    <div style="text-align:center">
+      <p class="bp-eyebrow" style="justify-content:center">Come funziona</p>
+      <h2 class="bp-section-title" style="margin:0 auto .75rem">Tre passi. Nessuna call, nessuna attesa.</h2>
+      <p class="bp-section-sub" style="margin:0 auto">Inserisci i tuoi dati di nascita, scegli la versione e ricevi il tuo documento entro 5 giorni lavorativi.</p>
+    </div>
+    <div class="bp-steps__grid">
+      <div class="bp-step bp-reveal">
+        <div class="bp-step__num" aria-hidden="true">01</div>
+        <div class="bp-step__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/>
+          </svg>
+        </div>
+        <h3>Compila il modulo</h3>
+        <p>Nome, email, data di nascita, ora e luogo. Sono i dati che servono per calcolare la tua carta BG5 precisa. Non serve altro.</p>
+      </div>
+      <div class="bp-step bp-reveal">
+        <div class="bp-step__num" aria-hidden="true">02</div>
+        <div class="bp-step__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <h3>Ricevi la conferma</h3>
+        <p>Entro 24 ore ricevi un'email di conferma. Valentina elabora personalmente il Blueprint e lo revisiona prima di inviartelo.</p>
+      </div>
+      <div class="bp-step bp-reveal">
+        <div class="bp-step__num" aria-hidden="true">03</div>
+        <div class="bp-step__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/>
+          </svg>
+        </div>
+        <h3>Applica nel tempo</h3>
+        <p>Ricevi il PDF entro 5 giorni lavorativi. È un documento da rileggere più volte: le pagine più utili cambiano con te, nel tempo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{# ══════════════════════════════════════════
+   6. PRICING
+══════════════════════════════════════════ #}
+<section class="bp-section bp-section--gradient" id="prezzi">
+  <div class="bp-container">
+    <div style="text-align:center">
+      <p class="bp-eyebrow" style="justify-content:center">Scegli la versione</p>
+      <h2 class="bp-section-title" style="margin:0 auto .75rem">Carta Essenziale o Blueprint Completo?</h2>
+      <p class="bp-section-sub" style="margin:0 auto">Se è la prima volta con il BG5, l'Essenziale ti dà già tutto quello che ti serve. Il Completo aggiunge le applicazioni di marketing e vendita.</p>
+    </div>
+    <div class="bp-pricing__grid bp-reveal">
+
+      {# Card Essenziale #}
+      <div class="bp-pricing-card bp-pricing-card--ess">
+        <p class="bp-pricing-card__title">Carta Essenziale</p>
+        <h3 class="bp-pricing-card__name">Identità energetica</h3>
+        <div style="margin: 1.5rem 0 .25rem">
+          <span class="bp-price">€90</span>
+        </div>
+        <p class="bp-price-label">15 sezioni · ~40 pagine · PDF</p>
+        <ul class="bp-feature-list">
+          <li><span class="bp-feature-check">✓</span>Tipo di Carriera BG5 e Strategia</li>
+          <li><span class="bp-feature-check">✓</span>Autorità Interiore e Profilo</li>
+          <li><span class="bp-feature-check">✓</span>Tutti i Centri (definiti e aperti)</li>
+          <li><span class="bp-feature-check">✓</span>Canali, Porte e Croce</li>
+          <li><span class="bp-feature-check">✓</span>Variabile, Dieta cognitiva, Ambiente</li>
+          <li><span class="bp-feature-check">✓</span>7 suggerimenti pratici personalizzati</li>
+        </ul>
+        <div class="bp-cta">
+          <a href="#ordine" class="bp-btn-outline-ess" onclick="document.querySelector('[name=tier][value=essenziale]').checked=true">Scegli l'Essenziale</a>
+        </div>
+      </div>
+
+      {# Card Completo #}
+      <div class="bp-pricing-card bp-pricing-card--comp">
+        <span class="bp-pricing-badge">Più completo</span>
+        <p class="bp-pricing-card__title">Blueprint Completo</p>
+        <h3 class="bp-pricing-card__name">Identità + Marketing</h3>
+        <div style="margin: 1.5rem 0 .25rem">
+          <span class="bp-price">€147</span>
+        </div>
+        <p class="bp-price-label">19 sezioni · ~55 pagine · PDF</p>
+        <ul class="bp-feature-list">
+          <li><span class="bp-feature-check" style="color:#4A8C8C">✓</span><span style="color:rgba(245,236,240,.85)">Tutto l'Essenziale, più:</span></li>
+          <li><span class="bp-feature-check" style="color:#C48A3A">+</span><span class="bp-feature-extra">Offerte allineate ai tuoi Centri</span></li>
+          <li><span class="bp-feature-check" style="color:#C48A3A">+</span><span class="bp-feature-extra">La tua Voce di Gola: come comunicare</span></li>
+          <li><span class="bp-feature-check" style="color:#C48A3A">+</span><span class="bp-feature-extra">Vendita allineata al tuo design</span></li>
+          <li><span class="bp-feature-check" style="color:#C48A3A">+</span><span class="bp-feature-extra">Strategia contenuti per i tuoi Centri</span></li>
+        </ul>
+        <div class="bp-cta">
+          <a href="#ordine" class="bp-btn-primary" onclick="document.querySelector('[name=tier][value=completo]').checked=true">Scegli il Completo</a>
+        </div>
+      </div>
+
+    </div>
+    <p class="bp-pricing__footer">
+      Domande sul formato? <a href="#faq">Leggi le FAQ</a>
+    </p>
+  </div>
+</section>
+
+
+{# ══════════════════════════════════════════
+   7. FORM D'ORDINE
+══════════════════════════════════════════ #}
+<section class="bp-section bp-section--dark" id="ordine">
+  <div class="bp-container">
+    <div class="bp-form-wrap">
+      <div style="text-align:center">
+        <p class="bp-eyebrow" style="justify-content:center">Inizia ora</p>
+        <h2 class="bp-section-title" style="font-style:italic">Inizia il tuo Blueprint</h2>
+        <p class="bp-section-sub" style="margin:0 auto 0">Inserisci i tuoi dati di nascita per ricevere la tua analisi BG5 personalizzata.</p>
+      </div>
+      <form class="bp-form" id="bp-order-form" novalidate>
+        <div class="bp-form-row">
+          <div class="bp-form-group">
+            <label for="bp-nome">Nome e cognome *</label>
+            <input type="text" id="bp-nome" name="nome" required autocomplete="name" placeholder="es. Maria Rossi">
+          </div>
+          <div class="bp-form-group">
+            <label for="bp-email">Email *</label>
+            <input type="email" id="bp-email" name="email" required autocomplete="email" placeholder="tu@esempio.it">
+          </div>
+        </div>
+        <div class="bp-form-row">
+          <div class="bp-form-group">
+            <label for="bp-nascita">Data di nascita *</label>
+            <input type="date" id="bp-nascita" name="birth_date" required>
+          </div>
+          <div class="bp-form-group">
+            <label for="bp-ora">Ora di nascita *</label>
+            <input type="time" id="bp-ora" name="birth_time" required>
+          </div>
+        </div>
+        <div class="bp-form-group">
+          <label for="bp-luogo">Luogo di nascita *</label>
+          <input type="text" id="bp-luogo" name="birth_place" required autocomplete="off" placeholder="es. Milano, Italia">
+        </div>
+        <div class="bp-form-group">
+          <label style="display:block;margin-bottom:.75rem">Versione *</label>
+          <div class="bp-form-radio-group">
+            <label class="bp-form-radio">
+              <input type="radio" name="tier" value="essenziale">
+              <span>
+                <strong>Carta Essenziale</strong>
+                <span>15 sezioni · €90</span>
+              </span>
+            </label>
+            <label class="bp-form-radio">
+              <input type="radio" name="tier" value="completo" checked>
+              <span>
+                <strong>Blueprint Completo</strong>
+                <span>19 sezioni · €147</span>
+              </span>
+            </label>
+          </div>
+        </div>
+        <button type="submit" class="bp-form-submit">Richiedi il mio Blueprint →</button>
+        <p class="bp-form-note">Riceverai una conferma via email entro 24 ore. Il pagamento avviene successivamente.</p>
+      </form>
+      <div class="bp-form-success" id="bp-form-success">
+        <p style="font-size:1.125rem;font-weight:700;margin:0 0 .5rem">Richiesta inviata!</p>
+        <p style="margin:0;opacity:.8">Grazie. Riceverai una email di conferma entro 24 ore con tutti i dettagli.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{# ══════════════════════════════════════════
+   8. FAQ
+══════════════════════════════════════════ #}
+<section class="bp-section bp-section--parchment" id="faq">
+  <div class="bp-container">
+    <div style="text-align:center">
+      <p class="bp-eyebrow" style="justify-content:center">FAQ</p>
+      <h2 class="bp-section-title" style="margin:0 auto">Domande frequenti</h2>
+    </div>
+    <div class="bp-faq-wrap">
+      <div class="bp-faq-item">
+        <button class="bp-faq-q" aria-expanded="false">
+          Cosa mi serve per richiedere il Blueprint?
+          <span class="bp-faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="bp-faq-a" role="region">
+          <p>Solo i tuoi dati di nascita: data, ora e luogo. L'ora è importante per il calcolo della carta — se non la conosci con precisione, indicalo nel form e troveremo una soluzione. Il documento viene elaborato da Valentina e revisionato prima della consegna.</p>
+        </div>
+      </div>
+      <div class="bp-faq-item">
+        <button class="bp-faq-q" aria-expanded="false">
+          Quanto tempo ci vuole per riceverlo?
+          <span class="bp-faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="bp-faq-a" role="region">
+          <p>Entro 5 giorni lavorativi dalla conferma del pagamento. Ricevi prima un'email di conferma entro 24 ore dalla richiesta, poi il documento PDF quando è pronto. Valentina revisiona ogni Blueprint personalmente prima dell'invio.</p>
+        </div>
+      </div>
+      <div class="bp-faq-item">
+        <button class="bp-faq-q" aria-expanded="false">
+          È diverso da una sessione con Valentina?
+          <span class="bp-faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="bp-faq-a" role="region">
+          <p>Sì. Il Blueprint è un documento scritto, non una sessione live. È pensato per chi vuole un riferimento concreto da consultare nel tempo, senza la pressione di una call. Se vuoi poi approfondire con una sessione, il Blueprint diventa una base ottima da cui partire.</p>
+        </div>
+      </div>
+      <div class="bp-faq-item">
+        <button class="bp-faq-q" aria-expanded="false">
+          Qual è la differenza reale tra Essenziale e Completo?
+          <span class="bp-faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="bp-faq-a" role="region">
+          <p>L'Essenziale copre l'identità energetica completa: chi sei, come funzioni, come decidi. Il Completo aggiunge 4 sezioni di applicazione pratica al business: come costruire le offerte, come comunicare, come vendere e che strategia di contenuti usare — tutto calibrato sulla tua configurazione BG5 specifica.</p>
+        </div>
+      </div>
+      <div class="bp-faq-item">
+        <button class="bp-faq-q" aria-expanded="false">
+          Non so molto di Human Design / BG5 — è adatto a me?
+          <span class="bp-faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="bp-faq-a" role="region">
+          <p>Sì, anzi. Il Blueprint è scritto per chi non conosce il sistema — ogni concetto viene spiegato nel contesto della tua carta. Non devi studiare niente prima. Puoi usarlo come primo punto di contatto con il BG5 e poi decidere se approfondire.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>{# /.bp-landing #}
+
+<script>
+// ── FAQ accordion ──────────────────────────────────────────────────────────
+document.querySelectorAll('.bp-faq-q').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var item = this.closest('.bp-faq-item');
+    var isOpen = item.classList.contains('open');
+    document.querySelectorAll('.bp-faq-item').forEach(function(i) {
+      i.classList.remove('open');
+      i.querySelector('.bp-faq-q').setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      this.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+
+// ── Scroll reveal fallback (per browser senza animation-timeline) ──────────
+if (!CSS.supports('animation-timeline', 'view()')) {
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.bp-reveal').forEach(function(el) { observer.observe(el); });
+}
+
+// ── Form submit (placeholder — senza Stripe per ora) ──────────────────────
+document.getElementById('bp-order-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var form = this;
+  var data = new FormData(form);
+
+  // Validazione base
+  var required = ['nome', 'email', 'birth_date', 'birth_time', 'birth_place'];
+  var valid = true;
+  required.forEach(function(f) {
+    var input = form.querySelector('[name="' + f + '"]');
+    if (!input || !input.value.trim()) {
+      input && (input.style.borderColor = '#C9768A');
+      valid = false;
+    } else {
+      input.style.borderColor = '';
+    }
+  });
+  if (!form.querySelector('[name=tier]:checked')) valid = false;
+  if (!valid) return;
+
+  // TODO: sostituire con chiamata Stripe o endpoint PHP quando disponibile
+  form.style.display = 'none';
+  document.getElementById('bp-form-success').style.display = 'block';
+
+  // Tracking Google Analytics
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'blueprint_request', {
+      'event_category': 'Blueprint',
+      'event_label': data.get('tier')
+    });
+  }
+});
+
+// ── Selezione tier dai bottoni pricing ────────────────────────────────────
+document.querySelectorAll('a[href="#ordine"]').forEach(function(a) {
+  a.addEventListener('click', function() {
+    var tier = this.closest('.bp-pricing-card--comp') ? 'completo' : 'essenziale';
+    var radio = document.querySelector('[name=tier][value=' + tier + ']');
+    if (radio) radio.checked = true;
+  });
+});
+</script>
+{% endblock %}
