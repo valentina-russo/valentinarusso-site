@@ -15,19 +15,17 @@ aeo_answer: "Valentina Russo è consulente BG5® certificata che offre sessioni 
 
 ## BG5® a Bologna: analisi tecnica per la regione più produttiva d'Italia
 
-L'Emilia-Romagna è la regione italiana con il PIL pro capite più alto e una delle più dense concentrazioni di aziende manifatturiere e di servizi. Bologna — città universitaria, polo logistico, hub del terziario avanzato — è al centro di questo tessuto. I professionisti bolognesi ed emiliani portano con sé una cultura del lavoro precisa, concreta e orientata ai risultati.
-
-Il sistema **BG5®** parla la stessa lingua: non è un sistema di credenze né un percorso generico. È un'analisi tecnica della tua meccanica professionale.
+L'Emilia-Romagna ha il PIL pro capite più alto d'Italia. Bologna è il centro di un tessuto professionale concreto e orientato ai risultati: chi lavora qui conosce il valore dell'esecuzione precisa. Il sistema **BG5®** risponde a questa cultura con lo stesso registro, dati tecnici sul tuo funzionamento professionale e indicazioni operative applicabili da subito.
 
 ### BG5® e la cultura produttiva emiliana
 
-In un contesto dove il lavoro è un valore fondante dell'identità, il rischio più diffuso è il **burnout da identità produttiva**: lavorare tanto perché ci si identifica con il lavorare, non perché ci sia una direzione energetica precisa.
+In una regione dove il lavoro è parte centrale dell'identità professionale, la deriva più comune è lavorare molto senza una direzione energetica precisa. Il sistema BG5® distingue tra tipi con un motore energetico strutturale (i **Costruttori** e gli **Iniziatori**) e tipi che ne sono privi (la **Guida** e il **Valutatore**).
 
-Il sistema BG5® distingue tra tipi energetici *non motore* (la **Guida** e il **Valutatore**) e tipi *motore* (i **Costruttori** e gli **Iniziatori**). Una Guida bolognese che lavora con la stessa intensità di un Costruttore esaurisce le proprie riserve energetiche in modo sistematico — non perché sia "debole", ma perché la sua meccanica non supporta quel modello.
+Una Guida bolognese che lavora con la stessa intensità di un Costruttore esaurisce le proprie riserve energetiche in modo sistematico. La sua meccanica funziona per sprint mirati dentro relazioni di riconoscimento specifico, non per produzione continua e autonoma.
 
-Un **Costruttore Classico** emiliano ha un motore energetico rinnovabile se usato correttamente: in risposta a stimoli che il corpo riconosce. Quando sceglie il lavoro con la testa invece che con la risposta viscerale, accumula frustrazione anche a fronte di grande disciplina.
+Un **Costruttore Classico** emiliano ha invece un motore rinnovabile, che funziona però solo in risposta a stimoli che il corpo riconosce come giusti. Scegliere il lavoro con la testa invece che con la risposta viscerale produce frustrazione, anche quando la disciplina e il metodo ci sono.
 
-### Sessioni online — da Bologna e da tutta l'Emilia-Romagna
+### Sessioni online, da Bologna e da tutta l'Emilia-Romagna
 
 La **Panoramica BG5® del Disegno di Carriera** (90 minuti, 350 €): analisi di Tipo, Strategia, Autorità applicati al tuo contesto professionale specifico.
 

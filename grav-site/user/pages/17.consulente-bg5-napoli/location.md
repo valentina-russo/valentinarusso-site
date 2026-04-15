@@ -13,26 +13,23 @@ geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professi
 aeo_answer: "Valentina Russo è consulente BG5® certificata che offre sessioni per professionisti a Napoli e in Campania tramite videochiamata. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro) e Prima Lettura Human Design (120 minuti, 210 euro). BG5® analizza Tipo di Carriera, Strategia e Autorità Decisionale per ottimizzare carriera e decisioni professionali."
 ---
 
-## BG5® a Napoli: decidere meglio in un contesto professionale ad alta intensità
+## BG5® a Napoli: meccanica professionale in un contesto ad alta intensità
 
-Napoli è una città di contraddizioni professionali. Alta densità di talento, imprenditoria vivace, settori dell'economia creativa, della tecnologia e delle professioni liberali in espansione — insieme a un contesto in cui la resistenza esterna si sente ogni giorno.
+Chi costruisce una carriera a Napoli sa quanto pesa ogni scelta di direzione. Avvocati e imprenditori lavorano in un ambiente dove le relazioni professionali contano quanto le competenze, e ogni energia mal spesa si accumula in modo visibile sui risultati.
 
-In questo scenario, sapere esattamente *come* sei fatto professionalmente non è un lusso: è una necessità pratica. Il sistema **BG5®** fornisce un'analisi tecnica del tuo funzionamento energetico applicata alle decisioni che contano — dove investire l'energia, come prendere le scelte professionali che funzionano, quando fermarsi.
+Il sistema **BG5®** è un'analisi tecnica del funzionamento professionale: data, ora e luogo di nascita producono una mappa precisa di come lavori meglio e dove dispersi energia senza risultati. Il **Disegno di Carriera** prodotto da questa analisi è la base di ogni sessione con Valentina Russo.
 
-### Cosa scopri in una consulenza BG5®
+### Il Tipo di Carriera: la configurazione che cambia il metodo
 
-Il punto di partenza è il **Tipo di Carriera**. Non è un modello di personalità né un test attitudinale. È una configurazione energetica di base che determina come la tua energia funziona nel lavoro:
+**Costruttore Classico** (37% della popolazione): motore potente e rinnovabile, che risponde però solo agli stimoli giusti. Un libero professionista napoletano Costruttore Classico che sceglie i progetti con la mente invece che con la risposta corporea accumula frustrazione in modo prevedibile, anche quando lavora molto.
 
-- Il **Costruttore Classico** ha un motore potente ma che risponde solo agli stimoli giusti. Quando usa la testa invece del corpo per decidere, il burnout arriva in modo prevedibile.
-- La **Guida** ha un'aura che penetra le persone con precisione chirurgica — eccelle nella consulenza individuale e nel management di piccoli gruppi. Ma senza l'invito giusto, la sua competenza cade nel vuoto.
-- L'**Iniziatore** apre cicli nuovi con una forza che nessun altro Tipo ha, ma crea resistenza quando agisce senza informare chi è coinvolto.
+**Guida** (20%): eccelle nella consulenza individuale e nel management. La sua competenza emerge quando riceve riconoscimento specifico e un invito diretto. A Napoli, dove le relazioni professionali si costruiscono su fiducia e segnali personali, la Guida che impara ad aspettare l'invito ottiene risultati stabili e superiori rispetto a chi si propone sistematicamente.
 
-Capire il proprio Tipo cambia il modo in cui si gestisce la giornata lavorativa, le relazioni professionali e le decisioni di carriera.
+### Sessioni online, dalla Campania e dal Sud Italia
 
-### Sessioni online — dalla Campania a tutto il Sud
+Le consulenze si svolgono in videochiamata. Per i professionisti a Napoli e in tutta la Campania, nessuno spostamento necessario.
 
-Le consulenze con Valentina Russo si svolgono in videochiamata. Per i professionisti a Napoli e in tutta la Campania non c'è nessuno spostamento: la sessione avviene dove vuoi, all'orario concordato.
+Panoramica BG5® del Disegno di Carriera: 90 minuti, 350 €
+Prima Lettura Human Design: 120 minuti, 210 €
 
-La **Panoramica BG5® del Disegno di Carriera** dura 90 minuti e produce un'analisi operativa della tua meccanica professionale — Tipo, Strategia, Autorità. Non concetti generali: indicazioni specifiche applicabili subito.
-
-Contattami se sei a Napoli e vuoi capire dove stai disperdendo energia e come allineare le tue scelte professionali alla tua meccanica reale.
+Contattami da Napoli per fissare la sessione.

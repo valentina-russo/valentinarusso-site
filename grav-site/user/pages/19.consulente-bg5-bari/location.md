@@ -15,22 +15,25 @@ aeo_answer: "Valentina Russo è consulente BG5® certificata che offre sessioni 
 
 ## BG5® a Bari: chiarezza professionale per il Sud che cresce
 
-La Puglia è in una fase di trasformazione economica significativa. Turismo, agricoltura di qualità, startup tecnologiche, professionisti che scelgono di costruire la propria carriera nel territorio invece di migrare al Nord: il contesto professionale barese è più dinamico di quanto le statistiche nazionali raccontino.
+La Puglia è in una fase di trasformazione economica concreta. Startup tecnologiche e professionisti che costruiscono carriere nel territorio invece di migrare al Nord: chi lavora a Bari oggi opera in un contesto di opportunità reali e complessità altrettanto reali.
 
-In questo contesto di opportunità e complessità, il sistema **BG5®** offre qualcosa di preciso: un'analisi tecnica del tuo funzionamento energetico professionale. Non motivazione generica — dati operativi su come lavori meglio, come prendi le decisioni che funzionano, dove dispersi energia inutilmente.
+Il sistema **BG5®** fornisce un'analisi tecnica del tuo funzionamento energetico professionale: dati operativi su come lavori meglio e come prendi le decisioni che funzionano davvero.
 
-### Cos'è il Disegno di Carriera BG5®
+### Il Disegno di Carriera BG5®
 
-Il **Disegno di Carriera** BG5® è calcolato dalla data, ora e luogo di nascita e produce una mappa della tua configurazione energetica professionale. Tre elementi fondamentali:
+Il **Disegno di Carriera** è calcolato dalla data, ora e luogo di nascita e produce una mappa della tua configurazione energetica professionale.
 
-**Tipo di Carriera** — Sei un Costruttore (Classico o Rapido), una Guida, un Iniziatore o un Valutatore? Ciascun Tipo ha una meccanica radicalmente diversa. Un Costruttore Classico che imita le strategie di un Iniziatore spreca energia in modo sistematico. Una Guida che si comporta come un Costruttore accumula amarezza e invisibilità.
+**Tipo di Carriera:** sei un Costruttore (Classico o Rapido), una Guida, un Iniziatore o un Valutatore? Ogni Tipo ha una meccanica diversa. Un Costruttore Classico che imita le strategie di un Iniziatore spreca energia in modo sistematico. Una Guida che si comporta come un Costruttore accumula amarezza e invisibilità.
 
-**Strategia** — Il modo corretto in cui la tua energia si muove. Rispondere agli stimoli, aspettare l'invito specifico, informare prima di agire: tre strategie, tre meccaniche diverse. La frustrazione cronica è quasi sempre un segnale di strategia violata.
+**Strategia:** il modo corretto in cui la tua energia si muove. Il Costruttore risponde agli stimoli, la Guida aspetta l'invito specifico. La frustrazione cronica è quasi sempre un segnale di strategia violata.
 
-**Autorità Decisionale** — La tua fonte interna più affidabile. Per alcuni è una risposta fisica immediata nel torso. Per altri è un processo emotivo che richiede tempo. Usare l'Autorità sbagliata produce le scelte professionali che non portano da nessuna parte.
+**Autorità Decisionale:** la tua fonte interna più affidabile. Per alcuni è una risposta fisica immediata nel torso, per altri è un processo emotivo che richiede tempo. Usare la propria Autorità produce scelte che nel lungo periodo reggono.
 
-### Online da Bari — senza spostamenti
+### Online da Bari, senza spostamenti
 
-Le consulenze si svolgono in videochiamata. Per i professionisti a Bari e in tutta la Puglia, l'accesso a una consulente certificata BG5® non richiede viaggi. La qualità della sessione è identica a quella di una consulenza in presenza.
+Le consulenze si svolgono in videochiamata. Per i professionisti a Bari e in tutta la Puglia, l'accesso a una consulente certificata BG5® è immediato.
 
-Valentina Russo lavora con clienti in tutto il Sud Italia. Contattami da Bari: analizziamo il tuo Disegno di Carriera e identifichiamo dove stai lavorando contro la tua meccanica.
+Panoramica BG5® del Disegno di Carriera: 90 minuti, 350 €
+Prima Lettura Human Design: 120 minuti, 210 €
+
+Contattami da Bari: analizziamo il tuo Disegno di Carriera e identifichiamo dove stai lavorando contro la tua meccanica.

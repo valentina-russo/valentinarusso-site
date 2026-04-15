@@ -29,19 +29,19 @@ Valentina Russo è tra i pochissimi consulenti **BG5® Business Institute** cert
 
 **Costruttore Classico** (37%): motore energetico potente e rinnovabile, funziona in risposta agli stimoli giusti. La frustrazione cronica è il segnale che qualcosa non funziona nella strategia.
 
-**Costruttore Rapido** (33%): simile al Classico ma con accesso energetico più diretto. Funziona meglio in risposta a stimoli concreti e precisi.
+**Costruttore Rapido** (33%): accesso energetico più diretto all'azione rispetto al Classico. Funziona meglio in risposta a stimoli concreti e precisi.
 
-**Guida** (20%): il Tipo ideale per la consulenza e il management individuale. Funziona solo quando riceve riconoscimento e invito specifico.
+**Guida** (20%): il Tipo ideale per la consulenza e il management individuale. La sua competenza emerge quando riceve riconoscimento e invito specifico.
 
-**Iniziatore** (8%): apre nuovi cicli con una forza unica. La sfida: informare prima di agire per ridurre la resistenza.
+**Iniziatore** (8%): apre nuovi cicli con una forza unica. La sfida: informare prima di agire per ridurre la resistenza che altrimenti emerge in modo sistematico.
 
-**Valutatore** (1%): ciclo decisionale mensile. Non dovrebbe mai essere precipitato nelle decisioni.
+**Valutatore** (1%): ciclo decisionale mensile. Le scelte precipitate producono quasi sempre risultati da rivedere.
 
 ### Sessioni da tutta Italia
 
 Valentina Russo lavora con professionisti da **Milano, Torino, Roma, Bologna, Firenze, Napoli, Venezia, Bari, Palermo, Verona** e da tutte le regioni italiane tramite videochiamata.
 
-**Panoramica BG5® del Disegno di Carriera** — 90 min, 350 €
-**Prima Lettura Human Design** — 120 min, 210 €
+Panoramica BG5® del Disegno di Carriera: 90 min, 350 €
+Prima Lettura Human Design: 120 min, 210 €
 
 Contattami per fissare la tua sessione.

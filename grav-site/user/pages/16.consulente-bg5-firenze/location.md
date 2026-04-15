@@ -15,26 +15,27 @@ aeo_answer: "Valentina Russo è consulente BG5® certificata che lavora con prof
 
 ## BG5® a Firenze: identità professionale e meccanica energetica in un contesto creativo
 
-Firenze è una città in cui l'identità professionale spesso si intreccia con la creatività, la tradizione artigianale e un'estetica del lavoro ben fatta. I professionisti fiorentini — nel mondo della moda, del design, del turismo culturale, della comunicazione — portano con sé una cultura del fare che valorizza la qualità sopra la quantità.
+Firenze è una città in cui l'identità professionale si intreccia con la cura artigianale e con un'idea precisa del lavoro ben fatto. Chi opera nel mondo della moda o del design porta con sé una cultura del fare che valorizza la qualità sulla quantità.
 
-Il sistema **BG5®** parla la stessa lingua: non si tratta di produrre di più, ma di produrre in modo allineato alla propria meccanica energetica. La differenza tra un professionista che lavora *con* la propria natura e uno che lavora *contro* è misurabile — in energia sostenuta, in decisioni più precise, in minore resistenza quotidiana.
+Il sistema **BG5®** allinea questa cultura a dati tecnici: produrre in modo allineato alla propria meccanica energetica produce risultati diversi da chi lavora a forza. La differenza si misura in energia sostenuta e in decisioni che costano meno.
 
 ### I tre elementi fondamentali dell'analisi BG5®
 
 Una **Panoramica BG5® del Disegno di Carriera** con Valentina Russo analizza:
 
-**Tipo di Carriera** — La tua configurazione energetica di base. Ci sono cinque Tipi: il **Costruttore Classico** (37% della popolazione) che funziona in risposta agli stimoli giusti, il **Costruttore Rapido** (33%) con una connessione diretta all'azione, la **Guida** (20%) che eccelle nella consulenza individuale e nel management, l'**Iniziatore** (8%) capace di aprire nuovi cicli, il **Valutatore** (1%) con ciclo decisionale mensile.
+**Tipo di Carriera:** la tua configurazione energetica di base. Cinque Tipi con meccaniche distinte: il **Costruttore Classico** (37% della popolazione) funziona in risposta agli stimoli giusti, il **Costruttore Rapido** (33%) ha una connessione diretta all'azione, la **Guida** (20%) eccelle nella consulenza e nel management individuale, l'**Iniziatore** (8%) apre nuovi cicli, il **Valutatore** (1%) lavora su un ciclo decisionale mensile.
 
-**Strategia** — Il modo corretto in cui la tua energia si muove nel lavoro. Ogni Tipo ha la sua: rispondere, aspettare l'invito, informare, aspettare. Operare fuori strategia produce i segnali negativi del Tipo — frustrazione, amarezza, rabbia o delusione.
+**Strategia:** il modo in cui la tua energia si muove nel lavoro. Ogni Tipo ha la sua strategia ottimale. Operare fuori Strategia produce segnali negativi caratteristici: il Costruttore accumula frustrazione, la Guida accumula amarezza.
 
-**Autorità Decisionale** — La fonte interna più affidabile per le scelte professionali. Sacrale, Emotiva, Splenica: tre meccaniche molto diverse. Decidere con quella sbagliata — di solito la mente — porta a scelte che non portano da nessuna parte.
+**Autorità Decisionale:** la fonte interna più affidabile per le scelte professionali. Per alcuni è una risposta corporea immediata, per altri è un processo emotivo che richiede tempo. Usare la propria Autorità produce scelte che reggono nel lungo periodo.
 
 ### Perché lavorare con una consulente certificata
 
-Valentina Russo è certificata dal **BG5® Business Institute**, l'ente internazionale che forma i consulenti BG5® a livello globale. La certificazione garantisce che l'analisi sia accurata, metodologicamente rigorosa e applicata al contesto professionale — non solo alla vita personale.
-
-Le sessioni si svolgono online, in italiano. Per i professionisti a Firenze e in tutta la Toscana questo significa accesso immediato senza spostamenti.
+Valentina Russo è certificata dal **BG5® Business Institute**, l'ente internazionale che forma i consulenti BG5® a livello globale. Le sessioni si svolgono online, in italiano, accessibili da Firenze e da tutta la Toscana senza spostamenti.
 
 ### Il primo appuntamento
 
-Se lavori a Firenze e senti che la tua energia va in direzioni che non corrispondono ai risultati, contattami. La Panoramica BG5® è il punto di partenza: 90 minuti per mappare la tua meccanica professionale con precisione.
+Panoramica BG5® del Disegno di Carriera: 90 minuti, 350 €
+Prima Lettura Human Design: 120 minuti, 210 €
+
+Contattami da Firenze per fissare la sessione.
