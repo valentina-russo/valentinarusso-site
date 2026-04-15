@@ -637,7 +637,7 @@ def _inject_section_assets(story, styles, key, chart):
     return
 
 
-def render_section(story, styles, num, key, text, chart=None):
+def render_section(story, styles, num, key, text, chart=None, tier_name="Completo"):
     titles = section_titles(chart)
     title = titles[key]
 
@@ -684,8 +684,9 @@ def render_section(story, styles, num, key, text, chart=None):
     # Indice del primo paragrafo p (diventerà il lead)
     lead_idx = next((i for i, (k, _) in enumerate(blocks) if k == "p"), -1)
 
-    # Pull quote: solo se la sezione è lunga abbastanza
-    pull = _maybe_pull_quote(blocks, styles)
+    # Pull quote: solo Completo, solo se la sezione è lunga abbastanza
+    is_essenziale = tier_name.lower() == "essenziale"
+    pull = None if is_essenziale else _maybe_pull_quote(blocks, styles)
     pull_idx, pull_flowables = (pull if pull else (-1, None))
 
     # KeepTogether: header + asset + primo paragrafo lead devono stare
@@ -831,7 +832,8 @@ def build_pdf(sections, section_keys, out_path, tier_name, tier_subtitle, chart,
                 # Tra sezioni della stessa Parte: soft break condizionale
                 _mark_and_soft_break(story, "section_start", section_num=section_num)
             text = sections.get(key, "[sezione mancante]")
-            render_section(story, styles, section_num, key, text, chart=chart)
+            render_section(story, styles, section_num, key, text, chart=chart,
+                           tier_name=tier_name)
             section_num += 1
 
     # 5. Chiusura

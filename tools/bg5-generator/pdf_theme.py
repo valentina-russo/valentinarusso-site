@@ -119,11 +119,13 @@ def draw_cream_background(canvas):
     canvas.restoreState()
 
 
-def draw_footer(canvas, page_num, tier, customer, show_customer=True):
-    """Numero pagina in IM Fell oro centrato + meta tier/customer sotto."""
+def draw_footer(canvas, page_num, tier, customer, show_customer=True, accent=None):
+    """Numero pagina in IM Fell centrato + meta tier/customer sotto.
+    `accent`: colore per il numero pagina. Default = ORO (Completo) o TEAL (Essenziale)."""
+    num_color = accent or ORO
     canvas.saveState()
     canvas.setFont("IMFell", 9)
-    canvas.setFillColor(ORO)
+    canvas.setFillColor(num_color)
     try:
         canvas.setCharSpace(0.6)
     except Exception:
@@ -397,54 +399,62 @@ def draw_cover_overlay(canvas):
 
 
 def draw_cover_page(canvas, customer_name=None, tier_name=None,
-                    tier_subtitle=None, chart=None):
-    """Copertina 'scrigno prezioso' — hero Imagen 4.0 full-bleed + tipografia
-    editoriale + cartiglio personale col nome cliente + frase dedicatoria.
-    Se l'hero non è disponibile, fallback su versione vettoriale crema."""
+                    tier_subtitle=None, chart=None, is_essenziale=False):
+    """Copertina — hero Imagen 4.0 full-bleed + tipografia editoriale + cartiglio.
+    Completo: scrigno prezioso (cornice doppia oro, rose dei venti, fleuron).
+    Essenziale: moderna ed elegante (cornice teal singola, clean, senza ornamenti)."""
     from datetime import datetime
     import math
+
+    # Colore accent dipendente dal tier
+    accent = TEAL if is_essenziale else ORO
 
     has_hero = draw_cover_hero(canvas)
 
     if has_hero:
-        # Overlay scuro per leggibilità del testo
         draw_cover_overlay(canvas)
-        # Palette testo per sfondo scuro
-        title_color  = colors.HexColor("#FBF6EF")   # cream chiaro
-        prefix_color = colors.HexColor("#E8D5AA")   # oro chiaro
-        name_color   = colors.HexColor("#FBF6EF")
-        phrase_color = colors.HexColor("#E8C4CC")   # rosa chiaro
-        credit_color = colors.HexColor("#EFE7DB")
-        eyebrow_color = colors.HexColor("#E8D5AA")
+        title_color   = colors.HexColor("#FBF6EF")
+        prefix_color  = colors.HexColor("#E8D5AA") if not is_essenziale else colors.HexColor("#A8D8DA")
+        name_color    = colors.HexColor("#FBF6EF")
+        phrase_color  = colors.HexColor("#E8C4CC") if not is_essenziale else colors.HexColor("#A8D8DA")
+        credit_color  = colors.HexColor("#EFE7DB")
+        eyebrow_color = colors.HexColor("#E8D5AA") if not is_essenziale else colors.HexColor("#A8D8DA")
     else:
-        # Fallback: fondo crema + puntinato
         draw_cream_background(canvas)
         draw_dotted_grid(canvas, 18*mm, 18*mm, PAGE_W - 36*mm, PAGE_H - 36*mm,
                          step=7*mm, r=0.22*mm, color=colors.HexColor("#EFE7DB"))
-        title_color  = INK_NIGHT
-        prefix_color = MUTED_MAUVE
-        name_color   = INK_NIGHT
-        phrase_color = TEAL_SHADOW
-        credit_color = MUTED_MAUVE
+        title_color   = INK_NIGHT
+        prefix_color  = MUTED_MAUVE
+        name_color    = INK_NIGHT
+        phrase_color  = TEAL_SHADOW
+        credit_color  = MUTED_MAUVE
         eyebrow_color = MUTED_MAUVE
 
-    # 3. Cornice ornamentale doppia oro
-    draw_ornamental_frame(canvas, margin=14*mm)
+    if is_essenziale:
+        # Cornice singola sottile in teal — moderna, non barocca
+        canvas.saveState()
+        canvas.setStrokeColor(TEAL)
+        canvas.setLineWidth(0.8)
+        canvas.rect(16*mm, 16*mm, PAGE_W - 32*mm, PAGE_H - 32*mm, stroke=1, fill=0)
+        canvas.restoreState()
+    else:
+        # 3. Cornice ornamentale doppia oro
+        draw_ornamental_frame(canvas, margin=14*mm)
 
-    # 4. Rose dei venti ai 4 angoli interni
-    corner_inset = 26*mm
-    for cx, cy in [
-        (corner_inset, PAGE_H - corner_inset),
-        (PAGE_W - corner_inset, PAGE_H - corner_inset),
-        (corner_inset, corner_inset),
-        (PAGE_W - corner_inset, corner_inset),
-    ]:
-        draw_compass_ornament(canvas, cx, cy, size=10*mm)
+        # 4. Rose dei venti ai 4 angoli interni
+        corner_inset = 26*mm
+        for cx, cy in [
+            (corner_inset, PAGE_H - corner_inset),
+            (PAGE_W - corner_inset, PAGE_H - corner_inset),
+            (corner_inset, corner_inset),
+            (PAGE_W - corner_inset, corner_inset),
+        ]:
+            draw_compass_ornament(canvas, cx, cy, size=10*mm)
 
-    # 5. Fleuron in testa
-    draw_fleuron(canvas, PAGE_W/2, PAGE_H - 36*mm, size=8*mm)
+        # 5. Fleuron in testa
+        draw_fleuron(canvas, PAGE_W/2, PAGE_H - 36*mm, size=8*mm)
 
-    # 6. Eyebrow "B · G · 5" in IM Fell, letter-spacing ampio
+    # 6. Eyebrow "B · G · 5"
     canvas.saveState()
     canvas.setFont("IMFell", 12)
     canvas.setFillColor(eyebrow_color)
@@ -466,57 +476,57 @@ def draw_cover_page(canvas, customer_name=None, tier_name=None,
     canvas.drawCentredString(PAGE_W/2, PAGE_H - 68*mm, "Business Blueprint")
     canvas.restoreState()
 
-    # 8. Tier name in IM Fell Italic oro
+    # 8. Tier name (teal per Essenziale, oro per Completo)
     if tier_name:
         canvas.saveState()
         canvas.setFont("IMFell-I", 20)
-        canvas.setFillColor(ORO)
+        canvas.setFillColor(accent)
         canvas.drawCentredString(PAGE_W/2, PAGE_H - 80*mm, tier_name)
         canvas.restoreState()
 
-    # 9. Filetto decorativo con rombo centrale
+    # 9. Filetto decorativo con rombo o semplice linea
     canvas.saveState()
-    canvas.setStrokeColor(ORO)
-    canvas.setFillColor(ORO)
+    canvas.setStrokeColor(accent)
+    canvas.setFillColor(accent)
     canvas.setLineWidth(0.5)
     y_rule = PAGE_H - 89*mm
-    canvas.line(PAGE_W/2 - 36*mm, y_rule, PAGE_W/2 - 2.5*mm, y_rule)
-    canvas.line(PAGE_W/2 + 2.5*mm, y_rule, PAGE_W/2 + 36*mm, y_rule)
-    p = canvas.beginPath()
-    p.moveTo(PAGE_W/2, y_rule + 1.6)
-    p.lineTo(PAGE_W/2 + 1.6, y_rule)
-    p.lineTo(PAGE_W/2, y_rule - 1.6)
-    p.lineTo(PAGE_W/2 - 1.6, y_rule)
-    p.close()
-    canvas.drawPath(p, stroke=0, fill=1)
+    if is_essenziale:
+        # Linea semplice (no rombo)
+        canvas.line(PAGE_W/2 - 28*mm, y_rule, PAGE_W/2 + 28*mm, y_rule)
+    else:
+        canvas.line(PAGE_W/2 - 36*mm, y_rule, PAGE_W/2 - 2.5*mm, y_rule)
+        canvas.line(PAGE_W/2 + 2.5*mm, y_rule, PAGE_W/2 + 36*mm, y_rule)
+        p = canvas.beginPath()
+        p.moveTo(PAGE_W/2, y_rule + 1.6)
+        p.lineTo(PAGE_W/2 + 1.6, y_rule)
+        p.lineTo(PAGE_W/2, y_rule - 1.6)
+        p.lineTo(PAGE_W/2 - 1.6, y_rule)
+        p.close()
+        canvas.drawPath(p, stroke=0, fill=1)
     canvas.restoreState()
 
-    # 10. Cartiglio personale — "A [Nome Cognome]" + frase dedicatoria
+    # 10. Cartiglio personale
     if customer_name:
         y_c = PAGE_H - 108*mm
-        # "A" prefix
         canvas.saveState()
         canvas.setFont("Playfair-I", 15)
         canvas.setFillColor(prefix_color)
         canvas.drawCentredString(PAGE_W/2, y_c + 10*mm, "A")
         canvas.restoreState()
 
-        # Nome cliente — PROTAGONISTA
         canvas.saveState()
         canvas.setFont("Playfair-BI", 30)
         canvas.setFillColor(name_color)
         canvas.drawCentredString(PAGE_W/2, y_c, customer_name)
         canvas.restoreState()
 
-        # Filetto sotto il nome
         canvas.saveState()
-        canvas.setStrokeColor(ORO)
+        canvas.setStrokeColor(accent)
         canvas.setLineWidth(0.4)
         canvas.line(PAGE_W/2 - 40*mm, y_c - 4*mm,
                     PAGE_W/2 + 40*mm, y_c - 4*mm)
         canvas.restoreState()
 
-        # Frase dedicatoria
         canvas.saveState()
         canvas.setFont("IMFell-I", 13)
         canvas.setFillColor(phrase_color)
@@ -524,17 +534,17 @@ def draw_cover_page(canvas, customer_name=None, tier_name=None,
                                  "la mappa che ti appartiene da sempre.")
         canvas.restoreState()
 
-    # 11. Sigillo ceralacca (solo in modalità fallback senza hero — l'immagine
-    # Imagen contiene già una pergamena con sigillo di ceralacca fisico).
-    if not has_hero:
+    # 11. Sigillo ceralacca: solo Completo in modalità fallback (no hero)
+    if not has_hero and not is_essenziale:
         initials = _initials_from_name(customer_name)
         if initials:
             draw_wax_seal(canvas, PAGE_W/2, 86*mm, initials, radius=13*mm)
 
-    # 12. Fleuron in coda
-    draw_fleuron(canvas, PAGE_W/2, 44*mm, size=6*mm)
+    # 12. Fleuron in coda — solo Completo
+    if not is_essenziale:
+        draw_fleuron(canvas, PAGE_W/2, 44*mm, size=6*mm)
 
-    # 13. Credito Valentina Russo (sulla banda scura inferiore)
+    # 13. Credito Valentina Russo
     canvas.saveState()
     canvas.setFont("IMFell-I", 10)
     canvas.setFillColor(credit_color)
@@ -542,7 +552,7 @@ def draw_cover_page(canvas, customer_name=None, tier_name=None,
     canvas.setFont("IMFell", 9)
     canvas.drawCentredString(PAGE_W/2, 30*mm, "consulente BG5 certificata")
     canvas.setFont("IMFell", 9)
-    canvas.setFillColor(ORO)
+    canvas.setFillColor(accent)
     canvas.drawCentredString(PAGE_W/2, 24*mm, "valentinarussobg5.com")
     canvas.restoreState()
 
@@ -563,80 +573,131 @@ def draw_cover_page(canvas, customer_name=None, tier_name=None,
     canvas.restoreState()
 
 
-def draw_chart_page(canvas, page_num, tier, customer):
+def draw_chart_page(canvas, page_num, tier, customer, is_essenziale=False):
     """Pagina bodygraph: crema + crocette + footer."""
+    accent = TEAL if is_essenziale else ORO
     draw_cream_background(canvas)
-    draw_cartographic_corners(canvas, margin=12*mm, size=8*mm)
-    draw_footer(canvas, page_num, tier, customer)
+    draw_cartographic_corners(canvas, margin=12*mm, size=8*mm, color=accent)
+    draw_footer(canvas, page_num, tier, customer, accent=accent)
 
 
-def draw_toc_page(canvas, page_num, tier, customer):
+def draw_toc_page(canvas, page_num, tier, customer, is_essenziale=False):
     """Pagina indice: crema + crocette + footer."""
+    accent = TEAL if is_essenziale else ORO
     draw_cream_background(canvas)
-    draw_cartographic_corners(canvas, margin=12*mm, size=8*mm)
-    draw_footer(canvas, page_num, tier, customer)
+    draw_cartographic_corners(canvas, margin=12*mm, size=8*mm, color=accent)
+    draw_footer(canvas, page_num, tier, customer, accent=accent)
 
 
-def draw_part_page(canvas, part_num):
-    """Divisore Parte: full-bleed inchiostro notte + immagine + numero romano oro."""
-    # 1. Sfondo full-bleed scuro
-    canvas.saveState()
-    canvas.setFillColor(INK_NIGHT)
-    canvas.rect(0, 0, PAGE_W, PAGE_H, stroke=0, fill=1)
-    canvas.restoreState()
+def draw_part_page(canvas, part_num, is_essenziale=False):
+    """Divisore Parte.
+    Completo: full-bleed inchiostro notte + immagine + numero romano oro.
+    Essenziale: sfondo crema + banda teal in alto + numero romano rosa + linea teal."""
+    if is_essenziale:
+        # Sfondo crema
+        draw_cream_background(canvas)
 
-    # 2. Immagine Imagen 4.0 centrata in alto
-    img_path = PART_IMAGES.get(part_num)
-    if img_path and img_path.exists():
-        img = ImageReader(str(img_path))
-        iw, ih = img.getSize()
-        target_w = 14*cm
-        target_h = target_w * ih / iw
-        x = (PAGE_W - target_w) / 2
-        y = PAGE_H - 4*cm - target_h
-        # Bordo oro sottile attorno all'immagine
+        # Banda colorata in cima (4 cm)
         canvas.saveState()
-        canvas.setStrokeColor(ORO)
-        canvas.setLineWidth(0.8)
-        canvas.rect(x - 2.5, y - 2.5, target_w + 5, target_h + 5, stroke=1, fill=0)
-        canvas.drawImage(img, x, y, width=target_w, height=target_h,
-                         preserveAspectRatio=True, mask='auto')
+        canvas.setFillColor(TEAL)
+        canvas.rect(0, PAGE_H - 4*cm, PAGE_W, 4*cm, stroke=0, fill=1)
         canvas.restoreState()
 
-    # 3. Numero romano gigante in IM Fell rosa malva, sotto l'immagine
-    canvas.saveState()
-    canvas.setFont("IMFell", 72)
-    canvas.setFillColor(ROSA)
-    canvas.drawCentredString(PAGE_W/2, 4.2*cm, PART_ROMAN.get(part_num, ""))
-    canvas.restoreState()
+        # Immagine centrata (se disponibile), più piccola — sotto la banda
+        img_path = PART_IMAGES.get(part_num)
+        if img_path and img_path.exists():
+            img = ImageReader(str(img_path))
+            iw, ih = img.getSize()
+            target_w = 9*cm
+            target_h = target_w * ih / iw
+            x = (PAGE_W - target_w) / 2
+            y = PAGE_H - 4*cm - target_h - 1.5*cm
+            canvas.saveState()
+            canvas.setStrokeColor(TEAL_SHADOW)
+            canvas.setLineWidth(0.6)
+            canvas.rect(x - 2, y - 2, target_w + 4, target_h + 4, stroke=1, fill=0)
+            canvas.drawImage(img, x, y, width=target_w, height=target_h,
+                             preserveAspectRatio=True, mask='auto')
+            canvas.restoreState()
 
-    # 4. Filetto oro
-    canvas.saveState()
-    canvas.setStrokeColor(ORO)
-    canvas.setLineWidth(0.5)
-    canvas.line(PAGE_W/2 - 2.5*cm, 3.6*cm, PAGE_W/2 + 2.5*cm, 3.6*cm)
-    canvas.restoreState()
+        # Numero romano in IM Fell ROSA
+        canvas.saveState()
+        canvas.setFont("IMFell", 72)
+        canvas.setFillColor(ROSA)
+        canvas.drawCentredString(PAGE_W/2, 4.2*cm, PART_ROMAN.get(part_num, ""))
+        canvas.restoreState()
 
-    # 5. Crocette oro sugli angoli
-    draw_cartographic_corners(canvas, margin=12*mm, size=9*mm, color=ORO, lw=0.7)
+        # Filetto teal
+        canvas.saveState()
+        canvas.setStrokeColor(TEAL)
+        canvas.setLineWidth(0.6)
+        canvas.line(PAGE_W/2 - 2.5*cm, 3.6*cm, PAGE_W/2 + 2.5*cm, 3.6*cm)
+        canvas.restoreState()
+
+        # Crocette teal sugli angoli
+        draw_cartographic_corners(canvas, margin=12*mm, size=9*mm, color=TEAL, lw=0.6)
+
+    else:
+        # 1. Sfondo full-bleed scuro
+        canvas.saveState()
+        canvas.setFillColor(INK_NIGHT)
+        canvas.rect(0, 0, PAGE_W, PAGE_H, stroke=0, fill=1)
+        canvas.restoreState()
+
+        # 2. Immagine Imagen 4.0 centrata in alto
+        img_path = PART_IMAGES.get(part_num)
+        if img_path and img_path.exists():
+            img = ImageReader(str(img_path))
+            iw, ih = img.getSize()
+            target_w = 14*cm
+            target_h = target_w * ih / iw
+            x = (PAGE_W - target_w) / 2
+            y = PAGE_H - 4*cm - target_h
+            canvas.saveState()
+            canvas.setStrokeColor(ORO)
+            canvas.setLineWidth(0.8)
+            canvas.rect(x - 2.5, y - 2.5, target_w + 5, target_h + 5, stroke=1, fill=0)
+            canvas.drawImage(img, x, y, width=target_w, height=target_h,
+                             preserveAspectRatio=True, mask='auto')
+            canvas.restoreState()
+
+        # 3. Numero romano gigante in IM Fell rosa malva
+        canvas.saveState()
+        canvas.setFont("IMFell", 72)
+        canvas.setFillColor(ROSA)
+        canvas.drawCentredString(PAGE_W/2, 4.2*cm, PART_ROMAN.get(part_num, ""))
+        canvas.restoreState()
+
+        # 4. Filetto oro
+        canvas.saveState()
+        canvas.setStrokeColor(ORO)
+        canvas.setLineWidth(0.5)
+        canvas.line(PAGE_W/2 - 2.5*cm, 3.6*cm, PAGE_W/2 + 2.5*cm, 3.6*cm)
+        canvas.restoreState()
+
+        # 5. Crocette oro sugli angoli
+        draw_cartographic_corners(canvas, margin=12*mm, size=9*mm, color=ORO, lw=0.7)
 
 
-def draw_section_page(canvas, page_num, tier, customer, section_num=None, is_first=False):
+def draw_section_page(canvas, page_num, tier, customer, section_num=None,
+                      is_first=False, is_essenziale=False):
     """Pagina sezione: crema + crocette + watermark (solo prima pagina) + footer."""
+    accent = TEAL if is_essenziale else ORO
     draw_cream_background(canvas)
-    draw_cartographic_corners(canvas, margin=12*mm, size=7*mm, lw=0.5)
+    draw_cartographic_corners(canvas, margin=12*mm, size=7*mm, lw=0.5, color=accent)
     if is_first and section_num is not None:
         draw_section_watermark(canvas, section_num)
-    draw_footer(canvas, page_num, tier, customer)
+    draw_footer(canvas, page_num, tier, customer, accent=accent)
 
 
-def draw_closing_page(canvas, page_num, tier, customer):
+def draw_closing_page(canvas, page_num, tier, customer, is_essenziale=False):
     """Pagina chiusura: crema + crocette + puntinato soft + footer."""
+    accent = TEAL if is_essenziale else ORO
     draw_cream_background(canvas)
     draw_dotted_grid(canvas, 2*cm, PAGE_H/2 - 3*cm, PAGE_W - 4*cm, 6*cm,
                      step=6*mm, r=0.3*mm)
-    draw_cartographic_corners(canvas, margin=14*mm, size=10*mm, lw=0.7)
-    draw_footer(canvas, page_num, tier, customer)
+    draw_cartographic_corners(canvas, margin=14*mm, size=10*mm, lw=0.7, color=accent)
+    draw_footer(canvas, page_num, tier, customer, accent=accent)
 
 
 # ─── PAGE CATEGORY MARKER ─────────────────────────────────────────────────────
@@ -666,12 +727,14 @@ def make_theme_callback(tier, customer, chart=None):
     Legge `canvas._nextPageCategory` e disegna il layout giusto.
     Prima pagina = "cover" di default. Se `chart` è fornito, la copertina
     personalizza il cartiglio col nome e mostra un sigillo di ceralacca con
-    le iniziali del cliente."""
+    le iniziali del cliente.
+    Tier "Essenziale": palette teal, cover semplificata, part divider chiaro."""
+    is_essenziale = (tier.lower() == "essenziale")
+
     def _draw(canvas, doc):
         category = getattr(canvas, "_nextPageCategory", None)
         kwargs   = getattr(canvas, "_nextPageKwargs", {}) or {}
         if category is None:
-            # prima pagina del documento = cover
             category = "cover"
             kwargs = {}
 
@@ -682,37 +745,42 @@ def make_theme_callback(tier, customer, chart=None):
                 tier_name=tier,
                 tier_subtitle=(chart or {}).get("tier_subtitle"),
                 chart=chart,
+                is_essenziale=is_essenziale,
             )
 
         elif category == "chart":
-            draw_chart_page(canvas, doc.page, tier, customer)
+            draw_chart_page(canvas, doc.page, tier, customer,
+                            is_essenziale=is_essenziale)
 
         elif category == "toc":
-            draw_toc_page(canvas, doc.page, tier, customer)
+            draw_toc_page(canvas, doc.page, tier, customer,
+                          is_essenziale=is_essenziale)
 
         elif category == "part":
-            draw_part_page(canvas, kwargs.get("part_num", 1))
-            # Niente footer sulla pagina Parte (full-bleed)
+            draw_part_page(canvas, kwargs.get("part_num", 1),
+                           is_essenziale=is_essenziale)
+            # Niente footer sulla pagina Parte
 
         elif category == "section_start":
             draw_section_page(canvas, doc.page, tier, customer,
                               section_num=kwargs.get("section_num"),
-                              is_first=True)
-            # Auto-transizione: le pagine successive della stessa sezione
-            # sono "section_cont" finché un altro marker non cambia stato
+                              is_first=True,
+                              is_essenziale=is_essenziale)
             canvas._nextPageCategory = "section_cont"
             canvas._nextPageKwargs = {"section_num": kwargs.get("section_num")}
 
         elif category == "section_cont":
             draw_section_page(canvas, doc.page, tier, customer,
                               section_num=kwargs.get("section_num"),
-                              is_first=False)
+                              is_first=False,
+                              is_essenziale=is_essenziale)
 
         elif category == "closing":
-            draw_closing_page(canvas, doc.page, tier, customer)
+            draw_closing_page(canvas, doc.page, tier, customer,
+                              is_essenziale=is_essenziale)
 
         else:
-            # fallback: pagina sezione generica
-            draw_section_page(canvas, doc.page, tier, customer, is_first=False)
+            draw_section_page(canvas, doc.page, tier, customer,
+                              is_first=False, is_essenziale=is_essenziale)
 
     return _draw
