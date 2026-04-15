@@ -95,6 +95,12 @@
 #carta-calculator .csingle-cta a { display: inline-block; padding: 0.9rem 2.25rem; background: var(--primary-color, #6b4fa8); color: #fff; border-radius: 50px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: opacity 0.2s; }
 #carta-calculator .csingle-cta a:hover { opacity: 0.88; }
 
+/* ── PDF button ── */
+#carta-calculator .cs-pdf-actions { text-align: center; margin-top: 1.5rem; }
+#carta-calculator .cs-pdf-btn { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.65rem 1.6rem; background: #fff; color: var(--primary-color, #6b4fa8); border: 2px solid var(--primary-color, #6b4fa8); border-radius: 50px; font-family: inherit; font-size: 0.92rem; font-weight: 700; cursor: pointer; transition: background 0.18s, color 0.18s; }
+#carta-calculator .cs-pdf-btn:hover:not(:disabled) { background: var(--primary-color, #6b4fa8); color: #fff; }
+#carta-calculator .cs-pdf-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
 @media (max-width: 640px) {
   #carta-calculator .carta-form-card { padding: 1.25rem 1rem; }
   #carta-calculator .cf-row-datetime { flex-direction: column; }
@@ -189,6 +195,9 @@
       </div>
     </div>
     {% if _cs_mode != 'genera' %}
+    <div class="cs-pdf-actions">
+      <button class="cs-pdf-btn" id="cs-pdf-btn" onclick="csScaricaPDF()">⬇ Scarica PDF</button>
+    </div>
     <div class="csingle-cta">
       <p>La tua carta mostra la struttura energetica di base. Una lettura con Valentina trasforma questi dati in indicazioni concrete per il lavoro, le relazioni e le decisioni di tutti i giorni.</p>
       <a href="{{ grav.base_url }}/contatti">Prenota una Prima Lettura →</a>
@@ -199,6 +208,7 @@
 </div>
 
 {% if _cs_mode != 'genera' %}<script src="/user/themes/valentina/js/swe-hd.js"></script>{% endif %}
+{% if _cs_mode != 'genera' %}<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>{% endif %}
 <script>
 // ─── Swiss Ephemeris ──────────────────────────────────────────────────────────
 var _csSweMod=null,_csSweCalc=null,_csSweJulday=null;
@@ -490,6 +500,26 @@ window.csCalcola = async function(){
     await csRenderRisultati(data,nome);
   }catch(e){showErr(e.message||'Si è verificato un errore. Riprova.');}
   finally{document.getElementById('cs-loading').style.display='none';document.getElementById('cs-calcola-btn').disabled=false;}
+};
+
+// ─── Scarica PDF ──────────────────────────────────────────────────────────────
+window.csScaricaPDF = async function(){
+  var el = document.getElementById('cs-results');
+  var btn = document.getElementById('cs-pdf-btn');
+  if (!el) return;
+  var nome = (document.getElementById('cs-nome') ? document.getElementById('cs-nome').value : '').trim() || 'carta-hd';
+  if (btn) { btn.disabled = true; btn.textContent = 'Generando…'; }
+  try {
+    await html2pdf().set({
+      margin: [8, 10, 8, 10],
+      filename: nome.replace(/\s+/g, '-').toLowerCase() + '-human-design.pdf',
+      image: { type: 'jpeg', quality: 0.95 },
+      html2canvas: { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff' },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: 'avoid-all' }
+    }).from(el).save();
+  } catch(e) { window.print(); }
+  if (btn) { btn.disabled = false; btn.textContent = '⬇ Scarica PDF'; }
 };
 </script>
 </section>
