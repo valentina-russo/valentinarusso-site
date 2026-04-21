@@ -236,17 +236,16 @@ ORO        = pdf_theme.ORO
 # ─── STRUTTURA BLUEPRINT ──────────────────────────────────────────────────────
 
 ESSENZIALE_KEYS = [
-    "intro", "carta_spiegata", "tipo_strategia", "autorita", "profilo",
-    "definizione", "firma_nonself", "centri_definiti", "centri_aperti",
-    "attrazione", "canali", "porte", "croce", "variabile_phs", "suggerimenti",
+    "intro", "tipo_strategia", "autorita", "profilo",
+    "definizione", "centri_definiti", "centri_aperti",
+    "canali", "porte", "architettura_cognitiva", "suggerimenti",
 ]
 
 COMPLETO_KEYS = [
-    "intro", "carta_spiegata", "tipo_strategia", "autorita", "profilo",
-    "definizione", "firma_nonself", "centri_definiti", "centri_aperti",
-    "attrazione", "canali", "porte", "croce", "variabile_phs",
-    "offerte_allineate", "voce_gola", "vendita_allineata", "strategia_contenuti",
-    "suggerimenti",
+    "intro", "tipo_strategia", "autorita", "profilo",
+    "definizione", "centri_definiti", "centri_aperti",
+    "canali", "porte", "architettura_cognitiva",
+    "offerte_allineate", "voce_e_mercato", "suggerimenti",
 ]
 
 def section_titles(chart=None):
@@ -254,25 +253,67 @@ def section_titles(chart=None):
     profile_label = chart.get("profile_name", "") if chart else ""
     definition_label = chart.get("definition", "") if chart else ""
     return {
-        "intro":               "Il tuo Business by Design",
-        "carta_spiegata":      "La tua Carta BG5 spiegata",
-        "tipo_strategia":      "Il tuo Tipo di Carriera e la Strategia",
-        "autorita":            "La tua Autorità Interiore",
-        "profilo":             f"Il tuo Profilo · {profile_label}" if profile_label else "Il tuo Profilo",
-        "definizione":         f"La tua Definizione · {definition_label}" if definition_label else "La tua Definizione",
-        "firma_nonself":       "Firma di Allineamento e Tema del Non-Sé",
-        "centri_definiti":     "I tuoi Centri Definiti",
-        "centri_aperti":       "I tuoi Centri Aperti",
-        "attrazione":          "Il tuo Campo di Attrazione",
-        "canali":              "I tuoi Canali Attivi",
-        "porte":               "Le Porte più rilevanti",
-        "croce":               "La tua Croce di Incarnazione",
-        "variabile_phs":       "Variabile · Dieta cognitiva · Ambiente",
-        "offerte_allineate":   "Offerte allineate · costruisci dai tuoi Centri",
-        "voce_gola":           "La tua Voce di Gola",
-        "vendita_allineata":   "Vendita allineata al tuo design",
-        "strategia_contenuti": "Strategia contenuti per i tuoi Centri",
-        "suggerimenti":        "Sintesi e 7 suggerimenti pratici",
+        "intro":                  "La tua Carta Human Design",
+        "tipo_strategia":         "Tipo Energetico · Strategia · Segnali Interni",
+        "autorita":               "La tua Autorità Interiore",
+        "profilo":                f"Il tuo Profilo · {profile_label}" if profile_label else "Il tuo Profilo",
+        "definizione":            f"La tua Definizione · {definition_label}" if definition_label else "La tua Definizione",
+        "centri_definiti":        "I tuoi Centri Definiti",
+        "centri_aperti":          "I tuoi Centri Aperti e Campo di Attrazione",
+        "canali":                 "I tuoi Canali Attivi",
+        "porte":                  "Le Porte più rilevanti",
+        "architettura_cognitiva": "La tua Architettura Cognitiva",
+        "offerte_allineate":      "Offerte allineate · costruisci dai tuoi Centri",
+        "voce_e_mercato":         "Voce · Vendita · Contenuti",
+        "suggerimenti":           "Sintesi e 7 suggerimenti pratici",
+        # Chiavi legacy (per retrocompatibilità con JSON vecchi)
+        "carta_spiegata":         "La tua Carta spiegata",
+        "firma_nonself":          "Firma di Allineamento e Tema del Non-Sé",
+        "attrazione":             "Il tuo Campo di Attrazione",
+        "voce_gola":              "La tua Voce di Gola",
+        "vendita_allineata":      "Vendita allineata al tuo design",
+        "strategia_contenuti":    "Strategia contenuti per i tuoi Centri",
+    }
+
+def section_subtitles(chart=None):
+    """Sottotitoli dinamici per ogni sezione — mostrano il dato specifico del cliente."""
+    if not chart:
+        return {}
+    career_type   = chart.get("career_type", "")
+    authority     = chart.get("authority", "")
+    profile       = chart.get("profile", "")
+    profile_name  = chart.get("profile_name", "")
+    definition    = chart.get("definition", "")
+    variable      = chart.get("variable", "")
+    defined       = ", ".join(chart.get("defined_centers", []))
+    undefined     = ", ".join(chart.get("undefined_centers", []))
+    n_channels    = len(chart.get("channels", []))
+
+    # Etichetta energetica del tipo
+    non_energetic = career_type in ("Proiettore", "Riflettore")
+    energy_label  = "Tipo non-energetico" if non_energetic else "Tipo energetico"
+
+    return {
+        "intro":                  f"La tua mappa energetica personale",
+        "tipo_strategia":         f"Tipologia: {career_type}  ·  {energy_label}",
+        "autorita":               f"Autorità interiore: {authority}",
+        "profilo":                f"Profilo {profile}  ·  {profile_name}",
+        "definizione":            f"Definizione: {definition}",
+        "centri_definiti":        f"Centri definiti: {defined}",
+        "centri_aperti":          f"Centri aperti: {undefined}",
+        "canali":                 f"{n_channels} {'canale attivo' if n_channels == 1 else 'canali attivi'}",
+        "porte":                  f"Porte sospese e temi ricorrenti",
+        "architettura_cognitiva": f"Variable: {variable}",
+        "offerte_allineate":      f"Costruisci dai tuoi centri definiti",
+        "voce_e_mercato":         f"Come ti muovi nel mercato",
+        "suggerimenti":           f"7 azioni concrete per il tuo design",
+        # legacy keys
+        "carta_spiegata":         "Come leggere il Bodygraph",
+        "firma_nonself":          f"Firma: {chart.get('signature','')}  ·  Non-Sé: {chart.get('non_self','')}",
+        "attrazione":             "Il tuo campo di attrazione",
+        "voce_gola":              "Come comunichi dal tuo design",
+        "vendita_allineata":      "Come vendi senza forzare",
+        "strategia_contenuti":    "Contenuti dai tuoi centri definiti",
     }
 
 # Backward compat: modulo-level dict per riferimenti che non hanno chart
@@ -281,49 +322,41 @@ SECTION_TITLES = section_titles()
 # Suddivisione in "parti" (per i divisori di sezione)
 PARTS = [
     ("Parte I", "Identità energetica", [
-        "intro", "carta_spiegata", "tipo_strategia", "autorita", "profilo",
-        "definizione", "firma_nonself",
+        "intro", "tipo_strategia", "autorita", "profilo", "definizione",
     ]),
     ("Parte II", "Meccanica del corpo", [
-        "centri_definiti", "centri_aperti", "attrazione",
-        "canali", "porte",
+        "centri_definiti", "centri_aperti", "canali", "porte",
     ]),
-    ("Parte III", "Direzione e salute cognitiva", [
-        "croce", "variabile_phs",
+    ("Parte III", "Architettura cognitiva", [
+        "architettura_cognitiva",
     ]),
-    ("Parte IV", "Magnetic Marketing", [  # solo Completo
-        "offerte_allineate", "voce_gola", "vendita_allineata", "strategia_contenuti",
+    ("Parte IV", "Applicazione al mercato", [  # solo Completo
+        "offerte_allineate", "voce_e_mercato",
     ]),
     ("Parte V", "Sintesi e pratica", [
         "suggerimenti",
     ]),
 ]
 
-# ─── LESSICO PATCHER (safety net post-generazione) ───────────────────────────
-# Se la prima occorrenza di un termine BG5 in una sezione non ha l'equivalente
-# Human Design nei 120 caratteri successivi, iniettiamo il parentetico qui.
-# Solo per i termini che non creano ambiguità lessicali.
+# ─── LESSICO PATCHER (safety net HD-only post-generazione) ──────────────────
+# Sostituisce termini BG5 che dovessero sfuggire all'AI con i corretti termini HD.
+# Il sistema usa terminologia HD pura: questo patcher è solo un secondo livello di sicurezza.
 
 LESSICO_PATCHES = [
-    ("Costruttore Classico", "Generatore Puro"),
-    ("Costruttore Rapido",   "Generatore Manifestante"),
-    # "Iniziatore" / "Guida" / "Valutatore" sono evitati perché "guida" è anche
-    # un sostantivo comune (guida interna, guida pratica) e scatenerebbe falsi match.
+    ("Costruttore Classico",    "Generatore"),
+    ("Costruttore Rapido",      "Generatore Manifestante"),
+    ("Iniziatore",              "Manifestatore"),
+    # "Guida" e "Valutatore" sono evitati: "guida" è comune in italiano, causerebbe falsi match.
+    ("Risorsa Energetica",      "Sacrale"),
+    ("Intelligenza Emotiva",    "Plesso Solare"),
+    ("BG5 Business Blueprint",  "Lettura Human Design"),
+    ("Blueprint",               "Lettura"),
 ]
 
 def ensure_lessico(text: str) -> str:
-    """Post-processing: garantisce BG5 (HD) alla prima occorrenza in ogni sezione."""
+    """Post-processing: sostituisce terminologia BG5 rimasta con equivalenti HD."""
     for bg5, hd in LESSICO_PATCHES:
-        idx = text.find(bg5)
-        if idx == -1:
-            continue
-        window = text[idx:idx + 160]
-        # Già presente in parentesi o virgola entro 160 char?
-        if hd in window:
-            continue
-        # Inietta subito dopo il termine
-        injection = f"{bg5} ({hd} in Human Design)"
-        text = text[:idx] + injection + text[idx + len(bg5):]
+        text = text.replace(bg5, hd)
     return text
 
 
@@ -426,7 +459,11 @@ def build_styles():
                                         letterSpacing=1.5),
         "section_title": ParagraphStyle("st", fontName="Playfair-B", fontSize=22,
                                         textColor=INK, alignment=TA_LEFT,
-                                        leading=28, spaceAfter=12),
+                                        leading=28, spaceAfter=4),
+        "section_subtitle": ParagraphStyle("ssub", fontName="Outfit-M", fontSize=11,
+                                        textColor=TEAL_DARK, alignment=TA_LEFT,
+                                        leading=15, spaceAfter=10,
+                                        letterSpacing=0.3),
 
         "h2":            ParagraphStyle("h2", fontName="Playfair-BI", fontSize=16,
                                         textColor=INK, alignment=TA_LEFT,
@@ -638,14 +675,19 @@ def _inject_section_assets(story, styles, key, chart):
 
 
 def render_section(story, styles, num, key, text, chart=None, tier_name="Completo"):
-    titles = section_titles(chart)
-    title = titles[key]
+    titles    = section_titles(chart)
+    subtitles = section_subtitles(chart)
+    title     = titles.get(key, key)
+    subtitle  = subtitles.get(key, "")
 
-    # --- Header della sezione: titolo + HR + spacer ---
-    # Raccolti in una lista per wrappare in KeepTogether col primo paragrafo
+    # --- Header della sezione: numero + titolo + sottotitolo + HR + spacer ---
     header = [
         Paragraph(f"SEZIONE {num:02d}", styles["section_num"]),
         Paragraph(title, styles["section_title"]),
+    ]
+    if subtitle:
+        header.append(Paragraph(subtitle, styles["section_subtitle"]))
+    header += [
         HRFlowable(width="22%", thickness=1.2, color=ROSA, hAlign="LEFT"),
         Spacer(1, 0.5*cm),
     ]
@@ -745,7 +787,7 @@ def build_closing(story, styles):
     story.append(HRFlowable(width="16%", thickness=1, color=ROSA, hAlign="CENTER"))
     story.append(Spacer(1, 0.8*cm))
     story.append(Paragraph(
-        "Il BG5 Business Blueprint funziona come uno specchio da rileggere nel tempo.<br/>"
+        "Questa lettura funziona come uno specchio da rileggere nel tempo.<br/>"
         "Torna alle pagine che ti colpiscono di più, prova una cosa alla volta nel corpo,<br/>"
         "e osserva la Soddisfazione quando arriva.",
         styles["closing_b"]
@@ -756,7 +798,7 @@ def build_closing(story, styles):
         styles["closing_b"]
     ))
     story.append(Paragraph(
-        "<font color='#4A8C8C'><b>valentina@valentinarussobg5.com</b></font>",
+        "<font color='#4A8C8C'><b>info@valentinarussobg5.com</b></font>",
         styles["closing_b"]
     ))
     story.append(Paragraph("valentinarussobg5.com", styles["closing_b"]))
@@ -792,9 +834,9 @@ def build_pdf(sections, section_keys, out_path, tier_name, tier_subtitle, chart,
         str(out_path), pagesize=A4,
         leftMargin=2.4*cm, rightMargin=2.4*cm,
         topMargin=2.6*cm, bottomMargin=2.4*cm,
-        title=f"BG5 Business Blueprint {tier_name} — {chart['customer_name']}",
+        title=f"Carta Human Design {tier_name} — {chart['customer_name']}",
         author="Valentina Russo — valentinarussobg5.com",
-        subject="BG5 Business Blueprint personalizzato",
+        subject="Lettura Human Design personalizzata",
     )
     styles = build_styles()
     story = []

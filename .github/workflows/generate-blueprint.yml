@@ -1,0 +1,113 @@
+name: BG5 Blueprint Generator
+
+# Triggerato da stripe-webhook.php via GitHub API repository_dispatch
+on:
+  repository_dispatch:
+    types: [blueprint_job]
+
+  # Avvio manuale per test/debug
+  workflow_dispatch:
+    inputs:
+      job_id:
+        description: "ID del job (es: job_1234567890_abcd1234)"
+        required: true
+      job_data_json:
+        description: "Job data JSON (copia da jobs/pending/)"
+        required: true
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # ─── 1. Checkout ─────────────────────────────────────────────────────────
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # ─── 2. Python ───────────────────────────────────────────────────────────
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: tools/bg5-generator/requirements.txt
+
+      - name: Install Python dependencies
+        run: pip install -r tools/bg5-generator/requirements.txt
+
+      # ─── 3. Scrivi job file ──────────────────────────────────────────────────
+      - name: Scrivi job file in pending/
+        env:
+          # repository_dispatch: usa client_payload
+          # workflow_dispatch: usa gli input manuali
+          JOB_ID: ${{ github.event.client_payload.job_id || github.event.inputs.job_id }}
+          JOB_DATA: ${{ toJson(github.event.client_payload.job_data) || github.event.inputs.job_data_json }}
+        run: |
+          mkdir -p grav-site/root/bg5-blueprint/jobs/pending
+          python3 - <<'PYEOF'
+          import os, json
+          job_data = json.loads(os.environ["JOB_DATA"])
+          job_id   = os.environ["JOB_ID"]
+          path = f"grav-site/root/bg5-blueprint/jobs/pending/{job_id}.json"
+          with open(path, "w", encoding="utf-8") as f:
+              json.dump(job_data, f, ensure_ascii=False, indent=2)
+          print(f"Job scritto: {path}")
+          print(f"  Cliente: {job_data.get('customer_name', '?')}")
+          print(f"  Nascita: {job_data.get('birth_date', '?')} {job_data.get('birth_time', '?')} @ {job_data.get('birth_place', '?')}")
+          PYEOF
+
+      # ─── 4. Genera PDF ───────────────────────────────────────────────────────
+      - name: Genera Blueprint PDF
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          JOB_ID: ${{ github.event.client_payload.job_id || github.event.inputs.job_id }}
+        run: |
+          cd tools/bg5-generator
+          python generator.py "$JOB_ID"
+
+      # ─── 5. Upload PDF su Aruba ──────────────────────────────────────────────
+      - name: Upload PDFs su Aruba FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/root/bg5-blueprint/pdfs/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}bg5-blueprint/pdfs/
+          dangerous-clean-slate: false
+
+      # ─── 6. Upload job in review/ su Aruba ──────────────────────────────────
+      - name: Upload job review file su Aruba FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/root/bg5-blueprint/jobs/review/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}bg5-blueprint/jobs/review/
+          dangerous-clean-slate: false
+
+      # ─── 7. Notifica (log) ───────────────────────────────────────────────────
+      - name: Riepilogo
+        if: success()
+        env:
+          JOB_DATA: ${{ toJson(github.event.client_payload.job_data) || github.event.inputs.job_data_json }}
+        run: |
+          python3 - <<'PYEOF'
+          import os, json
+          d = json.loads(os.environ.get("JOB_DATA", "{}"))
+          print("✅ Blueprint generato con successo")
+          print(f"   Cliente: {d.get('customer_name', '?')}")
+          print(f"   Email:   {d.get('customer_email', '?')}")
+          print(f"   Ora disponibile su: /bg5-blueprint/review.php")
+          PYEOF
+
+      # ─── 8. Log fallimento ───────────────────────────────────────────────────
+      - name: Log fallimento
+        if: failure()
+        env:
+          JOB_ID: ${{ github.event.client_payload.job_id || github.event.inputs.job_id }}
+        run: |
+          echo "❌ Generazione fallita per job $JOB_ID"
+          echo "   Controlla: https://github.com/${{ github.repository }}/actions"

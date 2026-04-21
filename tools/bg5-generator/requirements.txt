@@ -1,0 +1,7 @@
+anthropic
+reportlab
+ephem
+pytz
+Pillow
+timezonefinder
+resvg-py

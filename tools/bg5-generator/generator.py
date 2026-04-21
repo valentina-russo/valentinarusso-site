@@ -75,18 +75,52 @@ def load_chart(job: dict) -> dict:
     """
     Carica il chart HD/BG5 dal job.
 
-    Fase attuale: il chart completo è incluso direttamente nel job JSON
-    (campo "chart"), pre-calcolato esternamente o inserito manualmente.
-
-    Fase A2 (futura): calcolerà automaticamente da birth_date/time/place
-    usando ephemeridi Python.
+    Se il job contiene già il campo "chart" (pre-calcolato), lo usa direttamente.
+    Altrimenti lo calcola automaticamente da birth_date / birth_time / birth_place
+    usando calc_chart_ephem + timezonefinder per determinare il TZ offset.
     """
     chart = job.get("chart")
+
     if not chart:
-        raise ValueError(
-            f"Job {job.get('id', '?')} non contiene il campo 'chart'. "
-            "Attualmente il chart deve essere pre-calcolato e incluso nel job JSON."
-        )
+        log.info("  Chart non presente nel job — calcolo automatico da dati nascita...")
+        try:
+            from calc_chart_ephem import calculate_chart
+            import pytz
+            from datetime import datetime as _dt
+
+            birth_date  = job["birth_date"]   # "YYYY-MM-DD"
+            birth_time  = job["birth_time"]   # "HH:MM"
+            birth_place = job["birth_place"]
+            birth_lat   = job.get("birth_lat")
+            birth_lon   = job.get("birth_lon")
+
+            # Calcola TZ offset da lat/lon (se disponibili), altrimenti default CET
+            tz_offset = 1.0
+            if birth_lat and birth_lon:
+                try:
+                    from timezonefinder import TimezoneFinder
+                    tf = TimezoneFinder()
+                    tz_name = tf.timezone_at(lat=float(birth_lat), lng=float(birth_lon))
+                    if tz_name:
+                        tz = pytz.timezone(tz_name)
+                        birth_dt = _dt.strptime(f"{birth_date} {birth_time}", "%Y-%m-%d %H:%M")
+                        offset = tz.utcoffset(birth_dt)
+                        tz_offset = offset.total_seconds() / 3600
+                        log.info(f"  TZ: {tz_name} → offset {tz_offset:+.1f}h")
+                except Exception as tz_err:
+                    log.warning(f"  TZ lookup fallito ({tz_err}) — uso default {tz_offset:+.1f}h")
+
+            chart = calculate_chart(
+                job.get("customer_name", "Cliente"),
+                birth_date, birth_time, tz_offset, birth_place,
+            )
+            log.info(f"  Chart calcolato: {chart['career_type']} · Profilo {chart['profile']}")
+
+        except Exception as e:
+            raise ValueError(
+                f"Job {job.get('id', '?')}: impossibile calcolare chart da dati nascita: {e}"
+            ) from e
+
     # Assicura che customer_name sia nel chart
     if "customer_name" not in chart:
         chart["customer_name"] = job.get("customer_name", "Cliente")

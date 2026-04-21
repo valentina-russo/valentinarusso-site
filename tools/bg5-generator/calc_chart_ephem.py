@@ -26,6 +26,7 @@ GATE_WHEEL = [
 GATE_SIZE   = 360.0 / 64
 LINE_SIZE   = GATE_SIZE / 6
 COLOR_SIZE  = LINE_SIZE / 6
+TONE_SIZE   = COLOR_SIZE / 6
 RAVE_OFFSET = 58.0
 
 CHANNELS = [
@@ -71,17 +72,35 @@ CROSS_NAMES = {
     26:"del Governo",11:"dell'Esperienza",10:"dell'Amore",58:"del Servizio",
     38:"della Tensione",54:"della Penetrazione",61:"del Mondo Materiale",60:"delle Leggi",
 }
-QUARTER_NAMES = {1:'Mente',2:'Forma',3:'Relazioni',4:'Trasformazione'}
+QUARTER_NAMES = {1:'Iniziazione', 2:'Civilizzazione', 3:'Dualità', 4:'Mutazione'}
+
+# Quarti del Mandala — fonte: KB hd-system-prompt.md (lista gate autorevole)
+GATE_QUARTERS = {
+    # Q1 — Iniziazione
+    13:1, 49:1, 30:1, 55:1, 37:1, 63:1, 22:1, 36:1, 25:1, 17:1, 21:1, 51:1, 42:1, 3:1, 27:1, 24:1,
+    # Q2 — Civilizzazione
+    2:2, 23:2, 8:2, 20:2, 16:2, 35:2, 45:2, 12:2, 15:2, 52:2, 39:2, 53:2, 62:2, 56:2, 31:2, 33:2,
+    # Q3 — Dualità
+    7:3, 4:3, 29:3, 59:3, 40:3, 64:3, 47:3, 6:3, 46:3, 18:3, 48:3, 57:3, 32:3, 50:3, 28:3, 44:3,
+    # Q4 — Mutazione
+    1:4, 43:4, 14:4, 34:4, 9:4, 5:4, 26:4, 11:4, 10:4, 58:4, 38:4, 54:4, 61:4, 60:4, 41:4, 19:4,
+}
 
 CAREER_TYPE = {
-    'Generator':'Costruttore Classico','ManifestingGenerator':'Costruttore Rapido',
-    'Manifestor':'Iniziatore','Projector':'Guida','Reflector':'Valutatore',
+    'Generator':           'Generatore',
+    'ManifestingGenerator':'Generatore Manifestante',
+    'Manifestor':          'Manifestatore',
+    'Projector':           'Proiettore',
+    'Reflector':           'Riflettore',
 }
-AUTHORITY_BG5 = {
-    'Emotional':'Intelligenza Emotiva / Plesso Solare',
-    'Sacral':'Sacrale / Risorsa Energetica',
-    'Splenic':'Splenica / Milza','Ego':'Ego / Cuore','G/Self':'G/Se',
-    'Mental':'Mentale','Lunar':'Lunare',
+AUTHORITY_IT = {
+    'Emotional': 'Plesso Solare',
+    'Sacral':    'Sacrale',
+    'Splenic':   'Splenica',
+    'Ego':       'Ego / Cuore',
+    'G/Self':    'G / Sé',
+    'Mental':    'Mentale',
+    'Lunar':     'Lunare',
 }
 DEFINITION_IT = {
     'Single':'Singola','Split':'Doppia','TripleSplit':'Tripla Divisione',
@@ -109,9 +128,18 @@ STRATEGIES = {
     'Projector':"Aspettare l'invito",
     'Reflector':'Attendere un ciclo lunare',
 }
-PHS_MAP = {1:'Appetito (Consecutivo)',2:'Gusto (Aperto)',3:'Sete (Caldo)',
-           4:'Tatto (Calmo)',5:'Suono (Esterno)',6:'Luce (Diretto)'}
-ENV_MAP  = {1:'Grotte',2:'Mercati',3:'Cucine',4:'Montagne',5:'Valli',6:'Rive'}
+# PHS: Diet = COLOR del Nodo Nord Design, Environment = TONE del Nodo Nord Design
+# Fonte: hd-system-prompt.md KB
+PHS_TYPES = {1:'Appetito', 2:'Gusto', 3:'Sete', 4:'Tatto', 5:'Suono', 6:'Luce'}
+PHS_VARIANTS = {  # (variante_destra/alta, variante_sinistra/bassa)
+    1: ('Consecutivo', 'Alternato'),
+    2: ('Aperto',      'Chiuso'),
+    3: ('Caldo',       'Freddo'),
+    4: ('Calmo',       'Nervoso'),
+    5: ('Alto',        'Basso'),
+    6: ('Diretto',     'Indiretto'),
+}
+ENV_MAP = {1:'Grotte', 2:'Mercati', 3:'Cucine', 4:'Montagne', 5:'Valli', 6:'Coste'}
 CHANNEL_NAMES = {
     '64-47':"Canale dell'Astrazione",'61-24':'Canale della Consapevolezza','63-4':'Canale della Logica',
     '17-62':"Canale dell'Accettazione",'43-23':'Canale della Struttura','11-56':'Canale della Curiosita',
@@ -142,7 +170,9 @@ def deg_to_gate_line_color(deg):
     line = min(int(rem / LINE_SIZE) + 1, 6)
     rem2 = rem - (line - 1) * LINE_SIZE
     color = min(int(rem2 / COLOR_SIZE) + 1, 6)
-    return gate, line, color
+    rem3 = rem2 - (color - 1) * COLOR_SIZE
+    tone = min(int(rem3 / TONE_SIZE) + 1, 6)
+    return gate, line, color, tone
 
 
 def get_ecliptic_lon(body, date_ephem):
@@ -225,10 +255,10 @@ def calc_planets(jd):
             if name_en == 'Sun':
                 sun_lon = lon
 
-        gate, line, color = deg_to_gate_line_color(lon)
+        gate, line, color, tone = deg_to_gate_line_color(lon)
         results.append({
             'planet_it': name_it, 'planet_en': name_en,
-            'gate': gate, 'line': line, 'color': color,
+            'gate': gate, 'line': line, 'color': color, 'tone': tone,
             'degrees': round(lon, 4),
         })
 
@@ -317,14 +347,13 @@ def calc_cross(personality, design, profile):
     if not all([sun_p, earth_p, sun_d, earth_d]): return None
 
     gate = sun_p['gate']
-    idx = GATE_WHEEL.index(gate)
-    quarter_num = (idx // 16) + 1
+    quarter_num = GATE_QUARTERS.get(gate, 1)
     quarter = QUARTER_NAMES.get(quarter_num, '?')
     l1 = int(profile.split('/')[0])
     if l1 == 4 and int(profile.split('/')[1]) == 1: angle = 'Juxtaposition'
     elif l1 >= 5: angle = 'Left Angle'
     else: angle = 'Right Angle'
-    variant = (GATE_WHEEL.index(earth_p['gate']) // 16 + 1) if angle == 'Left Angle' else quarter_num
+    variant = GATE_QUARTERS.get(earth_p['gate'], 1) if angle == 'Left Angle' else quarter_num
     theme = CROSS_NAMES.get(gate, '?')
     return {
         'theme': theme, 'variant': variant, 'angle': angle, 'quarter': quarter,
@@ -343,6 +372,67 @@ def get_hanging_gates(active_gates, defined_channels):
         label = CENTER_IT.get(c, c)
         hanging.setdefault(label, []).append(g)
     return hanging
+
+
+def get_hanging_gates_rich(active_gates, defined_channels, personality, design):
+    """
+    Porte sospese con info pianeta inclusa, ordinate per priorità.
+
+    Ordine pianeti: Sole, Terra, Luna, Mercurio, Venere, Marte (personali)
+                    → Giove, Saturno (sociali)
+                    → Nodo Nord, Nodo Sud (transpersonali)
+                    → Urano, Nettuno, Plutone (lenti — da evitare di solito)
+    """
+    PLANET_PRIORITY = {
+        'Sole': 1, 'Terra': 2, 'Luna': 3, 'Mercurio': 4, 'Venere': 5, 'Marte': 6,
+        'Giove': 7, 'Saturno': 8,
+        'Nodo Nord': 9, 'Nodo Sud': 10,
+        'Urano': 11, 'Nettuno': 12, 'Plutone': 13,
+    }
+
+    # Gate → lista attivazioni [(planet_it, 'P'/'D', line, priority)]
+    gate_acts = {}
+    for p in personality:
+        g = p['gate']
+        gate_acts.setdefault(g, []).append((p['planet_it'], 'P', p['line'], PLANET_PRIORITY.get(p['planet_it'], 99)))
+    for p in design:
+        g = p['gate']
+        gate_acts.setdefault(g, []).append((p['planet_it'], 'D', p['line'], PLANET_PRIORITY.get(p['planet_it'], 99)))
+
+    channel_gates = set(g for ch in defined_channels for g in ch)
+    result = []
+
+    for g in sorted(active_gates):
+        if g in channel_gates:
+            continue
+        center_key = GATE_CENTER.get(g)
+        if not center_key:
+            continue
+
+        acts = sorted(gate_acts.get(g, []), key=lambda x: x[3])  # ordina per priority
+        if not acts:
+            continue
+
+        best_planet, best_col, best_line, best_prio = acts[0]
+
+        result.append({
+            'gate':        g,
+            'line':        best_line,
+            'center_key':  center_key,
+            'center_it':   CENTER_IT.get(center_key, center_key),
+            'best_planet': best_planet,
+            'best_col':    best_col,       # 'P' = Personalità, 'D' = Design
+            'best_priority': best_prio,
+            # Tutte le attivazioni (pianeta, colonna, linea)
+            'activations': [
+                {'planet': pl, 'col': co, 'line': li, 'priority': pr}
+                for pl, co, li, pr in acts
+            ],
+        })
+
+    # Ordina: prima per priorità pianeta, poi per linea
+    result.sort(key=lambda x: (x['best_priority'], x['line']))
+    return result
 
 
 # ─── Funzione principale ──────────────────────────────────────────────────────
@@ -378,17 +468,40 @@ def calculate_chart(name, birth_date_str, birth_time_str, tz_offset, birth_place
     sun_p  = next((p for p in personality if p['planet_en'] == 'Sun'), {})
     node_p = next((p for p in personality if p['planet_en'] == 'NorthNode'), {})
 
-    dietary     = PHS_MAP.get(sun_d.get('color', 1), '?')
-    environment = ENV_MAP.get(node_d.get('color', 1), '?')
+    # PHS — Diet: tipo dal COLOR del Nodo Nord Design, variante dal TONE
+    # Environment: dal TONE del Nodo Nord Design
+    # Fonte: KB hd-system-prompt.md
+    diet_color   = node_d.get('color', 1)
+    diet_tone    = node_d.get('tone', 1)
+    diet_type    = PHS_TYPES.get(diet_color, '?')
+    phs_variants = PHS_VARIANTS.get(diet_color)
+    if phs_variants:
+        diet_variant = phs_variants[0] if diet_tone >= 4 else phs_variants[1]
+        dietary = f"{diet_type} {diet_variant}"
+    else:
+        dietary = diet_type
 
-    arrow = lambda c: 'L' if c <= 3 else 'R'
+    env_tone    = node_d.get('tone', 1)
+    environment = ENV_MAP.get(env_tone, '?')
+
+    # Architettura cognitiva — 4 frecce Variable (senza interpretazione dieta/ambiente)
+    # Sinistra = colori 1-3, Destra = colori 4-6
+    arrow_dir = lambda c: 'Sinistra' if c <= 3 else 'Destra'
+    arrow     = lambda c: 'L' if c <= 3 else 'R'
+
     variable = (
-        ('P' if arrow(sun_d.get('color',1)) == 'L' else 'D') +
-        ('L' if arrow(node_d.get('color',1)) == 'L' else 'R') +
-        (' ') +
-        ('D' if arrow(sun_p.get('color',1)) == 'L' else 'D') +
-        ('L' if arrow(node_p.get('color',1)) == 'L' else 'R') +
-        ('L' if arrow(node_p.get('color',1)) == 'L' else 'R')
+        ('P' if arrow(sun_d.get('color', 1)) == 'L' else 'D') +
+        ('L' if arrow(node_d.get('color', 1)) == 'L' else 'R') +
+        ' ' +
+        ('P' if arrow(sun_p.get('color', 1)) == 'L' else 'D') +   # FIXED: era sempre 'D'
+        ('L' if arrow(node_p.get('color', 1)) == 'L' else 'R')    # RIMOSSO duplicato
+    )
+
+    variable_arrows = (
+        f"Sole Design (Digestione): {arrow_dir(sun_d.get('color', 1))} · "
+        f"Nodo Design (Ambiente): {arrow_dir(node_d.get('color', 1))} · "
+        f"Sole Personalità (Motivazione): {arrow_dir(sun_p.get('color', 1))} · "
+        f"Nodo Personalità (Prospettiva): {arrow_dir(node_p.get('color', 1))}"
     )
 
     # Centri definiti/aperti in italiano
@@ -406,7 +519,8 @@ def calculate_chart(name, birth_date_str, birth_time_str, tz_offset, birth_place
         c2 = CENTER_IT.get(GATE_CENTER.get(g2,''), '?')
         channels_list.append({'name': key, 'title': cname, 'centers': f"{c1} <-> {c2}"})
 
-    hanging_gates = get_hanging_gates(active_gates, defined_channels)
+    hanging_gates      = get_hanging_gates(active_gates, defined_channels)
+    hanging_gates_rich = get_hanging_gates_rich(active_gates, defined_channels, personality, design)
 
     sig = SIGNATURES.get(hd_type, {'sig':'?','ns':'?'})
     cross_full = cross['full_name'] if cross else '?'
@@ -429,22 +543,24 @@ def calculate_chart(name, birth_date_str, birth_time_str, tz_offset, birth_place
         'career_type':   CAREER_TYPE.get(hd_type, hd_type),
         'type':          hd_type,
         'strategy':      STRATEGIES.get(hd_type, '?'),
-        'authority':     AUTHORITY_BG5.get(authority, authority),
+        'authority':     AUTHORITY_IT.get(authority, authority),
         'profile':       profile,
         'profile_name':  profile_name,
         'definition':    DEFINITION_IT.get(definition, definition),
         'life_theme':    life_theme,
-        'variable':      variable,
-        'diet':          dietary,
-        'environment':   environment,
+        'variable':         variable,
+        'variable_arrows':  variable_arrows,
+        'diet':             dietary,
+        'environment':      environment,
         'signature':     sig['sig'],
         'non_self':      sig['ns'],
 
         'defined_centers':   defined_it,
         'undefined_centers': undefined_it,
         'channels':          channels_list,
-        'activations':       activations,
-        'hanging_gates':     hanging_gates,
+        'activations':          activations,
+        'hanging_gates':        hanging_gates,
+        'hanging_gates_rich':   hanging_gates_rich,
         'incarnation_cross': cross_full,
         'cross_type':        cross_type,
 

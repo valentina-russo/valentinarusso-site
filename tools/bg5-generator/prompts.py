@@ -4,6 +4,7 @@ I prompt sono generici: i dati specifici del cliente vengono iniettati via {plac
 Claude usa la KB HD nel system prompt per elaborare i dettagli.
 """
 
+import json
 from pathlib import Path
 
 # ─── SYSTEM PROMPT BUILDER ───────────────────────────────────────────────────
@@ -12,15 +13,37 @@ def load_kb() -> str:
     kb_path = Path("D:/HDcalcolatoreitaliano/hd-system-prompt.md")
     return kb_path.read_text(encoding="utf-8") if kb_path.exists() else ""
 
+def load_gates_db() -> dict:
+    """Carica gates.json (64 gate HD con nome italiano e dati linee 1-6)."""
+    # Prima cerca nella cartella data/ relativa a questo file (funziona su GitHub Actions)
+    local_path = Path(__file__).parent / "data" / "gates.json"
+    # Poi fallback al percorso assoluto locale Windows
+    fallback_path = Path("D:/HDcalcolatoreitaliano/src/data/library/gates.json")
+    path = local_path if local_path.exists() else (fallback_path if fallback_path.exists() else None)
+    if path is None:
+        return {}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
 def load_writing_rules() -> str:
     rules_path = Path(__file__).parent / "writing_rules.md"
     return rules_path.read_text(encoding="utf-8") if rules_path.exists() else ""
 
-def build_system_prompt(kb: str = "", writing_rules: str = "") -> str:
+def load_voice() -> str:
+    voice_path = Path(__file__).parent / "valentina_voice.md"
+    return voice_path.read_text(encoding="utf-8") if voice_path.exists() else ""
+
+def build_system_prompt(kb: str = "", writing_rules: str = "", voice: str = "") -> str:
     if not kb:
         kb = load_kb()
     if not writing_rules:
         writing_rules = load_writing_rules()
+    if not voice:
+        voice = load_voice()
+    # Excerpt the most actionable sections from the voice file
+    voice_excerpt = voice[:4000] if voice else ""
     return f"""Sei Valentina Russo, consulente BG5 certificata. Scrivi in italiano, in prima persona, rivolgendoti direttamente al cliente ("tu", "ti", "il tuo"). Valentina non è psicologa.
 
 ================================================================
@@ -56,39 +79,46 @@ Prima di restituire il testo, rileggilo e verifica punto per punto:
 10. Se stai applicando la stessa strategia di riformulazione per il decimo paragrafo di fila, cambiala. La varietà delle forme conta più dell'aderenza meccanica a una regola singola.
 
 ================================================================
-LESSICO BG5 — REGOLA OBBLIGATORIA (VALENTINA)
+LESSICO — REGOLA ASSOLUTA: HUMAN DESIGN PURO
 ================================================================
 
-Usa SEMPRE la terminologia BG5 come termine principale. Alla PRIMA OCCORRENZA in ogni sezione, aggiungi tra parentesi tonde l'equivalente Human Design. Nelle occorrenze successive della stessa sezione usa solo il termine BG5.
+Usa ESCLUSIVAMENTE la terminologia Human Design classica. Zero termini BG5.
 
-Esempi di applicazione corretta:
-- Prima volta: "Sei un Costruttore Classico (Generatore Puro in Human Design), il che significa..."
-- Dopo: "Il Costruttore Classico costruisce valore nel tempo..."
+Terminologia corretta:
+- Tipo Energetico: Generatore, Generatore Manifestante, Manifestatore, Proiettore, Riflettore
+- Centri: Sacrale, Plesso Solare, Milza, Cuore/Ego, G/Sé, Gola, Ajna, Testa, Radice
+- Autorità: Plesso Solare, Sacrale, Splenica, Ego, G/Sé, Mentale, Lunare
+- Strategia: Rispondere, Rispondere poi Informare, Informare prima di agire, Aspettare l'invito, Attendere un ciclo lunare
+- Canale, Porta, Linea, Profilo, Definizione, Croce di Incarnazione, Autorità Interiore
 
-GLOSSARIO BG5 → Human Design (obbligatorio):
-- Tipo di Carriera → Tipo (HD)
-  - Costruttore Classico → Generatore Puro (HD)
-  - Costruttore Rapido → Generatore Manifestante (HD)
-  - Iniziatore → Manifestatore (HD)
-  - Guida → Proiettore (HD)
-  - Valutatore → Riflettore (HD)
-- Risorsa Energetica → Sacrale (HD)
-- Intelligenza Emotiva → Plesso Solare (HD)
-- Volontà / Ego (BG5) → Cuore (HD)
-- Analisi BG5 / Sessione BG5 → Reading Human Design (HD)
+NON usare: Costruttore Classico/Rapido, Guida, Iniziatore, Valutatore, Risorsa Energetica, Intelligenza Emotiva, BG5 Business Blueprint.
+NON usare terminologia Gene Keys (Shadow/Gift/Siddhi, Genius Sequence, Richard Rudd).
 
 ================================================================
-REGOLA CRITICA — BG5 / HUMAN DESIGN PURO:
-Questo documento è un BG5 Business Blueprint. NON è un documento Gene Keys.
-NON usare MAI la terminologia Gene Keys:
-- NO "Shadow / Gift / Siddhi", NO "frequenze" delle porte
-- NO "Genius Sequence", "Pearl Sequence", "Activation Sequence"
-- NO riferimenti a Richard Rudd
-USA SOLO terminologia BG5 / Human Design classica.
+REGOLA CRITICA — CONOSCENZA HD: VERIFICA SEMPRE NELLA KB
+================================================================
+
+PRIMA di affermare qualunque meccanica Human Design (come funziona un tipo, cosa fa un centro, cosa significa un canale, come opera un'autorità, cosa indica una porta), VERIFICA nella Knowledge Base HD in fondo a questo prompt.
+
+Se il dato NON è nella KB, non inventare. Usa formulazioni come "in Human Design, questo tipo è associato a..." oppure attieniti a ciò che la KB documenta esplicitamente.
+
+Questo vale in particolare per:
+- Centri aperti: NON inventare "domande trappola" non documentate
+- Porte sospese: priorità ai pianeti personali (Sole, Terra, Luna, Mercurio, Venere, Marte). Evita porte da pianeti lenti (Urano, Nettuno, Plutone, Nodi) a meno che non siano le uniche presenti
+- Autorità Mentale/Ambientale (Proiettore Mentale): la lettura della carta funziona SEMPRE e non richiede invito. È la COMUNICAZIONE degli insight all'altro che richiede l'invito. Non confondere le due cose.
+- Porte sospese: si attivano per connessione elettromagnetica con qualcuno che ha la porta opposta, MA ANCHE quando il centro si attiva tramite transito o connessione con qualcuno
 
 Questo documento viene venduto a €90-€147. Il cliente deve sentire che ha in mano qualcosa di personale e concreto, non un testo generico.
 
+================================================================
+VOCE DI VALENTINA — COME SCRIVE E PARLA (estratto dal canale YouTube)
+================================================================
+
+{voice_excerpt}
+
+================================================================
 KNOWLEDGE BASE BG5 / HUMAN DESIGN:
+================================================================
 {kb[:8000]}
 """
 
@@ -97,16 +127,11 @@ KNOWLEDGE BASE BG5 / HUMAN DESIGN:
 
 CHART_BLOCK = """DATI DELLA CARTA:
 - Nome: {name}
-- Tipo di Carriera BG5: {career_type}
-- Tipo Energetico: {type}
+- Tipo Energetico: {career_type}
 - Strategia: {strategy}
 - Autorità: {authority}
 - Profilo: {profile} ({profile_name})
 - Definizione: {definition}
-- Tema di Vita (Croce): {life_theme}
-- Variabile: {variable}
-- Dieta cognitiva: {diet}
-- Ambiente: {environment}
 - Firma di allineamento: {signature}
 - Tema del non-Sé: {non_self}
 
@@ -116,7 +141,8 @@ CENTRI APERTI: {undefined_centers}
 CANALI ATTIVI:
 {channels}
 
-CROCE DI INCARNAZIONE: {cross}
+ARCHITETTURA COGNITIVA (frecce Variable):
+{variable_arrows}
 """
 
 
@@ -130,51 +156,47 @@ SECTION_PROMPTS = {
 
 "intro": CHART_BLOCK + """
 
-Scrivi la sezione di APERTURA del Blueprint per {name}.
-Titolo interno: "Il tuo Business by Design".
+Scrivi la sezione di APERTURA della Carta Human Design per {name}.
+Questa sezione fa due cose in uno: accoglie il lettore E spiega come leggere il Bodygraph.
 
-Lunghezza: 400-500 parole. Paragrafi discorsivi, niente elenchi.
+Lunghezza: 700-850 parole. Paragrafi discorsivi, niente elenchi.
 
-Cosa includere:
-1. Un'apertura personale (2-3 frasi) in cui spieghi cosa tiene in mano il cliente: una mappa energetica personalizzata basata sulla sua carta BG5/Human Design, non un oroscopo né un test della personalità
-2. A cosa serve davvero questo documento: capire come è progettato per lavorare, decidere, comunicare ed esistere nel mondo professionale
-3. Una panoramica sintetica (3-4 frasi) di cosa troverà nelle pagine successive
-4. Un invito a leggerlo con calma, senza fretta, tornandoci più volte
+Struttura in due blocchi fluidi:
+
+BLOCCO 1 — L'apertura personale (350-400 parole):
+1. Cosa tiene in mano {name}: una mappa energetica personalizzata, non un test della personalità né un oroscopo. Basata su data, ora e luogo di nascita esatti.
+2. A cosa serve davvero questo documento: capire come {name} è progettata per lavorare, decidere, comunicare, esistere nel mondo. Non come dovrebbe essere, ma come è già fatta.
+3. Una panoramica di {career_type} con profilo {profile} e autorità {authority}: 2-3 frasi che anticipano il ritratto energetico senza bruciarlo.
+4. Un invito a leggerlo senza fretta, tornandoci più volte. La prima lettura stupisce, la seconda volta si riconosce.
+
+BLOCCO 2 — Come leggere il tuo Bodygraph (300-400 parole):
+1. I 9 centri energetici: cosa sono, perché alcuni sono colorati e altri bianchi.
+2. La differenza tra Personalità (in nero, conscia) e Design (in rosso, inconscia): cosa significa avere qualcosa di "inconsapevole" nel proprio design.
+3. Centro definito vs aperto: il definito emette energia costante, l'aperto riceve e amplifica l'energia degli altri. In parole semplici, senza tecnicismi.
+4. Canale completo vs porta sospesa: un canale collega due centri e crea un flusso sempre attivo. Una porta sospesa è attiva ma aspetta una connessione — si attiva con qualcuno che ha la porta opposta, ma anche durante transiti planetari.
+5. Una nota finale: queste sono meccaniche che il corpo mette già in atto ogni giorno. Dargli un nome non le crea — le rende visibili.
 
 Tono: caldo, diretto, accogliente. Inizia direttamente col contenuto, non riscrivere il titolo.""",
 
-"carta_spiegata": CHART_BLOCK + """
-
-Scrivi la sezione "La tua Carta BG5 spiegata" per {name}.
-
-Lunghezza: 400-500 parole.
-Obiettivo: dare al lettore gli strumenti minimi per capire cosa vede quando guarda il proprio grafico.
-
-Cosa includere:
-1. Cos'è il Bodygraph: i 9 centri, i canali, le porte
-2. Differenza tra elementi "consci" (in nero, Personalità) e "inconsci" (in rosso, Design)
-3. Cos'è un centro definito vs uno aperto (in parole semplici, senza giri)
-4. Cos'è un canale completo (due porte attive ai due estremi) e cos'è una porta appesa
-5. Una nota finale: "questi sono meccaniche che il tuo corpo mette già in atto ogni giorno, descritte con un linguaggio preciso"
-
-Tono: didattico ma mai scolastico. Inizia col contenuto.""",
-
 "tipo_strategia": CHART_BLOCK + """
 
-Scrivi la sezione "Il tuo Tipo di Carriera e la tua Strategia" per {name}.
-Tipo di Carriera BG5: {career_type}
-Tipo Energetico: {type}
+Scrivi la sezione "Il tuo Tipo Energetico, Strategia e Segnali interni" per {name}.
+Tipo Energetico: {career_type}
 Strategia: {strategy}
+Firma: {signature}
+Non-Sé: {non_self}
 
-Lunghezza: 800-1000 parole. Paragrafi discorsivi.
+Lunghezza: 1000-1200 parole. Paragrafi discorsivi.
 
 Cosa includere:
-1. Cosa significa essere un {career_type} ({type} in HD) nel mondo del lavoro: la meccanica energetica concreta di come questa persona costruisce valore. Usa le tue conoscenze BG5/HD per descrivere accuratamente questo tipo specifico.
-2. Cosa distingue questo tipo dagli altri: quali sono le sue capacità uniche, i suoi limiti strutturali, la sua modalità operativa naturale
-3. La Strategia "{strategy}": spiega ogni passaggio della strategia in modo pratico e concreto. Come si applica nelle situazioni lavorative reali (riunioni, proposte, decisioni di carriera, collaborazioni)
-4. Come il corpo di {name} reagisce quando la strategia è rispettata (apertura, energia, firma di allineamento) e quando è tradita (tema del non-sé: {non_self})
-5. Un esempio concreto di una giornata lavorativa "allineata" vs una "non allineata" per un {career_type}
-6. Come orientare la propria settimana, le riunioni, le scelte di business a partire da questa meccanica
+1. Cosa significa essere un {career_type} nel mondo del lavoro: la meccanica energetica concreta. Basati sulla KB HD. Se il tipo è Proiettore, distingui tra Proiettore Energetico e Proiettore Mentale (nessun centro motore definito): per il Mentale la lettura della carta è SEMPRE disponibile, è la comunicazione degli insight all'altro che richiede l'invito.
+2. Cosa distingue questo tipo dagli altri: capacità uniche, limiti strutturali, modalità operativa naturale.
+3. La Strategia "{strategy}": spiega ogni passaggio in modo pratico — riunioni, proposte, decisioni di carriera, collaborazioni.
+4. Un esempio concreto di una giornata lavorativa "allineata" vs una "non allineata".
+5. Come orientare settimana e scelte di business a partire da questa meccanica.
+6. La Firma di allineamento ({signature}): il segnale emotivo-corporeo che si prova quando si vive in accordo con il proprio design. Cos'è fisicamente, non come obiettivo ma come feedback in tempo reale.
+7. Il Tema del Non-Sé ({non_self}): il segnale che qualcosa è fuori asse. Le manifestazioni concrete nel corpo e nel comportamento. Cosa fare quando compare — azioni pratiche per riallinearsi.
+8. Perché imparare a distinguere la firma dal non-sé è la pratica più concreta che questo documento può offrire.
 
 Inizia col contenuto, senza riscrivere il titolo.""",
 
@@ -230,23 +252,9 @@ Cosa includere:
 
 Inizia col contenuto.""",
 
-"firma_nonself": CHART_BLOCK + """
 
-Scrivi la sezione "La tua Firma di Allineamento e il Tema del Non-Sé" per {name}.
-Firma: {signature}
-Non-Sé: {non_self}
+# firma_nonself è stata incorporata in tipo_strategia — non più una sezione separata
 
-Lunghezza: 400-550 parole.
-
-Cosa includere:
-1. Cos'è la "Firma" in BG5/HD: il segnale emotivo-corporeo che si prova quando si vive in accordo con il proprio design. Per un {career_type} ({type} in HD) la firma è {signature}. Descrivi cosa si prova fisicamente e emotivamente
-2. Cos'è il "Non-Sé": il segnale che qualcosa è fuori asse. Per un {career_type} il non-sé è {non_self}. Spiega le diverse sfumature di questo tema del non-sé
-3. Come riconoscere la firma in una giornata lavorativa concreta: segnali corporei e mentali della {signature}
-4. Come riconoscere il non-sé: manifestazioni concrete di {non_self} nel corpo e nel comportamento
-5. Cosa fare quando compare il tema del non-sé: azioni pratiche per riallinearsi
-6. Perché la firma non è un obiettivo ("devo essere X"), è un feedback in tempo reale ("questo è un dato")
-
-Inizia col contenuto.""",
 
 # =========================================================
 # PARTE 2 — MECCANICA ENERGETICA
@@ -276,11 +284,11 @@ Tono: concreto, applicato al lavoro. Niente teoria astratta. Inizia col contenut
 
 "centri_aperti": CHART_BLOCK + """
 
-Scrivi la sezione "I tuoi Centri Aperti: saggezza e trappole" per {name}.
+Scrivi la sezione "I tuoi Centri Aperti e il Campo di Attrazione" per {name}.
 
 Centri aperti del cliente: {undefined_centers}
 
-Lunghezza: 1000-1200 parole (se i centri aperti sono pochi, riduci proporzionalmente a 400-600 parole).
+Lunghezza: 1000-1200 parole (se i centri aperti sono pochi, riduci proporzionalmente a 500-700 parole).
 
 Struttura:
 1. Introduzione (1 paragrafo): un centro aperto è uno spazio ricettivo dove assorbi l'energia degli altri, la amplifichi, e (quando non te ne accorgi) la scambi per tua. Ogni centro aperto diventa una fonte di saggezza unica col passare del tempo.
@@ -292,26 +300,18 @@ Struttura:
      c) Come si trasforma in saggezza quando riconosci la meccanica
      d) Un esempio lavorativo concreto di come NON farti travolgere
 
+3. Il tuo Campo di Attrazione (1 paragrafo finale, 150-200 parole):
+   - Il principio: dove sei DEFINITO attrai naturalmente chi ha quel centro APERTO, e viceversa
+   - I centri definiti di {name} ({defined_centers}) attraggono chi cerca quella stabilità
+   - I centri aperti ({undefined_centers}) attraggono chi ha quei centri definiti
+   - Cosa significa concretamente per il tipo di cliente e collaboratore che gravita naturalmente verso {name}
+   - Chiudi con: costruire un'attività consapevole significa sapere dove stai offrendo valore strutturale e dove stai ricevendo
+
 Mai dire "stai attento a", dì sempre "osserva come". Inizia col contenuto.""",
 
-"attrazione": CHART_BLOCK + """
 
-Scrivi la sezione "Il tuo Campo di Attrazione" per {name}.
+# attrazione è incorporata in centri_aperti — non più sezione separata
 
-Lunghezza: 400-500 parole.
-
-Cosa includere:
-1. Il principio: dove sei DEFINITO, attrai naturalmente persone che hanno quel centro APERTO. Dove sei APERTO, attrai persone che hanno quel centro DEFINITO.
-
-2. Applicato concretamente:
-   - I centri definiti di {name} ({defined_centers}) attraggono clienti, colleghi e collaboratori con quegli stessi centri aperti che cercano quella stabilità
-   - I centri aperti di {name} ({undefined_centers}) attraggono persone con quei centri definiti
-
-3. Un esempio pratico: cosa significa questo per il lavoro di {name}? Che tipo di cliente o collaboratore si sente naturalmente bene vicino a lei/lui?
-
-4. Chiusura: "Quando costruisci un'attività, un team, una rete di collaboratori, questa mappa ti dice dove stai offrendo valore strutturale e dove stai ricevendo."
-
-Inizia col contenuto.""",
 
 "canali": CHART_BLOCK + """
 
@@ -346,11 +346,18 @@ Porte sospese (hanging gates) del cliente:
 Lunghezza: 600-800 parole.
 
 Cosa includere:
-1. Introduzione: una porta sospesa è una porta attiva che NON forma un canale. È un'aspirazione, un tema ricorrente, un invito a completarsi con qualcuno che ha la porta opposta.
+1. Introduzione: una porta sospesa è una porta attiva che NON forma un canale completo. Si attiva quando qualcuno con la porta opposta entra in campo, MA ANCHE quando il centro corrispondente si attiva tramite transito o connessione. È un tema ricorrente, un'aspirazione strutturale.
 
-2. Commenta in modo specifico 5-6 porte più rilevanti per questa persona. Per ciascuna spiega brevemente il tema e il ruolo nella vita professionale. Usa le tue conoscenze HD per descrivere accuratamente ogni porta.
+2. Commenta 5-6 porte più rilevanti per questa persona. Per ciascuna: il tema e il ruolo nella vita professionale. Basati sulla KB HD per ogni porta — non inventare temi non documentati.
 
-3. Scegli quelle che meglio si integrano con il resto del profilo ({career_type} {profile} con {definition}, canali attivi già descritti).
+CRITERI DI SELEZIONE (in ordine di priorità):
+a) Pianeti personali per primi: porte da Sole, Terra, Luna, Mercurio, Venere, Marte (sia Personalità che Design).
+b) Poi Giove e Saturno se rilevanti per il tema professionale.
+c) Nodi Nord/Sud solo se non ci sono abbastanza porte personali.
+d) Urano, Nettuno, Plutone: evita, a meno che la porta non sia fortemente coerente con il resto del profilo.
+e) Dentro un centro, privilegia la porta col numero di linea più basso (linee 1-2 sono più stabili).
+
+3. Integra la scelta col resto del profilo ({career_type}, profilo {profile}, definizione {definition}, canali attivi già descritti).
 
 Chiusura: non serve "attivare" queste porte facendo qualcosa di specifico. Sono già attive. Servono come lente per capire perché certe cose ti chiamano ricorrentemente.
 
@@ -379,33 +386,37 @@ Cosa includere:
 Tono quasi poetico ma concreto. Inizia col contenuto.""",
 
 # =========================================================
-# PARTE 3 — CONTESTO OTTIMALE
+# PARTE 3 — ARCHITETTURA COGNITIVA
 # =========================================================
 
-"variabile_phs": CHART_BLOCK + """
+"architettura_cognitiva": CHART_BLOCK + """
 
-Scrivi la sezione "Variabile, Dieta cognitiva, Ambiente: il tuo contesto ottimale" per {name}.
+Scrivi la sezione "La tua Architettura Cognitiva" per {name}.
 
-Variabile: {variable}
-Dieta: {diet}
-Ambiente: {environment}
+Le 4 frecce Variable indicano COME la mente e il corpo di {name} elaborano le informazioni:
+{variable_arrows}
 
-Lunghezza: 600-750 parole.
+Legenda delle frecce:
+- Sole Design (Digestione): indica l'orientamento del corpo nell'assimilare esperienze (Sinistra = modalità attiva/focalizzata, Destra = modalità ricettiva/adattiva)
+- Nodo Design (Ambiente): indica come il corpo si orienta nello spazio e nei contesti (Sinistra = attivo nel costruire il contesto, Destra = recettivo al contesto)
+- Sole Personalità (Motivazione): indica cosa muove la mente nelle scelte (Sinistra = orientato dalla visione interna, Destra = orientato dalla risposta all'esterno)
+- Nodo Personalità (Prospettiva): indica come la mente percepisce e inquadra la realtà (Sinistra = prospettiva focalizzata/sequenziale, Destra = prospettiva panoramica/omnicomprensiva)
+
+Lunghezza: 500-650 parole.
 
 Cosa includere:
-1. Introduzione breve: la Variabile nel sistema BG5/HD indica COME il corpo e la mente elaborano le informazioni e in che AMBIENTE trovano il funzionamento ottimale. Indicazioni operative per la giornata quotidiana.
+1. Introduzione breve (1 paragrafo): la Variabile in Human Design descrive il modo in cui questa persona è progettata per elaborare informazioni, prendere decisioni e orientarsi. Non è un tipo di personalità: è una meccanica corporea.
 
-2. DIETA COGNITIVA — "{diet}":
-   - La dieta in BG5 non è alimentare in senso stretto: riguarda COME il corpo assimila meglio. Spiega cosa significa "{diet}" in termini pratici: dove e come mangiare, quali condizioni ambientali durante i pasti, cosa funziona e cosa no. Basati sulla tua conoscenza del PHS (Primary Health System).
-   - Applicazione concreta: dove e come mangiare in una giornata lavorativa
+2. Commenta ciascuna delle 4 frecce in modo concreto per {name}:
+   - Cosa significa quella direzione per il modo in cui lavora, studia, decide
+   - Un esempio pratico in un contesto lavorativo reale
+   - Come ignorare questa meccanica si traduce in difficoltà concrète
 
-3. AMBIENTE — "{environment}":
-   - Spiega cosa significa "{environment}" in termini pratici: in che tipo di spazio fisico {name} rende al meglio, dove vivere, dove lavorare, dove andare per prendere decisioni importanti.
-   - Applicazione: consigli specifici per l'ambiente di lavoro e di vita, tenendo conto che {name} è nata a {birth_place}
+3. Il quadro complessivo: come le 4 frecce di {name} lavorano insieme. Che tipo di processo cognitivo emerge dalla combinazione specifica? Come si applica nel lavoro autonomo, nelle collaborazioni, nelle decisioni importanti?
 
-4. Chiusura: questi due elementi insieme danno indicazioni molto concrete su come organizzare la giornata per massimizzare energia e chiarezza mentale.
+NON includere interpretazioni di dieta o ambiente fisico. Concentrati sul processo mentale e cognitivo.
 
-Tono: molto concreto, quasi da manuale d'uso. Inizia col contenuto.""",
+Tono: concreto, quasi da manuale operativo. Inizia col contenuto.""",
 
 # =========================================================
 # PARTE 4 — APPLICAZIONE AL BUSINESS (solo Completo)
@@ -430,64 +441,38 @@ Cosa includere:
 
 Inizia col contenuto.""",
 
-"voce_gola": CHART_BLOCK + """
+"voce_e_mercato": CHART_BLOCK + """
 
-Scrivi la sezione "La tua Voce di Gola: come comunicare dal tuo design" per {name}.
+Scrivi la sezione "Voce, Vendita e Contenuti — come ti muovi nel mercato" per {name}.
 
 Profilo: {profile} ({profile_name})
-Tipo: {type}
-
-Lunghezza: 700-900 parole.
-
-Cosa includere:
-1. Cosa significa avere la Gola definita (se definita) o aperta: come questo influenza la comunicazione
-2. Come comunica un {career_type} ({type} in HD): il modo naturale di esprimersi in voce e in scrittura, basato sui canali che collegano (o non collegano) la Gola
-3. Come scrive e comunica un Profilo {profile}: le caratteristiche comunicative specifiche delle due linee del profilo
-4. Parole e verbi che risuonano naturalmente con questa voce: suggerisci 4-5 verbi d'azione tipici di questa combinazione tipo/profilo/canali
-5. Formato comunicativo ideale: quali formati (podcast, scrittura, video, live, 1:1) funzionano meglio per questo design specifico
-6. Trappola tipica: quale stile comunicativo NON appartiene a questa persona e rischia di imitare
-
-Inizia col contenuto.""",
-
-"vendita_allineata": CHART_BLOCK + """
-
-Scrivi la sezione "Vendita allineata: come il tuo tipo vende senza forzare" per {name}.
-
-Tipo: {type}
+Tipo: {career_type}
 Strategia: {strategy}
 Autorità: {authority}
-Profilo: {profile}
-
-Lunghezza: 700-900 parole.
-
-Cosa includere:
-1. Il principio BG5: come un {career_type} vende in modo allineato alla sua strategia e autorità. Spiega il processo naturale.
-2. Come NON funziona la vendita per un {career_type} {profile}: elenca 4-5 approcci concreti che non funzionano per questo design specifico
-3. Come funziona davvero: il processo passo-passo di una vendita allineata, rispettando strategia ("{strategy}") e autorità ("{authority}")
-4. Per un profilo {profile} in particolare: come le due linee del profilo influenzano il processo di vendita e acquisizione clienti
-5. Un protocollo concreto per la prossima chiamata di vendita: prima, durante, e dopo — con attenzione al timing decisionale dell'autorità
-
-Inizia col contenuto.""",
-
-"strategia_contenuti": CHART_BLOCK + """
-
-Scrivi la sezione "Strategia contenuti per i tuoi Centri" per {name}.
-
 Centri definiti: {defined_centers}
 Centri aperti: {undefined_centers}
 
-Lunghezza: 700-900 parole.
+Lunghezza: 1000-1200 parole. Paragrafi discorsivi.
 
-Cosa includere:
-1. Principio: i contenuti più magnetici nascono dai centri DEFINITI (da dove ha energia stabile da donare) e parlano ai dolori delle persone che hanno quei centri APERTI.
+Struttura in tre blocchi fluidi:
 
-2. Per CIASCUN centro definito ({defined_centers}), suggerisci 3-4 idee di contenuto concrete che può creare.
+BLOCCO 1 — La tua Voce (300-350 parole):
+1. Se la Gola è definita: quali canali la alimentano e come si manifesta l'espressione naturale di {name}
+   Se la Gola è aperta: come {name} comunica con maggiore impatto quando non cerca di forzare una voce fissa
+2. Come comunica un {career_type} con profilo {profile}: il registro naturale, il ritmo, la forma (parola scritta, orale, 1:1, contenuto)
+3. 3-4 verbi d'azione che risuonano con questa voce specifica (es. guidare, esplorare, analizzare, costruire, connettere)
+4. Il formato comunicativo più naturale per questo design — e il formato che rischia di essere una copia di qualcun altro
 
-3. TEMI DA EVITARE come contenuti principali: quelli che nascono dai centri aperti ({undefined_centers}). La ragione è tecnica: energeticamente non ha stabilità in quelle aree.
+BLOCCO 2 — Vendita allineata (350-400 parole):
+1. Come un {career_type} vende senza forzare: il processo naturale basato su strategia "{strategy}" e autorità "{authority}"
+2. 3-4 cose che non funzionano per questo design specifico nella vendita (concrete, non generiche)
+3. Il processo passo-passo di una conversazione di vendita allineata, dal primo contatto alla decisione
+4. Come le due linee del profilo {profile} influenzano acquisizione clienti e networking
 
-4. Formato: per un {career_type} con profilo {profile}, quali formati comunicativi funzionano meglio? Conversazioni intime, contenuti spontanei, storie personali, live?
-
-5. Ritmo di pubblicazione: come le due linee del profilo {profile} e l'autorità "{authority}" influenzano la frequenza ideale di pubblicazione. NON forzarti in un calendario editoriale rigido.
+BLOCCO 3 — Contenuti magnetici (300-350 parole):
+1. Principio: i contenuti più magnetici nascono dai centri DEFINITI e parlano ai dolori di chi ha quei centri APERTI
+2. Per ciascun centro definito ({defined_centers}): 2-3 temi di contenuto concreti che {name} può creare con energia stabile
+3. Ritmo di pubblicazione: come profilo {profile} e autorità "{authority}" suggeriscono la frequenza naturale. Nessun calendario editoriale rigido per questo tipo.
 
 Inizia col contenuto.""",
 
@@ -502,7 +487,7 @@ Scrivi la sezione di chiusura "Sintesi e 7 suggerimenti pratici" per {name}.
 Lunghezza: 800-1000 parole.
 
 Struttura:
-1. Apertura (1 paragrafo, 80-100 parole): una sintesi in poche frasi di chi è {name} dal punto di vista BG5 — {career_type} ({type}) {profile}, con {definition}, i canali attivi, l'autorità {authority} e la Croce "{life_theme}". Questa apertura deve suonare come un ritratto vivo, non come un elenco.
+1. Apertura (1 paragrafo, 80-100 parole): una sintesi in poche frasi di chi è {name} dalla prospettiva Human Design — {career_type} {profile}, con {definition}, i canali attivi, l'autorità {authority}. Questa apertura deve suonare come un ritratto vivo, non come un elenco.
 
 2. SETTE SUGGERIMENTI NUMERATI. Ogni suggerimento ha:
    - Un titolo breve in **grassetto markdown**
@@ -514,16 +499,16 @@ a) Come usare la strategia "{strategy}" in pratica ogni settimana
 b) Come onorare l'autorità {authority}: il timing decisionale specifico
 c) Come alternare il ritmo delle due linee del profilo {profile}: quando ritirarsi e quando essere visibili
 d) Come proteggere i centri aperti ({undefined_centers}): non farsi condizionare
-e) Come usare l'ambiente "{environment}" come ancoraggio fisico
+e) Come lavorare con la propria architettura cognitiva: orientamento attivo o ricettivo nelle decisioni professionali
 f) Come nutrire i canali attivi più importanti nel quotidiano
 g) Come riconoscere la firma ({signature}) come feedback in tempo reale, e come distinguere il tema del non-sé ({non_self})
 
 I suggerimenti devono essere AZIONI, non massime. NON scrivere "sii te stesso", "segui il tuo intuito". Scrivi cose come:
 - "Prima di accettare un progetto, aspetta 24 ore e osserva il segnale del corpo la mattina dopo"
-- "Una volta al mese programma una giornata in {environment} e porta con te le decisioni aperte"
+- "Una volta al mese dedica una giornata fuori ufficio e portaci le decisioni aperte: osserva cosa cambia"
 - "Lavora 90 minuti, poi cammina 15 minuti fuori, poi altri 90 minuti"
 
-3. Chiusura (1 paragrafo, 60-80 parole): un saluto finale personale di Valentina, caldo e concreto. Qualcosa del tipo "Questo blueprint funziona come uno specchio da rileggere ogni pochi mesi. Torna alle pagine che ti colpiscono di più, prova una cosa alla volta nel tuo corpo e osserva la {signature} quando arriva. Per qualunque cosa, scrivimi a valentina@valentinarussobg5.com."
+3. Chiusura (1 paragrafo, 60-80 parole): un saluto finale personale di Valentina, caldo e concreto. Qualcosa del tipo "Questa lettura funziona come uno specchio da rileggere ogni pochi mesi. Torna alle pagine che ti colpiscono di più, prova una cosa alla volta nel tuo corpo e osserva la {signature} quando arriva. Per qualunque cosa, scrivimi a info@valentinarussobg5.com."
 
 Inizia col contenuto.""",
 }
@@ -591,13 +576,70 @@ def build_format_data(chart: dict) -> dict:
     if ch_names:
         channels_coaching = f"Usa le tue conoscenze BG5/HD per descrivere accuratamente ciascun canale. Questa persona ha {len(ch_names)} canali attivi."
 
-    # Gates detail
-    hanging = chart.get("hanging_gates", {})
-    gates_lines = []
-    for center, gates in hanging.items():
-        gates_str = ", ".join(str(g) for g in gates)
-        gates_lines.append(f"  - {center}: porte {gates_str}")
-    gates_detail = "\n".join(gates_lines) if gates_lines else "(nessuna porta sospesa specificata)"
+    # Gates detail — usa hanging_gates_rich se disponibile (include pianeti e priorità)
+    _SLOW   = {'Urano', 'Nettuno', 'Plutone'}
+    _NODES  = {'Nodo Nord', 'Nodo Sud'}
+    _SOCIAL = {'Giove', 'Saturno'}
+
+    gates_db = load_gates_db()  # {str(gate_id): {nome, linee: {str(line): {nome, tema, dono, ombra}}}}
+
+    gates_rich = chart.get("hanging_gates_rich", [])
+    if gates_rich:
+        gates_lines = []
+        for entry in gates_rich:
+            gate    = entry['gate']
+            line    = entry['line']
+            center  = entry['center_it']
+            acts    = entry['activations']
+            best    = entry['best_planet']
+
+            # Formatta tutte le attivazioni: "Sole Personalità, Terra Design"
+            acts_str = ', '.join(
+                f"{a['planet']} {'Personalità' if a['col'] == 'P' else 'Design'}"
+                for a in acts
+            )
+
+            # Nota per pianeti lenti o nodi
+            if best in _SLOW:
+                note = "  ← pianeta lento, usare solo se molto coerente col profilo"
+            elif best in _NODES:
+                note = "  ← nodo"
+            else:
+                note = ""
+
+            # Arricchimento da gates_db: nome italiano + tema della linea specifica
+            gate_info = gates_db.get(str(gate), {})
+            gate_nome = gate_info.get("nome", "")
+            linee_data = gate_info.get("linee", {})
+            line_data  = linee_data.get(str(line), {})
+            line_nome  = line_data.get("nome", "")
+            line_tema  = line_data.get("tema", "")
+
+            # Riga principale: "  Porta 61.3 (Testa) «Il Mistero» — Sole Personalità  ← nodo"
+            nome_str = f" \u00ab{gate_nome}\u00bb" if gate_nome else ""
+            gates_lines.append(f"  Porta {gate}.{line} ({center}){nome_str} — {acts_str}{note}")
+
+            # Riga descrizione linea (se disponibile)
+            if line_nome or line_tema:
+                desc_parts = []
+                if line_nome:
+                    desc_parts.append(line_nome)
+                if line_tema:
+                    # Truncate a 180 chars per mantenere il contesto compatto
+                    tema_short = line_tema[:180] + ("..." if len(line_tema) > 180 else "")
+                    desc_parts.append(tema_short)
+                gates_lines.append(f"    Linea {line} — {': '.join(desc_parts)}")
+
+        gates_detail = "\n".join(gates_lines)
+
+    else:
+        # Fallback per chart vecchi senza hanging_gates_rich
+        hanging = chart.get("hanging_gates", {})
+        gates_lines = []
+        for center, gates in hanging.items():
+            gates_str = ", ".join(str(g) for g in gates)
+            gates_lines.append(f"  - {center}: porte {gates_str}")
+        gates_detail = "\n".join(gates_lines) if gates_lines else "(nessuna porta sospesa specificata)"
 
     return {
         "name":              chart.get("customer_name", "Cliente"),
@@ -612,14 +654,11 @@ def build_format_data(chart: dict) -> dict:
         "non_self":          chart.get("non_self", ""),
         "life_theme":        chart.get("life_theme", ""),
         "variable":          chart.get("variable", ""),
-        "diet":              chart.get("diet", ""),
-        "environment":       chart.get("environment", ""),
+        "variable_arrows":   chart.get("variable_arrows", ""),
         "birth_place":       chart.get("birth_place", ""),
         "defined_centers":   ", ".join(chart.get("defined_centers", [])),
         "undefined_centers": ", ".join(chart.get("undefined_centers", [])),
         "channels":          channels_str,
-        "cross":             chart.get("incarnation_cross", ""),
-        "cross_type":        chart.get("cross_type", ""),
         # Coaching hints
         "profile_coaching":  profile_coaching,
         "centers_coaching":  centers_coaching,
@@ -631,15 +670,14 @@ def build_format_data(chart: dict) -> dict:
 # ─── CHIAVI PER TIER ────────────────────────────────────────────────────────
 
 ESSENZIALE_KEYS = [
-    "intro", "carta_spiegata", "tipo_strategia", "autorita", "profilo",
-    "definizione", "firma_nonself", "centri_definiti", "centri_aperti",
-    "attrazione", "canali", "porte", "croce", "variabile_phs", "suggerimenti",
+    "intro", "tipo_strategia", "autorita", "profilo",
+    "definizione", "centri_definiti", "centri_aperti",
+    "canali", "porte", "architettura_cognitiva", "suggerimenti",
 ]
 
 COMPLETO_KEYS = [
-    "intro", "carta_spiegata", "tipo_strategia", "autorita", "profilo",
-    "definizione", "firma_nonself", "centri_definiti", "centri_aperti",
-    "attrazione", "canali", "porte", "croce", "variabile_phs",
-    "offerte_allineate", "voce_gola", "vendita_allineata", "strategia_contenuti",
-    "suggerimenti",
+    "intro", "tipo_strategia", "autorita", "profilo",
+    "definizione", "centri_definiti", "centri_aperti",
+    "canali", "porte", "architettura_cognitiva",
+    "offerte_allineate", "voce_e_mercato", "suggerimenti",
 ]

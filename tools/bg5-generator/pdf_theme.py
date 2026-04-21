@@ -140,7 +140,7 @@ def draw_footer(canvas, page_num, tier, customer, show_customer=True, accent=Non
         canvas.setFillColor(MUTED_MAUVE)
         canvas.drawCentredString(
             PAGE_W/2, 0.55*cm,
-            f"BG5 Business Blueprint  ·  {tier}  ·  {customer}"
+            f"Carta Human Design  ·  {tier}  ·  {customer}"
         )
     canvas.restoreState()
 

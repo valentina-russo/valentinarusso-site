@@ -27,9 +27,8 @@ from pathlib import Path
 import re
 
 # Template SVG del sito (hdkit originale, 851.41 x 1309.4)
-CHART_SVG_PATH = Path(
-    "D:/valentinarussomentaladvisor.it/grav-site/user/pages/assets/chart.svg"
-)
+# Path relativo al repo root — funziona sia su Windows che su Linux (GitHub Actions)
+CHART_SVG_PATH = Path(__file__).parent.parent.parent / "grav-site" / "user" / "pages" / "assets" / "chart.svg"
 
 # ─── Colori (identici al sito) ────────────────────────────────────────────────
 COL_P     = "#1a1a2e"   # Personalità (conscio)
