@@ -85,7 +85,7 @@ Il modo in cui il Costruttore Classico prende decisioni dipende dalla sua **Auto
 
 Se non hai l'**Intelligenza Emotiva** (Plesso Solare in HD) definita, la tua Autorità è Sacrale. Significa che la risposta viscerale è immediata e definitiva. Quando qualcuno ti fa una domanda e senti quella spinta nel torso, quella è la tua risposta. Non ha bisogno di tempo, non migliora ripensandoci. Anzi, più ci pensi, più la mente la sovrascrive.
 
-Se invece hai l'Intelligenza Emotiva definita, la tua Autorità è Emotiva. Qui il meccanismo cambia: la prima reazione è colorata dall'onda emotiva del momento. Sei nel picco e tutto sembra fantastico. Sei nel calo e tutto sembra inutile. La decisione corretta arriva quando l'onda si stabilizza, dopo ore o giorni. La regola pratica è semplice: se sei molto entusiasta o molto scoraggiato, non è il momento di decidere.
+Se invece hai l'Intelligenza Emotiva definita, la tua Autorità è [Emotiva](/blog/articoli/autorita-emozionale-human-design-decidere). Qui il meccanismo cambia: la prima reazione è colorata dall'onda emotiva del momento. Sei nel picco e tutto sembra fantastico. Sei nel calo e tutto sembra inutile. La decisione corretta arriva quando l'onda si stabilizza, dopo ore o giorni. La regola pratica è semplice: se sei molto entusiasta o molto scoraggiato, non è il momento di decidere.
 
 Conoscere la propria Autorità Decisionale cambia il modo in cui gestisci ogni scelta. Un Costruttore Classico con Autorità Sacrale che aspetta troppo spreca tempo. Uno con Autorità Emotiva che decide subito spreca energia su scelte distorte dall'onda.
 
@@ -105,4 +105,4 @@ Questa distinzione è operativa. Se chiudi una giornata con soddisfazione, le sc
 
 Il lavoro del Costruttore Classico non è produrre di più. È selezionare con precisione dove mettere il proprio motore. E la selezione non avviene nella testa. Avviene nella pancia, ogni volta che qualcosa si presenta e il corpo risponde prima che la mente intervenga.
 
-Se vuoi sapere con esattezza quale configurazione ha la tua Risorsa Energetica, quale Autorità Decisionale governa le tue scelte e dove stai disperdendo energia, puoi prenotare una **Panoramica BG5®** del Disegno di Carriera con Valentina Russo: 90 minuti, 350 euro, per mappare il tuo Tipo di Carriera, la tua Strategia e la tua Autorità. Trovi tutto su [valentinarussobg5.com](https://valentinarussobg5.com).
+Se vuoi sapere con esattezza quale configurazione ha la tua Risorsa Energetica, quale Autorità Decisionale governa le tue scelte e dove stai disperdendo energia, puoi prenotare una **Panoramica BG5®** del Disegno di Carriera con Valentina Russo: 90 minuti, 350 euro, per mappare il tuo Tipo di Carriera, la tua Strategia e la tua Autorità. Inizia con il [calcolo gratuito della tua carta Human Design](/genera-carta), poi prenota la tua [Panoramica BG5® su valentinarussobg5.com/servizi](/servizi).

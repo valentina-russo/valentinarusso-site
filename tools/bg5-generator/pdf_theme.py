@@ -12,6 +12,7 @@ di SimpleDocTemplate. Il `PageCategoryMarker` flowable comunica fra il flusso
 Platypus e il callback canvas.
 """
 from pathlib import Path
+from datetime import datetime
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm, mm
@@ -20,6 +21,25 @@ from reportlab.platypus import Flowable
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase.pdfmetrics import registerFontFamily
+
+# ─── LOCALIZZAZIONE ITALIANA ──────────────────────────────────────────────────
+_IT_MONTHS = {
+    1: "gennaio", 2: "febbraio", 3: "marzo", 4: "aprile",
+    5: "maggio", 6: "giugno", 7: "luglio", 8: "agosto",
+    9: "settembre", 10: "ottobre", 11: "novembre", 12: "dicembre",
+}
+
+def _format_date_it(date_str: str | None) -> str:
+    """Formatta una data ISO (YYYY-MM-DD) in italiano: '19 gennaio 1983'.
+    Fallback a oggi se date_str è None o non parsabile."""
+    if date_str:
+        try:
+            d = datetime.strptime(date_str, "%Y-%m-%d")
+            return f"{d.day} {_IT_MONTHS[d.month]} {d.year}"
+        except (ValueError, KeyError):
+            pass
+    d = datetime.now()
+    return f"{d.day} {_IT_MONTHS[d.month]} {d.year}"
 
 # ─── PALETTE ESTESA (sito + 3 derivati) ───────────────────────────────────────
 CREAM        = colors.HexColor("#FAF7F5")   # fondo universale
@@ -403,7 +423,6 @@ def draw_cover_page(canvas, customer_name=None, tier_name=None,
     """Copertina — hero Imagen 4.0 full-bleed + tipografia editoriale + cartiglio.
     Completo: scrigno prezioso (cornice doppia oro, rose dei venti, fleuron).
     Essenziale: moderna ed elegante (cornice teal singola, clean, senza ornamenti)."""
-    from datetime import datetime
     import math
 
     # Colore accent dipendente dal tier
@@ -556,7 +575,9 @@ def draw_cover_page(canvas, customer_name=None, tier_name=None,
     canvas.drawCentredString(PAGE_W/2, 24*mm, "valentinarussobg5.com")
     canvas.restoreState()
 
-    # 14. Data in basso
+    # 14. Data di nascita in basso (stabile — non cambia ad ogni rebuild)
+    birth_date_str = (chart or {}).get("birth_date")
+    date_label = f"· {_format_date_it(birth_date_str)} ·"
     canvas.saveState()
     canvas.setFont("IMFell-I", 8)
     canvas.setFillColor(credit_color)
@@ -564,8 +585,7 @@ def draw_cover_page(canvas, customer_name=None, tier_name=None,
         canvas.setCharSpace(1.2)
     except Exception:
         pass
-    canvas.drawCentredString(PAGE_W/2, 19*mm,
-                             datetime.now().strftime("· %d  %B  %Y ·").lower())
+    canvas.drawCentredString(PAGE_W/2, 19*mm, date_label)
     try:
         canvas.setCharSpace(0)
     except Exception:

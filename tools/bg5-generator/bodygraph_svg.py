@@ -213,6 +213,73 @@ def render_bodygraph_png(activations: dict, width: int = 900) -> bytes:
     return bytes(result)
 
 
+# ─── Ritaglio di singoli centri ──────────────────────────────────────────────
+#
+# Coordinate native del chart.svg (viewBox 0 0 851.41 1309.4)
+# Estratte con svgelements.bbox() — precise.
+SVG_VIEWBOX_W = 851.41
+SVG_VIEWBOX_H = 1309.4
+
+CENTER_BBOX_SVG = {
+    # code: (x0, y0, x1, y1) in coordinate SVG native
+    "HEAD":   (335.12,   15.18,  505.34,  157.53),
+    "AJNA":   (335.14,  209.83,  505.62,  355.14),
+    "THROAT": (343.37,  398.45,  497.40,  559.00),
+    "G":      (317.68,  589.99,  523.15,  795.51),
+    "HEART":  (520.46,  746.68,  668.72,  839.19),
+    "SPLEEN": (  8.25,  885.90,  164.96, 1063.92),
+    "SACRAL": (343.38,  924.78,  497.41, 1078.75),
+    "SOLAR":  (682.19,  885.89,  838.90, 1063.92),
+    "ROOT":   (343.38, 1149.14,  497.36, 1296.27),
+}
+
+
+def crop_center_png(
+    png_bytes: bytes,
+    center_code: str,
+    padding_ratio: float = 0.20,
+) -> bytes:
+    """Ritaglia la regione di un singolo centro da un PNG di bodygraph.
+
+    Args:
+        png_bytes:     PNG pieno del bodygraph (output di render_bodygraph_png)
+        center_code:   uno di HEAD, AJNA, THROAT, G, HEART, SPLEEN, SACRAL, SOLAR, ROOT
+        padding_ratio: padding attorno al centro (0.20 = +20% su ogni lato)
+
+    Returns: PNG bytes del centro ritagliato.
+    """
+    from PIL import Image
+    import io
+
+    if center_code not in CENTER_BBOX_SVG:
+        raise ValueError(f"Unknown center code: {center_code}")
+
+    img = Image.open(io.BytesIO(png_bytes))
+    img_w, img_h = img.size
+
+    # Scala SVG → pixel
+    sx = img_w / SVG_VIEWBOX_W
+    sy = img_h / SVG_VIEWBOX_H
+
+    x0, y0, x1, y1 = CENTER_BBOX_SVG[center_code]
+    # Converti in pixel
+    px0, py0, px1, py1 = x0 * sx, y0 * sy, x1 * sx, y1 * sy
+
+    # Padding
+    bw, bh = px1 - px0, py1 - py0
+    pad_x = bw * padding_ratio
+    pad_y = bh * padding_ratio
+    px0 = max(0, px0 - pad_x)
+    py0 = max(0, py0 - pad_y)
+    px1 = min(img_w, px1 + pad_x)
+    py1 = min(img_h, py1 + pad_y)
+
+    cropped = img.crop((int(px0), int(py0), int(px1), int(py1)))
+    out = io.BytesIO()
+    cropped.save(out, format="PNG")
+    return out.getvalue()
+
+
 # ─── Estrazione attivazioni da dati CHART di spike_test.py ────────────────────
 
 def activations_from_chart(chart: dict) -> dict:

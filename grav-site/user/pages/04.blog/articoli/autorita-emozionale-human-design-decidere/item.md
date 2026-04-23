@@ -67,7 +67,7 @@ L'errore opposto è altrettanto frequente. L'onda scende, ti senti stanca, scora
 
 Se in quel punto dici no, se molli, se chiudi, stai prendendo una decisione dalla stanchezza. Mesi dopo, quando l'onda è risalita e riesci a vedere con più distacco, arriva il rimpianto. "Perché ho lasciato perdere?" "Perché non ho dato un'altra possibilità?"
 
-Una cliente con il centro dell'Intelligenza Emotiva definito e un **Tipo di Carriera** (Tipo in HD) Generatore mi ha raccontato che aveva rifiutato una collaborazione professionale in un lunedì sera di fine gennaio. Era stanca, il progetto le sembrava enorme, e il no le era uscito quasi automatico. Due settimane dopo, con l'onda in una fase diversa, si è resa conto che quella collaborazione era esattamente allineata con le sue competenze. Ha provato a ricontattare, ma il posto era già stato dato a qualcun altro.
+Una cliente con il centro dell'Intelligenza Emotiva definito e un **Tipo di Carriera** (Tipo in HD) [Generatore](/blog/articoli/generatore-human-design-energia-senza-burnout) mi ha raccontato che aveva rifiutato una collaborazione professionale in un lunedì sera di fine gennaio. Era stanca, il progetto le sembrava enorme, e il no le era uscito quasi automatico. Due settimane dopo, con l'onda in una fase diversa, si è resa conto che quella collaborazione era esattamente allineata con le sue competenze. Ha provato a ricontattare, ma il posto era già stato dato a qualcun altro.
 
 ## Come riconosci il momento giusto per decidere?
 
@@ -91,7 +91,7 @@ La strategia è semplice e richiede pratica. Hai bisogno di frasi pronte: "Ci pe
 
 Se qualcuno non accetta il tuo tempo di elaborazione, se ti mette fretta, se interpreta la tua richiesta di tempo come debolezza o disinteresse, quello è un segnale su quella persona o su quel contesto. Non su di te.
 
-Una mia cliente con **Profilo di Carriera** (Profilo in HD) 3/5 riceveva offerte di consulenza che richiedevano risposta immediata. Per mesi ha detto sì sotto pressione, e ogni volta si è trovata in progetti che non la soddisfacevano. Quando ha iniziato a rispondere "ti confermo entro tre giorni", due cose sono cambiate: le proposte sbagliate si sono filtrate da sole, e quelle giuste l'hanno aspettata.
+Una mia cliente con [**Profilo di Carriera**](/blog/articoli/12-profili-human-design-chi-sei) (Profilo in HD) 3/5 riceveva offerte di consulenza che richiedevano risposta immediata. Per mesi ha detto sì sotto pressione, e ogni volta si è trovata in progetti che non la soddisfacevano. Quando ha iniziato a rispondere "ti confermo entro tre giorni", due cose sono cambiate: le proposte sbagliate si sono filtrate da sole, e quelle giuste l'hanno aspettata.
 
 ## L'Intelligenza Emotiva definita come risorsa
 
@@ -109,4 +109,4 @@ Scrivi la decisione su un foglio. Mettici la data. Torna a leggerla dopo 24 ore.
 
 Non stai procrastinando. Stai dando al tuo sistema il tempo che gli serve per restituirti un segnale pulito.
 
-Se vuoi capire come funziona la tua **Autorità Decisionale Emotiva** nel contesto del tuo disegno completo, con il tuo Tipo di Carriera, il tuo Profilo di Carriera e i tuoi centri definiti, puoi prenotare una **Panoramica BG5®** (Reading Human Design in HD) del Disegno di Carriera con me. Dura 90 minuti, costa 350 euro, e include la lettura completa della tua Autorità Decisionale. Trovi tutti i dettagli su [valentinarussobg5.com](https://valentinarussobg5.com).
+Se vuoi capire come funziona la tua **Autorità Decisionale Emotiva** nel contesto del tuo disegno completo, con il tuo Tipo di Carriera, il tuo Profilo di Carriera e i tuoi centri definiti, puoi prenotare una **Panoramica BG5®** (Reading Human Design in HD) del Disegno di Carriera con me. Dura 90 minuti, costa 350 euro, e include la lettura completa della tua Autorità Decisionale. Inizia con il [calcolo gratuito della tua carta Human Design](/genera-carta) per verificare se hai l'Autorità Emotiva, poi trovi tutti i dettagli su [valentinarussobg5.com/servizi](/servizi).

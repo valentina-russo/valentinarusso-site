@@ -135,6 +135,8 @@ CHART_BLOCK = """DATI DELLA CARTA:
 - Firma di allineamento: {signature}
 - Tema del non-Sé: {non_self}
 
+REGOLA DI GENERE (VINCOLANTE): {gender_rule}
+
 CENTRI DEFINITI: {defined_centers}
 CENTRI APERTI: {undefined_centers}
 
@@ -157,36 +159,52 @@ SECTION_PROMPTS = {
 "intro": CHART_BLOCK + """
 
 Scrivi la sezione di APERTURA della Carta Human Design per {name}.
-Questa sezione fa due cose in uno: accoglie il lettore E spiega come leggere il Bodygraph.
+Questa sezione fa due cose in uno: accoglie il lettore E insegna le fondamenta necessarie per capire tutte le sezioni successive.
 
-Lunghezza: 700-850 parole. Paragrafi discorsivi, niente elenchi.
+IMPORTANTE:
+- Non interpretare ancora la carta di {name} in modo specifico qui. Serve prima la lezione base.
+- La carta personale di {name} verrà interpretata nelle sezioni successive (Tipo, Autorità, Profilo, Centri, Canali, Porte). Qui spieghi solo cosa sono questi elementi in generale.
+
+Lunghezza: 850-1000 parole. Paragrafi discorsivi, niente elenchi puntati.
 
 Struttura in due blocchi fluidi:
 
-BLOCCO 1 — L'apertura personale (350-400 parole):
+BLOCCO 1 — L'apertura personale (300-350 parole):
 1. Cosa tiene in mano {name}: una mappa energetica personalizzata, non un test della personalità né un oroscopo. Basata su data, ora e luogo di nascita esatti.
-2. A cosa serve davvero questo documento: capire come {name} è progettata per lavorare, decidere, comunicare, esistere nel mondo. Non come dovrebbe essere, ma come è già fatta.
-3. Una panoramica di {career_type} con profilo {profile} e autorità {authority}: 2-3 frasi che anticipano il ritratto energetico senza bruciarlo.
-4. Un invito a leggerlo senza fretta, tornandoci più volte. La prima lettura stupisce, la seconda volta si riconosce.
+2. A cosa serve davvero questo documento: capire come {name} è progettata per lavorare, decidere, comunicare, esistere nel mondo.
+3. Un invito a leggerlo senza fretta, tornandoci più volte. La prima lettura stupisce, la seconda volta si riconosce.
 
-BLOCCO 2 — Come leggere il tuo Bodygraph (300-400 parole):
-1. I 9 centri energetici: cosa sono, perché alcuni sono colorati e altri bianchi.
-2. La differenza tra Personalità (in nero, conscia) e Design (in rosso, inconscia): cosa significa avere qualcosa di "inconsapevole" nel proprio design.
-3. Centro definito vs aperto: il definito emette energia costante, l'aperto riceve e amplifica l'energia degli altri. In parole semplici, senza tecnicismi.
-4. Canale completo vs porta sospesa: un canale collega due centri e crea un flusso sempre attivo. Una porta sospesa è attiva ma aspetta una connessione — si attiva con qualcuno che ha la porta opposta, ma anche durante transiti planetari.
-5. Una nota finale: queste sono meccaniche che il corpo mette già in atto ogni giorno. Dargli un nome non le crea — le rende visibili.
+BLOCCO 2 — "Come si legge il tuo Bodygraph" — mini-lezione di base (550-650 parole):
 
-Tono: caldo, diretto, accogliente. Inizia direttamente col contenuto, non riscrivere il titolo.""",
+Questo è il manuale d'istruzioni della grafica che {name} ha davanti. Spiega ciascuno di questi elementi, in paragrafi discorsivi, come se stessi guidando {name} a guardare la carta per la prima volta:
+
+1. Cos'è il Bodygraph: una figura umana stilizzata con nove forme geometriche (i centri), collegate da linee (i canali) composte da 64 porte numerate. Ogni carta è unica perché combina date, ora e luogo di nascita in un'impronta irripetibile.
+
+2. I 9 Centri energetici: elenca i nove centri (Testa, Ajna, Gola, G/Sé, Cuore/Ego, Plesso Solare, Sacrale, Milza, Radice) spiegando brevemente di cosa si occupa ciascuno. Un centro COLORATO è definito (produce energia costante e affidabile). Un centro BIANCO è aperto (riceve e amplifica l'energia degli altri).
+
+3. Le linee NERE e ROSSE — i due lati della carta: spiega che ogni carta contiene due livelli sovrapposti. Il livello NERO è la Personalità (conscia): ciò che la persona riconosce come "io sono così", le energie con cui si identifica. Il livello ROSSO è il Design (inconscio): energie che agiscono sotto la soglia della consapevolezza, che gli altri vedono in noi prima di noi stessi. Il Design si calcola 88 gradi solari prima della nascita (circa 88 giorni prima). Quando una porta è attiva sia in Personalità (nero) sia in Design (rosso), appare come una striscia bicolore.
+
+4. Le Porte: ciascuno dei 9 centri ha un certo numero di porte numerate da 1 a 64 (sono 64 in totale, distribuite sulla superficie della carta). Una porta è come una soglia di un certo tema archetipico (coraggio, ascolto, direzione, limiti, ecc.). Quando è ATTIVA, quella porta trasmette il suo tema nella vita della persona.
+
+5. I Canali: un canale è il filo che collega due porte in due centri diversi. Se ENTRAMBE le porte ai capi del canale sono attive, il canale si dice DEFINITO: il flusso tra i due centri è costante, sempre acceso, e diventa un talento strutturale. Se una sola porta è attiva e l'altra è vuota, si parla di PORTA SOSPESA: è un tema presente ma che cerca completamento all'esterno (si "accende" quando si incontra qualcuno con la porta opposta, o durante certi transiti planetari).
+
+6. Le Linee: ogni porta ha 6 linee interne (1-6), ciascuna con un tema specifico. Le linee più basse (1-2) tendono al personale e all'introspettivo, le linee più alte (5-6) al transpersonale e al ruolo pubblico. Le linee saranno rilevanti soprattutto nella parte dedicata al Profilo.
+
+Chiusura del blocco: queste sono meccaniche che il corpo mette già in atto ogni giorno. Dargli un nome non le crea, le rende visibili. Da qui in poi ogni sezione del documento entra nel dettaglio dei pezzi specifici della carta di {name}.
+
+Tono: caldo, diretto, accogliente, ma con il rigore di chi sta spiegando un sistema preciso. Inizia direttamente col contenuto, non riscrivere il titolo.""",
 
 "tipo_strategia": CHART_BLOCK + """
 
-Scrivi la sezione "Il tuo Tipo Energetico, Strategia e Segnali interni" per {name}.
+Scrivi la sezione "Il tuo Tipo Energetico e la Strategia" per {name}.
 Tipo Energetico: {career_type}
 Strategia: {strategy}
-Firma: {signature}
-Non-Sé: {non_self}
 
-Lunghezza: 1000-1200 parole. Paragrafi discorsivi.
+IMPORTANTE — terminologia:
+- Se {career_type} è "Proiettore" e {authority} è "Mentale", questa persona si chiama "Proiettore Mentale" — usa questo termine. MAI dire "Proiettore con autorità mentale" o "Proiettore ad autorità mentale".
+- La Firma di allineamento e il Tema del Non-Sé hanno una sezione dedicata più avanti: NON trattarli qui.
+
+Lunghezza: 700-900 parole. Paragrafi discorsivi.
 
 Cosa includere:
 1. Cosa significa essere un {career_type} nel mondo del lavoro: la meccanica energetica concreta. Basati sulla KB HD. Se il tipo è Proiettore, distingui tra Proiettore Energetico e Proiettore Mentale (nessun centro motore definito): per il Mentale la lettura della carta è SEMPRE disponibile, è la comunicazione degli insight all'altro che richiede l'invito.
@@ -194,44 +212,59 @@ Cosa includere:
 3. La Strategia "{strategy}": spiega ogni passaggio in modo pratico — riunioni, proposte, decisioni di carriera, collaborazioni.
 4. Un esempio concreto di una giornata lavorativa "allineata" vs una "non allineata".
 5. Come orientare settimana e scelte di business a partire da questa meccanica.
-6. La Firma di allineamento ({signature}): il segnale emotivo-corporeo che si prova quando si vive in accordo con il proprio design. Cos'è fisicamente, non come obiettivo ma come feedback in tempo reale.
-7. Il Tema del Non-Sé ({non_self}): il segnale che qualcosa è fuori asse. Le manifestazioni concrete nel corpo e nel comportamento. Cosa fare quando compare — azioni pratiche per riallinearsi.
-8. Perché imparare a distinguere la firma dal non-sé è la pratica più concreta che questo documento può offrire.
 
 Inizia col contenuto, senza riscrivere il titolo.""",
 
 "autorita": CHART_BLOCK + """
 
-Scrivi la sezione "La tua Autorità Interiore" per {name}.
+Scrivi la sezione "La tua Autorità Interna" per {name}.
 Autorità: {authority}
+
+IMPORTANTE — terminologia:
+- Usa "Autorità Interna" (NON "Interiore").
+- Descrivi l'Autorità come "il tuo modo affidabile di prendere decisioni" (NON "di decidere", NON "di sapere ciò che è giusto").
+- Se {authority} è "Mentale", la persona va chiamata "{career_type} Mentale" (es. "Proiettore Mentale"). MAI dire "Proiettore con autorità mentale".
 
 Lunghezza: 500-650 parole.
 
 Cosa includere:
-1. Cos'è l'Autorità nel sistema Human Design: il modo affidabile che il corpo ha di sapere ciò che è giusto PER questa specifica persona (non una decisione mentale, non un ragionamento)
-2. Come funziona l'autorità "{authority}" nello specifico: descrivi la meccanica precisa di come questa autorità opera nel corpo. Come si manifesta fisicamente, quali sono i segnali, qual è il timing delle decisioni
-3. Perché un {career_type} con questa autorità deve rispettare il suo timing decisionale: come interagisce col tipo e la strategia
-4. Come usarla in contesti lavorativi reali: quando arriva una proposta di progetto, un nuovo cliente, un cambio di collaborazione. Cosa fare concretamente
-5. Una pratica concreta quotidiana per allenarsi a riconoscere i segnali della propria autorità
-6. Il segnale che stai ignorando la tua autorità: pattern tipici di decisioni sbagliate
+1. Cos'è l'Autorità Interna nel sistema Human Design: il tuo modo affidabile di prendere decisioni, un meccanismo corporeo che opera prima del ragionamento mentale.
+2. Come funziona l'autorità "{authority}" nello specifico: descrivi la meccanica precisa di come questa autorità opera nel corpo. Come si manifesta fisicamente, quali sono i segnali, qual è il timing delle decisioni.
+3. Perché un {career_type} con questa autorità deve rispettare il suo timing decisionale: come interagisce col tipo e la strategia.
+4. Come usarla in contesti lavorativi reali: quando arriva una proposta di progetto, un nuovo cliente, un cambio di collaborazione. Cosa fare concretamente per prendere decisioni allineate.
+5. Una pratica concreta quotidiana per allenarsi a riconoscere i segnali della propria Autorità Interna.
+6. Il segnale che stai ignorando la tua Autorità Interna: pattern tipici di decisioni prese nel modo sbagliato.
 
 Tono diretto, pragmatico. Inizia col contenuto.""",
 
 "profilo": CHART_BLOCK + """
 
 Scrivi la sezione "Il tuo Profilo {profile} — {profile_name}" per {name}.
+Profilo: {profile} ({profile_name})
+
+IMPORTANTE — formato e struttura:
+- Il titolo DEVE contenere sempre il numero del profilo "{profile}" (es. "Il tuo Profilo 2/4"), non solo i nomi delle linee.
+- Devi separare CHIARAMENTE la linea conscia (la prima cifra di {profile}, che deriva dal Sole di Personalità) dalla linea inconscia (la seconda cifra, che deriva dal Sole di Design).
+- La struttura del corpo del testo deve essere: prima UN BLOCCO dedicato alla linea conscia, poi UN BLOCCO dedicato alla linea inconscia, poi l'interazione tra le due.
 
 {profile_coaching}
 
 Lunghezza: 800-1000 parole.
 
 Cosa includere:
-1. Come la prima linea del profilo opera nella vita professionale: il ruolo, il modo di imparare, le necessità strutturali
-2. Come la seconda linea del profilo opera: le relazioni, il networking, il modo di crescere professionalmente
-3. Come le due linee interagiscono: il ritmo specifico che creano nella vita di questa persona, le tensioni e le sinergie
-4. Come gli altri percepiscono questa persona in ambito lavorativo
-5. Come costruire la propria attività con questo profilo: quali strategie funzionano e quali no
-6. Un esempio concreto di profilo {profile} al lavoro: come gestisce richieste, decisioni, e alterna le due modalità
+1. Apertura (1 paragrafo): spiega che il profilo {profile} è composto da una linea conscia (la prima cifra, che la persona riconosce in sé) e da una linea inconscia (la seconda cifra, che gli altri vedono prima che lei se ne accorga).
+
+2. BLOCCO LINEA CONSCIA — "La tua parte conscia: linea [PRIMA CIFRA DI {profile}]"
+   - Come questa linea opera nella vita professionale: il ruolo, il modo di imparare, le necessità strutturali.
+   - Come la persona sperimenta questa linea dall'interno.
+   - Un esempio lavorativo concreto.
+
+3. BLOCCO LINEA INCONSCIA — "La tua parte inconscia: linea [SECONDA CIFRA DI {profile}]"
+   - Come questa linea opera: le relazioni, il networking, il modo di crescere professionalmente.
+   - Come gli altri la percepiscono (anche prima che lei la riconosca in sé).
+   - Un esempio lavorativo concreto.
+
+4. BLOCCO INTERAZIONE — come le due linee dialogano: il ritmo specifico, le tensioni, le sinergie. Come costruire la propria attività con questo profilo: quali strategie funzionano.
 
 Inizia col contenuto.""",
 
@@ -253,7 +286,33 @@ Cosa includere:
 Inizia col contenuto.""",
 
 
-# firma_nonself è stata incorporata in tipo_strategia — non più una sezione separata
+"firma_nonself": CHART_BLOCK + """
+
+Scrivi la sezione "La tua Firma di Allineamento e il Tema del Non-Sé" per {name}.
+Tipo Energetico: {career_type}
+Firma: {signature}
+Non-Sé: {non_self}
+
+Lunghezza: 600-800 parole.
+
+Cosa includere:
+1. Apertura (1 paragrafo): in Human Design ogni tipo energetico ha due segnali interni che funzionano come bussola biologica — una Firma che si accende quando vivi allineata al tuo design, e un Tema del Non-Sé che emerge quando stai forzando qualcosa che non ti appartiene. Non sono emozioni fra tante, sono indicatori meccanici.
+
+2. La tua Firma: {signature}
+   - Descrivi cos'è fisicamente e emotivamente questa Firma per un {career_type}.
+   - Dove la senti nel corpo, come si manifesta in una giornata di lavoro concreta, quali segnali dà nelle relazioni professionali.
+   - Un esempio specifico di situazione lavorativa in cui la Firma appare.
+   - Perché è un feedback in tempo reale (non un obiettivo da raggiungere).
+
+3. Il tuo Tema del Non-Sé: {non_self}
+   - Descrivi cos'è fisicamente e emotivamente questo Non-Sé per un {career_type}.
+   - Le manifestazioni concrete nel corpo e nel comportamento quando compare.
+   - Un esempio specifico di situazione professionale in cui il Non-Sé prende il sopravvento.
+   - Cosa fare quando lo riconosci: azioni pratiche per riallinearsi (non "respira" generico, ma gesti osservabili).
+
+4. Chiusura (1 paragrafo): imparare a distinguere Firma e Non-Sé è la pratica più concreta che questo documento può offrire. Un esercizio semplice per allenarsi: a fine giornata, una riga per la Firma, una riga per il Non-Sé.
+
+Inizia col contenuto.""",
 
 
 # =========================================================
@@ -363,6 +422,129 @@ Chiusura: non serve "attivare" queste porte facendo qualcosa di specifico. Sono 
 
 Inizia col contenuto.""",
 
+# =========================================================
+# PORTE LUMINARI — L'Analisi del tuo Genio (6 porte chiave)
+# Sole, Terra e Luna × Personalità (conscio) + Design (inconscio)
+# =========================================================
+
+"porta_sole_p": CHART_BLOCK + """
+
+Scrivi la sezione "Il tuo Lavoro di Vita — Sole di Personalità" per {name}.
+
+DATI DELLA PORTA (Sole Personalità):
+{porta_sole_p_data}
+
+Il Sole di Personalità è la porta che irradia da te in modo cosciente: è ciò che altre persone sentono quando entri in una stanza, l'energia che porti senza accorgertene. Nel contesto del lavoro, rappresenta il "Lavoro di Vita" — la direzione in cui la tua espressione diventa più nitida, più utile, più riconosciuta.
+
+Lunghezza: 450-550 parole. Paragrafi discorsivi.
+
+Cosa includere:
+1. Apertura: cosa significa avere questa porta specifica come Sole di Personalità. Parti dal nome della porta e dal significato del centro in cui si trova.
+2. Il tema della linea nel contesto professionale: come questo si manifesta nelle scelte di carriera, nel modo di posizionarsi, nel tipo di contributo che emerge naturalmente.
+3. Un esempio concreto di situazione lavorativa in cui questa porta si esprime al meglio.
+4. Il segnale che stai allineando questa porta al tuo lavoro (cosa senti fisicamente, cosa notano gli altri).
+5. Il segnale che stai tradendo questa porta (cosa sente il corpo quando forzi un ruolo che non ti appartiene).
+
+Inizia col contenuto, senza riscrivere il titolo.""",
+
+"porta_terra_p": CHART_BLOCK + """
+
+Scrivi la sezione "La tua Evoluzione — Terra di Personalità" per {name}.
+
+DATI DELLA PORTA (Terra Personalità):
+{porta_terra_p_data}
+
+La Terra di Personalità è sempre opposta al Sole di Personalità: è la base cosciente che ti tiene radicata mentre il Sole irradia. Nel lavoro rappresenta la "Evoluzione" — la direzione in cui cresci nel tempo, la terra su cui poggi i piedi quando costruisci qualcosa di duraturo.
+
+Lunghezza: 450-550 parole. Paragrafi discorsivi.
+
+Cosa includere:
+1. Apertura: cosa significa avere questa porta specifica come Terra di Personalità. Il nome della porta, il centro, il rapporto complementare col Sole di Personalità.
+2. Il tema della linea come elemento di stabilità: cosa ti ancora, cosa ti mantiene coerente nei momenti di cambiamento.
+3. Come questa porta indica il tipo di evoluzione professionale più naturale per te (non una carriera lineare, ma il modo specifico in cui maturi nel lavoro).
+4. Un esempio concreto di momento di crescita professionale in cui questa porta si è manifestata.
+5. La trappola: cosa succede quando ignori questa base e insegui solo il Sole senza la Terra.
+
+Inizia col contenuto.""",
+
+"porta_luna_p": CHART_BLOCK + """
+
+Scrivi la sezione "Il tuo Ritmo Consapevole — Luna di Personalità" per {name}.
+
+DATI DELLA PORTA (Luna Personalità):
+{porta_luna_p_data}
+
+La Luna di Personalità descrive il ritmo emotivo cosciente: come percepisci il tempo, come riconosci le fasi del lavoro, come fai emergere ciò che sta maturando dentro di te. Non è una porta che irradia (come il Sole) né che radica (come la Terra) — è una porta che cicla.
+
+Lunghezza: 400-500 parole. Paragrafi discorsivi.
+
+Cosa includere:
+1. Apertura: cosa significa avere questa porta come Luna di Personalità. Il nome della porta e il centro.
+2. Come il tema della linea influenza il tuo ritmo di lavoro: quando l'energia sale, quando va lasciata decantare, quando è il momento di agire.
+3. Come si manifesta nelle relazioni professionali continuative (clienti ricorrenti, collaboratori stabili, team di lavoro).
+4. Un esempio pratico: un ciclo di progetto o di cliente visto attraverso questa porta.
+
+Inizia col contenuto.""",
+
+"porta_sole_d": CHART_BLOCK + """
+
+Scrivi la sezione "La tua Radiosità — Sole di Design" per {name}.
+
+DATI DELLA PORTA (Sole Design):
+{porta_sole_d_data}
+
+Il Sole di Design è la porta che irradia da te in modo inconscio: è ciò che le altre persone sentono ancora prima che tu abbia detto una parola. Non la vedi quando ti guardi allo specchio, ma gli altri sì. Nel contesto del lavoro, rappresenta la "Radiosità" — la tua aura professionale, il campo che precede il tuo messaggio.
+
+Lunghezza: 450-550 parole. Paragrafi discorsivi.
+
+Cosa includere:
+1. Apertura: cosa significa avere questa porta come Sole di Design. Il fatto che sia inconscia significa che è un dono che metti in campo senza sforzo ma spesso senza riconoscerlo.
+2. Il tema della linea come qualità dell'aura: che tipo di presenza trasmetti quando entri in un contesto professionale.
+3. Come gli altri descrivono questa tua qualità (con parole che a te potrebbero suonare strane).
+4. Un esempio concreto di situazione in cui questa radiosità ti ha aperto una porta senza che tu abbia dovuto spiegare nulla.
+5. Perché è importante non cercare di "replicare" la radiosità del Sole di Personalità: quella è cosciente, questa è strutturale.
+
+Inizia col contenuto.""",
+
+"porta_terra_d": CHART_BLOCK + """
+
+Scrivi la sezione "Il tuo Scopo — Terra di Design" per {name}.
+
+DATI DELLA PORTA (Terra Design):
+{porta_terra_d_data}
+
+La Terra di Design è la porta più nascosta e più profonda delle quattro luminari: è la base inconscia che orienta tutta la tua vita senza che tu ne sia consapevole. Nel BG5 rappresenta lo "Scopo" — non come obiettivo da raggiungere, ma come terreno da cui il tuo lavoro prende forma.
+
+Lunghezza: 450-550 parole. Paragrafi discorsivi.
+
+Cosa includere:
+1. Apertura: cosa significa avere questa porta come Terra di Design. Il nome della porta, il centro, la sua natura di "sostrato inconscio".
+2. Il tema della linea come vocazione profonda: non un mestiere specifico, ma un modo di stare al mondo che cerca sempre di emergere attraverso qualunque cosa tu faccia.
+3. Come questa porta influenza le scelte di fondo (perché certi settori ti attraggono e altri ti respingono, al di là della logica).
+4. Il segnale che stai lavorando in accordo col tuo Scopo: come si sente a fine giornata, nel corpo.
+5. Il segnale che stai contro lo Scopo: il tipo di stanchezza strutturale che nasce quando la Terra di Design viene negata.
+
+Inizia col contenuto.""",
+
+"porta_luna_d": CHART_BLOCK + """
+
+Scrivi la sezione "La tua Risonanza — Luna di Design" per {name}.
+
+DATI DELLA PORTA (Luna Design):
+{porta_luna_d_data}
+
+La Luna di Design descrive la risonanza inconscia: il modo in cui il tuo sistema ciclico reagisce al mondo prima che la mente se ne accorga. È la porta che spiega perché certe persone, certi ambienti, certe proposte ti "chiamano" e altri ti respingono senza un motivo razionale.
+
+Lunghezza: 400-500 parole. Paragrafi discorsivi.
+
+Cosa includere:
+1. Apertura: cosa significa avere questa porta come Luna di Design. Il nome della porta, il centro, la natura ciclica.
+2. Come il tema della linea si manifesta come "sensore" nelle relazioni professionali (chi ti risuona, chi ti prosciuga).
+3. Un esempio di intuizione ricorrente che nasce da questa porta: una sensazione che ti coglie prima che la mente abbia analizzato la situazione.
+4. Come imparare ad ascoltare questa risonanza senza razionalizzarla subito.
+
+Inizia col contenuto.""",
+
 "croce": CHART_BLOCK + """
 
 Scrivi la sezione "La tua Croce di Incarnazione" per {name}.
@@ -379,7 +561,7 @@ Cosa includere:
 
 3. La croce specifica "{cross}" in particolare: descrivi il tema di questa croce basandoti sulle 4 porte che la compongono. Spiega cosa queste porte significano insieme come tema di vita nel contesto lavorativo.
 
-4. Il quartiere (Quarter) di appartenenza di questa croce e cosa significa per il modo in cui lo scopo emerge nella vita di {name}.
+4. Il quarto (Quarter) di appartenenza di questa croce e cosa significa per il modo in cui lo scopo emerge nella vita di {name}.
 
 5. Applicazione al lavoro: in quali contesti {name} porta naturalmente il suo contributo più grande? Che tipo di rinnovamento/cambiamento/contributo porta nei contesti professionali?
 
@@ -641,9 +823,95 @@ def build_format_data(chart: dict) -> dict:
             gates_lines.append(f"  - {center}: porte {gates_str}")
         gates_detail = "\n".join(gates_lines) if gates_lines else "(nessuna porta sospesa specificata)"
 
+    # Luminary gates — Sole, Terra, Luna × Personalità + Design
+    # Formato attivazioni: [['Sole', '15.2', '10.3'], ['Terra', '10.3', '15.2'], ['Luna', '...']...]
+    # Index 1 = Personalità gate.line, index 2 = Design gate.line
+    activations = chart.get("activations", [])
+
+    # Mappa centro della porta (da gates.json contenuto → centro)
+    def _center_for_gate(gate_id: int) -> str:
+        """Ritorna il centro italiano della porta (o '?')."""
+        info = gates_db.get(str(gate_id), {})
+        return info.get("centro", "?")
+
+    def _build_lum_data(planet_label: str, side: str) -> str:
+        """Costruisce il blocco dati per una porta luminaria.
+        planet_label: 'Sole', 'Terra', 'Luna'
+        side: 'P' (Personalità, col 1) o 'D' (Design, col 2)
+        """
+        idx_col = 1 if side == "P" else 2
+        row = next((a for a in activations if a[0] == planet_label), None)
+        if not row or len(row) <= idx_col:
+            return f"(dati non disponibili per {planet_label} {side})"
+
+        gl = row[idx_col]  # "15.2"
+        try:
+            gate_s, line_s = gl.split(".")
+            gate, line = int(gate_s), int(line_s)
+        except Exception:
+            return f"(formato non valido: {gl})"
+
+        info      = gates_db.get(str(gate), {})
+        gate_nome = info.get("nome", "")
+        centro    = info.get("centro", "?")
+        line_info = info.get("linee", {}).get(str(line), {})
+        line_nome = line_info.get("nome", "")
+        line_tema = line_info.get("tema", "")
+
+        side_label = "Personalità (conscio)" if side == "P" else "Design (inconscio)"
+        parts = [
+            f"- Pianeta: {planet_label} {side_label}",
+            f"- Porta: {gate}.{line} — {centro}" + (f" «{gate_nome}»" if gate_nome else ""),
+        ]
+        if line_nome or line_tema:
+            desc = line_nome
+            if line_tema:
+                tema_short = line_tema[:400] + ("..." if len(line_tema) > 400 else "")
+                desc = f"{line_nome} — {tema_short}" if line_nome else tema_short
+            parts.append(f"- Linea {line}: {desc}")
+        return "\n".join(parts)
+
+    # ── Genere e flessione del Tipo Energetico ──────────────────────────
+    # Valentina: "quando tu parli di proiettore femmina si dice proiettrice"
+    # Se nel chart c'è "gender" ('F'|'M') lo usiamo, altrimenti inferiamo dal nome.
+    _name_raw = chart.get("customer_name", "") or ""
+    _first    = _name_raw.split()[0].lower() if _name_raw else ""
+    _gender   = (chart.get("gender") or "").upper()
+    if _gender not in ("F", "M"):
+        # Euristica semplice sui nomi italiani (finali in 'a'/'e' femm. salvo comuni eccezioni).
+        _MALE_EXC = {"andrea","luca","nicola","mattia","elia","enea","tobia","gioele"}
+        _FEM_EXC  = {"miriam","ester","ruth","abigail"}
+        if _first in _MALE_EXC:
+            _gender = "M"
+        elif _first in _FEM_EXC:
+            _gender = "F"
+        elif _first.endswith("a"):
+            _gender = "F"
+        else:
+            _gender = "M"
+
+    _CAREER_FEM = {
+        "Proiettore":             "Proiettrice",
+        "Generatore":             "Generatrice",
+        "Generatore Manifestante":"Generatrice Manifestante",
+        "Manifestatore":          "Manifestatrice",
+        "Riflettore":             "Riflettrice",
+    }
+    _career = chart.get("career_type", "")
+    career_type_gendered = _CAREER_FEM.get(_career, _career) if _gender == "F" else _career
+    gender_rule = (
+        f"La cliente è femmina: usa SEMPRE la forma femminile del tipo "
+        f"(\"{career_type_gendered}\"), participi e aggettivi al femminile."
+        if _gender == "F" else
+        f"Il cliente è maschio: usa la forma maschile del tipo (\"{career_type_gendered}\")."
+    )
+
     return {
-        "name":              chart.get("customer_name", "Cliente"),
-        "career_type":       chart.get("career_type", ""),
+        "name":                 chart.get("customer_name", "Cliente"),
+        "gender":               _gender,
+        "gender_rule":          gender_rule,
+        "career_type":          career_type_gendered,   # forma flessa al genere
+        "career_type_neutral":  _career,                # forma neutra (utile a volte)
         "type":              chart.get("type", ""),
         "strategy":          chart.get("strategy", ""),
         "authority":         chart.get("authority", ""),
@@ -664,6 +932,13 @@ def build_format_data(chart: dict) -> dict:
         "centers_coaching":  centers_coaching,
         "channels_coaching": channels_coaching,
         "gates_detail":      gates_detail,
+        # Porte luminari (Sole, Terra, Luna × P/D)
+        "porta_sole_p_data":  _build_lum_data("Sole",  "P"),
+        "porta_terra_p_data": _build_lum_data("Terra", "P"),
+        "porta_luna_p_data":  _build_lum_data("Luna",  "P"),
+        "porta_sole_d_data":  _build_lum_data("Sole",  "D"),
+        "porta_terra_d_data": _build_lum_data("Terra", "D"),
+        "porta_luna_d_data":  _build_lum_data("Luna",  "D"),
     }
 
 
@@ -671,13 +946,19 @@ def build_format_data(chart: dict) -> dict:
 
 ESSENZIALE_KEYS = [
     "intro", "tipo_strategia", "autorita", "profilo",
-    "definizione", "centri_definiti", "centri_aperti",
+    "definizione", "firma_nonself",
+    "centri_definiti", "centri_aperti",
     "canali", "porte", "architettura_cognitiva", "suggerimenti",
 ]
 
 COMPLETO_KEYS = [
     "intro", "tipo_strategia", "autorita", "profilo",
-    "definizione", "centri_definiti", "centri_aperti",
-    "canali", "porte", "architettura_cognitiva",
+    "definizione", "firma_nonself",
+    "centri_definiti", "centri_aperti",
+    "canali", "porte",
+    # Analisi del tuo Genio — 6 luminari (3 P + 3 D)
+    "porta_sole_p", "porta_terra_p", "porta_luna_p",
+    "porta_sole_d", "porta_terra_d", "porta_luna_d",
+    "architettura_cognitiva",
     "offerte_allineate", "voce_e_mercato", "suggerimenti",
 ]

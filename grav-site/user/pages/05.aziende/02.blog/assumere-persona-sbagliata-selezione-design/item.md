@@ -3,7 +3,7 @@ title: "Assumere la persona sbagliata costa 30.000 euro: un metodo per non sbagl
 date: '2026-04-02 13:00:00'
 published: true
 author: "Valentina Russo"
-featured_image: /user/images/blog/placeholder.jpg
+featured_image: assumere-persona-sbagliata.png
 image_alt: "Colloquio di lavoro con due persone sedute a un tavolo, rappresentando il processo di selezione del personale"
 image_title: "Selezione del personale con BG5"
 image_caption: "Il curriculum racconta le competenze. Il Design racconta come le usa."
@@ -30,7 +30,7 @@ faq:
         answer: "Sì. L'analisi BG5 è particolarmente utile per le promozioni perché mostra se il candidato alla promozione ha la meccanica per il nuovo ruolo. Il miglior tecnico del team potrebbe avere una meccanica da Costruttore perfetta per l'esecuzione ma incompatibile con il ruolo di manager, che richiede una meccanica da Guida. Promuovere la persona sbagliata costa un ottimo tecnico e produce un pessimo manager."
 ---
 
-Le statistiche sul costo delle assunzioni sbagliate variano da fonte a fonte, ma il consenso tra HR e consulenti del lavoro italiani converge su una cifra che si colloca tra sei e nove mesi di stipendio lordo per ogni persona assunta e poi persa entro il primo anno. Questo calcolo include il costo di onboarding, formazione, calo di produttività del team durante la transizione, il costo del nuovo processo di selezione e il periodo in cui la posizione resta scoperta. Per un ruolo con RAL di 40.000 euro, stiamo parlando di 20.000-30.000 euro bruciati, e per ruoli manageriali la cifra raddoppia facilmente.
+Le statistiche sul costo delle **assunzioni sbagliate** variano da fonte a fonte, ma il consenso tra HR e consulenti del lavoro italiani converge su una cifra che si colloca tra sei e nove mesi di stipendio lordo per ogni persona assunta e poi persa entro il primo anno. Questo calcolo include il costo di onboarding, formazione, calo di produttività del team durante la transizione, il costo del nuovo processo di selezione e il periodo in cui la posizione resta scoperta. Per un ruolo con RAL di 40.000 euro, stiamo parlando di 20.000-30.000 euro bruciati, e per ruoli manageriali la cifra raddoppia facilmente.
 
 Il problema è che gli strumenti tradizionali di selezione, il curriculum, il colloquio strutturato, i test di personalità, misurano tutti la stessa cosa con angolazioni diverse: le competenze dichiarate e la capacità del candidato di presentarsi bene. Nessuno di questi strumenti misura come la persona gestisce realmente la propria energia lavorativa, come prende decisioni sotto stress, e come interagirà con le dinamiche energetiche del team in cui entrerà.
 
@@ -38,13 +38,13 @@ Il problema è che gli strumenti tradizionali di selezione, il curriculum, il co
 
 Il sistema BG5 analizza la meccanica energetica individuale a partire dalla data, ora e luogo di nascita del candidato. Dalla carta che ne risulta si leggono quattro informazioni che il curriculum e il colloquio non possono rivelare.
 
-La prima è il tipo energetico: se il candidato è un Costruttore (energia sacrale sostenuta, ideale per ruoli di esecuzione continuativa), una Guida (energia focalizzata, ideale per supervisione e consulenza interna), un Iniziatore (energia di impatto, ideale per ruoli che richiedono di avviare nuovi processi), o un Valutatore (energia campionatrice, ideale per ruoli di controllo qualità e feedback). Mettere un Iniziatore in un ruolo di esecuzione ripetitiva lo distruggerà; mettere un Costruttore in un ruolo che richiede di iniziare dal nulla senza stimoli lo frustrerà.
+La prima è il **tipo energetico**: se il candidato è un **Costruttore** (energia sacrale sostenuta, ideale per ruoli di esecuzione continuativa), una **Guida** (energia focalizzata, ideale per supervisione e consulenza interna), un **Iniziatore** (energia di impatto, ideale per ruoli che richiedono di avviare nuovi processi), o un Valutatore (energia campionatrice, ideale per ruoli di controllo qualità e feedback). Mettere un Iniziatore in un ruolo di esecuzione ripetitiva lo distruggerà; mettere un Costruttore in un ruolo che richiede di iniziare dal nulla senza stimoli lo frustrerà.
 
-La seconda è l'autorità decisionale: come la persona prende le decisioni migliori. Un candidato con Autorità Emozionale ha bisogno di tempo per decidere e produrrà le sue scelte migliori quando gli viene dato spazio per riflettere. Un candidato con Autorità Sacrale è affidabile nelle risposte rapide e viscerali. Un candidato con Autorità Splenica funziona sull'intuito istantaneo. Mettere una persona con Autorità Emozionale in un ruolo che richiede decisioni rapide e continue genererà errori e stress.
+La seconda è l'**autorità decisionale**: come la persona prende le decisioni migliori. Un candidato con Autorità Emozionale ha bisogno di tempo per decidere e produrrà le sue scelte migliori quando gli viene dato spazio per riflettere. Un candidato con Autorità Sacrale è affidabile nelle risposte rapide e viscerali. Un candidato con Autorità Splenica funziona sull'intuito istantaneo. Mettere una persona con Autorità Emozionale in un ruolo che richiede decisioni rapide e continue genererà errori e stress.
 
-La terza è il profilo di carriera: un numero a due cifre (come 1/3, 3/5, 4/6) che indica il ruolo naturale della persona nelle interazioni professionali. Il profilo 1/3 è il ricercatore-sperimentatore che ha bisogno di capire a fondo prima di agire. Il profilo 3/5 è il problem-solver pratico che impara facendo e viene cercato per risolvere crisi. Il profilo 4/6 è il networker-mentore che costruisce valore attraverso le relazioni e diventa un punto di riferimento dopo i 40 anni.
+La terza è il **profilo di carriera**: un numero a due cifre (come 1/3, 3/5, 4/6) che indica il ruolo naturale della persona nelle interazioni professionali. Il profilo 1/3 è il ricercatore-sperimentatore che ha bisogno di capire a fondo prima di agire. Il profilo 3/5 è il problem-solver pratico che impara facendo e viene cercato per risolvere crisi. Il profilo 4/6 è il networker-mentore che costruisce valore attraverso le relazioni e diventa un punto di riferimento dopo i 40 anni.
 
-La quarta è la compatibilità con il Penta del team: come la meccanica del candidato si integrerà con il campo energetico collettivo del team in cui entrerà, quali funzioni coprirà e quali lacune colmerà o aggraverà.
+La quarta è la compatibilità con il **Penta** del team: come la meccanica del candidato si integrerà con il campo energetico collettivo del team in cui entrerà, quali funzioni coprirà e quali lacune colmerà o aggraverà.
 
 ## Come si integra il BG5 nel processo di selezione senza complicarlo?
 

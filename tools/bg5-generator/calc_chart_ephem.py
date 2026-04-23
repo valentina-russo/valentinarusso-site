@@ -4,7 +4,7 @@ Calcola la carta HD usando ephem (disponibile senza C compiler).
 Output: JSON del chart nel formato atteso da generator.py
 
 Uso: python calc_chart_ephem.py <nome> <YYYY-MM-DD> <HH:MM> <tz_offset> <luogo>
-     python calc_chart_ephem.py "Valentina Russo" 1988-09-21 00:55 2 "Saluzzo, Piemonte"
+     python calc_chart_ephem.py "Valentina Russo" 1988-06-21 00:55 2 "Saluzzo, Piemonte"
 """
 
 import sys

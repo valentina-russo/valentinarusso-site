@@ -41,7 +41,7 @@ Lavori otto ore, arrivi a sera svuotata, e quando proponi un'idea in riunione ne
 
 ## Perché la Guida BG5 non regge il ritmo degli altri
 
-Il dato tecnico che spiega tutto: la Guida non ha la **Risorsa Energetica** (Centro Sacrale in HD) definita. Questo centro è il motore che fornisce ai **Costruttori Classici** (Generatori Puri in HD) e ai **Costruttori Rapidi** (Generatori Manifestanti in HD) un flusso di energia lavorativa costante e sostenibile per tutta la giornata. La Guida non dispone di quel motore.
+Il dato tecnico che spiega tutto: la Guida non ha la **Risorsa Energetica** (Centro Sacrale in HD) definita. Questo centro è il motore che fornisce ai [**Costruttori Classici**](/blog/articoli/generatore-human-design-energia-senza-burnout) (Generatori Puri in HD) e ai **Costruttori Rapidi** (Generatori Manifestanti in HD) un flusso di energia lavorativa costante e sostenibile per tutta la giornata. La Guida non dispone di quel motore.
 
 Questo non significa che la Guida sia debole o incapace. L'aura della Guida è focalizzata e assorbente: penetra nel Centro G (il centro dell'identità) dell'altra persona e ne legge il funzionamento con una precisione che nessun altro Tipo di Carriera possiede. Ecco perché la Guida eccelle nel lavoro uno a uno, nella consulenza, nella gestione di piccoli gruppi. Ma quella stessa aura perde efficacia in un open space con venti colleghi, dove l'energia si disperde senza un punto di contatto specifico.
 
@@ -71,7 +71,7 @@ L'**amarezza** è il segnale emotivo della Guida fuori allineamento. Compare ogn
 
 Questo segnale ha una funzione specifica: ti dice che stai sprecando energia in contesti dove il tuo contributo non è stato chiamato. L'amarezza della Guida non si risolve lavorando di più o dimostrando il proprio valore con ancora più forza. Si risolve fermandosi. Tornando alla propria strategia. Aspettando che il riconoscimento arrivi da fuori.
 
-Quando l'**Autorità Decisionale** (Autorità Interiore in HD) della Guida è di tipo emotivo — cioè quando l'**Intelligenza Emotiva** (Plesso Solare in HD) è definita — l'amarezza può confondersi con le onde emotive quotidiane. In quel caso serve ancora più attenzione: la decisione di accettare o rifiutare un invito va presa solo dopo aver attraversato l'intera onda emotiva, mai nel picco di entusiasmo né nel punto più basso.
+Quando l'**Autorità Decisionale** (Autorità Interiore in HD) della Guida è di tipo [emotivo](/blog/articoli/autorita-emozionale-human-design-decidere) — cioè quando l'**Intelligenza Emotiva** (Plesso Solare in HD) è definita — l'amarezza può confondersi con le onde emotive quotidiane. In quel caso serve ancora più attenzione: la decisione di accettare o rifiutare un invito va presa solo dopo aver attraversato l'intera onda emotiva, mai nel picco di entusiasmo né nel punto più basso.
 
 ## Perché il riposo della Guida non è pigrizia?
 
@@ -99,4 +99,4 @@ Quando l'invito giusto arriva, la Guida sente il successo prima ancora di inizia
 
 ## Il passo concreto che puoi fare adesso
 
-Se ti sei riconosciuta in queste dinamiche — l'esaurimento cronico, l'amarezza, la sensazione di non essere vista — il primo passo è verificare la tua meccanica con precisione. Una **Panoramica BG5®** del Disegno di Carriera con Valentina Russo dura 90 minuti e ti mostra esattamente dove stai sprecando energia, quale Autorità Decisionale hai, e come applicare la strategia dell'invito nella tua situazione lavorativa specifica. Puoi prenotare su [valentinarussobg5.com](https://valentinarussobg5.com). Smetti di adattarti a un ritmo che non è il tuo — e inizia a lavorare secondo la meccanica che ti appartiene.
+Se ti sei riconosciuta in queste dinamiche — l'esaurimento cronico, l'amarezza, la sensazione di non essere vista — il primo passo è verificare la tua meccanica con precisione. Una **Panoramica BG5®** del Disegno di Carriera con Valentina Russo dura 90 minuti e ti mostra esattamente dove stai sprecando energia, quale Autorità Decisionale hai, e come applicare la strategia dell'invito nella tua situazione lavorativa specifica. Puoi [calcolare gratis la tua carta Human Design](/genera-carta) in pochi secondi per verificare subito il tuo Tipo e la tua Autorità, poi prenotare una [Panoramica BG5® su valentinarussobg5.com/servizi](/servizi). Smetti di adattarti a un ritmo che non è il tuo — e inizia a lavorare secondo la meccanica che ti appartiene.

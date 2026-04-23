@@ -24,7 +24,7 @@
       window.dataLayer=window.dataLayer||[];
       function gtag(){dataLayer.push(arguments);}
       gtag('js',new Date());
-      gtag('config','G-GHR1HCYPY4');
+      gtag('config','G-GHR1HCYPY4'{% if page.header.ga_internal_traffic %},{'traffic_type':'internal'}{% endif %});
     }
     </script>
 
@@ -121,6 +121,7 @@
         "https://www.instagram.com/valentinarussobg5/",
         "https://www.linkedin.com/in/valentina-russo-6abb6514a/",
         "https://bg5businessinstitute.com/professionals?id=399d41b3-612b-48d1-88b9-7bc26ed71418"
+        {# GEO-C02: aggiungere qui "https://www.wikidata.org/wiki/Q??????" dopo creazione entità #}
       ],
       "email": "consulenze@valentinarussobg5.com",
       "worksFor": {

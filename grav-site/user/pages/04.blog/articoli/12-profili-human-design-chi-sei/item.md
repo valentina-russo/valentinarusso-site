@@ -86,7 +86,7 @@ Questi dodici profili si dividono in tre gruppi. I profili adattivi (1/3, 2/4, 3
 
 ## Perché il profilo che leggi online spesso non ti convince?
 
-La maggior parte delle descrizioni che trovi in rete tratta il profilo come un oroscopo rivisitato: "Sei un 2/4, quindi sei timido ma socievole". Questa semplificazione perde il punto. Il Profilo di Carriera interagisce con il tuo **Tipo di Carriera** (Tipo in HD), con i tuoi centri definiti, con i tuoi canali. Un 3/5 Costruttore Classico vive il suo profilo in modo radicalmente diverso da un 3/5 Guida.
+La maggior parte delle descrizioni che trovi in rete tratta il profilo come un oroscopo rivisitato: "Sei un 2/4, quindi sei timido ma socievole". Questa semplificazione perde il punto. Il Profilo di Carriera interagisce con il tuo **Tipo di Carriera** (Tipo in HD), con i tuoi centri definiti, con i tuoi canali. Un [3/5 Costruttore Classico](/blog/articoli/generatore-human-design-energia-senza-burnout) vive il suo profilo in modo radicalmente diverso da un [3/5 Guida](/blog/articoli/proiettore-human-design-invito-lavoro).
 
 Leggere il profilo isolato è come guardare il copione di un attore senza sapere in quale film recita. Hai le battute, ma ti manca il contesto. Per questo una **Panoramica BG5** completa legge il profilo dentro il disegno complessivo della tua carta.
 
@@ -114,8 +114,8 @@ Il passaggio da ombra a espressione autentica richiede una lettura precisa del p
 
 ## Come scoprire il tuo Profilo di Carriera e leggerlo nel contesto giusto
 
-Il profilo si calcola dal tuo **Success Code** con data, ora e luogo di nascita. Puoi trovare i due numeri con un calcolatore gratuito. Ma i numeri da soli dicono poco, per le ragioni che hai letto sopra: il profilo vive dentro un sistema più ampio, e leggerlo isolato produce comprensioni parziali.
+Il profilo si calcola dal tuo **Success Code** con data, ora e luogo di nascita. Puoi [trovare i due numeri con un calcolatore gratuito](/genera-carta). Ma i numeri da soli dicono poco, per le ragioni che hai letto sopra: il profilo vive dentro un sistema più ampio, e leggerlo isolato produce comprensioni parziali.
 
 La **Panoramica BG5® del Disegno di Carriera** con Valentina Russo dura 90 minuti e costa €350. Include la lettura completa del Profilo di Carriera dentro il contesto del tuo Tipo di Carriera, dei tuoi centri, dei tuoi canali. Non è una lista di etichette: è una mappa operativa che ti mostra come funzioni nel lavoro, nelle relazioni, nelle decisioni quotidiane.
 
-Se hai letto fin qui e ti sei riconosciuta in una Funzione, o se hai capito perché certe dinamiche si ripetono nella tua vita professionale, il passo successivo è vedere il quadro completo. Puoi prenotare la tua Panoramica BG5® su [valentinarussobg5.com](https://valentinarussobg5.com).
+Se hai letto fin qui e ti sei riconosciuta in una Funzione, o se hai capito perché certe dinamiche si ripetono nella tua vita professionale, il passo successivo è vedere il quadro completo. Puoi [calcolare gratis la tua carta Human Design](/genera-carta) per vedere subito il tuo Profilo, poi prenotare la tua [Panoramica BG5® su valentinarussobg5.com/servizi](/servizi).

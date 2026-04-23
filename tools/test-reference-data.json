@@ -17,7 +17,8 @@
       "09-52",
       "03-60"
     ],
-    "variable": "DRL-PRR"
+    "variable": "DRL-PRR",
+    "variable_jovian": "PRR DRL"
   },
   {
     "name": "Chandra Capriuoli",
@@ -36,7 +37,8 @@
       "20-57",
       "26-44"
     ],
-    "variable": "DRL-PRL"
+    "variable": "DRL-PRL",
+    "variable_jovian": "PRL DRL"
   },
   {
     "name": "Antonio Furfaro",
@@ -55,7 +57,8 @@
       "35-36",
       "47-64"
     ],
-    "variable": "DRR-PRR"
+    "variable": "DRR-PRR",
+    "variable_jovian": "PRR DRR"
   },
   {
     "name": "Veronica Pavan",
@@ -80,7 +83,8 @@
       "29-46",
       "42-53"
     ],
-    "variable": "DLR-PLR"
+    "variable": "DLR-PLR",
+    "variable_jovian": "PLR DLR"
   },
   {
     "name": "Roberta Lunardon",
@@ -98,7 +102,8 @@
       "20-57",
       "29-46"
     ],
-    "variable": "DRL-PLR"
+    "variable": "DRL-PLR",
+    "variable_jovian": "PLR DRL"
   },
   {
     "name": "Sara Delabella",
@@ -118,7 +123,8 @@
       "27-50",
       "35-36"
     ],
-    "variable": "DLL-PRL"
+    "variable": "DLL-PRL",
+    "variable_jovian": "PRL DLL"
   },
   {
     "name": "Elisa Fabbiani",
@@ -135,7 +141,8 @@
     "channels": [
       "26-44"
     ],
-    "variable": "DRR-PRL"
+    "variable": "DRR-PRL",
+    "variable_jovian": "PRL DRR"
   },
   {
     "name": "Marta Avancini",
@@ -154,7 +161,8 @@
       "21-45",
       "28-38"
     ],
-    "variable": "DLR-PRR"
+    "variable": "DLR-PRR",
+    "variable_jovian": "PRR DLR"
   },
   {
     "name": "Irene Marchese",
@@ -172,7 +180,8 @@
       "26-44",
       "37-40"
     ],
-    "variable": "DRL-PRR"
+    "variable": "DRL-PRR",
+    "variable_jovian": "PRR DRL"
   },
   {
     "name": "Veronica Amato",
@@ -191,7 +200,8 @@
       "10-57",
       "20-57"
     ],
-    "variable": "DRR-PLR"
+    "variable": "DRR-PLR",
+    "variable_jovian": "PLR DRR"
   },
   {
     "name": "Giulia Seganfreddo",
@@ -209,7 +219,8 @@
       "18-58",
       "32-54"
     ],
-    "variable": "DRL-PLL"
+    "variable": "DRL-PLL",
+    "variable_jovian": "PLL DRL"
   },
   {
     "name": "Sara Gregori",
@@ -229,7 +240,8 @@
       "18-58",
       "29-46"
     ],
-    "variable": "DLR-PRR"
+    "variable": "DLR-PRR",
+    "variable_jovian": "PRR DLR"
   },
   {
     "name": "Martina Leguti",
@@ -248,7 +260,8 @@
       "28-38",
       "06-59"
     ],
-    "variable": "DRR-PRR"
+    "variable": "DRR-PRR",
+    "variable_jovian": "PRR DRR"
   },
   {
     "name": "Laura Tomelleri",
@@ -266,7 +279,8 @@
       "10-57",
       "26-44"
     ],
-    "variable": "DRL-PRL"
+    "variable": "DRL-PRL",
+    "variable_jovian": "PRL DRL"
   },
   {
     "name": "Katja Bertoli",
@@ -288,7 +302,8 @@
       "28-38",
       "21-46"
     ],
-    "variable": "DLR-PLR"
+    "variable": "DLR-PLR",
+    "variable_jovian": "PLR DLR"
   },
   {
     "name": "Valeria Marongiu",
@@ -307,7 +322,8 @@
       "39-55",
       "37-40"
     ],
-    "variable": "DRL-PLL"
+    "variable": "DRL-PLL",
+    "variable_jovian": "PLL DRL"
   },
   {
     "name": "Barbara Crusco",
@@ -326,7 +342,8 @@
       "12-22",
       "36-55"
     ],
-    "variable": "DRR-PLL"
+    "variable": "DRR-PLL",
+    "variable_jovian": "PLL DRR"
   },
   {
     "name": "Mattia Cicolin",
@@ -344,7 +361,8 @@
       "26-44",
       "37-40"
     ],
-    "variable": "DLR-PRR"
+    "variable": "DLR-PRR",
+    "variable_jovian": "PRR DLR"
   },
   {
     "name": "Cinzia Panunzi",
@@ -370,7 +388,8 @@
       "34-57",
       "09-52"
     ],
-    "variable": "DLL-PLR"
+    "variable": "DLL-PLR",
+    "variable_jovian": "PLR DLL"
   },
   {
     "name": "Viola Paganin",
@@ -395,7 +414,8 @@
       "34-57",
       "37-40"
     ],
-    "variable": "DRL-PRL"
+    "variable": "DRL-PRL",
+    "variable_jovian": "PRL DRL"
   },
   {
     "name": "Emanuele Arru",
@@ -414,7 +434,8 @@
       "26-44",
       "01-08"
     ],
-    "variable": "DRL-PLR"
+    "variable": "DRL-PLR",
+    "variable_jovian": "PLR DRL"
   },
   {
     "name": "Penelope Zenorini",
@@ -436,7 +457,8 @@
       "01-08",
       "04-63"
     ],
-    "variable": "DRR-PRL"
+    "variable": "DRR-PRL",
+    "variable_jovian": "PRL DRR"
   },
   {
     "name": "Fabio Stivanello",
@@ -455,7 +477,8 @@
       "09-52",
       "01-08"
     ],
-    "variable": "DLL-PLL"
+    "variable": "DLL-PLL",
+    "variable_jovian": "PLL DLL"
   },
   {
     "name": "Monica Lazzaretti",
@@ -476,7 +499,8 @@
       "03-60",
       "07-31"
     ],
-    "variable": "DLR-PRL"
+    "variable": "DLL-PLL",
+    "variable_jovian": "PLL DLL"
   },
   {
     "name": "Katia De Angelis",
@@ -494,7 +518,8 @@
       "09-52",
       "01-08"
     ],
-    "variable": "DLR-PLL"
+    "variable": "DLR-PLL",
+    "variable_jovian": "PLL DLR"
   },
   {
     "name": "Mara Laconi",
@@ -512,7 +537,8 @@
       "42-53",
       "05-15"
     ],
-    "variable": "DRR-PRR"
+    "variable": "DRR-PRR",
+    "variable_jovian": "PRR DRR"
   },
   {
     "name": "Mojra Di Vincenzo",
@@ -531,7 +557,8 @@
       "28-38",
       "03-60"
     ],
-    "variable": "DRR-PRL"
+    "variable": "DRR-PRL",
+    "variable_jovian": "PRL DRR"
   },
   {
     "name": "Roberta Maiello",
@@ -553,7 +580,8 @@
       "07-31",
       "01-08"
     ],
-    "variable": "DRL-PRL"
+    "variable": "DRL-PRL",
+    "variable_jovian": "PRL DRL"
   },
   {
     "name": "Sabrina Gulotta",
@@ -574,7 +602,8 @@
       "26-44",
       "05-15"
     ],
-    "variable": "DLL-PLR"
+    "variable": "DLL-PLR",
+    "variable_jovian": "PLR DLL"
   },
   {
     "name": "Donatella Sandalo",
@@ -594,7 +623,8 @@
       "23-43",
       "27-50"
     ],
-    "variable": "DRL-PRR"
+    "variable": "DRL-PRR",
+    "variable_jovian": "PRR DRL"
   },
   {
     "name": "Jenny De Federicis",
@@ -614,7 +644,8 @@
       "34-57",
       "36-55"
     ],
-    "variable": "DRL-PLR"
+    "variable": "DRL-PLR",
+    "variable_jovian": "PLR DRL"
   },
   {
     "name": "Lucilla May",
@@ -632,7 +663,8 @@
       "24-61",
       "34-57"
     ],
-    "variable": "DLL-PLL"
+    "variable": "DLL-PLL",
+    "variable_jovian": "PLL DLL"
   },
   {
     "name": "Laura Galli",
@@ -650,7 +682,8 @@
       "18-58",
       "28-38"
     ],
-    "variable": "DRR-PRL"
+    "variable": "DRR-PRL",
+    "variable_jovian": "PRL DRR"
   },
   {
     "name": "Federico La Rosa",
@@ -671,7 +704,8 @@
       "42-53",
       "45-21"
     ],
-    "variable": "DRL-PRR"
+    "variable": "DRL-PRR",
+    "variable_jovian": "PRR DRL"
   },
   {
     "name": "Francesca Speranza",
@@ -689,7 +723,8 @@
       "34-57",
       "23-43"
     ],
-    "variable": "DLR-PLL"
+    "variable": "DLR-PLL",
+    "variable_jovian": "PLL DLR"
   },
   {
     "name": "Elisa Bucco",
@@ -711,7 +746,8 @@
       "45-21",
       "19-49"
     ],
-    "variable": "DRR-PLL"
+    "variable": "DRR-PLL",
+    "variable_jovian": "PLL DRR"
   },
   {
     "name": "Nika Instagram",
@@ -732,7 +768,8 @@
       "29-46",
       "05-15"
     ],
-    "variable": "DLL-PLL"
+    "variable": "DLL-PLL",
+    "variable_jovian": "PLL DLL"
   },
   {
     "name": "Paola Burchianelli",
@@ -750,7 +787,8 @@
       "32-54",
       "18-58"
     ],
-    "variable": "DRL-PRL"
+    "variable": "DRL-PRL",
+    "variable_jovian": "PRL DRL"
   },
   {
     "name": "Donatella Garbinato",
@@ -772,7 +810,8 @@
       "34-57",
       "27-50"
     ],
-    "variable": "DRL-PLR"
+    "variable": "DRL-PLR",
+    "variable_jovian": "PLR DRL"
   },
   {
     "name": "Sonia Martelli",
@@ -792,7 +831,8 @@
       "26-44",
       "36-55"
     ],
-    "variable": "DLR-PLR"
+    "variable": "DLR-PLR",
+    "variable_jovian": "PLR DLR"
   },
   {
     "name": "Luca Ventura",
@@ -810,7 +850,8 @@
       "10-34",
       "34-57"
     ],
-    "variable": "DLR-PLR"
+    "variable": "DLR-PLR",
+    "variable_jovian": "PLR DLR"
   },
   {
     "name": "Diana Popov",
@@ -830,7 +871,8 @@
       "32-54",
       "34-57"
     ],
-    "variable": "DLR-PRR"
+    "variable": "DLR-PRR",
+    "variable_jovian": "PRR DLR"
   },
   {
     "name": "Ludovica d'Alessandro",
@@ -847,7 +889,8 @@
     "channels": [
       "26-44"
     ],
-    "variable": "DRR-PRL"
+    "variable": "DRR-PRL",
+    "variable_jovian": "PRL DRR"
   },
   {
     "name": "Giulia Cupellini",
@@ -868,7 +911,8 @@
       "34-57",
       "03-60"
     ],
-    "variable": "DRR-PLL"
+    "variable": "DRR-PLL",
+    "variable_jovian": "PLL DRR"
   },
   {
     "name": "Giuliana Corona",
@@ -885,7 +929,8 @@
     "channels": [
       "36-35"
     ],
-    "variable": "DRL-PLR"
+    "variable": "DRL-PLR",
+    "variable_jovian": "PLR DRL"
   },
   {
     "name": "Elisa Caparesi",
@@ -906,7 +951,8 @@
       "20-34",
       "01-08"
     ],
-    "variable": "DLR-PLL"
+    "variable": "DLR-PLL",
+    "variable_jovian": "PLL DLR"
   },
   {
     "name": "Mary Terry",
@@ -927,6 +973,7 @@
       "20-57",
       "34-57"
     ],
-    "variable": "DRR-PRL"
+    "variable": "DRR-PRL",
+    "variable_jovian": "PRL DRR"
   }
 ]
