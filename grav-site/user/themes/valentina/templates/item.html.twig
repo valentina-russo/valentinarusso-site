@@ -210,8 +210,12 @@
         {# CTA #}
         <div class="article-cta text-center" style="margin-top: 4rem; padding: 3rem; background: {{ is_corporate ? 'rgba(30,58,95,0.06)' : 'rgba(182,131,151,0.06)' }}; border-radius: 20px;">
             {% if is_corporate %}
-            <h3 style="margin-bottom: 1rem; color: var(--corp-primary);">Pronto a portare il BG5&reg; nella tua azienda?</h3>
-            <a href="{{ grav.base_url }}/aziende/contatti" class="btn btn-primary" style="background-color: var(--corp-primary);">Richiedi una Consulenza</a>
+            <h3 style="margin-bottom: 1rem; color: var(--corp-primary);">Vuoi portare il BG5&reg; nella tua azienda?</h3>
+            <p style="color: #666; margin: 0 auto 2rem; font-size: 0.95rem; max-width: 500px; line-height: 1.6;">Se vuoi capire come si applica alla tua realtà, scopri i servizi disponibili. Se sai già cosa cerchi, prenota una consulenza diretta.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; align-items: center;">
+                <a href="{{ grav.base_url }}/aziende/servizi" style="padding: 0.75rem 1.5rem; border: 2px solid var(--corp-primary); color: var(--corp-primary); border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 0.95rem; background: transparent;">Scopri i servizi</a>
+                <a href="{{ grav.base_url }}/aziende/contatti" class="btn btn-primary" style="background-color: var(--corp-primary);">Richiedi una Consulenza</a>
+            </div>
             {% else %}
             <h3 style="margin-bottom: 1rem; color: var(--primary-color);">Vuoi scoprire la tua meccanica?</h3>
             <p style="color: #666; margin: 0 auto 2rem; font-size: 0.95rem; max-width: 500px; line-height: 1.6;">Se non conosci ancora il tuo Tipo, calcola gratis la tua carta in pochi secondi. Se lo sai già, prenota una Panoramica BG5® e scopri come funziona nel tuo caso specifico.</p>
