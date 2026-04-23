@@ -118,4 +118,4 @@ Il profilo si calcola dal tuo **Success Code** con data, ora e luogo di nascita.
 
 La **Panoramica BG5® del Disegno di Carriera** con Valentina Russo dura 90 minuti e costa €350. Include la lettura completa del Profilo di Carriera dentro il contesto del tuo Tipo di Carriera, dei tuoi centri, dei tuoi canali. Non è una lista di etichette: è una mappa operativa che ti mostra come funzioni nel lavoro, nelle relazioni, nelle decisioni quotidiane.
 
-Se hai letto fin qui e ti sei riconosciuta in una Funzione, o se hai capito perché certe dinamiche si ripetono nella tua vita professionale, il passo successivo è vedere il quadro completo. Se non conosci ancora il tuo Profilo, [calcola gratis la tua carta Human Design](/genera-carta): lo trovi subito con data, ora e luogo di nascita. Se già lo conosci e vuoi leggerlo nel contesto giusto — Tipo, centri, canali — [prenota una Panoramica BG5® con Valentina](/servizi).
+Se hai letto fin qui e ti sei riconosciuta in una Funzione, o se hai capito perché certe dinamiche si ripetono nella tua vita professionale, il passo successivo è vedere il quadro completo.
