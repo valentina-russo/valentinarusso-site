@@ -777,47 +777,89 @@
 
 
 <script>
-/* ── Animated bodygraph — 5 HD Types loop ── */
+/* ── Animated bodygraph — 10 carte reali ── */
 (function () {
   var BASE = '{{ grav.base_url }}';
 
-  /* Centers: SVG <g> IDs. Channels: SVG <path> IDs within #Channels group. */
+  /*
+   * 10 carte calcolate con ephem da date reali casuali.
+   * Centri: SVG <g> IDs (Head/Ajna/Throat/G/Heart/Splenic_Center/Solar_Plexus/Sacral/Root)
+   * Canali: SVG <path> IDs nel gruppo #Channels (Gate1…Gate64)
+   */
   var TYPES = [
     {
-      label: 'Costruttore Classico — 37%',
+      /* Generatore — 22 lug 1988, Milano — 6 centri, 5 canali */
+      label: 'Generatore — 22 lug 1988',
       color: '#2D6A8B',
-      centers: ['Sacral', 'G', 'Root'],
-      channels: ['Gate5','Gate15','Gate14','Gate2','Gate3','Gate60',
-                 'Gate9','Gate29','Gate46','Gate53','Gate42','Gate27','Gate59']
+      centers: ['Head','Ajna','Throat','Splenic_Center','Sacral','Root'],
+      channels: ['Gate64','Gate47','Gate11','Gate56','Gate27','Gate50',
+                 'Gate3','Gate60','Gate28','Gate38']
     },
     {
-      label: 'Costruttore Rapido — 33%',
-      color: '#3A8A6E',
-      centers: ['Sacral', 'Throat', 'G', 'Root', 'Ajna'],
-      channels: ['Gate34','Gate20','GateSpan','Gate10','GateConnect34','GateConnect10',
-                 'Gate5','Gate15','Gate14','Gate2','Gate17','Gate62','Gate11','Gate56',
-                 'Gate9','Gate29']
-    },
-    {
-      label: 'Guida (Proiettore) — 20%',
+      /* Proiettore — 3 nov 1975, Roma — Ajna+Gola+G, 3 canali */
+      label: 'Proiettore — 3 nov 1975',
       color: '#B68397',
-      centers: ['Head', 'Ajna', 'Throat', 'G'],
-      channels: ['Gate64','Gate47','Gate61','Gate24','Gate63','Gate4',
-                 'Gate17','Gate62','Gate43','Gate23','Gate11','Gate56',
-                 'Gate31','Gate7','Gate8','Gate1','Gate33','Gate13']
+      centers: ['Ajna','Throat','G'],
+      channels: ['Gate43','Gate23','Gate31','Gate7','Gate8','Gate1']
     },
     {
-      label: 'Iniziatore (Manifestore) — 9%',
-      color: '#8A6B3A',
-      centers: ['Heart', 'Throat', 'G'],
-      channels: ['Gate21','Gate45','Gate35','Gate12','Gate51','Gate25',
-                 'Gate26','Gate44','Gate40','Gate37']
-    },
-    {
-      label: 'Valutatore (Riflettore) — 1%',
+      /* Riflettore — 14 feb 1992, Torino — nessun centro definito */
+      label: 'Riflettore — 14 feb 1992',
       color: '#6A5A8A',
       centers: [],
       channels: []
+    },
+    {
+      /* Proiettore — 8 set 1969, Napoli — solo Testa+Ajna */
+      label: 'Proiettore — 8 set 1969',
+      color: '#B68397',
+      centers: ['Head','Ajna'],
+      channels: ['Gate64','Gate47']
+    },
+    {
+      /* Proiettore — 30 apr 2001, Firenze — 5 centri, 4 canali */
+      label: 'Proiettore — 30 apr 2001',
+      color: '#B68397',
+      centers: ['Ajna','Throat','G','Solar_Plexus','Root'],
+      channels: ['Gate43','Gate23','Gate10','Gate20','Gate30','Gate41',
+                 'Gate19','Gate49']
+    },
+    {
+      /* Generatore — 25 dic 1983, Bologna — G+Milza+Sacrale+Radice, 2 canali */
+      label: 'Generatore — 25 dic 1983',
+      color: '#2D6A8B',
+      centers: ['G','Splenic_Center','Sacral','Root'],
+      channels: ['Gate5','Gate15','Gate32','Gate54']
+    },
+    {
+      /* Proiettore — 18 giu 1997, Venezia — G+Cuore+PlSol+Radice, 2 canali */
+      label: 'Proiettore — 18 giu 1997',
+      color: '#B68397',
+      centers: ['G','Heart','Solar_Plexus','Root'],
+      channels: ['Gate51','Gate25','Gate19','Gate49']
+    },
+    {
+      /* Proiettore — 4 ago 1961, Palermo — solo PlSol+Radice */
+      label: 'Proiettore — 4 ago 1961',
+      color: '#B68397',
+      centers: ['Solar_Plexus','Root'],
+      channels: ['Gate30','Gate41']
+    },
+    {
+      /* Proiettore — 11 ott 2004, Genova — 6 centri, 3 canali */
+      label: 'Proiettore — 11 ott 2004',
+      color: '#B68397',
+      centers: ['Throat','G','Heart','Splenic_Center','Solar_Plexus','Root'],
+      channels: ['Gate33','Gate13','Gate40','Gate37','Gate32','Gate54']
+    },
+    {
+      /* Generatore — 27 mag 1978, Bari — tutti 9 centri definiti, 6 canali */
+      label: 'Generatore — 27 mag 1978',
+      color: '#2D6A8B',
+      centers: ['Head','Ajna','Throat','G','Heart','Splenic_Center',
+                'Solar_Plexus','Sacral','Root'],
+      channels: ['Gate63','Gate4','Gate17','Gate62','Gate16','Gate48',
+                 'Gate40','Gate37','Gate29','Gate46','Gate9','Gate52']
     }
   ];
 
