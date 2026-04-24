@@ -7,23 +7,36 @@
 /* ── Human Design intro page ── */
 .hd-hero {
     background: linear-gradient(140deg, rgba(182,131,151,0.1) 0%, rgba(45,106,139,0.07) 100%);
-    padding: 5rem 1.25rem 4rem;
-    text-align: center;
+    padding: 4rem 1.25rem;
 }
+.hd-hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 3rem;
+    align-items: center;
+}
+.hd-hero-text { }
 .hd-hero h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 5vw, 2.9rem);
+    font-size: clamp(2rem, 4vw, 2.8rem);
     color: #222;
-    margin: 0 auto 1.25rem;
-    max-width: 760px;
-    line-height: 1.25;
+    margin: 0 0 1.25rem;
+    line-height: 1.2;
 }
 .hd-hero .hero-lead {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: #555;
-    max-width: 580px;
-    margin: 0 auto 2.5rem;
+    max-width: 520px;
+    margin: 0 0 2.25rem;
     line-height: 1.75;
+}
+.hd-hero-visual img {
+    width: 100%;
+    max-width: 300px;
+    opacity: 0.82;
+    filter: drop-shadow(0 8px 32px rgba(45,106,139,0.18));
 }
 .hd-badge {
     display: inline-block;
@@ -36,6 +49,37 @@
     border-radius: 20px;
     padding: 0.3rem 1rem;
     margin-bottom: 1.5rem;
+}
+
+/* ── Valentina box (BG5 section) ── */
+.valentina-box {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 2rem;
+    align-items: start;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(45,106,139,0.15);
+}
+.valentina-photo {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid rgba(45,106,139,0.2);
+}
+.valentina-box-text p {
+    font-size: 0.92rem;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+.valentina-box-text strong { color: #222; }
+.bg5-badge {
+    height: 48px;
+    width: auto;
+    opacity: 0.85;
+    margin-top: 0.5rem;
 }
 
 /* ── Sezioni ── */
@@ -423,11 +467,20 @@
 
   {# ══ HERO ══ #}
   <section class="hd-hero">
-    <span class="hd-badge">Guida per chi inizia</span>
-    <h1>Cos'è l'Human Design?</h1>
-    <p class="hero-lead">Una mappa del tuo funzionamento unico: come prendi decisioni, dove metti energia, perché certe situazioni ti esauriscono e altre ti ricaricano.</p>
-    <div class="cta-row">
-      <a href="{{ grav.base_url }}/genera-carta" class="btn btn-primary">Calcola gratis la tua carta</a>
+    <div class="hd-hero-inner">
+      <div class="hd-hero-text">
+        <span class="hd-badge">Guida per chi inizia</span>
+        <h1>Cos'è l'Human Design?</h1>
+        <p class="hero-lead">Una mappa del tuo funzionamento unico: come prendi decisioni, dove metti energia, perché certe situazioni ti esauriscono e altre ti ricaricano.</p>
+        <div class="cta-row">
+          <a href="{{ grav.base_url }}/genera-carta" class="btn btn-primary">Calcola gratis la tua carta</a>
+        </div>
+      </div>
+      <div class="hd-hero-visual">
+        <img src="{{ grav.base_url }}/user/pages/assets/bodygraph.svg"
+             alt="Bodygraph Human Design — mappa energetica individuale con 9 centri e canali"
+             loading="eager">
+      </div>
     </div>
   </section>
 
@@ -626,9 +679,22 @@
 
       </div>
 
-      <div class="hd-prose" style="margin-top: 2.5rem; max-width: 720px; margin-left: auto; margin-right: auto;">
-        <p>La carta è la stessa. Cambia la lente con cui viene letta. Una sessione BG5 non sostituisce un percorso di crescita personale con HD — sono due applicazioni complementari dello stesso sistema.</p>
-        <p>Valentina Russo è <strong>Consulente Certificata BG5®</strong> — una delle poche professioniste italiane con certificazione ufficiale dell'International BG5 Business Institute. Le sessioni coprono sia Human Design (relazioni, amor proprio, vita) sia BG5 (carriera, lavoro, aziende).</p>
+      <div style="max-width: 720px; margin: 2.5rem auto 0;">
+        <p style="font-size: 0.95rem; color: #555; line-height: 1.75; margin-bottom: 0;">La carta è la stessa. Cambia la lente con cui viene letta. Una sessione BG5 non sostituisce un percorso di crescita personale con HD — sono due applicazioni complementari dello stesso sistema.</p>
+
+        <div class="valentina-box">
+          <img src="{{ grav.base_url }}/user/pages/assets/valentina.jpg"
+               alt="Valentina Russo, Consulente Certificata BG5®"
+               class="valentina-photo"
+               loading="lazy">
+          <div class="valentina-box-text">
+            <p>Valentina Russo è <strong>Consulente Certificata BG5®</strong> — una delle poche professioniste italiane con certificazione ufficiale dell'International BG5 Business Institute. Le sessioni coprono sia Human Design (relazioni, amor proprio, vita) sia BG5 (carriera, lavoro, aziende).</p>
+            <img src="{{ grav.base_url }}/user/pages/assets/bg5-certified.png"
+                 alt="Certificata BG5 Business Institute"
+                 class="bg5-badge"
+                 loading="lazy">
+          </div>
+        </div>
       </div>
     </div>
   </section>
