@@ -777,89 +777,71 @@
 
 
 <script>
-/* ── Animated bodygraph — 10 carte reali ── */
+/* ── Animated bodygraph — 10 carte HD reali (colori P/D/split) ── */
 (function () {
   var BASE = '{{ grav.base_url }}';
 
   /*
-   * 10 carte calcolate con ephem da date reali casuali.
-   * Centri: SVG <g> IDs (Head/Ajna/Throat/G/Heart/Splenic_Center/Solar_Plexus/Sacral/Root)
-   * Canali: SVG <path> IDs nel gruppo #Channels (Gate1…Gate64)
+   * 10 carte calcolate con ephem. Colori autentici HD:
+   *   P = Personalità (nero) · D = Disegno (rosso) · S = entrambi (striato)
+   * Centri: chiavi = SVG <g> ID · Canali: chiavi = numero gate SVG
    */
+  var COL_P     = '#1a1a1a';
+  var COL_D     = '#C0392B';
+  var COL_SPLIT = 'url(#splitGatePattern)';
+
   var TYPES = [
     {
-      /* Generatore — 22 lug 1988, Milano — 6 centri, 5 canali */
-      label: 'Generatore — 22 lug 1988',
-      color: '#2D6A8B',
-      centers: ['Head','Ajna','Throat','Splenic_Center','Sacral','Root'],
-      channels: ['Gate64','Gate47','Gate11','Gate56','Gate27','Gate50',
-                 'Gate3','Gate60','Gate28','Gate38']
+      label: 'Generatore \u2014 22 lug 1988',
+      centers: {Head:'S',Ajna:'S',Throat:'P',Splenic_Center:'S',Sacral:'S',Root:'S'},
+      gates:   {64:'S',47:'S',11:'P',56:'P',27:'D',50:'D',3:'S',60:'S',28:'S',38:'S'}
     },
     {
-      /* Proiettore — 3 nov 1975, Roma — Ajna+Gola+G, 3 canali */
-      label: 'Proiettore — 3 nov 1975',
-      color: '#B68397',
-      centers: ['Ajna','Throat','G'],
-      channels: ['Gate43','Gate23','Gate31','Gate7','Gate8','Gate1']
+      label: 'Proiettore \u2014 3 nov 1975',
+      centers: {Ajna:'S',Throat:'S',G:'S'},
+      gates:   {43:'S',23:'S',31:'S',7:'S',8:'S',1:'S'}
     },
     {
-      /* Riflettore — 14 feb 1992, Torino — nessun centro definito */
-      label: 'Riflettore — 14 feb 1992',
-      color: '#6A5A8A',
-      centers: [],
-      channels: []
+      label: 'Riflettore \u2014 14 feb 1992',
+      centers: {},
+      gates:   {}
     },
     {
-      /* Proiettore — 8 set 1969, Napoli — solo Testa+Ajna */
-      label: 'Proiettore — 8 set 1969',
-      color: '#B68397',
-      centers: ['Head','Ajna'],
-      channels: ['Gate64','Gate47']
+      label: 'Proiettore \u2014 8 set 1969',
+      centers: {Head:'S',Ajna:'S'},
+      gates:   {64:'S',47:'S'}
     },
     {
-      /* Proiettore — 30 apr 2001, Firenze — 5 centri, 4 canali */
-      label: 'Proiettore — 30 apr 2001',
-      color: '#B68397',
-      centers: ['Ajna','Throat','G','Solar_Plexus','Root'],
-      channels: ['Gate43','Gate23','Gate10','Gate20','Gate30','Gate41',
-                 'Gate19','Gate49']
+      label: 'Proiettore \u2014 30 apr 2001',
+      centers: {Ajna:'D',Throat:'S',G:'S',Solar_Plexus:'S',Root:'S'},
+      gates:   {43:'D',23:'D',10:'S',20:'S',30:'D',41:'D',19:'S',49:'S'}
     },
     {
-      /* Generatore — 25 dic 1983, Bologna — G+Milza+Sacrale+Radice, 2 canali */
-      label: 'Generatore — 25 dic 1983',
-      color: '#2D6A8B',
-      centers: ['G','Splenic_Center','Sacral','Root'],
-      channels: ['Gate5','Gate15','Gate32','Gate54']
+      label: 'Generatore \u2014 25 dic 1983',
+      centers: {G:'P',Splenic_Center:'P',Sacral:'P',Root:'P'},
+      gates:   {5:'P',15:'P',32:'P',54:'P'}
     },
     {
-      /* Proiettore — 18 giu 1997, Venezia — G+Cuore+PlSol+Radice, 2 canali */
-      label: 'Proiettore — 18 giu 1997',
-      color: '#B68397',
-      centers: ['G','Heart','Solar_Plexus','Root'],
-      channels: ['Gate51','Gate25','Gate19','Gate49']
+      label: 'Proiettore \u2014 18 giu 1997',
+      centers: {G:'S',Heart:'S',Solar_Plexus:'S',Root:'S'},
+      gates:   {51:'S',25:'S',19:'S',49:'S'}
     },
     {
-      /* Proiettore — 4 ago 1961, Palermo — solo PlSol+Radice */
-      label: 'Proiettore — 4 ago 1961',
-      color: '#B68397',
-      centers: ['Solar_Plexus','Root'],
-      channels: ['Gate30','Gate41']
+      label: 'Proiettore \u2014 4 ago 1961',
+      centers: {Solar_Plexus:'S',Root:'S'},
+      gates:   {30:'S',41:'S'}
     },
     {
-      /* Proiettore — 11 ott 2004, Genova — 6 centri, 3 canali */
-      label: 'Proiettore — 11 ott 2004',
-      color: '#B68397',
-      centers: ['Throat','G','Heart','Splenic_Center','Solar_Plexus','Root'],
-      channels: ['Gate33','Gate13','Gate40','Gate37','Gate32','Gate54']
+      label: 'Proiettore \u2014 11 ott 2004',
+      centers: {Throat:'D',G:'D',Heart:'S',Splenic_Center:'S',Solar_Plexus:'S',Root:'S'},
+      gates:   {33:'D',13:'D',40:'S',37:'S',32:'S',54:'S'}
     },
     {
-      /* Generatore — 27 mag 1978, Bari — tutti 9 centri definiti, 6 canali */
-      label: 'Generatore — 27 mag 1978',
-      color: '#2D6A8B',
-      centers: ['Head','Ajna','Throat','G','Heart','Splenic_Center',
-                'Solar_Plexus','Sacral','Root'],
-      channels: ['Gate63','Gate4','Gate17','Gate62','Gate16','Gate48',
-                 'Gate40','Gate37','Gate29','Gate46','Gate9','Gate52']
+      label: 'Generatore \u2014 27 mag 1978',
+      centers: {Head:'S',Ajna:'S',Throat:'S',G:'S',Heart:'D',
+                Splenic_Center:'P',Solar_Plexus:'D',Sacral:'S',Root:'P'},
+      gates:   {63:'S',4:'S',17:'D',62:'D',16:'P',48:'P',
+                40:'D',37:'D',29:'S',46:'S',9:'P',52:'P'}
     }
   ];
 
@@ -867,6 +849,10 @@
   var CHANNEL_DEFAULT = '#c8c2bc';
   var svgEl = null;
   var idx   = 0;
+
+  function colorOf(code) {
+    return code === 'P' ? COL_P : code === 'D' ? COL_D : COL_SPLIT;
+  }
 
   function applyType(t) {
     if (!svgEl) return;
@@ -878,22 +864,29 @@
       el.style.fill = CHANNEL_DEFAULT;
     });
     /* Color defined centers */
-    t.centers.forEach(function (id) {
+    Object.keys(t.centers).forEach(function (id) {
       var g = svgEl.querySelector('#' + id);
       if (!g) return;
       var p = g.querySelector('.hd-center');
-      if (p) p.style.fill = t.color;
+      if (p) p.style.fill = colorOf(t.centers[id]);
     });
-    /* Color defined channels */
-    t.channels.forEach(function (id) {
-      var el = svgEl.querySelector('#' + id);
-      if (el) el.style.fill = t.color;
+    /* Color defined gates */
+    Object.keys(t.gates).forEach(function (gNum) {
+      var el = svgEl.querySelector('#Gate' + gNum);
+      if (el) el.style.fill = colorOf(t.gates[gNum]);
     });
     /* Update label */
-    var dot = document.getElementById('hd-type-dot');
     var lbl = document.getElementById('hd-type-label');
-    if (dot) dot.style.background = t.color;
+    var dot = document.getElementById('hd-type-dot');
     if (lbl) lbl.textContent = t.label;
+    if (dot) {
+      /* dot: nero=P, rosso=D, striato=se misto */
+      var colors = Object.values(t.centers);
+      var hasP = colors.indexOf('P') > -1;
+      var hasD = colors.indexOf('D') > -1;
+      dot.style.background = (hasP && hasD) ? 'linear-gradient(135deg,#1a1a1a 50%,#C0392B 50%)'
+                            : hasP ? COL_P : hasD ? COL_D : '#888';
+    }
   }
 
   function tick() {
@@ -912,6 +905,9 @@
       if (svgEl) {
         svgEl.removeAttribute('width');
         svgEl.removeAttribute('height');
+        /* CSS vars per il pattern striato (P=nero, D=rosso) */
+        svgEl.style.setProperty('--color-personality', COL_P);
+        svgEl.style.setProperty('--color-design',      COL_D);
         tick();
       }
     })
