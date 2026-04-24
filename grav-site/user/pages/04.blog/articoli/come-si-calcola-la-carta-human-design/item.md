@@ -38,37 +38,37 @@ faq:
 
 ## Cosa significa calcolare la carta Human Design
 
-Calcolare la carta Human Design significa ottenere una mappa del tuo sistema energetico costruita su dati astronomici precisi. Non è un test psicologico, non è un sondaggio, non richiede che tu risponda a domande su te stesso. Richiede tre informazioni anagrafiche — data di nascita, ora esatta, luogo — e un software che traduce quei dati in posizioni planetarie usando le effemeridi astronomiche.
+Calcolare la carta Human Design vuol dire ottenere una mappa del tuo sistema energetico costruita su dati astronomici precisi. Il procedimento non coinvolge test psicologici, questionari o domande su te stesso. Servono tre informazioni anagrafiche, data di nascita, ora esatta e luogo, e un software che traduce quei dati in posizioni planetarie usando le effemeridi astronomiche.
 
-Il risultato si chiama Rave Chart o bodygraph. È un diagramma con nove centri energetici collegati da canali e gate, e mostra come sei configurato per funzionare: il tuo Tipo energetico, la tua Strategia, la tua Autorità Decisionale, il tuo Profilo, i centri che hai definiti e quelli aperti. Ogni elemento ha un valore pratico, non decorativo. Non descrive chi "dovresti essere" ma come sei effettivamente cablato.
+Il risultato si chiama Rave Chart o bodygraph. È un diagramma con nove centri energetici collegati da canali e gate, e mostra come sei configurato per funzionare: Tipo energetico, Strategia, Autorità Decisionale, Profilo, con il dettaglio dei centri definiti e di quelli aperti. Ogni elemento ha un valore pratico e descrive come sei effettivamente cablato, non chi "dovresti essere".
 
-Nel sistema BG5® — la versione professionale del Human Design applicata a carriera e business — la stessa carta si chiama BG5 Career Design Chart. I dati di partenza sono identici; cambia il vocabolario e l'applicazione contestuale.
+Nel sistema BG5®, la versione professionale del Human Design applicata a carriera e business, la stessa carta si chiama BG5 Career Design Chart. I dati di partenza sono identici; cambia il vocabolario e l'applicazione contestuale.
 
 ## Cosa serve per calcolare la carta
 
 Hai bisogno di tre dati.
 
-**Data di nascita**: giorno, mese, anno. Questo dato è raramente un problema.
+**Data di nascita**: giorno, mese, anno. Raramente rappresenta un problema.
 
-**Ora di nascita**: è il dato critico. Anche 5 minuti di differenza possono cambiare la posizione della Luna, che si muove a circa un grado ogni due ore. La Luna attiva gate specifici nel bodygraph, e i gate determinano le Linee del tuo Profilo di Carriera. Un'ora imprecisa può portare a un Profilo 3/5 invece di un 4/6, per esempio — e i due Profili descrivono strategie di vita completamente diverse.
+**Ora di nascita**: è il dato critico. Anche 5 minuti di differenza possono cambiare la posizione della Luna, che si muove a circa un grado ogni due ore. La Luna attiva gate specifici nel bodygraph, e i gate determinano le Linee del tuo Profilo di Carriera. Un'ora imprecisa può portarti per esempio da un Profilo 3/5 a un 4/6, e i due Profili descrivono strategie di vita completamente diverse.
 
-La fonte più affidabile è il certificato di nascita o la cartella clinica ospedaliera. Se non hai accesso a questi documenti, usa l'ora che ti è stata comunicata dalla famiglia come punto di partenza, con la consapevolezza che alcune componenti della carta potrebbero essere meno precise.
+La fonte più affidabile è il certificato di nascita o la cartella clinica ospedaliera. Senza accesso a questi documenti, usa l'ora che ti è stata comunicata dalla famiglia come punto di partenza, sapendo che alcune componenti della carta potrebbero essere meno precise.
 
 **Luogo di nascita**: serve la città o la località. Il software la usa per calcolare il fuso orario e la posizione geografica nel momento della nascita.
 
 ## Come funziona il calcolo: Personalità e Design
 
-Qui sta il dato che distingue Human Design dall'astrologia classica, e che spiega perché la carta ha due set di dati — uno nero e uno rosso.
+Qui sta il dato che distingue Human Design dall'astrologia classica, e che spiega perché la carta mostra due set di dati, uno in nero e uno in rosso.
 
-Il calcolo non usa un solo momento temporale. Usa due.
+Il calcolo usa due momenti temporali distinti, non uno solo.
 
-Il primo è il momento della nascita vera e propria. La posizione dei pianeti in quell'istante genera i dati di **Personalità** — il lato conscio, quello a cui hai accesso nel corso della vita attraverso la riflessione e l'esperienza. Questi dati appaiono in nero nella carta.
+Il primo è il momento della nascita vera e propria. La posizione dei pianeti in quell'istante genera i dati di **Personalità**, il lato conscio, quello a cui hai accesso nel corso della vita attraverso la riflessione e l'esperienza. Questi dati appaiono in nero nella carta.
 
-Il secondo è un punto nel tempo di circa **88 gradi solari prima della nascita** — all'incirca 88-89 giorni prima del parto, nel periodo fetale avanzato. La posizione planetaria in quel momento genera i dati di **Design** — il lato inconscio, quello che si manifesta nel comportamento ma che spesso non riconosci come tuo. Questi dati appaiono in rosso.
+Il secondo è un punto nel tempo di circa **88 gradi solari prima della nascita**, all'incirca 88-89 giorni prima del parto, nel periodo fetale avanzato. La posizione planetaria in quel momento genera i dati di **Design**, il lato inconscio, quello che si manifesta nel comportamento ma che spesso non riconosci come tuo. Questi dati appaiono in rosso.
 
 Il software calcola entrambe le posizioni usando le effemeridi astronomiche (le tabelle che registrano le posizioni dei pianeti giorno per giorno), sovrappone i due set di dati sul bodygraph e genera la carta completa. Ogni gate attivato da un pianeta in uno dei due momenti si illumina, nero o rosso. Quando un canale ha gate attivi su entrambe le estremità, il centro si definisce.
 
-Questo meccanismo a doppio calcolo è il fondamento tecnico del sistema. Senza capirlo, la carta sembra un simbolismo arbitrario. Con questa chiave, diventa un documento leggibile.
+Questo meccanismo a doppio calcolo è il fondamento tecnico del sistema. Senza questa chiave la carta sembra un simbolismo arbitrario; con la chiave diventa un documento leggibile.
 
 ## Cosa ottieni dalla carta
 
@@ -78,7 +78,7 @@ Una volta calcolata, la carta ti restituisce questi elementi:
 
 **Strategia**: la modalità operativa coerente con il tuo Tipo. Seguirla riduce la resistenza nei processi decisionali e relazionali.
 
-**Autorità Decisionale**: il meccanismo interno che ti permette di prendere decisioni affidabili. Può essere emotiva, sacrale, splenica, proiettiva, mentale o lunare — ognuna funziona diversamente.
+**Autorità Decisionale**: il meccanismo interno che ti permette di prendere decisioni affidabili. Può essere emotiva, sacrale, splenica, proiettiva, mentale o lunare, e ciascun tipo di autorità funziona in modo diverso dagli altri.
 
 **Profilo di Carriera**: composto da due Linee (es. 1/3, 2/4, 5/1), descrive il modo in cui sei destinato a esprimerti nel mondo e il tipo di apprendimento che ti è più naturale.
 
@@ -102,6 +102,6 @@ Il calcolo ti dà i dati grezzi. Ma i dati grezzi senza interpretazione sono com
 
 Una carta Human Design contiene decine di variabili che si influenzano a vicenda. Il Tipo energetico dice una cosa; la combinazione con l'Autorità Decisionale la modifica. Il Profilo aggiunge un livello. I centri definiti interagiscono con quelli aperti. Un Canale può amplificare o temperare le caratteristiche di un altro. Leggere tutto questo in modo coerente richiede formazione specifica e esperienza pratica.
 
-In più, i dati della carta descrivono la meccanica, non il vissuto. Capire come una configurazione si è espressa nella tua vita concreta — nelle scelte professionali, nelle relazioni, nei blocchi ricorrenti — è il lavoro che si fa in consulenza, non davanti a un PDF.
+In più, i dati della carta descrivono la meccanica, non il vissuto. Capire come una configurazione si è espressa nella tua vita concreta, nelle scelte professionali che hai fatto e nei blocchi che tornano negli anni, è il lavoro che si fa in consulenza e non davanti a un PDF.
 
 Se vuoi andare oltre il calcolo e capire come la tua carta si traduce in decisioni pratiche per la tua carriera, le tue relazioni o la tua vita quotidiana, puoi prenotare una **Panoramica BG5®** con me. Dura 90 minuti e include la lettura completa del tuo disegno: Tipo, Autorità Decisionale, Profilo, centri e Croce d'Incarnazione, con applicazioni concrete al tuo contesto.
