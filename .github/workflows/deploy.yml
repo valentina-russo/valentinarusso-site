@@ -443,6 +443,16 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/26.bg5-blueprint/
           dangerous-clean-slate: false
 
+      - name: Deploy pagina human-design (guida introduttiva HD)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/human-design/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/human-design/
+          dangerous-clean-slate: false
+
       - name: Svuota cache Grav automaticamente
         run: |
           sleep 5

@@ -1,0 +1,541 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block title %}{{ page.header.seo_title ?? page.title }} | Valentina Russo{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ── Human Design intro page ── */
+.hd-hero {
+    background: linear-gradient(140deg, rgba(182,131,151,0.1) 0%, rgba(45,106,139,0.07) 100%);
+    padding: 5rem 1.25rem 4rem;
+    text-align: center;
+}
+.hd-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 2.9rem);
+    color: #222;
+    margin: 0 auto 1.25rem;
+    max-width: 760px;
+    line-height: 1.25;
+}
+.hd-hero .hero-lead {
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 580px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.75;
+}
+.hd-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--primary-color, #B68397);
+    border: 1px solid var(--primary-color, #B68397);
+    border-radius: 20px;
+    padding: 0.3rem 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ── Sezioni ── */
+.hd-prose-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 1.25rem;
+}
+.hd-wide-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 1.25rem;
+}
+.hd-tinted { background: rgba(182,131,151,0.05); }
+.hd-teal-tinted { background: rgba(45,106,139,0.04); }
+
+.hd-prose-wrap h2,
+.hd-wide-wrap h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    color: #222;
+    margin-bottom: 1.25rem;
+}
+.hd-wide-wrap h2 { text-align: center; margin-bottom: 0.75rem; }
+.hd-wide-wrap .section-lead {
+    text-align: center;
+    color: #666;
+    font-size: 0.95rem;
+    max-width: 580px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.65;
+}
+
+.hd-prose p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: #444;
+    margin-bottom: 1.25rem;
+}
+.hd-prose strong { color: #222; }
+.hd-prose a { color: var(--primary-color, #B68397); font-weight: 600; text-decoration: none; }
+.hd-prose a:hover { text-decoration: underline; }
+
+/* ── AEO box ── */
+.aeo-box {
+    background: rgba(182,131,151,0.08);
+    border-left: 3px solid var(--primary-color, #B68397);
+    padding: 1rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 2.5rem;
+}
+.aeo-box p {
+    margin: 0;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: #444;
+    line-height: 1.7;
+}
+
+/* ── Tipi grid ── */
+.types-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+}
+.type-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.5rem 1.1rem 1.25rem;
+    border: 1px solid #ece8e3;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.type-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+}
+.type-accent-bar {
+    width: 32px;
+    height: 4px;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+}
+.type-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: #222;
+    margin-bottom: 0.2rem;
+    line-height: 1.3;
+}
+.type-hd { font-size: 0.72rem; color: #aaa; font-style: italic; margin-bottom: 0.75rem; }
+.type-pct {
+    font-size: 1.75rem;
+    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+}
+.type-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #bbb;
+    margin-bottom: 0.2rem;
+    margin-top: 0.6rem;
+}
+.type-strategy { font-size: 0.82rem; color: #555; line-height: 1.5; }
+.type-shadow { font-size: 0.78rem; color: #888; font-style: italic; }
+
+/* ── Gerarchia ── */
+.hierarchy-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+.h-step {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #ece8e3;
+    padding: 2.25rem 1.5rem;
+    text-align: center;
+}
+.h-step-num {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--primary-color, #B68397);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.1rem;
+}
+.h-step h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #222;
+    margin-bottom: 0.75rem;
+}
+.h-step p {
+    font-size: 0.88rem;
+    color: #555;
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* ── Centri grid ── */
+.centers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+.center-chip {
+    background: #fff;
+    border: 1px solid #ece8e3;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+}
+.center-chip .cn { font-weight: 700; font-size: 0.88rem; color: #333; margin-bottom: 0.2rem; }
+.center-chip .cd { font-size: 0.75rem; color: #999; }
+
+/* ── FAQ ── */
+.hd-faq { margin-top: 0.5rem; }
+.faq-hd-item {
+    border-bottom: 1px solid #ece8e3;
+    padding: 1.25rem 0;
+}
+.faq-hd-item:first-child { border-top: 1px solid #ece8e3; }
+.faq-hd-item h4 {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+.faq-hd-item p {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── CTA finale ── */
+.hd-cta {
+    background: rgba(182,131,151,0.06);
+    padding: 4.5rem 1.25rem;
+    text-align: center;
+}
+.hd-cta h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    color: var(--primary-color, #B68397);
+    margin-bottom: 1rem;
+}
+.hd-cta p {
+    color: #666;
+    font-size: 0.95rem;
+    max-width: 500px;
+    margin: 0 auto 2rem;
+    line-height: 1.65;
+}
+.cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+    .types-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 640px) {
+    .types-grid { grid-template-columns: repeat(2, 1fr); }
+    .hierarchy-steps { grid-template-columns: 1fr; }
+    .hd-hero { padding: 3.5rem 1.25rem 3rem; }
+}
+@media (max-width: 400px) {
+    .types-grid { grid-template-columns: 1fr; }
+}
+</style>
+{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": {{ page.header.seo_title|json_encode|raw }},
+  "description": {{ (page.header.seo_desc ?? '')|json_encode|raw }},
+  "abstract": {{ (page.header.aeo_answer ?? '')|json_encode|raw }},
+  "url": "{{ page.url(true) }}",
+  "author": {
+    "@type": "Person",
+    "name": "Valentina Russo",
+    "url": "{{ grav.base_url_absolute }}/chi-sono",
+    "jobTitle": "Consulente Certificata BG5® e Human Design",
+    "sameAs": ["https://www.instagram.com/valentinarussobg5/", "{{ grav.base_url_absolute }}"]
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Valentina Russo",
+    "url": "{{ grav.base_url_absolute }}"
+  },
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".aeo-box", "h1"]
+  }
+}
+</script>
+
+{% if page.header.faq is defined and page.header.faq %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for faq in page.header.faq %}
+    {
+      "@type": "Question",
+      "name": {{ (faq.question ?? faq.q)|json_encode|raw }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ (faq.answer ?? faq.a)|json_encode|raw }}
+      }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ grav.base_url_absolute }}" },
+    { "@type": "ListItem", "position": 2, "name": "Cos'è l'Human Design", "item": "{{ page.url(true) }}" }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<main>
+
+  {# ══ HERO ══ #}
+  <section class="hd-hero">
+    <span class="hd-badge">Guida per chi inizia</span>
+    <h1>Cos'è l'Human Design?</h1>
+    <p class="hero-lead">Una mappa del tuo funzionamento unico: come prendi decisioni, dove metti energia, perché certe situazioni ti esauriscono e altre ti ricaricano.</p>
+    <div class="cta-row">
+      <a href="{{ grav.base_url }}/genera-carta" class="btn btn-primary">Calcola gratis la tua carta</a>
+    </div>
+  </section>
+
+  {# ══ COS'È HD ══ #}
+  <section style="background: #fff;">
+    <div class="hd-prose-wrap">
+
+      {% if page.header.aeo_answer is defined and page.header.aeo_answer %}
+      <div class="aeo-box">
+        <p>{{ page.header.aeo_answer }}</p>
+      </div>
+      {% endif %}
+
+      <div class="hd-prose">
+        <h2>Un sistema nato nel 1987</h2>
+        <p>Nel gennaio 1987 a Ibiza, Ra Uru Hu — fisico e musicista canadese — descrive un'esperienza di otto giorni durante la quale, a suo racconto, ricevette informazioni sulla struttura energetica dell'essere umano. Ne nacque un sistema che sintetizza quattro tradizioni: astrologia occidentale e vedica, I Ching, Kabbalah e fisica quantistica.</p>
+        <p>Il risultato è il <strong>bodygraph</strong>: un diagramma con 9 centri energetici, 64 gate e 36 canali, calcolato a partire da data, ora esatta e luogo di nascita. Ogni combinazione è unica. Il bodygraph non dice chi dovresti essere: descrive come funzioni quando sei allineato con la tua meccanica naturale.</p>
+        <p>Human Design non è psicologia e non è astrologia nel senso convenzionale. È un framework di autoconoscenza. Il suo valore si misura nell'utilità pratica: quanto ti aiuta a fare scelte più coerenti con la tua natura, a capire perché certe dinamiche si ripetono, a smettere di combattere contro te stesso.</p>
+      </div>
+    </div>
+  </section>
+
+  {# ══ I 5 TIPI ══ #}
+  <section class="hd-tinted">
+    <div class="hd-wide-wrap">
+      <h2>I 5 Tipi di Carriera</h2>
+      <p class="section-lead">Ogni persona appartiene a uno dei 5 Tipi — determinato dalla carta, non sceglibile. Ogni Tipo ha una Strategia specifica e un tema emotivo che segnala allineamento o disallineamento.</p>
+
+      <div class="types-grid">
+
+        <div class="type-card">
+          <div class="type-accent-bar" style="background: #2D6A8B;"></div>
+          <h3>Costruttore Classico</h3>
+          <div class="type-hd">Generatore Puro (HD)</div>
+          <div class="type-pct" style="color: #2D6A8B;">37%</div>
+          <div class="type-label">Strategia</div>
+          <div class="type-strategy">Rispondere agli stimoli esterni prima di agire</div>
+          <div class="type-label">Allineamento</div>
+          <div class="type-shadow">Soddisfazione · Frustrazione</div>
+        </div>
+
+        <div class="type-card">
+          <div class="type-accent-bar" style="background: #3A8A6E;"></div>
+          <h3>Costruttore Rapido</h3>
+          <div class="type-hd">Generatore Manifestante (HD)</div>
+          <div class="type-pct" style="color: #3A8A6E;">33%</div>
+          <div class="type-label">Strategia</div>
+          <div class="type-strategy">Rispondere, poi informare prima di agire</div>
+          <div class="type-label">Allineamento</div>
+          <div class="type-shadow">Soddisfazione · Frustrazione</div>
+        </div>
+
+        <div class="type-card">
+          <div class="type-accent-bar" style="background: #B68397;"></div>
+          <h3>Guida</h3>
+          <div class="type-hd">Proiettore (HD)</div>
+          <div class="type-pct" style="color: #B68397;">20%</div>
+          <div class="type-label">Strategia</div>
+          <div class="type-strategy">Aspettare l'invito specifico prima di offrire la propria guida</div>
+          <div class="type-label">Allineamento</div>
+          <div class="type-shadow">Successo · Amarezza</div>
+        </div>
+
+        <div class="type-card">
+          <div class="type-accent-bar" style="background: #8A6B3A;"></div>
+          <h3>Iniziatore</h3>
+          <div class="type-hd">Manifestatore (HD)</div>
+          <div class="type-pct" style="color: #8A6B3A;">9%</div>
+          <div class="type-label">Strategia</div>
+          <div class="type-strategy">Informare le persone chiave prima di agire</div>
+          <div class="type-label">Allineamento</div>
+          <div class="type-shadow">Pace · Rabbia</div>
+        </div>
+
+        <div class="type-card">
+          <div class="type-accent-bar" style="background: #6A5A8A;"></div>
+          <h3>Valutatore</h3>
+          <div class="type-hd">Riflettore (HD)</div>
+          <div class="type-pct" style="color: #6A5A8A;">1%</div>
+          <div class="type-label">Strategia</div>
+          <div class="type-strategy">Aspettare un ciclo lunare completo (28 giorni) per le decisioni importanti</div>
+          <div class="type-label">Allineamento</div>
+          <div class="type-shadow">Sorpresa · Delusione</div>
+        </div>
+
+      </div>
+      <p style="margin-top: 2rem; font-size: 0.8rem; color: #aaa; text-align: center;">I nomi BG5 sono usati nel contesto professionale. Tra parentesi i corrispondenti in Human Design tradizionale.</p>
+    </div>
+  </section>
+
+  {# ══ GERARCHIA ══ #}
+  <section style="background: #fff;">
+    <div class="hd-wide-wrap">
+      <h2>Come si legge: tre livelli</h2>
+      <p class="section-lead">Il sistema si legge in ordine preciso: prima il Tipo, poi la Strategia, poi l'Autorità Decisionale. Ogni livello si appoggia su quello precedente.</p>
+      <div class="hierarchy-steps">
+        <div class="h-step">
+          <div class="h-step-num">1</div>
+          <h3>Il Tipo</h3>
+          <p>Il tuo motore energetico. Determina quanta energia hai a disposizione, come si ricarica e in quali condizioni funziona meglio. È il punto di partenza di qualsiasi lettura.</p>
+        </div>
+        <div class="h-step">
+          <div class="h-step-num" style="background: #2D6A8B;">2</div>
+          <h3>La Strategia</h3>
+          <p>Il modo corretto in cui il tuo Tipo interagisce con il mondo. Non è una tecnica comportamentale: è la meccanica naturale del sistema, quella che produce meno resistenza e più risultati concreti.</p>
+        </div>
+        <div class="h-step">
+          <div class="h-step-num">3</div>
+          <h3>L'Autorità Decisionale</h3>
+          <p>Il tuo strumento interno di scelta. Indica da dove arriva la tua risposta più affidabile: dal corpo, dalle emozioni, dall'ambiente. Ogni Autorità ha tempi e segnali precisi.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ══ PROFILO ══ #}
+  <section class="hd-tinted">
+    <div class="hd-prose-wrap">
+      <div class="hd-prose">
+        <h2>Il Profilo di Carriera</h2>
+        <p>Il Profilo è composto da due numeri (es. 2/4, 1/3, 5/1) che derivano dalla posizione dei gate lunari al momento della nascita. Descrive il <strong>ruolo che ricopri nella tua vita</strong> e il modo in cui ti relazioni con le esperienze e con gli altri.</p>
+        <p>In BG5 esistono 12 combinazioni di Profilo. Il primo numero riguarda la parte consapevole — quella che conosci e gestisci. Il secondo numero riguarda la parte inconscia — come vieni percepito dagli altri e cosa porti senza rendertene conto. Il Profilo non cambia nel tempo e si integra con Tipo e Autorità per dare una lettura completa.</p>
+        <p>→ <a href="{{ grav.base_url }}/blog/articoli/12-profili-human-design-chi-sei">Leggi la guida completa ai 12 Profili di Carriera</a></p>
+      </div>
+    </div>
+  </section>
+
+  {# ══ I 9 CENTRI ══ #}
+  <section style="background: #fff;">
+    <div class="hd-prose-wrap">
+      <div class="hd-prose">
+        <h2>I 9 Centri energetici</h2>
+        <p>Il bodygraph ha 9 Centri. Ogni Centro può essere <strong>definito</strong> (colorato nella carta) o <strong>aperto</strong> (bianco). Un Centro definito ha un'energia costante e prevedibile — è parte stabile di chi sei. Un Centro aperto amplifica l'energia degli altri e assorbe l'ambiente circostante con maggiore sensibilità.</p>
+      </div>
+      <div class="centers-grid">
+        <div class="center-chip"><div class="cn">Testa</div><div class="cd">Pressione mentale, ispirazione</div></div>
+        <div class="center-chip"><div class="cn">Mente</div><div class="cd">Concettualizzazione, strategia</div></div>
+        <div class="center-chip"><div class="cn">Gola</div><div class="cd">Comunicazione, manifestazione</div></div>
+        <div class="center-chip"><div class="cn">Centro G</div><div class="cd">Identità, direzione, amore</div></div>
+        <div class="center-chip"><div class="cn">Cuore</div><div class="cd">Forza di volontà, valore</div></div>
+        <div class="center-chip"><div class="cn">Plesso Solare</div><div class="cd">Intelligenza Emotiva, Autorità</div></div>
+        <div class="center-chip"><div class="cn">Sacrale</div><div class="cd">Energia lavorativa, risposta</div></div>
+        <div class="center-chip"><div class="cn">Milza</div><div class="cd">Intuizione, salute, sicurezza</div></div>
+        <div class="center-chip"><div class="cn">Radice</div><div class="cd">Pressione adrenalinica</div></div>
+      </div>
+      <div class="hd-prose" style="margin-top: 1.75rem;">
+        <p>La presenza o assenza di Canali tra i Centri determina la <strong>Definizione</strong> della carta: Singola, Divisa, Tripla Divisa o Quadrupla Divisa. La Definizione descrive quanto la persona sia autosufficiente a livello energetico o quanto abbia bisogno dell'ambiente esterno per completare i propri circuiti.</p>
+      </div>
+    </div>
+  </section>
+
+  {# ══ BG5 ══ #}
+  <section class="hd-teal-tinted">
+    <div class="hd-prose-wrap">
+      <div class="hd-prose">
+        <h2>Da Human Design a BG5</h2>
+        <p><strong>BG5</strong> è la versione applicata al lavoro e alle organizzazioni. Usa la stessa carta dell'HD tradizionale, ma focalizza la lettura su: stile energetico nel lavoro, processo decisionale professionale, ruolo naturale nel team e compatibilità tra colleghi o soci.</p>
+        <p>In una lettura BG5 il Tipo diventa <em>Tipo di Carriera</em>, l'Autorità diventa <em>Autorità Decisionale</em>, il Profilo diventa <em>Profilo di Carriera</em>. La certificazione BG5® è rilasciata dall'International BG5 Business Institute e qualifica i professionisti a usare il sistema in contesti di consulenza professionale e aziendale.</p>
+        <p>Valentina Russo è <strong>Consulente Certificata BG5®</strong>. Le sessioni coprono sia l'Human Design tradizionale — relazioni, crescita personale, amor proprio — sia il BG5 applicato a carriera, lavoro e aziende.</p>
+      </div>
+    </div>
+  </section>
+
+  {# ══ FAQ ══ #}
+  {% if page.header.faq is defined and page.header.faq %}
+  <section style="background: #fff;">
+    <div class="hd-prose-wrap">
+      <h2 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 1.25rem; color: #222;">Domande frequenti</h2>
+      <div class="hd-faq">
+        {% for faq in page.header.faq %}
+        <div class="faq-hd-item">
+          <h4>{{ faq.question ?? faq.q }}</h4>
+          <p>{{ faq.answer ?? faq.a }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {# ══ GEO content box ══ #}
+  {% if page.header.geo_content is defined and page.header.geo_content %}
+  <div style="max-width: 800px; margin: 0 auto; padding: 0 1.25rem 2.5rem;">
+    <div style="padding: 1.5rem 2rem; background: rgba(182,131,151,0.05); border-radius: 12px; border: 1px solid rgba(182,131,151,0.18);">
+      <p style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary-color, #B68397); margin: 0 0 0.75rem 0;">Approfondimenti</p>
+      <p style="margin: 0; font-size: 0.88rem; line-height: 1.75; color: #666;">{{ page.header.geo_content }}</p>
+    </div>
+  </div>
+  {% endif %}
+
+  {# ══ CTA finale ══ #}
+  <div class="hd-cta">
+    <h2>Pronta a scoprire il tuo design?</h2>
+    <p>Calcola gratis la tua carta per vedere subito il tuo Tipo, Profilo e Autorità. Se vuoi capire come si traducono nella tua vita reale, prenota una Panoramica BG5®.</p>
+    <div class="cta-row">
+      <a href="{{ grav.base_url }}/genera-carta"
+         style="padding: 0.75rem 1.5rem; border: 2px solid var(--primary-color, #B68397); color: var(--primary-color, #B68397); border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 0.95rem; background: transparent;">
+        Calcola gratis la tua carta
+      </a>
+      <a href="{{ grav.base_url }}/servizi" class="btn btn-primary">Prenota una Panoramica BG5®</a>
+    </div>
+  </div>
+
+</main>
+{% endblock %}
