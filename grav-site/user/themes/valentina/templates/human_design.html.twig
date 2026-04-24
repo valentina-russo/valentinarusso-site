@@ -32,11 +32,45 @@
     margin: 0 0 2.25rem;
     line-height: 1.75;
 }
-.hd-hero-visual img {
+.hd-hero-visual {
+    position: relative;
+}
+#hd-animated-bodygraph {
     width: 100%;
     max-width: 300px;
-    opacity: 0.82;
-    filter: drop-shadow(0 8px 32px rgba(45,106,139,0.18));
+    margin: 0 auto;
+    filter: drop-shadow(0 8px 32px rgba(45,106,139,0.14));
+}
+#hd-animated-bodygraph svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+#hd-animated-bodygraph .hd-center,
+#hd-animated-bodygraph .hd-channel {
+    transition: fill 0.9s ease;
+}
+.hd-type-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 0.9rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    min-height: 1.4em;
+}
+.hd-type-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ccc;
+    flex-shrink: 0;
+    transition: background 0.9s ease;
 }
 .hd-badge {
     display: inline-block;
@@ -477,9 +511,11 @@
         </div>
       </div>
       <div class="hd-hero-visual">
-        <img src="{{ grav.base_url }}/user/pages/assets/bodygraph.svg"
-             alt="Bodygraph Human Design — mappa energetica individuale con 9 centri e canali"
-             loading="eager">
+        <div id="hd-animated-bodygraph" role="img" aria-label="Bodygraph animato — i 5 Tipi Human Design in loop"></div>
+        <p class="hd-type-label">
+          <span class="hd-type-dot" id="hd-type-dot"></span>
+          <span id="hd-type-label">Human Design</span>
+        </p>
       </div>
     </div>
   </section>
@@ -738,6 +774,114 @@
       <a href="{{ grav.base_url }}/servizi" class="btn btn-primary">Prenota una Panoramica BG5®</a>
     </div>
   </div>
+
+
+<script>
+/* ── Animated bodygraph — 5 HD Types loop ── */
+(function () {
+  var BASE = '{{ grav.base_url }}';
+
+  /* Centers: SVG <g> IDs. Channels: SVG <path> IDs within #Channels group. */
+  var TYPES = [
+    {
+      label: 'Costruttore Classico — 37%',
+      color: '#2D6A8B',
+      centers: ['Sacral', 'G', 'Root'],
+      channels: ['Gate5','Gate15','Gate14','Gate2','Gate3','Gate60',
+                 'Gate9','Gate29','Gate46','Gate53','Gate42','Gate27','Gate59']
+    },
+    {
+      label: 'Costruttore Rapido — 33%',
+      color: '#3A8A6E',
+      centers: ['Sacral', 'Throat', 'G', 'Root', 'Ajna'],
+      channels: ['Gate34','Gate20','GateSpan','Gate10','GateConnect34','GateConnect10',
+                 'Gate5','Gate15','Gate14','Gate2','Gate17','Gate62','Gate11','Gate56',
+                 'Gate9','Gate29']
+    },
+    {
+      label: 'Guida (Proiettore) — 20%',
+      color: '#B68397',
+      centers: ['Head', 'Ajna', 'Throat', 'G'],
+      channels: ['Gate64','Gate47','Gate61','Gate24','Gate63','Gate4',
+                 'Gate17','Gate62','Gate43','Gate23','Gate11','Gate56',
+                 'Gate31','Gate7','Gate8','Gate1','Gate33','Gate13']
+    },
+    {
+      label: 'Iniziatore (Manifestore) — 9%',
+      color: '#8A6B3A',
+      centers: ['Heart', 'Throat', 'G'],
+      channels: ['Gate21','Gate45','Gate35','Gate12','Gate51','Gate25',
+                 'Gate26','Gate44','Gate40','Gate37']
+    },
+    {
+      label: 'Valutatore (Riflettore) — 1%',
+      color: '#6A5A8A',
+      centers: [],
+      channels: []
+    }
+  ];
+
+  var CENTER_DEFAULT  = '#cdc6be';
+  var CHANNEL_DEFAULT = '#c8c2bc';
+  var svgEl = null;
+  var idx   = 0;
+
+  function applyType(t) {
+    if (!svgEl) return;
+    /* Reset all */
+    svgEl.querySelectorAll('.hd-center').forEach(function (el) {
+      el.style.fill = CENTER_DEFAULT;
+    });
+    svgEl.querySelectorAll('.hd-channel').forEach(function (el) {
+      el.style.fill = CHANNEL_DEFAULT;
+    });
+    /* Color defined centers */
+    t.centers.forEach(function (id) {
+      var g = svgEl.querySelector('#' + id);
+      if (!g) return;
+      var p = g.querySelector('.hd-center');
+      if (p) p.style.fill = t.color;
+    });
+    /* Color defined channels */
+    t.channels.forEach(function (id) {
+      var el = svgEl.querySelector('#' + id);
+      if (el) el.style.fill = t.color;
+    });
+    /* Update label */
+    var dot = document.getElementById('hd-type-dot');
+    var lbl = document.getElementById('hd-type-label');
+    if (dot) dot.style.background = t.color;
+    if (lbl) lbl.textContent = t.label;
+  }
+
+  function tick() {
+    applyType(TYPES[idx]);
+    idx = (idx + 1) % TYPES.length;
+    setTimeout(tick, 2800);
+  }
+
+  fetch(BASE + '/user/pages/assets/bodygraph.svg')
+    .then(function (r) { return r.text(); })
+    .then(function (txt) {
+      var c = document.getElementById('hd-animated-bodygraph');
+      if (!c) return;
+      c.innerHTML = txt;
+      svgEl = c.querySelector('svg');
+      if (svgEl) {
+        svgEl.removeAttribute('width');
+        svgEl.removeAttribute('height');
+        tick();
+      }
+    })
+    .catch(function () {
+      var c = document.getElementById('hd-animated-bodygraph');
+      if (c) c.innerHTML =
+        '<img src="' + BASE + '/user/pages/assets/bodygraph.svg" ' +
+        'style="width:100%;max-width:300px;opacity:0.82;" ' +
+        'alt="Bodygraph Human Design">';
+    });
+})();
+</script>
 
 </main>
 {% endblock %}
