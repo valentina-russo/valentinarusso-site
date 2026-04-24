@@ -248,14 +248,108 @@
     align-items: center;
 }
 
+/* ── HD vs BG5 confronto ── */
+.hd-vs-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    margin-top: 0.5rem;
+}
+.hd-vs-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #ece8e3;
+    overflow: hidden;
+}
+.hd-vs-bg5 { border-color: rgba(45,106,139,0.3); }
+.hd-vs-header {
+    padding: 1rem 1.5rem;
+    background: rgba(182,131,151,0.06);
+    border-bottom: 1px solid #ece8e3;
+}
+.hd-vs-bg5 .hd-vs-header { background: rgba(45,106,139,0.05); border-color: rgba(45,106,139,0.15); }
+.hd-vs-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: rgba(182,131,151,0.12);
+    color: var(--primary-color, #B68397);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+}
+.hd-vs-list {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+}
+.hd-vs-list li {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid #f5f2ef;
+    align-items: start;
+}
+.hd-vs-list li:last-child { border-bottom: none; }
+.hd-vs-key {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #bbb;
+    padding-top: 0.1rem;
+}
+.hd-vs-val { font-size: 0.87rem; color: #444; line-height: 1.5; }
+.hd-vs-divider {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #ccc;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    align-self: center;
+    text-align: center;
+    padding-top: 3rem;
+}
+
+/* ── CTA mid-page sticky bar ── */
+.hd-cta-bar {
+    background: var(--primary-color, #B68397);
+    padding: 1.25rem 1.25rem;
+    text-align: center;
+}
+.hd-cta-bar p {
+    display: inline;
+    color: rgba(255,255,255,0.9);
+    font-size: 0.95rem;
+    margin-right: 1.25rem;
+}
+.hd-cta-bar .btn-white {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.5rem;
+    background: #fff;
+    color: var(--primary-color, #B68397);
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+.hd-cta-bar .btn-white:hover { opacity: 0.88; }
+
 /* ── Responsive ── */
 @media (max-width: 900px) {
     .types-grid { grid-template-columns: repeat(3, 1fr); }
+    .hd-vs-grid { grid-template-columns: 1fr; }
+    .hd-vs-divider { padding: 0; }
 }
 @media (max-width: 640px) {
     .types-grid { grid-template-columns: repeat(2, 1fr); }
     .hierarchy-steps { grid-template-columns: 1fr; }
     .hd-hero { padding: 3.5rem 1.25rem 3rem; }
+    .hd-cta-bar p { display: block; margin: 0 0 1rem; }
 }
 @media (max-width: 400px) {
     .types-grid { grid-template-columns: 1fr; }
@@ -424,6 +518,12 @@
     </div>
   </section>
 
+  {# ══ CTA BAR INTERMEDIA ══ #}
+  <div class="hd-cta-bar">
+    <p>Vuoi sapere il tuo Tipo? È gratis e pronto in 30 secondi.</p>
+    <a href="{{ grav.base_url }}/genera-carta" class="btn-white">Calcola gratis la tua carta →</a>
+  </div>
+
   {# ══ GERARCHIA ══ #}
   <section style="background: #fff;">
     <div class="hd-wide-wrap">
@@ -487,12 +587,48 @@
 
   {# ══ BG5 ══ #}
   <section class="hd-teal-tinted">
-    <div class="hd-prose-wrap">
-      <div class="hd-prose">
-        <h2>Da Human Design a BG5</h2>
-        <p><strong>BG5</strong> è la versione applicata al lavoro e alle organizzazioni. Usa la stessa carta dell'HD tradizionale, ma focalizza la lettura su: stile energetico nel lavoro, processo decisionale professionale, ruolo naturale nel team e compatibilità tra colleghi o soci.</p>
-        <p>In una lettura BG5 il Tipo diventa <em>Tipo di Carriera</em>, l'Autorità diventa <em>Autorità Decisionale</em>, il Profilo diventa <em>Profilo di Carriera</em>. La certificazione BG5® è rilasciata dall'International BG5 Business Institute e qualifica i professionisti a usare il sistema in contesti di consulenza professionale e aziendale.</p>
-        <p>Valentina Russo è <strong>Consulente Certificata BG5®</strong>. Le sessioni coprono sia l'Human Design tradizionale — relazioni, crescita personale, amor proprio — sia il BG5 applicato a carriera, lavoro e aziende.</p>
+    <div class="hd-wide-wrap">
+      <h2>Human Design e BG5: qual è la differenza?</h2>
+      <p class="section-lead">Stesso sistema, stesso bodygraph, angolazione diversa. Human Design guarda la persona nella sua interezza; BG5 applica gli stessi strumenti al lavoro, alla carriera e ai team.</p>
+
+      {# Confronto HD vs BG5 #}
+      <div class="hd-vs-grid">
+
+        <div class="hd-vs-card hd-vs-hd">
+          <div class="hd-vs-header">
+            <span class="hd-vs-label">Human Design</span>
+          </div>
+          <ul class="hd-vs-list">
+            <li><span class="hd-vs-key">Ambito</span><span class="hd-vs-val">Crescita personale, relazioni, amor proprio, vita quotidiana</span></li>
+            <li><span class="hd-vs-key">Tipo</span><span class="hd-vs-val">Generatore, Proiettore, Manifestatore, Riflettore…</span></li>
+            <li><span class="hd-vs-key">Autorità</span><span class="hd-vs-val">Autorità Interiore (Sacrale, Emotiva, Splenica…)</span></li>
+            <li><span class="hd-vs-key">Profilo</span><span class="hd-vs-val">Profilo (es. 2/4, 1/3)</span></li>
+            <li><span class="hd-vs-key">Uso</span><span class="hd-vs-val">Self-discovery, coaching individuale, relazioni di coppia</span></li>
+            <li><span class="hd-vs-key">Certificazione</span><span class="hd-vs-val">Varie scuole (IHDS, JOVIAN…)</span></li>
+          </ul>
+        </div>
+
+        <div class="hd-vs-divider">vs</div>
+
+        <div class="hd-vs-card hd-vs-bg5">
+          <div class="hd-vs-header">
+            <span class="hd-vs-label" style="background: rgba(45,106,139,0.12); color: #2D6A8B;">BG5®</span>
+          </div>
+          <ul class="hd-vs-list">
+            <li><span class="hd-vs-key">Ambito</span><span class="hd-vs-val">Lavoro, carriera, business, dinamiche di team e azienda</span></li>
+            <li><span class="hd-vs-key">Tipo</span><span class="hd-vs-val">Tipo di Carriera (Costruttore Classico, Guida, Iniziatore…)</span></li>
+            <li><span class="hd-vs-key">Autorità</span><span class="hd-vs-val">Autorità Decisionale (come decidere in contesti professionali)</span></li>
+            <li><span class="hd-vs-key">Profilo</span><span class="hd-vs-val">Profilo di Carriera (ruolo naturale nel lavoro)</span></li>
+            <li><span class="hd-vs-key">Uso</span><span class="hd-vs-val">Consulenza professionale, selezione, team building, career design</span></li>
+            <li><span class="hd-vs-key">Certificazione</span><span class="hd-vs-val">BG5® Business Institute (certificazione internazionale)</span></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="hd-prose" style="margin-top: 2.5rem; max-width: 720px; margin-left: auto; margin-right: auto;">
+        <p>La carta è la stessa. Cambia la lente con cui viene letta. Una sessione BG5 non sostituisce un percorso di crescita personale con HD — sono due applicazioni complementari dello stesso sistema.</p>
+        <p>Valentina Russo è <strong>Consulente Certificata BG5®</strong> — una delle poche professioniste italiane con certificazione ufficiale dell'International BG5 Business Institute. Le sessioni coprono sia Human Design (relazioni, amor proprio, vita) sia BG5 (carriera, lavoro, aziende).</p>
       </div>
     </div>
   </section>
