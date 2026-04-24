@@ -78,6 +78,7 @@ grav-site/user/pages/04.blog/articoli/*
 !grav-site/user/pages/04.blog/articoli/amor-proprio-human-design
 !grav-site/user/pages/04.blog/articoli/autorita-emozionale-human-design-decidere
 !grav-site/user/pages/04.blog/articoli/ansia-decisionale-come-scegliere-senza-bloccarsi
+!grav-site/user/pages/04.blog/articoli/come-si-calcola-la-carta-human-design
 # burnout, cambio-carriera, farsi-valere, freelance, relazione-ti-svuota: spostati in 05.aziende/02.blog
 # Eccezioni: nuovi articoli bozza aziende (deployati via FTP)
 !grav-site/user/pages/05.aziende
