@@ -6,7 +6,13 @@
 <style>
 /* ── Human Design intro page ── */
 .hd-hero {
-    background: linear-gradient(140deg, rgba(182,131,151,0.1) 0%, rgba(45,106,139,0.07) 100%);
+    background:
+        url("data:image/svg+xml,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.06'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
+        radial-gradient(ellipse at 15% 20%, rgba(182,131,151,0.22) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 15%, rgba(45,106,139,0.14) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 85%, rgba(182,131,151,0.12) 0%, transparent 45%),
+        radial-gradient(ellipse at 10% 80%, rgba(45,106,139,0.10) 0%, transparent 50%),
+        #FAF7F5;
     padding: 4rem 1.25rem;
 }
 .hd-hero-inner {
@@ -252,9 +258,9 @@
     margin-top: 0.5rem;
 }
 .h-step {
-    background: #fff;
+    background: #FEFCFB;
     border-radius: 16px;
-    border: 1px solid #ece8e3;
+    border: 1px solid rgba(182,131,151,0.14);
     padding: 2.25rem 1.5rem;
     text-align: center;
 }
@@ -270,6 +276,7 @@
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.1rem;
+    box-shadow: 0 0 0 4px rgba(182,131,151,0.15), 0 4px 16px rgba(182,131,151,0.20);
 }
 .h-step h3 {
     font-family: 'Playfair Display', serif;
@@ -292,10 +299,15 @@
     margin-top: 1.5rem;
 }
 .center-chip {
-    background: #fff;
-    border: 1px solid #ece8e3;
+    background: #FAF7F5;
+    border: 1px solid rgba(182,131,151,0.16);
     border-radius: 10px;
     padding: 0.85rem 1rem;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.center-chip:hover {
+    border-color: rgba(182,131,151,0.42);
+    transform: translateY(-2px);
 }
 .center-chip .cn { font-weight: 700; font-size: 0.88rem; color: #333; margin-bottom: 0.2rem; }
 .center-chip .cd { font-size: 0.75rem; color: #999; }
@@ -322,7 +334,10 @@
 
 /* ── CTA finale ── */
 .hd-cta {
-    background: rgba(182,131,151,0.06);
+    background:
+        url("data:image/svg+xml,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.70' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.05'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
+        radial-gradient(ellipse at 50% 0%, rgba(182,131,151,0.20) 0%, transparent 60%),
+        #FAF7F5;
     padding: 4.5rem 1.25rem;
     text-align: center;
 }
@@ -437,6 +452,47 @@
     transition: opacity 0.2s;
 }
 .hd-cta-bar .btn-white:hover { opacity: 0.88; }
+
+/* ── Wave dividers ── */
+.wave-divider { display: block; width: 100%; overflow: hidden; line-height: 0; margin: 0; padding: 0; }
+.wave-divider svg { display: block; width: 100%; }
+
+/* ── Sezione Tipi: navy scuro ── */
+.hd-types-section {
+    background:
+        url("data:image/svg+xml,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.04'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
+        radial-gradient(ellipse at 90% 10%, rgba(45,106,139,0.35) 0%, transparent 50%),
+        radial-gradient(ellipse at 5% 90%, rgba(182,131,151,0.25) 0%, transparent 45%),
+        #1A2D3F;
+}
+.hd-types-section h2 { color: #FAF7F5 !important; }
+.hd-types-section .section-lead { color: rgba(250,247,245,0.72) !important; }
+.hd-types-section .hd-wide-wrap > p { color: rgba(250,247,245,0.42) !important; }
+
+/* ── Sezione BG5: teal ── */
+.hd-bg5-section {
+    background:
+        url("data:image/svg+xml,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.05'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
+        radial-gradient(ellipse at 85% 15%, rgba(182,131,151,0.20) 0%, transparent 50%),
+        radial-gradient(ellipse at 10% 80%, rgba(250,247,245,0.06) 0%, transparent 45%),
+        #2D6A8B;
+}
+.hd-bg5-section h2 { color: #FAF7F5 !important; }
+.hd-bg5-section .section-lead { color: rgba(250,247,245,0.75) !important; }
+.hd-bg5-section .hd-vs-card { background: rgba(250,247,245,0.08); border-color: rgba(250,247,245,0.15); }
+.hd-bg5-section .hd-vs-header { background: rgba(250,247,245,0.06) !important; border-color: rgba(250,247,245,0.10) !important; }
+.hd-bg5-section .hd-vs-key { color: rgba(250,247,245,0.45); }
+.hd-bg5-section .hd-vs-val { color: rgba(250,247,245,0.88); }
+.hd-bg5-section .hd-vs-list li { border-bottom-color: rgba(250,247,245,0.07); }
+.hd-bg5-section .hd-vs-divider { color: rgba(250,247,245,0.30); }
+.hd-bg5-section .hd-vs-label { background: rgba(250,247,245,0.14) !important; color: #FAF7F5 !important; }
+.hd-bg5-section .hd-vs-bg5 .hd-vs-label { background: rgba(182,131,151,0.35) !important; color: #FAF7F5 !important; }
+.hd-bg5-section p[style] { color: rgba(250,247,245,0.80) !important; }
+.hd-bg5-section .valentina-box { border-top-color: rgba(250,247,245,0.15); background: rgba(250,247,245,0.06); border-radius: 16px; padding: 2rem; }
+.hd-bg5-section .valentina-box-text p { color: rgba(250,247,245,0.82); }
+.hd-bg5-section .valentina-box-text strong { color: #FAF7F5; }
+.hd-bg5-section .valentina-photo { border-color: rgba(250,247,245,0.25); }
+.hd-bg5-section .bg5-badge { opacity: 0.90; filter: brightness(10); }
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
@@ -570,10 +626,16 @@
       </div>
     </div>
   </section>
+  <div class="wave-divider" aria-hidden="true" style="background:#FAF7F5;">
+    <svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C360,48 720,0 1080,32 C1260,48 1380,16 1440,24 L1440,48 L0,48 Z" fill="#ffffff"/></svg>
+  </div>
 
   {# ══ COS'È HD ══ #}
-  <section style="background: #fff;">
-    <div class="hd-prose-wrap">
+  <section style="background: #fff; position: relative; overflow: hidden;">
+    <div style="position:absolute;right:-60px;top:50%;transform:translateY(-50%);width:300px;opacity:0.04;pointer-events:none;filter:grayscale(1);" aria-hidden="true">
+      <img src="{{ grav.base_url }}/user/pages/assets/bodygraph.png" alt="" style="width:100%;height:auto;">
+    </div>
+    <div class="hd-prose-wrap" style="position:relative;z-index:1;">
 
       {% if page.header.aeo_answer is defined and page.header.aeo_answer %}
       <div class="aeo-box">
@@ -591,7 +653,7 @@
   </section>
 
   {# ══ I 4 TIPI ══ #}
-  <section class="hd-tinted">
+  <section class="hd-types-section">
     <div class="hd-wide-wrap">
       <h2>I 4 Tipi</h2>
       <p class="section-lead">Ogni persona appartiene a uno dei 4 Tipi — determinato dalla carta, non sceglibile. Ogni Tipo ha una Strategia specifica e un tema emotivo che segnala allineamento o disallineamento.</p>
@@ -646,6 +708,10 @@
       <p style="margin-top: 2rem; font-size: 0.8rem; color: #aaa; text-align: center;">In BG5 il Generatore si distingue in Costruttore Classico (37%) e Costruttore Rapido (33%), per un totale di 5 profili di carriera. I nomi tra parentesi sono quelli usati nel contesto professionale.</p>
     </div>
   </section>
+
+  <div class="wave-divider" aria-hidden="true" style="background:#1A2D3F;">
+    <svg viewBox="0 0 1440 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 C360,56 720,0 1080,40 C1260,56 1380,20 1440,28 L1440,56 L0,56 Z" fill="#B68397"/></svg>
+  </div>
 
   {# ══ CTA BAR INTERMEDIA ══ #}
   <div class="hd-cta-bar">
@@ -715,7 +781,7 @@
   </section>
 
   {# ══ BG5 ══ #}
-  <section class="hd-teal-tinted">
+  <section class="hd-bg5-section">
     <div class="hd-wide-wrap">
       <h2>Human Design e BG5: qual è la differenza?</h2>
       <p class="section-lead">Stesso sistema, stesso bodygraph, angolazione diversa. Human Design guarda la persona nella sua interezza; BG5 applica gli stessi strumenti al lavoro, alla carriera e ai team.</p>
@@ -774,6 +840,9 @@
       </div>
     </div>
   </section>
+  <div class="wave-divider" aria-hidden="true" style="background:#2D6A8B;">
+    <svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C480,48 960,0 1440,24 L1440,48 L0,48 Z" fill="#ffffff"/></svg>
+  </div>
 
   {# ══ FAQ ══ #}
   {% if page.header.faq is defined and page.header.faq %}
