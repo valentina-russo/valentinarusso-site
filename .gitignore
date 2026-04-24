@@ -54,6 +54,11 @@ grav-site/user/pages/*
 !grav-site/user/pages/hd-relazionale
 # Eccezione: calcolatore Carta Human Design — ora su /genera-carta (pagina + template deployati via FTP)
 !grav-site/user/pages/09.genera-carta
+# Eccezioni: articoli "Hai scoperto di essere un [Tipo]" — serie 4 tipi HD
+!grav-site/user/pages/04.blog/articoli/hai-scoperto-di-essere-un-generatore-human-design
+!grav-site/user/pages/04.blog/articoli/hai-scoperto-di-essere-un-proiettore-human-design
+!grav-site/user/pages/04.blog/articoli/hai-scoperto-di-essere-un-manifestatore-human-design
+!grav-site/user/pages/04.blog/articoli/hai-scoperto-di-essere-un-riflettore-human-design
 !grav-site/user/pages/carta-hd
 # Eccezione: HD Account System — pagine account e carte
 !grav-site/user/pages/22.account
