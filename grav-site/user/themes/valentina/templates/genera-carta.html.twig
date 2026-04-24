@@ -83,6 +83,34 @@
     body footer a:hover {
         color: #fff !important;
     }
+
+    /* ── Tipo accordion ── */
+    .tipo-accordion { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.75rem; }
+    .tipo-item { border-radius: 16px; border: 1px solid rgba(255,255,255,0.18); overflow: hidden; background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); transition: border-color 0.2s; }
+    .tipo-item:hover { border-color: rgba(255,255,255,0.32); }
+    .tipo-item summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 1.1rem 1.4rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        user-select: none;
+    }
+    .tipo-item summary::-webkit-details-marker { display: none; }
+    .tipo-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .tipo-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: #fff; flex: 1; }
+    .tipo-pct { font-size: 0.75rem; color: rgba(255,255,255,0.45); font-weight: 600; letter-spacing: 0.04em; }
+    .tipo-chevron { font-size: 0.7rem; color: rgba(255,255,255,0.4); transition: transform 0.25s; margin-left: auto; }
+    .tipo-item[open] .tipo-chevron { transform: rotate(180deg); }
+    .tipo-body {
+        padding: 0 1.4rem 1.4rem;
+        border-top: 1px solid rgba(255,255,255,0.10);
+        padding-top: 1.1rem;
+    }
+    .tipo-body p { font-size: 0.9rem; color: rgba(255,255,255,0.82); line-height: 1.7; margin-bottom: 0.7rem; }
+    .tipo-body p:last-child { margin-bottom: 0; }
+    .tipo-tag { display: inline-block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; padding: 0.2rem 0.7rem; border-radius: 20px; margin-right: 0.4rem; margin-bottom: 0.6rem; }
 </style>
 {% endblock %}
 
@@ -141,6 +169,102 @@
                     <img src="{{ grav.base_url }}/user/pages/assets/bodygraph.png" alt="Esempio Bodygraph" style="max-height: 350px; margin: 0 auto;">
                     <p class="text-small italic" style="margin-top: 1.5rem;">La tua carta &egrave; il &ldquo;libretto delle istruzioni&rdquo; del tuo veicolo energetico.</p>
                 </div>
+            </div>
+
+            <!-- Scopri il tuo Tipo -->
+            <div style="margin-bottom: var(--space-xl);" data-animate>
+                <div class="text-center" style="margin-bottom: 2rem;">
+                    <h2 class="serif" style="margin-bottom: 0.75rem;">Hai visto la tua carta. E adesso?</h2>
+                    <p style="color: rgba(255,255,255,0.7); max-width: 520px; margin: 0 auto; font-size: 0.95rem;">Trova il tuo Tipo qui sotto e scopri cosa significa in pratica — prima di qualsiasi altra cosa.</p>
+                </div>
+
+                <div class="tipo-accordion">
+
+                    <details class="tipo-item">
+                        <summary>
+                            <span class="tipo-dot" style="background:#7EC8C8;"></span>
+                            <span class="tipo-name">Generatore</span>
+                            <span class="tipo-pct">~70% della popolazione</span>
+                            <span class="tipo-chevron">▼</span>
+                        </summary>
+                        <div class="tipo-body">
+                            <p>
+                                <span class="tipo-tag" style="background:rgba(126,200,200,0.2);color:#7EC8C8;">Strategia</span>
+                                <strong style="color:#fff;">Rispondere agli stimoli prima di agire.</strong> Non partire da soli — aspettare che arrivi qualcosa dall'esterno (una proposta, una domanda, una situazione) e sentire la risposta nel corpo.
+                            </p>
+                            <p>Hai il Centro Sacrale definito: un motore biologico che si ricarica ogni notte e produce energia lavorativa costante. Funziona solo sulle cose giuste — quelle che risuonano nel corpo, non quelle scelte dalla testa.</p>
+                            <p>
+                                <span class="tipo-tag" style="background:rgba(126,200,200,0.15);color:rgba(255,255,255,0.6);">Allineato</span> Soddisfazione &nbsp;·&nbsp;
+                                <span class="tipo-tag" style="background:rgba(255,100,100,0.12);color:rgba(255,180,180,0.8);">Fuori meccanica</span> Frustrazione cronica
+                            </p>
+                        </div>
+                    </details>
+
+                    <details class="tipo-item">
+                        <summary>
+                            <span class="tipo-dot" style="background:#B68397;"></span>
+                            <span class="tipo-name">Proiettore</span>
+                            <span class="tipo-pct">~20% della popolazione</span>
+                            <span class="tipo-chevron">▼</span>
+                        </summary>
+                        <div class="tipo-body">
+                            <p>
+                                <span class="tipo-tag" style="background:rgba(182,131,151,0.2);color:#B68397;">Strategia</span>
+                                <strong style="color:#fff;">Aspettare l'invito specifico</strong> prima di offrire guida o direzione. Non proporsi — essere riconosciuti.
+                            </p>
+                            <p>Non hai il Sacrale definito: non sei fatto per il lavoro duro e continuo. Sei fatto per vedere gli altri in modo acuto e guidarli. Quando imiti i Generatori ti esaurisci rapidamente.</p>
+                            <p>
+                                <span class="tipo-tag" style="background:rgba(182,131,151,0.15);color:rgba(255,255,255,0.6);">Allineato</span> Successo &nbsp;·&nbsp;
+                                <span class="tipo-tag" style="background:rgba(255,100,100,0.12);color:rgba(255,180,180,0.8);">Fuori meccanica</span> Amarezza
+                            </p>
+                        </div>
+                    </details>
+
+                    <details class="tipo-item">
+                        <summary>
+                            <span class="tipo-dot" style="background:#E8A96A;"></span>
+                            <span class="tipo-name">Manifestatore</span>
+                            <span class="tipo-pct">~9% della popolazione</span>
+                            <span class="tipo-chevron">▼</span>
+                        </summary>
+                        <div class="tipo-body">
+                            <p>
+                                <span class="tipo-tag" style="background:rgba(232,169,106,0.2);color:#E8A96A;">Strategia</span>
+                                <strong style="color:#fff;">Informare le persone chiave prima di agire.</strong> Non chiedere permesso — comunicare cosa stai per fare, per ridurre la resistenza degli altri.
+                            </p>
+                            <p>Sei l'unico Tipo che può iniziare azioni autonomamente senza aspettare. Il tuo blocco principale non è la mancanza di energia — è la resistenza che gli altri oppongono quando agisci senza avvisare.</p>
+                            <p>
+                                <span class="tipo-tag" style="background:rgba(232,169,106,0.15);color:rgba(255,255,255,0.6);">Allineato</span> Pace &nbsp;·&nbsp;
+                                <span class="tipo-tag" style="background:rgba(255,100,100,0.12);color:rgba(255,180,180,0.8);">Fuori meccanica</span> Rabbia
+                            </p>
+                        </div>
+                    </details>
+
+                    <details class="tipo-item">
+                        <summary>
+                            <span class="tipo-dot" style="background:#A88FD4;"></span>
+                            <span class="tipo-name">Riflettore</span>
+                            <span class="tipo-pct">~1% della popolazione</span>
+                            <span class="tipo-chevron">▼</span>
+                        </summary>
+                        <div class="tipo-body">
+                            <p>
+                                <span class="tipo-tag" style="background:rgba(168,143,212,0.2);color:#A88FD4;">Strategia</span>
+                                <strong style="color:#fff;">Aspettare un ciclo lunare completo (28 giorni)</strong> per le decisioni importanti. Non affrettarsi mai.
+                            </p>
+                            <p>Non hai nessun centro definito. Sei uno specchio: amplifichi e rifletti l'energia dell'ambiente e delle persone intorno a te. Le condizioni esterne — luoghi, persone, comunità — influenzano profondamente come ti senti.</p>
+                            <p>
+                                <span class="tipo-tag" style="background:rgba(168,143,212,0.15);color:rgba(255,255,255,0.6);">Allineato</span> Sorpresa &nbsp;·&nbsp;
+                                <span class="tipo-tag" style="background:rgba(255,100,100,0.12);color:rgba(255,180,180,0.8);">Fuori meccanica</span> Delusione
+                            </p>
+                        </div>
+                    </details>
+
+                </div>
+
+                <p style="text-align:center; margin-top:1.75rem; font-size:0.82rem; color:rgba(255,255,255,0.4);">
+                    In BG5 il Generatore si divide in Costruttore Classico e Costruttore Rapido — la meccanica di base è la stessa.
+                </p>
             </div>
 
             <!-- Next Steps CTA -->
