@@ -35,21 +35,42 @@
 .hd-hero-visual {
     position: relative;
 }
-#hd-animated-bodygraph {
+/* ── Carousel bodygraph ── */
+.hd-demo-carousel {
+    position: relative;
     width: 100%;
-    max-width: 300px;
+    max-width: 280px;
     margin: 0 auto;
-    filter: drop-shadow(0 8px 32px rgba(45,106,139,0.14));
+    aspect-ratio: 851 / 1309;
 }
-#hd-animated-bodygraph svg {
+.hd-demo-slide {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    height: auto;
-    display: block;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    animation: hd-fade 28s infinite;
+    filter: drop-shadow(0 6px 24px rgba(45,106,139,0.15));
 }
-#hd-animated-bodygraph .hd-center,
-#hd-animated-bodygraph .hd-channel {
-    transition: fill 0.9s ease;
+/* Ogni immagine è visibile per 2.8s su 28s totali (10%) */
+@keyframes hd-fade {
+    0%   { opacity: 0; }
+    2%   { opacity: 1; }
+    8%   { opacity: 1; }
+    10%  { opacity: 0; }
+    100% { opacity: 0; }
 }
+.hd-demo-slide:nth-child(1)  { animation-delay:  0.0s; }
+.hd-demo-slide:nth-child(2)  { animation-delay:  2.8s; }
+.hd-demo-slide:nth-child(3)  { animation-delay:  5.6s; }
+.hd-demo-slide:nth-child(4)  { animation-delay:  8.4s; }
+.hd-demo-slide:nth-child(5)  { animation-delay: 11.2s; }
+.hd-demo-slide:nth-child(6)  { animation-delay: 14.0s; }
+.hd-demo-slide:nth-child(7)  { animation-delay: 16.8s; }
+.hd-demo-slide:nth-child(8)  { animation-delay: 19.6s; }
+.hd-demo-slide:nth-child(9)  { animation-delay: 22.4s; }
+.hd-demo-slide:nth-child(10) { animation-delay: 25.2s; }
 .hd-type-label {
     display: flex;
     align-items: center;
@@ -511,10 +532,21 @@
         </div>
       </div>
       <div class="hd-hero-visual">
-        <div id="hd-animated-bodygraph" role="img" aria-label="Bodygraph animato — i 5 Tipi Human Design in loop"></div>
+        <div class="hd-demo-carousel" aria-label="Esempi di bodygraph Human Design">
+          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd01.png" alt="Generatore — 22 lug 1988" class="hd-demo-slide">
+          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd02.png" alt="Proiettore — 3 nov 1975" class="hd-demo-slide">
+          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd03.png" alt="Riflettore — 14 feb 1992" class="hd-demo-slide">
+          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd04.png" alt="Proiettore — 8 set 1969" class="hd-demo-slide">
+          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd05.png" alt="Proiettore — 30 apr 2001" class="hd-demo-slide">
+          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd06.png" alt="Generatore — 25 dic 1983" class="hd-demo-slide">
+          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd07.png" alt="Proiettore — 18 giu 1997" class="hd-demo-slide">
+          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd08.png" alt="Proiettore — 4 ago 1961" class="hd-demo-slide">
+          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd09.png" alt="Proiettore — 11 ott 2004" class="hd-demo-slide">
+          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd10.png" alt="Generatore — 27 mag 1978" class="hd-demo-slide">
+        </div>
         <p class="hd-type-label">
-          <span class="hd-type-dot" id="hd-type-dot"></span>
-          <span id="hd-type-label">Human Design</span>
+          <span class="hd-type-dot" id="hd-type-dot" style="background:#B68397;"></span>
+          <span id="hd-type-label">Ogni carta è unica</span>
         </p>
       </div>
     </div>
@@ -776,150 +808,6 @@
   </div>
 
 
-<script>
-/* ── Animated bodygraph — 10 carte HD reali (colori P/D/split) ── */
-(function () {
-  var BASE = '{{ grav.base_url }}';
-
-  /*
-   * 10 carte calcolate con ephem. Colori autentici HD:
-   *   P = Personalità (nero) · D = Disegno (rosso) · S = entrambi (striato)
-   * Centri: chiavi = SVG <g> ID · Canali: chiavi = numero gate SVG
-   */
-  var COL_P     = '#1a1a1a';
-  var COL_D     = '#C0392B';
-  var COL_SPLIT = 'url(#splitGatePattern)';
-
-  var TYPES = [
-    {
-      label: 'Generatore \u2014 22 lug 1988',
-      centers: {Head:'S',Ajna:'S',Throat:'P',Splenic_Center:'S',Sacral:'S',Root:'S'},
-      gates:   {64:'S',47:'S',11:'P',56:'P',27:'D',50:'D',3:'S',60:'S',28:'S',38:'S'}
-    },
-    {
-      label: 'Proiettore \u2014 3 nov 1975',
-      centers: {Ajna:'S',Throat:'S',G:'S'},
-      gates:   {43:'S',23:'S',31:'S',7:'S',8:'S',1:'S'}
-    },
-    {
-      label: 'Riflettore \u2014 14 feb 1992',
-      centers: {},
-      gates:   {}
-    },
-    {
-      label: 'Proiettore \u2014 8 set 1969',
-      centers: {Head:'S',Ajna:'S'},
-      gates:   {64:'S',47:'S'}
-    },
-    {
-      label: 'Proiettore \u2014 30 apr 2001',
-      centers: {Ajna:'D',Throat:'S',G:'S',Solar_Plexus:'S',Root:'S'},
-      gates:   {43:'D',23:'D',10:'S',20:'S',30:'D',41:'D',19:'S',49:'S'}
-    },
-    {
-      label: 'Generatore \u2014 25 dic 1983',
-      centers: {G:'P',Splenic_Center:'P',Sacral:'P',Root:'P'},
-      gates:   {5:'P',15:'P',32:'P',54:'P'}
-    },
-    {
-      label: 'Proiettore \u2014 18 giu 1997',
-      centers: {G:'S',Heart:'S',Solar_Plexus:'S',Root:'S'},
-      gates:   {51:'S',25:'S',19:'S',49:'S'}
-    },
-    {
-      label: 'Proiettore \u2014 4 ago 1961',
-      centers: {Solar_Plexus:'S',Root:'S'},
-      gates:   {30:'S',41:'S'}
-    },
-    {
-      label: 'Proiettore \u2014 11 ott 2004',
-      centers: {Throat:'D',G:'D',Heart:'S',Splenic_Center:'S',Solar_Plexus:'S',Root:'S'},
-      gates:   {33:'D',13:'D',40:'S',37:'S',32:'S',54:'S'}
-    },
-    {
-      label: 'Generatore \u2014 27 mag 1978',
-      centers: {Head:'S',Ajna:'S',Throat:'S',G:'S',Heart:'D',
-                Splenic_Center:'P',Solar_Plexus:'D',Sacral:'S',Root:'P'},
-      gates:   {63:'S',4:'S',17:'D',62:'D',16:'P',48:'P',
-                40:'D',37:'D',29:'S',46:'S',9:'P',52:'P'}
-    }
-  ];
-
-  var CENTER_DEFAULT  = '#cdc6be';
-  var CHANNEL_DEFAULT = '#c8c2bc';
-  var svgEl = null;
-  var idx   = 0;
-
-  function colorOf(code) {
-    return code === 'P' ? COL_P : code === 'D' ? COL_D : COL_SPLIT;
-  }
-
-  function applyType(t) {
-    if (!svgEl) return;
-    /* Reset all */
-    svgEl.querySelectorAll('.hd-center').forEach(function (el) {
-      el.style.fill = CENTER_DEFAULT;
-    });
-    svgEl.querySelectorAll('.hd-channel').forEach(function (el) {
-      el.style.fill = CHANNEL_DEFAULT;
-    });
-    /* Color defined centers */
-    Object.keys(t.centers).forEach(function (id) {
-      var g = svgEl.querySelector('#' + id);
-      if (!g) return;
-      var p = g.querySelector('.hd-center');
-      if (p) p.style.fill = colorOf(t.centers[id]);
-    });
-    /* Color defined gates */
-    Object.keys(t.gates).forEach(function (gNum) {
-      var el = svgEl.querySelector('#Gate' + gNum);
-      if (el) el.style.fill = colorOf(t.gates[gNum]);
-    });
-    /* Update label */
-    var lbl = document.getElementById('hd-type-label');
-    var dot = document.getElementById('hd-type-dot');
-    if (lbl) lbl.textContent = t.label;
-    if (dot) {
-      /* dot: nero=P, rosso=D, striato=se misto */
-      var colors = Object.values(t.centers);
-      var hasP = colors.indexOf('P') > -1;
-      var hasD = colors.indexOf('D') > -1;
-      dot.style.background = (hasP && hasD) ? 'linear-gradient(135deg,#1a1a1a 50%,#C0392B 50%)'
-                            : hasP ? COL_P : hasD ? COL_D : '#888';
-    }
-  }
-
-  function tick() {
-    applyType(TYPES[idx]);
-    idx = (idx + 1) % TYPES.length;
-    setTimeout(tick, 2800);
-  }
-
-  fetch(BASE + '/user/pages/assets/bodygraph.svg')
-    .then(function (r) { return r.text(); })
-    .then(function (txt) {
-      var c = document.getElementById('hd-animated-bodygraph');
-      if (!c) return;
-      c.innerHTML = txt;
-      svgEl = c.querySelector('svg');
-      if (svgEl) {
-        svgEl.removeAttribute('width');
-        svgEl.removeAttribute('height');
-        /* CSS vars per il pattern striato (P=nero, D=rosso) */
-        svgEl.style.setProperty('--color-personality', COL_P);
-        svgEl.style.setProperty('--color-design',      COL_D);
-        tick();
-      }
-    })
-    .catch(function () {
-      var c = document.getElementById('hd-animated-bodygraph');
-      if (c) c.innerHTML =
-        '<img src="' + BASE + '/user/pages/assets/bodygraph.svg" ' +
-        'style="width:100%;max-width:300px;opacity:0.82;" ' +
-        'alt="Bodygraph Human Design">';
-    });
-})();
-</script>
 
 </main>
 {% endblock %}
