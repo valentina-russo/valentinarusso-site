@@ -457,42 +457,23 @@
 .wave-divider { display: block; width: 100%; overflow: hidden; line-height: 0; margin: 0; padding: 0; }
 .wave-divider svg { display: block; width: 100%; }
 
-/* ── Sezione Tipi: navy scuro ── */
+/* ── Sezione Tipi: rosa morbido ── */
 .hd-types-section {
     background:
         url("data:image/svg+xml,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.04'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
-        radial-gradient(ellipse at 90% 10%, rgba(45,106,139,0.35) 0%, transparent 50%),
-        radial-gradient(ellipse at 5% 90%, rgba(182,131,151,0.25) 0%, transparent 45%),
-        #1A2D3F;
+        radial-gradient(ellipse at 15% 30%, rgba(182,131,151,0.14) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 70%, rgba(45,106,139,0.08) 0%, transparent 50%),
+        #FAF7F5;
 }
-.hd-types-section h2 { color: #FAF7F5 !important; }
-.hd-types-section .section-lead { color: rgba(250,247,245,0.72) !important; }
-.hd-types-section .hd-wide-wrap > p { color: rgba(250,247,245,0.42) !important; }
 
-/* ── Sezione BG5: teal ── */
+/* ── Sezione BG5: teal morbido ── */
 .hd-bg5-section {
     background:
-        url("data:image/svg+xml,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.05'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
-        radial-gradient(ellipse at 85% 15%, rgba(182,131,151,0.20) 0%, transparent 50%),
-        radial-gradient(ellipse at 10% 80%, rgba(250,247,245,0.06) 0%, transparent 45%),
-        #2D6A8B;
+        url("data:image/svg+xml,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.04'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
+        radial-gradient(ellipse at 80% 20%, rgba(45,106,139,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse at 15% 75%, rgba(182,131,151,0.09) 0%, transparent 50%),
+        #F5F9F8;
 }
-.hd-bg5-section h2 { color: #FAF7F5 !important; }
-.hd-bg5-section .section-lead { color: rgba(250,247,245,0.75) !important; }
-.hd-bg5-section .hd-vs-card { background: rgba(250,247,245,0.08); border-color: rgba(250,247,245,0.15); }
-.hd-bg5-section .hd-vs-header { background: rgba(250,247,245,0.06) !important; border-color: rgba(250,247,245,0.10) !important; }
-.hd-bg5-section .hd-vs-key { color: rgba(250,247,245,0.45); }
-.hd-bg5-section .hd-vs-val { color: rgba(250,247,245,0.88); }
-.hd-bg5-section .hd-vs-list li { border-bottom-color: rgba(250,247,245,0.07); }
-.hd-bg5-section .hd-vs-divider { color: rgba(250,247,245,0.30); }
-.hd-bg5-section .hd-vs-label { background: rgba(250,247,245,0.14) !important; color: #FAF7F5 !important; }
-.hd-bg5-section .hd-vs-bg5 .hd-vs-label { background: rgba(182,131,151,0.35) !important; color: #FAF7F5 !important; }
-.hd-bg5-section p[style] { color: rgba(250,247,245,0.80) !important; }
-.hd-bg5-section .valentina-box { border-top-color: rgba(250,247,245,0.15); background: rgba(250,247,245,0.06); border-radius: 16px; padding: 2rem; }
-.hd-bg5-section .valentina-box-text p { color: rgba(250,247,245,0.82); }
-.hd-bg5-section .valentina-box-text strong { color: #FAF7F5; }
-.hd-bg5-section .valentina-photo { border-color: rgba(250,247,245,0.25); }
-.hd-bg5-section .bg5-badge { opacity: 0.90; filter: brightness(10); }
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
@@ -836,10 +817,6 @@
       </div>
     </div>
   </section>
-  <div class="wave-divider" aria-hidden="true" style="background:#2D6A8B;">
-    <svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C480,48 960,0 1440,24 L1440,48 L0,48 Z" fill="#ffffff"/></svg>
-  </div>
-
   {# ══ FAQ ══ #}
   {% if page.header.faq is defined and page.header.faq %}
   <section style="background: #fff;">
