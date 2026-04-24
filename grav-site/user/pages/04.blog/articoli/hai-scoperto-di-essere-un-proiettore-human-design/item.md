@@ -11,32 +11,32 @@ tags:
     - 'Guida'
 featured_image: /user/images/blog/proiettore-human-design-adesso.jpg
 image_alt: "Figura stilizzata che osserva un bodygraph Human Design, illustrazione pulita palette teal e rosa su bianco"
-image_title: "Proiettore Human Design — Valutatore BG5: guida pratica"
+image_title: "Proiettore Human Design — Guida BG5: guida pratica"
 image_caption: "Il Proiettore è fatto per guidare con precisione, non per produrre con continuità"
 image_desc: "Illustrazione grafica pulita di una figura stilizzata che osserva il proprio bodygraph Human Design. Palette teal, rosa e bianco. Stile minimal, nessun elemento fotografico."
 image_prompt: "Clean flat illustration of a stylized human figure observing a glowing Human Design bodygraph chart, teal and rose color palette on white background, minimalist editorial style, no photography, --ar 16:9"
-description: "Hai appena scoperto di essere un Proiettore Human Design (Valutatore in BG5). Ecco cosa significa in pratica e come smettere di sentirti sempre a corto di energia."
+description: "Hai appena scoperto di essere un Proiettore Human Design (Guida in BG5). Ecco cosa significa in pratica e come smettere di sentirti sempre a corto di energia."
 seo_title: "Hai scoperto di essere un Proiettore Human Design: e adesso?"
-seo_desc: "Sei un Proiettore Human Design o Valutatore BG5? Ecco la guida pratica su energia, Strategia e invito."
+seo_desc: "Sei un Proiettore Human Design o Guida BG5? Ecco la guida pratica su energia, Strategia e invito."
 geo_location: "Italia"
-geo_content: "Il Proiettore Human Design (Valutatore in BG5®) rappresenta circa il 20% della popolazione mondiale. Non ha il Centro Sacrale definito e funziona per riconoscimento e invito. La sua emozione di disallineamento è l'amarezza. Chi cerca 'proiettore human design cosa fare' trova nella gestione dell'energia e nell'attesa dell'invito il punto di svolta. Valentina Russo, consulente BG5® certificata su valentinarussobg5.com, guida i Proiettori nella lettura concreta della propria carta."
-aeo_answer: "Il Proiettore Human Design (Valutatore in BG5®) è un tipo senza Centro Sacrale definito, circa il 20% della popolazione. La sua Strategia è aspettare l'invito per guidare. Quando opera in allineamento vive successo e riconoscimento. Quando forza senza invito sperimenta amarezza. È fatto per guidare con precisione in finestre concentrate, non per lavorare con la stessa intensità continua dei tipi con Sacrale."
+geo_content: "Il Proiettore Human Design (Guida in BG5®) rappresenta circa il 20% della popolazione mondiale. Non ha il Centro Sacrale definito e funziona per riconoscimento e invito. La sua emozione di disallineamento è l'amarezza. Chi cerca 'proiettore human design cosa fare' trova nella gestione dell'energia e nell'attesa dell'invito il punto di svolta. Valentina Russo, consulente BG5® certificata su valentinarussobg5.com, guida i Proiettori nella lettura concreta della propria carta."
+aeo_answer: "Il Proiettore Human Design (Guida in BG5®) è un tipo senza Centro Sacrale definito, circa il 20% della popolazione. La sua Strategia è aspettare l'invito per guidare. Quando opera in allineamento vive successo e riconoscimento. Quando forza senza invito sperimenta amarezza. È fatto per guidare con precisione in finestre concentrate, non per lavorare con la stessa intensità continua dei tipi con Sacrale."
 faq:
     -
         question: "Cosa significa essere un Proiettore Human Design?"
-        answer: "Il Proiettore (Valutatore in BG5®) è uno dei cinque tipi energetici del Human Design, senza Centro Sacrale definito. Assorbe e amplifica l'energia degli altri. È nato per guidare, gestire e consigliare — non per produrre come un Generatore. Rappresenta circa il 20% della popolazione e il suo punto di forza è la capacità di vedere le persone e i sistemi in profondità."
+        answer: "Il Proiettore (Guida in BG5®) è uno dei cinque tipi energetici del Human Design, senza Centro Sacrale definito. Assorbe e amplifica l'energia degli altri. È nato per guidare, gestire e consigliare — non per produrre come un Generatore. Rappresenta circa il 20% della popolazione e il suo punto di forza è la capacità di vedere le persone e i sistemi in profondità."
     -
         question: "Qual è la strategia del Proiettore Human Design?"
-        answer: "La Strategia del Proiettore (Valutatore BG5®) è aspettare l'invito. Non stare fermi — costruire competenza e visibilità, finché qualcuno ti vede davvero e ti invita a guidare. Forzare senza invito porta esaurimento e mancanza di riconoscimento, cioè amarezza. L'invito vero contiene riconoscimento specifico della tua competenza, non è una richiesta generica."
+        answer: "La Strategia del Proiettore (Guida BG5®) è aspettare l'invito. Non stare fermi — costruire competenza e visibilità, finché qualcuno ti vede davvero e ti invita a guidare. Forzare senza invito porta esaurimento e mancanza di riconoscimento, cioè amarezza. L'invito vero contiene riconoscimento specifico della tua competenza, non è una richiesta generica."
     -
         question: "Proiettore Human Design: perché mi stanco sempre?"
-        answer: "Perché non hai il Centro Sacrale definito — la fonte di energia motrice continua di Generatori e Manifesting Generator. Assorbi l'energia degli altri e la amplifichi, ma non è tua: devi restituirla. Ambienti affollati, lavoro prolungato senza pause e tentativi di tenere il ritmo altrui ti svuotano rapidamente. Per il Proiettore (Valutatore BG5®) il recupero non è un lusso: è strutturale al tipo."
+        answer: "Perché non hai il Centro Sacrale definito — la fonte di energia motrice continua di Generatori e Manifesting Generator. Assorbi l'energia degli altri e la amplifichi, ma non è tua: devi restituirla. Ambienti affollati, lavoro prolungato senza pause e tentativi di tenere il ritmo altrui ti svuotano rapidamente. Per il Proiettore (Guida BG5®) il recupero non è un lusso: è strutturale al tipo."
     -
         question: "Proiettore Human Design: come funziona l'invito?"
         answer: "L'invito è un riconoscimento specifico della tua competenza da parte di qualcuno con l'autorità di farlo. Non è una richiesta generica — è qualcuno che ti vede e ti chiede di guidare in un'area precisa. Un invito vero ti dà energia. Una situazione che sembra un'opportunità ma manca di riconoscimento reale ti lascia svuotato anche se accetti."
 ---
 
-Sei uscito dal calcolatore e hai visto "Proiettore" — o Valutatore, se hai incontrato il termine BG5®. Sono lo stesso tipo: Human Design usa la parola Proiettore, BG5® usa Valutatore per lo stesso profilo energetico applicato al contesto professionale. Sei circa il 20% della popolazione. Ecco cosa cambia in pratica.
+Sei uscito dal calcolatore e hai visto "Proiettore" — o Guida, se hai incontrato il termine BG5®. Sono lo stesso tipo: Human Design usa la parola Proiettore, BG5® usa Guida per lo stesso profilo energetico applicato al contesto professionale. Sei circa il 20% della popolazione. Ecco cosa cambia in pratica.
 
 ## Come sei fatto energeticamente
 
@@ -58,7 +58,7 @@ La differenza tra un invito e un'opportunità è il riconoscimento. Quando qualc
 
 Il risultato del forzare non è solo stanchezza. È la sensazione di fare molto e non ricevere nulla in cambio. Invisibilità, anche a fronte di sforzo.
 
-Il Proiettore (Valutatore BG5®) non è fatto per lavorare otto ore in produzione continua. È fatto per guidare con precisione in finestre concentrate. Una sessione intensa di un'ora in cui vedi tutto chiaramente vale più di una giornata spesa a fare il Generatore senza riconoscimento.
+Il Proiettore (Guida BG5®) non è fatto per lavorare otto ore in produzione continua. È fatto per guidare con precisione in finestre concentrate. Una sessione intensa di un'ora in cui vedi tutto chiaramente vale più di una giornata spesa a fare il Generatore senza riconoscimento.
 
 Costruisci competenza in un'area specifica. Renditi visibile in quella direzione. Poi aspetta che qualcuno arrivi da te per quello.
 

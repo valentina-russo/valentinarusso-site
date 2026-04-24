@@ -11,32 +11,32 @@ tags:
     - 'Guida'
 featured_image: /user/images/blog/riflettore-human-design-adesso.jpg
 image_alt: "Figura umana che rispecchia la luna in un paesaggio etereo, illustrazione palette viola e argento su bianco"
-image_title: "Riflettore Human Design — Adattatore BG5: guida pratica"
+image_title: "Riflettore Human Design — Valutatore BG5: guida pratica"
 image_caption: "Il Riflettore è progettato per rispecchiare l'ambiente — l'ambiente è la sua bussola"
 image_desc: "Illustrazione eterea in palette viola, argento e bianco con luna piena e figura umana che riflette la luce circostante, evocando la natura del Riflettore Human Design come specchio dell'ambiente"
 image_prompt: "ethereal illustration of a human silhouette reflecting moonlight, surrounded by floating geometric gates and centers, silver and violet palette, white mist, full moon background, Human Design bodygraph faint overlay, --ar 16:9 --style raw"
-description: "Hai appena scoperto di essere un Riflettore Human Design (Adattatore in BG5). Ecco cosa significa davvero e perché l'ambiente è la tua bussola."
+description: "Hai appena scoperto di essere un Riflettore Human Design (Valutatore in BG5). Ecco cosa significa davvero e perché l'ambiente è la tua bussola."
 seo_title: "Hai scoperto di essere un Riflettore Human Design: e adesso?"
-seo_desc: "Sei un Riflettore Human Design o Adattatore BG5? Scopri i 28 giorni, l'ambiente come bussola e il primo passo concreto."
+seo_desc: "Sei un Riflettore Human Design o Valutatore BG5? Scopri i 28 giorni, l'ambiente come bussola e il primo passo concreto."
 geo_location: "Italia"
-geo_content: "Il Riflettore Human Design (Adattatore in BG5®) rappresenta circa l'1% della popolazione mondiale. Ha tutti i nove centri aperti e usa il ciclo lunare di 28 giorni come strumento decisionale. L'ambiente è il fattore più determinante per il suo benessere. Chi cerca 'riflettore human design cosa fare' trova nell'osservazione dell'ambiente il punto di partenza più concreto. Valentina Russo, consulente BG5® certificata su valentinarussobg5.com, guida i Riflettori nella lettura della propria carta."
-aeo_answer: "Il Riflettore Human Design (Adattatore in BG5®) è uno dei cinque tipi energetici, circa l'1% della popolazione. Ha tutti i nove centri del bodygraph aperti: assorbe e amplifica l'energia delle persone vicine. La sua Strategia è aspettare un ciclo lunare completo (28 giorni) prima di prendere decisioni importanti. Il segnale di allineamento è la sorpresa e la delizia; la delusione segnala un ambiente che non nutre."
+geo_content: "Il Riflettore Human Design (Valutatore in BG5®) rappresenta circa l'1% della popolazione mondiale. Ha tutti i nove centri aperti e usa il ciclo lunare di 28 giorni come strumento decisionale. L'ambiente è il fattore più determinante per il suo benessere. Chi cerca 'riflettore human design cosa fare' trova nell'osservazione dell'ambiente il punto di partenza più concreto. Valentina Russo, consulente BG5® certificata su valentinarussobg5.com, guida i Riflettori nella lettura della propria carta."
+aeo_answer: "Il Riflettore Human Design (Valutatore in BG5®) è uno dei cinque tipi energetici, circa l'1% della popolazione. Ha tutti i nove centri del bodygraph aperti: assorbe e amplifica l'energia delle persone vicine. La sua Strategia è aspettare un ciclo lunare completo (28 giorni) prima di prendere decisioni importanti. Il segnale di allineamento è la sorpresa e la delizia; la delusione segnala un ambiente che non nutre."
 faq:
     -
         question: "Cosa significa essere un Riflettore Human Design?"
-        answer: "Il Riflettore (Adattatore in BG5®) è uno dei cinque tipi del Human Design, circa l'1% della popolazione. Ha tutti i nove centri del bodygraph aperti: non genera energia in modo fisso, ma assorbe e amplifica quella delle persone intorno a sé. È progettato per essere uno specchio fedele dell'ambiente in cui si trova."
+        answer: "Il Riflettore (Valutatore in BG5®) è uno dei cinque tipi del Human Design, circa l'1% della popolazione. Ha tutti i nove centri del bodygraph aperti: non genera energia in modo fisso, ma assorbe e amplifica quella delle persone intorno a sé. È progettato per essere uno specchio fedele dell'ambiente in cui si trova."
     -
         question: "Qual è la strategia del Riflettore Human Design?"
-        answer: "La Strategia del Riflettore (Adattatore BG5®) è aspettare 28 giorni prima di prendere decisioni importanti. Questo corrisponde a un ciclo lunare completo: la Luna transita attraverso tutti i 64 gate del bodygraph in circa 28 giorni, permettendo al Riflettore di sentire la stessa decisione da ogni angolazione possibile prima di agire."
+        answer: "La Strategia del Riflettore (Valutatore BG5®) è aspettare 28 giorni prima di prendere decisioni importanti. Questo corrisponde a un ciclo lunare completo: la Luna transita attraverso tutti i 64 gate del bodygraph in circa 28 giorni, permettendo al Riflettore di sentire la stessa decisione da ogni angolazione possibile prima di agire."
     -
         question: "Riflettore Human Design: perché cambio a seconda delle persone?"
-        answer: "Cambiare a seconda delle persone è la meccanica naturale del Riflettore (Adattatore BG5®). Avendo tutti i centri aperti, assorbi e amplifichi l'energia di chi ti sta vicino. Non è instabilità caratteriale: è come sei fatto. Ogni centro aperto condiziona temporaneamente il tuo stato energetico in base all'ambiente e alle persone presenti."
+        answer: "Cambiare a seconda delle persone è la meccanica naturale del Riflettore (Valutatore BG5®). Avendo tutti i centri aperti, assorbi e amplifichi l'energia di chi ti sta vicino. Non è instabilità caratteriale: è come sei fatto. Ogni centro aperto condiziona temporaneamente il tuo stato energetico in base all'ambiente e alle persone presenti."
     -
         question: "Riflettore Human Design: i 28 giorni come funzionano nella pratica?"
         answer: "Quando devi prendere una decisione importante, annota come ti senti rispetto a quella scelta e aspetta. Nei 28 giorni successivi la Luna transiterà attraverso tutti i gate del tuo bodygraph: osserva come cambia la tua percezione. Alla fine del ciclo avrai dati sufficienti per decidere con chiarezza, avendo sentito la questione da ogni prospettiva energetica."
 ---
 
-Sei uscito dal calcolatore e hai letto "Riflettore" — o Adattatore, se hai incontrato il termine BG5®. Sono lo stesso tipo: Human Design lo chiama Riflettore, BG5® lo chiama Adattatore. Sei circa l'1% della popolazione. Probabilmente hai sempre sentito di funzionare in modo diverso dagli altri — di essere più sensibile all'ambiente, alle persone, alle situazioni. Hai ragione. E c'è una ragione meccanica precisa per cui è così.
+Sei uscito dal calcolatore e hai letto "Riflettore" — o Valutatore, se hai incontrato il termine BG5®. Sono lo stesso tipo: Human Design lo chiama Riflettore, BG5® lo chiama Valutatore. Sei circa l'1% della popolazione. Probabilmente hai sempre sentito di funzionare in modo diverso dagli altri — di essere più sensibile all'ambiente, alle persone, alle situazioni. Hai ragione. E c'è una ragione meccanica precisa per cui è così.
 
 ## Come sei fatto energeticamente
 
@@ -52,7 +52,7 @@ Riconoscere questa meccanica è il punto di partenza per smettere di confonderti
 
 ## La tua Strategia: aspettare il ciclo lunare
 
-La Strategia del Riflettore (Adattatore BG5®) è aspettare 28 giorni prima di prendere decisioni importanti.
+La Strategia del Riflettore (Valutatore BG5®) è aspettare 28 giorni prima di prendere decisioni importanti.
 
 Non è lentezza. È precisione.
 
@@ -72,7 +72,7 @@ Per il Riflettore il segnale di allineamento non è soddisfazione, pace o succes
 
 Quando sei nel posto giusto, con le persone giuste, ti sorprende positivamente. C'è qualcosa di inaspettato che ti fa stare bene.
 
-Il contrario è la delusione. La delusione del Riflettore (Adattatore BG5®) non è un'emozione da gestire: è un indicatore diretto sulla qualità dell'ambiente in cui vivi. Se ti senti costantemente deluso — dalle persone, dai contesti, dalle dinamiche — il sistema ti sta dicendo che quell'ambiente non ti nutre.
+Il contrario è la delusione. La delusione del Riflettore (Valutatore BG5®) non è un'emozione da gestire: è un indicatore diretto sulla qualità dell'ambiente in cui vivi. Se ti senti costantemente deluso — dalle persone, dai contesti, dalle dinamiche — il sistema ti sta dicendo che quell'ambiente non ti nutre.
 
 Prendilo sul serio. Non come giudizio sugli altri, ma come informazione su di te.
 

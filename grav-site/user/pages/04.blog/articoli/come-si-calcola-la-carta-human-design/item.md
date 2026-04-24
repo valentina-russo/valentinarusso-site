@@ -74,7 +74,7 @@ Questo meccanismo a doppio calcolo è il fondamento tecnico del sistema. Senza c
 
 Una volta calcolata, la carta ti restituisce questi elementi:
 
-**Tipo energetico**: la tua configurazione energetica di base (Generatore, Generatore Manifestante, Proiettore, Manifestatore, Riflettore in HD; Costruttore, Costruttore Espansivo, Valutatore, Iniziatore, Adattatore in BG5). Determina come interagisci con il mondo e quale strategia funziona per te.
+**Tipo energetico**: la tua configurazione energetica di base (Generatore, Generatore Manifestante, Proiettore, Manifestatore, Riflettore in HD; Costruttore, Costruttore Espansivo, Guida, Iniziatore, Valutatore in BG5). Determina come interagisci con il mondo e quale strategia funziona per te.
 
 **Strategia**: la modalità operativa coerente con il tuo Tipo. Seguirla riduce la resistenza nei processi decisionali e relazionali.
 
