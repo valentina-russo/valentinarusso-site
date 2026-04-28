@@ -126,21 +126,80 @@
 .bp-section--deep {
   background: linear-gradient(148deg, #0D2B2B 0%, #142E38 40%, #1A2040 100%);
 }
+/* --deep mantenuto per uso futuro */
 .bp-section--deep .bp-section-title { color: #E8F4F4; }
 .bp-section--deep .bp-section-sub   { color: rgba(232,244,244,.65); }
 .bp-section--deep .bp-eyebrow       { color: var(--bp-gold); }
 .bp-section--deep .bp-eyebrow::before,
 .bp-section--deep .bp-eyebrow::after { background: var(--bp-gold); }
-.bp-section--deep .bp-step          { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.10); }
-.bp-section--deep .bp-step h3       { color: #E8F4F4; }
-.bp-section--deep .bp-step p        { color: rgba(232,244,244,.72); }
-.bp-section--deep .bp-step__num     { color: var(--bp-gold); }
-.bp-section--deep .bp-step__icon    { background: rgba(74,140,140,.25); color: #7ECECE; }
-.bp-section--deep .bp-section-img   { box-shadow: 0 20px 60px rgba(0,0,0,.4); }
 
 .bp-section--dark {
   background: linear-gradient(150deg, #0F1A29 0%, #1A1230 50%, #0A0F1E 100%);
 }
+/* Sezione chi è Valentina */
+.bp-bio__grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 4rem;
+  align-items: center;
+  margin-top: 3rem;
+}
+.bp-bio__photo {
+  position: relative;
+}
+.bp-bio__photo img {
+  display: block;
+  width: 100%;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center top;
+  box-shadow: 0 24px 64px rgba(26,35,50,.20), 0 0 0 6px var(--bp-white), 0 0 0 10px var(--bp-rosa);
+}
+.bp-bio__photo::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 30% 30%, rgba(196,138,58,.18) 0%, transparent 60%);
+  pointer-events: none;
+}
+.bp-bio__text h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--bp-navy);
+  margin: 0 0 .375rem;
+}
+.bp-bio__credential {
+  font-size: .8125rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--bp-rosa);
+  margin: 0 0 1.5rem;
+}
+.bp-bio__text p {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--bp-text);
+  margin: 0 0 1rem;
+}
+.bp-bio__text p:last-child { margin: 0; }
+@media (max-width: 900px) {
+  .bp-bio__grid { grid-template-columns: 1fr; }
+  .bp-bio__photo { max-width: 220px; margin: 0 auto; }
+}
+
+/* "Inizia ora" — ambra calda, opposto al freddo navy dei prezzi */
+.bp-section--amber {
+  background: linear-gradient(148deg, #2A1A06 0%, #3E2608 38%, #1C1008 100%);
+}
+.bp-section--amber .bp-section-title { color: #F5EAD0; }
+.bp-section--amber .bp-section-sub   { color: rgba(245,234,208,.68); }
+.bp-section--amber .bp-eyebrow       { color: var(--bp-gold); }
+.bp-section--amber .bp-eyebrow::before,
+.bp-section--amber .bp-eyebrow::after { background: var(--bp-gold); }
 /* Pricing — dark dramatico */
 .bp-section--gradient {
   background: linear-gradient(150deg, #1A2332 0%, #1D1232 45%, #0E1220 100%);
@@ -1239,9 +1298,35 @@
 
 
 {# ══════════════════════════════════════════
+   4b. CHI È VALENTINA
+══════════════════════════════════════════ #}
+<section class="bp-section bp-section--white">
+  <div class="bp-container">
+    <div style="text-align:center">
+      <p class="bp-eyebrow" style="justify-content:center">Chi prepara il tuo Libretto</p>
+      <h2 class="bp-section-title" style="margin:0 auto">Valentina Russo</h2>
+    </div>
+    <div class="bp-bio__grid bp-reveal">
+      <div class="bp-bio__photo">
+        <img src="/user/pages/assets/valentina-privati.jpg"
+             alt="Valentina Russo — consulente Human Design e BG5"
+             width="600" height="600" loading="lazy">
+      </div>
+      <div class="bp-bio__text">
+        <p class="bp-bio__credential">Consulente Human Design &amp; BG5</p>
+        <p>Valentina studia e applica il sistema Human Design da anni. Ogni Libretto lo prepara personalmente — calcola la carta, legge ogni parametro e scrive il documento sulla configurazione specifica di chi ordina.</p>
+        <p>Non usa template generici. Ogni sezione è scritta per quella carta, con quei centri, quella variabile, quella croce.</p>
+        <p>Prima di inviarlo lo rilegge. Se qualcosa non torna, riscrive.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{# ══════════════════════════════════════════
    5. COME FUNZIONA
 ══════════════════════════════════════════ #}
-<section class="bp-section bp-section--deep">
+<section class="bp-section bp-section--parchment">
   <div class="bp-container">
     <div style="text-align:center">
       <p class="bp-eyebrow" style="justify-content:center">Come funziona</p>
@@ -1364,7 +1449,7 @@
 {# ══════════════════════════════════════════
    7. ORDINA ORA
 ══════════════════════════════════════════ #}
-<section class="bp-section bp-section--dark" id="ordine">
+<section class="bp-section bp-section--amber" id="ordine">
   <div class="bp-container">
     <div style="text-align:center;max-width:660px;margin:0 auto">
       <p class="bp-eyebrow" style="justify-content:center">Inizia ora</p>
