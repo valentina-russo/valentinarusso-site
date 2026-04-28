@@ -503,7 +503,18 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/26.libretto-istruzioni/
           dangerous-clean-slate: false
 
-      - name: Deploy libretto-dati (checkout, dati, invia PHP)
+      - name: Crea libretto-dati/.env con la chiave Stripe (da GitHub Secret)
+        env:
+          STRIPE_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+        run: |
+          if [ -z "$STRIPE_KEY" ]; then
+            echo "WARN: STRIPE_SECRET_KEY non configurata — .env non verra creato"
+          else
+            echo "STRIPE_SECRET_KEY=$STRIPE_KEY" > grav-site/root/libretto-dati/.env
+            echo "OK: .env creato (lunghezza chiave: ${#STRIPE_KEY} char)"
+          fi
+
+      - name: Deploy libretto-dati (checkout, dati, invia PHP, .env, .htaccess)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.ARUBA_FTP_HOST }}
@@ -512,6 +523,10 @@ jobs:
           local-dir: ./grav-site/root/libretto-dati/
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}libretto-dati/
           dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/logs/**
 
       - name: Deploy pagina human-design (guida introduttiva HD)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
