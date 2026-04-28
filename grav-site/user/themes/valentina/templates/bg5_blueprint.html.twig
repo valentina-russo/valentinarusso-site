@@ -191,15 +191,10 @@
   .bp-bio__photo { max-width: 220px; margin: 0 auto; }
 }
 
-/* "Inizia ora" — ambra calda, opposto al freddo navy dei prezzi */
+/* "Inizia ora" — chiaro elegante, respira dopo il dark pricing */
 .bp-section--amber {
-  background: linear-gradient(148deg, #2A1A06 0%, #3E2608 38%, #1C1008 100%);
+  background: linear-gradient(155deg, #FAF7F5 0%, #F5EEF3 45%, #EFF0FA 100%);
 }
-.bp-section--amber .bp-section-title { color: #F5EAD0; }
-.bp-section--amber .bp-section-sub   { color: rgba(245,234,208,.68); }
-.bp-section--amber .bp-eyebrow       { color: var(--bp-gold); }
-.bp-section--amber .bp-eyebrow::before,
-.bp-section--amber .bp-eyebrow::after { background: var(--bp-gold); }
 /* Pricing — dark dramatico */
 .bp-section--gradient {
   background: linear-gradient(150deg, #1A2332 0%, #1D1232 45%, #0E1220 100%);
@@ -210,21 +205,19 @@
 .bp-section--gradient .bp-eyebrow::before,
 .bp-section--gradient .bp-eyebrow::after { background: var(--bp-gold); }
 
-/* Diagonal edge tra sezioni */
-.bp-section--soft::after,
-.bp-section--parchment::after {
-  content: '';
-  position: absolute;
-  bottom: -28px; left: 0; right: 0;
-  height: 56px;
-  background: inherit;
-  clip-path: polygon(0 0, 100% 0, 100% 0%, 0 100%);
-  z-index: 2;
-  pointer-events: none;
+/* Wave dividers */
+.bp-wave {
+  display: block;
+  line-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
-.bp-section--soft      { z-index: 1; }
-.bp-section--parchment { z-index: 1; }
-.bp-section--deep      { z-index: 1; }
+.bp-wave svg {
+  display: block;
+  width: 100%;
+  height: 56px;
+}
 
 /* ── Scroll reveal ── */
 .bp-reveal {
@@ -1374,6 +1367,13 @@
 </section>
 
 
+{# Wave: parchment → dark navy #}
+<div class="bp-wave" style="background:linear-gradient(155deg,#FAF7F5,#F5EEF3)">
+  <svg viewBox="0 0 1440 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#1A2332" d="M0,22 C240,54 480,0 720,28 C960,56 1200,4 1440,28 L1440,56 L0,56 Z"/>
+  </svg>
+</div>
+
 {# ══════════════════════════════════════════
    6. PRICING
 ══════════════════════════════════════════ #}
@@ -1446,6 +1446,13 @@
 </section>
 
 
+{# Wave: dark navy → chiaro parchment #}
+<div class="bp-wave" style="background:#0E1220">
+  <svg viewBox="0 0 1440 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#FAF7F5" d="M0,34 C240,2 480,56 720,28 C960,0 1200,52 1440,28 L1440,56 L0,56 Z"/>
+  </svg>
+</div>
+
 {# ══════════════════════════════════════════
    7. ORDINA ORA
 ══════════════════════════════════════════ #}
@@ -1453,23 +1460,23 @@
   <div class="bp-container">
     <div style="text-align:center;max-width:660px;margin:0 auto">
       <p class="bp-eyebrow" style="justify-content:center">Inizia ora</p>
-      <h2 class="bp-section-title" style="font-style:italic;color:#F5ECF0">Scegli il tuo Libretto</h2>
-      <p class="bp-section-sub" style="margin:0 auto 3rem;color:rgba(245,236,240,.7)">
+      <h2 class="bp-section-title" style="font-style:italic">Scegli il tuo Libretto</h2>
+      <p class="bp-section-sub" style="margin:0 auto 3rem">
         Dopo il pagamento ti chiediamo i dati di nascita. Il documento arriva via email entro 2–4 giorni lavorativi, già revisionato da Valentina.
       </p>
       <div style="display:flex;gap:1.25rem;flex-wrap:wrap;justify-content:center;align-items:center">
         <a href="/libretto-dati/checkout.php?tier=avanzato"
            class="bp-btn-primary"
-           style="background:var(--bp-navy);border:2px solid var(--bp-gold);padding:1.25rem 2.75rem;font-size:1.125rem;color:var(--bp-rosa-wash, #F5ECF0)">
+           style="background:var(--bp-navy);border:2px solid var(--bp-gold);padding:1.25rem 2.75rem;font-size:1.125rem">
           Libretto Avanzato — <strong>€147</strong>
         </a>
         <a href="/libretto-dati/checkout.php?tier=base"
            class="bp-btn-outline"
-           style="border-color:rgba(245,236,240,.35);color:rgba(245,236,240,.8);padding:1.1rem 2.25rem">
+           style="padding:1.1rem 2.25rem">
           Libretto Base — €90
         </a>
       </div>
-      <p style="font-size:.8125rem;color:rgba(139,157,181,.65);margin-top:1.5rem;line-height:1.6">
+      <p style="font-size:.8125rem;color:var(--bp-text-muted);margin-top:1.5rem;line-height:1.6">
         Pagamento sicuro via Stripe &nbsp;·&nbsp; Carta di credito o PayPal &nbsp;·&nbsp; Paghi una volta sola
       </p>
     </div>
