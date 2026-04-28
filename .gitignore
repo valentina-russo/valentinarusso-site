@@ -62,8 +62,10 @@ grav-site/user/pages/*
 !grav-site/user/pages/24.genera-carta-v2
 # Eccezione: pagina beta connection chart
 !grav-site/user/pages/25.genera-carta-beta
-# Eccezione: BG5 Blueprint — landing page prodotto
+# Eccezione: BG5 Blueprint — redirect verso libretto-istruzioni
 !grav-site/user/pages/26.bg5-blueprint
+# Eccezione: Libretto d'Istruzioni — landing page prodotto
+!grav-site/user/pages/26.libretto-istruzioni
 # Eccezione: pagina Human Design — guida introduttiva
 !grav-site/user/pages/human-design
 # Eccezioni: nuovi articoli bozza privati (deployati via FTP, dentro /blog/articoli)

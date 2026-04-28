@@ -1,6 +1,6 @@
 {% extends 'partials/base.html.twig' %}
 
-{% block title %}Il tuo Libretto d'Istruzioni Human Design | Valentina Russo{% endblock %}
+{% block title %}Manuale d'Istruzioni Human Design in PDF | Valentina Russo{% endblock %}
 
 {% block schema %}
 {{ parent() }}
@@ -111,13 +111,44 @@
   position: relative;
   padding: 5rem 0;
 }
-.bp-section--white   { background: var(--bp-white); }
-.bp-section--parchment { background: var(--bp-parchment); }
-.bp-section--soft    { background: var(--bp-soft-parchment); }
-.bp-section--dark    { background: var(--bp-navy-deep); }
-.bp-section--gradient {
-  background: linear-gradient(180deg, var(--bp-parchment) 0%, #F0EBF2 100%);
+
+/* Gradienti ricchi per ogni tipo di sezione */
+.bp-section--white {
+  background: linear-gradient(165deg, #FFFFFF 0%, #FBF8F6 40%, #F5EFF4 100%);
 }
+.bp-section--parchment {
+  background: linear-gradient(150deg, #FAF7F5 0%, #F4EDF3 40%, #EBEBf8 100%);
+}
+.bp-section--soft {
+  background: linear-gradient(140deg, #EAE5E1 0%, #E2DAE8 45%, #D5E3E3 100%);
+}
+.bp-section--dark {
+  background: linear-gradient(150deg, #0F1A29 0%, #1A1230 50%, #0A0F1E 100%);
+}
+/* Pricing — dark dramatico */
+.bp-section--gradient {
+  background: linear-gradient(150deg, #1A2332 0%, #1D1232 45%, #0E1220 100%);
+}
+.bp-section--gradient .bp-section-title { color: #F0EBF2; }
+.bp-section--gradient .bp-section-sub   { color: rgba(240,235,242,.65); }
+.bp-section--gradient .bp-eyebrow       { color: var(--bp-gold); }
+.bp-section--gradient .bp-eyebrow::before,
+.bp-section--gradient .bp-eyebrow::after { background: var(--bp-gold); }
+
+/* Diagonal edge tra sezioni */
+.bp-section--soft::after,
+.bp-section--parchment::after {
+  content: '';
+  position: absolute;
+  bottom: -28px; left: 0; right: 0;
+  height: 56px;
+  background: inherit;
+  clip-path: polygon(0 0, 100% 0, 100% 0%, 0 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+.bp-section--soft     { z-index: 1; }
+.bp-section--parchment{ z-index: 1; }
 
 /* ── Scroll reveal ── */
 .bp-reveal {
@@ -149,12 +180,31 @@
 ══════════════════════════════════════════ */
 .bp-hero {
   min-height: min(100dvh, 820px);
-  background: var(--bp-parchment);
+  background:
+    radial-gradient(ellipse 65% 80% at 88% 45%, rgba(196,138,58,.22) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 55% at 4%  88%, rgba(74,140,140,.15)  0%, transparent 52%),
+    radial-gradient(ellipse 50% 40% at 50%  0%, rgba(201,118,138,.10) 0%, transparent 50%),
+    linear-gradient(152deg, #FDFBF9 0%, #F8F3F0 35%, #F1EBF3 70%, #EAE6F5 100%);
   display: flex;
   align-items: center;
   padding: 5rem 0 4rem;
   position: relative;
   overflow: hidden;
+}
+@keyframes bp-shimmer {
+  0%,100% { transform: translate(0,0)    scale(1);    opacity:.7; }
+  33%      { transform: translate(24px,-14px) scale(1.1); opacity:1; }
+  66%      { transform: translate(-12px,18px) scale(.95); opacity:.55; }
+}
+.bp-hero__shimmer {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 38% 32% at 18% 72%, rgba(74,140,140,.13)  0%, transparent 60%),
+    radial-gradient(ellipse 32% 28% at 72% 18%, rgba(201,118,138,.09) 0%, transparent 60%);
+  animation: bp-shimmer 14s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
 }
 .bp-hero__bg-grid {
   position: absolute;
@@ -1027,6 +1077,7 @@
 <section class="bp-hero">
   <div class="bp-hero__bg-grid" aria-hidden="true"></div>
   <div class="bp-hero__bg-glow" aria-hidden="true"></div>
+  <div class="bp-hero__shimmer" aria-hidden="true"></div>
   <div class="bp-hero__ambient" aria-hidden="true"></div>
   <div class="bp-hero__ambient-2" aria-hidden="true"></div>
   <div class="bp-container">
@@ -1034,8 +1085,8 @@
       <div class="bp-hero__inner">
         <p class="bp-eyebrow">Human Design · Lettura Personalizzata</p>
         <h1 class="bp-hero__h1">
-          Il manuale di istruzioni<br>
-          <span>che non hai mai avuto.</span>
+          Manuale d'istruzioni<br>
+          <span>Human Design in PDF.</span>
         </h1>
         <p class="bp-hero__sub">
           Un documento scritto sulla tua carta Human Design specifica. Spiega perché ti esaurisci dove gli altri sembrano avere energia infinita, come funziona la tua autorità decisionale e dove si trova — nel corpo, non nella testa.
