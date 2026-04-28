@@ -122,6 +122,22 @@
 .bp-section--soft {
   background: linear-gradient(140deg, #EAE5E1 0%, #E2DAE8 45%, #D5E3E3 100%);
 }
+/* "Come funziona" — teal profondo */
+.bp-section--deep {
+  background: linear-gradient(148deg, #0D2B2B 0%, #142E38 40%, #1A2040 100%);
+}
+.bp-section--deep .bp-section-title { color: #E8F4F4; }
+.bp-section--deep .bp-section-sub   { color: rgba(232,244,244,.65); }
+.bp-section--deep .bp-eyebrow       { color: var(--bp-gold); }
+.bp-section--deep .bp-eyebrow::before,
+.bp-section--deep .bp-eyebrow::after { background: var(--bp-gold); }
+.bp-section--deep .bp-step          { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.10); }
+.bp-section--deep .bp-step h3       { color: #E8F4F4; }
+.bp-section--deep .bp-step p        { color: rgba(232,244,244,.72); }
+.bp-section--deep .bp-step__num     { color: var(--bp-gold); }
+.bp-section--deep .bp-step__icon    { background: rgba(74,140,140,.25); color: #7ECECE; }
+.bp-section--deep .bp-section-img   { box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+
 .bp-section--dark {
   background: linear-gradient(150deg, #0F1A29 0%, #1A1230 50%, #0A0F1E 100%);
 }
@@ -147,8 +163,9 @@
   z-index: 2;
   pointer-events: none;
 }
-.bp-section--soft     { z-index: 1; }
-.bp-section--parchment{ z-index: 1; }
+.bp-section--soft      { z-index: 1; }
+.bp-section--parchment { z-index: 1; }
+.bp-section--deep      { z-index: 1; }
 
 /* ── Scroll reveal ── */
 .bp-reveal {
@@ -1224,7 +1241,7 @@
 {# ══════════════════════════════════════════
    5. COME FUNZIONA
 ══════════════════════════════════════════ #}
-<section class="bp-section bp-section--white">
+<section class="bp-section bp-section--deep">
   <div class="bp-container">
     <div style="text-align:center">
       <p class="bp-eyebrow" style="justify-content:center">Come funziona</p>
@@ -1278,7 +1295,7 @@
 <section class="bp-section bp-section--gradient" id="prezzi">
   <div class="bp-container">
     <div style="text-align:center">
-      <p class="bp-eyebrow" style="justify-content:center">Scegli la versione</p>
+      <p class="bp-eyebrow" style="justify-content:center">I prezzi</p>
       <h2 class="bp-section-title" style="margin:0 auto .75rem">Libretto Base o Avanzato?</h2>
       <p class="bp-section-sub" style="margin:0 auto">Se non conosci ancora il Human Design, il Base è sufficiente. L'Avanzato aggiunge tre capitoli su comunicazione, costruzione delle offerte e applicazione pratica al lavoro.</p>
       <div class="bp-section-img bp-reveal" style="margin-top:2.5rem">
