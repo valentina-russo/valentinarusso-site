@@ -1,6 +1,6 @@
 {% extends 'partials/base.html.twig' %}
 
-{% block title %}BG5 Business Blueprint — La tua analisi energetica professionale | Valentina Russo{% endblock %}
+{% block title %}Il tuo Libretto d'Istruzioni Human Design | Valentina Russo{% endblock %}
 
 {% block schema %}
 {{ parent() }}
@@ -8,24 +8,28 @@
 {
   "@context": "https://schema.org",
   "@type": "Product",
-  "name": "BG5 Business Blueprint",
-  "description": "Report PDF personalizzato di 40-65 pagine che traduce la tua configurazione BG5/Human Design in una strategia concreta per il tuo lavoro e la tua attività.",
-  "url": "{{ grav.base_url_absolute }}/bg5-blueprint",
-  "provider": { "@id": "{{ grav.base_url_absolute }}/#valentina-russo" },
+  "name": "Il tuo Libretto d'Istruzioni Human Design",
+  "description": "Documento PDF personalizzato che traduce la tua carta Human Design in linguaggio pratico: come sei fatta, come decidi, come lavori, come ti ricarichi. Consegnato in 2-4 giorni lavorativi.",
+  "url": "{{ grav.base_url_absolute }}/libretto-istruzioni",
+  "brand": { "@id": "{{ grav.base_url_absolute }}/#valentina-russo" },
   "offers": [
     {
       "@type": "Offer",
-      "name": "Carta Essenziale",
+      "name": "Libretto Base",
+      "description": "4 capitoli, ~35 pagine — identità energetica completa",
       "price": "90",
       "priceCurrency": "EUR",
-      "availability": "https://schema.org/InStock"
+      "availability": "https://schema.org/InStock",
+      "deliveryLeadTime": { "@type": "QuantitativeValue", "minValue": 2, "maxValue": 4, "unitCode": "DAY" }
     },
     {
       "@type": "Offer",
-      "name": "Blueprint Completo",
+      "name": "Libretto Avanzato",
+      "description": "7 capitoli, ~55 pagine — identità + comunicazione + lavoro",
       "price": "147",
       "priceCurrency": "EUR",
-      "availability": "https://schema.org/InStock"
+      "availability": "https://schema.org/InStock",
+      "deliveryLeadTime": { "@type": "QuantitativeValue", "minValue": 2, "maxValue": 4, "unitCode": "DAY" }
     }
   ]
 }
@@ -913,19 +917,19 @@
   <div class="bp-hero__bg-glow" aria-hidden="true"></div>
   <div class="bp-container">
     <div class="bp-hero__inner">
-      <p class="bp-eyebrow">Human Design applicato al business</p>
+      <p class="bp-eyebrow">Human Design · Lettura Personalizzata</p>
       <h1 class="bp-hero__h1">
-        La tua carta energetica.<br>
-        <span>La tua strategia di business.</span>
+        Il manuale di istruzioni<br>
+        <span>che non hai mai avuto.</span>
       </h1>
       <p class="bp-hero__sub">
-        Un report PDF di 40–65 pagine che traduce la tua configurazione BG5 in decisioni concrete: come lavori, come vendi, come cresci — basato sulla tua mappa unica.
+        35–55 pagine che spiegano come sei fatta — non come dovresti essere. Basate sulla tua carta Human Design personale: tipo energetico, autorità, centri, canali, croce.
       </p>
       <div class="bp-hero__cta-group">
-        <a href="#ordine" class="bp-btn-primary">Scopri il tuo Blueprint</a>
-        <a href="#contiene" class="bp-btn-outline">Cosa contiene →</a>
+        <a href="/libretto-dati/checkout.php?tier=avanzato" class="bp-btn-primary" style="background:var(--bp-navy);padding:1.1rem 2.75rem">Libretto Avanzato — €147</a>
+        <a href="/libretto-dati/checkout.php?tier=base" class="bp-btn-outline">Libretto Base — €90</a>
       </div>
-      <p class="bp-hero__meta">A partire da €90 · Consegna in 5 giorni lavorativi</p>
+      <p class="bp-hero__meta">Consegna in 2–4 giorni lavorativi · PDF personale · Nessuna call</p>
     </div>
   </div>
   <a href="#blueprint" class="bp-hero__scroll" aria-label="Scorri in basso">↓</a>
@@ -940,16 +944,16 @@
     <div class="bp-what__grid">
       <div>
         <p class="bp-eyebrow">Cos'è</p>
-        <h2 class="bp-section-title">Non un oroscopo.<br>Una mappa operativa.</h2>
+        <h2 class="bp-section-title">Non un oroscopo.<br>Un manuale operativo.</h2>
         <p class="bp-section-sub">
-          Il BG5 Business Blueprint è un documento personalizzato costruito sulla tua carta BG5/Human Design. Non parla in astratto di "energia" — ti dice come sei configurata per lavorare, decidere e costruire un'attività che non ti esaurisca.
+          Il Libretto d'Istruzioni è un documento scritto costruito sulla tua carta Human Design personale. Non parla in astratto di "energia" — ti dice come sei fatta, come funziona la tua autorità decisionale e in che contesto esprimi il meglio di te.
         </p>
         <ul class="bp-what__list">
-          <li>Analisi del tuo Tipo di Carriera BG5 e di come genera valore nel tempo</li>
-          <li>Come funziona la tua autorità decisionale in contesti professionali reali</li>
-          <li>Centri definiti = i tuoi superpoteri costanti. Centri aperti = dove assorbi gli altri</li>
-          <li>Canali attivi, porte sospese e croce di incarnazione applicati al tuo lavoro</li>
-          <li>Contesto ottimale: dieta cognitiva, ambiente fisico, variabile PHS</li>
+          <li>Il tuo Tipo energetico e come genera naturalmente risultati senza forzare</li>
+          <li>Come funziona la tua autorità interiore — e perché le decisioni con la mente ti portano fuori strada</li>
+          <li>Centri definiti: le tue risorse costanti. Centri aperti: dove assorbi gli stati degli altri</li>
+          <li>Canali attivi, porte e croce di incarnazione — il disegno sottostante al tuo percorso</li>
+          <li>Variabile e ambiente ottimale: dove e come pensi e lavori meglio</li>
         </ul>
       </div>
       <div class="bp-doc-mockup bp-reveal" aria-hidden="true">
@@ -965,7 +969,7 @@
               <div class="bp-doc-line bp-doc-line--short"></div>
             </div>
           </div>
-          <span class="bp-doc-badge">BG5 Business Blueprint</span>
+          <span class="bp-doc-badge">Libretto d'Istruzioni HD</span>
           <div class="bp-doc-line bp-doc-line--full" style="margin-bottom:.8rem"></div>
           <div class="bp-doc-line bp-doc-line--med"></div>
           <div class="bp-doc-line bp-doc-line--full"></div>
@@ -990,42 +994,30 @@
   <div class="bp-container">
     <div style="text-align:center">
       <p class="bp-eyebrow" style="justify-content:center">Cosa contiene</p>
-      <h2 class="bp-section-title" style="margin:0 auto .75rem">Due versioni, un solo documento base.</h2>
-      <p class="bp-section-sub" style="margin:0 auto">La Carta Essenziale copre l'identità energetica completa. Il Blueprint Completo aggiunge le applicazioni di marketing, comunicazione e vendita.</p>
+      <h2 class="bp-section-title" style="margin:0 auto .75rem">Due profondità, un solo strumento.</h2>
+      <p class="bp-section-sub" style="margin:0 auto">Il Libretto Base copre l'identità energetica completa — chi sei, come decidi, come sei fatto. Il Libretto Avanzato aggiunge come comunichi, costruisci e cresci nel tempo.</p>
     </div>
     <div class="bp-contains__grid">
       <div class="bp-tier-panel bp-tier-panel--essenziale bp-reveal">
-        <p class="bp-tier-panel__title">Carta Essenziale</p>
+        <p class="bp-tier-panel__title">Libretto Base</p>
         <h3 class="bp-tier-panel__heading">Identità energetica</h3>
-        <p class="bp-tier-panel__count">15 sezioni · ~40 pagine</p>
+        <p class="bp-tier-panel__count">4 capitoli · ~35 pagine · €90</p>
         <ol class="bp-section-list">
-          <li><span class="bp-section-num">01</span>Apertura e orientamento al documento</li>
-          <li><span class="bp-section-num">02</span>La tua carta BG5 spiegata</li>
-          <li><span class="bp-section-num">03</span>Tipo di Carriera e Strategia</li>
-          <li><span class="bp-section-num">04</span>Autorità Interiore</li>
-          <li><span class="bp-section-num">05</span>Il tuo Profilo</li>
-          <li><span class="bp-section-num">06</span>La tua Definizione</li>
-          <li><span class="bp-section-num">07</span>Firma di allineamento e Non-Sé</li>
-          <li><span class="bp-section-num">08</span>Centri Definiti — i tuoi superpoteri</li>
-          <li><span class="bp-section-num">09</span>Centri Aperti — saggezza e trappole</li>
-          <li><span class="bp-section-num">10</span>Il tuo Campo di Attrazione</li>
-          <li><span class="bp-section-num">11</span>Canali Attivi — talenti strutturali</li>
-          <li><span class="bp-section-num">12</span>Porte sospese</li>
-          <li><span class="bp-section-num">13</span>Croce di Incarnazione</li>
-          <li><span class="bp-section-num">14</span>Variabile, Dieta cognitiva, Ambiente</li>
-          <li><span class="bp-section-num">15</span>Sintesi e 7 suggerimenti pratici</li>
+          <li><span class="bp-section-num">01</span>Chi sei davvero — tipo, strategia, profilo</li>
+          <li><span class="bp-section-num">02</span>Come decidi — autorità interiore nei casi reali</li>
+          <li><span class="bp-section-num">03</span>Come sei fatto — centri, canali e porte</li>
+          <li><span class="bp-section-num">04</span>La tua mappa — croce, variabile, ambiente e pratiche</li>
         </ol>
       </div>
-      <div class="bp-tier-panel bp-tier-panel--completo bp-reveal">
-        <p class="bp-tier-panel__title">Blueprint Completo</p>
-        <h3 class="bp-tier-panel__heading" style="color:#fff">Identità + Marketing</h3>
-        <p class="bp-tier-panel__count">19 sezioni · ~55 pagine</p>
-        <p style="font-size:.875rem;color:rgba(245,236,240,.6);margin:0 0 1rem">Tutte le 15 sezioni dell'Essenziale, più:</p>
-        <ol class="bp-section-list" start="16">
-          <li class="extra"><span class="bp-section-num">16</span>Offerte allineate ai tuoi Centri</li>
-          <li class="extra"><span class="bp-section-num">17</span>La tua Voce di Gola: come comunicare</li>
-          <li class="extra"><span class="bp-section-num">18</span>Vendita allineata al tuo design</li>
-          <li class="extra"><span class="bp-section-num">19</span>Strategia contenuti per i tuoi Centri</li>
+      <div class="bp-tier-panel bp-tier-panel--completo bp-reveal" style="border-left:3px solid var(--bp-teal)">
+        <p class="bp-tier-panel__title">Libretto Avanzato</p>
+        <h3 class="bp-tier-panel__heading" style="color:#fff">Identità + Applicazione</h3>
+        <p class="bp-tier-panel__count">7 capitoli · ~55 pagine · €147</p>
+        <p style="font-size:.875rem;color:rgba(245,236,240,.6);margin:0 0 1rem">Tutti e 4 i capitoli del Base, più:</p>
+        <ol class="bp-section-list" start="5">
+          <li class="extra"><span class="bp-section-num">05</span>Come comunichi — la tua Voce di Gola</li>
+          <li class="extra"><span class="bp-section-num">06</span>Lavoro e costruzione — offerte e crescita</li>
+          <li class="extra"><span class="bp-section-num">07</span>Sintesi integrata — i 5 passi chiave</li>
         </ol>
       </div>
     </div>
@@ -1040,7 +1032,7 @@
   <div class="bp-container">
     <div style="text-align:center">
       <p class="bp-eyebrow" style="justify-content:center">Per chi è</p>
-      <h2 class="bp-section-title" style="margin:0 auto .75rem">Non è per tutti. È per chi vuole capire come è fatta.</h2>
+      <h2 class="bp-section-title" style="margin:0 auto .75rem">Non è per tutti. È per chi vuole smettere di lavorare contro di sé.</h2>
     </div>
     <div class="bp-forchi__grid">
       <div class="bp-profile-card bp-reveal">
@@ -1049,29 +1041,29 @@
             <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
           </svg>
         </div>
-        <h3>La libera professionista solitaria</h3>
-        <p>Lavori da sola e senti che la tua energia non è illimitata come quella degli altri. Vuoi capire come sei strutturata per lavorare — e smettere di imitare modelli che non ti appartengono.</p>
-        <p class="bp-profile-tag">"questo sei tu se..." non riesci ad applicare i consigli di business generici</p>
+        <h3>Chi segue consigli degli altri e si esaurisce</h3>
+        <p>Applichi le stesse strategie di chi ti sta intorno, ma qualcosa non funziona. Non è che sei sbagliata — è che stai usando un manuale scritto per qualcun altro. Il tuo funziona diversamente.</p>
+        <p class="bp-profile-tag">"questo sei tu se..." ti svegli esausto anche dopo una giornata non particolarmente pesante</p>
       </div>
       <div class="bp-profile-card bp-reveal">
         <div class="bp-profile-icon">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="9" cy="8" r="3"/><circle cx="15" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6h6c3.3 0 6 2.7 6 6"/>
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
           </svg>
         </div>
-        <h3>L'imprenditrice con un piccolo team</h3>
-        <p>Hai collaboratori e le dinamiche di gruppo non sempre funzionano. Vuoi capire il tuo ruolo naturale — come delegare bene e come non bruciare la tua energia nel gestire gli altri.</p>
-        <p class="bp-profile-tag">"questo sei tu se..." le riunioni ti prosciugano e ti senti spesso fraintesa</p>
+        <h3>Chi prende decisioni e poi se ne pente</h3>
+        <p>Hai una testa che ragiona veloce, ma le decisioni che sembravano giuste in quel momento spesso non lo erano. Vuoi capire qual è il tuo modo naturale di decidere — quello che funziona davvero.</p>
+        <p class="bp-profile-tag">"questo sei tu se..." prendi decisioni di pancia o di testa e poi ci ripensi</p>
       </div>
       <div class="bp-profile-card bp-reveal">
         <div class="bp-profile-icon">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
           </svg>
         </div>
-        <h3>Chi è in transizione professionale</h3>
-        <p>Stai cambiando direzione, costruendo qualcosa di nuovo o uscendo da un percorso che non ti appartiene più. Vuoi un punto fermo su come sei fatta prima di decidere cosa fare.</p>
-        <p class="bp-profile-tag">"questo sei tu se..." senti che qualcosa non torna ma non sai cosa cambiare</p>
+        <h3>Chi è in un momento di cambiamento</h3>
+        <p>Stai uscendo da qualcosa che non ti appartiene più, o costruendo una direzione nuova. Vuoi un punto fermo su come sei fatta — prima di decidere cosa fare dopo.</p>
+        <p class="bp-profile-tag">"questo sei tu se..." senti che qualcosa non torna ma non riesci a mettere a fuoco cosa</p>
       </div>
     </div>
   </div>
@@ -1086,38 +1078,38 @@
     <div style="text-align:center">
       <p class="bp-eyebrow" style="justify-content:center">Come funziona</p>
       <h2 class="bp-section-title" style="margin:0 auto .75rem">Tre passi. Nessuna call, nessuna attesa.</h2>
-      <p class="bp-section-sub" style="margin:0 auto">Inserisci i tuoi dati di nascita, scegli la versione e ricevi il tuo documento entro 5 giorni lavorativi.</p>
+      <p class="bp-section-sub" style="margin:0 auto">Scegli la versione, paga, inserisci i dati di nascita. Il Libretto arriva via email entro 2-4 giorni lavorativi.</p>
     </div>
     <div class="bp-steps__grid">
       <div class="bp-step bp-reveal">
         <div class="bp-step__num" aria-hidden="true">01</div>
         <div class="bp-step__icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/>
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
           </svg>
         </div>
-        <h3>Compila il modulo</h3>
-        <p>Nome, email, data di nascita, ora e luogo. Sono i dati che servono per calcolare la tua carta BG5 precisa. Non serve altro.</p>
+        <h3>Scegli e paga</h3>
+        <p>Clicca su Libretto Base o Avanzato e completa il pagamento in sicurezza via Stripe (carta o PayPal). Ci vogliono 2 minuti.</p>
       </div>
       <div class="bp-step bp-reveal">
         <div class="bp-step__num" aria-hidden="true">02</div>
         <div class="bp-step__icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/>
           </svg>
         </div>
-        <h3>Ricevi la conferma</h3>
-        <p>Entro 24 ore ricevi un'email di conferma. Valentina elabora personalmente il Blueprint e lo revisiona prima di inviartelo.</p>
+        <h3>Inserisci i tuoi dati</h3>
+        <p>Dopo il pagamento ti chiediamo data, ora e luogo di nascita — e puoi raccontarci in che momento della tua vita ti trovi. Ci aiuta a personalizzare meglio il documento.</p>
       </div>
       <div class="bp-step bp-reveal">
         <div class="bp-step__num" aria-hidden="true">03</div>
         <div class="bp-step__icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/>
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
           </svg>
         </div>
-        <h3>Applica nel tempo</h3>
-        <p>Ricevi il PDF entro 5 giorni lavorativi. È un documento da rileggere più volte: le pagine più utili cambiano con te, nel tempo.</p>
+        <h3>Ricevi il tuo Libretto</h3>
+        <p>Valentina prepara il documento personalmente e lo revisiona prima di inviarlo. Ricevi il PDF via email entro 2-4 giorni lavorativi — già pronto da leggere su qualsiasi dispositivo.</p>
       </div>
     </div>
   </div>
@@ -1131,123 +1123,92 @@
   <div class="bp-container">
     <div style="text-align:center">
       <p class="bp-eyebrow" style="justify-content:center">Scegli la versione</p>
-      <h2 class="bp-section-title" style="margin:0 auto .75rem">Carta Essenziale o Blueprint Completo?</h2>
-      <p class="bp-section-sub" style="margin:0 auto">Se è la prima volta con il BG5, l'Essenziale ti dà già tutto quello che ti serve. Il Completo aggiunge le applicazioni di marketing e vendita.</p>
+      <h2 class="bp-section-title" style="margin:0 auto .75rem">Libretto Base o Avanzato?</h2>
+      <p class="bp-section-sub" style="margin:0 auto">Se è la prima volta con il Human Design, il Base ti dà già tutto quello che ti serve. L'Avanzato aggiunge come comunichi, costruisci offerte e cresci nel tempo.</p>
     </div>
     <div class="bp-pricing__grid bp-reveal">
 
-      {# Card Essenziale #}
+      {# Card Base #}
       <div class="bp-pricing-card bp-pricing-card--ess">
-        <p class="bp-pricing-card__title">Carta Essenziale</p>
+        <p class="bp-pricing-card__title">Libretto Base</p>
         <h3 class="bp-pricing-card__name">Identità energetica</h3>
         <div style="margin: 1.5rem 0 .25rem">
           <span class="bp-price">€90</span>
         </div>
-        <p class="bp-price-label">15 sezioni · ~40 pagine · PDF</p>
+        <p class="bp-price-label">4 capitoli · ~35 pagine · PDF</p>
         <ul class="bp-feature-list">
-          <li><span class="bp-feature-check">✓</span>Tipo di Carriera BG5 e Strategia</li>
-          <li><span class="bp-feature-check">✓</span>Autorità Interiore e Profilo</li>
-          <li><span class="bp-feature-check">✓</span>Tutti i Centri (definiti e aperti)</li>
-          <li><span class="bp-feature-check">✓</span>Canali, Porte e Croce</li>
-          <li><span class="bp-feature-check">✓</span>Variabile, Dieta cognitiva, Ambiente</li>
-          <li><span class="bp-feature-check">✓</span>7 suggerimenti pratici personalizzati</li>
+          <li><span class="bp-feature-check">·</span>Tipo energetico, Strategia e Profilo</li>
+          <li><span class="bp-feature-check">·</span>Autorità Interiore nei contesti reali</li>
+          <li><span class="bp-feature-check">·</span>Tutti i Centri (definiti e aperti)</li>
+          <li><span class="bp-feature-check">·</span>Canali, Porte e Croce di Incarnazione</li>
+          <li><span class="bp-feature-check">·</span>Variabile, Ambiente, Pratiche di allineamento</li>
         </ul>
         <div class="bp-cta">
-          <a href="#ordine" class="bp-btn-outline-ess" onclick="document.querySelector('[name=tier][value=essenziale]').checked=true">Scegli l'Essenziale</a>
+          <a href="/libretto-dati/checkout.php?tier=base" class="bp-btn-outline-ess">Ordina il Libretto Base — €90</a>
         </div>
       </div>
 
-      {# Card Completo #}
+      {# Card Avanzato #}
       <div class="bp-pricing-card bp-pricing-card--comp">
-        <span class="bp-pricing-badge">Più completo</span>
-        <p class="bp-pricing-card__title">Blueprint Completo</p>
-        <h3 class="bp-pricing-card__name">Identità + Marketing</h3>
+        <span class="bp-pricing-badge">Il più scelto</span>
+        <p class="bp-pricing-card__title">Libretto Avanzato</p>
+        <h3 class="bp-pricing-card__name">Identità + Applicazione</h3>
         <div style="margin: 1.5rem 0 .25rem">
           <span class="bp-price">€147</span>
         </div>
-        <p class="bp-price-label">19 sezioni · ~55 pagine · PDF</p>
+        <p class="bp-price-label">7 capitoli · ~55 pagine · PDF</p>
         <ul class="bp-feature-list">
-          <li><span class="bp-feature-check" style="color:#4A8C8C">✓</span><span style="color:rgba(245,236,240,.85)">Tutto l'Essenziale, più:</span></li>
-          <li><span class="bp-feature-check" style="color:#C48A3A">+</span><span class="bp-feature-extra">Offerte allineate ai tuoi Centri</span></li>
-          <li><span class="bp-feature-check" style="color:#C48A3A">+</span><span class="bp-feature-extra">La tua Voce di Gola: come comunicare</span></li>
-          <li><span class="bp-feature-check" style="color:#C48A3A">+</span><span class="bp-feature-extra">Vendita allineata al tuo design</span></li>
-          <li><span class="bp-feature-check" style="color:#C48A3A">+</span><span class="bp-feature-extra">Strategia contenuti per i tuoi Centri</span></li>
+          <li><span class="bp-feature-check" style="color:#4A8C8C">·</span><span style="color:rgba(245,236,240,.85)">Tutto il Base (4 capitoli), più:</span></li>
+          <li><span class="bp-feature-check" style="color:#C48A3A">+</span><span class="bp-feature-extra">Come comunichi — Voce di Gola</span></li>
+          <li><span class="bp-feature-check" style="color:#C48A3A">+</span><span class="bp-feature-extra">Lavoro e costruzione di offerte</span></li>
+          <li><span class="bp-feature-check" style="color:#C48A3A">+</span><span class="bp-feature-extra">Sintesi integrata e passi concreti</span></li>
         </ul>
         <div class="bp-cta">
-          <a href="#ordine" class="bp-btn-primary" onclick="document.querySelector('[name=tier][value=completo]').checked=true">Scegli il Completo</a>
+          <a href="/libretto-dati/checkout.php?tier=avanzato" class="bp-btn-primary" style="display:block;text-align:center">Ordina il Libretto Avanzato — €147</a>
         </div>
       </div>
 
     </div>
+
+    {# Inline objection FAQ — below pricing, at peak intent #}
+    <div style="max-width:640px;margin:2.5rem auto 0;padding:1.5rem 2rem;background:var(--bp-white);border-radius:8px;border:1px solid var(--bp-soft-parchment)">
+      <p style="font-size:.9375rem;font-weight:700;color:var(--bp-navy);margin:0 0 .5rem">Non so niente di Human Design — funziona lo stesso per me?</p>
+      <p style="font-size:.9rem;color:var(--bp-text);line-height:1.65;margin:0">Sì, anzi. Il Libretto è scritto per chi non conosce il sistema — ogni concetto viene spiegato nel contesto della tua carta specifica. Non devi studiare niente prima. Puoi usarlo come primo contatto con il Human Design.</p>
+    </div>
+
     <p class="bp-pricing__footer">
-      Domande sul formato? <a href="#faq">Leggi le FAQ</a>
+      Altre domande? <a href="#faq">Leggi le FAQ →</a>
     </p>
   </div>
 </section>
 
 
 {# ══════════════════════════════════════════
-   7. FORM D'ORDINE
+   7. ORDINA ORA
 ══════════════════════════════════════════ #}
 <section class="bp-section bp-section--dark" id="ordine">
   <div class="bp-container">
-    <div class="bp-form-wrap">
-      <div style="text-align:center">
-        <p class="bp-eyebrow" style="justify-content:center">Inizia ora</p>
-        <h2 class="bp-section-title" style="font-style:italic">Inizia il tuo Blueprint</h2>
-        <p class="bp-section-sub" style="margin:0 auto 0">Inserisci i tuoi dati di nascita per ricevere la tua analisi BG5 personalizzata.</p>
+    <div style="text-align:center;max-width:660px;margin:0 auto">
+      <p class="bp-eyebrow" style="justify-content:center">Inizia ora</p>
+      <h2 class="bp-section-title" style="font-style:italic;color:#F5ECF0">Scegli il tuo Libretto</h2>
+      <p class="bp-section-sub" style="margin:0 auto 3rem;color:rgba(245,236,240,.7)">
+        Dopo il pagamento ti chiediamo i dati di nascita. Il documento arriva via email entro 2–4 giorni lavorativi, già revisionato da Valentina.
+      </p>
+      <div style="display:flex;gap:1.25rem;flex-wrap:wrap;justify-content:center;align-items:center">
+        <a href="/libretto-dati/checkout.php?tier=avanzato"
+           class="bp-btn-primary"
+           style="background:var(--bp-navy);border:2px solid var(--bp-gold);padding:1.25rem 2.75rem;font-size:1.125rem;color:var(--bp-rosa-wash, #F5ECF0)">
+          Libretto Avanzato — <strong>€147</strong>
+        </a>
+        <a href="/libretto-dati/checkout.php?tier=base"
+           class="bp-btn-outline"
+           style="border-color:rgba(245,236,240,.35);color:rgba(245,236,240,.8);padding:1.1rem 2.25rem">
+          Libretto Base — €90
+        </a>
       </div>
-      <form class="bp-form" id="bp-order-form" novalidate>
-        <div class="bp-form-row">
-          <div class="bp-form-group">
-            <label for="bp-nome">Nome e cognome *</label>
-            <input type="text" id="bp-nome" name="nome" required autocomplete="name" placeholder="es. Maria Rossi">
-          </div>
-          <div class="bp-form-group">
-            <label for="bp-email">Email *</label>
-            <input type="email" id="bp-email" name="email" required autocomplete="email" placeholder="tu@esempio.it">
-          </div>
-        </div>
-        <div class="bp-form-row">
-          <div class="bp-form-group">
-            <label for="bp-nascita">Data di nascita *</label>
-            <input type="date" id="bp-nascita" name="birth_date" required>
-          </div>
-          <div class="bp-form-group">
-            <label for="bp-ora">Ora di nascita *</label>
-            <input type="time" id="bp-ora" name="birth_time" required>
-          </div>
-        </div>
-        <div class="bp-form-group">
-          <label for="bp-luogo">Luogo di nascita *</label>
-          <input type="text" id="bp-luogo" name="birth_place" required autocomplete="off" placeholder="es. Milano, Italia">
-        </div>
-        <div class="bp-form-group">
-          <label style="display:block;margin-bottom:.75rem">Versione *</label>
-          <div class="bp-form-radio-group">
-            <label class="bp-form-radio">
-              <input type="radio" name="tier" value="essenziale">
-              <span>
-                <strong>Carta Essenziale</strong>
-                <span>15 sezioni · €90</span>
-              </span>
-            </label>
-            <label class="bp-form-radio">
-              <input type="radio" name="tier" value="completo" checked>
-              <span>
-                <strong>Blueprint Completo</strong>
-                <span>19 sezioni · €147</span>
-              </span>
-            </label>
-          </div>
-        </div>
-        <button type="submit" class="bp-form-submit">Richiedi il mio Blueprint →</button>
-        <p class="bp-form-note">Riceverai una conferma via email entro 24 ore. Il pagamento avviene successivamente.</p>
-      </form>
-      <div class="bp-form-success" id="bp-form-success">
-        <p style="font-size:1.125rem;font-weight:700;margin:0 0 .5rem">Richiesta inviata!</p>
-        <p style="margin:0;opacity:.8">Grazie. Riceverai una email di conferma entro 24 ore con tutti i dettagli.</p>
-      </div>
+      <p style="font-size:.8125rem;color:rgba(139,157,181,.65);margin-top:1.5rem;line-height:1.6">
+        Pagamento sicuro via Stripe &nbsp;·&nbsp; Carta di credito o PayPal &nbsp;·&nbsp; Paghi una volta sola
+      </p>
     </div>
   </div>
 </section>
@@ -1265,11 +1226,11 @@
     <div class="bp-faq-wrap">
       <div class="bp-faq-item">
         <button class="bp-faq-q" aria-expanded="false">
-          Cosa mi serve per richiedere il Blueprint?
+          Di cosa ho bisogno per ordinare?
           <span class="bp-faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="bp-faq-a" role="region">
-          <p>Solo i tuoi dati di nascita: data, ora e luogo. L'ora è importante per il calcolo della carta — se non la conosci con precisione, indicalo nel form e troveremo una soluzione. Il documento viene elaborato da Valentina e revisionato prima della consegna.</p>
+          <p>Solo i tuoi dati di nascita: data, ora e luogo. L'ora è importante per calcolare la carta con precisione — se non la conosci esatta, indica pure un'approssimazione nel campo note e non preoccuparti. Il documento viene elaborato e revisionato da Valentina personalmente prima di arrivare da te.</p>
         </div>
       </div>
       <div class="bp-faq-item">
@@ -1278,34 +1239,34 @@
           <span class="bp-faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="bp-faq-a" role="region">
-          <p>Entro 5 giorni lavorativi dalla conferma del pagamento. Ricevi prima un'email di conferma entro 24 ore dalla richiesta, poi il documento PDF quando è pronto. Valentina revisiona ogni Blueprint personalmente prima dell'invio.</p>
+          <p>2-4 giorni lavorativi dal momento in cui inserisci i tuoi dati. Ricevi una conferma via email subito dopo aver completato il modulo. Valentina revisiona ogni Libretto personalmente prima dell'invio — non è un documento automatico.</p>
         </div>
       </div>
       <div class="bp-faq-item">
         <button class="bp-faq-q" aria-expanded="false">
-          È diverso da una sessione con Valentina?
+          In cosa è diverso da una sessione live con Valentina?
           <span class="bp-faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="bp-faq-a" role="region">
-          <p>Sì. Il Blueprint è un documento scritto, non una sessione live. È pensato per chi vuole un riferimento concreto da consultare nel tempo, senza la pressione di una call. Se vuoi poi approfondire con una sessione, il Blueprint diventa una base ottima da cui partire.</p>
+          <p>Il Libretto è un documento scritto, non una call. È pensato per chi vuole qualcosa da consultare nel tempo, senza la pressione di ricordare tutto durante una sessione. Puoi tornarci quando vuoi — e le pagine che ti colpiscono di più cambieranno nel tempo, con te. Se poi vuoi approfondire live, il Libretto diventa una base eccellente da cui partire.</p>
         </div>
       </div>
       <div class="bp-faq-item">
         <button class="bp-faq-q" aria-expanded="false">
-          Qual è la differenza reale tra Essenziale e Completo?
+          Qual è la differenza reale tra Base e Avanzato?
           <span class="bp-faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="bp-faq-a" role="region">
-          <p>L'Essenziale copre l'identità energetica completa: chi sei, come funzioni, come decidi. Il Completo aggiunge 4 sezioni di applicazione pratica al business: come costruire le offerte, come comunicare, come vendere e che strategia di contenuti usare — tutto calibrato sulla tua configurazione BG5 specifica.</p>
+          <p>Il Base copre l'identità energetica completa: chi sei, come funzioni, come decidi — 4 capitoli per avere un quadro solido. L'Avanzato aggiunge 3 capitoli di applicazione: come comunichi naturalmente, come costruire offerte allineate al tuo design, e una sintesi integrata con i passi pratici. Se sei all'inizio, il Base è più che sufficiente. Se vuoi già vedere come il tuo design si applica al lavoro, scegli l'Avanzato.</p>
         </div>
       </div>
       <div class="bp-faq-item">
         <button class="bp-faq-q" aria-expanded="false">
-          Non so molto di Human Design / BG5 — è adatto a me?
+          Non conosco l'ora di nascita esatta — posso ordinarlo lo stesso?
           <span class="bp-faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="bp-faq-a" role="region">
-          <p>Sì, anzi. Il Blueprint è scritto per chi non conosce il sistema — ogni concetto viene spiegato nel contesto della tua carta. Non devi studiare niente prima. Puoi usarlo come primo punto di contatto con il BG5 e poi decidere se approfondire.</p>
+          <p>Sì. Inserisci l'orario che conosci o una stima (es. "mattina presto", "verso le 3 del pomeriggio") nel campo del messaggio. Valentina valuterà come procedere e ti contatterà se servono chiarimenti. La maggior parte dei dati della carta rimane stabile anche con un'ora approssimativa.</p>
         </div>
       </div>
     </div>
@@ -1341,46 +1302,16 @@ if (!CSS.supports('animation-timeline', 'view()')) {
   document.querySelectorAll('.bp-reveal').forEach(function(el) { observer.observe(el); });
 }
 
-// ── Form submit (placeholder — senza Stripe per ora) ──────────────────────
-document.getElementById('bp-order-form').addEventListener('submit', function(e) {
-  e.preventDefault();
-  var form = this;
-  var data = new FormData(form);
-
-  // Validazione base
-  var required = ['nome', 'email', 'birth_date', 'birth_time', 'birth_place'];
-  var valid = true;
-  required.forEach(function(f) {
-    var input = form.querySelector('[name="' + f + '"]');
-    if (!input || !input.value.trim()) {
-      input && (input.style.borderColor = '#C9768A');
-      valid = false;
-    } else {
-      input.style.borderColor = '';
-    }
-  });
-  if (!form.querySelector('[name=tier]:checked')) valid = false;
-  if (!valid) return;
-
-  // TODO: sostituire con chiamata Stripe o endpoint PHP quando disponibile
-  form.style.display = 'none';
-  document.getElementById('bp-form-success').style.display = 'block';
-
-  // Tracking Google Analytics
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'blueprint_request', {
-      'event_category': 'Blueprint',
-      'event_label': data.get('tier')
-    });
-  }
-});
-
-// ── Selezione tier dai bottoni pricing ────────────────────────────────────
-document.querySelectorAll('a[href="#ordine"]').forEach(function(a) {
+// ── GA4 tracking su click CTA ordine ──────────────────────────────────────
+document.querySelectorAll('a[href*="checkout.php"]').forEach(function(a) {
   a.addEventListener('click', function() {
-    var tier = this.closest('.bp-pricing-card--comp') ? 'completo' : 'essenziale';
-    var radio = document.querySelector('[name=tier][value=' + tier + ']');
-    if (radio) radio.checked = true;
+    var tier = this.href.includes('avanzato') ? 'avanzato' : 'base';
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'begin_checkout', {
+        'event_category': 'Libretto',
+        'event_label': tier
+      });
+    }
   });
 });
 </script>

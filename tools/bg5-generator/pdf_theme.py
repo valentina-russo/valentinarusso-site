@@ -492,7 +492,7 @@ def draw_cover_page(canvas, customer_name=None, tier_name=None,
     canvas.saveState()
     canvas.setFont("Playfair-BI", 36)
     canvas.setFillColor(title_color)
-    canvas.drawCentredString(PAGE_W/2, PAGE_H - 68*mm, "Business Blueprint")
+    canvas.drawCentredString(PAGE_W/2, PAGE_H - 68*mm, "Libretto d'Istruzioni")
     canvas.restoreState()
 
     # 8. Tier name (teal per Essenziale, oro per Completo)

@@ -1,11 +1,9 @@
 ---
-title: "BG5 Business Blueprint"
+title: "Il tuo Libretto d'Istruzioni Human Design"
+slug: libretto-istruzioni
 published: true
 routable: true
-seo_title: "BG5 Business Blueprint — La tua analisi professionale personalizzata"
-seo_desc: "Ricevi un documento PDF di 40-50 pagine con la tua analisi BG5 completa. Tipo, Strategia, Autorità, Centri, Canali, Profilo e suggerimenti pratici per la tua attività."
-description: "Analisi BG5 professionale in formato PDF — 40-50 pagine personalizzate sulla tua mappa energetica in ambito lavorativo."
-price: 90
-currency: EUR
-product_id: bg5_blueprint_v1
+seo_title: "Il tuo Libretto d'Istruzioni Human Design — Valentina Russo"
+seo_desc: "Un documento PDF personalizzato che traduce la tua carta Human Design in linguaggio pratico: come sei fatta, come decidi, come lavori. Libretto Base €90 · Avanzato €147. Consegna in 2-4 giorni."
+description: "Documento PDF personalizzato sulla tua carta Human Design. Base €90 (4 capitoli) · Avanzato €147 (7 capitoli). Consegna via email in 2-4 giorni lavorativi."
 ---
