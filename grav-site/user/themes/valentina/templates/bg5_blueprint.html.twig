@@ -857,6 +857,7 @@
 
 /* Immagini accent sezioni */
 .bp-section-img {
+  position: relative;
   width: 100%;
   max-width: 680px;
   margin: 0 auto 3rem;
@@ -870,7 +871,120 @@
   height: 280px;
   object-fit: cover;
   object-position: center 30%;
+  transition: transform .6s ease;
+  will-change: transform;
 }
+
+/* ══════════════════════════════════════════
+   DEPTH & IMMERSION
+══════════════════════════════════════════ */
+
+/* Vignette su ogni immagine */
+.bp-section-img::after,
+.bp-doc-mockup::after,
+.bp-hero__img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(15,26,41,.38) 100%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Hero: position + img transition */
+.bp-hero__img {
+  position: relative;
+}
+.bp-hero__img img { will-change: transform; transition: transform .05s linear; }
+
+/* Glow ambientale animato */
+@keyframes bp-glow-pulse {
+  0%,100% { opacity:.35; transform:scale(1);   }
+  50%      { opacity:.65; transform:scale(1.18); }
+}
+.bp-hero__ambient {
+  position: absolute;
+  width: 640px; height: 640px;
+  right: -80px; top: -120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,138,58,.14) 0%, transparent 65%);
+  animation: bp-glow-pulse 7s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.bp-hero__ambient-2 {
+  position: absolute;
+  width: 380px; height: 380px;
+  left: -60px; bottom: -60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,118,138,.10) 0%, transparent 65%);
+  animation: bp-glow-pulse 9s ease-in-out infinite;
+  animation-delay: -3s;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Particelle fluttuanti */
+.bp-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.bp-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,138,58,.7) 0%, transparent 70%);
+  animation: bp-float-up linear infinite;
+  bottom: -20px;
+}
+@keyframes bp-float-up {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  8%   { opacity: 1; }
+  88%  { opacity: .7; }
+  100% { transform: translateY(-110vh) translateX(var(--drift,0px)); opacity: 0; }
+}
+
+/* Sezione layer effect — ombre di profondità */
+.bp-section--parchment  { box-shadow: inset 0 8px 24px rgba(15,26,41,.06); }
+.bp-section--soft       { box-shadow: inset 0 8px 24px rgba(15,26,41,.05); }
+.bp-section--gradient   { box-shadow: inset 0 8px 24px rgba(15,26,41,.07); }
+
+/* Step card glass hover */
+.bp-step {
+  background: rgba(255,255,255,.6);
+  border: 1px solid rgba(234,229,225,.8);
+  border-radius: 16px;
+  padding: 1.75rem 1.25rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform .3s ease, box-shadow .3s ease, background .3s ease;
+}
+.bp-step:hover {
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 16px 40px rgba(26,35,50,.12);
+  transform: translateY(-4px);
+}
+
+/* Profile cards glow hover */
+.bp-profile-icon {
+  transition: box-shadow .3s ease;
+}
+.bp-profile-card:hover .bp-profile-icon {
+  box-shadow: 0 0 28px rgba(196,138,58,.32);
+}
+
+/* Grain texture overlay su sezioni parchment */
+.bp-section--parchment::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+.bp-section--parchment > * { position: relative; z-index: 1; }
 
 /* ══════════════════════════════════════════
    RESPONSIVE
@@ -913,6 +1027,8 @@
 <section class="bp-hero">
   <div class="bp-hero__bg-grid" aria-hidden="true"></div>
   <div class="bp-hero__bg-glow" aria-hidden="true"></div>
+  <div class="bp-hero__ambient" aria-hidden="true"></div>
+  <div class="bp-hero__ambient-2" aria-hidden="true"></div>
   <div class="bp-container">
     <div class="bp-hero__layout">
       <div class="bp-hero__inner">
@@ -1301,12 +1417,110 @@ document.querySelectorAll('a[href*="checkout.php"]').forEach(function(a) {
   a.addEventListener('click', function() {
     var tier = this.href.includes('avanzato') ? 'avanzato' : 'base';
     if (typeof gtag !== 'undefined') {
-      gtag('event', 'begin_checkout', {
-        'event_category': 'Libretto',
-        'event_label': tier
-      });
+      gtag('event', 'begin_checkout', { 'event_category': 'Libretto', 'event_label': tier });
     }
   });
 });
+
+// ── Floating particles ────────────────────────────────────────────────────
+(function() {
+  var hero = document.querySelector('.bp-hero');
+  if (!hero) return;
+  var container = document.createElement('div');
+  container.className = 'bp-particles';
+  container.setAttribute('aria-hidden','true');
+  hero.insertBefore(container, hero.firstChild);
+  for (var i = 0; i < 20; i++) {
+    var p = document.createElement('div');
+    p.className = 'bp-particle';
+    var size = 1.5 + Math.random() * 3.5;
+    var dur  = 9 + Math.random() * 14;
+    var delay = -(Math.random() * dur);
+    var drift = (Math.random() - 0.5) * 140;
+    p.style.cssText = 'width:'+size+'px;height:'+size+'px;left:'+(Math.random()*100)+'%;animation-duration:'+dur+'s;animation-delay:'+delay+'s;--drift:'+drift+'px;opacity:'+(0.4+Math.random()*0.6);
+    container.appendChild(p);
+  }
+})();
+
+// ── Mouse parallax hero ───────────────────────────────────────────────────
+(function() {
+  if (window.matchMedia('(max-width:900px)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var hero    = document.querySelector('.bp-hero');
+  var heroImg = document.querySelector('.bp-hero__img img');
+  var heroTxt = document.querySelector('.bp-hero__inner');
+  var heroAmb = document.querySelector('.bp-hero__ambient');
+  if (!hero || !heroImg) return;
+  var ticking = false, mx = 0, my = 0;
+  hero.addEventListener('mousemove', function(e) {
+    var r = hero.getBoundingClientRect();
+    mx = (e.clientX - r.left) / r.width  - 0.5;
+    my = (e.clientY - r.top)  / r.height - 0.5;
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        heroImg.style.transform = 'translate('+( mx*20)+'px,'+(my*14)+'px)';
+        if (heroTxt) heroTxt.style.transform = 'translate('+(-mx*6)+'px,'+(-my*4)+'px)';
+        if (heroAmb) heroAmb.style.transform = 'translate('+( mx*30)+'px,'+(my*22)+'px) scale(1)';
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+  hero.addEventListener('mouseleave', function() {
+    heroImg.style.transform = '';
+    if (heroTxt) heroTxt.style.transform = '';
+    if (heroAmb) heroAmb.style.transform = '';
+  });
+})();
+
+// ── Scroll parallax sulle immagini di sezione ─────────────────────────────
+(function() {
+  if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var imgs = document.querySelectorAll('.bp-section-img img, .bp-doc-mockup img');
+  function tick() {
+    imgs.forEach(function(img) {
+      var rect = img.closest('.bp-section-img, .bp-doc-mockup').getBoundingClientRect();
+      var center = rect.top + rect.height / 2 - window.innerHeight / 2;
+      img.style.transform = 'translateY('+(center * -0.07)+'px)';
+    });
+  }
+  window.addEventListener('scroll', tick, { passive: true });
+  tick();
+})();
+
+// ── 3D tilt su card pricing ───────────────────────────────────────────────
+(function() {
+  if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  document.querySelectorAll('.bp-pricing-card').forEach(function(card) {
+    card.style.transition = 'transform .12s ease, box-shadow .12s ease';
+    card.addEventListener('mousemove', function(e) {
+      var r = card.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width  - 0.5;
+      var y = (e.clientY - r.top)  / r.height - 0.5;
+      card.style.transform = 'perspective(900px) rotateY('+(x*11)+'deg) rotateX('+(-y*8)+'deg) translateZ(10px)';
+      card.style.boxShadow = '0 '+(28+y*20)+'px '+(64+Math.abs(x)*40)+'px rgba(26,35,50,'+(0.18+Math.abs(x)*0.08)+')';
+    });
+    card.addEventListener('mouseleave', function() {
+      card.style.transform = '';
+      card.style.boxShadow = '';
+    });
+  });
+})();
+
+// ── 3D tilt leggero su step cards ────────────────────────────────────────
+(function() {
+  if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  document.querySelectorAll('.bp-step').forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+      var r = card.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width  - 0.5;
+      var y = (e.clientY - r.top)  / r.height - 0.5;
+      card.style.transform = 'perspective(600px) rotateY('+(x*7)+'deg) rotateX('+(-y*5)+'deg) translateY(-4px)';
+    });
+    card.addEventListener('mouseleave', function() {
+      card.style.transform = '';
+    });
+  });
+})();
 </script>
 {% endblock %}
