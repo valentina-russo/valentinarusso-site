@@ -14,10 +14,18 @@
 
 declare(strict_types=1);
 
-// ─── Config locale (non in git — caricata manualmente su Aruba via FTP) ──────
-// Crea su Aruba: libretto-dati/stripe-config.php  (vedi stripe-config.example.php)
-if (file_exists(__DIR__ . '/stripe-config.php')) {
-    require_once __DIR__ . '/stripe-config.php';
+// ─── Carica .env (non in git — caricata manualmente su Aruba via FTP) ──────
+// File: libretto-dati/.env  (vedi .env.example per il formato)
+// Bloccato all'accesso HTTP da .htaccess locale
+$envFile = __DIR__ . '/.env';
+if (file_exists($envFile)) {
+    foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+        $line = trim($line);
+        if ($line === '' || $line[0] === '#') continue;
+        if (strpos($line, '=') === false) continue;
+        [$k, $v] = explode('=', $line, 2);
+        putenv(trim($k) . '=' . trim($v));
+    }
 }
 
 $STRIPE_KEY = getenv('STRIPE_SECRET_KEY') ?: '';

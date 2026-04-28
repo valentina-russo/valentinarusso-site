@@ -1,0 +1,14 @@
+# Blocca l'accesso HTTP a file sensibili in libretto-dati/
+# (.env contiene chiavi Stripe — non deve mai essere servito come testo)
+
+<FilesMatch "^\.env|\.env\..*|.*\.example\.php$|.*\.log$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Apache 2.4+ syntax
+<IfModule mod_authz_core.c>
+    <FilesMatch "^\.env|\.env\..*|.*\.example\.php$|.*\.log$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
