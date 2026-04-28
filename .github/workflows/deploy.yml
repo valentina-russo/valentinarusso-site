@@ -483,7 +483,7 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/25.genera-carta-beta/
           dangerous-clean-slate: false
 
-      - name: Deploy pagina bg5-blueprint (landing page prodotto)
+      - name: Deploy pagina bg5-blueprint (redirect → libretto-istruzioni)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.ARUBA_FTP_HOST }}
@@ -491,6 +491,26 @@ jobs:
           password: ${{ secrets.ARUBA_FTP_PASS }}
           local-dir: ./grav-site/user/pages/26.bg5-blueprint/
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/26.bg5-blueprint/
+          dangerous-clean-slate: false
+
+      - name: Deploy pagina libretto-istruzioni (landing page prodotto)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/26.libretto-istruzioni/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/26.libretto-istruzioni/
+          dangerous-clean-slate: false
+
+      - name: Deploy libretto-dati (checkout, dati, invia PHP)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/root/libretto-dati/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}libretto-dati/
           dangerous-clean-slate: false
 
       - name: Deploy pagina human-design (guida introduttiva HD)
