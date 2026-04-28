@@ -1,14 +1,2 @@
-# Libretto dati — security
+# Libretto dati — Aruba shared hosting compatible
 Options -Indexes
-
-# Proteggi logs
-<FilesMatch "\.log$">
-  Order allow,deny
-  Deny from all
-</FilesMatch>
-
-# Permetti solo i file PHP dichiarati
-<FilesMatch "^(checkout|dati|invia)\.php$">
-  Order allow,deny
-  Allow from all
-</FilesMatch>
