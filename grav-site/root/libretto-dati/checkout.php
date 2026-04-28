@@ -127,6 +127,21 @@ if ($curlErr) {
 
 $data = json_decode($response, true);
 
+// ── DEBUG MODE — solo per diagnostica iniziale Stripe ──────────────────────
+if (isset($_GET['debug']) && $_GET['debug'] === 'stripe-init-test') {
+    header('Content-Type: application/json');
+    echo json_encode([
+        'env_file_exists' => file_exists($envFile),
+        'key_length' => strlen($STRIPE_KEY),
+        'key_prefix' => substr($STRIPE_KEY, 0, 12),
+        'key_suffix' => substr($STRIPE_KEY, -6),
+        'http_code' => $httpCode,
+        'stripe_error' => $data['error']['message'] ?? null,
+        'stripe_error_type' => $data['error']['type'] ?? null,
+    ], JSON_PRETTY_PRINT);
+    exit;
+}
+
 if ($httpCode === 200 && !empty($data['url'])) {
     // ── Redirige a Stripe Checkout ──────────────────────────────────────────
     header('Location: ' . $data['url']);
