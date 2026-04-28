@@ -173,10 +173,30 @@
   background: radial-gradient(circle at 60% 60%, rgba(26,35,50,.08) 0%, transparent 70%);
   pointer-events: none;
 }
-.bp-hero__inner {
+.bp-hero__layout {
   position: relative;
   z-index: 1;
-  max-width: 700px;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 3.5rem;
+  align-items: center;
+  width: 100%;
+}
+.bp-hero__inner {
+  max-width: 620px;
+}
+.bp-hero__img {
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 28px 72px rgba(26,35,50,.22), 0 4px 16px rgba(26,35,50,.10);
+  transform: rotate(1.2deg);
+  transition: transform .4s ease;
+}
+.bp-hero__img:hover { transform: rotate(0deg) scale(1.01); }
+.bp-hero__img img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 .bp-hero__h1 {
   font-size: clamp(2.25rem, 5vw, 3.5rem);
@@ -290,57 +310,20 @@
   background-position: center;
 }
 
-/* Mockup documento */
+/* Immagine sezione cos'è */
 .bp-doc-mockup {
   position: relative;
-  transform: rotate(2deg);
+  transform: rotate(-1.5deg);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(26,35,50,.20), 0 4px 16px rgba(26,35,50,.10);
+  transition: transform .4s ease;
 }
-.bp-doc-inner {
-  background: var(--bp-white);
-  border-radius: 8px;
-  box-shadow: 0 20px 60px rgba(26,35,50,.18), 0 4px 16px rgba(26,35,50,.10);
-  padding: 2rem 1.75rem;
-  min-height: 320px;
-}
-.bp-doc-header {
-  display: flex;
-  align-items: center;
-  gap: .75rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1.5px solid var(--bp-soft-parchment);
-}
-.bp-doc-header-circle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--bp-rosa-wash, #F5ECF0);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.bp-doc-line {
-  height: 10px;
-  border-radius: 5px;
-  background: var(--bp-soft-parchment);
-  margin-bottom: .6rem;
-}
-.bp-doc-line--short { width: 55%; }
-.bp-doc-line--med   { width: 75%; }
-.bp-doc-line--full  { width: 100%; }
-.bp-doc-line--rosa  { background: rgba(201,118,138,.25); width: 45%; }
-.bp-doc-line--teal  { background: rgba(74,140,140,.2); width: 60%; }
-.bp-doc-badge {
-  display: inline-block;
-  background: var(--bp-teal-wash, #E8F4F4);
-  color: var(--bp-teal);
-  font-size: .7rem;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  padding: .3rem .7rem;
-  border-radius: 100px;
-  margin-bottom: 1rem;
+.bp-doc-mockup:hover { transform: rotate(0deg) scale(1.01); }
+.bp-doc-mockup img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 
@@ -872,10 +855,29 @@
 }
 
 
+/* Immagini accent sezioni */
+.bp-section-img {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto 3rem;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(26,35,50,.16);
+}
+.bp-section-img img {
+  display: block;
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
 /* ══════════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════════ */
 @media (max-width: 900px) {
+  .bp-hero__layout { grid-template-columns: 1fr; }
+  .bp-hero__img { display: none; }
   .bp-what__grid { grid-template-columns: 1fr; }
   .bp-doc-mockup { display: none; }
   .bp-contains__grid { grid-template-columns: 1fr; }
@@ -912,20 +914,27 @@
   <div class="bp-hero__bg-grid" aria-hidden="true"></div>
   <div class="bp-hero__bg-glow" aria-hidden="true"></div>
   <div class="bp-container">
-    <div class="bp-hero__inner">
-      <p class="bp-eyebrow">Human Design · Lettura Personalizzata</p>
-      <h1 class="bp-hero__h1">
-        Il manuale di istruzioni<br>
-        <span>che non hai mai avuto.</span>
-      </h1>
-      <p class="bp-hero__sub">
-        Un documento scritto sulla tua carta Human Design specifica. Spiega perché ti esaurisci dove gli altri sembrano avere energia infinita, come funziona la tua autorità decisionale e dove si trova — nel corpo, non nella testa.
-      </p>
-      <div class="bp-hero__cta-group">
-        <a href="/libretto-dati/checkout.php?tier=avanzato" class="bp-btn-primary" style="background:var(--bp-navy);padding:1.1rem 2.75rem">Libretto Avanzato — €147</a>
-        <a href="/libretto-dati/checkout.php?tier=base" class="bp-btn-outline">Libretto Base — €90</a>
+    <div class="bp-hero__layout">
+      <div class="bp-hero__inner">
+        <p class="bp-eyebrow">Human Design · Lettura Personalizzata</p>
+        <h1 class="bp-hero__h1">
+          Il manuale di istruzioni<br>
+          <span>che non hai mai avuto.</span>
+        </h1>
+        <p class="bp-hero__sub">
+          Un documento scritto sulla tua carta Human Design specifica. Spiega perché ti esaurisci dove gli altri sembrano avere energia infinita, come funziona la tua autorità decisionale e dove si trova — nel corpo, non nella testa.
+        </p>
+        <div class="bp-hero__cta-group">
+          <a href="/libretto-dati/checkout.php?tier=avanzato" class="bp-btn-primary" style="background:var(--bp-navy);padding:1.1rem 2.75rem">Libretto Avanzato — €147</a>
+          <a href="/libretto-dati/checkout.php?tier=base" class="bp-btn-outline">Libretto Base — €90</a>
+        </div>
+        <p class="bp-hero__meta">Consegna in 2–4 giorni lavorativi · PDF personale · Nessuna call</p>
       </div>
-      <p class="bp-hero__meta">Consegna in 2–4 giorni lavorativi · PDF personale · Nessuna call</p>
+      <div class="bp-hero__img" aria-hidden="true">
+        <img src="/user/pages/assets/libretto/cover-hero.jpg"
+             alt="Cofanetto antico aperto con mappa luminosa"
+             width="800" height="1067" loading="eager">
+      </div>
     </div>
   </div>
   <a href="#blueprint" class="bp-hero__scroll" aria-label="Scorri in basso">↓</a>
@@ -952,31 +961,10 @@
           <li>Variabile: l'ambiente, il modo di apprendere e il tipo di attenzione per cui sei ottimizzata</li>
         </ul>
       </div>
-      <div class="bp-doc-mockup bp-reveal" aria-hidden="true">
-        <div class="bp-doc-inner">
-          <div class="bp-doc-header">
-            <div class="bp-doc-header-circle">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#C9768A" stroke-width="1.5">
-                <circle cx="10" cy="10" r="8"/><path d="M10 6v4l3 2"/>
-              </svg>
-            </div>
-            <div style="flex:1">
-              <div class="bp-doc-line bp-doc-line--rosa"></div>
-              <div class="bp-doc-line bp-doc-line--short"></div>
-            </div>
-          </div>
-          <span class="bp-doc-badge">Libretto d'Istruzioni HD</span>
-          <div class="bp-doc-line bp-doc-line--full" style="margin-bottom:.8rem"></div>
-          <div class="bp-doc-line bp-doc-line--med"></div>
-          <div class="bp-doc-line bp-doc-line--full"></div>
-          <div class="bp-doc-line bp-doc-line--short" style="margin-bottom:1.5rem"></div>
-          <div class="bp-doc-line bp-doc-line--teal" style="margin-bottom:.5rem"></div>
-          <div class="bp-doc-line bp-doc-line--full"></div>
-          <div class="bp-doc-line bp-doc-line--med"></div>
-          <div style="height:.5rem"></div>
-          <div class="bp-doc-line bp-doc-line--full"></div>
-          <div class="bp-doc-line bp-doc-line--short"></div>
-        </div>
+      <div class="bp-doc-mockup bp-reveal">
+        <img src="/user/pages/assets/libretto/part-1-identita.jpg"
+             alt="Mappa antica con bussola dorata e rosa"
+             width="900" height="600" loading="lazy">
       </div>
     </div>
   </div>
@@ -1076,6 +1064,11 @@
       <h2 class="bp-section-title" style="margin:0 auto .75rem">Tre passi. Nessuna call, nessuna attesa.</h2>
       <p class="bp-section-sub" style="margin:0 auto">Scegli la versione, paga, inserisci i dati di nascita. Il Libretto arriva via email entro 2-4 giorni lavorativi.</p>
     </div>
+    <div class="bp-section-img bp-reveal">
+      <img src="/user/pages/assets/libretto/part-3-direzione.jpg"
+           alt="Scrivania con mappa del tesoro e diario botanico"
+           width="1200" height="800" loading="lazy">
+    </div>
     <div class="bp-steps__grid">
       <div class="bp-step bp-reveal">
         <div class="bp-step__num" aria-hidden="true">01</div>
@@ -1121,6 +1114,11 @@
       <p class="bp-eyebrow" style="justify-content:center">Scegli la versione</p>
       <h2 class="bp-section-title" style="margin:0 auto .75rem">Libretto Base o Avanzato?</h2>
       <p class="bp-section-sub" style="margin:0 auto">Se non conosci ancora il Human Design, il Base è sufficiente. L'Avanzato aggiunge tre capitoli su comunicazione, costruzione delle offerte e applicazione pratica al lavoro.</p>
+      <div class="bp-section-img bp-reveal" style="margin-top:2.5rem">
+        <img src="/user/pages/assets/libretto/part-5-sintesi.jpg"
+             alt="Rotolo pergamena con nastro teal su scrivania antica"
+             width="1200" height="800" loading="lazy">
+      </div>
     </div>
     <div class="bp-pricing__grid bp-reveal">
 
