@@ -503,18 +503,14 @@
   text-align: center;
 }
 .bp-step__num {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
-  font-size: 5rem;
-  line-height: 1;
-  color: var(--bp-soft-parchment);
-  position: absolute;
-  top: -24px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 0;
-  pointer-events: none;
-  user-select: none;
+  font-size: .75rem;
+  letter-spacing: .12em;
+  color: var(--bp-teal);
+  display: block;
+  margin: 0 auto .625rem;
+  text-align: center;
 }
 .bp-step__icon {
   position: relative;
@@ -890,7 +886,7 @@
   }
   .bp-steps__grid::before { display: none; }
   .bp-step { text-align: left; }
-  .bp-step__num { display: none; }
+  .bp-step__num { display: block; }
   .bp-step__icon { margin: 0 0 1rem; }
   .bp-pricing__grid { grid-template-columns: 1fr; }
   .bp-pricing-card--comp { order: -1; }
