@@ -523,13 +523,13 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/human-design/
           dangerous-clean-slate: false
 
-      - name: Svuota cache Grav automaticamente
-        run: |
-          sleep 5
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            "https://valentinarussobg5.com/cache-clear.php?token=${{ secrets.GRAV_CACHE_TOKEN }}")
-          echo "Cache-clear HTTP status: $STATUS"
-          if [ "$STATUS" != "200" ]; then
-            echo "Attenzione: cache-clear ha restituito $STATUS (non bloccante)"
-          fi
+      - name: Svuota cache Grav via FTP (cancella tutti i file in /cache/)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-cache-empty/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}cache/
+          dangerous-clean-slate: true
 
