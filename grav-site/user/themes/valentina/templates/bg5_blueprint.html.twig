@@ -139,27 +139,31 @@
 /* Sezione chi è Valentina */
 .bp-bio__grid {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 370px 1fr;
   gap: 4rem;
   align-items: center;
   margin-top: 3rem;
 }
 .bp-bio__photo {
   position: relative;
+  width: 340px;
+  height: 340px;          /* dimensione esplicita → cerchio garantito */
+  border-radius: 50%;
+  overflow: hidden;       /* taglia l'immagine al cerchio */
+  flex-shrink: 0;
+  box-shadow: 0 24px 64px rgba(26,35,50,.20), 0 0 0 7px var(--bp-white), 0 0 0 12px var(--bp-rosa);
 }
 .bp-bio__photo img {
   display: block;
   width: 100%;
-  border-radius: 50%;
-  aspect-ratio: 1;
+  height: 100%;           /* riempie il container quadrato */
   object-fit: cover;
   object-position: center top;
-  box-shadow: 0 24px 64px rgba(26,35,50,.20), 0 0 0 6px var(--bp-white), 0 0 0 10px var(--bp-rosa);
 }
 .bp-bio__photo::after {
   content: '';
   position: absolute;
-  inset: -12px;
+  inset: -14px;
   border-radius: 50%;
   background: radial-gradient(ellipse at 30% 30%, rgba(196,138,58,.18) 0%, transparent 60%);
   pointer-events: none;
@@ -188,7 +192,7 @@
 .bp-bio__text p:last-child { margin: 0; }
 @media (max-width: 900px) {
   .bp-bio__grid { grid-template-columns: 1fr; }
-  .bp-bio__photo { max-width: 220px; margin: 0 auto; }
+  .bp-bio__photo { width: 260px; height: 260px; margin: 0 auto; }
 }
 
 /* "Inizia ora" — chiaro elegante, respira dopo il dark pricing */
@@ -1518,7 +1522,8 @@
           <span class="bp-faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="bp-faq-a" role="region">
-          <p>Il Libretto è un documento scritto, non una call. È pensato per chi vuole qualcosa da consultare nel tempo, senza la pressione di ricordare tutto durante una sessione. Puoi tornarci quando vuoi — e le pagine che ti colpiscono di più cambieranno nel tempo, con te. Se poi vuoi approfondire live, il Libretto diventa una base eccellente da cui partire.</p>
+          <p>Non sono paragonabili, e ha senso non aspettarsi che lo siano. Una sessione live con Valentina è qualcosa di completamente diverso: una conversazione calibrata su quello che stai vivendo adesso, con ascolto diretto e un percorso che si adatta in tempo reale a te. Il Libretto non può fare questo, e non ci prova.</p>
+          <p>È un documento scritto, denso, pensato per tornarci nel tempo — non per sostituire un incontro diretto. Chi poi decide di lavorare con Valentina dal vivo spesso trova il Libretto il modo migliore per arrivarci: si presenta alla sessione con una mappa già in mano, non da zero.</p>
         </div>
       </div>
       <div class="bp-faq-item">
