@@ -134,3 +134,5 @@ tools/bg5-generator/logs/
 # Qualsiasi .env in qualunque sottocartella (safety net)
 **/.env
 **/.env.local
+# Stripe config con chiavi live — MAI in git
+grav-site/root/libretto-dati/stripe-config.php

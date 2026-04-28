@@ -14,6 +14,12 @@
 
 declare(strict_types=1);
 
+// ─── Config locale (non in git — caricata manualmente su Aruba via FTP) ──────
+// Crea su Aruba: libretto-dati/stripe-config.php  (vedi stripe-config.example.php)
+if (file_exists(__DIR__ . '/stripe-config.php')) {
+    require_once __DIR__ . '/stripe-config.php';
+}
+
 $STRIPE_KEY = getenv('STRIPE_SECRET_KEY') ?: '';
 $BASE_URL   = 'https://valentinarussobg5.com';
 
