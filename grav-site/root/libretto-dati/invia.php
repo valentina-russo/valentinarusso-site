@@ -25,6 +25,19 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// ─── CSRF check (SEC-PAY-002) ─────────────────────────────────────────────────
+session_start();
+$submittedToken = $_POST['csrf_token'] ?? '';
+$storedToken    = $_SESSION['csrf_token'] ?? '';
+if (empty($storedToken) || !hash_equals($storedToken, $submittedToken)) {
+    http_response_code(403);
+    error_log('[libretto-invia] CSRF token mismatch');
+    header('Location: /libretto-istruzioni');
+    exit;
+}
+// Rotate the token after successful verification (one-time use)
+$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
 // ─── Raccolta dati ────────────────────────────────────────────────────────────
 $tier       = strtolower(clean('tier'));
 if (!in_array($tier, ['base', 'avanzato'], true)) { $tier = 'avanzato'; }
@@ -39,10 +52,13 @@ $birthPlace = clean('birth_place');
 $messaggio  = clean('messaggio');
 $sessionId  = clean('session_id');
 
+// EC-02 (legal): waiver recesso obbligatorio (art. 59 c.1 lett. o) D.Lgs. 206/2005)
+$recessoWaiver = isset($_POST['recesso_waiver']);
+
 // ─── Validazione campi obbligatori ────────────────────────────────────────────
 $redir = '/libretto-dati/dati.php?tier=' . urlencode($tier) . '&session_id=' . urlencode($sessionId);
 
-if (!$nome || !$email || !$birthDate || !$birthTime || !$birthPlace) {
+if (!$nome || !$email || !$birthDate || !$birthTime || !$birthPlace || !$recessoWaiver) {
     header('Location: ' . $redir . '&error=missing');
     exit;
 }
@@ -116,18 +132,23 @@ valentinarussobg5.com
 
 TEXT;
 
-// ─── Invio email ──────────────────────────────────────────────────────────────
-$headers = implode("\r\n", [
-    'MIME-Version: 1.0',
-    'Content-Type: text/plain; charset=UTF-8',
-    'Content-Transfer-Encoding: 8bit',
-    'From: ' . $FROM_NAME . ' <' . $FROM_EMAIL . '>',
-    'Reply-To: ' . $email,
-    'X-Mailer: PHP/' . PHP_VERSION,
-]);
+// ─── Invio email (SEC-PAY-001: header-injection-safe) ────────────────────────
+// Defense in depth: strip any newline characters from email used in Reply-To
+$emailSafe = preg_replace('/[\r\n\t]/', '', $email);
 
-$ok1 = mail($ADMIN_EMAIL, $subjectAdmin,  $bodyAdmin,   $headers);
-$ok2 = mail($email,       $subjectCliente, $bodyCliente, $headers);
+// PHP 7.2+ array form of mail() — prevents CRLF injection at the PHP level
+// regardless of MTA behavior (sendmail su Aruba interpreta \n come header separator)
+$headersArray = [
+    'MIME-Version'              => '1.0',
+    'Content-Type'              => 'text/plain; charset=UTF-8',
+    'Content-Transfer-Encoding' => '8bit',
+    'From'                      => $FROM_NAME . ' <' . $FROM_EMAIL . '>',
+    'Reply-To'                  => $emailSafe,
+    'X-Mailer'                  => 'PHP/' . PHP_VERSION,
+];
+
+$ok1 = mail($ADMIN_EMAIL, $subjectAdmin,  $bodyAdmin,   $headersArray);
+$ok2 = mail($email,       $subjectCliente, $bodyCliente, $headersArray);
 
 // ─── Log ─────────────────────────────────────────────────────────────────────
 $logDir  = __DIR__ . '/logs/';

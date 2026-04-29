@@ -46,35 +46,40 @@ if (empty($payload)) {
     respond(400, 'empty payload');
 }
 
-// Verifica firma Stripe
-if (!empty($STRIPE_WEBHOOK_SECRET)) {
-    // Implementazione manuale della verifica firma Stripe (senza SDK)
-    $parts    = [];
-    foreach (explode(',', $sig) as $part) {
-        [$k, $v] = explode('=', $part, 2);
-        $parts[$k][] = $v;
-    }
-    $timestamp  = $parts['t'][0] ?? '';
-    $signatures = $parts['v1'] ?? [];
-    $signed     = $timestamp . '.' . $payload;
-    $expected   = hash_hmac('sha256', $signed, $STRIPE_WEBHOOK_SECRET);
+// SEC-PAY-004: hard reject if webhook secret not configured.
+// Senza questo controllo, un attaccante che scopre l'endpoint può POSTare
+// un evento checkout.session.completed forgiato e creare job fittizi.
+if (empty($STRIPE_WEBHOOK_SECRET)) {
+    wlog('ERROR: STRIPE_WEBHOOK_SECRET not configured — rejecting all requests');
+    respond(501, 'webhook not configured');
+}
 
-    $valid = false;
-    foreach ($signatures as $s) {
-        if (hash_equals($expected, $s)) {
-            $valid = true;
-            break;
-        }
+// Verifica firma Stripe (sempre eseguita)
+$parts    = [];
+foreach (explode(',', $sig) as $part) {
+    [$k, $v] = explode('=', $part, 2);
+    $parts[$k][] = $v;
+}
+$timestamp  = $parts['t'][0] ?? '';
+$signatures = $parts['v1'] ?? [];
+$signed     = $timestamp . '.' . $payload;
+$expected   = hash_hmac('sha256', $signed, $STRIPE_WEBHOOK_SECRET);
+
+$valid = false;
+foreach ($signatures as $s) {
+    if (hash_equals($expected, $s)) {
+        $valid = true;
+        break;
     }
-    if (!$valid) {
-        wlog('ERROR: invalid signature');
-        respond(400, 'invalid signature');
-    }
-    // Protezione replay attack (5 min tolerance)
-    if (abs(time() - (int)$timestamp) > 300) {
-        wlog('ERROR: stale timestamp ' . $timestamp);
-        respond(400, 'stale timestamp');
-    }
+}
+if (!$valid) {
+    wlog('ERROR: invalid signature');
+    respond(400, 'invalid signature');
+}
+// Protezione replay attack (5 min tolerance)
+if (abs(time() - (int)$timestamp) > 300) {
+    wlog('ERROR: stale timestamp ' . $timestamp);
+    respond(400, 'stale timestamp');
 }
 
 $event = json_decode($payload, true);

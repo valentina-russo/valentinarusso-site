@@ -1,0 +1,22 @@
+# BG5 Blueprint — blocco accesso HTTP a file sensibili
+# I job/, logs/, pdfs/ contengono PII clienti (nome, email, data/ora/luogo nascita,
+# Stripe session_id). MAI servire come testo via HTTP.
+#
+# stripe-webhook.php resta invocabile da Stripe (default Apache: PHP eseguito).
+
+# Apache 2.4+ syntax
+<IfModule mod_authz_core.c>
+    <DirectoryMatch "/(logs|jobs|pdfs)">
+        Require all denied
+    </DirectoryMatch>
+
+    <FilesMatch "\.(log|json|pdf)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+
+# Apache 2.2 fallback (Aruba potrebbe avere ancora Apache 2.2 su shared hosting)
+<FilesMatch "\.(log|json|pdf)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>

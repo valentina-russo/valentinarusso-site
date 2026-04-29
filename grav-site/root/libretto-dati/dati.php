@@ -10,6 +10,13 @@
 
 declare(strict_types=1);
 
+// CSRF (SEC-PAY-002): generate per-session token, used to verify form POST in invia.php
+session_start();
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$csrfToken = $_SESSION['csrf_token'];
+
 $tier      = strtolower(trim($_GET['tier'] ?? 'avanzato'));
 if (!in_array($tier, ['base', 'avanzato'], true)) { $tier = 'avanzato'; }
 $tierLabel = $tier === 'base' ? 'Base' : 'Avanzato';
@@ -372,7 +379,7 @@ $pageTitle = $success
       <ul>
         <li>Valentina calcola la tua carta Human Design sui dati che hai inserito</li>
         <li>Prepara il documento e lo revisiona capitolo per capitolo</li>
-        <li>Il PDF arriva via email — già pronto da leggere su qualsiasi dispositivo</li>
+        <li>Il PDF arriva via email, già pronto da leggere su qualsiasi dispositivo</li>
         <li>Per domande o chiarimenti: <a href="mailto:valentina@valentinarussobg5.com" style="color:var(--rosa)">valentina@valentinarussobg5.com</a></li>
       </ul>
     </div>
@@ -401,7 +408,7 @@ $pageTitle = $success
   <div class="ld-confirm-box">
     <div class="ld-confirm-icon" aria-hidden="true">✓</div>
     <div class="ld-confirm-text">
-      <strong>Hai scelto il Libretto <?= $tierLabel ?> — hai fatto la cosa giusta.</strong><br>
+      <strong>Hai scelto il Libretto <?= $tierLabel ?>, hai fatto la cosa giusta.</strong><br>
       Pagamento confermato (<?= $tierPrice ?>). Adesso abbiamo bisogno di alcune informazioni per calcolare la tua carta Human Design.
     </div>
   </div>
@@ -409,7 +416,7 @@ $pageTitle = $success
   <p class="ld-eyebrow">Passo 2 di 2</p>
   <h1 class="ld-h1">I tuoi dati di nascita</h1>
   <p class="ld-intro">
-    Questi dati servono per calcolare la tua carta Human Design precisa. L'ora di nascita è importante — se non la conosci esatta, inserisci un'approssimazione nel messaggio in fondo.
+    Questi dati servono per calcolare la tua carta Human Design precisa. L'ora di nascita ci serve per essere precisi: se non la conosci esatta, inserisci un'approssimazione nel messaggio in fondo.
   </p>
 
   <?php if ($error): ?>
@@ -427,7 +434,7 @@ $pageTitle = $success
     <input type="hidden" name="tier_label" value="<?= htmlspecialchars($tierLabel, ENT_QUOTES) ?>">
     <input type="hidden" name="tier_price" value="<?= htmlspecialchars($tierPrice, ENT_QUOTES) ?>">
     <input type="hidden" name="session_id" value="<?= $sessionId ?>">
-    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(session_id() ?: bin2hex(random_bytes(16)), ENT_QUOTES) ?>">
+    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken, ENT_QUOTES) ?>">
 
     <!-- Nome e email -->
     <div class="ld-row">
@@ -457,7 +464,7 @@ $pageTitle = $success
       <div class="ld-group">
         <label class="ld-label" for="ld-ora">Ora di nascita <span class="ld-req">*</span></label>
         <input class="ld-input" type="time" id="ld-ora" name="birth_time" required>
-        <span class="ld-hint">Se non è esatta, inserisci un'approssimazione — scrivi i dettagli nel messaggio sotto</span>
+        <span class="ld-hint">Se non è esatta, inserisci un'approssimazione e scrivi i dettagli nel messaggio sotto</span>
       </div>
     </div>
 
@@ -473,11 +480,23 @@ $pageTitle = $success
     <div class="ld-group">
       <label class="ld-label" for="ld-msg">
         In che momento ti trovi?
-        <span class="ld-hint" style="font-style:italic">Opzionale — ma più ci dici, più il Libretto sarà preciso per la tua situazione attuale</span>
+        <span class="ld-hint" style="font-style:italic">Opzionale, ma più ci dici e più il Libretto sarà preciso per la tua situazione attuale</span>
       </label>
       <textarea class="ld-textarea" id="ld-msg" name="messaggio"
                 placeholder="Qualcosa del tipo: sono in un momento di transizione professionale e non so bene che direzione prendere... oppure: ho appena sentito parlare di Human Design e voglio capire se posso smettere di fare cose che mi prosciugano... Non c'è un formato giusto o sbagliato."
                 rows="6"></textarea>
+    </div>
+
+    <!-- BLOCCO RECESSO OBBLIGATORIO — art. 59 c.1 lett. o) D.Lgs. 206/2005 — NON RIMUOVERE -->
+    <div class="ld-group" style="background:rgba(74,140,140,.06);border:1.5px solid rgba(74,140,140,.25);border-radius:6px;padding:1rem 1.25rem;margin-bottom:1.5rem">
+      <label style="display:flex;align-items:flex-start;gap:.75rem;cursor:pointer;font-size:.9rem;line-height:1.55;color:var(--text)">
+        <input type="checkbox" name="recesso_waiver" id="ld-recesso-waiver" required
+               style="flex-shrink:0;margin-top:.2rem;accent-color:var(--teal);width:18px;height:18px">
+        <span>
+          <strong>Richiedo l'esecuzione immediata del contratto e confermo di aver compreso che, avviando la preparazione del Libretto d'Istruzioni personalizzato, <u>perdo il diritto di recesso</u> previsto dall'art. 52 del Codice del Consumo, ai sensi dell'art. 59, comma 1, lett. o).</strong>
+          <span style="display:block;margin-top:.35rem;font-size:.8125rem;color:var(--muted)">Il documento è creato su misura sulla tua carta Human Design. Una volta avviata la preparazione, non è possibile annullare l'ordine o richiedere un rimborso.</span>
+        </span>
+      </label>
     </div>
 
     <button type="submit" class="ld-submit" id="ld-submit-btn">

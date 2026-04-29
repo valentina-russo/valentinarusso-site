@@ -85,13 +85,15 @@ HTML;
 $successUrl = $BASE_URL . '/libretto-dati/dati.php?session_id={CHECKOUT_SESSION_ID}&tier=' . $tier;
 $cancelUrl  = $BASE_URL . '/libretto-istruzioni';
 
+// NB: NON impostiamo payment_method_types[]. Senza questo parametro, Stripe Checkout
+// usa automaticamente tutti i metodi attivi nella Dashboard (Carte, PayPal, Satispay,
+// Klarna, Apple/Google Pay, Link, ecc.). Specificarlo limita la lista solo a quelli.
 $fields = [
     'mode'                                             => 'payment',
     'success_url'                                      => $successUrl,
     'cancel_url'                                       => $cancelUrl,
     'locale'                                           => 'it',
     'allow_promotion_codes'                            => 'true',
-    'payment_method_types[0]'                          => 'card',
     'payment_intent_data[description]'                 => $product['name'],
     'line_items[0][price_data][currency]'              => 'eur',
     'line_items[0][price_data][product_data][name]'    => $product['name'],
