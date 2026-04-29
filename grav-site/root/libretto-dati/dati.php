@@ -380,7 +380,7 @@ $pageTitle = $success
         <li>Valentina calcola la tua carta Human Design sui dati che hai inserito</li>
         <li>Prepara il documento e lo revisiona capitolo per capitolo</li>
         <li>Il PDF arriva via email, già pronto da leggere su qualsiasi dispositivo</li>
-        <li>Per domande o chiarimenti: <a href="mailto:valentina@valentinarussobg5.com" style="color:var(--rosa)">valentina@valentinarussobg5.com</a></li>
+        <li>Per domande o chiarimenti: <a href="mailto:info@valentinarussobg5.com" style="color:var(--rosa)">info@valentinarussobg5.com</a></li>
       </ul>
     </div>
     <a href="https://valentinarussobg5.com" class="ld-back-link">← Torna al sito</a>
@@ -424,7 +424,7 @@ $pageTitle = $success
     <?php if ($error === 'missing'): ?>
       Compila tutti i campi obbligatori (marcati con *) prima di procedere.
     <?php else: ?>
-      Si è verificato un errore nell'invio. Riprova o scrivi a <a href="mailto:valentina@valentinarussobg5.com">valentina@valentinarussobg5.com</a>.
+      Si è verificato un errore nell'invio. Riprova o scrivi a <a href="mailto:info@valentinarussobg5.com">info@valentinarussobg5.com</a>.
     <?php endif; ?>
   </div>
   <?php endif; ?>

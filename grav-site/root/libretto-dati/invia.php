@@ -125,7 +125,7 @@ I tuoi dati:
 - Luogo: {$birthPlace}
 
 Per qualsiasi domanda o chiarimento:
-valentina@valentinarussobg5.com
+info@valentinarussobg5.com
 
 Valentina Russo
 valentinarussobg5.com
