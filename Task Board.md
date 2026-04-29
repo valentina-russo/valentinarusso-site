@@ -9,10 +9,11 @@ Piano completo: `.claude/plans/keen-finding-cocke.md`
 - [x] A3: Collegare `rebuild_pdfs.build_pdf()` a `generator.py`
 - [x] A4: Aggiornare generator da 7 a 19 sezioni
 
-### FASE B — Landing page + Stripe (BLOCCO: account Stripe Valentina)
+### FASE B — Landing page + Stripe ✅ TEST MODE COMPLETO
 - [x] B1: Template Twig landing page `/bg5-blueprint` + deploy fix
-- [ ] B2: Stripe Checkout integration
-- [ ] B3: Configurare webhook Stripe su Aruba
+- [x] B2: Stripe Checkout integration — account VRBG5, sk_test_ via GitHub Secret + workflow .env, end-to-end verificato (28/04)
+- [ ] B3: Configurare webhook Stripe su Aruba (post go-live)
+- [ ] B4: Switch a sk_live_ quando Valentina completa verifica identità + IBAN
 
 ### FASE C — Deploy generator
 - [ ] C1: GitHub Actions workflow `generate-blueprint.yml`
@@ -28,7 +29,10 @@ Piano completo: `.claude/plans/keen-finding-cocke.md`
 ---
 
 ## Today (prossima sessione)
-- [ ] Rigenerare PDF Valentina con pipeline v5 attuale — valentina-blueprint-v5c.pdf ha dati corretti (2/4, Croce Amore 2) ma cover mostra "22 april 2026" invece di "21 giugno 1988". Usare `generate_blueprint.py --chart D:/Download/hd-valentina-corrected.json` (chart già preparato con authority=Ambientale). Chapters Valentina non esistono in v5 → generazione AI necessaria (~€4-6)
+- [ ] **Stripe live**: Valentina autorizza esplicitamente switch a sk_live_ (chiave da Dashboard o via CLI con permessi espliciti) → gh secret set → push → live
+- [ ] **PRE go-live blocking**: `/sec-review grav-site/root/libretto-dati/checkout.php` (Security Default — gate da completare prima del live)
+- [ ] **PRE go-live blocking**: `/legal-review libretto-istruzioni` (Legal Default — IVA, T&C, privacy policy + Stripe)
+- [ ] Rigenerare PDF Valentina con pipeline v5 — cover mostra "22 april 2026" invece di "21 giugno 1988". Usare `generate_blueprint.py --chart D:/Download/hd-valentina-corrected.json`
 - [ ] Fix variable_arrows encoding in calc_chart_ephem.py (caratteri corrotti UTF-8)
 - [ ] Verifica esterna dati Marco su myhumandesign.com (19/01/1983, 01:45, Vicenza)
 
@@ -37,6 +41,7 @@ Piano completo: `.claude/plans/keen-finding-cocke.md`
 - [ ] Feature: input gates manuali nel Tool HD Relazionale (per carte senza data)
 
 ## Backlog
+- [ ] BG5 Blueprint di Coppia (Composite): pipeline PDF con dati di due persone — sezioni compatibilità energetica, strategie di team, dinamiche decisionali
 - [ ] A2: Implementare calculate_hd_chart() in Python (ephem + tabelle gate)
 - [ ] Social Generator Fase 2: input vocale (Groq Whisper) + pubblicazione Instagram
 - [ ] Social Generator Fase 3: Video Clip da YouTube → Reel 9:16
@@ -46,6 +51,14 @@ Piano completo: `.claude/plans/keen-finding-cocke.md`
 - [ ] /workshop-proposta: aggiungere social proof Vicenza
 
 ## Done
+- [x] Email contatto `info@valentinarussobg5.com` su pagina successo + errore + email conferma cliente (29/04)
+- [x] Stripe CLI installata (winget) + login OAuth account VRBG5 — pronta per switch live (29/04)
+- [x] Stripe Checkout integrato end-to-end test mode: account VRBG5, GitHub Secret + workflow .env, payment_method_types[]=card, .htaccess block .env access (28/04)
+- [x] Anti-AI-slop pass su landing libretto-istruzioni: ~20 em-dash, 8 triplette, 4 pattern "non X — Y" rimossi — commit 63cd878 (28/04)
+- [x] Bio Valentina: foto cerchio reale 340×340 (overflow:hidden + height esplicita) + FAQ "sessione live" riscritta (28/04)
+- [x] Pass anti-AI-slop su 5 articoli HD/BG5 (body + frontmatter) — commit cf77c68 (24/04)
+- [x] Audit PDF `valentina-blueprint-v4.pdf` — Croce Amore 2 · Q2 · 15/10 & 25/46 · cover date issue (24/04)
+- [x] Doppia CTA via item.html.twig (privati + aziende) — commits 2af33c3 + 879e273 (24/04)
 - [x] Audit PDF `valentina-completo-v2.pdf` — mismatch profilo/croce identificato (22/04)
 - [x] C1: GitHub Actions workflow `generate-blueprint.yml` creato (21/04)
 - [x] D1: review.php completato — PDF iframe + editor sezioni + approva (21/04)
