@@ -363,9 +363,11 @@
   object-fit: contain;
   opacity: 0;
   animation: bp-hero-cycle 20s infinite;
-  /* Inversione: linee scure → chiare; screen blend rimuove il bianco */
-  filter: invert(1) saturate(0) brightness(.95) contrast(1.05);
-  mix-blend-mode: screen;
+  /* I PNG sono già trasparenti (verificato: alpha=0 sui pixel di sfondo).
+     invert(1) + hue-rotate(180deg) inverte solo la LUMINANZA preservando
+     le tinte: nero→bianco, grigio→grigio, rosso→rosso (più chiaro).
+     Il bodygraph appare con i suoi colori naturali sul navy del hero. */
+  filter: invert(1) hue-rotate(180deg);
 }
 /* 10 carte × 2s = 20s ciclo. Cross-fade morbido: ogni carta sale a piena opacità
    per ~1.4s, poi sfuma mentre la successiva sale (overlap 0.4s). */
@@ -535,33 +537,36 @@
   opacity: .95;
 }
 
-/* Meta info — orizzontale, simboli "•" #}
+/* Meta info — UNA RIGA SOLA, testo grigio, separatori "·" tra le voci */
 .bp-hero__meta {
   list-style: none;
   padding: 0;
-  margin: 1rem 0 0;
+  margin: 1.25rem 0 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
+  flex-wrap: nowrap;          /* niente wrap: forza una sola riga */
+  align-items: center;
+  gap: .85rem;
   font-family: 'Outfit', sans-serif;
   font-size: .8125rem;
-  color: rgba(245,239,227,.65);
+  color: #B8B8B8;             /* grigio neutro come richiesto */
   letter-spacing: .04em;
-  text-transform: uppercase;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .bp-hero__meta li {
   display: inline-flex;
   align-items: center;
-  gap: .5rem;
+  gap: .85rem;
 }
-.bp-hero__meta-dot {
-  width: 4px;
-  height: 4px;
-  background: var(--bp-gold);
-  border-radius: 50%;
-  display: inline-block;
+/* Separatore "·" tra una voce e l'altra (non prima della prima) */
+.bp-hero__meta li + li::before {
+  content: '·';
+  color: rgba(184,184,184,.5);
+  font-weight: 700;
 }
+/* Bullet rimossi — il punto medio fa già da separatore */
+.bp-hero__meta-dot { display: none; }
 /* Pulsante "arancione/dorato" pieno (era rosa-rosa, ora gold per coerenza palette
    e contrasto WCAG AA con testo navy/scuro su gold). Hover → testo bianco. */
 .bp-btn-primary {
