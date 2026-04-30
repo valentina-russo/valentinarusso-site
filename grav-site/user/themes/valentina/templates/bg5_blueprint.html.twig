@@ -2097,6 +2097,79 @@
     0 4px 8px rgba(196,138,58,.30),
     0 12px 24px rgba(196,138,58,.20) !important;
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   MOBILE POLISH — fix layout issues su viewport ≤ 600px
+════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+
+  /* 1. Hero: rimuovi min-height forzata e padding eccessivo
+        Il padding-top: 5rem sul content causava il gap enorme tra cover e testo */
+  .bp-hero { min-height: auto !important; padding-bottom: 2.5rem; }
+  .bp-hero__content { padding: 0 0 2rem !important; }
+  .bp-hero__layout { gap: 1.25rem !important; }
+  .bp-hero__cover { max-width: 240px !important; }
+  .bp-hero__kicker { margin-bottom: 1rem; }
+  .bp-hero__h1 { font-size: clamp(2rem, 9vw, 2.6rem) !important; margin-bottom: 1rem; }
+  .bp-hero__sub { margin-bottom: 1.5rem; }
+
+  /* 2. Preview fan → grid 2 colonne su mobile (via dei trasform desktop)
+        La pagina centrale (--3) rimane in evidenza come prima colonna */
+  .bp-preview-fan {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1rem !important;
+    min-height: auto !important;
+    align-items: start !important;
+    padding: 0 !important;
+  }
+  .bp-preview-page--1,
+  .bp-preview-page--2,
+  .bp-preview-page--3,
+  .bp-preview-page--4,
+  .bp-preview-page--5 {
+    transform: none !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    z-index: auto !important;
+  }
+  /* La pagina "featured" al centro — prima in griglia, span 2 col */
+  .bp-preview-page--3 {
+    grid-column: 1 / -1 !important;
+    max-width: 280px !important;
+    margin: 0 auto 0.5rem !important;
+  }
+  .bp-preview-page figcaption {
+    position: static !important;
+    font-size: .65rem;
+    margin-top: .35rem;
+    text-align: center;
+  }
+  .bp-preview-section { padding: 3rem 0 3.5rem; }
+
+  /* 3. Bottone Avanzato: testo lungo su mobile → font più piccolo */
+  .bp-pricing-card--comp .bp-btn-primary {
+    font-size: .85rem !important;
+    padding: .9rem 1rem !important;
+    letter-spacing: -.01em;
+  }
+
+  /* 4. Section padding compatto — già 3.5rem ma ulteriore riduzione su 390px */
+  .bp-section { padding: 2.75rem 0 !important; }
+  .bp-section-title { font-size: 1.6rem !important; }
+
+  /* 5. Bio grid: colonna singola, foto più piccola */
+  .bp-bio__grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+  .bp-bio__photo { width: 200px !important; height: 200px !important; }
+
+  /* 6. Tier panels: una sola colonna */
+  .bp-tier-panels { grid-template-columns: 1fr !important; }
+
+  /* 7. Steps: una colonna */
+  .bp-steps__grid { grid-template-columns: 1fr !important; gap: 1rem !important; }
+  .bp-steps__grid::before { display: none !important; }
+}
 </style>
 {% endblock %}
 
