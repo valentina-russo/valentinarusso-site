@@ -203,6 +203,45 @@
 .bp-section--gradient {
   background: linear-gradient(150deg, #1A2332 0%, #1D1232 45%, #0E1220 100%);
 }
+/* Variante "flat-top": il top è solido navy così combacia esattamente
+   col fade superiore — niente linea/banda visibile al seam.
+   Il gradient diagonale parte solo dopo i primi 60px. */
+.bp-section--gradient-flat {
+  background:
+    linear-gradient(180deg, #1A2332 0%, #1A2332 60px, transparent 60px),
+    linear-gradient(150deg, #1A2332 0%, #1D1232 45%, #0E1220 100%);
+  box-shadow: none;
+}
+
+/* Fade fluido tra "Come funziona" (parchment) e "Pricing" (navy).
+   Niente SVG wave: la wave creava una banda nera al seam perché il fill
+   solido #1A2332 incontrava il gradient parchment-end (#EBEBf8).
+   Qui partiamo dal colore esatto di chiusura della parchment a destra,
+   passiamo per un mid-tone neutro e atterriamo sul navy puro del pricing. */
+.bp-fade-to-navy {
+  height: 110px;
+  background: linear-gradient(
+    180deg,
+    #EBEBf8 0%,
+    #B5B8D4 32%,
+    #5C6488 62%,
+    #2A334A 85%,
+    #1A2332 100%
+  );
+  position: relative;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+/* Texture sottile di carta antica per dare matericità (non solo sfumatura piatta) */
+.bp-fade-to-navy::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='.06'/%3E%3C/svg%3E");
+  opacity: .8;
+  pointer-events: none;
+}
 .bp-section--gradient .bp-section-title { color: #F0EBF2; }
 .bp-section--gradient .bp-section-sub   { color: rgba(240,235,242,.65); }
 .bp-section--gradient .bp-eyebrow       { color: var(--bp-gold); }
@@ -249,100 +288,276 @@
 
 
 /* ══════════════════════════════════════════
-   1. HERO
+   1. HERO — full-screen immersive (manuale antico + simboli HD)
 ══════════════════════════════════════════ */
 .bp-hero {
-  min-height: min(100dvh, 820px);
-  background:
-    radial-gradient(ellipse 65% 80% at 88% 45%, rgba(196,138,58,.22) 0%, transparent 55%),
-    radial-gradient(ellipse 45% 55% at 4%  88%, rgba(74,140,140,.15)  0%, transparent 52%),
-    radial-gradient(ellipse 50% 40% at 50%  0%, rgba(201,118,138,.10) 0%, transparent 50%),
-    linear-gradient(152deg, #FDFBF9 0%, #F8F3F0 35%, #F1EBF3 70%, #EAE6F5 100%);
-  display: flex;
-  align-items: center;
-  padding: 5rem 0 4rem;
   position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: stretch;
+  padding: 0;
   overflow: hidden;
+  isolation: isolate;
+  background: #0B1220;
 }
-@keyframes bp-shimmer {
-  0%,100% { transform: translate(0,0)    scale(1);    opacity:.7; }
-  33%      { transform: translate(24px,-14px) scale(1.1); opacity:1; }
-  66%      { transform: translate(-12px,18px) scale(.95); opacity:.55; }
-}
-.bp-hero__shimmer {
+
+/* Layer 1: immagine sfondo full-bleed con leggero zoom lentissimo */
+.bp-hero__bg-image {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 38% 32% at 18% 72%, rgba(74,140,140,.13)  0%, transparent 60%),
-    radial-gradient(ellipse 32% 28% at 72% 18%, rgba(201,118,138,.09) 0%, transparent 60%);
-  animation: bp-shimmer 14s ease-in-out infinite;
-  pointer-events: none;
   z-index: 0;
-}
-.bp-hero__bg-grid {
-  position: absolute;
-  bottom: 0; right: 0;
-  width: 520px; height: 520px;
-  background-image:
-    radial-gradient(circle, var(--bp-soft-parchment) 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
-  opacity: .55;
-  pointer-events: none;
-}
-.bp-hero__bg-glow {
-  position: absolute;
-  bottom: -80px; right: -80px;
-  width: 420px; height: 420px;
-  background: radial-gradient(circle at 60% 60%, rgba(26,35,50,.08) 0%, transparent 70%);
-  pointer-events: none;
-}
-.bp-hero__layout {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 3.5rem;
-  align-items: center;
-  width: 100%;
-}
-.bp-hero__inner {
-  max-width: 620px;
-}
-.bp-hero__img {
-  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 28px 72px rgba(26,35,50,.22), 0 4px 16px rgba(26,35,50,.10);
-  transform: rotate(1.2deg);
-  transition: transform .4s ease;
 }
-.bp-hero__img:hover { transform: rotate(0deg) scale(1.01); }
-.bp-hero__img img {
-  display: block;
+.bp-hero__bg-image img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  filter: contrast(1.05) saturate(.92);
+  transform: scale(1.04);
+  animation: bp-hero-pan 28s ease-in-out infinite alternate;
+}
+@keyframes bp-hero-pan {
+  0%   { transform: scale(1.04) translate(0, 0); }
+  100% { transform: scale(1.10) translate(-2%, 1%); }
+}
+
+/* Layer 2: gradient overlay per leggibilità testo (sinistra/centro più scuro) */
+.bp-hero__bg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse 65% 90% at 30% 50%, rgba(11,18,32,.72) 0%, rgba(11,18,32,.45) 50%, transparent 90%),
+    linear-gradient(105deg, rgba(11,18,32,.85) 0%, rgba(15,26,41,.65) 35%, rgba(15,26,41,.20) 65%, rgba(11,18,32,.55) 100%),
+    linear-gradient(180deg, rgba(11,18,32,.30) 0%, transparent 30%, transparent 70%, rgba(11,18,32,.50) 100%);
+  pointer-events: none;
+}
+
+/* Layer 3: simboli Human Design (bodygraph + glifi planetari) */
+.bp-hero__symbols {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bp-hero__bodygraph {
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(220px, 26vw, 380px);
   height: auto;
+  color: var(--bp-gold);
+  opacity: .32;
+  filter: drop-shadow(0 0 18px rgba(196,138,58,.35));
+  animation: bp-bodygraph-breath 7s ease-in-out infinite alternate;
 }
-.bp-hero__h1 {
-  font-size: clamp(2.25rem, 5vw, 3.5rem);
-  font-weight: 700;
-  font-style: italic;
-  line-height: 1.1;
-  margin: 0 0 1.5rem;
-  color: var(--bp-navy);
+@keyframes bp-bodygraph-breath {
+  0%   { opacity: .28; filter: drop-shadow(0 0 14px rgba(196,138,58,.30)); }
+  100% { opacity: .42; filter: drop-shadow(0 0 24px rgba(196,138,58,.50)); }
 }
-.bp-hero__h1 span { color: var(--bp-rosa); }
-.bp-hero__sub {
-  font-size: 1.25rem;
-  line-height: 1.6;
-  color: var(--bp-text);
-  max-width: 560px;
-  margin-bottom: 2.5rem;
+
+.bp-hero__glyph {
+  position: absolute;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+  color: var(--bp-gold);
+  opacity: .35;
+  text-shadow: 0 0 12px rgba(196,138,58,.6);
   font-weight: 400;
 }
-.bp-hero__cta-group {
+.bp-hero__glyph--1 { top: 14%; right: 28%; transform: rotate(-8deg); }
+.bp-hero__glyph--2 { bottom: 22%; right: 38%; transform: rotate(6deg); }
+.bp-hero__glyph--3 { top: 28%; right: 8%;  font-size: 1.5rem; opacity: .25; }
+.bp-hero__glyph--4 { bottom: 14%; right: 18%; font-size: 1.5rem; opacity: .25; }
+
+.bp-hero__rule {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(196,138,58,.6) 50%, transparent 100%);
+}
+.bp-hero__rule--top { top: 8%;    left: 10%; right: 10%; }
+.bp-hero__rule--bot { bottom: 8%; left: 10%; right: 10%; }
+
+/* Layer 4: contenuto testuale */
+.bp-hero__content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
   display: flex;
   align-items: center;
+  padding: 6rem 0 5rem;
+}
+
+/* Frame: contenitore "scheda tecnica" che evita l'effetto "testo su rettangolo".
+   Niente background pieno — solo bordo finissimo che richiama il manuale antico. */
+.bp-hero__frame {
+  max-width: 640px;
+  position: relative;
+  padding: 2.5rem 2.5rem 2.5rem 0;
+}
+.bp-hero__frame::before {
+  content: '';
+  position: absolute;
+  left: -1.5rem;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent 0%, var(--bp-gold) 25%, var(--bp-gold) 75%, transparent 100%);
+  opacity: .55;
+}
+
+.bp-hero__kicker {
+  font-family: 'Outfit', sans-serif;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--bp-gold);
+  display: inline-flex;
+  align-items: center;
+  gap: .85rem;
+  margin: 0 0 1.75rem;
+  text-shadow: 0 1px 12px rgba(0,0,0,.4);
+}
+.bp-hero__kicker-line {
+  display: inline-block;
+  width: 36px;
+  height: 1px;
+  background: var(--bp-gold);
+  opacity: .7;
+}
+
+.bp-hero__h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5.6vw, 4.25rem);
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  margin: 0 0 1.75rem;
+  color: #F5EFE3;
+  text-shadow: 0 2px 24px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.6);
+}
+.bp-hero__h1 em {
+  font-style: italic;
+  color: var(--bp-gold);
+  font-weight: 700;
+}
+.bp-hero__h1 span {
+  font-style: italic;
+  color: var(--bp-gold);
+  position: relative;
+}
+.bp-hero__h1 span::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -.1em;
+  height: 2px;
+  background: linear-gradient(90deg, var(--bp-gold) 0%, transparent 100%);
+  opacity: .55;
+}
+
+.bp-hero__sub {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.7;
+  color: rgba(245,239,227,.88);
+  max-width: 560px;
+  margin: 0 0 2.25rem;
+  font-weight: 400;
+  text-shadow: 0 1px 8px rgba(0,0,0,.4);
+}
+
+/* CTA "manuale tecnico" — niente rosa pieno, leggibilità su sfondo scuro */
+.bp-hero__cta-group {
+  display: flex;
+  align-items: stretch;
   flex-wrap: wrap;
   gap: 1rem;
+  margin-bottom: 2rem;
+}
+.bp-btn-hero-primary,
+.bp-btn-hero-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 1.85rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: .95rem;
+  text-decoration: none;
+  border-radius: 2px;
+  letter-spacing: .03em;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+  position: relative;
+}
+.bp-btn-hero-primary {
+  background: var(--bp-gold);
+  color: var(--bp-navy-deep);
+  font-weight: 700;
+  border: 1px solid var(--bp-gold);
+  box-shadow: 0 8px 28px rgba(196,138,58,.35), 0 0 0 1px rgba(196,138,58,.2);
+}
+.bp-btn-hero-primary:hover {
+  background: #D69847;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(196,138,58,.45);
+}
+.bp-btn-hero-outline {
+  background: rgba(255,255,255,.04);
+  color: #F5EFE3;
+  font-weight: 600;
+  border: 1px solid rgba(245,239,227,.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.bp-btn-hero-outline:hover {
+  background: rgba(255,255,255,.10);
+  border-color: var(--bp-gold);
+  transform: translateY(-2px);
+}
+.bp-btn-hero-primary span,
+.bp-btn-hero-outline span { font-weight: 600; }
+.bp-btn-hero-primary strong,
+.bp-btn-hero-outline strong {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding-left: 1.25rem;
+  border-left: 1px solid currentColor;
+  opacity: .95;
+}
+
+/* Meta info — orizzontale, simboli "•" #}
+.bp-hero__meta {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: .8125rem;
+  color: rgba(245,239,227,.65);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.bp-hero__meta li {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
+.bp-hero__meta-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--bp-gold);
+  border-radius: 50%;
+  display: inline-block;
 }
 .bp-btn-primary {
   display: inline-block;
@@ -376,24 +591,32 @@
 }
 .bp-btn-outline:hover { background: var(--bp-bp-rosa-wash); }
 
-.bp-hero__meta {
-  font-size: .8125rem;
-  color: var(--bp-text-muted);
-  margin-top: .75rem;
-}
 .bp-hero__scroll {
   position: absolute;
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  animation: bp-bounce .85s ease-in-out infinite alternate;
-  color: var(--bp-text-muted);
-  font-size: 1.3rem;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .35rem;
+  color: rgba(245,239,227,.55);
   text-decoration: none;
+  font-family: 'Outfit', sans-serif;
+  font-size: .7rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  transition: color .2s;
+}
+.bp-hero__scroll:hover { color: var(--bp-gold); }
+.bp-hero__scroll-arrow {
+  font-size: 1.1rem;
+  animation: bp-bounce .9s ease-in-out infinite alternate;
 }
 @keyframes bp-bounce {
-  from { transform: translateX(-50%) translateY(0); }
-  to   { transform: translateX(-50%) translateY(6px); }
+  from { transform: translateY(0); }
+  to   { transform: translateY(6px); }
 }
 
 
@@ -534,52 +757,131 @@
 
 
 /* ══════════════════════════════════════════
-   4. PER CHI È
+   4. PER CHI È — titolo dominante + connettore visivo
 ══════════════════════════════════════════ */
+.bp-forchi-section { padding: 6rem 0 6.5rem; }
+.bp-forchi-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+}
+.bp-forchi-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.75rem, 5.5vw, 4rem);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--bp-navy);
+  line-height: 1.05;
+  letter-spacing: -.015em;
+  margin: 0 0 1.25rem;
+}
+.bp-forchi-sub {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--bp-text-muted);
+  max-width: 560px;
+  margin: 0 auto;
+}
+/* Connettore visivo: pallino dorato + linea verticale che lega titolo alle card */
+.bp-forchi-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 2.25rem auto 0;
+  height: 56px;
+}
+.bp-forchi-connector__dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--bp-gold);
+  box-shadow: 0 0 0 5px rgba(196,138,58,.15);
+  flex-shrink: 0;
+}
+.bp-forchi-connector__line {
+  width: 1.5px;
+  flex: 1;
+  background: linear-gradient(180deg, var(--bp-gold) 0%, rgba(196,138,58,.15) 100%);
+}
+
 .bp-forchi__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
-  margin-top: 3rem;
+  margin-top: 1rem;
 }
-.bp-profile-card {
+/* Variante "linked" — bordo top dorato che richiama il connettore */
+.bp-forchi__grid--linked .bp-profile-card {
+  position: relative;
   background: var(--bp-white);
-  border-radius: 8px;
-  border: 1px solid var(--bp-soft-parchment);
-  padding: 2rem 1.75rem 1.75rem;
-  transition: box-shadow .2s;
+  border: 1px solid rgba(196,138,58,.18);
+  border-top: 3px solid var(--bp-gold);
+  padding: 2.25rem 1.75rem 1.75rem;
+  border-radius: 6px;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
-.bp-profile-card:hover {
-  box-shadow: 0 8px 32px var(--bp-rosa-glow);
-}
-.bp-profile-icon {
-  width: 52px;
-  height: 52px;
+.bp-forchi__grid--linked .bp-profile-card::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px; height: 14px;
   border-radius: 50%;
-  background: var(--bp-teal-wash, #E8F4F4);
+  background: var(--bp-white);
+  border: 2px solid var(--bp-gold);
+  z-index: 2;
+}
+.bp-forchi__grid--linked .bp-profile-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 44px rgba(15,26,41,.12);
+  border-color: var(--bp-gold);
+}
+.bp-profile-num {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--bp-gold);
+  letter-spacing: .08em;
+  margin-bottom: .65rem;
+}
+.bp-profile-card .bp-profile-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F2EAD8 0%, #E8DBC0 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1.25rem;
-  color: var(--bp-teal);
+  color: var(--bp-gold);
+  border: 1px solid rgba(196,138,58,.25);
 }
 .bp-profile-card h3 {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.0625rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--bp-navy);
-  margin: 0 0 .75rem;
+  line-height: 1.3;
+  margin: 0 0 .85rem;
 }
 .bp-profile-card p {
-  font-size: .9375rem;
-  line-height: 1.65;
+  font-size: 1rem;
+  line-height: 1.7;
   color: var(--bp-text);
   margin: 0 0 1.25rem;
 }
 .bp-profile-tag {
+  display: inline-block;
   font-size: .8125rem;
   font-style: italic;
-  color: var(--bp-rosa);
+  color: var(--bp-text-muted);
+  border-left: 2px solid var(--bp-gold);
+  padding-left: .75rem;
+  line-height: 1.55;
 }
 
 
@@ -1113,8 +1415,6 @@
    RESPONSIVE
 ══════════════════════════════════════════ */
 @media (max-width: 900px) {
-  .bp-hero__layout { grid-template-columns: 1fr; }
-  .bp-hero__img { display: none; }
   .bp-what__grid { grid-template-columns: 1fr; }
   .bp-doc-mockup { display: none; }
   .bp-contains__grid { grid-template-columns: 1fr; }
@@ -1130,13 +1430,38 @@
   .bp-pricing__grid { grid-template-columns: 1fr; }
   .bp-pricing-card--comp { order: -1; }
   .bp-section-title { font-size: 1.75rem; }
-  .bp-hero__h1 { font-size: 2.25rem; }
+
+  /* Hero responsive: bodygraph più piccolo, contenuto centrato */
+  .bp-hero__bodygraph { right: -8%; opacity: .18; width: 320px; }
+  .bp-hero__glyph--3, .bp-hero__glyph--4 { display: none; }
+  .bp-hero__bg-overlay {
+    background:
+      linear-gradient(180deg, rgba(11,18,32,.55) 0%, rgba(11,18,32,.78) 60%, rgba(11,18,32,.92) 100%);
+  }
+  .bp-hero__h1 { font-size: clamp(2.25rem, 8vw, 3rem); }
+  .bp-hero__frame { padding: 2rem 0 0 0; }
+  .bp-hero__frame::before { display: none; }
+  .bp-forchi-title { font-size: clamp(2.25rem, 8vw, 3rem); }
 }
 @media (max-width: 600px) {
   .bp-section { padding: 3.5rem 0; }
-  .bp-hero { padding: 4rem 0 3rem; min-height: auto; }
+  .bp-hero { min-height: 92vh; min-height: 92dvh; }
+  .bp-hero__content { padding: 5rem 0 4.5rem; }
   .bp-form-row { grid-template-columns: 1fr; }
-  .bp-hero__cta-group { flex-direction: column; align-items: flex-start; }
+  .bp-hero__cta-group { flex-direction: column; align-items: stretch; gap: .75rem; }
+  .bp-btn-hero-primary, .bp-btn-hero-outline { justify-content: space-between; }
+  .bp-hero__rule { display: none; }
+  .bp-hero__bodygraph { display: none; }
+  .bp-hero__glyph--1, .bp-hero__glyph--2 { opacity: .22; }
+  .bp-hero__meta { gap: 1rem; font-size: .7rem; }
+  .bp-hero__scroll { display: none; }
+}
+
+/* Reduced motion — disattiva animazioni decorative */
+@media (prefers-reduced-motion: reduce) {
+  .bp-hero__bg-image img { animation: none; transform: scale(1.02); }
+  .bp-hero__bodygraph { animation: none; opacity: .35; }
+  .bp-hero__scroll-arrow { animation: none; }
 }
 </style>
 {% endblock %}
@@ -1145,39 +1470,104 @@
 <div class="bp-landing">
 
 {# ══════════════════════════════════════════
-   1. HERO
+   1. HERO — full-screen, immagine "manuale antico" come sfondo,
+      simboli Human Design sovrapposti, copy integrato
 ══════════════════════════════════════════ #}
-<section class="bp-hero">
-  <div class="bp-hero__bg-grid" aria-hidden="true"></div>
-  <div class="bp-hero__bg-glow" aria-hidden="true"></div>
-  <div class="bp-hero__shimmer" aria-hidden="true"></div>
-  <div class="bp-hero__ambient" aria-hidden="true"></div>
-  <div class="bp-hero__ambient-2" aria-hidden="true"></div>
-  <div class="bp-container">
-    <div class="bp-hero__layout">
-      <div class="bp-hero__inner">
-        <p class="bp-eyebrow">Human Design · Lettura Personalizzata</p>
+<section class="bp-hero bp-hero--immersive">
+  {# Layer 1 — immagine di sfondo full-bleed (cofanetto/manuale antico) #}
+  <div class="bp-hero__bg-image" aria-hidden="true">
+    <img src="/user/pages/assets/libretto/cover-hero.jpg"
+         alt=""
+         width="1920" height="1280"
+         loading="eager"
+         fetchpriority="high">
+  </div>
+
+  {# Layer 2 — gradient di profondità per leggibilità del testo #}
+  <div class="bp-hero__bg-overlay" aria-hidden="true"></div>
+
+  {# Layer 3 — simboli Human Design (bodygraph silhouette + glifi linea) #}
+  <div class="bp-hero__symbols" aria-hidden="true">
+    {# Bodygraph silhouette — 9 centri Human Design, posizionato a destra #}
+    <svg class="bp-hero__bodygraph" viewBox="0 0 200 320" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linejoin="round">
+      {# Head — triangolo #}
+      <polygon points="100,12 130,50 70,50"/>
+      {# Ajna — triangolo invertito #}
+      <polygon points="70,55 130,55 100,93"/>
+      {# Throat — quadrato #}
+      <rect x="75" y="100" width="50" height="40"/>
+      {# G Center — diamante #}
+      <polygon points="100,148 130,178 100,208 70,178"/>
+      {# Heart/Ego — piccolo triangolo destro #}
+      <polygon points="135,170 165,170 150,200"/>
+      {# Spleen — triangolo sinistro #}
+      <polygon points="35,170 65,170 50,210"/>
+      {# Solar Plexus — triangolo destro #}
+      <polygon points="135,212 165,212 150,260"/>
+      {# Sacral — quadrato centrale #}
+      <rect x="75" y="216" width="50" height="44"/>
+      {# Root — quadrato in fondo #}
+      <rect x="75" y="270" width="50" height="40"/>
+      {# Linee di connessione (canali principali) #}
+      <line x1="100" y1="50" x2="100" y2="55"/>
+      <line x1="100" y1="93" x2="100" y2="100"/>
+      <line x1="100" y1="140" x2="100" y2="148"/>
+      <line x1="100" y1="208" x2="100" y2="216"/>
+      <line x1="100" y1="260" x2="100" y2="270"/>
+      <line x1="125" y1="178" x2="135" y2="185"/>
+      <line x1="75" y1="178" x2="65" y2="185"/>
+    </svg>
+
+    {# Glifi astronomici / runici — simboli HD planetari #}
+    <span class="bp-hero__glyph bp-hero__glyph--1">☉</span>
+    <span class="bp-hero__glyph bp-hero__glyph--2">☽</span>
+    <span class="bp-hero__glyph bp-hero__glyph--3">♄</span>
+    <span class="bp-hero__glyph bp-hero__glyph--4">♃</span>
+
+    {# Linee orizzontali tipo "diagramma tecnico" #}
+    <span class="bp-hero__rule bp-hero__rule--top"></span>
+    <span class="bp-hero__rule bp-hero__rule--bot"></span>
+  </div>
+
+  {# Layer 4 — contenuto: testo ed elementi UI #}
+  <div class="bp-hero__content">
+    <div class="bp-container">
+      <div class="bp-hero__frame">
+        <p class="bp-hero__kicker">
+          <span class="bp-hero__kicker-line"></span>
+          Manuale d'Istruzioni · Human Design
+          <span class="bp-hero__kicker-line"></span>
+        </p>
         <h1 class="bp-hero__h1">
-          Manuale d'istruzioni<br>
-          <span>Human Design in PDF.</span>
+          Il documento <em>scritto</em><br>
+          sulla <span>tua carta</span>.
         </h1>
         <p class="bp-hero__sub">
-          Un documento scritto sulla tua carta Human Design specifica. Spiega perché ti esaurisci dove altri sembrano avere energia infinita, e dove riconoscere nel corpo il segnale che ti dice se una decisione ti appartiene davvero.
+          PDF personalizzato che traduce la tua configurazione Human Design in linguaggio pratico. Spiega perché ti esaurisci dove altri sembrano avere energia infinita, e dove riconoscere il segnale del corpo che ti dice se una decisione ti appartiene davvero.
         </p>
         <div class="bp-hero__cta-group">
-          <a href="/libretto-dati/checkout.php?tier=avanzato" class="bp-btn-primary" style="background:var(--bp-navy);padding:1.1rem 2.75rem">Libretto Avanzato · €147</a>
-          <a href="/libretto-dati/checkout.php?tier=base" class="bp-btn-outline">Libretto Base · €90</a>
+          <a href="/libretto-dati/checkout.php?tier=avanzato" class="bp-btn-hero-primary">
+            <span>Libretto Avanzato</span>
+            <strong>€147</strong>
+          </a>
+          <a href="/libretto-dati/checkout.php?tier=base" class="bp-btn-hero-outline">
+            <span>Libretto Base</span>
+            <strong>€90</strong>
+          </a>
         </div>
-        <p class="bp-hero__meta">Arriva via email in 2–4 giorni lavorativi · senza call</p>
-      </div>
-      <div class="bp-hero__img" aria-hidden="true">
-        <img src="/user/pages/assets/libretto/cover-hero.jpg"
-             alt="Cofanetto antico aperto con mappa luminosa"
-             width="800" height="1067" loading="eager">
+        <ul class="bp-hero__meta">
+          <li><span class="bp-hero__meta-dot"></span>Consegna 2–4 giorni</li>
+          <li><span class="bp-hero__meta-dot"></span>PDF via email</li>
+          <li><span class="bp-hero__meta-dot"></span>Niente call</li>
+        </ul>
       </div>
     </div>
   </div>
-  <a href="#blueprint" class="bp-hero__scroll" aria-label="Scorri in basso">↓</a>
+
+  <a href="#blueprint" class="bp-hero__scroll" aria-label="Scorri in basso">
+    <span class="bp-hero__scroll-text">scorri</span>
+    <span class="bp-hero__scroll-arrow">↓</span>
+  </a>
 </section>
 
 
@@ -1250,18 +1640,23 @@
 
 
 {# ══════════════════════════════════════════
-   4. PER CHI È
+   4. PER CHI È  (titolo dominante, sub declassato, card collegate)
 ══════════════════════════════════════════ #}
-<section class="bp-section bp-section--soft">
+<section class="bp-section bp-section--soft bp-forchi-section">
   <div class="bp-container">
-    <div style="text-align:center">
-      <p class="bp-eyebrow" style="justify-content:center">Per chi è</p>
-      <h2 class="bp-section-title" style="margin:0 auto .75rem">Non serve sapere niente di Human Design.</h2>
+    <div class="bp-forchi-header">
+      <h2 class="bp-forchi-title">Per chi è.</h2>
+      <p class="bp-forchi-sub">Non serve sapere niente di Human Design — il Libretto è scritto in linguaggio pratico, per chi parte da zero.</p>
+      <div class="bp-forchi-connector" aria-hidden="true">
+        <span class="bp-forchi-connector__dot"></span>
+        <span class="bp-forchi-connector__line"></span>
+      </div>
     </div>
-    <div class="bp-forchi__grid">
+    <div class="bp-forchi__grid bp-forchi__grid--linked">
       <div class="bp-profile-card bp-reveal">
+        <div class="bp-profile-num" aria-hidden="true">01</div>
         <div class="bp-profile-icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
           </svg>
         </div>
@@ -1270,8 +1665,9 @@
         <p class="bp-profile-tag">ti svegli stanca anche dopo una giornata che sulla carta non era pesante</p>
       </div>
       <div class="bp-profile-card bp-reveal">
+        <div class="bp-profile-num" aria-hidden="true">02</div>
         <div class="bp-profile-icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
           </svg>
         </div>
@@ -1280,8 +1676,9 @@
         <p class="bp-profile-tag">ti accorgi di aver deciso "di testa" solo dopo che le cose non funzionano</p>
       </div>
       <div class="bp-profile-card bp-reveal">
+        <div class="bp-profile-num" aria-hidden="true">03</div>
         <div class="bp-profile-icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
           </svg>
         </div>
@@ -1371,17 +1768,13 @@
 </section>
 
 
-{# Wave: parchment → dark navy #}
-<div class="bp-wave" style="background:linear-gradient(155deg,#FAF7F5,#F5EEF3)">
-  <svg viewBox="0 0 1440 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path fill="#1A2332" d="M0,22 C240,54 480,0 720,28 C960,56 1200,4 1440,28 L1440,56 L0,56 Z"/>
-  </svg>
-</div>
+{# Fade fluido: parchment-end → navy pricing-start (sostituisce la wave che creava la linea nera) #}
+<div class="bp-fade-to-navy" aria-hidden="true"></div>
 
 {# ══════════════════════════════════════════
    6. PRICING
 ══════════════════════════════════════════ #}
-<section class="bp-section bp-section--gradient" id="prezzi">
+<section class="bp-section bp-section--gradient bp-section--gradient-flat" id="prezzi">
   <div class="bp-container">
     <div style="text-align:center">
       <p class="bp-eyebrow" style="justify-content:center">I prezzi</p>
@@ -1607,15 +2000,15 @@ document.querySelectorAll('a[href*="checkout.php"]').forEach(function(a) {
   }
 })();
 
-// ── Mouse parallax hero ───────────────────────────────────────────────────
+// ── Mouse parallax hero (background image + bodygraph + glifi) ────────────
 (function() {
   if (window.matchMedia('(max-width:900px)').matches) return;
   if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
   var hero    = document.querySelector('.bp-hero');
-  var heroImg = document.querySelector('.bp-hero__img img');
-  var heroTxt = document.querySelector('.bp-hero__inner');
-  var heroAmb = document.querySelector('.bp-hero__ambient');
-  if (!hero || !heroImg) return;
+  var bgImg   = document.querySelector('.bp-hero__bg-image img');
+  var body    = document.querySelector('.bp-hero__bodygraph');
+  var glyphs  = document.querySelectorAll('.bp-hero__glyph');
+  if (!hero || !bgImg) return;
   var ticking = false, mx = 0, my = 0;
   hero.addEventListener('mousemove', function(e) {
     var r = hero.getBoundingClientRect();
@@ -1623,18 +2016,25 @@ document.querySelectorAll('a[href*="checkout.php"]').forEach(function(a) {
     my = (e.clientY - r.top)  / r.height - 0.5;
     if (!ticking) {
       requestAnimationFrame(function() {
-        heroImg.style.transform = 'translate('+( mx*20)+'px,'+(my*14)+'px)';
-        if (heroTxt) heroTxt.style.transform = 'translate('+(-mx*6)+'px,'+(-my*4)+'px)';
-        if (heroAmb) heroAmb.style.transform = 'translate('+( mx*30)+'px,'+(my*22)+'px) scale(1)';
+        // Background: drift contrario, leggero (sensazione di profondità)
+        bgImg.style.transform = 'scale(1.06) translate('+(-mx*14)+'px,'+(-my*10)+'px)';
+        // Bodygraph: drift maggiore, parallax forte (mantiene il -50% Y di centratura)
+        if (body) body.style.transform = 'translate('+( mx*22)+'px, calc(-50% + '+( my*18)+'px))';
+        // Glifi: drift differenziato per dare 3D
+        glyphs.forEach(function(g, i) {
+          var f = (i % 2 === 0) ? 1 : -1;
+          var k = 14 + i * 4;
+          g.style.transform = 'translate('+(mx*k*f)+'px,'+(my*k*f)+'px)';
+        });
         ticking = false;
       });
       ticking = true;
     }
   });
   hero.addEventListener('mouseleave', function() {
-    heroImg.style.transform = '';
-    if (heroTxt) heroTxt.style.transform = '';
-    if (heroAmb) heroAmb.style.transform = '';
+    bgImg.style.transform = '';
+    if (body) body.style.transform = '';
+    glyphs.forEach(function(g) { g.style.transform = ''; });
   });
 })();
 
