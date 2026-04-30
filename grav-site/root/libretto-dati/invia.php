@@ -65,7 +65,7 @@ if (!$nome || !$email || !$birthDate || !$birthTime || !$birthPlace || !$recesso
 
 // ─── Configurazione email ─────────────────────────────────────────────────────
 $ADMIN_EMAIL   = 'consulenza@marcomunich.com';
-$FROM_EMAIL    = 'noreply@valentinarussobg5.com';
+$FROM_EMAIL    = 'info@valentinarussobg5.com';
 $FROM_NAME     = 'Valentina Russo — Libretto HD';
 
 $nowIt = (new DateTimeImmutable('now', new DateTimeZone('Europe/Rome')))->format('d/m/Y H:i');
@@ -155,7 +155,9 @@ $logDir  = __DIR__ . '/logs/';
 $logFile = $logDir . 'ordini.log';
 if (!is_dir($logDir)) { @mkdir($logDir, 0755, true); }
 
-$logLine = date('Y-m-d H:i:s') . " | {$tier} | {$nome} | {$email} | admin:" . ($ok1?'ok':'FAIL') . ' cliente:' . ($ok2?'ok':'FAIL') . "\n";
+// EC-09 (GDPR Art.5 limitazione): log senza PII — solo sessione Stripe anonimizzata
+$sessionPrefix = substr(preg_replace('/[^a-zA-Z0-9_]/', '', $sessionId), 0, 16);
+$logLine = date('Y-m-d H:i:s') . " | {$tier} | sess:{$sessionPrefix}… | admin:" . ($ok1?'ok':'FAIL') . ' cliente:' . ($ok2?'ok':'FAIL') . "\n";
 @file_put_contents($logFile, $logLine, FILE_APPEND);
 
 // ─── Redirect finale ──────────────────────────────────────────────────────────

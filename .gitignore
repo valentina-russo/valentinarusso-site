@@ -131,6 +131,10 @@ tools/bg5-generator/.env
 tools/bg5-generator/jobs/
 tools/bg5-generator/pdfs/
 tools/bg5-generator/logs/
+# BG5 Blueprint webhook runtime — contiene PII clienti, MAI in git (SEC-PAY-007)
+grav-site/root/bg5-blueprint/jobs/
+grav-site/root/bg5-blueprint/pdfs/
+grav-site/root/bg5-blueprint/logs/
 # Qualsiasi .env in qualunque sottocartella (safety net)
 **/.env
 **/.env.local

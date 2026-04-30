@@ -15,6 +15,19 @@
 
 declare(strict_types=1);
 
+// ─── Carica .env locale (SEC-PAY-008) ────────────────────────────────────────
+$_envFile = __DIR__ . '/.env';
+if (file_exists($_envFile)) {
+    foreach (file($_envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $_envLine) {
+        $_envLine = trim($_envLine);
+        if ($_envLine === '' || $_envLine[0] === '#') continue;
+        if (strpos($_envLine, '=') === false) continue;
+        [$_envK, $_envV] = explode('=', $_envLine, 2);
+        putenv(trim($_envK) . '=' . trim($_envV));
+    }
+}
+unset($_envFile, $_envLine, $_envK, $_envV);
+
 // ─── CONFIG (da env) ──────────────────────────────────────────────────────────
 $STRIPE_WEBHOOK_SECRET = getenv('STRIPE_WEBHOOK_SECRET') ?: '';
 $GITHUB_PAT            = getenv('GITHUB_PAT') ?: '';

@@ -10,13 +10,13 @@
         Require all denied
     </DirectoryMatch>
 
-    <FilesMatch "\.(log|json|pdf)$">
+    <FilesMatch "(^\.env|\.env\..*|\.(log|json|pdf))$">
         Require all denied
     </FilesMatch>
 </IfModule>
 
 # Apache 2.2 fallback (Aruba potrebbe avere ancora Apache 2.2 su shared hosting)
-<FilesMatch "\.(log|json|pdf)$">
+<FilesMatch "(^\.env|\.env\..*|\.(log|json|pdf))$">
     Order Allow,Deny
     Deny from all
 </FilesMatch>

@@ -528,6 +528,20 @@ jobs:
             **/.git*/**
             **/logs/**
 
+      - name: Crea bg5-blueprint/.env con segreti webhook (da GitHub Secrets)
+        env:
+          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+          GH_PAT: ${{ secrets.GITHUB_PAT }}
+        run: |
+          if [ -z "$STRIPE_WEBHOOK_SECRET" ]; then
+            echo "WARN: STRIPE_WEBHOOK_SECRET non configurata — webhook operera in modalita 501"
+          else
+            printf "STRIPE_WEBHOOK_SECRET=%s\nGITHUB_PAT=%s\n" \
+              "$STRIPE_WEBHOOK_SECRET" "$GH_PAT" \
+              > grav-site/root/bg5-blueprint/.env
+            echo "OK: bg5-blueprint/.env creato (webhook_secret len: ${#STRIPE_WEBHOOK_SECRET})"
+          fi
+
       - name: Deploy bg5-blueprint runtime (stripe-webhook + .htaccess block PII)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
