@@ -288,7 +288,7 @@
 
 
 /* ══════════════════════════════════════════
-   1. HERO — Editorial 2-col, dark gradient pulito, cover PDF protagonist
+   1. HERO — Paper-craft editoriale: cream/parchment con accenti gold+navy
 ══════════════════════════════════════════ */
 .bp-hero {
   position: relative;
@@ -297,28 +297,29 @@
   padding: 0;
   overflow: hidden;
   isolation: isolate;
-  background: #0B1220;
+  background: #FAF6EE;
 }
 
-/* Sfondo pulito: gradient navy editoriale — niente foto cofanetto.
-   La cover PDF a destra è il protagonista visivo. */
+/* Sfondo: gradient parchment con due radial accent (oro top-right, navy soft top-left)
+   per dare warmth e suggerire luce naturale che cade sulla "scrivania". */
 .bp-hero__bg {
   position: absolute;
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 100% 50%, rgba(196,138,58,.10) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 0%   30%, rgba(74,140,140,.06) 0%, transparent 65%),
-    linear-gradient(135deg, #0B1220 0%, #131D33 50%, #0F1729 100%);
+    radial-gradient(ellipse 60% 50% at 30% 50%, rgba(196,138,58,.06) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 80% 20%, rgba(196,138,58,.04) 0%, transparent 65%),
+    radial-gradient(ellipse 70% 60% at 10% 90%, rgba(15,26,41,.04) 0%, transparent 70%),
+    linear-gradient(135deg, #FAF6EE 0%, #F2EBDC 60%, #E8DCC0 100%);
 }
-/* Texture grain sottilissima per evitare effetto piatto digitale */
+/* Grain texture per matericità di carta antica */
 .bp-hero__noise {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='.05'/%3E%3C/svg%3E");
-  opacity: .6;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='.10'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
 }
 .bp-hero__container {
   position: relative;
@@ -516,7 +517,7 @@
   font-family: 'Outfit', sans-serif;
   font-size: .8125rem;
   text-align: center;
-  color: rgba(245,239,227,.55);
+  color: rgba(15,26,41,.55);
   letter-spacing: .05em;
   line-height: 1.6;
 }
@@ -566,8 +567,7 @@
   line-height: 1.05;
   letter-spacing: -.02em;
   margin: 0 0 1.75rem;
-  color: #F5EFE3;
-  text-shadow: 0 2px 24px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.6);
+  color: var(--bp-navy);
 }
 .bp-hero__h1 em {
   font-style: italic;
@@ -582,21 +582,21 @@
 .bp-hero__h1 span::after {
   content: '';
   position: absolute;
-  left: 0; right: 0; bottom: -.1em;
-  height: 2px;
-  background: linear-gradient(90deg, var(--bp-gold) 0%, transparent 100%);
-  opacity: .55;
+  left: 0; right: 0; bottom: -.05em;
+  height: 3px;
+  background: var(--bp-gold);
+  opacity: .25;
+  border-radius: 2px;
 }
 
 .bp-hero__sub {
   font-family: 'Outfit', sans-serif;
   font-size: clamp(1rem, 1.3vw, 1.15rem);
   line-height: 1.7;
-  color: rgba(245,239,227,.88);
+  color: rgba(15,26,41,.70);
   max-width: 560px;
   margin: 0 0 2.25rem;
   font-weight: 400;
-  text-shadow: 0 1px 8px rgba(0,0,0,.4);
 }
 
 /* CTA "manuale tecnico" — niente rosa pieno, leggibilità su sfondo scuro */
@@ -638,22 +638,28 @@
   box-shadow: 0 14px 36px rgba(196,138,58,.55);
 }
 .bp-btn-hero-outline {
-  background: rgba(255,255,255,.04);
-  color: #F5EFE3;
-  font-weight: 600;
-  border: 1px solid rgba(245,239,227,.4);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: #FFFDF8;
+  color: var(--bp-gold);
+  font-weight: 700;
+  border: 1px solid rgba(196,138,58,.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.6),
+    0 1px 2px rgba(15,26,41,.06),
+    0 4px 8px rgba(15,26,41,.06);
 }
-/* Pulsante "bianco/outline": al hover testo e bordo diventano DORATI */
+/* Pulsante "bianco/outline": al hover testo e bordo diventano DORATI scuri */
 .bp-btn-hero-outline:hover,
 .bp-btn-hero-outline:focus-visible {
-  background: rgba(196,138,58,.08);
-  color: var(--bp-gold);
+  background: #FFFDF8;
+  color: #B07730;
   border-color: var(--bp-gold);
   transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.6),
+    0 4px 8px rgba(15,26,41,.08),
+    0 12px 24px rgba(15,26,41,.10);
 }
-.bp-btn-hero-outline:hover strong { border-color: var(--bp-gold); }
+.bp-btn-hero-outline:hover strong { border-color: currentColor; }
 .bp-btn-hero-primary span,
 .bp-btn-hero-outline span { font-weight: 600; }
 .bp-btn-hero-primary strong,
@@ -673,12 +679,12 @@
   padding: 0;
   margin: 1.25rem 0 0;
   display: flex;
-  flex-wrap: nowrap;          /* niente wrap: forza una sola riga */
+  flex-wrap: nowrap;
   align-items: center;
   gap: .85rem;
   font-family: 'Outfit', sans-serif;
   font-size: .8125rem;
-  color: #B8B8B8;             /* grigio neutro come richiesto */
+  color: rgba(15,26,41,.55);
   letter-spacing: .04em;
   font-weight: 500;
   white-space: nowrap;
@@ -689,10 +695,9 @@
   align-items: center;
   gap: .85rem;
 }
-/* Separatore "·" tra una voce e l'altra (non prima della prima) */
 .bp-hero__meta li + li::before {
   content: '·';
-  color: rgba(184,184,184,.5);
+  color: rgba(196,138,58,.6);
   font-weight: 700;
 }
 /* Bullet rimossi — il punto medio fa già da separatore */
@@ -773,7 +778,7 @@
   flex-direction: column;
   align-items: center;
   gap: .35rem;
-  color: rgba(245,239,227,.55);
+  color: rgba(15,26,41,.45);
   text-decoration: none;
   font-family: 'Outfit', sans-serif;
   font-size: .7rem;
@@ -1785,6 +1790,148 @@
   .bp-hero__cover { animation: none; transform: rotate(2deg); }
   .bp-hero__scroll-arrow { animation: none; }
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   EDITORIAL OVERRIDE — flusso continuo paper-craft su tutte le sezioni cream.
+   Tutto su parchment unificato, separato da ornamenti dorati ◆.
+   I blocchi navy (pricing, form) restano "ancore" visive di rottura ritmo.
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* Tutte le sezioni cream condividono lo stesso linguaggio editoriale */
+.bp-section--white,
+.bp-section--parchment,
+.bp-section--soft,
+.bp-section--amber,
+.bp-section--deep {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(196,138,58,.04) 0%, transparent 70%),
+    linear-gradient(180deg, #FAF6EE 0%, #F2EBDC 60%, #E8DCC0 100%) !important;
+  color: var(--bp-navy) !important;
+  position: relative;
+  box-shadow: none !important;
+  overflow: visible;
+}
+/* Grain texture per matericità */
+.bp-section--white::before,
+.bp-section--parchment::before,
+.bp-section--soft::before,
+.bp-section--amber::before,
+.bp-section--deep::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='.06'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  z-index: 0;
+}
+
+/* Ornamento divisore ◆ tra sezioni cream consecutive */
+.bp-section--white + .bp-section--white::after,
+.bp-section--white + .bp-section--parchment::after,
+.bp-section--white + .bp-section--soft::after,
+.bp-section--parchment + .bp-section--white::after,
+.bp-section--parchment + .bp-section--parchment::after,
+.bp-section--parchment + .bp-section--soft::after,
+.bp-section--soft + .bp-section--white::after,
+.bp-section--soft + .bp-section--parchment::after,
+.bp-section--soft + .bp-section--soft::after,
+.bp-section--white + .bp-section--amber::after,
+.bp-section--amber + .bp-section--white::after,
+.bp-section--white + .bp-section--deep::after,
+.bp-section--deep + .bp-section--white::after {
+  content: '◆';
+  position: absolute;
+  top: -.8rem; left: 50%;
+  transform: translateX(-50%);
+  font-size: 1rem;
+  color: var(--bp-gold);
+  background: #FAF6EE;
+  padding: 0 1.5rem;
+  z-index: 3;
+  line-height: 1.6;
+}
+/* Linea oro sottile tra sezioni cream consecutive */
+.bp-section--white + .bp-section--white,
+.bp-section--white + .bp-section--parchment,
+.bp-section--white + .bp-section--soft,
+.bp-section--parchment + .bp-section--white,
+.bp-section--parchment + .bp-section--parchment,
+.bp-section--parchment + .bp-section--soft,
+.bp-section--soft + .bp-section--white,
+.bp-section--soft + .bp-section--parchment,
+.bp-section--soft + .bp-section--soft,
+.bp-section--white + .bp-section--amber,
+.bp-section--amber + .bp-section--white,
+.bp-section--white + .bp-section--deep,
+.bp-section--deep + .bp-section--white {
+  border-top: 1px solid rgba(196,138,58,.30);
+}
+
+/* Blocchi navy (ancore) — pricing + form: ricevono polish dimensional */
+.bp-section--gradient,
+.bp-section--gradient-flat,
+.bp-section--dark {
+  background:
+    radial-gradient(ellipse 70% 60% at 100% 50%, rgba(196,138,58,.10) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 0% 30%, rgba(74,140,140,.05) 0%, transparent 65%),
+    linear-gradient(135deg, #0B1220 0%, #131D33 50%, #0F1729 100%) !important;
+  position: relative;
+  overflow: hidden;
+}
+.bp-section--gradient::before,
+.bp-section--gradient-flat::before,
+.bp-section--dark::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='.04'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Texture sottostante: i parchment con ::before grain potrebbero coprire contenuto.
+   Forziamo z-index del bp-container interno */
+.bp-section > .bp-container,
+.bp-section > * { position: relative; z-index: 1; }
+
+/* I titoli delle sezioni cream ora vivono su parchment, non più su gradient */
+.bp-section--white .bp-section-title,
+.bp-section--parchment .bp-section-title,
+.bp-section--soft .bp-section-title,
+.bp-section--amber .bp-section-title,
+.bp-section--deep .bp-section-title {
+  color: var(--bp-navy) !important;
+}
+.bp-section--white .bp-section-sub,
+.bp-section--parchment .bp-section-sub,
+.bp-section--soft .bp-section-sub,
+.bp-section--amber .bp-section-sub,
+.bp-section--deep .bp-section-sub {
+  color: rgba(15,26,41,.65) !important;
+}
+
+/* Eyebrows più "stamp" su parchment */
+.bp-section--white .bp-eyebrow,
+.bp-section--parchment .bp-eyebrow,
+.bp-section--soft .bp-eyebrow,
+.bp-section--amber .bp-eyebrow,
+.bp-section--deep .bp-eyebrow {
+  color: var(--bp-gold) !important;
+}
+.bp-section--white .bp-eyebrow::before,
+.bp-section--white .bp-eyebrow::after,
+.bp-section--parchment .bp-eyebrow::before,
+.bp-section--parchment .bp-eyebrow::after,
+.bp-section--soft .bp-eyebrow::before,
+.bp-section--soft .bp-eyebrow::after,
+.bp-section--amber .bp-eyebrow::before,
+.bp-section--amber .bp-eyebrow::after,
+.bp-section--deep .bp-eyebrow::before,
+.bp-section--deep .bp-eyebrow::after {
+  background: var(--bp-gold) !important;
+}
+
+/* Fade-to-navy + transizioni: rimosso (le ancore navy ora confinano direttamente) */
+.bp-fade-to-navy { display: none !important; }
 </style>
 {% endblock %}
 
@@ -1848,14 +1995,13 @@
             <span class="bp-hero__cover-corner bp-hero__cover-corner--bl" aria-hidden="true"></span>
             <span class="bp-hero__cover-corner bp-hero__cover-corner--br" aria-hidden="true"></span>
 
-            <p class="bp-hero__cover-brand">B · G · 5</p>
+            <p class="bp-hero__cover-brand">Human Design</p>
 
             <div class="bp-hero__cover-title-wrap">
               <h2 class="bp-hero__cover-title">
                 <span>Libretto</span>
                 <em>d'Istruzioni</em>
               </h2>
-              <p class="bp-hero__cover-subtitle">Human Design</p>
             </div>
 
             <div class="bp-hero__cover-bottom">
