@@ -343,9 +343,9 @@
   pointer-events: none;
   overflow: hidden;
 }
-/* Carousel come "specimen card" parchment che fluttua nel hero scuro:
-   il bodygraph mantiene le sue linee grigie naturali (identiche a /human-design)
-   e la card lo fa leggere nitido sul navy. */
+/* Carousel: bodygraph "knockout" — niente sfondo, solo le linee grigie
+   visibili sul navy del hero. invert+screen rimuove il fondo bianco del PNG
+   e fa apparire le linee chiare; saturate(0) neutralizza i colori → grigio. */
 .bp-hero__bg-carousel {
   position: absolute;
   right: 2%;
@@ -353,31 +353,27 @@
   transform: translateY(-50%);
   width: clamp(200px, 22vw, 380px);
   aspect-ratio: 851 / 1309;
-  background: #FAF6EE;
-  border: 1px solid rgba(196,138,58,.35);
-  border-radius: 6px;
-  padding: 1.25rem 1rem;
-  box-shadow:
-    0 24px 60px rgba(0,0,0,.45),
-    0 8px 20px rgba(196,138,58,.18),
-    inset 0 0 0 1px rgba(255,255,255,.6);
+  filter: drop-shadow(0 0 24px rgba(196,138,58,.18));
 }
 .bp-hero__bg-slide {
   position: absolute;
-  inset: 1.25rem 1rem;
-  width: calc(100% - 2rem);
-  height: calc(100% - 2.5rem);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   opacity: 0;
   animation: bp-hero-cycle 20s infinite;
-  /* Niente color filter: il bodygraph appare con le sue linee grigie naturali */
+  /* Inversione: linee scure → chiare; screen blend rimuove il bianco */
+  filter: invert(1) saturate(0) brightness(.95) contrast(1.05);
+  mix-blend-mode: screen;
 }
-/* 10 carte × 2s ciascuna = 20s ciclo. Ogni carta visibile 1.8s + 0.2s fade. */
+/* 10 carte × 2s = 20s ciclo. Cross-fade morbido: ogni carta sale a piena opacità
+   per ~1.4s, poi sfuma mentre la successiva sale (overlap 0.4s). */
 @keyframes bp-hero-cycle {
   0%   { opacity: 0; }
-  1%   { opacity: .85; }
-  9%   { opacity: .85; }
-  10%  { opacity: 0; }
+  2%   { opacity: 1; }
+  8%   { opacity: 1; }
+  12%  { opacity: 0; }
   100% { opacity: 0; }
 }
 .bp-hero__bg-slide:nth-child(1)  { animation-delay:  0s; }
@@ -1482,12 +1478,6 @@
   .bp-hero__bg-carousel {
     right: 0%;
     width: clamp(200px, 20vw, 300px);
-    padding: 1rem .75rem;
-  }
-  .bp-hero__bg-slide {
-    inset: 1rem .75rem;
-    width: calc(100% - 1.5rem);
-    height: calc(100% - 2rem);
   }
 }
 @media (max-width: 900px) {
@@ -1511,13 +1501,7 @@
   .bp-hero__bg-carousel {
     right: -8%;
     width: 240px;
-    opacity: .55;
-    padding: .85rem .65rem;
-  }
-  .bp-hero__bg-slide {
-    inset: .85rem .65rem;
-    width: calc(100% - 1.3rem);
-    height: calc(100% - 1.7rem);
+    opacity: .65;
   }
   .bp-hero__bg-overlay {
     background:
