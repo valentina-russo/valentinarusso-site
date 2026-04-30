@@ -267,25 +267,21 @@ body {
 .cover-tagline { font-size: .65rem; font-style: italic; color: rgba(245,239,227,.65); margin-top: .35rem; }
 
 /* ════════════════════════════════════════
-   CHAPTERS — pagine-di-libro appoggiate sulla scrivania
-   Ogni "foglio" è una sezione: numero capitolo + titolo + body + anteprima PDF.
-   Linguaggio editoriale, niente bento, niente tech-grid.
+   SHEETS — pagine-di-libro appoggiate sulla scrivania
+   Ogni sezione = un foglio. Linguaggio paper-craft coerente.
 ═════════════════════════════════════════ */
 .section-wrap {
   background:
     radial-gradient(ellipse 80% 60% at 50% 0%, rgba(196,138,58,.05) 0%, transparent 70%),
     linear-gradient(180deg, var(--paper-shade) 0%, var(--paper) 100%);
-  padding: 7rem 2rem 6rem;
+  padding: 6rem 2rem;
   position: relative;
 }
-
-.chapters {
+.sheets-stack {
   max-width: 1100px; margin: 0 auto;
   display: flex; flex-direction: column;
-  gap: 4rem;
+  gap: 3rem;
 }
-
-/* Sheet — singolo "foglio di carta" che galleggia sulla scrivania */
 .sheet {
   position: relative;
   background:
@@ -293,10 +289,6 @@ body {
     linear-gradient(180deg, #FFFDF8 0%, var(--paper) 100%);
   border-radius: 4px;
   padding: 4rem 4rem 3.5rem;
-  display: grid;
-  grid-template-columns: 1fr 280px;
-  gap: 3rem;
-  align-items: center;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.9),
     inset 0 0 0 1px rgba(15,26,41,.04),
@@ -314,17 +306,14 @@ body {
     0 16px 32px rgba(15,26,41,.10),
     0 48px 80px -20px rgba(15,26,41,.20);
 }
-/* Rotazioni leggere alternate per "stack di fogli" */
-.sheet--1 { transform: rotate(-.4deg); }
-.sheet--2 { transform: rotate(.5deg);  }
-.sheet--3 { transform: rotate(-.3deg); }
-.sheet--4 { transform: rotate(.4deg);  }
-.sheet--1:hover { transform: rotate(-.4deg) translateY(-4px); }
-.sheet--2:hover { transform: rotate(.5deg)  translateY(-4px); }
-.sheet--3:hover { transform: rotate(-.3deg) translateY(-4px); }
-.sheet--4:hover { transform: rotate(.4deg)  translateY(-4px); }
+.sheet--rot1 { transform: rotate(-.3deg); }
+.sheet--rot2 { transform: rotate(.4deg);  }
+.sheet--rot3 { transform: rotate(-.2deg); }
+.sheet--rot1:hover { transform: rotate(-.3deg) translateY(-4px); }
+.sheet--rot2:hover { transform: rotate(.4deg)  translateY(-4px); }
+.sheet--rot3:hover { transform: rotate(-.2deg) translateY(-4px); }
 
-/* "Pinzetta" decorativa in alto a sinistra (clip d'oro) */
+/* Pinzetta dorata in alto */
 .sheet::before {
   content: '';
   position: absolute;
@@ -342,88 +331,347 @@ body {
   width: 8px; height: 8px;
   border-radius: 50%;
   background: rgba(15,26,41,.25);
-  box-shadow: 0 1px 1px rgba(255,255,255,.4);
 }
 
-/* Reverse: anteprima a sinistra, testo a destra */
-.sheet--reverse { grid-template-columns: 280px 1fr; }
-.sheet--reverse .sheet-content { order: 2; }
-.sheet--reverse .sheet-preview { order: 1; }
-
-/* Chapter number — grande, italic, oro */
-.chapter-num {
-  display: inline-block;
-  font-family: 'Playfair Display', serif;
-  font-style: italic; font-weight: 400;
-  font-size: 4rem;
-  line-height: 1;
-  color: var(--gold);
-  margin-bottom: .5rem;
-  letter-spacing: -.02em;
-  background: linear-gradient(180deg, #D69847 0%, #B07730 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 6px rgba(196,138,58,.20);
+/* Header di ogni sheet (titolo grande + label) */
+.sheet-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
 }
-.chapter-label {
-  display: block;
+.sheet-eyebrow {
   font-family: 'Outfit', sans-serif;
   font-size: .7rem; font-weight: 600;
   letter-spacing: .25em; text-transform: uppercase;
-  color: var(--gold); opacity: .8;
-  margin-bottom: 1.25rem;
+  color: var(--gold); opacity: .85;
+  display: inline-block;
+  margin-bottom: 1rem;
 }
-.chapter-h3 {
+.sheet-title {
   font-family: 'Playfair Display', serif;
-  font-size: 1.85rem;
-  font-weight: 700;
-  margin-bottom: 1.25rem;
-  line-height: 1.15;
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  line-height: 1.1; font-weight: 700;
   color: var(--navy);
+  margin-bottom: .75rem;
 }
-.chapter-h3 em { font-style: italic; color: var(--gold); }
-.chapter-p {
-  font-size: 1rem; line-height: 1.75;
-  color: rgba(15,26,41,.72);
-  max-width: 540px;
+.sheet-title em { font-style: italic; color: var(--gold); }
+.sheet-lead {
+  font-size: 1.0625rem; line-height: 1.7;
+  color: rgba(15,26,41,.65);
+  max-width: 600px; margin: 0 auto;
 }
-.chapter-p + .chapter-p { margin-top: .75rem; }
 
-/* Anteprima PDF inside the sheet */
-.sheet-preview {
-  position: relative;
-  aspect-ratio: 595 / 842;
-  border-radius: 3px;
-  overflow: hidden;
-  background: var(--navy);
-  transform: rotate(-2deg);
-  box-shadow:
-    0 1px 2px rgba(0,0,0,.10),
-    0 8px 16px rgba(0,0,0,.12),
-    0 24px 40px -12px rgba(15,26,41,.30),
-    inset 0 0 0 1px rgba(196,138,58,.40);
+/* ──── INDICE compatto: 4 capitoli in griglia 2x2 ──── */
+.index-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  max-width: 920px; margin: 0 auto;
 }
-.sheet-preview img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  filter: contrast(1.05) brightness(.88);
+.index-item {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+  padding: 1.25rem 0;
+  border-top: 1px solid rgba(196,138,58,.18);
 }
-.sheet-preview::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(15,26,41,.6) 0%, rgba(15,26,41,.15) 50%, rgba(15,26,41,.85) 100%);
-  pointer-events: none;
-}
-.sheet-preview-label {
-  position: absolute; bottom: 1rem; left: 0; right: 0;
-  text-align: center;
+.index-num {
   font-family: 'Playfair Display', serif;
   font-style: italic;
-  font-size: .8rem;
+  font-size: 2.5rem;
+  line-height: 1;
+  background: linear-gradient(180deg, #D69847 0%, #B07730 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+}
+.index-label {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: .65rem; font-weight: 600;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold); opacity: .8;
+  margin-bottom: .35rem;
+}
+.index-h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem; font-weight: 700;
+  color: var(--navy);
+  line-height: 1.25;
+  margin-bottom: .5rem;
+}
+.index-h4 em { font-style: italic; color: var(--gold); }
+.index-desc {
+  font-size: .9rem; line-height: 1.6;
+  color: rgba(15,26,41,.65);
+}
+.index-extra {
+  margin-top: 2.5rem;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, rgba(196,138,58,.10) 0%, rgba(196,138,58,.04) 100%);
+  border: 1px dashed rgba(196,138,58,.4);
+  border-radius: 6px;
+  text-align: center;
+  max-width: 920px; margin: 2.5rem auto 0;
+}
+.index-extra strong {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; color: var(--gold);
+}
+
+/* ──── PERSONAS — 3 mini-card "fogli" interni ──── */
+.personas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 920px; margin: 0 auto;
+}
+.persona {
+  background: rgba(255,253,248,.6);
+  border: 1px solid rgba(196,138,58,.15);
+  border-top: 2px solid var(--gold);
+  border-radius: 4px;
+  padding: 1.75rem 1.5rem;
+  transition: transform .3s ease, box-shadow .3s ease;
+  box-shadow: 0 2px 6px rgba(15,26,41,.05);
+}
+.persona:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(15,26,41,.10);
+}
+.persona-icon {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F2EAD8 0%, #E8DBC0 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  border: 1px solid rgba(196,138,58,.25);
+}
+.persona-h {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem; font-weight: 700;
+  color: var(--navy);
+  line-height: 1.3;
+  margin-bottom: .65rem;
+}
+.persona-p {
+  font-size: .9rem; line-height: 1.6;
+  color: rgba(15,26,41,.7);
+  margin-bottom: 1rem;
+}
+.persona-tag {
+  font-size: .75rem; font-style: italic;
+  color: var(--gold);
+  border-left: 2px solid var(--gold);
+  padding-left: .65rem;
+}
+
+/* ──── BIO Valentina ──── */
+.bio-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  max-width: 800px; margin: 0 auto;
+}
+.bio-photo {
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--paper-shade);
+  box-shadow: 0 0 0 5px rgba(255,253,248,1), 0 0 0 7px var(--gold), 0 18px 36px -8px rgba(15,26,41,.25);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(15,26,41,.3);
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: .85rem;
+}
+.bio-credential {
+  font-size: .7rem; font-weight: 700;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+.bio-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 1rem;
+}
+.bio-text { font-size: .95rem; line-height: 1.7; color: rgba(15,26,41,.7); }
+.bio-text + .bio-text { margin-top: .65rem; }
+
+/* ──── COME FUNZIONA — 3 step ──── */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 920px; margin: 0 auto;
+  position: relative;
+}
+.steps-grid::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: calc(16.66% + 2rem);
+  right: calc(16.66% + 2rem);
+  height: 1px;
+  border-top: 2px dashed rgba(196,138,58,.3);
+}
+.step {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.step-icon {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--paper) 0%, var(--paper-shade) 100%);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+  color: var(--gold);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 4px 8px rgba(15,26,41,.10);
+}
+.step-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: .65rem; font-weight: 700;
+  letter-spacing: .25em;
+  color: var(--gold);
+  margin-bottom: .5rem;
+}
+.step h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem; font-weight: 700;
+  color: var(--navy);
+  margin-bottom: .5rem;
+}
+.step p { font-size: .9rem; line-height: 1.6; color: rgba(15,26,41,.7); }
+
+/* ──── PRICING — 2 cards lifted ──── */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 800px; margin: 0 auto;
+  align-items: end;
+}
+.pricing-card {
+  border-radius: 8px;
+  padding: 2.5rem 2rem;
+  position: relative;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.pricing-card.basic {
+  background: linear-gradient(180deg, #FFFDF8 0%, var(--paper) 100%);
+  border: 1px solid rgba(196,138,58,.25);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 1px 2px rgba(15,26,41,.06),
+    0 12px 24px rgba(15,26,41,.10);
+}
+.pricing-card.full {
+  background: linear-gradient(180deg, var(--navy) 0%, #1A2540 100%);
   color: var(--cream);
-  letter-spacing: .08em;
+  padding-top: 3.25rem;
+  box-shadow:
+    inset 0 1px 0 rgba(196,138,58,.30),
+    0 2px 4px rgba(15,26,41,.20),
+    0 16px 32px rgba(15,26,41,.22),
+    0 36px 64px -16px rgba(15,26,41,.40);
+}
+.pricing-card:hover { transform: translateY(-6px); }
+.price-badge {
+  position: absolute;
+  top: -10px; left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, var(--gold) 0%, #B07730 100%);
+  color: var(--navy-deep);
+  font-size: .65rem; font-weight: 700;
+  letter-spacing: .15em; text-transform: uppercase;
+  padding: .35rem 1rem;
+  border-radius: 100px;
+  white-space: nowrap;
+  box-shadow: 0 4px 8px rgba(196,138,58,.30);
+}
+.price-tier {
+  font-family: 'Outfit', sans-serif;
+  font-size: .7rem; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: .5rem;
+}
+.price-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem; font-weight: 700;
+  margin-bottom: 1.25rem;
+}
+.pricing-card.basic .price-name { color: var(--navy); }
+.pricing-card.full .price-name { color: var(--cream); }
+.price-value {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-weight: 700;
+  font-size: 2.75rem;
+  line-height: 1;
+  margin-bottom: .25rem;
+}
+.pricing-card.basic .price-value { color: var(--navy); }
+.pricing-card.full .price-value { color: var(--gold); }
+.price-meta {
+  font-size: .8rem;
+  color: rgba(15,26,41,.55);
+  margin-bottom: 1.5rem;
+}
+.pricing-card.full .price-meta { color: rgba(245,239,227,.55); }
+.price-list {
+  list-style: none; padding: 0; margin: 0 0 1.5rem;
+  font-size: .9rem;
+}
+.price-list li {
+  padding: .45rem 0;
+  border-bottom: 1px solid rgba(196,138,58,.15);
+  display: flex; gap: .65rem; align-items: flex-start;
+}
+.pricing-card.full .price-list li { border-color: rgba(196,138,58,.20); color: rgba(245,239,227,.85); }
+.price-list li::before {
+  content: '·';
+  color: var(--gold);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ──── FAQ ──── */
+.faq-list {
+  max-width: 720px; margin: 0 auto;
+}
+.faq-item {
+  border-bottom: 1px solid rgba(196,138,58,.18);
+  padding: 1.25rem 0;
+}
+.faq-q {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem; font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 1rem;
+  transition: color .2s;
+}
+.faq-q:hover { color: var(--gold); }
+.faq-q::after {
+  content: '+';
+  color: var(--gold);
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+.faq-a {
+  font-size: .92rem;
+  line-height: 1.65;
+  color: rgba(15,26,41,.7);
+  margin-top: .85rem;
 }
 
 /* Big CTA section card */
@@ -503,60 +751,202 @@ body {
 </section>
 
 <section class="section-wrap">
-  <div class="chapters">
+  <div class="sheets-stack">
 
-    <article class="sheet sheet--1">
-      <div class="sheet-content">
-        <span class="chapter-num">I</span>
-        <span class="chapter-label">Capitolo 01 · Identità</span>
-        <h3 class="chapter-h3">Chi sei <em>davvero</em>, tradotto.</h3>
-        <p class="chapter-p">Tipo, Strategia, Autorità Interiore, Profilo. Il documento spiega come funzioni quando sei allineato col tuo design.</p>
-        <p class="chapter-p">Dove succede di perdere energia per niente — e dove invece il sistema regge bene anche sotto pressione.</p>
+    {# 1. INDICE — un solo blocco compatto coi 4 capitoli #}
+    <article class="sheet sheet--rot1">
+      <div class="sheet-header">
+        <span class="sheet-eyebrow">Cosa contiene</span>
+        <h2 class="sheet-title">L'<em>indice</em> del tuo Libretto</h2>
+        <p class="sheet-lead">Quattro capitoli scritti sulla tua carta specifica. Niente template, niente copia-incolla.</p>
       </div>
-      <div class="sheet-preview">
-        <img src="cover-hero.jpg" alt="Anteprima capitolo Identità">
-        <p class="sheet-preview-label">~12 pagine</p>
+      <div class="index-grid">
+        <div class="index-item">
+          <span class="index-num">I</span>
+          <div>
+            <span class="index-label">Identità</span>
+            <h4 class="index-h4">Chi sei <em>davvero</em></h4>
+            <p class="index-desc">Tipo, Strategia, Autorità, Profilo — come funzioni quando sei allineato.</p>
+          </div>
+        </div>
+        <div class="index-item">
+          <span class="index-num">II</span>
+          <div>
+            <span class="index-label">Decisioni</span>
+            <h4 class="index-h4">Come <em>decidere bene</em></h4>
+            <p class="index-desc">L'autorità interiore applicata ai casi concreti — lavoro, relazioni, scelte.</p>
+          </div>
+        </div>
+        <div class="index-item">
+          <span class="index-num">III</span>
+          <div>
+            <span class="index-label">Centri & Canali</span>
+            <h4 class="index-h4">Dove sei <em>forte</em>, dove assorbi</h4>
+            <p class="index-desc">I 9 centri energetici, canali attivi, porte aperte — mappati sulla tua carta.</p>
+          </div>
+        </div>
+        <div class="index-item">
+          <span class="index-num">IV</span>
+          <div>
+            <span class="index-label">Direzione</span>
+            <h4 class="index-h4">La tua <em>mappa</em></h4>
+            <p class="index-desc">Croce di incarnazione, ambiente, percorso di fondo.</p>
+          </div>
+        </div>
+      </div>
+      <div class="index-extra">
+        <strong>Solo Avanzato</strong> · 3 capitoli extra: comunicazione, lavoro, sintesi pratica in 5 passi
       </div>
     </article>
 
-    <article class="sheet sheet--reverse sheet--2">
-      <div class="sheet-content">
-        <span class="chapter-num">II</span>
-        <span class="chapter-label">Capitolo 02 · Decisioni</span>
-        <h3 class="chapter-h3">Come <em>decidere bene</em>, in pratica.</h3>
-        <p class="chapter-p">L'autorità interiore non è una teoria. È un segnale specifico nel tuo corpo che ti dice quando una decisione ti appartiene.</p>
-        <p class="chapter-p">Capirai come riconoscerlo nei casi concreti — lavoro, relazioni, soldi, salute.</p>
+    {# 2. PER CHI È — 3 personas in mini-card #}
+    <article class="sheet sheet--rot2">
+      <div class="sheet-header">
+        <span class="sheet-eyebrow">Per chi è</span>
+        <h2 class="sheet-title">Per chi è <em>scritto</em>.</h2>
+        <p class="sheet-lead">Non serve sapere niente di Human Design — il Libretto è in linguaggio pratico, per chi parte da zero.</p>
       </div>
-      <div class="sheet-preview">
-        <img src="cover-hero.jpg" alt="Anteprima capitolo Decisioni">
-        <p class="sheet-preview-label">~8 pagine</p>
+      <div class="personas-grid">
+        <div class="persona">
+          <div class="persona-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </div>
+          <h4 class="persona-h">Chi si esaurisce senza capire perché</h4>
+          <p class="persona-p">Fai le stesse cose di chi ti circonda. Alcune funzionano, molte no. Il tuo sistema energetico è diverso — e ancora non sai com'è fatto.</p>
+          <p class="persona-tag">ti svegli stanca anche dopo giornate leggere</p>
+        </div>
+        <div class="persona">
+          <div class="persona-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h4 class="persona-h">Chi decide e poi ci ripensa</h4>
+          <p class="persona-p">Ragioni veloce, sai rispondere a tutto. Ma le tue decisioni migliori, quelle tenute nel tempo, le hai prese in modo diverso. Il Libretto spiega quale.</p>
+          <p class="persona-tag">ti accorgi di "aver deciso di testa" troppo tardi</p>
+        </div>
+        <div class="persona">
+          <div class="persona-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <h4 class="persona-h">Chi sta cambiando direzione</h4>
+          <p class="persona-p">Stai lasciando qualcosa, o ricominciando da qualcos'altro. Prima della prossima mossa, ha senso capire cos'è strutturalmente tuo.</p>
+          <p class="persona-tag">hai deciso ma senti che manca un pezzo</p>
+        </div>
       </div>
     </article>
 
-    <article class="sheet sheet--3">
-      <div class="sheet-content">
-        <span class="chapter-num">III</span>
-        <span class="chapter-label">Capitolo 03 · Centri & Canali</span>
-        <h3 class="chapter-h3">Dove sei forte, <em>dove assorbi</em>.</h3>
-        <p class="chapter-p">I 9 Centri energetici, i tuoi canali attivi, le porte aperte. Mappato sulla tua carta — non spiegato in astratto.</p>
+    {# 3. CHI È VALENTINA — bio + foto #}
+    <article class="sheet sheet--rot3">
+      <div class="sheet-header">
+        <span class="sheet-eyebrow">Chi prepara il tuo Libretto</span>
+        <h2 class="sheet-title">Valentina <em>Russo</em></h2>
       </div>
-      <div class="sheet-preview">
-        <img src="cover-hero.jpg" alt="Anteprima capitolo Centri">
-        <p class="sheet-preview-label">~10 pagine</p>
+      <div class="bio-grid">
+        <div class="bio-photo">[ foto ]</div>
+        <div>
+          <p class="bio-credential">Consulente Human Design &amp; BG5</p>
+          <p class="bio-name" style="font-size:1.15rem;font-style:italic">la mappa che ti appartiene da sempre</p>
+          <p class="bio-text">Valentina studia e applica il sistema Human Design da anni. Ogni Libretto lo prepara personalmente — dal calcolo della carta alla scrittura del documento finale sulla tua configurazione specifica.</p>
+          <p class="bio-text">Niente template generici. Niente copia-incolla. Prima di inviare lo rilegge: se qualcosa non torna, riscrive.</p>
+        </div>
       </div>
     </article>
 
-    <article class="sheet sheet--reverse sheet--4">
-      <div class="sheet-content">
-        <span class="chapter-num">IV</span>
-        <span class="chapter-label">Capitolo 04 · Direzione</span>
-        <h3 class="chapter-h3">La tua <em>mappa</em>.</h3>
-        <p class="chapter-p">Croce di incarnazione, ambiente in cui rendi al meglio, e la direzione di fondo del tuo percorso.</p>
-        <p class="chapter-p"><strong>Avanzato</strong>: 3 capitoli extra (comunicazione, lavoro, sintesi pratica) che non trovi nel Base.</p>
+    {# 4. COME FUNZIONA — 3 step #}
+    <article class="sheet sheet--rot1">
+      <div class="sheet-header">
+        <span class="sheet-eyebrow">Come funziona</span>
+        <h2 class="sheet-title">Tre passi. <em>Niente call</em>, niente attesa.</h2>
+        <p class="sheet-lead">Scegli, paga, inserisci i dati. Il documento arriva via email entro 2–4 giorni lavorativi.</p>
       </div>
-      <div class="sheet-preview">
-        <img src="cover-hero.jpg" alt="Anteprima capitolo Direzione">
-        <p class="sheet-preview-label">~10–25 pagine</p>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+          <div class="step-num">01</div>
+          <h4>Scegli e paga</h4>
+          <p>Libretto Base o Avanzato, pagamento sicuro Stripe (carta o PayPal). Due minuti.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+          </div>
+          <div class="step-num">02</div>
+          <h4>Inserisci i dati</h4>
+          <p>Data, ora e luogo di nascita. Aggiungi un contesto se vuoi — aiuta Valentina a personalizzare meglio.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="step-num">03</div>
+          <h4>Ricevi il Libretto</h4>
+          <p>PDF rivisto e personalizzato direttamente nella tua casella entro 2–4 giorni lavorativi.</p>
+        </div>
+      </div>
+    </article>
+
+    {# 5. PRICING #}
+    <article class="sheet sheet--rot2">
+      <div class="sheet-header">
+        <span class="sheet-eyebrow">Prezzi</span>
+        <h2 class="sheet-title">Base o <em>Avanzato</em>?</h2>
+        <p class="sheet-lead">Se non conosci ancora HD, il Base è sufficiente. L'Avanzato aggiunge 3 capitoli su comunicazione e lavoro.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card basic">
+          <p class="price-tier">Libretto Base</p>
+          <h3 class="price-name">Identità energetica</h3>
+          <div class="price-value">€90</div>
+          <p class="price-meta">4 capitoli · ~35 pagine · PDF</p>
+          <ul class="price-list">
+            <li>Tipo, Strategia, Profilo</li>
+            <li>Autorità Interiore</li>
+            <li>I 9 Centri (definiti e aperti)</li>
+            <li>Croce di incarnazione</li>
+          </ul>
+          <a class="btn btn-outline" style="width:100%;justify-content:center" href="#">Ordina il Base</a>
+        </div>
+        <div class="pricing-card full">
+          <span class="price-badge">Il più scelto</span>
+          <p class="price-tier">Libretto Avanzato</p>
+          <h3 class="price-name">Identità + Applicazione</h3>
+          <div class="price-value">€147</div>
+          <p class="price-meta">7 capitoli · ~55 pagine · PDF</p>
+          <ul class="price-list">
+            <li>Tutto il Base, più:</li>
+            <li>Comunicazione: la tua Voce di Gola</li>
+            <li>Lavoro: offerte allineate</li>
+            <li>Sintesi in 5 passi pratici</li>
+          </ul>
+          <a class="btn btn-primary" style="width:100%;justify-content:center" href="#">Ordina l'Avanzato</a>
+        </div>
+      </div>
+    </article>
+
+    {# 6. FAQ #}
+    <article class="sheet sheet--rot3">
+      <div class="sheet-header">
+        <span class="sheet-eyebrow">Domande frequenti</span>
+        <h2 class="sheet-title">Le domande <em>più frequenti</em></h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <p class="faq-q">Quanto ci vuole?</p>
+          <p class="faq-a">Tra 2 e 4 giorni lavorativi dal momento in cui ricevi i dati di nascita. Niente attese vaghe.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Devo sapere già qualcosa di Human Design?</p>
+          <p class="faq-a">No. Il libretto è scritto in linguaggio pratico, per chi parte da zero. I termini tecnici sono spiegati man mano.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">È rimborsabile?</p>
+          <p class="faq-a">È un prodotto digitale personalizzato: una volta avviata la lavorazione non è rimborsabile. Per questo prima di pagare leggi bene cosa contiene.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Differenza tra Base e Avanzato?</p>
+          <p class="faq-a">Base copre la tua identità energetica (4 capitoli, ~35 pagine). L'Avanzato aggiunge 3 capitoli su comunicazione e lavoro (~55 pagine totali).</p>
+        </div>
       </div>
     </article>
 
