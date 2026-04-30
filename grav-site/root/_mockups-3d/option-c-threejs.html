@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Mockup C — Three.js Hero Scene</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C48A3A;
+  --navy: #0F1A29;
+  --navy-deep: #0B1220;
+  --cream: #F5EFE3;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--navy-deep);
+  color: var(--cream);
+  overflow-x: hidden;
+}
+.banner {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(196,138,58,.95);
+  color: var(--navy-deep);
+  text-align: center; padding: .65rem 1rem;
+  font-weight: 700; font-size: .85rem;
+  letter-spacing: .1em; text-transform: uppercase;
+}
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+  padding: 6rem 4rem 4rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 100% 50%, rgba(196,138,58,.10) 0%, transparent 60%),
+    linear-gradient(135deg, var(--navy-deep) 0%, #131D33 50%, #0F1729 100%);
+  gap: 2rem;
+}
+.hero__text { z-index: 2; max-width: 580px; }
+.hero__kicker {
+  font-size: .75rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: .85rem;
+}
+.hero__kicker::before {
+  content: ''; width: 36px; height: 1px; background: var(--gold); opacity: .7;
+}
+.hero__h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+}
+.hero__h1 em {
+  font-style: italic; color: var(--gold);
+  position: relative;
+}
+.hero__h1 em::after {
+  content: ''; position: absolute;
+  left: 0; right: 0; bottom: -.1em;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+  opacity: .55;
+}
+.hero__sub {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(245,239,227,.88);
+  margin-bottom: 2rem;
+}
+.hero__cta-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-primary, .btn-outline {
+  padding: 1rem 1.85rem; font-weight: 700;
+  text-decoration: none; border-radius: 2px;
+  display: inline-flex; gap: 1.25rem; align-items: center;
+}
+.btn-primary {
+  background: var(--gold); color: var(--navy-deep);
+  border: 1px solid var(--gold);
+}
+.btn-outline {
+  background: rgba(255,255,255,.04); color: var(--cream);
+  border: 1px solid rgba(245,239,227,.4); font-weight: 600;
+}
+.btn-primary strong, .btn-outline strong {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  padding-left: 1rem; border-left: 1px solid currentColor;
+}
+
+/* Three.js canvas container */
+#scene-3d {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  cursor: grab;
+}
+#scene-3d:active { cursor: grabbing; }
+#scene-3d canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 8px;
+}
+.scene-hint {
+  position: absolute;
+  bottom: 1rem; left: 50%;
+  transform: translateX(-50%);
+  font-size: .75rem;
+  color: rgba(245,239,227,.45);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="banner">Mockup C — Three.js · trascina il libro per ruotarlo</div>
+
+<section class="hero">
+  <div class="hero__text">
+    <p class="hero__kicker">PDF · Human Design Personale</p>
+    <h1 class="hero__h1">Libretto d'Istruzioni<br><em>Human Design</em>.</h1>
+    <p class="hero__sub">Un libro vero in 3D al posto di un'immagine piatta. Trascinalo, ruotalo. Scroll per zoom. Three.js renderizza in tempo reale — costo: ~140kb di JS, ~50ms di setup, ~16ms per frame.</p>
+    <div class="hero__cta-group">
+      <a class="btn-primary" href="#">Libretto Avanzato <strong>€147</strong></a>
+      <a class="btn-outline" href="#">Libretto Base <strong>€90</strong></a>
+    </div>
+  </div>
+  <div id="scene-3d">
+    <span class="scene-hint">drag · zoom · ruota</span>
+  </div>
+</section>
+
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+const container = document.getElementById('scene-3d');
+
+const scene = new THREE.Scene();
+const w = container.clientWidth, h = container.clientHeight;
+const camera = new THREE.PerspectiveCamera(35, w / h, 0.1, 100);
+camera.position.set(0, 0.5, 9);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(w, h);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+container.appendChild(renderer.domElement);
+
+// Lights
+scene.add(new THREE.AmbientLight(0x8090b0, 0.4));
+const key = new THREE.DirectionalLight(0xffe5b0, 1.6);
+key.position.set(4, 6, 5);
+key.castShadow = true;
+key.shadow.mapSize.set(1024, 1024);
+scene.add(key);
+const rim = new THREE.DirectionalLight(0xc48a3a, 0.8);
+rim.position.set(-3, 2, -3);
+scene.add(rim);
+
+// Texture (uses the cover-hero image as front)
+const loader = new THREE.TextureLoader();
+const tex = loader.load('cover-hero.jpg', (t) => {
+  t.colorSpace = THREE.SRGBColorSpace;
+});
+
+// Book group
+const book = new THREE.Group();
+
+// Cover front (3.5×5×0.4 with rounded edges via small chamfer)
+const W = 3.5, H = 5, T = 0.45;
+const coverFrontGeom = new THREE.BoxGeometry(W, H, 0.06);
+const coverMat = [
+  new THREE.MeshStandardMaterial({ color: 0x0F1A29, roughness: .7 }), // right
+  new THREE.MeshStandardMaterial({ color: 0x0F1A29, roughness: .7 }), // left
+  new THREE.MeshStandardMaterial({ color: 0x0F1A29, roughness: .7 }), // top
+  new THREE.MeshStandardMaterial({ color: 0x0F1A29, roughness: .7 }), // bottom
+  new THREE.MeshStandardMaterial({ map: tex, roughness: .55 }),       // front (face 4)
+  new THREE.MeshStandardMaterial({ color: 0x0F1A29, roughness: .8 })  // back
+];
+const coverFront = new THREE.Mesh(coverFrontGeom, coverMat);
+coverFront.position.z = T/2 + 0.03;
+coverFront.castShadow = true;
+book.add(coverFront);
+
+// Pages stack (massa cartacea)
+const pagesGeom = new THREE.BoxGeometry(W * 0.95, H * 0.97, T - 0.12);
+const pagesMat = new THREE.MeshStandardMaterial({ color: 0xF5EFE3, roughness: .9 });
+const pages = new THREE.Mesh(pagesGeom, pagesMat);
+pages.castShadow = true;
+pages.receiveShadow = true;
+book.add(pages);
+
+// Back cover
+const coverBackGeom = new THREE.BoxGeometry(W, H, 0.06);
+const coverBackMat = new THREE.MeshStandardMaterial({ color: 0x0F1A29, roughness: .8 });
+const coverBack = new THREE.Mesh(coverBackGeom, coverBackMat);
+coverBack.position.z = -T/2 - 0.03;
+coverBack.castShadow = true;
+book.add(coverBack);
+
+// Spine (dorso)
+const spineGeom = new THREE.BoxGeometry(0.12, H, T);
+const spineMat = new THREE.MeshStandardMaterial({ color: 0x0A1320, roughness: .8 });
+const spine = new THREE.Mesh(spineGeom, spineMat);
+spine.position.x = -W/2 - 0.06;
+spine.castShadow = true;
+book.add(spine);
+
+// Gold edge accent (cornice)
+const edgeGeom = new THREE.EdgesGeometry(coverFrontGeom);
+const edgeMat = new THREE.LineBasicMaterial({ color: 0xC48A3A, linewidth: 2 });
+const edges = new THREE.LineSegments(edgeGeom, edgeMat);
+edges.position.copy(coverFront.position);
+book.add(edges);
+
+book.rotation.set(0.05, -0.7, 0.04);
+scene.add(book);
+
+// Floor (catches shadow)
+const floor = new THREE.Mesh(
+  new THREE.PlaneGeometry(20, 20),
+  new THREE.ShadowMaterial({ opacity: .35 })
+);
+floor.rotation.x = -Math.PI / 2;
+floor.position.y = -3.5;
+floor.receiveShadow = true;
+scene.add(floor);
+
+// Drag rotation
+let drag = false, lx = 0, ly = 0, vx = 0.002, vy = 0;
+container.addEventListener('pointerdown', (e) => { drag = true; lx = e.clientX; ly = e.clientY; vx = 0; });
+window.addEventListener('pointerup', () => { drag = false; });
+window.addEventListener('pointermove', (e) => {
+  if (!drag) return;
+  const dx = (e.clientX - lx) / 200, dy = (e.clientY - ly) / 200;
+  book.rotation.y += dx;
+  book.rotation.x = Math.max(-1, Math.min(1, book.rotation.x + dy));
+  lx = e.clientX; ly = e.clientY;
+});
+
+// Zoom on wheel
+container.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  camera.position.z = Math.max(5, Math.min(14, camera.position.z + e.deltaY * 0.005));
+}, { passive: false });
+
+// Animate
+function tick() {
+  requestAnimationFrame(tick);
+  if (!drag) book.rotation.y += vx;
+  book.position.y = Math.sin(performance.now() * 0.0008) * 0.1;
+  renderer.render(scene, camera);
+}
+tick();
+
+// Resize
+window.addEventListener('resize', () => {
+  const W = container.clientWidth, H = container.clientHeight;
+  renderer.setSize(W, H);
+  camera.aspect = W / H;
+  camera.updateProjectionMatrix();
+});
+</script>
+</body>
+</html>
