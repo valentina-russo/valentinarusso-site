@@ -373,7 +373,7 @@
 {% if is_aziende_home %}{% set body_classes = body_classes|merge(['hero-v2-aziende']) %}{% endif %}
 <body{% if body_classes %} class="{{ body_classes|join(' ') }}"{% endif %}>
 
-    {% include 'partials/header.html.twig' %}
+    {% block header %}{% include 'partials/header.html.twig' %}{% endblock %}
 
     {% block content %}{% endblock %}
 
