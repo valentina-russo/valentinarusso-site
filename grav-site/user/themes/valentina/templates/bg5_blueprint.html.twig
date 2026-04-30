@@ -335,7 +335,7 @@
   pointer-events: none;
 }
 
-/* Layer 3: simboli Human Design (bodygraph + glifi planetari) */
+/* Layer 3: bodygraph carousel ciclico (10 carte HD reali, fade incrociato) */
 .bp-hero__symbols {
   position: absolute;
   inset: 0;
@@ -343,44 +343,46 @@
   pointer-events: none;
   overflow: hidden;
 }
-.bp-hero__bodygraph {
+.bp-hero__bg-carousel {
   position: absolute;
-  right: 6%;
+  right: 5%;
   top: 50%;
   transform: translateY(-50%);
-  width: clamp(220px, 26vw, 380px);
-  height: auto;
-  color: var(--bp-gold);
-  opacity: .32;
-  filter: drop-shadow(0 0 18px rgba(196,138,58,.35));
-  animation: bp-bodygraph-breath 7s ease-in-out infinite alternate;
+  width: clamp(240px, 28vw, 420px);
+  aspect-ratio: 851 / 1309;
+  filter: drop-shadow(0 8px 28px rgba(196,138,58,.30));
 }
-@keyframes bp-bodygraph-breath {
-  0%   { opacity: .28; filter: drop-shadow(0 0 14px rgba(196,138,58,.30)); }
-  100% { opacity: .42; filter: drop-shadow(0 0 24px rgba(196,138,58,.50)); }
-}
-
-.bp-hero__glyph {
+.bp-hero__bg-slide {
   position: absolute;
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
-  color: var(--bp-gold);
-  opacity: .35;
-  text-shadow: 0 0 12px rgba(196,138,58,.6);
-  font-weight: 400;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  animation: bp-hero-cycle 20s infinite;
+  /* Le carte HD sono in nero su sfondo chiaro: invertiamo + tint oro per
+     intonarle al palette navy del hero senza perdere leggibilità del bodygraph */
+  filter: invert(1) sepia(.4) hue-rotate(-15deg) saturate(1.4) brightness(1.1);
+  mix-blend-mode: screen;
 }
-.bp-hero__glyph--1 { top: 14%; right: 28%; transform: rotate(-8deg); }
-.bp-hero__glyph--2 { bottom: 22%; right: 38%; transform: rotate(6deg); }
-.bp-hero__glyph--3 { top: 28%; right: 8%;  font-size: 1.5rem; opacity: .25; }
-.bp-hero__glyph--4 { bottom: 14%; right: 18%; font-size: 1.5rem; opacity: .25; }
-
-.bp-hero__rule {
-  position: absolute;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(196,138,58,.6) 50%, transparent 100%);
+/* 10 carte × 2s ciascuna = 20s ciclo. Ogni carta visibile 1.8s + 0.2s fade. */
+@keyframes bp-hero-cycle {
+  0%   { opacity: 0; }
+  1%   { opacity: .85; }
+  9%   { opacity: .85; }
+  10%  { opacity: 0; }
+  100% { opacity: 0; }
 }
-.bp-hero__rule--top { top: 8%;    left: 10%; right: 10%; }
-.bp-hero__rule--bot { bottom: 8%; left: 10%; right: 10%; }
+.bp-hero__bg-slide:nth-child(1)  { animation-delay:  0s; }
+.bp-hero__bg-slide:nth-child(2)  { animation-delay:  2s; }
+.bp-hero__bg-slide:nth-child(3)  { animation-delay:  4s; }
+.bp-hero__bg-slide:nth-child(4)  { animation-delay:  6s; }
+.bp-hero__bg-slide:nth-child(5)  { animation-delay:  8s; }
+.bp-hero__bg-slide:nth-child(6)  { animation-delay: 10s; }
+.bp-hero__bg-slide:nth-child(7)  { animation-delay: 12s; }
+.bp-hero__bg-slide:nth-child(8)  { animation-delay: 14s; }
+.bp-hero__bg-slide:nth-child(9)  { animation-delay: 16s; }
+.bp-hero__bg-slide:nth-child(10) { animation-delay: 18s; }
 
 /* Layer 4: contenuto testuale */
 .bp-hero__content {
@@ -393,21 +395,11 @@
 }
 
 /* Frame: contenitore "scheda tecnica" che evita l'effetto "testo su rettangolo".
-   Niente background pieno — solo bordo finissimo che richiama il manuale antico. */
+   Niente background pieno, niente bordi decorativi — il testo respira da solo. */
 .bp-hero__frame {
   max-width: 640px;
   position: relative;
   padding: 2.5rem 2.5rem 2.5rem 0;
-}
-.bp-hero__frame::before {
-  content: '';
-  position: absolute;
-  left: -1.5rem;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: linear-gradient(180deg, transparent 0%, var(--bp-gold) 25%, var(--bp-gold) 75%, transparent 100%);
-  opacity: .55;
 }
 
 .bp-hero__kicker {
@@ -501,10 +493,14 @@
   border: 1px solid var(--bp-gold);
   box-shadow: 0 8px 28px rgba(196,138,58,.35), 0 0 0 1px rgba(196,138,58,.2);
 }
-.bp-btn-hero-primary:hover {
-  background: #D69847;
+/* Pulsante "arancione/dorato": al hover il testo diventa BIANCO */
+.bp-btn-hero-primary:hover,
+.bp-btn-hero-primary:focus-visible {
+  background: #B07730;
+  color: #FFFFFF;
+  border-color: #B07730;
   transform: translateY(-2px);
-  box-shadow: 0 14px 36px rgba(196,138,58,.45);
+  box-shadow: 0 14px 36px rgba(196,138,58,.55);
 }
 .bp-btn-hero-outline {
   background: rgba(255,255,255,.04);
@@ -514,11 +510,15 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
-.bp-btn-hero-outline:hover {
-  background: rgba(255,255,255,.10);
+/* Pulsante "bianco/outline": al hover testo e bordo diventano DORATI */
+.bp-btn-hero-outline:hover,
+.bp-btn-hero-outline:focus-visible {
+  background: rgba(196,138,58,.08);
+  color: var(--bp-gold);
   border-color: var(--bp-gold);
   transform: translateY(-2px);
 }
+.bp-btn-hero-outline:hover strong { border-color: var(--bp-gold); }
 .bp-btn-hero-primary span,
 .bp-btn-hero-outline span { font-weight: 600; }
 .bp-btn-hero-primary strong,
@@ -559,37 +559,71 @@
   border-radius: 50%;
   display: inline-block;
 }
+/* Pulsante "arancione/dorato" pieno (era rosa-rosa, ora gold per coerenza palette
+   e contrasto WCAG AA con testo navy/scuro su gold). Hover → testo bianco. */
 .bp-btn-primary {
   display: inline-block;
-  background: var(--bp-rosa);
-  color: var(--bp-white);
+  background: var(--bp-gold);
+  color: var(--bp-navy-deep);
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 1rem;
   padding: 1rem 2.5rem;
   border-radius: 4px;
   text-decoration: none;
-  border: none;
+  border: 1px solid var(--bp-gold);
   cursor: pointer;
-  transition: background .2s, transform .15s;
+  transition: background .2s, color .2s, border-color .2s, transform .15s, box-shadow .2s;
   letter-spacing: .02em;
 }
-.bp-btn-primary:hover { background: #B5697B; transform: translateY(-1px); }
+.bp-btn-primary:hover,
+.bp-btn-primary:focus-visible {
+  background: #B07730;
+  color: #FFFFFF;
+  border-color: #B07730;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(196,138,58,.40);
+}
 
+/* Pulsante "bianco/outline" (era rosa, ora gold). Hover → testo/bordo dorato intensificato. */
 .bp-btn-outline {
   display: inline-block;
-  color: var(--bp-rosa);
+  color: var(--bp-gold);
+  background: transparent;
   font-family: 'Outfit', sans-serif;
   font-weight: 600;
   font-size: 1rem;
   padding: .9rem 2rem;
   border-radius: 4px;
   text-decoration: none;
-  border: 2px solid var(--bp-rosa);
+  border: 2px solid var(--bp-gold);
   cursor: pointer;
-  transition: background .2s, color .2s;
+  transition: background .2s, color .2s, border-color .2s, transform .15s;
 }
-.bp-btn-outline:hover { background: var(--bp-bp-rosa-wash); }
+.bp-btn-outline:hover,
+.bp-btn-outline:focus-visible {
+  background: rgba(196,138,58,.08);
+  color: #B07730;
+  border-color: #B07730;
+  transform: translateY(-1px);
+}
+
+/* Modifier "large" per CTA prominenti finali */
+.bp-btn-primary--lg {
+  padding: 1.25rem 2.75rem;
+  font-size: 1.125rem;
+  box-shadow: 0 8px 28px rgba(196,138,58,.30);
+}
+.bp-btn-primary--lg strong {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 700;
+  margin-left: .25rem;
+}
+.bp-btn-outline--lg {
+  padding: 1.1rem 2.25rem;
+  font-size: 1.0625rem;
+}
 
 .bp-hero__scroll {
   position: absolute;
@@ -1094,22 +1128,31 @@
 }
 .bp-pricing__footer a { color: var(--bp-rosa); }
 
+/* Pulsante "bianco/outline" del Libretto Base nel pricing — palette gold,
+   hover testo/bordo dorato intensificato. */
 .bp-btn-outline-ess {
   display: block;
   width: 100%;
   text-align: center;
-  color: var(--bp-rosa);
+  color: var(--bp-gold);
+  background: transparent;
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 1rem;
-  padding: .9rem 2rem;
+  padding: .95rem 2rem;
   border-radius: 4px;
   text-decoration: none;
-  border: 2px solid var(--bp-rosa);
+  border: 2px solid var(--bp-gold);
   cursor: pointer;
-  transition: background .2s, color .2s;
+  transition: background .2s, color .2s, border-color .2s, transform .15s;
 }
-.bp-btn-outline-ess:hover { background: var(--bp-rosa-wash); }
+.bp-btn-outline-ess:hover,
+.bp-btn-outline-ess:focus-visible {
+  background: rgba(196,138,58,.08);
+  color: #B07730;
+  border-color: #B07730;
+  transform: translateY(-1px);
+}
 
 
 /* ══════════════════════════════════════════
@@ -1189,21 +1232,31 @@
 .bp-form-radio strong { display: block; font-weight: 700; color: var(--bp-white); }
 .bp-form-radio span { font-size: .8125rem; color: rgba(245,236,240,.55); }
 
+/* Form submit allineato alla nuova palette gold/navy (era rosa).
+   Hover → testo bianco (regola "pulsanti pieni"). */
 .bp-form-submit {
   width: 100%;
   padding: 1.125rem;
-  background: var(--bp-rosa);
-  color: var(--bp-white);
+  background: var(--bp-gold);
+  color: var(--bp-navy-deep);
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 1.0625rem;
-  border: none;
+  border: 1px solid var(--bp-gold);
   border-radius: 4px;
   cursor: pointer;
-  transition: background .2s, transform .15s;
+  transition: background .2s, color .2s, border-color .2s, transform .15s, box-shadow .2s;
   margin-top: .5rem;
+  letter-spacing: .02em;
 }
-.bp-form-submit:hover { background: #B5697B; transform: translateY(-1px); }
+.bp-form-submit:hover,
+.bp-form-submit:focus-visible {
+  background: #B07730;
+  color: #FFFFFF;
+  border-color: #B07730;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(196,138,58,.40);
+}
 .bp-form-note {
   text-align: center;
   font-size: .8125rem;
@@ -1371,10 +1424,12 @@
   100% { transform: translateY(-110vh) translateX(var(--drift,0px)); opacity: 0; }
 }
 
-/* Sezione layer effect — ombre di profondità */
+/* Sezione layer effect — ombre di profondità.
+   NB: niente inset shadow su --gradient: su sfondo già navy l'ombra crea una
+   banda nera visibile al top, percepita come "blocco nero" tra il fade
+   superiore e l'inizio del pricing. */
 .bp-section--parchment  { box-shadow: inset 0 8px 24px rgba(15,26,41,.06); }
 .bp-section--soft       { box-shadow: inset 0 8px 24px rgba(15,26,41,.05); }
-.bp-section--gradient   { box-shadow: inset 0 8px 24px rgba(15,26,41,.07); }
 
 /* Step card glass hover */
 .bp-step {
@@ -1431,16 +1486,14 @@
   .bp-pricing-card--comp { order: -1; }
   .bp-section-title { font-size: 1.75rem; }
 
-  /* Hero responsive: bodygraph più piccolo, contenuto centrato */
-  .bp-hero__bodygraph { right: -8%; opacity: .18; width: 320px; }
-  .bp-hero__glyph--3, .bp-hero__glyph--4 { display: none; }
+  /* Hero responsive: carousel più piccolo, contenuto centrato */
+  .bp-hero__bg-carousel { right: -10%; width: 280px; opacity: .55; }
   .bp-hero__bg-overlay {
     background:
       linear-gradient(180deg, rgba(11,18,32,.55) 0%, rgba(11,18,32,.78) 60%, rgba(11,18,32,.92) 100%);
   }
   .bp-hero__h1 { font-size: clamp(2.25rem, 8vw, 3rem); }
   .bp-hero__frame { padding: 2rem 0 0 0; }
-  .bp-hero__frame::before { display: none; }
   .bp-forchi-title { font-size: clamp(2.25rem, 8vw, 3rem); }
 }
 @media (max-width: 600px) {
@@ -1450,9 +1503,7 @@
   .bp-form-row { grid-template-columns: 1fr; }
   .bp-hero__cta-group { flex-direction: column; align-items: stretch; gap: .75rem; }
   .bp-btn-hero-primary, .bp-btn-hero-outline { justify-content: space-between; }
-  .bp-hero__rule { display: none; }
-  .bp-hero__bodygraph { display: none; }
-  .bp-hero__glyph--1, .bp-hero__glyph--2 { opacity: .22; }
+  .bp-hero__bg-carousel { display: none; }
   .bp-hero__meta { gap: 1rem; font-size: .7rem; }
   .bp-hero__scroll { display: none; }
 }
@@ -1460,7 +1511,8 @@
 /* Reduced motion — disattiva animazioni decorative */
 @media (prefers-reduced-motion: reduce) {
   .bp-hero__bg-image img { animation: none; transform: scale(1.02); }
-  .bp-hero__bodygraph { animation: none; opacity: .35; }
+  .bp-hero__bg-slide { animation: none; opacity: 0; }
+  .bp-hero__bg-slide:first-child { opacity: .8; }
   .bp-hero__scroll-arrow { animation: none; }
 }
 </style>
@@ -1486,47 +1538,20 @@
   {# Layer 2 — gradient di profondità per leggibilità del testo #}
   <div class="bp-hero__bg-overlay" aria-hidden="true"></div>
 
-  {# Layer 3 — simboli Human Design (bodygraph silhouette + glifi linea) #}
+  {# Layer 3 — Bodygraph carousel ciclico (10 carte HD reali, ~2s per slide) #}
   <div class="bp-hero__symbols" aria-hidden="true">
-    {# Bodygraph silhouette — 9 centri Human Design, posizionato a destra #}
-    <svg class="bp-hero__bodygraph" viewBox="0 0 200 320" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linejoin="round">
-      {# Head — triangolo #}
-      <polygon points="100,12 130,50 70,50"/>
-      {# Ajna — triangolo invertito #}
-      <polygon points="70,55 130,55 100,93"/>
-      {# Throat — quadrato #}
-      <rect x="75" y="100" width="50" height="40"/>
-      {# G Center — diamante #}
-      <polygon points="100,148 130,178 100,208 70,178"/>
-      {# Heart/Ego — piccolo triangolo destro #}
-      <polygon points="135,170 165,170 150,200"/>
-      {# Spleen — triangolo sinistro #}
-      <polygon points="35,170 65,170 50,210"/>
-      {# Solar Plexus — triangolo destro #}
-      <polygon points="135,212 165,212 150,260"/>
-      {# Sacral — quadrato centrale #}
-      <rect x="75" y="216" width="50" height="44"/>
-      {# Root — quadrato in fondo #}
-      <rect x="75" y="270" width="50" height="40"/>
-      {# Linee di connessione (canali principali) #}
-      <line x1="100" y1="50" x2="100" y2="55"/>
-      <line x1="100" y1="93" x2="100" y2="100"/>
-      <line x1="100" y1="140" x2="100" y2="148"/>
-      <line x1="100" y1="208" x2="100" y2="216"/>
-      <line x1="100" y1="260" x2="100" y2="270"/>
-      <line x1="125" y1="178" x2="135" y2="185"/>
-      <line x1="75" y1="178" x2="65" y2="185"/>
-    </svg>
-
-    {# Glifi astronomici / runici — simboli HD planetari #}
-    <span class="bp-hero__glyph bp-hero__glyph--1">☉</span>
-    <span class="bp-hero__glyph bp-hero__glyph--2">☽</span>
-    <span class="bp-hero__glyph bp-hero__glyph--3">♄</span>
-    <span class="bp-hero__glyph bp-hero__glyph--4">♃</span>
-
-    {# Linee orizzontali tipo "diagramma tecnico" #}
-    <span class="bp-hero__rule bp-hero__rule--top"></span>
-    <span class="bp-hero__rule bp-hero__rule--bot"></span>
+    <div class="bp-hero__bg-carousel" aria-label="Esempi di bodygraph Human Design">
+      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd01.png" alt="" class="bp-hero__bg-slide" loading="eager">
+      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd02.png" alt="" class="bp-hero__bg-slide" loading="lazy">
+      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd03.png" alt="" class="bp-hero__bg-slide" loading="lazy">
+      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd04.png" alt="" class="bp-hero__bg-slide" loading="lazy">
+      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd05.png" alt="" class="bp-hero__bg-slide" loading="lazy">
+      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd06.png" alt="" class="bp-hero__bg-slide" loading="lazy">
+      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd07.png" alt="" class="bp-hero__bg-slide" loading="lazy">
+      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd08.png" alt="" class="bp-hero__bg-slide" loading="lazy">
+      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd09.png" alt="" class="bp-hero__bg-slide" loading="lazy">
+      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd10.png" alt="" class="bp-hero__bg-slide" loading="lazy">
+    </div>
   </div>
 
   {# Layer 4 — contenuto: testo ed elementi UI #}
@@ -1862,14 +1887,14 @@
         Dopo il pagamento ti chiediamo i dati di nascita. Il documento arriva via email entro 2–4 giorni lavorativi, già revisionato da Valentina.
       </p>
       <div style="display:flex;gap:1.25rem;flex-wrap:wrap;justify-content:center;align-items:center">
+        {# Bottom Avanzato: gold pieno (matching hero) — testo navy AAA su gold,
+           hover testo bianco. Niente più navy-bg con testo invisibile. #}
         <a href="/libretto-dati/checkout.php?tier=avanzato"
-           class="bp-btn-primary"
-           style="background:var(--bp-navy);border:2px solid var(--bp-gold);padding:1.25rem 2.75rem;font-size:1.125rem">
+           class="bp-btn-primary bp-btn-primary--lg">
           Libretto Avanzato · <strong>€147</strong>
         </a>
         <a href="/libretto-dati/checkout.php?tier=base"
-           class="bp-btn-outline"
-           style="padding:1.1rem 2.25rem">
+           class="bp-btn-outline bp-btn-outline--lg">
           Libretto Base · €90
         </a>
       </div>
@@ -2000,14 +2025,13 @@ document.querySelectorAll('a[href*="checkout.php"]').forEach(function(a) {
   }
 })();
 
-// ── Mouse parallax hero (background image + bodygraph + glifi) ────────────
+// ── Mouse parallax hero (background image + carousel bodygraph) ───────────
 (function() {
   if (window.matchMedia('(max-width:900px)').matches) return;
   if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-  var hero    = document.querySelector('.bp-hero');
-  var bgImg   = document.querySelector('.bp-hero__bg-image img');
-  var body    = document.querySelector('.bp-hero__bodygraph');
-  var glyphs  = document.querySelectorAll('.bp-hero__glyph');
+  var hero      = document.querySelector('.bp-hero');
+  var bgImg     = document.querySelector('.bp-hero__bg-image img');
+  var carousel  = document.querySelector('.bp-hero__bg-carousel');
   if (!hero || !bgImg) return;
   var ticking = false, mx = 0, my = 0;
   hero.addEventListener('mousemove', function(e) {
@@ -2018,14 +2042,8 @@ document.querySelectorAll('a[href*="checkout.php"]').forEach(function(a) {
       requestAnimationFrame(function() {
         // Background: drift contrario, leggero (sensazione di profondità)
         bgImg.style.transform = 'scale(1.06) translate('+(-mx*14)+'px,'+(-my*10)+'px)';
-        // Bodygraph: drift maggiore, parallax forte (mantiene il -50% Y di centratura)
-        if (body) body.style.transform = 'translate('+( mx*22)+'px, calc(-50% + '+( my*18)+'px))';
-        // Glifi: drift differenziato per dare 3D
-        glyphs.forEach(function(g, i) {
-          var f = (i % 2 === 0) ? 1 : -1;
-          var k = 14 + i * 4;
-          g.style.transform = 'translate('+(mx*k*f)+'px,'+(my*k*f)+'px)';
-        });
+        // Carousel bodygraph: drift maggiore (mantiene -50% Y di centratura)
+        if (carousel) carousel.style.transform = 'translate('+( mx*20)+'px, calc(-50% + '+( my*16)+'px))';
         ticking = false;
       });
       ticking = true;
@@ -2033,8 +2051,7 @@ document.querySelectorAll('a[href*="checkout.php"]').forEach(function(a) {
   });
   hero.addEventListener('mouseleave', function() {
     bgImg.style.transform = '';
-    if (body) body.style.transform = '';
-    glyphs.forEach(function(g) { g.style.transform = ''; });
+    if (carousel) carousel.style.transform = '';
   });
 })();
 
