@@ -339,7 +339,8 @@
   width: 100%;
 }
 
-/* COVER PDF — semplice, tiltata, drop-shadow forte. Niente fake spine/stack/corner. */
+/* COVER editorial custom — cornice dorata, cofanetto background,
+   typography "Libretto d'Istruzioni Human Design". Tilt 2°, drop-shadow forte. */
 .bp-hero__visual {
   position: relative;
   display: flex;
@@ -355,24 +356,160 @@
   aspect-ratio: 595 / 842;
   border-radius: 4px;
   overflow: hidden;
+  background: #0F1A29;
   transform: rotate(2deg);
   box-shadow:
     0 2px 4px rgba(0,0,0,.20),
-    0 32px 64px -8px rgba(0,0,0,.55),
-    0 18px 32px -10px rgba(196,138,58,.20),
-    inset 0 0 0 1px rgba(196,138,58,.35);
+    0 32px 64px -8px rgba(0,0,0,.65),
+    0 18px 32px -10px rgba(196,138,58,.25),
+    inset 0 0 0 1px rgba(196,138,58,.45);
   transition: transform .6s cubic-bezier(.2,.8,.2,1);
   animation: bp-cover-breath 8s ease-in-out infinite alternate;
-}
-.bp-hero__cover img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  isolation: isolate;
 }
 @keyframes bp-cover-breath {
   0%   { transform: rotate(2deg)   translateY(0); }
   100% { transform: rotate(1.2deg) translateY(-6px); }
+}
+
+/* Background: l'immagine del cofanetto sotto a un overlay scuro */
+.bp-hero__cover-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.bp-hero__cover-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 60%;
+  filter: contrast(1.05) brightness(.85) saturate(.9);
+}
+.bp-hero__cover-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(15,26,41,.78) 0%, rgba(15,26,41,.30) 38%, rgba(15,26,41,.30) 65%, rgba(15,26,41,.85) 100%);
+}
+
+/* Cornice dorata interna + contenuto */
+.bp-hero__cover-frame {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  padding: 14% 11% 12%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #F5EFE3;
+  border: 1px solid rgba(196,138,58,.55);
+  margin: 18px;
+  height: calc(100% - 36px);
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(196,138,58,.18);
+}
+
+/* Ornamenti agli angoli — quadrati dorati con cerchio centrale */
+.bp-hero__cover-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--bp-gold);
+}
+.bp-hero__cover-corner::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 1px solid var(--bp-gold);
+}
+.bp-hero__cover-corner--tl { top: -7px; left: -7px; }
+.bp-hero__cover-corner--tr { top: -7px; right: -7px; }
+.bp-hero__cover-corner--bl { bottom: -7px; left: -7px; }
+.bp-hero__cover-corner--br { bottom: -7px; right: -7px; }
+
+/* Brand BG-5 piccolo in alto */
+.bp-hero__cover-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: .7rem;
+  font-style: italic;
+  letter-spacing: .35em;
+  color: var(--bp-gold);
+  margin: 0 0 auto;
+  opacity: .9;
+}
+
+/* Titolo principale */
+.bp-hero__cover-title-wrap {
+  margin: auto 0;
+}
+.bp-hero__cover-title {
+  font-family: 'Playfair Display', serif;
+  margin: 0;
+  line-height: 1;
+  color: #F5EFE3;
+}
+.bp-hero__cover-title span {
+  display: block;
+  font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+  font-weight: 400;
+  letter-spacing: .02em;
+  margin-bottom: .2em;
+}
+.bp-hero__cover-title em {
+  display: block;
+  font-size: clamp(2rem, 3.6vw, 2.85rem);
+  font-style: italic;
+  font-weight: 700;
+  color: #F5EFE3;
+  letter-spacing: -.01em;
+  text-shadow: 0 2px 18px rgba(196,138,58,.35);
+}
+.bp-hero__cover-subtitle {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(.8rem, 1.1vw, 1rem);
+  font-weight: 400;
+  letter-spacing: .15em;
+  color: var(--bp-gold);
+  margin: .8em 0 0;
+  text-transform: uppercase;
+}
+
+/* Bottom — autore + tagline */
+.bp-hero__cover-bottom {
+  margin-top: auto;
+}
+.bp-hero__cover-divider {
+  display: block;
+  width: 30px;
+  height: 1px;
+  background: var(--bp-gold);
+  margin: 0 auto 1rem;
+  opacity: .7;
+}
+.bp-hero__cover-author {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(.9rem, 1.25vw, 1.05rem);
+  font-weight: 400;
+  color: #F5EFE3;
+  margin: 0 0 .35rem;
+  letter-spacing: .01em;
+}
+.bp-hero__cover-tagline {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(.6rem, .8vw, .7rem);
+  font-style: italic;
+  color: rgba(245,239,227,.65);
+  margin: 0;
+  letter-spacing: .04em;
+  line-height: 1.4;
+  max-width: 200px;
+  margin: 0 auto;
 }
 .bp-hero__cover-caption {
   margin: 0;
@@ -1694,14 +1831,39 @@
         </ul>
       </div>
 
-      {# COLONNA VISUAL — cover PDF reale, semplice, tiltata, drop-shadow forte #}
+      {# COLONNA VISUAL — cover custom con titolo "Libretto d'Istruzioni",
+         stile editoriale: cornice dorata, cofanetto centrale, typography pulita #}
       <div class="bp-hero__visual">
-        <figure class="bp-hero__cover">
-          <img src="{{ grav.base_url }}/user/pages/assets/libretto/preview-cover.jpg"
-               alt="Anteprima della copertina del Libretto d'Istruzioni Human Design"
-               width="595" height="842"
-               loading="eager"
-               fetchpriority="high">
+        <figure class="bp-hero__cover" aria-label="Copertina del Libretto d'Istruzioni Human Design">
+          <div class="bp-hero__cover-bg" aria-hidden="true">
+            <img src="{{ grav.base_url }}/user/pages/assets/libretto/cover-hero.jpg"
+                 alt=""
+                 width="1920" height="1280"
+                 loading="eager"
+                 fetchpriority="high">
+          </div>
+          <div class="bp-hero__cover-frame">
+            <span class="bp-hero__cover-corner bp-hero__cover-corner--tl" aria-hidden="true"></span>
+            <span class="bp-hero__cover-corner bp-hero__cover-corner--tr" aria-hidden="true"></span>
+            <span class="bp-hero__cover-corner bp-hero__cover-corner--bl" aria-hidden="true"></span>
+            <span class="bp-hero__cover-corner bp-hero__cover-corner--br" aria-hidden="true"></span>
+
+            <p class="bp-hero__cover-brand">B · G · 5</p>
+
+            <div class="bp-hero__cover-title-wrap">
+              <h2 class="bp-hero__cover-title">
+                <span>Libretto</span>
+                <em>d'Istruzioni</em>
+              </h2>
+              <p class="bp-hero__cover-subtitle">Human Design</p>
+            </div>
+
+            <div class="bp-hero__cover-bottom">
+              <span class="bp-hero__cover-divider" aria-hidden="true"></span>
+              <p class="bp-hero__cover-author">Valentina Russo</p>
+              <p class="bp-hero__cover-tagline">la mappa che ti appartiene da sempre.</p>
+            </div>
+          </div>
         </figure>
         <p class="bp-hero__cover-caption">
           <span class="bp-hero__cover-caption-num">~55</span>
