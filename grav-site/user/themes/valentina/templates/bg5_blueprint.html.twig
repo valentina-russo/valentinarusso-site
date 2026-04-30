@@ -1932,6 +1932,160 @@
 
 /* Fade-to-navy + transizioni: rimosso (le ancore navy ora confinano direttamente) */
 .bp-fade-to-navy { display: none !important; }
+
+/* ──── Cosa contiene — panel cards (Base + Avanzato) ──── */
+/* Base: era rosa-wash, ora cream con bordo gold per coerenza */
+.bp-tier-panel--essenziale {
+  background: linear-gradient(180deg, #FFFDF8 0%, #FAF6EE 100%) !important;
+  border: 1px solid rgba(196,138,58,.30) !important;
+  border-top: 3px solid var(--bp-gold) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.8),
+    0 1px 2px rgba(15,26,41,.06),
+    0 12px 24px rgba(15,26,41,.08) !important;
+}
+.bp-tier-panel--essenziale .bp-tier-panel__title { color: var(--bp-gold) !important; }
+.bp-tier-panel--essenziale .bp-section-num { color: var(--bp-gold) !important; }
+/* Avanzato: navy resta — è l'ancora del modulo, polish con gold border-left */
+.bp-tier-panel--completo {
+  background: linear-gradient(135deg, #0B1220 0%, #1A2540 100%) !important;
+  border: 1px solid rgba(196,138,58,.40) !important;
+  border-top: 3px solid var(--bp-gold) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(196,138,58,.30),
+    0 2px 4px rgba(15,26,41,.20),
+    0 16px 32px -8px rgba(15,26,41,.30) !important;
+}
+
+/* ──── Pricing — uniforme con il resto ──── */
+.bp-pricing-card--ess {
+  background: linear-gradient(180deg, #FFFDF8 0%, #FAF6EE 100%) !important;
+  border: 1px solid rgba(196,138,58,.30) !important;
+  border-top: 3px solid var(--bp-gold) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.8),
+    0 1px 2px rgba(15,26,41,.06),
+    0 16px 32px rgba(15,26,41,.10) !important;
+}
+.bp-pricing-card--ess .bp-pricing-card__title { color: var(--bp-gold) !important; }
+.bp-pricing-card--ess .bp-feature-check { color: var(--bp-gold) !important; }
+.bp-pricing-card--comp {
+  background: linear-gradient(135deg, #0B1220 0%, #1A2540 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(196,138,58,.30),
+    0 2px 4px rgba(15,26,41,.20),
+    0 24px 48px -12px rgba(15,26,41,.40) !important;
+}
+
+/* ──── Anteprima PDF — bordo gold, shadow più definita ──── */
+.bp-preview-page {
+  background: #FAF6EE !important;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,.10),
+    0 16px 32px -4px rgba(15,26,41,.15),
+    inset 0 0 0 1px rgba(196,138,58,.20) !important;
+}
+.bp-preview-page--featured {
+  box-shadow:
+    0 4px 8px rgba(0,0,0,.12),
+    0 32px 64px -8px rgba(15,26,41,.30),
+    inset 0 0 0 1px rgba(196,138,58,.45) !important;
+}
+.bp-preview-page figcaption {
+  color: var(--bp-gold) !important;
+}
+
+/* ──── Forchi-section — accent gold rinforzato ──── */
+.bp-forchi__grid--linked .bp-profile-card {
+  background: linear-gradient(180deg, #FFFDF8 0%, #FAF6EE 100%) !important;
+  border: 1px solid rgba(196,138,58,.20) !important;
+  border-top: 3px solid var(--bp-gold) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.8),
+    0 1px 2px rgba(15,26,41,.06),
+    0 8px 20px rgba(15,26,41,.08) !important;
+}
+.bp-forchi-title em,
+.bp-forchi-title { color: var(--bp-navy) !important; }
+
+/* ──── Steps — su parchment, niente più glassmorphism scuro ──── */
+.bp-step {
+  background: linear-gradient(180deg, #FFFDF8 0%, #FAF6EE 100%) !important;
+  border: 1px solid rgba(196,138,58,.20) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.8),
+    0 1px 2px rgba(15,26,41,.06),
+    0 8px 16px rgba(15,26,41,.08) !important;
+  backdrop-filter: none !important;
+}
+.bp-step__icon {
+  background: linear-gradient(180deg, #F2EAD8 0%, #E8DBC0 100%) !important;
+  color: var(--bp-gold) !important;
+  border: 1px solid rgba(196,138,58,.25) !important;
+}
+.bp-step__num { color: var(--bp-gold) !important; }
+.bp-step h3 { color: var(--bp-navy) !important; }
+.bp-step p { color: rgba(15,26,41,.7) !important; }
+.bp-steps__grid::before {
+  border-top-color: rgba(196,138,58,.30) !important;
+}
+
+/* ──── Bio Valentina — bordo gold ──── */
+.bp-bio__photo {
+  box-shadow:
+    0 0 0 5px #FFFDF8,
+    0 0 0 7px var(--bp-gold),
+    0 18px 36px -8px rgba(15,26,41,.25) !important;
+}
+.bp-bio__credential { color: var(--bp-gold) !important; }
+.bp-bio__text h3 { color: var(--bp-navy) !important; }
+.bp-bio__text p { color: rgba(15,26,41,.72) !important; }
+
+/* ──── FAQ — divisori gold ──── */
+.bp-faq-item { border-bottom-color: rgba(196,138,58,.25) !important; }
+.bp-faq-item:first-child { border-top-color: rgba(196,138,58,.25) !important; }
+.bp-faq-q { color: var(--bp-navy) !important; }
+.bp-faq-q:hover { color: var(--bp-gold) !important; }
+.bp-faq-icon {
+  border-color: rgba(196,138,58,.40) !important;
+  color: var(--bp-gold) !important;
+}
+.bp-faq-a p { color: rgba(15,26,41,.7) !important; }
+
+/* ──── Sezione separator: ornamento ◆ rinforzato ──── */
+.bp-section--white + .bp-section--white::after,
+.bp-section--white + .bp-section--parchment::after,
+.bp-section--white + .bp-section--soft::after,
+.bp-section--parchment + .bp-section--white::after,
+.bp-section--parchment + .bp-section--parchment::after,
+.bp-section--parchment + .bp-section--soft::after,
+.bp-section--soft + .bp-section--white::after,
+.bp-section--soft + .bp-section--parchment::after,
+.bp-section--soft + .bp-section--soft::after,
+.bp-section--white + .bp-section--amber::after,
+.bp-section--amber + .bp-section--white::after,
+.bp-section--white + .bp-section--deep::after,
+.bp-section--deep + .bp-section--white::after,
+.bp-section--white + .bp-forchi-section::after,
+.bp-section--parchment + .bp-forchi-section::after,
+.bp-forchi-section + .bp-section--white::after,
+.bp-forchi-section + .bp-section--parchment::after {
+  font-size: 1.25rem !important;
+  top: -1rem !important;
+}
+
+/* CTA in sezioni cream — niente più bp-btn-primary background gold pure */
+.bp-section--white .bp-btn-primary,
+.bp-section--parchment .bp-btn-primary,
+.bp-section--soft .bp-btn-primary,
+.bp-section--amber .bp-btn-primary {
+  background: linear-gradient(180deg, #D69847 0%, var(--bp-gold) 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.4),
+    0 1px 2px rgba(196,138,58,.40),
+    0 4px 8px rgba(196,138,58,.30),
+    0 12px 24px rgba(196,138,58,.20) !important;
+}
 </style>
 {% endblock %}
 
