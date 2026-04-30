@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Mockup B — Dimensional / Paper-Craft Style</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C48A3A;
+  --gold-soft: #E8C088;
+  --navy: #0F1A29;
+  --navy-deep: #0B1220;
+  --cream: #F5EFE3;
+  --paper: #FAF6EE;
+  --paper-shade: #E8DEC8;
+  --shadow-low: 0 1px 2px rgba(0,0,0,.10);
+  --shadow-med: 0 4px 8px rgba(0,0,0,.08), 0 12px 24px rgba(0,0,0,.10);
+  --shadow-high: 0 2px 4px rgba(0,0,0,.08), 0 12px 24px rgba(0,0,0,.10), 0 32px 64px -8px rgba(0,0,0,.20);
+  --shadow-float: 0 4px 8px rgba(0,0,0,.06), 0 16px 32px rgba(0,0,0,.10), 0 48px 96px -16px rgba(15,26,41,.22);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--paper);
+  color: var(--navy);
+  overflow-x: hidden;
+}
+
+.banner {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(196,138,58,.95); color: var(--navy-deep);
+  text-align: center; padding: .65rem 1rem;
+  font-weight: 700; font-size: .85rem;
+  letter-spacing: .1em; text-transform: uppercase;
+}
+
+/* ════════════════════════════════════════
+   HERO — paper-craft "scrivania" style
+   Tutto sembra appoggiato su una superficie reale
+═════════════════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  padding: 8rem 4rem 6rem;
+  background:
+    radial-gradient(ellipse 60% 50% at 30% 50%, rgba(196,138,58,.06) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 80% 20%, rgba(196,138,58,.04) 0%, transparent 65%),
+    linear-gradient(135deg, #FAF6EE 0%, #F2EBDC 60%, #E8DCC0 100%);
+  overflow: hidden;
+}
+
+/* Texture grain di carta antica come overlay */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='.10'/%3E%3C/svg%3E");
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.hero-grid {
+  position: relative; z-index: 2;
+  max-width: 1200px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+/* Text */
+.hero-text { z-index: 2; }
+.kicker {
+  display: inline-flex; align-items: center; gap: .85rem;
+  font-size: .75rem; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 1.75rem; font-weight: 600;
+}
+.kicker::before { content: ''; width: 36px; height: 1px; background: var(--gold); }
+
+.hero-h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.05; letter-spacing: -.02em;
+  color: var(--navy);
+  margin-bottom: 1.5rem;
+}
+.hero-h1 em {
+  font-style: italic; color: var(--gold);
+  position: relative;
+}
+.hero-h1 em::after {
+  content: ''; position: absolute;
+  left: 0; right: 0; bottom: -.05em;
+  height: 3px; background: var(--gold);
+  opacity: .25; border-radius: 2px;
+}
+
+.hero-sub {
+  font-size: 1.0625rem; line-height: 1.7;
+  color: rgba(15,26,41,.70);
+  max-width: 520px; margin-bottom: 2.5rem;
+}
+
+.cta-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+
+/* CTA con elevation 3D-style */
+.btn {
+  padding: 1.05rem 1.85rem;
+  font-weight: 700; text-decoration: none;
+  border-radius: 8px;
+  display: inline-flex; gap: 1.25rem; align-items: center;
+  transition: transform .25s ease, box-shadow .25s ease;
+  position: relative;
+}
+.btn-primary {
+  background: linear-gradient(180deg, #D69847 0%, var(--gold) 100%);
+  color: var(--navy-deep);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.4),
+    0 1px 2px rgba(196,138,58,.40),
+    0 4px 8px rgba(196,138,58,.30),
+    0 12px 24px rgba(196,138,58,.20);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.4),
+    0 2px 4px rgba(196,138,58,.50),
+    0 8px 16px rgba(196,138,58,.40),
+    0 20px 32px rgba(196,138,58,.25);
+}
+.btn-outline {
+  background: var(--paper);
+  color: var(--gold);
+  border: 1px solid rgba(196,138,58,.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.6),
+    0 1px 2px rgba(15,26,41,.06),
+    0 4px 8px rgba(15,26,41,.06);
+}
+.btn-outline:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.6),
+    0 4px 8px rgba(15,26,41,.08),
+    0 12px 24px rgba(15,26,41,.10);
+  border-color: var(--gold);
+}
+.btn strong {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  padding-left: 1rem; border-left: 1px solid currentColor;
+  opacity: .9;
+}
+
+.meta {
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+  font-size: .8125rem; color: rgba(15,26,41,.55);
+  margin-top: 1rem;
+}
+
+/* ════════════════════════════════════════
+   COVER — "appoggiata sulla scrivania"
+   Tilt fisso, ombra-foglio, inset highlights
+═════════════════════════════════════════ */
+.cover-stage {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  perspective: 1400px;
+}
+/* Polaroid-like cards SOTTO la cover, suggeriscono "stack di documenti" */
+.cover-stack-1, .cover-stack-2 {
+  position: absolute;
+  width: 360px;
+  aspect-ratio: 595 / 842;
+  background: var(--paper);
+  border-radius: 4px;
+  box-shadow: var(--shadow-high);
+}
+.cover-stack-2 {
+  transform: rotate(-6deg) translate(-90px, 30px);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--paper-shade) 100%);
+  z-index: 1;
+}
+.cover-stack-1 {
+  transform: rotate(4deg) translate(40px, -10px);
+  background: linear-gradient(180deg, #FFF 0%, var(--paper) 100%);
+  z-index: 2;
+}
+
+.cover {
+  position: relative; z-index: 3;
+  width: 360px;
+  aspect-ratio: 595 / 842;
+  border-radius: 4px;
+  background: var(--navy);
+  overflow: hidden;
+  transform: rotate(-2deg) translateY(-20px);
+  box-shadow:
+    0 1px 2px rgba(0,0,0,.10),
+    0 8px 16px rgba(0,0,0,.10),
+    0 24px 48px rgba(0,0,0,.18),
+    0 56px 100px -20px rgba(15,26,41,.45),
+    inset 0 0 0 1px rgba(196,138,58,.45),
+    inset 0 1px 0 rgba(255,255,255,.08);
+  transition: transform .5s cubic-bezier(.2,.8,.2,1);
+}
+.cover:hover {
+  transform: rotate(-1deg) translateY(-30px);
+}
+
+.cover-bg {
+  position: absolute; inset: 0; overflow: hidden;
+}
+.cover-bg img {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: center 60%;
+  filter: contrast(1.05) brightness(.85);
+}
+.cover-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(15,26,41,.78) 0%, rgba(15,26,41,.30) 38%, rgba(15,26,41,.30) 65%, rgba(15,26,41,.85) 100%);
+}
+.cover-frame {
+  position: relative; z-index: 1;
+  height: calc(100% - 36px);
+  margin: 18px;
+  padding: 14% 11% 12%;
+  border: 1px solid rgba(196,138,58,.55);
+  display: flex; flex-direction: column;
+  align-items: center; text-align: center;
+  color: var(--cream);
+}
+.cover-corner {
+  position: absolute; width: 14px; height: 14px;
+  border: 1px solid var(--gold);
+}
+.cover-corner::after {
+  content: ''; position: absolute; inset: 3px;
+  border-radius: 50%; border: 1px solid var(--gold);
+}
+.cover-corner.tl { top: -7px; left: -7px; }
+.cover-corner.tr { top: -7px; right: -7px; }
+.cover-corner.bl { bottom: -7px; left: -7px; }
+.cover-corner.br { bottom: -7px; right: -7px; }
+.cover-brand {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-size: .7rem;
+  letter-spacing: .35em; color: var(--gold);
+}
+.cover-title-wrap { margin: auto 0; }
+.cover-t1 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 400; margin-bottom: .2em; }
+.cover-t2 { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-style: italic; font-weight: 700; text-shadow: 0 2px 18px rgba(196,138,58,.35); }
+.cover-t3 {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-size: .9rem;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--gold); margin-top: .8em;
+}
+.cover-divider { display: block; width: 30px; height: 1px; background: var(--gold); margin: 0 auto 1rem; opacity: .7; }
+.cover-author { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1rem; }
+.cover-tagline { font-size: .65rem; font-style: italic; color: rgba(245,239,227,.65); margin-top: .35rem; }
+
+/* ════════════════════════════════════════
+   SECTIONS — bento card con depth
+═════════════════════════════════════════ */
+.section-wrap {
+  background: linear-gradient(180deg, var(--paper-shade) 0%, var(--paper) 100%);
+  padding: 6rem 4rem;
+  position: relative;
+}
+.section-wrap::before {
+  content: '';
+  position: absolute; top: -1px; left: 0; right: 0; height: 80px;
+  background: linear-gradient(180deg, transparent 0%, rgba(15,26,41,.04) 100%);
+  pointer-events: none;
+}
+.bento-grid {
+  max-width: 1200px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: minmax(180px, auto);
+  gap: 1.25rem;
+}
+.bento-card {
+  background: linear-gradient(180deg, #FFF 0%, var(--paper) 100%);
+  border-radius: 16px;
+  padding: 2.25rem;
+  border: 1px solid rgba(15,26,41,.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.8),
+    0 1px 2px rgba(15,26,41,.06),
+    0 8px 16px rgba(15,26,41,.06),
+    0 24px 48px -12px rgba(15,26,41,.10);
+  transition: transform .35s ease, box-shadow .35s ease;
+  position: relative;
+  overflow: hidden;
+}
+.bento-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.8),
+    0 2px 4px rgba(15,26,41,.08),
+    0 16px 32px rgba(15,26,41,.10),
+    0 40px 80px -16px rgba(15,26,41,.18);
+}
+.bento-card.large { grid-column: span 2; }
+.bento-card.dark {
+  background: linear-gradient(135deg, var(--navy) 0%, #1A2540 100%);
+  color: var(--cream);
+  border-color: rgba(196,138,58,.30);
+  box-shadow:
+    inset 0 1px 0 rgba(196,138,58,.30),
+    0 1px 2px rgba(15,26,41,.20),
+    0 8px 16px rgba(15,26,41,.18),
+    0 32px 64px -16px rgba(15,26,41,.40);
+}
+.bento-card.gold {
+  background: linear-gradient(135deg, var(--gold) 0%, #D69847 100%);
+  color: var(--navy-deep);
+  border-color: rgba(196,138,58,.40);
+}
+.bento-num {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-size: 1rem;
+  color: var(--gold);
+  letter-spacing: .08em;
+  margin-bottom: 1rem;
+}
+.bento-card.dark .bento-num,
+.bento-card.gold .bento-num { color: rgba(255,255,255,.7); }
+.bento-h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem; font-weight: 700;
+  margin-bottom: .75rem; line-height: 1.2;
+}
+.bento-p {
+  font-size: .9375rem; line-height: 1.6;
+  color: rgba(15,26,41,.65);
+}
+.bento-card.dark .bento-p,
+.bento-card.gold .bento-p { color: rgba(245,239,227,.85); }
+
+/* Big CTA section card */
+.cta-card {
+  max-width: 1200px; margin: 4rem auto 0;
+  background: linear-gradient(135deg, var(--navy) 0%, #1A2540 100%);
+  color: var(--cream);
+  border-radius: 20px;
+  padding: 4rem;
+  text-align: center;
+  box-shadow:
+    inset 0 1px 0 rgba(196,138,58,.30),
+    0 4px 8px rgba(15,26,41,.20),
+    0 24px 48px rgba(15,26,41,.25),
+    0 60px 120px -20px rgba(15,26,41,.45);
+  position: relative;
+  overflow: hidden;
+}
+.cta-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.cta-card h2 em { font-style: italic; color: var(--gold); }
+.cta-card p {
+  color: rgba(245,239,227,.75);
+  max-width: 540px; margin: 0 auto 2rem;
+  font-size: 1.0625rem; line-height: 1.7;
+}
+</style>
+</head>
+<body>
+<div class="banner">Mockup B — Dimensional / Paper-Craft · stesso linguaggio in tutta la pagina</div>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-text">
+      <p class="kicker">PDF · Human Design Personale</p>
+      <h1 class="hero-h1">Libretto d'Istruzioni<br><em>Human Design</em>.</h1>
+      <p class="hero-sub">PDF personalizzato che traduce la tua configurazione Human Design in linguaggio pratico. Spiega perché ti esaurisci dove altri sembrano avere energia infinita, e dove riconoscere il segnale del corpo che ti dice se una decisione ti appartiene davvero.</p>
+      <div class="cta-group">
+        <a class="btn btn-primary" href="#">Libretto Avanzato <strong>€147</strong></a>
+        <a class="btn btn-outline" href="#">Libretto Base <strong>€90</strong></a>
+      </div>
+      <div class="meta">
+        <span>· Consegna 2–4 giorni</span>
+        <span>· PDF via email</span>
+        <span>· Niente call</span>
+      </div>
+    </div>
+
+    <div class="cover-stage">
+      <div class="cover-stack-2"></div>
+      <div class="cover-stack-1"></div>
+      <figure class="cover">
+        <div class="cover-bg"><img src="cover-hero.jpg" alt=""></div>
+        <div class="cover-frame">
+          <span class="cover-corner tl"></span>
+          <span class="cover-corner tr"></span>
+          <span class="cover-corner bl"></span>
+          <span class="cover-corner br"></span>
+          <p class="cover-brand">B · G · 5</p>
+          <div class="cover-title-wrap">
+            <div class="cover-t1">Libretto</div>
+            <div class="cover-t2">d'Istruzioni</div>
+            <div class="cover-t3">Human Design</div>
+          </div>
+          <div>
+            <span class="cover-divider"></span>
+            <p class="cover-author">Valentina Russo</p>
+            <p class="cover-tagline">la mappa che ti appartiene da sempre.</p>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section-wrap">
+  <div class="bento-grid">
+    <div class="bento-card large dark">
+      <div class="bento-num">01 — Identità</div>
+      <h3 class="bento-h3">Chi sei davvero, tradotto.</h3>
+      <p class="bento-p">Tipo, Strategia, Autorità Interiore, Profilo. Il documento spiega come funzioni quando sei allineato col tuo design — e dove succede di perdere energia per niente.</p>
+    </div>
+    <div class="bento-card">
+      <div class="bento-num">02 — Decisioni</div>
+      <h3 class="bento-h3">Come decidere bene.</h3>
+      <p class="bento-p">L'autorità interiore applicata ai casi concreti.</p>
+    </div>
+    <div class="bento-card">
+      <div class="bento-num">03 — Centri</div>
+      <h3 class="bento-h3">Dove sei forte, dove assorbi.</h3>
+      <p class="bento-p">I 9 centri energetici e i tuoi canali attivi.</p>
+    </div>
+    <div class="bento-card gold">
+      <div class="bento-num">04 — Direzione</div>
+      <h3 class="bento-h3">La tua mappa.</h3>
+      <p class="bento-p">Croce di incarnazione, ambiente, missione.</p>
+    </div>
+    <div class="bento-card large">
+      <div class="bento-num">+ Avanzato</div>
+      <h3 class="bento-h3">3 capitoli extra: comunicazione, lavoro, sintesi pratica.</h3>
+      <p class="bento-p">Voce di Gola in pratica, costruzione di offerte allineate, e un protocollo decisionale in 5 passi che applichi da subito.</p>
+    </div>
+  </div>
+
+  <div class="cta-card">
+    <h2>Pronta per il <em>tuo</em> Libretto?</h2>
+    <p>Riceverai un PDF scritto sulla tua carta entro 2-4 giorni lavorativi. Niente call, niente chiacchiere — solo il documento, sulla tua scrivania.</p>
+    <div class="cta-group" style="justify-content:center">
+      <a class="btn btn-primary" href="#">Libretto Avanzato <strong>€147</strong></a>
+      <a class="btn btn-outline" href="#" style="background:transparent;color:var(--cream);border-color:rgba(245,239,227,.4)">Libretto Base <strong>€90</strong></a>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
