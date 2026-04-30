@@ -343,51 +343,80 @@
   pointer-events: none;
   overflow: hidden;
 }
-/* Carousel: bodygraph "knockout" — niente sfondo, solo le linee grigie
-   visibili sul navy del hero. invert+screen rimuove il fondo bianco del PNG
-   e fa apparire le linee chiare; saturate(0) neutralizza i colori → grigio. */
-.bp-hero__bg-carousel {
+/* Hero cover mockup — la copertina del PDF come "manuale fisico" tiltato:
+   3D perspective, page-stack (più fogli sotto), corner-curl sottile.
+   Effetto: oggetto editoriale tangibile che galleggia accanto al testo. */
+.bp-hero__cover-mockup {
   position: absolute;
-  right: 2%;
+  right: 4%;
   top: 50%;
-  transform: translateY(-50%);
-  width: clamp(200px, 22vw, 380px);
-  aspect-ratio: 851 / 1309;
-  filter: drop-shadow(0 0 24px rgba(196,138,58,.18));
+  transform: translateY(-50%) rotate(2.5deg) perspective(1400px) rotateY(-7deg);
+  margin: 0;
+  width: clamp(220px, 25vw, 380px);
+  aspect-ratio: 595 / 842;          /* A4 portrait — match PDF reale */
+  border-radius: 3px;
+  filter:
+    drop-shadow(0 36px 56px rgba(0,0,0,.55))
+    drop-shadow(0 12px 24px rgba(196,138,58,.18));
+  transition: transform .8s cubic-bezier(.2,.8,.2,1);
+  will-change: transform;
+  animation: bp-cover-float 9s ease-in-out infinite alternate;
 }
-.bp-hero__bg-slide {
-  position: absolute;
-  inset: 0;
+@keyframes bp-cover-float {
+  0%   { transform: translateY(-50%) rotate(2.5deg) perspective(1400px) rotateY(-7deg); }
+  100% { transform: translateY(-52%) rotate(1.8deg) perspective(1400px) rotateY(-5deg); }
+}
+.bp-hero__cover-mockup img {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  opacity: 0;
-  animation: bp-hero-cycle 20s infinite;
-  /* I PNG sono già trasparenti (verificato: alpha=0 sui pixel di sfondo).
-     invert(1) + hue-rotate(180deg) inverte solo la LUMINANZA preservando
-     le tinte: nero→bianco, grigio→grigio, rosso→rosso (più chiaro).
-     Il bodygraph appare con i suoi colori naturali sul navy del hero. */
-  filter: invert(1) hue-rotate(180deg);
+  object-fit: cover;
+  border-radius: 3px;
+  box-shadow:
+    inset 0 0 0 1px rgba(196,138,58,.25),    /* edge oro sottile */
+    inset 0 -2px 0 rgba(0,0,0,.25);          /* ombra fondo pagina */
 }
-/* 10 carte × 2s = 20s ciclo. Cross-fade morbido: ogni carta sale a piena opacità
-   per ~1.4s, poi sfuma mentre la successiva sale (overlap 0.4s). */
-@keyframes bp-hero-cycle {
-  0%   { opacity: 0; }
-  2%   { opacity: 1; }
-  8%   { opacity: 1; }
-  12%  { opacity: 0; }
-  100% { opacity: 0; }
+/* Page stack — suggerisce un documento multi-pagina (foglio sotto la cover) */
+.bp-hero__cover-stack {
+  position: absolute;
+  inset: 4px -3px -4px 4px;
+  background: linear-gradient(180deg, #FAF6EE 0%, #E8DEC8 100%);
+  border-radius: 3px;
+  z-index: -1;
+  box-shadow: 0 14px 30px rgba(0,0,0,.35);
 }
-.bp-hero__bg-slide:nth-child(1)  { animation-delay:  0s; }
-.bp-hero__bg-slide:nth-child(2)  { animation-delay:  2s; }
-.bp-hero__bg-slide:nth-child(3)  { animation-delay:  4s; }
-.bp-hero__bg-slide:nth-child(4)  { animation-delay:  6s; }
-.bp-hero__bg-slide:nth-child(5)  { animation-delay:  8s; }
-.bp-hero__bg-slide:nth-child(6)  { animation-delay: 10s; }
-.bp-hero__bg-slide:nth-child(7)  { animation-delay: 12s; }
-.bp-hero__bg-slide:nth-child(8)  { animation-delay: 14s; }
-.bp-hero__bg-slide:nth-child(9)  { animation-delay: 16s; }
-.bp-hero__bg-slide:nth-child(10) { animation-delay: 18s; }
+.bp-hero__cover-stack::after {
+  content: '';
+  position: absolute;
+  inset: 4px -3px -4px 4px;
+  background: linear-gradient(180deg, #F2EBDC 0%, #DDD0B5 100%);
+  border-radius: 3px;
+  z-index: -1;
+}
+/* Spine (dorso) sul lato sinistro per evocare la rilegatura */
+.bp-hero__cover-spine {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0;
+  width: 6px;
+  background: linear-gradient(90deg, rgba(0,0,0,.18) 0%, transparent 100%);
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  z-index: 1;
+  pointer-events: none;
+}
+/* Corner curl — angolo sollevato che lascia intravedere la pagina sotto */
+.bp-hero__cover-corner {
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 32px; height: 32px;
+  background:
+    linear-gradient(135deg, transparent 50%, #FAF6EE 50%);
+  border-bottom-right-radius: 3px;
+  box-shadow: -2px -2px 6px rgba(0,0,0,.18);
+  z-index: 2;
+  transform: rotate(-2deg);
+}
 
 /* Layer 4: contenuto testuale */
 .bp-hero__content {
@@ -796,6 +825,128 @@
   font-style: italic;
 }
 .bp-tier-panel--completo .bp-section-list li.extra { color: #C48A3A; }
+
+
+/* ══════════════════════════════════════════
+   3b. ANTEPRIMA — fanned book layout
+══════════════════════════════════════════ */
+.bp-preview-section {
+  padding: 6rem 0 7rem;
+  position: relative;
+}
+.bp-preview-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 4rem;
+}
+
+/* Layout fanned: 5 pagine a ventaglio, quella centrale dritta e prominente,
+   le laterali ruotate e leggermente più piccole. Effetto "libro sfogliato". */
+.bp-preview-fan {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0;
+  perspective: 1600px;
+  padding: 2rem 0 3rem;
+  min-height: 560px;
+}
+.bp-preview-page {
+  position: relative;
+  margin: 0;
+  width: clamp(140px, 18vw, 240px);
+  aspect-ratio: 595 / 842;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #FAF6EE;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,.08),
+    0 24px 48px rgba(15,26,41,.18),
+    inset 0 0 0 1px rgba(196,138,58,.12);
+  transition: transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease, z-index 0s linear .5s;
+  cursor: zoom-in;
+  flex-shrink: 0;
+}
+.bp-preview-page img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+.bp-preview-page figcaption {
+  position: absolute;
+  bottom: -2.5rem;
+  left: 0; right: 0;
+  text-align: center;
+  font-family: 'Outfit', sans-serif;
+  font-size: .75rem;
+  font-weight: 600;
+  color: var(--bp-gold);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  opacity: .9;
+}
+/* Disposizione ventaglio (default desktop) */
+.bp-preview-page--1 { transform: translateX(60px) rotate(-8deg) translateY(20px); z-index: 1; }
+.bp-preview-page--2 { transform: translateX(30px) rotate(-3deg) translateY(8px);  z-index: 2; }
+.bp-preview-page--3 { transform: scale(1.18) translateY(-12px);                   z-index: 5;
+                      box-shadow: 0 4px 8px rgba(0,0,0,.10), 0 36px 72px rgba(15,26,41,.30),
+                                  inset 0 0 0 1px rgba(196,138,58,.25); }
+.bp-preview-page--4 { transform: translateX(-30px) rotate(3deg) translateY(8px);  z-index: 2; }
+.bp-preview-page--5 { transform: translateX(-60px) rotate(8deg) translateY(20px); z-index: 1; }
+
+/* Hover: la pagina si solleva e si raddrizza, mostrando contenuto in primo piano */
+.bp-preview-page:hover {
+  transform: scale(1.32) translateY(-30px) rotate(0);
+  z-index: 10;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, z-index 0s;
+  box-shadow:
+    0 6px 12px rgba(0,0,0,.12),
+    0 48px 96px rgba(15,26,41,.40),
+    inset 0 0 0 1px rgba(196,138,58,.35);
+}
+
+.bp-preview-footnote {
+  text-align: center;
+  margin-top: 4.5rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: .8125rem;
+  font-style: italic;
+  color: var(--bp-text-muted);
+}
+
+/* Mobile: stack verticale, niente ventaglio (altrimenti illeggibile) */
+@media (max-width: 900px) {
+  .bp-preview-section { padding: 4rem 0 5rem; }
+  .bp-preview-fan {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.25rem 1rem;
+    perspective: none;
+    padding: 1rem 0 2rem;
+    min-height: 0;
+  }
+  .bp-preview-page,
+  .bp-preview-page--1,
+  .bp-preview-page--2,
+  .bp-preview-page--3,
+  .bp-preview-page--4,
+  .bp-preview-page--5 {
+    transform: none;
+    width: clamp(140px, 42vw, 200px);
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0,0,0,.08), 0 16px 32px rgba(15,26,41,.18);
+  }
+  .bp-preview-page:hover {
+    transform: scale(1.05) translateY(-4px);
+  }
+  .bp-preview-page figcaption {
+    bottom: -1.75rem;
+    font-size: .7rem;
+  }
+}
 
 
 /* ══════════════════════════════════════════
@@ -1477,12 +1628,12 @@
 /* ══════════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════════ */
-/* Fascia critica 1024-1280: il frame testo (640px) e il carousel (~280-340px)
-   competono per la banda centrale. Riduco e attacco il carousel al bordo. */
+/* Fascia critica 1024-1280: il frame testo (640px) e il cover mockup (~300-340px)
+   competono per la banda centrale. Riduco e attacco il mockup al bordo. */
 @media (max-width: 1280px) {
-  .bp-hero__bg-carousel {
-    right: 0%;
-    width: clamp(200px, 20vw, 300px);
+  .bp-hero__cover-mockup {
+    right: 1%;
+    width: clamp(220px, 22vw, 320px);
   }
 }
 @media (max-width: 900px) {
@@ -1502,11 +1653,11 @@
   .bp-pricing-card--comp { order: -1; }
   .bp-section-title { font-size: 1.75rem; }
 
-  /* Hero responsive: carousel più piccolo, spinto fuori dal flusso del testo */
-  .bp-hero__bg-carousel {
-    right: -8%;
+  /* Hero responsive: cover più piccola, spinta fuori dal flusso del testo */
+  .bp-hero__cover-mockup {
+    right: -6%;
     width: 240px;
-    opacity: .65;
+    opacity: .85;
   }
   .bp-hero__bg-overlay {
     background:
@@ -1523,7 +1674,7 @@
   .bp-form-row { grid-template-columns: 1fr; }
   .bp-hero__cta-group { flex-direction: column; align-items: stretch; gap: .75rem; }
   .bp-btn-hero-primary, .bp-btn-hero-outline { justify-content: space-between; }
-  .bp-hero__bg-carousel { display: none; }
+  .bp-hero__cover-mockup { display: none; }
   .bp-hero__meta { gap: 1rem; font-size: .7rem; }
   .bp-hero__scroll { display: none; }
 }
@@ -1531,8 +1682,7 @@
 /* Reduced motion — disattiva animazioni decorative */
 @media (prefers-reduced-motion: reduce) {
   .bp-hero__bg-image img { animation: none; transform: scale(1.02); }
-  .bp-hero__bg-slide { animation: none; opacity: 0; }
-  .bp-hero__bg-slide:first-child { opacity: .8; }
+  .bp-hero__cover-mockup { animation: none; }
   .bp-hero__scroll-arrow { animation: none; }
 }
 </style>
@@ -1558,20 +1708,18 @@
   {# Layer 2 — gradient di profondità per leggibilità del testo #}
   <div class="bp-hero__bg-overlay" aria-hidden="true"></div>
 
-  {# Layer 3 — Bodygraph carousel ciclico (10 carte HD reali, ~2s per slide) #}
+  {# Layer 3 — La cover del PDF reale, mockup "manuale fisico" tiltato #}
   <div class="bp-hero__symbols" aria-hidden="true">
-    <div class="bp-hero__bg-carousel" aria-label="Esempi di bodygraph Human Design">
-      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd01.png" alt="" class="bp-hero__bg-slide" loading="eager">
-      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd02.png" alt="" class="bp-hero__bg-slide" loading="lazy">
-      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd03.png" alt="" class="bp-hero__bg-slide" loading="lazy">
-      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd04.png" alt="" class="bp-hero__bg-slide" loading="lazy">
-      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd05.png" alt="" class="bp-hero__bg-slide" loading="lazy">
-      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd06.png" alt="" class="bp-hero__bg-slide" loading="lazy">
-      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd07.png" alt="" class="bp-hero__bg-slide" loading="lazy">
-      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd08.png" alt="" class="bp-hero__bg-slide" loading="lazy">
-      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd09.png" alt="" class="bp-hero__bg-slide" loading="lazy">
-      <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd10.png" alt="" class="bp-hero__bg-slide" loading="lazy">
-    </div>
+    <figure class="bp-hero__cover-mockup">
+      <span class="bp-hero__cover-spine"></span>
+      <img src="{{ grav.base_url }}/user/pages/assets/libretto/preview-cover.jpg"
+           alt="Anteprima della copertina del Libretto d'Istruzioni Human Design"
+           width="595" height="842"
+           loading="eager"
+           fetchpriority="high">
+      <span class="bp-hero__cover-stack" aria-hidden="true"></span>
+      <span class="bp-hero__cover-corner" aria-hidden="true"></span>
+    </figure>
   </div>
 
   {# Layer 4 — contenuto: testo ed elementi UI #}
@@ -1680,6 +1828,59 @@
         </ol>
       </div>
     </div>
+  </div>
+</section>
+
+
+{# ══════════════════════════════════════════
+   3b. ANTEPRIMA — pagine reali del PDF (campioni dallo spike v5)
+══════════════════════════════════════════ #}
+<section class="bp-section bp-section--white bp-preview-section" id="anteprima">
+  <div class="bp-container">
+    <div class="bp-preview-header">
+      <p class="bp-eyebrow" style="justify-content:center">Anteprima</p>
+      <h2 class="bp-section-title" style="margin:0 auto .75rem">Cosa vedrai dentro il documento.</h2>
+      <p class="bp-section-sub" style="margin:0 auto">
+        Non è un PDF generico con la stessa struttura per tutti. Ogni pagina è scritta sulla tua carta specifica — bodygraph, profilo, centri attivi. Qui sotto alcuni campioni reali del Libretto Avanzato.
+      </p>
+    </div>
+
+    <div class="bp-preview-fan">
+      <figure class="bp-preview-page bp-preview-page--1">
+        <img src="{{ grav.base_url }}/user/pages/assets/libretto/preview-cover.jpg"
+             alt="Anteprima copertina del Libretto d'Istruzioni Human Design"
+             width="595" height="842" loading="lazy">
+        <figcaption>Copertina</figcaption>
+      </figure>
+      <figure class="bp-preview-page bp-preview-page--2">
+        <img src="{{ grav.base_url }}/user/pages/assets/libretto/preview-bodygraph.jpg"
+             alt="Anteprima pagina con bodygraph personalizzato"
+             width="595" height="842" loading="lazy">
+        <figcaption>La tua mappa</figcaption>
+      </figure>
+      <figure class="bp-preview-page bp-preview-page--3 bp-preview-page--featured">
+        <img src="{{ grav.base_url }}/user/pages/assets/libretto/preview-chi-sei.jpg"
+             alt="Anteprima sezione Chi sei davvero"
+             width="595" height="842" loading="lazy">
+        <figcaption>Chi sei davvero</figcaption>
+      </figure>
+      <figure class="bp-preview-page bp-preview-page--4">
+        <img src="{{ grav.base_url }}/user/pages/assets/libretto/preview-protocollo.jpg"
+             alt="Anteprima del protocollo decisionale personalizzato"
+             width="595" height="842" loading="lazy">
+        <figcaption>Il protocollo</figcaption>
+      </figure>
+      <figure class="bp-preview-page bp-preview-page--5">
+        <img src="{{ grav.base_url }}/user/pages/assets/libretto/preview-missione.jpg"
+             alt="Anteprima sezione La tua missione"
+             width="595" height="842" loading="lazy">
+        <figcaption>La tua missione</figcaption>
+      </figure>
+    </div>
+
+    <p class="bp-preview-footnote">
+      Esempi tratti dal Libretto Avanzato di Valentina Russo (~55 pagine, 7 capitoli).
+    </p>
   </div>
 </section>
 
@@ -2045,13 +2246,13 @@ document.querySelectorAll('a[href*="checkout.php"]').forEach(function(a) {
   }
 })();
 
-// ── Mouse parallax hero (background image + carousel bodygraph) ───────────
+// ── Mouse parallax hero (background image + cover mockup 3D) ──────────────
 (function() {
   if (window.matchMedia('(max-width:900px)').matches) return;
   if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-  var hero      = document.querySelector('.bp-hero');
-  var bgImg     = document.querySelector('.bp-hero__bg-image img');
-  var carousel  = document.querySelector('.bp-hero__bg-carousel');
+  var hero  = document.querySelector('.bp-hero');
+  var bgImg = document.querySelector('.bp-hero__bg-image img');
+  var cover = document.querySelector('.bp-hero__cover-mockup');
   if (!hero || !bgImg) return;
   var ticking = false, mx = 0, my = 0;
   hero.addEventListener('mousemove', function(e) {
@@ -2060,10 +2261,16 @@ document.querySelectorAll('a[href*="checkout.php"]').forEach(function(a) {
     my = (e.clientY - r.top)  / r.height - 0.5;
     if (!ticking) {
       requestAnimationFrame(function() {
-        // Background: drift contrario, leggero (sensazione di profondità)
         bgImg.style.transform = 'scale(1.06) translate('+(-mx*14)+'px,'+(-my*10)+'px)';
-        // Carousel bodygraph: drift maggiore (mantiene -50% Y di centratura)
-        if (carousel) carousel.style.transform = 'translate('+( mx*20)+'px, calc(-50% + '+( my*16)+'px))';
+        if (cover) {
+          // Cover: tilt 3D che reagisce alla posizione mouse, sospende il float CSS
+          cover.style.animation = 'none';
+          cover.style.transform =
+            'translateY(-50%) translate('+( mx*16)+'px,'+( my*10)+'px) ' +
+            'perspective(1400px) ' +
+            'rotateY('+(-7 + mx*5)+'deg) rotateX('+( my*4)+'deg) ' +
+            'rotate('+(2.5 - mx*1.5)+'deg)';
+        }
         ticking = false;
       });
       ticking = true;
@@ -2071,7 +2278,7 @@ document.querySelectorAll('a[href*="checkout.php"]').forEach(function(a) {
   });
   hero.addEventListener('mouseleave', function() {
     bgImg.style.transform = '';
-    if (carousel) carousel.style.transform = '';
+    if (cover) { cover.style.transform = ''; cover.style.animation = ''; }
   });
 })();
 
