@@ -250,41 +250,13 @@
 .bp-section--gradient .bp-eyebrow::before,
 .bp-section--gradient .bp-eyebrow::after { background: var(--bp-gold); }
 
-/* Wave dividers */
-.bp-wave {
-  display: block;
-  line-height: 0;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-}
-/* Fade fluido navy → parchment (inverso di bp-fade-to-navy).
-   Sostituisce la wave SVG che, qualunque path o ampiezza, mostrava
-   inevitabilmente patches di panna sul lato dark del divider.
-   Stops calibrati specchio del fade superiore: navy puro → mid-tone
-   neutro → chiusura parchment esatto. */
-.bp-fade-to-parchment {
-  height: 110px;
-  background: linear-gradient(
-    180deg,
-    #1A2332 0%,
-    #2A334A 15%,
-    #5C6488 38%,
-    #C7BBB5 68%,
-    #FAF7F5 100%
-  );
-  position: relative;
-  margin: 0;
-  padding: 0;
-  line-height: 0;
-}
-.bp-fade-to-parchment::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='.06'/%3E%3C/svg%3E");
-  opacity: .8;
-  pointer-events: none;
+/* Wave dividers — DEPRECATI dopo refactor 01/05/2026 (pricing su parchment,
+   niente più transizioni navy↔parchment). Lasciati come no-op per safety
+   nel caso ci siano riferimenti residui in cache/prod. */
+.bp-wave,
+.bp-fade-to-parchment,
+.bp-ordine-ornament {
+  display: none !important;
 }
 .bp-wave svg {
   display: block;
@@ -2565,13 +2537,11 @@
 </section>
 
 
-{# Fade fluido: parchment-end → navy pricing-start (sostituisce la wave che creava la linea nera) #}
-<div class="bp-fade-to-navy" aria-hidden="true"></div>
-
 {# ══════════════════════════════════════════
-   6. PRICING
+   6. PRICING — su parchment, niente più navy + transizioni
+   (utente 01/05: "approccio C totale" — elimina problema alla radice)
 ══════════════════════════════════════════ #}
-<section class="bp-section bp-section--gradient bp-section--gradient-flat" id="prezzi">
+<section class="bp-section bp-section--parchment" id="prezzi">
   <div class="bp-container">
     <div style="text-align:center">
       <p class="bp-eyebrow" style="justify-content:center">I prezzi</p>
@@ -2639,10 +2609,6 @@
   </div>
 </section>
 
-
-{# Fade fluido navy → parchment (sostituisce la wave SVG che mostrava
-   inevitabilmente patches di panna nel divider, qualunque path/ampiezza). #}
-<div class="bp-fade-to-parchment" aria-hidden="true"></div>
 
 {# ══════════════════════════════════════════
    7. ORDINA ORA
