@@ -258,27 +258,33 @@
   margin: 0;
   padding: 0;
 }
-/* Variante seamless: gradient orizzontale che replica esattamente il
-   colore del pricing AL BOTTOM EDGE (sx: ~#131D33, dx: ~#0F1729 — calcolato
-   campionando il gradient 135deg del pricing alla y bottom). Così la wave
-   continua otticamente la striscia di colore inferiore del pricing.
-   Margin-top -1px nasconde 1px di anti-aliasing al seam. */
-.bp-wave--seamless {
+/* Fade fluido navy → parchment (inverso di bp-fade-to-navy).
+   Sostituisce la wave SVG che, qualunque path o ampiezza, mostrava
+   inevitabilmente patches di panna sul lato dark del divider.
+   Stops calibrati specchio del fade superiore: navy puro → mid-tone
+   neutro → chiusura parchment esatto. */
+.bp-fade-to-parchment {
+  height: 110px;
+  background: linear-gradient(
+    180deg,
+    #1A2332 0%,
+    #2A334A 15%,
+    #5C6488 38%,
+    #C7BBB5 68%,
+    #FAF7F5 100%
+  );
   position: relative;
-  margin-top: -1px;
-  background: linear-gradient(90deg, #131D33 0%, #0F1729 100%);
+  margin: 0;
+  padding: 0;
+  line-height: 0;
 }
-.bp-wave--seamless::before {
+.bp-fade-to-parchment::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='.04'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='.06'/%3E%3C/svg%3E");
+  opacity: .8;
   pointer-events: none;
-  z-index: 0;
-}
-.bp-wave--seamless svg {
-  position: relative;
-  z-index: 1;
 }
 .bp-wave svg {
   display: block;
@@ -2634,15 +2640,9 @@
 </section>
 
 
-{# Wave: navy → parchment. Path con ampiezza ridotta (28±8 invece di 28±28)
-   così la wave è una sottile ondulazione orizzontale, niente più patate
-   blu/bianco evidenti. La div ha la stessa noise texture del pricing
-   per evitare step di colore al seam. #}
-<div class="bp-wave bp-wave--seamless" aria-hidden="true">
-  <svg viewBox="0 0 1440 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path fill="#FAF7F5" d="M0,30 C288,22 576,38 864,26 C1152,20 1296,34 1440,28 L1440,56 L0,56 Z"/>
-  </svg>
-</div>
+{# Fade fluido navy → parchment (sostituisce la wave SVG che mostrava
+   inevitabilmente patches di panna nel divider, qualunque path/ampiezza). #}
+<div class="bp-fade-to-parchment" aria-hidden="true"></div>
 
 {# ══════════════════════════════════════════
    7. ORDINA ORA
