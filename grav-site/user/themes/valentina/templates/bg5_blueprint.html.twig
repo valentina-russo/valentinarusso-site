@@ -261,6 +261,26 @@
   margin: 0;
   padding: 0;
 }
+/* Variante seamless: stesso bg + noise texture del pricing sopra,
+   così il seam pricing→wave non mostra alcuno step di colore.
+   Margin-top negativo nasconde l'eventuale 1px di anti-aliasing. */
+.bp-wave--seamless {
+  position: relative;
+  margin-top: -1px;
+  background: #0E1220;
+}
+.bp-wave--seamless::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+.bp-wave--seamless svg {
+  position: relative;
+  z-index: 1;
+}
 .bp-wave svg {
   display: block;
   width: 100%;
@@ -2625,8 +2645,9 @@
 </section>
 
 
-{# Wave: dark navy → chiaro parchment #}
-<div class="bp-wave" style="background:#0E1220">
+{# Wave: navy → parchment. La div ha la stessa texture noise del pricing
+   (vedi .bp-wave--seamless::before) così non c'è step di colore al seam. #}
+<div class="bp-wave bp-wave--seamless" aria-hidden="true">
   <svg viewBox="0 0 1440 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <path fill="#FAF7F5" d="M0,34 C240,2 480,56 720,28 C960,0 1200,52 1440,28 L1440,56 L0,56 Z"/>
   </svg>
