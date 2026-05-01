@@ -1884,6 +1884,16 @@
   position: relative;
   overflow: hidden;
 }
+/* Flat-bottom solo sul pricing: il bottom 80px diventa #0E1220 uniforme così
+   combacia con la wave div sotto (anch'essa #0E1220). Senza questo, il
+   gradient diagonale produceva una banda blu chiaro sul lato sinistro. */
+.bp-section--gradient-flat {
+  background:
+    linear-gradient(0deg, #0E1220 0%, #0E1220 80px, transparent 80px),
+    radial-gradient(ellipse 70% 60% at 100% 50%, rgba(196,138,58,.10) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 0% 30%, rgba(74,140,140,.05) 0%, transparent 65%),
+    linear-gradient(135deg, #0B1220 0%, #131D33 50%, #0F1729 100%) !important;
+}
 .bp-section--gradient::before,
 .bp-section--gradient-flat::before,
 .bp-section--dark::before {
