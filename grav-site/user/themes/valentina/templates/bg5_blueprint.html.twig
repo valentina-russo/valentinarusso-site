@@ -258,17 +258,15 @@
   margin: 0;
   padding: 0;
 }
-/* Variante seamless: usa lo STESSO gradient diagonale + radial gradients +
-   noise texture del pricing sopra, così la wave è la naturale continuazione
-   del bg pricing senza step di colore. Margin-top negativo nasconde
-   l'eventuale 1px di anti-aliasing al seam. */
+/* Variante seamless: gradient orizzontale che replica esattamente il
+   colore del pricing AL BOTTOM EDGE (sx: ~#131D33, dx: ~#0F1729 — calcolato
+   campionando il gradient 135deg del pricing alla y bottom). Così la wave
+   continua otticamente la striscia di colore inferiore del pricing.
+   Margin-top -1px nasconde 1px di anti-aliasing al seam. */
 .bp-wave--seamless {
   position: relative;
   margin-top: -1px;
-  background:
-    radial-gradient(ellipse 70% 60% at 100% 50%, rgba(196,138,58,.10) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 50% at 0% 30%, rgba(74,140,140,.05) 0%, transparent 65%),
-    linear-gradient(135deg, #0B1220 0%, #131D33 50%, #0F1729 100%);
+  background: linear-gradient(90deg, #131D33 0%, #0F1729 100%);
 }
 .bp-wave--seamless::before {
   content: '';
