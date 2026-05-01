@@ -205,15 +205,12 @@
 .bp-section--gradient {
   background: linear-gradient(150deg, #1A2332 0%, #1D1232 45%, #0E1220 100%);
 }
-/* Variante "flat-top + flat-bottom": il top è solido navy così combacia esattamente
-   col fade superiore, il bottom è solido #0E1220 così combacia con la wave navy
-   sotto — niente banda blu/viola al seam con la wave (il gradient diagonale,
-   sul lato sinistro, raggiungeva #1D1232 plum mentre la wave era #0E1220).
-   Il gradient diagonale è schiacciato tra i due strati piatti. */
+/* Variante "flat-top": il top è solido navy così combacia col fade superiore.
+   Il bottom transition→wave è gestito dalla .bp-wave--seamless che eredita
+   lo stesso gradient + noise del pricing. */
 .bp-section--gradient-flat {
   background:
     linear-gradient(180deg, #1A2332 0%, #1A2332 60px, transparent 60px),
-    linear-gradient(0deg,   #0E1220 0%, #0E1220 80px, transparent 80px),
     linear-gradient(150deg, #1A2332 0%, #1D1232 45%, #0E1220 100%);
   box-shadow: none;
 }
@@ -261,13 +258,17 @@
   margin: 0;
   padding: 0;
 }
-/* Variante seamless: stesso bg + noise texture del pricing sopra,
-   così il seam pricing→wave non mostra alcuno step di colore.
-   Margin-top negativo nasconde l'eventuale 1px di anti-aliasing. */
+/* Variante seamless: usa lo STESSO gradient diagonale + radial gradients +
+   noise texture del pricing sopra, così la wave è la naturale continuazione
+   del bg pricing senza step di colore. Margin-top negativo nasconde
+   l'eventuale 1px di anti-aliasing al seam. */
 .bp-wave--seamless {
   position: relative;
   margin-top: -1px;
-  background: #0E1220;
+  background:
+    radial-gradient(ellipse 70% 60% at 100% 50%, rgba(196,138,58,.10) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 0% 30%, rgba(74,140,140,.05) 0%, transparent 65%),
+    linear-gradient(135deg, #0B1220 0%, #131D33 50%, #0F1729 100%);
 }
 .bp-wave--seamless::before {
   content: '';
@@ -1904,16 +1905,6 @@
   position: relative;
   overflow: hidden;
 }
-/* Flat-bottom solo sul pricing: il bottom 80px diventa #0E1220 uniforme così
-   combacia con la wave div sotto (anch'essa #0E1220). Senza questo, il
-   gradient diagonale produceva una banda blu chiaro sul lato sinistro. */
-.bp-section--gradient-flat {
-  background:
-    linear-gradient(0deg, #0E1220 0%, #0E1220 80px, transparent 80px),
-    radial-gradient(ellipse 70% 60% at 100% 50%, rgba(196,138,58,.10) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 50% at 0% 30%, rgba(74,140,140,.05) 0%, transparent 65%),
-    linear-gradient(135deg, #0B1220 0%, #131D33 50%, #0F1729 100%) !important;
-}
 .bp-section--gradient::before,
 .bp-section--gradient-flat::before,
 .bp-section--dark::before {
@@ -2645,11 +2636,13 @@
 </section>
 
 
-{# Wave: navy → parchment. La div ha la stessa texture noise del pricing
-   (vedi .bp-wave--seamless::before) così non c'è step di colore al seam. #}
+{# Wave: navy → parchment. Path con ampiezza ridotta (28±8 invece di 28±28)
+   così la wave è una sottile ondulazione orizzontale, niente più patate
+   blu/bianco evidenti. La div ha la stessa noise texture del pricing
+   per evitare step di colore al seam. #}
 <div class="bp-wave bp-wave--seamless" aria-hidden="true">
   <svg viewBox="0 0 1440 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path fill="#FAF7F5" d="M0,34 C240,2 480,56 720,28 C960,0 1200,52 1440,28 L1440,56 L0,56 Z"/>
+    <path fill="#FAF7F5" d="M0,30 C288,22 576,38 864,26 C1152,20 1296,34 1440,28 L1440,56 L0,56 Z"/>
   </svg>
 </div>
 
