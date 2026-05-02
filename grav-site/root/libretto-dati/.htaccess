@@ -1,14 +1,17 @@
 # Blocca l'accesso HTTP a file sensibili in libretto-dati/
 # (.env contiene chiavi Stripe — non deve mai essere servito come testo)
 
-<FilesMatch "^\.env|\.env\..*|.*\.example\.php$|.*\.log$">
+# SEC-LIB-007: disabilita directory listing e blocca anche .json/.bak/.sql
+Options -Indexes
+
+<FilesMatch "^\.env|\.env\..*|.*\.example\.php$|.*\.log$|.*\.json$|.*\.bak$|.*\.sql$|.*\.gitignore$">
     Order Allow,Deny
     Deny from all
 </FilesMatch>
 
 # Apache 2.4+ syntax
 <IfModule mod_authz_core.c>
-    <FilesMatch "^\.env|\.env\..*|.*\.example\.php$|.*\.log$">
+    <FilesMatch "^\.env|\.env\..*|.*\.example\.php$|.*\.log$|.*\.json$|.*\.bak$|.*\.sql$|.*\.gitignore$">
         Require all denied
     </FilesMatch>
 </IfModule>

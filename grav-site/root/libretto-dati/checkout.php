@@ -130,6 +130,20 @@ if ($curlErr) {
 $data = json_decode($response, true);
 
 if ($httpCode === 200 && !empty($data['url'])) {
+    // ── SEC-LIB-002: allowlist Stripe redirect URL ──────────────────────────
+    // Anche se la URL viene da Stripe API, isoliamo la fiducia all'host atteso:
+    // se Stripe (o un MITM in scenari estremi) restituisse un host inatteso,
+    // l'utente non viene rediretto fuori dal nostro dominio di pagamento.
+    $u = parse_url($data['url']);
+    $allowedHosts = ['checkout.stripe.com', 'buy.stripe.com'];
+    if (
+        !is_array($u) || empty($u['host']) || ($u['scheme'] ?? '') !== 'https'
+        || !in_array(strtolower($u['host']), $allowedHosts, true)
+    ) {
+        error_log('[libretto-checkout] Unexpected redirect host: ' . ($data['url'] ?? '(empty)'));
+        header('Location: ' . $cancelUrl . '?error=payment');
+        exit;
+    }
     // ── Redirige a Stripe Checkout ──────────────────────────────────────────
     header('Location: ' . $data['url']);
     exit;

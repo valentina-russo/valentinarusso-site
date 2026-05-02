@@ -453,6 +453,26 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/24.genera-carta-v2/
           dangerous-clean-slate: false
 
+      - name: Deploy pagina privacy (compliance legale Libretto)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/07.privacy/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/07.privacy/
+          dangerous-clean-slate: false
+
+      - name: Deploy pagina terms (compliance legale Libretto)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/08.terms/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/08.terms/
+          dangerous-clean-slate: false
+
       - name: Deploy pagina account (HD Account System)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:

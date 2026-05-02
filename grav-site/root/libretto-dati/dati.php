@@ -21,7 +21,13 @@ $tier      = strtolower(trim($_GET['tier'] ?? 'avanzato'));
 if (!in_array($tier, ['base', 'avanzato'], true)) { $tier = 'avanzato'; }
 $tierLabel = $tier === 'base' ? 'Base' : 'Avanzato';
 $tierPrice = $tier === 'base' ? '€90' : '€147';
-$sessionId = htmlspecialchars($_GET['session_id'] ?? '', ENT_QUOTES, 'UTF-8');
+
+// SEC-LIB-006: validazione formato session_id Stripe (cs_test_… o cs_live_…)
+// prima dell'output. Previene injection di stringhe arbitrarie nel form.
+$rawSessionId = $_GET['session_id'] ?? '';
+$sessionId = preg_match('/^cs_(test|live)_[A-Za-z0-9]{1,200}$/', $rawSessionId)
+    ? htmlspecialchars($rawSessionId, ENT_QUOTES, 'UTF-8')
+    : '';
 $success   = isset($_GET['success']) && $_GET['success'] === '1';
 
 // Messaggio di errore se arriva da submit con problemi
@@ -436,19 +442,18 @@ $pageTitle = $success
     <input type="hidden" name="session_id" value="<?= $sessionId ?>">
     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken, ENT_QUOTES) ?>">
 
-    <!-- Nome e email -->
+    <!-- Nome e email — SEC-LIB-005: NON pre-popoliamo da GET (vettore phishing
+         tramite link condiviso con email pre-impostata di un attaccante) -->
     <div class="ld-row">
       <div class="ld-group">
         <label class="ld-label" for="ld-nome">Nome e cognome <span class="ld-req">*</span></label>
         <input class="ld-input" type="text" id="ld-nome" name="nome"
-               required autocomplete="name" placeholder="es. Maria Rossi"
-               value="<?= htmlspecialchars($_GET['nome'] ?? '', ENT_QUOTES) ?>">
+               required autocomplete="name" placeholder="es. Maria Rossi">
       </div>
       <div class="ld-group">
         <label class="ld-label" for="ld-email">Email <span class="ld-req">*</span></label>
         <input class="ld-input" type="email" id="ld-email" name="email"
-               required autocomplete="email" placeholder="tu@esempio.it"
-               value="<?= htmlspecialchars($_GET['email'] ?? '', ENT_QUOTES) ?>">
+               required autocomplete="email" placeholder="tu@esempio.it">
         <span class="ld-hint">L'email dove riceverai il PDF</span>
       </div>
     </div>

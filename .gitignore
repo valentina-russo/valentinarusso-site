@@ -68,6 +68,9 @@ grav-site/user/pages/*
 !grav-site/user/pages/26.libretto-istruzioni
 # Eccezione: pagina Human Design — guida introduttiva
 !grav-site/user/pages/human-design
+# Eccezione: Privacy + Terms — versionate per audit legale (compliance pre-go-live 02/05)
+!grav-site/user/pages/07.privacy
+!grav-site/user/pages/08.terms
 # Eccezioni: nuovi articoli bozza privati (deployati via FTP, dentro /blog/articoli)
 !grav-site/user/pages/04.blog
 grav-site/user/pages/04.blog/*
