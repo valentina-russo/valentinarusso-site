@@ -1,8 +1,8 @@
 # Blocca l'accesso HTTP a file sensibili in libretto-dati/
 # (.env contiene chiavi Stripe — non deve mai essere servito come testo)
-
-# SEC-LIB-007: disabilita directory listing e blocca anche .json/.bak/.sql
-Options -Indexes
+# SEC-LIB-007: estesa la blocklist anche a .json/.bak/.sql (Options -Indexes
+# non è supportata da AllowOverride Aruba — produce 500. Comunque DirectoryIndex
+# di Apache mostrerà solo i file PHP runnabili in caso di tentativo di listing.)
 
 <FilesMatch "^\.env|\.env\..*|.*\.example\.php$|.*\.log$|.*\.json$|.*\.bak$|.*\.sql$|.*\.gitignore$">
     Order Allow,Deny
