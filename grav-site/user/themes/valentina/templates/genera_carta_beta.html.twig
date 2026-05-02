@@ -1078,6 +1078,12 @@ async function loadAndRenderBodygraph(gateColors,definedChannels,definedCenterSe
       const pat=document.createElementNS(ns,'pattern');
       pat.setAttribute('id',AB_PAT_ID);pat.setAttribute('x','0');pat.setAttribute('y','0');
       pat.setAttribute('width','1');pat.setAttribute('height','1');pat.setAttribute('patternUnits','objectBoundingBox');
+      // BUG-FIX: senza patternContentUnits='objectBoundingBox', i rect interni
+      // sono interpretati in userSpace (px) → width=0.5 = 0.5 PIXEL = invisibile.
+      // Le gate condivise A+B (es. 26, 19, 54, 1, 13, 7, 10, 14, 43) apparivano
+      // vuote perché il pattern non si vedeva. Forzando bbox-units, ogni rect
+      // copre metà del bbox della path.
+      pat.setAttribute('patternContentUnits','objectBoundingBox');
       const r1=document.createElementNS(ns,'rect');r1.setAttribute('x','0');r1.setAttribute('y','0');r1.setAttribute('width','0.5');r1.setAttribute('height','1');r1.setAttribute('fill',COL_A);
       const r2=document.createElementNS(ns,'rect');r2.setAttribute('x','0.5');r2.setAttribute('y','0');r2.setAttribute('width','0.5');r2.setAttribute('height','1');r2.setAttribute('fill',COL_B);
       pat.appendChild(r1);pat.appendChild(r2);defs.appendChild(pat);
