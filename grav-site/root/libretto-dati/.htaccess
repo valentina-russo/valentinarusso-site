@@ -1,17 +1,36 @@
 # Blocca l'accesso HTTP a file sensibili in libretto-dati/
-# (.env contiene chiavi Stripe — non deve mai essere servito come testo)
-# SEC-LIB-007: estesa la blocklist anche a .json/.bak/.sql (Options -Indexes
-# non è supportata da AllowOverride Aruba — produce 500. Comunque DirectoryIndex
-# di Apache mostrerà solo i file PHP runnabili in caso di tentativo di listing.)
+# Apache su Aruba non gradisce le regex complesse di FilesMatch — usiamo
+# Files diretti per il file singolo (.env) e FilesMatch semplici per pattern.
 
-<FilesMatch "^\.env|\.env\..*|.*\.example\.php$|.*\.log$|.*\.json$|.*\.bak$|.*\.sql$|.*\.gitignore$">
+# .env (contiene STRIPE_SECRET_KEY)
+<Files ".env">
+    Order Allow,Deny
+    Deny from all
+</Files>
+<IfModule mod_authz_core.c>
+    <Files ".env">
+        Require all denied
+    </Files>
+</IfModule>
+
+# Pattern di file sensibili
+<FilesMatch "\.(log|json|bak|sql|gitignore)$">
     Order Allow,Deny
     Deny from all
 </FilesMatch>
-
-# Apache 2.4+ syntax
 <IfModule mod_authz_core.c>
-    <FilesMatch "^\.env|\.env\..*|.*\.example\.php$|.*\.log$|.*\.json$|.*\.bak$|.*\.sql$|.*\.gitignore$">
+    <FilesMatch "\.(log|json|bak|sql|gitignore)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+
+# File .example.php (template senza segreti)
+<FilesMatch "\.example\.php$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+<IfModule mod_authz_core.c>
+    <FilesMatch "\.example\.php$">
         Require all denied
     </FilesMatch>
 </IfModule>
