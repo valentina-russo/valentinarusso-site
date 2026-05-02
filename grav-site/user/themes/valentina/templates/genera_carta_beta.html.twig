@@ -1048,7 +1048,10 @@ async function loadAndRenderBodygraph(gateColors,definedChannels,definedCenterSe
   const ns='http://www.w3.org/2000/svg';
   const CTR_ID={HEAD:'Head',AJNA:'Ajna',THROAT:'Throat',G:'G',HEART:'Heart',SPLEEN:'Splenic_Center',SACRAL:'Sacral',SOLAR:'Solar_Plexus',ROOT:'Root'};
   const CTR_COL={HEAD:'#b4cfe8',AJNA:'#52a363',THROAT:'#b8913e',G:'#d9b82a',HEART:'#b83838',SPLEEN:'#957040',SOLAR:'#d47a2e',SACRAL:'#c94e4e',ROOT:'#8a7868'};
-  const COL_P='#1a1a2e',COL_D='#c0392b',COL_EMPTY='#c8c2bc';
+  const COL_P='#1a1a2e',COL_D='#c0392b';
+  // COL_EMPTY: scurito da #c8c2bc a #9c948c per garantire contrasto >3:1 sul
+  // wrap cream #FAF7F5 dei pannelli composito (prima invisibile = "linee mancanti")
+  const COL_EMPTY='#9c948c';
   // COL_A/COL_B: colori dei due partner nella carta di coppia.
   // Devono distinguersi nettamente da: cream bg (#FAF7F5), centri Ajna verde
   // (#52a363), Throat oro (#b8913e), Heart rosso (#b83838), Sacral rosso-arancio
@@ -1079,25 +1082,34 @@ async function loadAndRenderBodygraph(gateColors,definedChannels,definedCenterSe
       const r2=document.createElementNS(ns,'rect');r2.setAttribute('x','0.5');r2.setAttribute('y','0');r2.setAttribute('width','0.5');r2.setAttribute('height','1');r2.setAttribute('fill',COL_B);
       pat.appendChild(r1);pat.appendChild(r2);defs.appendChild(pat);
     }
-    // 2. Color active gate channel arms.
-    // La SVG hdkit HA path dedicati per OGNI gate 1-64 (incluso Gate4/11/17/31/53
-    // come <polyline>). Quindi basta colorare Gate{N} per ogni gate attiva.
-    // Aggiungo anche outline scuro sottile (#1a1a2e, 0.6px) per migliorare il
-    // contrasto su centri colorati (Heart rosso, Sacral rosso, Solar arancio, ecc.).
+    // 2. Color active gate channel arms con FILL solido. Le gate inattive
+    //    (default SVG #c8c2bc) vengono forzate a COL_EMPTY più scuro #9c948c
+    //    per essere visibili sul wrap cream (#FAF7F5) — altrimenti diventano
+    //    "linee invisibili" che sembrano stroke senza fill.
     for(let g=1;g<=64;g++){
       const col=gateColors[g]||gateColors[String(g)];
       if(col){
         setF(`Gate${g}`,gcFill(col));
-        const el=sfEl(`Gate${g}`);
-        if(el){el.setAttribute('stroke','#1a1a2e');el.setAttribute('stroke-width','0.6');}
+      } else {
+        setF(`Gate${g}`,COL_EMPTY);
       }
     }
-    // 3. Integration connectors (gates 10,20,34,57) and GateSpan
-    const intIds=[10,20,34,57];
-    for(const ig of intIds){const col=gateColors[ig]||gateColors[String(ig)];if(col)setF(`GateConnect${ig}`,gcFill(col));}
-    if(intIds.some(g=>gateColors[g]||gateColors[String(g)])){const col20=gateColors[20]||gateColors['20'];setF('GateSpan',col20?gcFill(col20):COL_EMPTY);}
-    // 4. Center fills
-    for(const c of definedCenterSet){const svgId=CTR_ID[c],col=CTR_COL[c];if(svgId&&col)svgEl.querySelectorAll(`#${svgId} path`).forEach(el=>el.setAttribute('fill',col));}
+    // 3. Integration connectors (gates 10,20,34,57) e GateSpan — fill solido,
+    //    fallback COL_EMPTY se la gate non è attiva (così visibili su cream).
+    for(const ig of [10,20,34,57]){
+      const col=gateColors[ig]||gateColors[String(ig)];
+      setF(`GateConnect${ig}`, col?gcFill(col):COL_EMPTY);
+    }
+    {const col20=gateColors[20]||gateColors['20'];
+     setF('GateSpan', col20?gcFill(col20):COL_EMPTY);}
+    // 4. Center fills — attivi col loro colore HD, inattivi forzati a #b8b1a8
+    //    (più scuro del default SVG #cdc6be per essere visibili su cream wrap)
+    const COL_CENTER_EMPTY='#b8b1a8';
+    for(const [k,svgId] of Object.entries(CTR_ID)){
+      const isActive=definedCenterSet.has?definedCenterSet.has(k):definedCenterSet[k];
+      const col=isActive?CTR_COL[k]:COL_CENTER_EMPTY;
+      svgEl.querySelectorAll(`#${svgId} path`).forEach(el=>el.setAttribute('fill',col));
+    }
     // 5. Gate text & background
     const activeGates=new Set(Object.keys(gateColors).map(Number));
     for(let g=1;g<=64;g++){
