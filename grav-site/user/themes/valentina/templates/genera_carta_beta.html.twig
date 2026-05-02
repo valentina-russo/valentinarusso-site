@@ -333,7 +333,16 @@
     100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
   }
   .gcb-form-b-pulse { animation: gcbFormBPulse 0.75s ease-out; }
-  /* Bodygraph panels — adequate height on mobile */
+  /* Bodygraph panels — vassoio parchment per dare contrasto netto alle gate
+     colorate. Senza questo, le gate viola/navy si confondevano col gradient
+     viola-lavanda della pagina. */
+  .gcb-panel .carta-bodygraph-wrap {
+    background: #FAF7F5;
+    border: 1px solid rgba(196,138,58,.18);
+    border-radius: 12px;
+    padding: 1rem .75rem;
+    box-shadow: 0 1px 3px rgba(15,26,41,.08), inset 0 1px 0 rgba(255,255,255,.6);
+  }
   @media (max-width: 899px) {
     .gcb-panel .carta-bodygraph-wrap { min-height: 300px; display: flex; align-items: center; justify-content: center; }
     .gcb-panel .carta-bodygraph-wrap svg { width: 100%; max-width: 340px; height: auto; }
