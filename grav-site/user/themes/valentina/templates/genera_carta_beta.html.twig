@@ -1081,10 +1081,17 @@ async function loadAndRenderBodygraph(gateColors,definedChannels,definedCenterSe
     }
     // 2. Color active gate channel arms.
     // La SVG hdkit HA path dedicati per OGNI gate 1-64 (incluso Gate4/11/17/31/53
-    // come <polyline>). Quindi basta colorare Gate{N} per ogni gate attiva —
-    // niente più mappa MGP che colorava le partner gate creando "linee fantasma"
-    // o sovrascriveva i colori EM nel composito.
-    for(let g=1;g<=64;g++){const col=gateColors[g]||gateColors[String(g)];if(col)setF(`Gate${g}`,gcFill(col));}
+    // come <polyline>). Quindi basta colorare Gate{N} per ogni gate attiva.
+    // Aggiungo anche outline scuro sottile (#1a1a2e, 0.6px) per migliorare il
+    // contrasto su centri colorati (Heart rosso, Sacral rosso, Solar arancio, ecc.).
+    for(let g=1;g<=64;g++){
+      const col=gateColors[g]||gateColors[String(g)];
+      if(col){
+        setF(`Gate${g}`,gcFill(col));
+        const el=sfEl(`Gate${g}`);
+        if(el){el.setAttribute('stroke','#1a1a2e');el.setAttribute('stroke-width','0.6');}
+      }
+    }
     // 3. Integration connectors (gates 10,20,34,57) and GateSpan
     const intIds=[10,20,34,57];
     for(const ig of intIds){const col=gateColors[ig]||gateColors[String(ig)];if(col)setF(`GateConnect${ig}`,gcFill(col));}
