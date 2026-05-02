@@ -508,6 +508,14 @@ window.csScaricaPDF = async function(){
   var btn = document.getElementById('cs-pdf-btn');
   if (!el) return;
   var nome = (document.getElementById('cs-nome') ? document.getElementById('cs-nome').value : '').trim() || 'carta-hd';
+  // GA4 event tracking — engagement con il calcolatore (download PDF)
+  // Nessuna PII inviata a GA: né nome, né data/luogo nascita, né email.
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'pdf_carta_scaricato', {
+      event_category: 'engagement',
+      source: 'genera-carta'
+    });
+  }
   if (btn) { btn.disabled = true; btn.textContent = 'Generando…'; }
   try {
     await html2pdf().set({
