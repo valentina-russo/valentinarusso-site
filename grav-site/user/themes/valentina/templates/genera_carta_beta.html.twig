@@ -1040,7 +1040,12 @@ async function loadAndRenderBodygraph(gateColors,definedChannels,definedCenterSe
   const CTR_ID={HEAD:'Head',AJNA:'Ajna',THROAT:'Throat',G:'G',HEART:'Heart',SPLEEN:'Splenic_Center',SACRAL:'Sacral',SOLAR:'Solar_Plexus',ROOT:'Root'};
   const CTR_COL={HEAD:'#b4cfe8',AJNA:'#52a363',THROAT:'#b8913e',G:'#d9b82a',HEART:'#b83838',SPLEEN:'#957040',SOLAR:'#d47a2e',SACRAL:'#c94e4e',ROOT:'#8a7868'};
   const COL_P='#1a1a2e',COL_D='#c0392b',COL_EMPTY='#c8c2bc';
-  const COL_A='#8b3ea8',COL_B='#2e8a7a';
+  // COL_A/COL_B: colori dei due partner nella carta di coppia.
+  // Devono distinguersi nettamente da: cream bg (#FAF7F5), centri Ajna verde
+  // (#52a363), Throat oro (#b8913e), Heart rosso (#b83838), Sacral rosso-arancio
+  // (#c94e4e), Solar arancio (#d47a2e). Evitato il teal/verde per A perché
+  // collide con Ajna; evitato viola medio per B perché contrasto basso su cream.
+  const COL_A='#5C1F6E',COL_B='#0E3C7B';  // viola scuro deep + navy blu profondo
   const AB_PAT_ID='splitAB_'+(targetId||'x').replace(/[^a-z0-9]/gi,'_');
   function gcFill(col){if(!compositeMode)return col==='P'?COL_P:col==='D'?COL_D:'url(#splitGatePattern)';return col==='A'?COL_A:col==='B'?COL_B:`url(#${AB_PAT_ID})`;}
   try{
@@ -1065,17 +1070,12 @@ async function loadAndRenderBodygraph(gateColors,definedChannels,definedCenterSe
       const r2=document.createElementNS(ns,'rect');r2.setAttribute('x','0.5');r2.setAttribute('y','0');r2.setAttribute('width','0.5');r2.setAttribute('height','1');r2.setAttribute('fill',COL_B);
       pat.appendChild(r1);pat.appendChild(r2);defs.appendChild(pat);
     }
-    // 2. Color active gate channel arms
+    // 2. Color active gate channel arms.
+    // La SVG hdkit HA path dedicati per OGNI gate 1-64 (incluso Gate4/11/17/31/53
+    // come <polyline>). Quindi basta colorare Gate{N} per ogni gate attiva —
+    // niente più mappa MGP che colorava le partner gate creando "linee fantasma"
+    // o sovrascriveva i colori EM nel composito.
     for(let g=1;g<=64;g++){const col=gateColors[g]||gateColors[String(g)];if(col)setF(`Gate${g}`,gcFill(col));}
-    // Gate4,11,17,31,53 have NO path in SVG Channels — apply color to partner gate path
-    {const MGP={'4':63,'11':56,'17':62,'31':7,'53':42};
-    for(const[mg,pg] of Object.entries(MGP)){
-      const mc=gateColors[mg]||gateColors[Number(mg)];if(!mc)continue;
-      const pc=gateColors[pg]||gateColors[String(pg)];
-      if(!pc)setF(`Gate${pg}`,gcFill(mc));
-      else if(compositeMode&&gcFill(mc)!==gcFill(pc))setF(`Gate${pg}`,`url(#${AB_PAT_ID})`);
-      else if(!compositeMode&&mc!==pc)setF(`Gate${pg}`,gcFill('PD'));
-    }}
     // 3. Integration connectors (gates 10,20,34,57) and GateSpan
     const intIds=[10,20,34,57];
     for(const ig of intIds){const col=gateColors[ig]||gateColors[String(ig)];if(col)setF(`GateConnect${ig}`,gcFill(col));}
