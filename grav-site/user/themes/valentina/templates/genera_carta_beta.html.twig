@@ -26,6 +26,26 @@
   "inLanguage": "it"
 }
 </script>
+{% if page.header.faq is iterable and page.header.faq|length > 0 %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for faq in page.header.faq %}
+    {
+      "@type": "Question",
+      "name": {{ (faq.question ?? faq.q)|json_encode|raw }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ (faq.answer ?? faq.a)|json_encode|raw }}
+      }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
 {% endblock %}
 
 {% block extra_css %}
