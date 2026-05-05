@@ -43,88 +43,23 @@
     <li><strong>Riflettore</strong> <span style="color:var(--text-muted,#888); font-size:0.85em;">(BG5: Valutatore)</span> (~1%): specchio dell'ambiente, decide nel ciclo lunare di 28 giorni</li>
   </ul>
 
+  {% if page.header.faq is iterable and page.header.faq|length > 0 %}
   <h3 style="font-family:'Playfair Display',serif; font-size:1.2rem; margin-bottom:0.75rem; color:var(--text-dark, #1E3A5F);">
     Domande frequenti
   </h3>
 
+  {# FAQ rendered from frontmatter — single source of truth, also drives FAQPage JSON-LD in template schema block #}
+  {% for faq in page.header.faq %}
   <details style="margin-bottom:0.75rem; border:1px solid #e5e7eb; border-radius:10px; padding:0;">
     <summary style="padding:0.85rem 1rem; cursor:pointer; font-weight:600; font-size:0.92rem; color:var(--text-dark, #1E3A5F);">
-      Come si calcola il proprio Human Design?
+      {{ faq.question ?? faq.q }}
     </summary>
     <p style="padding:0.5rem 1rem 1rem; line-height:1.7; font-size:0.9rem; color:var(--text-muted, #555);">
-      Per calcolare il proprio Human Design servono data di nascita, ora esatta e luogo di nascita. Il sistema usa le effemeridi astronomiche svizzere per determinare le posizioni planetarie in due momenti: la nascita e circa 88 giorni prima (imprinting prenatale). Il risultato &egrave; il bodygraph con Tipo, Strategia, Autorit&agrave;, Profilo, 9 Centri, 64 Porte e 36 Canali. Su questo sito il calcolo &egrave; gratuito e avviene nel browser.
+      {{ faq.answer ?? faq.a }}
     </p>
   </details>
-
-  <details style="margin-bottom:0.75rem; border:1px solid #e5e7eb; border-radius:10px; padding:0;">
-    <summary style="padding:0.85rem 1rem; cursor:pointer; font-weight:600; font-size:0.92rem; color:var(--text-dark, #1E3A5F);">
-      Quali dati servono per calcolare la carta Human Design?
-    </summary>
-    <p style="padding:0.5rem 1rem 1rem; line-height:1.7; font-size:0.9rem; color:var(--text-muted, #555);">
-      Servono tre informazioni: la data di nascita completa (giorno, mese, anno), l'ora esatta di nascita e il luogo di nascita.
-      L'ora &egrave; il dato pi&ugrave; critico: le posizioni planetarie cambiano continuamente e anche pochi minuti
-      possono modificare il Tipo Energetico o l'Autorit&agrave; Decisionale. La fonte pi&ugrave; affidabile &egrave;
-      il certificato di nascita integrale (estratto di nascita), non la memoria familiare.
-    </p>
-  </details>
-
-  <details style="margin-bottom:0.75rem; border:1px solid #e5e7eb; border-radius:10px; padding:0;">
-    <summary style="padding:0.85rem 1rem; cursor:pointer; font-weight:600; font-size:0.92rem; color:var(--text-dark, #1E3A5F);">
-      Il calcolo della carta &egrave; davvero gratuito?
-    </summary>
-    <p style="padding:0.5rem 1rem 1rem; line-height:1.7; font-size:0.9rem; color:var(--text-muted, #555);">
-      S&igrave;, completamente gratuito e senza registrazione. Il calcolo avviene nel tuo browser con le Swiss Ephemeris:
-      nessun dato viene inviato a server esterni. Puoi anche scaricare il risultato in PDF.
-    </p>
-  </details>
-
-  <details style="margin-bottom:0.75rem; border:1px solid #e5e7eb; border-radius:10px; padding:0;">
-    <summary style="padding:0.85rem 1rem; cursor:pointer; font-weight:600; font-size:0.92rem; color:var(--text-dark, #1E3A5F);">
-      Perch&eacute; l'ora di nascita &egrave; cos&igrave; importante?
-    </summary>
-    <p style="padding:0.5rem 1rem 1rem; line-height:1.7; font-size:0.9rem; color:var(--text-muted, #555);">
-      Le posizioni planetarie cambiano continuamente. Anche pochi minuti di differenza possono spostare una Porta da un
-      Centro all'altro, modificando il Tipo Energetico o l'Autorit&agrave;. Per una carta precisa, l'ora riportata sul certificato
-      di nascita &egrave; la fonte pi&ugrave; affidabile. Se non conosci l'ora esatta, il calcolatore produce comunque un risultato
-      parziale, ma alcune informazioni potrebbero non essere accurate.
-    </p>
-  </details>
-
-  <details style="margin-bottom:0.75rem; border:1px solid #e5e7eb; border-radius:10px; padding:0;">
-    <summary style="padding:0.85rem 1rem; cursor:pointer; font-weight:600; font-size:0.92rem; color:var(--text-dark, #1E3A5F);">
-      Come leggo la mia carta Human Design?
-    </summary>
-    <p style="padding:0.5rem 1rem 1rem; line-height:1.7; font-size:0.9rem; color:var(--text-muted, #555);">
-      Inizia dal tuo Tipo Energetico e dalla Strategia: sono le informazioni pi&ugrave; pratiche e subito applicabili.
-      Poi esplora la tua Autorit&agrave; Interiore, che indica come prendere decisioni corrette per te. Il Profilo
-      descrive il tuo ruolo nella vita. Per un'analisi approfondita, una
-      <a href="/servizi" style="color:var(--primary-color, #B68397); text-decoration:underline;">sessione con un analista certificato</a>
-      ti guida attraverso ogni elemento della tua carta.
-    </p>
-  </details>
-
-  <details style="margin-bottom:0.75rem; border:1px solid #e5e7eb; border-radius:10px; padding:0;">
-    <summary style="padding:0.85rem 1rem; cursor:pointer; font-weight:600; font-size:0.92rem; color:var(--text-dark, #1E3A5F);">
-      Qual &egrave; la differenza tra Human Design e BG5?
-    </summary>
-    <p style="padding:0.5rem 1rem 1rem; line-height:1.7; font-size:0.9rem; color:var(--text-muted, #555);">
-      Human Design analizza la persona nella sua totalit&agrave;: relazioni, scopo di vita, meccanica decisionale.
-      BG5 (Base Group 5) &egrave; l'applicazione professionale dello stesso sistema, focalizzata su carriera, team
-      e dinamiche aziendali. Stessa meccanica energetica, contesto diverso.
-    </p>
-  </details>
-
-  <details style="margin-bottom:0.75rem; border:1px solid #e5e7eb; border-radius:10px; padding:0;">
-    <summary style="padding:0.85rem 1rem; cursor:pointer; font-weight:600; font-size:0.92rem; color:var(--text-dark, #1E3A5F);">
-      Posso calcolare la carta di coppia o di un team?
-    </summary>
-    <p style="padding:0.5rem 1rem 1rem; line-height:1.7; font-size:0.9rem; color:var(--text-muted, #555);">
-      Questo calcolatore offre sia la carta individuale sia il confronto di coppia (composito). Dopo aver calcolato
-      la prima carta, inserisci i dati della seconda persona per vedere canali elettromagnetici, dominanza e compromesso.
-      Per l'analisi dei team aziendali (Penta), serve una
-      <a href="/aziende" style="color:var(--primary-color, #B68397); text-decoration:underline;">consulenza BG5 dedicata</a>.
-    </p>
-  </details>
+  {% endfor %}
+  {% endif %}
 
 </section>
 

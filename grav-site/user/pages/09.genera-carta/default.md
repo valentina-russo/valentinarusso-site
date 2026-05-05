@@ -22,6 +22,12 @@ faq:
         question: "Perché l'ora di nascita è così importante?"
         answer: "Le posizioni planetarie cambiano continuamente. Pochi minuti di differenza possono spostare una Porta da un Centro all'altro, modificando il Tipo Energetico o l'Autorità Decisionale. Per una carta accurata, cercare l'ora sul certificato di nascita integrale (estratto di nascita), non sulla memoria familiare."
     -
-        question: "Posso calcolare la carta di coppia?"
-        answer: "Questo calcolatore offre sia la carta individuale sia il confronto di coppia (composito). Dopo aver calcolato la prima carta, è possibile inserire i dati di una seconda persona per vedere la connessione energetica: canali elettromagnetici, dominanza e compromesso."
+        question: "Come leggo la mia carta Human Design?"
+        answer: "Inizia dal tuo Tipo Energetico e dalla Strategia: sono le informazioni più pratiche e subito applicabili. Poi esplora la tua Autorità Interiore, che indica come prendere decisioni corrette per te. Il Profilo descrive il tuo ruolo nella vita. Per un'analisi approfondita, una sessione con un analista certificato ti guida attraverso ogni elemento della tua carta."
+    -
+        question: "Qual è la differenza tra Human Design e BG5?"
+        answer: "Human Design analizza la persona nella sua totalità: relazioni, scopo di vita, meccanica decisionale. BG5 (Base Group 5) è l'applicazione professionale dello stesso sistema, focalizzata su carriera, team e dinamiche aziendali. Stessa meccanica energetica, contesto diverso."
+    -
+        question: "Posso calcolare la carta di coppia o di un team?"
+        answer: "Questo calcolatore offre sia la carta individuale sia il confronto di coppia (composito). Dopo aver calcolato la prima carta, inserisci i dati della seconda persona per vedere canali elettromagnetici, dominanza e compromesso. Per l'analisi dei team aziendali (Penta), serve una consulenza BG5 dedicata."
 ---
