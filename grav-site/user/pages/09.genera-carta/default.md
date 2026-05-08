@@ -1,5 +1,5 @@
 ---
-title: Calcola la tua Carta Human Design
+title: Calcola la tua Carta Human Design Gratis
 published: true
 routable: true
 template: genera_carta_beta
