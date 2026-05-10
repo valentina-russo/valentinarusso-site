@@ -32,6 +32,7 @@ TOKEN_FILE = HERE / "youtube_token.pickle"
 SCOPES = [
     "https://www.googleapis.com/auth/youtube.upload",
     "https://www.googleapis.com/auth/youtube",
+    "https://www.googleapis.com/auth/youtube.force-ssl",  # required for commentThreads
 ]
 
 
@@ -157,7 +158,8 @@ def post_comment(video_id: str, text: str) -> str:
     try:
         response = yt.commentThreads().insert(part="snippet", body=body).execute()
         comment_id = response["id"]
-        print(f"[comment] postato: {text[:80]}")
+        preview = text[:80].encode("ascii", errors="replace").decode()
+        print(f"[comment] postato: {preview}")
         return comment_id
     except HttpError as e:
         print(f"[comment] FAILED ({e}). Puoi postare il commento manualmente da Studio.")
