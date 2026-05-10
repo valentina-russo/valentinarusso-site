@@ -299,11 +299,26 @@ def publish_step(short_path: Path, cover_path: Path, title: str, pkg, original_u
     studio_url = f"https://studio.youtube.com/video/{video_id}/edit"
     short_url = f"https://youtu.be/{video_id}"
     print()
-    print("=== AZIONI MANUALI (30 sec) ===")
-    print(f"  Studio:  {studio_url}")
-    print("  1. Editor -> 'Aggiungi' -> 'Video correlato' -> cerca il video originale")
-    print("  2. Commenti -> trova il link -> '...' -> 'Aggiungi ai commenti in primo piano'")
+    # Video correlato: automazione Playwright di YouTube Studio
+    if original_url:
+        try:
+            from add_related_video import add_related_video as _add_rv
+            ok = _add_rv(video_id, original_url)
+            if ok:
+                print(f"[studio] video correlato impostato automaticamente.")
+            else:
+                print(f"[studio] automazione non riuscita. Aggiungi manualmente:")
+                print(f"  {studio_url}")
+                print("  Editor -> 'Aggiungi' -> 'Video correlato'")
+        except Exception as e:
+            print(f"[studio] Playwright non disponibile ({e}). Aggiungi manualmente:")
+            print(f"  {studio_url}")
+
+    print()
+    print("=== POST-UPLOAD ===")
     print(f"  Short:   {short_url}")
+    print(f"  Studio:  {studio_url}")
+    print("  Ricorda: pinna il commento con il link dal tab 'Commenti' in Studio")
 
     return video_id
 

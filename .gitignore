@@ -147,4 +147,8 @@ grav-site/root/libretto-dati/stripe-config.php
 # YouTube Shorts pipeline secrets
 tools/yt-shorts/client_secret*.json
 tools/yt-shorts/youtube_token.pickle
+tools/yt-shorts/studio_auth.json
+tools/yt-shorts/studio_debug*.png
+tools/yt-shorts/studio_after_save.png
+tools/yt-shorts/studio_error.png
 tools/yt-shorts/cover-previews/
