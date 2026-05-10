@@ -183,17 +183,71 @@ def render_cover(title: str, work_dir: Path) -> Path:
 
 
 def render_video_step(source: Path, seg, title: str, srt: Path, work_dir: Path) -> Path:
+    """Render the clip (crop, title, watermark). Subtitles added separately by captacity_step."""
     from render_video import render
-    out = work_dir / "short.mp4"
+    out = work_dir / "short_no_subs.mp4"
     render(
         source_video=source,
         out_path=out,
         start_s=seg.start_s,
         end_s=seg.end_s,
         title=title,
-        srt_path=srt,
+        srt_path=None,          # captacity handles captions
         watermark_text=WATERMARK,
     )
+    return out
+
+
+def captacity_step(no_subs_path: Path, transcript_full, seg, work_dir: Path) -> Path:
+    """
+    Overlay word-highlight captions via captacity.
+    Uses pre-computed word timestamps — no re-transcription.
+    """
+    import captacity as cap
+    from render_video import HERE as _RV_HERE
+
+    OUTFIT_BOLD = _RV_HERE.parent / "bg5-generator" / "fonts" / "Outfit-Bold.ttf"
+
+    # Convert faster-whisper words to captacity's segment format.
+    # captacity expects words with a LEADING SPACE (openai-whisper convention).
+    # Timestamps must be rebased to t=0 relative to the clip start.
+    seg_words = [
+        w for w in transcript_full.words
+        if w.start >= seg.start_s and w.end <= seg.end_s
+    ]
+    captacity_segments = [{
+        "start": 0.0,
+        "end": seg.end_s - seg.start_s,
+        "words": [
+            {
+                "word": " " + w.word.lstrip(),
+                "start": round(w.start - seg.start_s, 3),
+                "end":   round(w.end   - seg.start_s, 3),
+            }
+            for w in seg_words
+        ],
+    }]
+
+    out = work_dir / "short.mp4"
+    print("[captacity] aggiunta didascalie word-highlight...")
+    cap.add_captions(
+        video_file=str(no_subs_path),
+        output_file=str(out),
+        font=str(OUTFIT_BOLD),
+        font_size=110,
+        font_color="white",
+        stroke_width=3,
+        stroke_color="black",
+        highlight_current_word=True,
+        word_highlight_color="#FFD700",   # oro
+        line_count=2,
+        shadow_strength=1.0,
+        shadow_blur=0.1,
+        padding=60,
+        segments=captacity_segments,
+        print_info=True,
+    )
+    print(f"[captacity] done: {out}")
     return out
 
 
@@ -312,7 +366,8 @@ def main():
     pkg = generate_titles_step(seg.text, work_dir)
     title = choose_title(pkg, work_dir, title_index=args.title_index)
     cover = render_cover(title, work_dir)
-    short = render_video_step(source, seg, title, srt, work_dir)
+    no_subs = render_video_step(source, seg, title, srt, work_dir)
+    short = captacity_step(no_subs, transcript, seg, work_dir)
 
     # description
     (work_dir / "description.txt").write_text(pkg.description, encoding="utf-8")

@@ -43,7 +43,7 @@ def render(
     start_s: float,
     end_s: float,
     title: str,
-    srt_path: Path,
+    srt_path: Path | None = None,
     watermark_text: str = "@valentinarussobg5",
 ) -> None:
     _check_ffmpeg()
@@ -55,24 +55,24 @@ def render(
 
     pf_path = _ffpath(PLAYFAIR_BOLD)
     of_path = _ffpath(OUTFIT_BOLD)
-    srt_str = _ffpath(srt_path)
 
     # Filtergraph:
-    # 1. Crop center vertical 9:16
-    # 2. Scale 1080x1920
-    # 3. Subtitles burn-in safe zone bassa (MarginV=240 ~75% from bottom in libass coords)
-    # 4. Drawtext title 0-15s, top-third, Playfair Bold 72, white text + black outline + semi-transparent box
-    # 5. Drawtext watermark fade-in last 3s, bottom-left, Outfit Bold 32
+    # 1. setpts rebase  2. Crop 9:16  3. Scale 1080x1920
+    # 4. (optional) ASS subtitles  5. Title drawtext (0-15s)  6. Watermark fade-in
 
     fade_start = max(0, duration - 3)
 
-    # Use the `ass` filter (not `subtitles` + force_style) so the coordinate
-    # system is defined by PlayResX/Y in the .ass file itself — no scaling guesses.
+    # Subtitle layer (optional — omit if captacity handles captions externally).
+    subtitle_filter = ""
+    if srt_path is not None:
+        srt_str = _ffpath(srt_path)
+        subtitle_filter = f"ass='{srt_str}',"
+
     vf = (
-        # Rebase PTS to 0 so ASS timestamps always match frame timestamps.
+        # Rebase PTS to 0 so any subtitle timestamps always match frame timestamps.
         f"setpts=PTS-STARTPTS,"
         f"crop=ih*9/16:ih,scale=1080:1920,setsar=1,"
-        f"ass='{srt_str}',"
+        f"{subtitle_filter}"
         # Title: top area, well clear of the speaker's head.
         f"drawtext=fontfile='{pf_path}':text='{title_safe}':fontsize=68:"
         f"fontcolor=white:bordercolor=black:borderw=4:"
