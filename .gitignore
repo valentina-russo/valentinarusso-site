@@ -143,3 +143,8 @@ grav-site/root/bg5-blueprint/logs/
 **/.env.local
 # Stripe config con chiavi live — MAI in git
 grav-site/root/libretto-dati/stripe-config.php
+
+# YouTube Shorts pipeline secrets
+tools/yt-shorts/client_secret*.json
+tools/yt-shorts/youtube_token.pickle
+tools/yt-shorts/cover-previews/
