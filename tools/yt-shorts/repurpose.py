@@ -290,7 +290,7 @@ def main():
             encoding="utf-8"
         )
         print(f"[segment-only] Segmento salvato: {work_dir / 'segment_info.json'}")
-        print(f"  Segmento: {seg.start_s:.1f}s → {seg.end_s:.1f}s ({seg.end_s - seg.start_s:.1f}s)")
+        print(f"  Segmento: {seg.start_s:.1f}s -> {seg.end_s:.1f}s ({seg.end_s - seg.start_s:.1f}s)")
         print(f"  Testo ({len(seg.text)} chars): {seg.text[:200]}...")
         print()
         print("PHASE 1 COMPLETA. Prossimi step:")
