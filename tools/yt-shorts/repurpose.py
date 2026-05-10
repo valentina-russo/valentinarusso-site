@@ -278,8 +278,8 @@ def publish_step(short_path: Path, cover_path: Path, title: str, pkg, original_u
         print("[publish] annullato. File pronti in:", short_path.parent)
         return None
 
-    from youtube_publisher import upload
-    return upload(
+    from youtube_publisher import upload, post_comment
+    video_id = upload(
         video_path=short_path,
         title=title,
         description=description,
@@ -287,6 +287,25 @@ def publish_step(short_path: Path, cover_path: Path, title: str, pkg, original_u
         privacy=privacy,
         cover_path=cover_path,
     )
+
+    # Commento con link al video originale (cliccabile su mobile e desktop,
+    # a differenza dei link nella descrizione degli Short).
+    if original_url:
+        post_comment(video_id, f"📺 Video completo: {original_url}")
+
+    # Link Studio per le due azioni manuali (30 sec in totale):
+    #   1. Pinna il commento
+    #   2. Aggiungi la card "video correlato"
+    studio_url = f"https://studio.youtube.com/video/{video_id}/edit"
+    short_url = f"https://youtu.be/{video_id}"
+    print()
+    print("=== AZIONI MANUALI (30 sec) ===")
+    print(f"  Studio:  {studio_url}")
+    print(f"  1. Scheda 'Editor' → 'Aggiungi' → 'Video correlato' → cerca il video originale")
+    print(f"  2. Scheda 'Commenti' → trova il commento con il link → '...' → 'Aggiungi ai commenti in primo piano'")
+    print(f"  Short:   {short_url}")
+
+    return video_id
 
 
 def main():

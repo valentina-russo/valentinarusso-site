@@ -136,6 +136,34 @@ def upload(
     return video_id
 
 
+def post_comment(video_id: str, text: str) -> str:
+    """
+    Post a top-level comment on a video. Returns the comment ID.
+
+    Link nel commento sono cliccabili su mobile e desktop (a differenza
+    della descrizione degli Short). Usato per linkare il video originale.
+    """
+    yt = _service()
+    body = {
+        "snippet": {
+            "videoId": video_id,
+            "topLevelComment": {
+                "snippet": {
+                    "textOriginal": text,
+                }
+            },
+        }
+    }
+    try:
+        response = yt.commentThreads().insert(part="snippet", body=body).execute()
+        comment_id = response["id"]
+        print(f"[comment] postato: {text[:80]}")
+        return comment_id
+    except HttpError as e:
+        print(f"[comment] FAILED ({e}). Puoi postare il commento manualmente da Studio.")
+        return ""
+
+
 if __name__ == "__main__":
     import sys
     if "--auth" in sys.argv:
