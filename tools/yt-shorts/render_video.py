@@ -28,6 +28,38 @@ def _escape_drawtext(s: str) -> str:
              .replace("%", "\\%"))
 
 
+def _wrap_title(title: str, max_chars: int = 22) -> tuple[str, int]:
+    """
+    Wrap title to max 2 lines for drawtext.
+    Returns (text, fontsize).
+
+    At PlayResX=1080 with Playfair Bold:
+      - fontsize=68 → max ~25 chars single line (uses full width)
+      - fontsize=60 → ~29 chars per line, safe for 2-line titles
+    Split at nearest word boundary to the middle.
+    ffmpeg drawtext interprets literal \\n as a newline.
+    """
+    if len(title) <= max_chars:
+        return title, 68
+
+    mid = len(title) // 2
+    left = title.rfind(" ", 0, mid + 1)
+    right = title.find(" ", mid)
+
+    if left == -1 and right == -1:
+        return title, 52  # no spaces — just shrink font
+    elif left == -1:
+        split = right
+    elif right == -1:
+        split = left
+    else:
+        split = left if (mid - left) <= (right - mid) else right
+
+    line1 = title[:split]
+    line2 = title[split + 1:]
+    return f"{line1}\\n{line2}", 60
+
+
 def _ffpath(p: Path) -> str:
     """Path normalization for ffmpeg filtergraph (forward slashes, no colon escape on drive)."""
     s = str(p).replace("\\", "/")
@@ -50,7 +82,8 @@ def render(
     out_path.parent.mkdir(parents=True, exist_ok=True)
     duration = end_s - start_s
 
-    title_safe = _escape_drawtext(title)
+    title_text, title_fontsize = _wrap_title(title)
+    title_safe = _escape_drawtext(title_text)
     wm_safe = _escape_drawtext(watermark_text)
 
     pf_path = _ffpath(PLAYFAIR_BOLD)
@@ -62,7 +95,7 @@ def render(
 
     fade_start = max(0, duration - 3)
 
-    # Subtitle layer (optional — omit if captacity handles captions externally).
+    # Subtitle layer
     subtitle_filter = ""
     if srt_path is not None:
         srt_str = _ffpath(srt_path)
@@ -74,7 +107,8 @@ def render(
         f"crop=ih*9/16:ih,scale=1080:1920,setsar=1,"
         f"{subtitle_filter}"
         # Title: top area, well clear of the speaker's head.
-        f"drawtext=fontfile='{pf_path}':text='{title_safe}':fontsize=68:"
+        # Auto-wraps to 2 lines if > 22 chars (fontsize shrinks to 60).
+        f"drawtext=fontfile='{pf_path}':text='{title_safe}':fontsize={title_fontsize}:"
         f"fontcolor=white:bordercolor=black:borderw=4:"
         f"box=1:boxcolor=black@0.55:boxborderw=22:"
         f"x=(w-text_w)/2:y=h*0.07:enable='between(t,0,15)',"
