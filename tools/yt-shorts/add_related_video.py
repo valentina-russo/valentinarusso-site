@@ -119,9 +119,22 @@ def _start_chrome() -> None:
 
 
 def _page_has_auth_error(page) -> bool:
-    """Ritorna True se Studio mostra 'non hai l'autorizzazione' (account sbagliato)."""
-    text = page.query_selector("text=/non hai l'autorizzazione|don't have permission|not authorized/i")
-    return text is not None
+    """
+    Ritorna True se Studio mostra la pagina di autorizzazione negata.
+    Cerca sia l'apostrofo ASCII (') sia quello curvo Unicode (') usato da Studio IT.
+    """
+    for sel in (
+        "text=/non hai l.autorizzazione/i",   # regex: . matcha entrambi gli apostrofi
+        "text=/don.t have permission/i",
+        "text=/not authorized/i",
+        "text=/Cambia account/",               # bottone presente solo sull'auth-error page
+    ):
+        try:
+            if page.query_selector(sel):
+                return True
+        except Exception:
+            pass
+    return False
 
 
 def _click_brand_account_in_switcher(page) -> bool:
@@ -137,7 +150,9 @@ def _click_brand_account_in_switcher(page) -> bool:
     """
     from playwright.sync_api import TimeoutError as PWTimeout
 
-    # 1. Apri il menu canali (avatar button nel topbar di Studio)
+    # 1. Apri il menu canali:
+    #    - #avatar-btn sul topbar normale di Studio
+    #    - "Cambia account" = bottone presente sulla pagina auth-error di Studio
     clicked = False
     for sel in (
         "#avatar-btn",
@@ -145,6 +160,8 @@ def _click_brand_account_in_switcher(page) -> bool:
         "[aria-label*='channel' i]",
         "ytcp-account-section-renderer #avatar-btn",
         "#channel-avatar-section",
+        "button:has-text('Cambia account')",
+        "a:has-text('Cambia account')",
     ):
         try:
             btn = page.wait_for_selector(sel, timeout=3000, state="visible")
