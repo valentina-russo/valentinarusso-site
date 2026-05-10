@@ -301,8 +301,8 @@ def publish_step(short_path: Path, cover_path: Path, title: str, pkg, original_u
     print()
     print("=== AZIONI MANUALI (30 sec) ===")
     print(f"  Studio:  {studio_url}")
-    print(f"  1. Scheda 'Editor' → 'Aggiungi' → 'Video correlato' → cerca il video originale")
-    print(f"  2. Scheda 'Commenti' → trova il commento con il link → '...' → 'Aggiungi ai commenti in primo piano'")
+    print("  1. Editor -> 'Aggiungi' -> 'Video correlato' -> cerca il video originale")
+    print("  2. Commenti -> trova il link -> '...' -> 'Aggiungi ai commenti in primo piano'")
     print(f"  Short:   {short_url}")
 
     return video_id
