@@ -107,6 +107,91 @@ def _srt_ts(seconds: float) -> str:
     return f"{h:02d}:{m:02d}:{s:06.3f}".replace(".", ",")
 
 
+def _ass_ts(seconds: float) -> str:
+    """ASS timestamp: h:mm:ss.cs (centiseconds, NO zero-padding on hours)."""
+    h = int(seconds // 3600)
+    m = int((seconds % 3600) // 60)
+    s = int(seconds % 60)
+    cs = int(round((seconds % 1) * 100))
+    return f"{h}:{m:02d}:{s:02d}.{cs:02d}"
+
+
+def to_ass(
+    words: list[WordTimestamp],
+    chars_per_line: int = 28,
+    lines_per_cue: int = 2,
+    play_res_x: int = 1080,
+    play_res_y: int = 1920,
+    font_name: str = "Outfit Bold",
+    font_size: int = 52,
+    margin_v: int = 200,
+    margin_lr: int = 60,
+) -> str:
+    """
+    Build an ASS subtitle file with explicit PlayResX/Y so libass never has to
+    guess the coordinate system.  All values (FontSize, MarginV) are in pixels
+    relative to the play_res_y reference frame — no hidden scaling.
+
+    Default target: 1080x1920 (YouTube Shorts vertical).
+    """
+    if not words:
+        return ""
+
+    header = (
+        "[Script Info]\n"
+        "ScriptType: v4.00+\n"
+        f"PlayResX: {play_res_x}\n"
+        f"PlayResY: {play_res_y}\n"
+        "WrapStyle: 1\n"
+        "ScaledBorderAndShadow: yes\n"
+        "\n"
+        "[V4+ Styles]\n"
+        "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, "
+        "OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, "
+        "ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, "
+        "Alignment, MarginL, MarginR, MarginV, Encoding\n"
+        f"Style: Default,{font_name},{font_size},"
+        "&H00FFFFFF,&H000000FF,&H00000000,&H64000000,"
+        f"-1,0,0,0,100,100,0,0,1,3,1,2,{margin_lr},{margin_lr},{margin_v},1\n"
+        "\n"
+        "[Events]\n"
+        "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n"
+    )
+
+    # Build cues using same grouping logic as to_srt
+    cues: list[list[WordTimestamp]] = []
+    current_words: list[WordTimestamp] = []
+    current_chars = 0
+    current_lines = 1
+
+    for w in words:
+        wl = len(w.word) + 1
+        if current_chars + wl > chars_per_line:
+            current_lines += 1
+            current_chars = wl
+            if current_lines > lines_per_cue:
+                cues.append(current_words)
+                current_words = [w]
+                current_chars = wl
+                current_lines = 1
+                continue
+        else:
+            current_chars += wl
+        current_words.append(w)
+
+    if current_words:
+        cues.append(current_words)
+
+    events = []
+    for cue in cues:
+        t0 = _ass_ts(cue[0].start)
+        t1 = _ass_ts(cue[-1].end)
+        text = " ".join(w.word for w in cue).strip()
+        events.append(f"Dialogue: 0,{t0},{t1},Default,,0,0,0,,{text}")
+
+    return header + "\n".join(events) + "\n"
+
+
 if __name__ == "__main__":
     import sys
     p = Path(sys.argv[1])

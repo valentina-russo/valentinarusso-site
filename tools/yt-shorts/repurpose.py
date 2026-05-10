@@ -97,20 +97,31 @@ def select_segment_step(transcript_full, args, work_dir: Path):
 
 
 def write_segment_srt(transcript_full, seg, work_dir: Path) -> Path:
-    """Build SRT only for words within the chosen segment."""
-    from transcribe import to_srt, WordTimestamp
+    """
+    Build subtitles for the chosen segment, rebased to t=0.
+
+    Writes both:
+      - subtitles.srt  (human-readable, for debug)
+      - subtitles.ass  (used by ffmpeg — explicit PlayResY=1920, no scaling guesses)
+
+    Returns path to the .ass file.
+    """
+    from transcribe import to_srt, to_ass, WordTimestamp
     seg_words = []
     for w in transcript_full.words:
         if w.start >= seg.start_s and w.end <= seg.end_s:
-            # rebase timestamps to start at 0 for the clip
             seg_words.append(WordTimestamp(
                 word=w.word,
                 start=w.start - seg.start_s,
                 end=w.end - seg.start_s,
             ))
-    srt = to_srt(seg_words)
-    p = work_dir / "subtitles.srt"
-    p.write_text(srt, encoding="utf-8")
+    # SRT for readability
+    (work_dir / "subtitles.srt").write_text(to_srt(seg_words), encoding="utf-8")
+    # ASS for rendering (unambiguous coordinate system)
+    ass_content = to_ass(seg_words, play_res_x=1080, play_res_y=1920,
+                         font_size=52, margin_v=200)
+    p = work_dir / "subtitles.ass"
+    p.write_text(ass_content, encoding="utf-8")
     return p
 
 

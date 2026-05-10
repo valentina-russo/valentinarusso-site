@@ -64,33 +64,20 @@ def render(
     # 4. Drawtext title 0-15s, top-third, Playfair Bold 72, white text + black outline + semi-transparent box
     # 5. Drawtext watermark fade-in last 3s, bottom-left, Outfit Bold 32
 
-    # libass FontName: il filtro subtitles usa libass; per usare il file font passiamo
-    # fontsdir e il nome del file (font name). Più semplice: uso force_style con FontName.
-    # Per rendere più affidabile su Windows, copiamo i font in un dir tmp.
-    fonts_dir_str = _ffpath(FONTS_DIR)
-
-    subtitle_style = (
-        "FontName=Outfit Bold,"
-        "FontSize=18,"
-        "PrimaryColour=&H00FFFFFF,"
-        "OutlineColour=&H00000000,"
-        "Bold=1,"
-        "Outline=2,"
-        "Shadow=1,"
-        "MarginV=320,"
-        "Alignment=2"
-    )
-
     fade_start = max(0, duration - 3)
 
+    # Use the `ass` filter (not `subtitles` + force_style) so the coordinate
+    # system is defined by PlayResX/Y in the .ass file itself — no scaling guesses.
     vf = (
+        # Rebase PTS to 0 so ASS timestamps always match frame timestamps.
+        f"setpts=PTS-STARTPTS,"
         f"crop=ih*9/16:ih,scale=1080:1920,setsar=1,"
-        f"subtitles='{srt_str}':fontsdir='{fonts_dir_str}':"
-        f"force_style='{subtitle_style}',"
+        f"ass='{srt_str}',"
+        # Title: top area, well clear of the speaker's head.
         f"drawtext=fontfile='{pf_path}':text='{title_safe}':fontsize=68:"
         f"fontcolor=white:bordercolor=black:borderw=4:"
         f"box=1:boxcolor=black@0.55:boxborderw=22:"
-        f"x=(w-text_w)/2:y=h*0.18:enable='between(t,0,15)',"
+        f"x=(w-text_w)/2:y=h*0.07:enable='between(t,0,15)',"
         f"drawtext=fontfile='{of_path}':text='{wm_safe}':fontsize=32:"
         f"fontcolor=white:bordercolor=black:borderw=2:"
         f"x=60:y=h-100:"
