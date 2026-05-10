@@ -115,6 +115,12 @@ def write_segment_srt(transcript_full, seg, work_dir: Path) -> Path:
 
 
 def generate_titles_step(seg_text: str, work_dir: Path):
+    # Se titles_raw.json è già stato scritto (es. da Claude Code interno), usalo.
+    titles_raw = work_dir / "titles_raw.json"
+    if titles_raw.exists():
+        print(f"[titles] carico da cache: {titles_raw}")
+        return load_manual(titles_raw.read_text(encoding="utf-8"))
+
     if os.environ.get("ANTHROPIC_API_KEY"):
         print("[titles] via Anthropic API")
         pkg = via_api(seg_text)
@@ -125,26 +131,31 @@ def generate_titles_step(seg_text: str, work_dir: Path):
         print(f"[titles] manuale. Prompt scritto in: {prompt_path}")
         print("Incollalo in Claude Code interno, poi salva l'output JSON in titles_raw.json e premi INVIO...")
         input()
-        raw = (work_dir / "titles_raw.json").read_text(encoding="utf-8")
+        raw = titles_raw.read_text(encoding="utf-8")
         pkg = load_manual(raw)
     return pkg
 
 
-def choose_title(pkg, work_dir: Path) -> str:
+def choose_title(pkg, work_dir: Path, title_index: int | None = None) -> str:
     print()
     print("=== 10 TITOLI ===")
     for i, t in enumerate(pkg.titles, 1):
         print(f"  {i}. {t}")
-    while True:
-        ans = input("Scegli numero [1-10] (default=1): ").strip() or "1"
-        try:
-            idx = int(ans) - 1
-            if 0 <= idx < len(pkg.titles):
-                chosen = pkg.titles[idx]
-                break
-        except ValueError:
-            pass
-        print("Numero non valido, riprova.")
+    if title_index is not None:
+        idx = max(0, min(title_index - 1, len(pkg.titles) - 1))
+        chosen = pkg.titles[idx]
+        print(f"[auto] titolo scelto: {idx + 1}. {chosen}")
+    else:
+        while True:
+            ans = input("Scegli numero [1-10] (default=1): ").strip() or "1"
+            try:
+                idx = int(ans) - 1
+                if 0 <= idx < len(pkg.titles):
+                    chosen = pkg.titles[idx]
+                    break
+            except ValueError:
+                pass
+            print("Numero non valido, riprova.")
     (work_dir / "titles.txt").write_text(
         "\n".join(f"{'>>> ' if t == chosen else '    '}{t}" for t in pkg.titles),
         encoding="utf-8"
@@ -176,7 +187,7 @@ def render_video_step(source: Path, seg, title: str, srt: Path, work_dir: Path) 
 
 
 def publish_step(short_path: Path, cover_path: Path, title: str, pkg, original_url: str | None,
-                 privacy: str) -> str | None:
+                 privacy: str, auto_yes: bool = False) -> str | None:
     desc_parts = [pkg.description.strip()]
     if original_url:
         desc_parts.append(f"\n\nVideo originale: {original_url}")
@@ -190,7 +201,11 @@ def publish_step(short_path: Path, cover_path: Path, title: str, pkg, original_u
     print(f"Privacy:      {privacy}")
     print(f"Cover:        {cover_path}")
     print(f"Video:        {short_path}")
-    confirm = input("Pubblicare ora? [y/N]: ").strip().lower()
+    if auto_yes:
+        print("[auto] pubblicazione confermata.")
+        confirm = "y"
+    else:
+        confirm = input("Pubblicare ora? [y/N]: ").strip().lower()
     if confirm != "y":
         print("[publish] annullato. File pronti in:", short_path.parent)
         return None
@@ -214,6 +229,15 @@ def main():
     p.add_argument("--cover-template", type=str, help="Override COVER_TEMPLATE env")
     p.add_argument("--no-publish", action="store_true", help="Stop dopo render, no upload")
     p.add_argument("--privacy", type=str, default=DEFAULT_PRIVACY)
+    p.add_argument("--title-index", type=int, default=None,
+                   help="Scegli titolo N (1-10) senza input interattivo")
+    p.add_argument("--yes", action="store_true",
+                   help="Conferma pubblicazione automaticamente (no input interattivo)")
+    p.add_argument("--resume", action="store_true",
+                   help="Salta acquisizione+trascrizione se transcript_full.json esiste già in work_dir")
+    p.add_argument("--segment-only", action="store_true",
+                   help="Ferma dopo acquire+trascrizione+selezione segmento (Phase 1). "
+                        "Salva segment_info.json. Poi genera titoli esternamente e riprendi con --resume.")
     args = p.parse_args()
 
     args.start = _parse_ms(args.start) if args.start else None
@@ -230,12 +254,52 @@ def main():
     work_dir.mkdir(parents=True, exist_ok=True)
     print(f"[init] work_dir = {work_dir}")
 
-    source = acquire(args.input, work_dir)
-    transcript = transcribe_step(source, work_dir)
+    transcript_cache = work_dir / "transcript_full.json"
+    source_cache = work_dir / "source.mp4"
+
+    if args.resume and transcript_cache.exists() and source_cache.exists():
+        print("[resume] transcript_full.json trovato, salto acquisizione+trascrizione.")
+        from transcribe import WordTimestamp
+        raw = json.loads(transcript_cache.read_text(encoding="utf-8"))
+        # Reconstruct transcript from cache.
+        # segments: plain dicts (select_segment uses s["start"] dict-style access).
+        # words: WordTimestamp objects (write_segment_srt uses w.start dot access).
+        class _T:
+            def __init__(self, r):
+                self.full_text = r["full_text"]
+                self.segments = r["segments"]  # already list[dict] from JSON
+                self.words = [WordTimestamp(word=w["w"], start=w["s"], end=w["e"])
+                              for w in r["words"]]
+        transcript = _T(raw)
+        source = source_cache
+    else:
+        source = acquire(args.input, work_dir)
+        transcript = transcribe_step(source, work_dir)
+
     seg = select_segment_step(transcript, args, work_dir)
     srt = write_segment_srt(transcript, seg, work_dir)
+
+    if args.segment_only:
+        # Salva info segmento per Phase 2 esterna (generazione titoli in Claude Code).
+        import dataclasses
+        (work_dir / "segment_info.json").write_text(
+            json.dumps({"start_s": seg.start_s, "end_s": seg.end_s,
+                        "text": seg.text, "score": seg.score,
+                        "srt_path": str(srt)},
+                       ensure_ascii=False, indent=2),
+            encoding="utf-8"
+        )
+        print(f"[segment-only] Segmento salvato: {work_dir / 'segment_info.json'}")
+        print(f"  Segmento: {seg.start_s:.1f}s → {seg.end_s:.1f}s ({seg.end_s - seg.start_s:.1f}s)")
+        print(f"  Testo ({len(seg.text)} chars): {seg.text[:200]}...")
+        print()
+        print("PHASE 1 COMPLETA. Prossimi step:")
+        print(f"  1. Genera titoli da segment_info.json → scrivi {work_dir}/titles_raw.json")
+        print(f"  2. Riprendi: python repurpose.py \"{args.input}\" --resume --title-index N --yes")
+        return
+
     pkg = generate_titles_step(seg.text, work_dir)
-    title = choose_title(pkg, work_dir)
+    title = choose_title(pkg, work_dir, title_index=args.title_index)
     cover = render_cover(title, work_dir)
     short = render_video_step(source, seg, title, srt, work_dir)
 
@@ -257,7 +321,8 @@ def main():
                 print(f"[find_yt] OK: {original_url}")
             else:
                 print("[find_yt] non identificato. Il link al video originale sarà omesso dalla descrizione.")
-        vid_id = publish_step(short, cover, title, pkg, original_url, args.privacy)
+        vid_id = publish_step(short, cover, title, pkg, original_url, args.privacy,
+                              auto_yes=args.yes)
         if vid_id:
             (work_dir / "metadata.json").write_text(
                 json.dumps({"video_id": vid_id, "url": f"https://youtu.be/{vid_id}",
