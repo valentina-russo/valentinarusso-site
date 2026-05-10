@@ -100,13 +100,14 @@ def write_segment_srt(transcript_full, seg, work_dir: Path) -> Path:
     """
     Build subtitles for the chosen segment, rebased to t=0.
 
-    Writes both:
-      - subtitles.srt  (human-readable, for debug)
-      - subtitles.ass  (used by ffmpeg — explicit PlayResY=1920, no scaling guesses)
+    Writes:
+      - subtitles.srt          (human-readable, for debug)
+      - subtitles_karaoke.ass  (used by ffmpeg — word-highlight karaoke,
+                                explicit PlayResY=1920, no scaling guesses)
 
-    Returns path to the .ass file.
+    Returns path to the .ass karaoke file.
     """
-    from transcribe import to_srt, to_ass, WordTimestamp
+    from transcribe import to_srt, to_ass_karaoke, WordTimestamp
     seg_words = []
     for w in transcript_full.words:
         if w.start >= seg.start_s and w.end <= seg.end_s:
@@ -117,10 +118,12 @@ def write_segment_srt(transcript_full, seg, work_dir: Path) -> Path:
             ))
     # SRT for readability
     (work_dir / "subtitles.srt").write_text(to_srt(seg_words), encoding="utf-8")
-    # ASS for rendering (unambiguous coordinate system)
-    ass_content = to_ass(seg_words, play_res_x=1080, play_res_y=1920,
-                         font_size=52, margin_v=200)
-    p = work_dir / "subtitles.ass"
+    # ASS karaoke for rendering (word-highlight, unambiguous coordinate system)
+    ass_content = to_ass_karaoke(seg_words, play_res_x=1080, play_res_y=1920,
+                                 font_size=100, margin_v=280,
+                                 primary_color="&H00FFFFFF",
+                                 highlight_color="&H0000D7FF")
+    p = work_dir / "subtitles_karaoke.ass"
     p.write_text(ass_content, encoding="utf-8")
     return p
 
@@ -183,16 +186,16 @@ def render_cover(title: str, work_dir: Path) -> Path:
 
 
 def render_video_step(source: Path, seg, title: str, srt: Path, work_dir: Path) -> Path:
-    """Render the clip (crop, title, watermark). Subtitles added separately by captacity_step."""
+    """Render the clip (crop, title, karaoke subtitles, watermark)."""
     from render_video import render
-    out = work_dir / "short_no_subs.mp4"
+    out = work_dir / "short.mp4"
     render(
         source_video=source,
         out_path=out,
         start_s=seg.start_s,
         end_s=seg.end_s,
         title=title,
-        srt_path=None,          # captacity handles captions
+        srt_path=srt,           # ASS karaoke subtitles
         watermark_text=WATERMARK,
     )
     return out
@@ -366,8 +369,7 @@ def main():
     pkg = generate_titles_step(seg.text, work_dir)
     title = choose_title(pkg, work_dir, title_index=args.title_index)
     cover = render_cover(title, work_dir)
-    no_subs = render_video_step(source, seg, title, srt, work_dir)
-    short = captacity_step(no_subs, transcript, seg, work_dir)
+    short = render_video_step(source, seg, title, srt, work_dir)
 
     # description
     (work_dir / "description.txt").write_text(pkg.description, encoding="utf-8")

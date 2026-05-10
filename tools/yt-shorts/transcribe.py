@@ -192,6 +192,128 @@ def to_ass(
     return header + "\n".join(events) + "\n"
 
 
+def to_ass_karaoke(
+    words: list[WordTimestamp],
+    chars_per_line: int = 20,
+    lines_per_cue: int = 2,
+    play_res_x: int = 1080,
+    play_res_y: int = 1920,
+    font_name: str = "Outfit Bold",
+    font_size: int = 100,
+    margin_v: int = 280,
+    margin_lr: int = 80,
+    primary_color: str = "&H00FFFFFF",    # white  — inactive words
+    highlight_color: str = "&H0000D7FF",  # gold #FFD700 — active word
+) -> str:
+    """
+    ASS subtitles with word-highlight (karaoke) style.
+
+    Each caption group stays on screen for the combined duration of all its
+    words.  While each word is being spoken it turns `highlight_color` (gold);
+    the rest of the line stays in `primary_color` (white).
+
+    Implemented with inline ASS \\c tags — no extra dependencies, no double
+    encode.  libass is already compiled into ffmpeg.
+    """
+    if not words:
+        return ""
+
+    header = (
+        "[Script Info]\n"
+        "ScriptType: v4.00+\n"
+        f"PlayResX: {play_res_x}\n"
+        f"PlayResY: {play_res_y}\n"
+        "WrapStyle: 2\n"          # no auto-wrap — we handle \N manually
+        "ScaledBorderAndShadow: yes\n"
+        "\n"
+        "[V4+ Styles]\n"
+        "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, "
+        "OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, "
+        "ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, "
+        "Alignment, MarginL, MarginR, MarginV, Encoding\n"
+        f"Style: Default,{font_name},{font_size},"
+        f"{primary_color},&H000000FF,&H00000000,&H78000000,"
+        f"-1,0,0,0,100,100,0,0,1,4,2,2,{margin_lr},{margin_lr},{margin_v},1\n"
+        "\n"
+        "[Events]\n"
+        "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n"
+    )
+
+    # ── build cues (same grouping as to_ass) ────────────────────────────────
+    cues: list[list[WordTimestamp]] = []
+    current_words: list[WordTimestamp] = []
+    current_chars = 0
+    current_lines = 1
+
+    for w in words:
+        wl = len(w.word) + 1
+        if current_chars + wl > chars_per_line:
+            current_lines += 1
+            current_chars = wl
+            if current_lines > lines_per_cue:
+                cues.append(current_words)
+                current_words = [w]
+                current_chars = wl
+                current_lines = 1
+                continue
+        else:
+            current_chars += wl
+        current_words.append(w)
+
+    if current_words:
+        cues.append(current_words)
+
+    events: list[str] = []
+
+    for cue in cues:
+        if not cue:
+            continue
+
+        # Split cue words into lines for \N placement
+        lines: list[list[WordTimestamp]] = [[]]
+        lchars = 0
+        lidx = 0
+        for w in cue:
+            wl = len(w.word) + 1
+            if lchars + wl > chars_per_line and lidx < lines_per_cue - 1:
+                lidx += 1
+                lines.append([])
+                lchars = 0
+            lines[lidx].append(w)
+            lchars += wl
+
+        # One dialogue event per word in the cue
+        for word_pos, active_word in enumerate(cue):
+            t0 = _ass_ts(active_word.start)
+            # event ends when next word starts (or at active_word.end for last)
+            t1 = _ass_ts(
+                cue[word_pos + 1].start if word_pos + 1 < len(cue)
+                else active_word.end
+            )
+
+            # Build text: active word in highlight_color, rest in primary_color
+            # {\c&Hcolor&} changes color; {\r} resets to style default (white)
+            line_texts: list[str] = []
+            for line in lines:
+                parts: list[str] = []
+                for w in line:
+                    txt = w.word.strip()
+                    if w is active_word:
+                        parts.append(
+                            f"{{\\c{highlight_color}&}}{txt}{{\\r}}"
+                        )
+                    else:
+                        parts.append(txt)
+                line_texts.append(" ".join(parts))
+
+            full_text = "\\N".join(line_texts)
+            events.append(
+                f"Dialogue: 0,{t0},{t1},Default,,0,0,0,,{full_text}"
+            )
+
+    return header + "\n".join(events) + "\n"
+
+
 if __name__ == "__main__":
     import sys
     p = Path(sys.argv[1])
