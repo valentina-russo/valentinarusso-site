@@ -228,25 +228,150 @@
         </div>
     </section>
 
-    <!-- CTA FINALE -->
-    <section class="section-padding" style="background: white; border-top: 1px solid var(--soft-gray); text-align: center;">
-        <div class="container" style="max-width: 800px;">
-            <h2 class="serif" style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 2rem;">
+    <!-- CTA FINALE — FORM RICHIESTA INFORMAZIONI -->
+    <section class="section-padding" style="background: white; border-top: 1px solid var(--soft-gray);">
+        <div class="container" style="max-width: 700px;">
+            <h2 class="serif text-center" style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1.25rem;">
                 Collaboriamo?
             </h2>
-            <p style="font-size: 1.35rem; line-height: 1.6; opacity: 0.9; margin-bottom: 3.5rem; max-width: 650px; margin-left: auto; margin-right: auto;">
-                Prenota una call interlocutoria di 15 minuti per valutare fattibilità e date per il tuo centro.
+            <p style="font-size: 1.2rem; line-height: 1.6; color: #666; margin-bottom: 3rem; text-align: center; max-width: 580px; margin-left: auto; margin-right: auto;">
+                Lascia i tuoi dati e ti ricontatteremo nelle fasce orarie che preferisci.
             </p>
-            <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center;">
-                <a href="https://calendly.com/valentinarusso-studioyouniverse" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 1.4rem 4rem; font-size: 1.25rem; border-radius: 60px; box-shadow: 0 15px 30px rgba(182,131,151,0.25);">
-                    Prenota Call Conoscitiva
-                </a>
-                <div style="font-size: 1.2rem; color: var(--text-color);">
-                    Email: <a href="mailto:valentina@studioyouniverse.it" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">valentina@studioyouniverse.it</a>
+
+            <!-- Form -->
+            <form id="ws-contact-form" novalidate style="display: flex; flex-direction: column; gap: 1.25rem;">
+
+                <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label for="ws-centro" style="font-weight: 700; font-size: 0.9rem; color: #444; letter-spacing: 0.03em;">Nome del centro <span style="color: var(--primary-color);">*</span></label>
+                    <input id="ws-centro" name="centro" type="text" required autocomplete="organization"
+                        placeholder="Centro Olistico Esempio"
+                        style="padding: 0.9rem 1.2rem; border: 1.5px solid #ddd; border-radius: 12px; font-size: 1rem; font-family: var(--font-body); transition: border-color 0.2s; outline: none; width: 100%; box-sizing: border-box;">
                 </div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label for="ws-referente" style="font-weight: 700; font-size: 0.9rem; color: #444; letter-spacing: 0.03em;">Nome del referente <span style="color: var(--primary-color);">*</span></label>
+                    <input id="ws-referente" name="referente" type="text" required autocomplete="name"
+                        placeholder="Nome e Cognome"
+                        style="padding: 0.9rem 1.2rem; border: 1.5px solid #ddd; border-radius: 12px; font-size: 1rem; font-family: var(--font-body); transition: border-color 0.2s; outline: none; width: 100%; box-sizing: border-box;">
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label for="ws-telefono" style="font-weight: 700; font-size: 0.9rem; color: #444; letter-spacing: 0.03em;">Numero di telefono <span style="color: var(--primary-color);">*</span></label>
+                    <input id="ws-telefono" name="telefono" type="tel" required autocomplete="tel"
+                        placeholder="+39 000 000 0000"
+                        style="padding: 0.9rem 1.2rem; border: 1.5px solid #ddd; border-radius: 12px; font-size: 1rem; font-family: var(--font-body); transition: border-color 0.2s; outline: none; width: 100%; box-sizing: border-box;">
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label for="ws-fascia" style="font-weight: 700; font-size: 0.9rem; color: #444; letter-spacing: 0.03em;">Fascia oraria preferita</label>
+                    <select id="ws-fascia" name="fascia"
+                        style="padding: 0.9rem 1.2rem; border: 1.5px solid #ddd; border-radius: 12px; font-size: 1rem; font-family: var(--font-body); background: white; outline: none; width: 100%; box-sizing: border-box; appearance: none; background-image: url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;%23888&quot; stroke-width=&quot;2&quot;><path d=&quot;M6 9l6 6 6-6&quot;/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1.2em; cursor: pointer;">
+                        <option value="">— Seleziona —</option>
+                        <option value="Mattina (9:00–12:00)">Mattina (9:00–12:00)</option>
+                        <option value="Primo pomeriggio (12:00–15:00)">Primo pomeriggio (12:00–15:00)</option>
+                        <option value="Pomeriggio (15:00–18:00)">Pomeriggio (15:00–18:00)</option>
+                        <option value="Sera (18:00–20:00)">Sera (18:00–20:00)</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <span style="font-weight: 700; font-size: 0.9rem; color: #444; letter-spacing: 0.03em;">Giorni preferiti</span>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.6rem;">
+                        {% for giorno in ["Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"] %}
+                        <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border: 1.5px solid #ddd; border-radius: 50px; cursor: pointer; font-size: 0.95rem; user-select: none; transition: all 0.15s;" class="ws-day-label">
+                            <input type="checkbox" name="giorni[]" value="{{ giorno }}" style="accent-color: var(--primary-color); width: 1rem; height: 1rem;">
+                            {{ giorno }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div id="ws-error" style="display:none; padding: 0.9rem 1.2rem; background: #fff0f0; border: 1px solid #f5c6c6; border-radius: 12px; color: #c0392b; font-size: 0.95rem;"></div>
+
+                <button type="submit" id="ws-submit"
+                    style="margin-top: 0.5rem; padding: 1.2rem 2.5rem; background: var(--primary-color); color: white; border: none; border-radius: 60px; font-size: 1.1rem; font-weight: 800; cursor: pointer; font-family: var(--font-body); letter-spacing: 0.02em; box-shadow: 0 10px 25px rgba(182,131,151,0.3); transition: opacity 0.2s, transform 0.15s;">
+                    Richiedi informazioni
+                </button>
+            </form>
+
+            <!-- Stato success -->
+            <div id="ws-success" style="display:none; text-align:center; padding: 3rem 2rem; background: rgba(93,174,177,0.08); border: 1px solid rgba(93,174,177,0.3); border-radius: 24px; margin-top: 1rem;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">✓</div>
+                <h3 style="font-family: var(--font-heading); color: var(--secondary-color); margin-bottom: 0.75rem;">Richiesta inviata!</h3>
+                <p style="color: #555; line-height: 1.7; margin: 0;">Il team di Valentina ti contatterà a breve nelle fasce orarie indicate.</p>
             </div>
         </div>
     </section>
+
+    <script>
+    (function () {
+        var form    = document.getElementById('ws-contact-form');
+        var success = document.getElementById('ws-success');
+        var errBox  = document.getElementById('ws-error');
+        var btn     = document.getElementById('ws-submit');
+
+        // Focus style per i campi
+        form.querySelectorAll('input[type="text"],input[type="tel"],select').forEach(function (el) {
+            el.addEventListener('focus',  function () { this.style.borderColor = 'var(--primary-color)'; });
+            el.addEventListener('blur',   function () { this.style.borderColor = '#ddd'; });
+        });
+
+        // Hover style per i checkbox-giorno
+        form.querySelectorAll('.ws-day-label').forEach(function (lbl) {
+            var cb = lbl.querySelector('input[type="checkbox"]');
+            lbl.addEventListener('mouseenter', function () { lbl.style.borderColor = 'var(--primary-color)'; });
+            lbl.addEventListener('mouseleave', function () { lbl.style.borderColor = cb.checked ? 'var(--primary-color)' : '#ddd'; });
+            cb.addEventListener('change', function () {
+                lbl.style.background    = cb.checked ? 'rgba(182,131,151,0.08)' : '';
+                lbl.style.borderColor   = cb.checked ? 'var(--primary-color)' : '#ddd';
+                lbl.style.fontWeight    = cb.checked ? '700' : '';
+            });
+        });
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            errBox.style.display = 'none';
+
+            var centro    = form.querySelector('[name="centro"]').value.trim();
+            var referente = form.querySelector('[name="referente"]').value.trim();
+            var telefono  = form.querySelector('[name="telefono"]').value.trim();
+
+            if (!centro || !referente || !telefono) {
+                errBox.textContent = 'Compila i campi obbligatori: nome del centro, referente e telefono.';
+                errBox.style.display = 'block';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Invio in corso…';
+
+            var data = new FormData(form);
+
+            fetch('/workshop-contact.php', {
+                method: 'POST',
+                body: data
+            })
+            .then(function (r) { return r.json(); })
+            .then(function (json) {
+                if (json.ok) {
+                    form.style.display    = 'none';
+                    success.style.display = 'block';
+                } else {
+                    errBox.textContent  = 'Si è verificato un errore. Scrivi direttamente a staff@valentinarussobg5.com';
+                    errBox.style.display = 'block';
+                    btn.disabled    = false;
+                    btn.textContent = 'Richiedi informazioni';
+                }
+            })
+            .catch(function () {
+                errBox.textContent  = 'Problema di connessione. Scrivi direttamente a staff@valentinarussobg5.com';
+                errBox.style.display = 'block';
+                btn.disabled    = false;
+                btn.textContent = 'Richiedi informazioni';
+            });
+        });
+    })();
+    </script>
 
 </main>
 {% endblock %}
