@@ -39,7 +39,7 @@ foreach ((array)$giorni_raw as $g) {
 $giorni_str = $giorni ? implode(", ", $giorni) : "Non specificati";
 
 // Destinatario fisso
-$to      = "workshoptest2026@mailinator.com"; // TEST TEMPORANEO — ripristinare
+$to      = "staff@valentinarussobg5.com";
 $subject = "Richiesta workshop — " . $centro;
 
 $body  = "Nuova richiesta workshop da valentinarussobg5.com\n";
@@ -52,8 +52,8 @@ $body .= "Giorni preferiti: " . $giorni_str . "\n";
 $body .= "\n================================================\n";
 $body .= "Inviato: " . date("d/m/Y H:i") . "\n";
 
-$headers = "From: noreply@valentinarussobg5.com\r\n";
-$headers .= "Reply-To: noreply@valentinarussobg5.com\r\n";
+$headers = "From: info@valentinarussobg5.com\r\n";
+$headers .= "Reply-To: info@valentinarussobg5.com\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
 if (mail($to, $subject, $body, $headers)) {
