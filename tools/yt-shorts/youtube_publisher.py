@@ -125,21 +125,14 @@ def upload(
     print(f"[upload] OK: {url}")
 
     # Cover (thumbnail)
+    # NOTA: YouTube Shorts non supportano miniature custom via API né via web desktop.
+    # L'unico modo è tramite l'app mobile YouTube Studio (Contenuti → Short → modifica → Miniatura).
+    # L'API thumbnails().set() restituisce 200 ma ignora silenziosamente l'upload per gli Shorts.
+    # Il file cover viene comunque salvato nella work_dir per uso manuale da mobile.
     if cover_path and cover_path.exists():
-        try:
-            yt.thumbnails().set(videoId=video_id,
-                                media_body=MediaFileUpload(str(cover_path), mimetype="image/png")).execute()
-            print(f"[upload] thumbnail set from {cover_path.name}")
-        except HttpError as e:
-            # custom thumbnails require account verified for this feature
-            print(f"\n⚠️  THUMBNAIL NON CARICATA per {video_id}: {e}")
-            print(f"   Per fixare: python -c \"")
-            print(f"   import sys; sys.path.insert(0,'D:/valentinarussomentaladvisor.it/tools/yt-shorts')")
-            print(f"   from youtube_publisher import _service")
-            print(f"   from googleapiclient.http import MediaFileUpload")
-            print(f"   yt=_service(); yt.thumbnails().set(videoId='{video_id}',media_body=MediaFileUpload('{cover_path}',mimetype='image/png')).execute()")
-            print(f"   \"
-
+        print(f"[upload] cover salvata in: {cover_path}")
+        print(f"[upload] AZIONE MANUALE RICHIESTA: imposta la miniatura dall'app YouTube Studio mobile.")
+        print(f"[upload] Contenuti → Short → {video_id} → Modifica → Miniatura → Carica")
     return video_id
 
 
