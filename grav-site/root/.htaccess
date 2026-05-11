@@ -5,6 +5,25 @@
 # Disabilita visualizzazione directory
 Options -Indexes
 
+## Security headers (pentest 11/05/2026)
+## CSP non incluso: richiede audit dei domini inline scripts/fonts/cdn prima di applicare.
+<IfModule mod_headers.c>
+    # HSTS — forza HTTPS per 1 anno (HIGH fix)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+    # Anti-clickjacking (MEDIUM fix)
+    Header set X-Frame-Options "SAMEORIGIN"
+
+    # Anti MIME-sniffing (MEDIUM fix)
+    Header set X-Content-Type-Options "nosniff"
+
+    # Anti Referer leakage cross-origin (MEDIUM fix)
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Limita feature browser potenti (LOW fix)
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=(self), interest-cohort=()"
+</IfModule>
+
 # Charset UTF-8 per file di testo
 AddCharset UTF-8 .txt .md .json .xml
 
