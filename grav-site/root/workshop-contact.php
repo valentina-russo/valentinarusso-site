@@ -39,7 +39,7 @@ foreach ((array)$giorni_raw as $g) {
 $giorni_str = $giorni ? implode(", ", $giorni) : "Non specificati";
 
 // Destinatario fisso
-$to      = "info@valentinarussobg5.com";
+$to      = "staff@valentinarussobg5.com";
 $subject = "Richiesta workshop — " . $centro;
 
 $body  = "Nuova richiesta workshop da valentinarussobg5.com\n";
