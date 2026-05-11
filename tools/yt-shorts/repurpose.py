@@ -413,7 +413,18 @@ def main():
     pkg = generate_titles_step(seg.text, work_dir)
     title = choose_title(pkg, work_dir, title_index=args.title_index)
     cover = render_cover(title, work_dir)
-    short = render_video_step(source, seg, title, srt, work_dir)
+    short_base = render_video_step(source, seg, title, srt, work_dir)  # → short.mp4
+
+    # Prepend cover as 2-second branded intro — YouTube Shorts non accetta
+    # thumbnail custom via API né web desktop, solo app mobile. Bruciare la
+    # cover nel video garantisce che sia sempre visibile.
+    # short_base = short.mp4 → rinomina a short_no_subs.mp4 (già usato come alias ok)
+    # poi scrivi il finale su short.mp4 tramite concat.
+    short_no_cover = work_dir / "short_no_cover.mp4"
+    short_base.rename(short_no_cover)
+    short = work_dir / "short.mp4"
+    from render_video import prepend_cover
+    prepend_cover(cover, short_no_cover, short)
 
     # description
     (work_dir / "description.txt").write_text(pkg.description, encoding="utf-8")

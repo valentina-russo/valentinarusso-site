@@ -165,6 +165,57 @@ def render(
         raise RuntimeError(f"ffmpeg failed (exit {rc.returncode})")
 
 
+def prepend_cover(cover_png: Path, short_mp4: Path, out_mp4: Path, cover_duration: float = 2.0) -> None:
+    """
+    Prepend cover_png as a still-image intro (cover_duration seconds) before short_mp4.
+    Writes result to out_mp4. Used to embed the branded cover into the video itself,
+    since YouTube Shorts does not support custom thumbnails via API or desktop web.
+    """
+    _check_ffmpeg()
+    tmp_dir = out_mp4.parent
+    cover_vid = tmp_dir / "_cover_intro.mp4"
+    cover_vid_audio = tmp_dir / "_cover_intro_audio.mp4"
+    concat_txt = tmp_dir / "_concat.txt"
+
+    # 1. cover PNG → silent video clip
+    subprocess.run([
+        "ffmpeg", "-y",
+        "-loop", "1", "-i", str(cover_png),
+        "-vf", "scale=1080:1920:force_original_aspect_ratio=decrease,"
+               "pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1",
+        "-t", str(cover_duration), "-r", "30",
+        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-an",
+        str(cover_vid),
+    ], check=True, capture_output=True)
+
+    # 2. add silent audio track so both clips share the same stream layout
+    subprocess.run([
+        "ffmpeg", "-y",
+        "-i", str(cover_vid),
+        "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
+        "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest",
+        str(cover_vid_audio),
+    ], check=True, capture_output=True)
+
+    # 3. concat intro + main short
+    concat_txt.write_text(
+        f"file '{cover_vid_audio.as_posix()}'\nfile '{short_mp4.as_posix()}'",
+        encoding="utf-8",
+    )
+    subprocess.run([
+        "ffmpeg", "-y",
+        "-f", "concat", "-safe", "0", "-i", str(concat_txt),
+        "-c", "copy",
+        str(out_mp4),
+    ], check=True, capture_output=True)
+
+    # cleanup temp files
+    for f in (cover_vid, cover_vid_audio, concat_txt):
+        f.unlink(missing_ok=True)
+
+    print(f"[cover] prepended {cover_duration}s intro → {out_mp4.name} ({out_mp4.stat().st_size // 1024} KB)")
+
+
 if __name__ == "__main__":
     import sys
     if len(sys.argv) < 6:
