@@ -7,7 +7,7 @@ Setup:
   3. Crea OAuth 2.0 Client ID (Desktop App)
   4. Scarica JSON come `client_secret.json` in questa cartella
   5. Esegui: python youtube_publisher.py --auth
-  6. Browser → login → grant `youtube.upload`
+  6. Browser -> login -> grant `youtube.upload`
   7. Token salvato in `youtube_token.pickle`
 
 Una volta fatto setup, usa upload(...) per pubblicare un Short.
@@ -126,13 +126,13 @@ def upload(
 
     # Cover (thumbnail)
     # NOTA: YouTube Shorts non supportano miniature custom via API né via web desktop.
-    # L'unico modo è tramite l'app mobile YouTube Studio (Contenuti → Short → modifica → Miniatura).
+    # L'unico modo è tramite l'app mobile YouTube Studio (Contenuti -> Short -> modifica -> Miniatura).
     # L'API thumbnails().set() restituisce 200 ma ignora silenziosamente l'upload per gli Shorts.
     # Il file cover viene comunque salvato nella work_dir per uso manuale da mobile.
     if cover_path and cover_path.exists():
         print(f"[upload] cover salvata in: {cover_path}")
         print(f"[upload] AZIONE MANUALE RICHIESTA: imposta la miniatura dall'app YouTube Studio mobile.")
-        print(f"[upload] Contenuti → Short → {video_id} → Modifica → Miniatura → Carica")
+        print(f"[upload] Contenuti -> Short -> {video_id} -> Modifica -> Miniatura -> Carica")
     return video_id
 
 

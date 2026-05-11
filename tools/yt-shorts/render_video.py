@@ -1,5 +1,5 @@
 """
-ffmpeg pipeline: clip → 9:16 crop → burn-in titolo (15s) + sottotitoli + watermark.
+ffmpeg pipeline: clip -> 9:16 crop -> burn-in titolo (15s) + sottotitoli + watermark.
 
 Output: 1080x1920 mp4 H.264 + AAC, ~30 fps, CRF 20.
 """
@@ -29,7 +29,7 @@ def _escape_drawtext(s: str) -> str:
     mark (U+2019) which is visually identical and requires no escaping.
     """
     return (s.replace("\\", "\\\\")
-             .replace("'", "’")    # straight ' → curly ' (no ffmpeg escaping needed)
+             .replace("'", "’")    # straight ' -> curly ' (no ffmpeg escaping needed)
              .replace(":", "\\:")
              .replace("%", "\\%"))
 
@@ -40,8 +40,8 @@ def _wrap_title(title: str, max_chars: int = 22) -> tuple[str, int]:
     Returns (text, fontsize).
 
     At PlayResX=1080 with Playfair Bold:
-      - fontsize=68 → max ~25 chars single line (uses full width)
-      - fontsize=60 → ~29 chars per line, safe for 2-line titles
+      - fontsize=68 -> max ~25 chars single line (uses full width)
+      - fontsize=60 -> ~29 chars per line, safe for 2-line titles
     Split at nearest word boundary to the middle.
     ffmpeg drawtext interprets literal \\n as a newline.
     """
@@ -183,7 +183,7 @@ def prepend_cover(cover_png: Path, short_mp4: Path, out_mp4: Path, cover_duratio
     cover_vid_audio = tmp_dir / "_cover_intro_audio.mp4"
     concat_txt = tmp_dir / "_concat.txt"
 
-    # 1. cover PNG → silent video clip
+    # 1. cover PNG -> silent video clip
     subprocess.run([
         "ffmpeg", "-y",
         "-loop", "1", "-i", str(cover_png),

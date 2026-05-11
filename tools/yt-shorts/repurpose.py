@@ -1,5 +1,5 @@
 """
-Orchestrator end-to-end: link YouTube → Short pubblicato.
+Orchestrator end-to-end: link YouTube -> Short pubblicato.
 
 Usage:
   python repurpose.py <URL_YT | path/video.mp4> [--start MM:SS] [--end MM:SS]
@@ -454,19 +454,19 @@ def main():
         print(f"  Testo ({len(seg.text)} chars): {seg.text[:200]}...")
         print()
         print("PHASE 1 COMPLETA. Prossimi step:")
-        print(f"  1. Genera titoli da segment_info.json → scrivi {work_dir}/titles_raw.json")
+        print(f"  1. Genera titoli da segment_info.json -> scrivi {work_dir}/titles_raw.json")
         print(f"  2. Riprendi: python repurpose.py \"{args.input}\" --resume --title-index N --yes")
         return
 
     pkg = generate_titles_step(seg.text, work_dir)
     title = choose_title(pkg, work_dir, title_index=args.title_index)
     cover = render_cover(title, work_dir)
-    short_base = render_video_step(source, seg, title, srt, work_dir)  # → short.mp4
+    short_base = render_video_step(source, seg, title, srt, work_dir)  # -> short.mp4
 
     # Prepend cover as 2-second branded intro — YouTube Shorts non accetta
     # thumbnail custom via API né web desktop, solo app mobile. Bruciare la
     # cover nel video garantisce che sia sempre visibile.
-    # short_base = short.mp4 → rinomina a short_no_subs.mp4 (già usato come alias ok)
+    # short_base = short.mp4 -> rinomina a short_no_subs.mp4 (già usato come alias ok)
     # poi scrivi il finale su short.mp4 tramite concat.
     short_no_cover = work_dir / "short_no_cover.mp4"
     short_no_cover.unlink(missing_ok=True)   # Windows rename fails if target exists
