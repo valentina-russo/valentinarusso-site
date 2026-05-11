@@ -132,7 +132,13 @@ def upload(
             print(f"[upload] thumbnail set from {cover_path.name}")
         except HttpError as e:
             # custom thumbnails require account verified for this feature
-            print(f"[upload] thumbnail set FAILED ({e}). Per usare custom thumbnail: l'account YouTube deve essere verificato.")
+            print(f"\n⚠️  THUMBNAIL NON CARICATA per {video_id}: {e}")
+            print(f"   Per fixare: python -c \"")
+            print(f"   import sys; sys.path.insert(0,'D:/valentinarussomentaladvisor.it/tools/yt-shorts')")
+            print(f"   from youtube_publisher import _service")
+            print(f"   from googleapiclient.http import MediaFileUpload")
+            print(f"   yt=_service(); yt.thumbnails().set(videoId='{video_id}',media_body=MediaFileUpload('{cover_path}',mimetype='image/png')).execute()")
+            print(f"   \"
 
     return video_id
 
