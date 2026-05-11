@@ -56,13 +56,13 @@ def acquire(input_str: str, work_dir: Path) -> Path:
     src = work_dir / "source.mp4"
     if input_str.startswith("http"):
         cmd = [
-            "yt-dlp",
+            sys.executable, "-m", "yt_dlp",
             input_str,
             "-f", "bestvideo[height<=1080]+bestaudio/best[height<=1080]",
             "--merge-output-format", "mp4",
             "-o", str(src),
         ]
-        print("[acquire] yt-dlp", " ".join(cmd[1:]))
+        print("[acquire] yt-dlp", " ".join(cmd[3:]))
         subprocess.run(cmd, check=True)
     else:
         shutil.copy(input_str, src)
@@ -278,7 +278,7 @@ def publish_step(short_path: Path, cover_path: Path, title: str, pkg, original_u
         print("[publish] annullato. File pronti in:", short_path.parent)
         return None
 
-    from youtube_publisher import upload, post_comment
+    from youtube_publisher import upload, post_comment, add_to_playlist_by_name
     video_id = upload(
         video_path=short_path,
         title=title,
@@ -287,6 +287,16 @@ def publish_step(short_path: Path, cover_path: Path, title: str, pkg, original_u
         privacy=privacy,
         cover_path=cover_path,
     )
+
+    # Aggiungi alla playlist "Shorts" (deve esistere già sul canale).
+    # Nome override: env var YOUTUBE_PLAYLIST_NAME (default "Shorts").
+    # Disattiva con YOUTUBE_PLAYLIST_NAME="" (vuoto).
+    playlist_name = os.environ.get("YOUTUBE_PLAYLIST_NAME", "Shorts")
+    if playlist_name:
+        try:
+            add_to_playlist_by_name(video_id, playlist_name)
+        except Exception as e:
+            print(f"[playlist] errore non bloccante: {e}")
 
     # Commento con link al video originale (cliccabile su mobile e desktop,
     # a differenza dei link nella descrizione degli Short).

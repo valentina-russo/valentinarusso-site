@@ -137,6 +137,70 @@ def upload(
     return video_id
 
 
+def find_playlist_id(name: str, channel_id: str | None = None) -> str | None:
+    """
+    Find a playlist by case-insensitive name match on the authorized channel.
+    Returns the playlist ID or None if not found.
+
+    NOTE: `mine=true` only returns playlists owned by the authorized account.
+    Per Brand Account (es. @valentinarussobg5), il token OAuth deve essere
+    autorizzato per quel canale (vedi login_valentina.py).
+    """
+    yt = _service()
+    name_lower = name.strip().lower()
+    page_token = None
+    while True:
+        req = yt.playlists().list(
+            part="snippet",
+            mine=True,
+            maxResults=50,
+            pageToken=page_token,
+        )
+        resp = req.execute()
+        for item in resp.get("items", []):
+            if item["snippet"]["title"].strip().lower() == name_lower:
+                return item["id"]
+        page_token = resp.get("nextPageToken")
+        if not page_token:
+            return None
+
+
+def add_to_playlist(video_id: str, playlist_id: str) -> bool:
+    """
+    Add a video to a playlist. Returns True on success.
+    Idempotent: se il video è già presente, YouTube ritorna OK.
+    """
+    yt = _service()
+    body = {
+        "snippet": {
+            "playlistId": playlist_id,
+            "resourceId": {
+                "kind": "youtube#video",
+                "videoId": video_id,
+            },
+        }
+    }
+    try:
+        yt.playlistItems().insert(part="snippet", body=body).execute()
+        print(f"[playlist] aggiunto {video_id} -> {playlist_id}")
+        return True
+    except HttpError as e:
+        print(f"[playlist] add FAILED ({e})")
+        return False
+
+
+def add_to_playlist_by_name(video_id: str, playlist_name: str = "Shorts") -> bool:
+    """
+    Helper: trova la playlist per nome e aggiunge il video.
+    Default playlist name: 'Shorts' (deve esistere già sul canale).
+    """
+    pid = find_playlist_id(playlist_name)
+    if not pid:
+        print(f"[playlist] '{playlist_name}' non trovata sul canale autorizzato")
+        return False
+    return add_to_playlist(video_id, pid)
+
+
 def post_comment(video_id: str, text: str) -> str:
     """
     Post a top-level comment on a video. Returns the comment ID.

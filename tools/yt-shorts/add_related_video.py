@@ -127,7 +127,7 @@ def _page_has_auth_error(page) -> bool:
         "text=/non hai l.autorizzazione/i",   # regex: . matcha entrambi gli apostrofi
         "text=/don.t have permission/i",
         "text=/not authorized/i",
-        "text=/Cambia account/",               # bottone presente solo sull'auth-error page
+        # "Cambia account" RIMOSSO — presente nel DOM di ogni pagina Studio (falso positivo)
     ):
         try:
             if page.query_selector(sel):
@@ -212,8 +212,7 @@ def _click_brand_account_in_switcher(page) -> bool:
             page.wait_for_timeout(3000)
             # Verifica diretta sull'URL corrente
             if (VALENTINA_CHANNEL_ID in page.url
-                    and not _page_has_auth_error(page)
-                    and not _is_error_page(page)):
+                    and page.url.startswith("https://studio.youtube.com")):
                 print("[studio] switch via UI riuscito")
                 return True
             # Il browser interno potrebbe aver navigato; naviga esplicitamente al canale
@@ -339,9 +338,10 @@ def _ensure_valentina_account(page) -> bool:
         return False
 
     current = page.url
-    if (VALENTINA_CHANNEL_ID in current
-            and not _page_has_auth_error(page)
-            and not _is_error_page(page)):
+    # URL-only check: se siamo già sul canale giusto, basta.
+    # I content-check (_page_has_auth_error, _is_error_page) causano falsi positivi
+    # quando Studio mostra banner di errore transitori sulla pagina corretta.
+    if VALENTINA_CHANNEL_ID in current and current.startswith("https://studio.youtube.com"):
         print("[studio] gia' su @valentinarussobg5")
         return True
 
@@ -367,9 +367,8 @@ def _ensure_valentina_account(page) -> bool:
             current_n = page.url
             print(f"[studio] authuser={n}: {current_n}")
 
-            if (VALENTINA_CHANNEL_ID in current_n
-                    and not _page_has_auth_error(page)
-                    and not _is_error_page(page)):
+            # URL-only check (stessa logica del check iniziale)
+            if VALENTINA_CHANNEL_ID in current_n and current_n.startswith("https://studio.youtube.com"):
                 print(f"[studio] gia' su Valentina con authuser={n}")
                 return True
 

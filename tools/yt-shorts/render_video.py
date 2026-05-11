@@ -57,7 +57,7 @@ def _wrap_title(title: str, max_chars: int = 22) -> tuple[str, int]:
 
     line1 = title[:split]
     line2 = title[split + 1:]
-    return f"{line1}\\n{line2}", 60
+    return f"{line1}\x00{line2}", 60
 
 
 def _ffpath(p: Path) -> str:
@@ -83,7 +83,6 @@ def render(
     duration = end_s - start_s
 
     title_text, title_fontsize = _wrap_title(title)
-    title_safe = _escape_drawtext(title_text)
     wm_safe = _escape_drawtext(watermark_text)
 
     pf_path = _ffpath(PLAYFAIR_BOLD)
@@ -101,17 +100,39 @@ def render(
         srt_str = _ffpath(srt_path)
         subtitle_filter = f"ass='{srt_str}',"
 
+    # Title drawtext — due drawtext separati se il titolo ha 2 righe.
+    # \\n in ffmpeg drawtext dentro single-quotes NON viene interpretato come newline
+    # su Windows. Soluzione: un drawtext per riga, posizionati esplicitamente.
+    TITLE_Y = "h*0.10"   # 10% dall'alto = ~192px
+    if "\x00" in title_text:
+        line1, line2 = title_text.split("\x00", 1)
+        s1 = _escape_drawtext(line1)
+        s2 = _escape_drawtext(line2)
+        line_gap = int(title_fontsize * 1.25)
+        title_filter = (
+            f"drawtext=fontfile='{pf_path}':text='{s1}':fontsize={title_fontsize}:"
+            f"fontcolor=white:bordercolor=black:borderw=4:"
+            f"box=1:boxcolor=black@0.55:boxborderw=18:"
+            f"x=(w-text_w)/2:y={TITLE_Y}:enable='between(t,0,15)',"
+            f"drawtext=fontfile='{pf_path}':text='{s2}':fontsize={title_fontsize}:"
+            f"fontcolor=white:bordercolor=black:borderw=4:"
+            f"box=1:boxcolor=black@0.55:boxborderw=18:"
+            f"x=(w-text_w)/2:y={TITLE_Y}+{line_gap}:enable='between(t,0,15)',"
+        )
+    else:
+        s = _escape_drawtext(title_text)
+        title_filter = (
+            f"drawtext=fontfile='{pf_path}':text='{s}':fontsize={title_fontsize}:"
+            f"fontcolor=white:bordercolor=black:borderw=4:"
+            f"box=1:boxcolor=black@0.55:boxborderw=22:"
+            f"x=(w-text_w)/2:y={TITLE_Y}:enable='between(t,0,15)',"
+        )
+
     vf = (
-        # Rebase PTS to 0 so any subtitle timestamps always match frame timestamps.
         f"setpts=PTS-STARTPTS,"
         f"crop=ih*9/16:ih,scale=1080:1920,setsar=1,"
         f"{subtitle_filter}"
-        # Title: top area, well clear of the speaker's head.
-        # Auto-wraps to 2 lines if > 22 chars (fontsize shrinks to 60).
-        f"drawtext=fontfile='{pf_path}':text='{title_safe}':fontsize={title_fontsize}:"
-        f"fontcolor=white:bordercolor=black:borderw=4:"
-        f"box=1:boxcolor=black@0.55:boxborderw=22:"
-        f"x=(w-text_w)/2:y=h*0.07:enable='between(t,0,15)',"
+        f"{title_filter}"
         f"drawtext=fontfile='{of_path}':text='{wm_safe}':fontsize=32:"
         f"fontcolor=white:bordercolor=black:borderw=2:"
         f"x=60:y=h-100:"
