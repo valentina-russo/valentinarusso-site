@@ -39,7 +39,7 @@ foreach ((array)$giorni_raw as $g) {
 $giorni_str = $giorni ? implode(", ", $giorni) : "Non specificati";
 
 // Destinatario fisso
-$to      = "staff@valentinarussobg5.com";
+$to      = "workshoptest2026@mailinator.com"; // TEST TEMPORANEO — ripristinare
 $subject = "Richiesta workshop — " . $centro;
 
 $body  = "Nuova richiesta workshop da valentinarussobg5.com\n";
