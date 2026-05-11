@@ -54,19 +54,67 @@ def _parse_ms(t: str) -> float:
 def acquire(input_str: str, work_dir: Path) -> Path:
     """Download or copy source video. Returns path to source.mp4."""
     src = work_dir / "source.mp4"
+    if src.exists():
+        print(f"[acquire] source.mp4 già presente ({src.stat().st_size // 1024 // 1024} MB), skip download.")
+        return src
     if input_str.startswith("http"):
-        cmd = [
-            sys.executable, "-m", "yt_dlp",
-            input_str,
-            "-f", "bestvideo[height<=1080]+bestaudio/best[height<=1080]",
-            "--merge-output-format", "mp4",
-            "-o", str(src),
-        ]
-        print("[acquire] yt-dlp", " ".join(cmd[3:]))
-        subprocess.run(cmd, check=True)
+        # Primary: yt-dlp
+        # Fallback: pytubefix (se yt-dlp fallisce per bot detection / n-challenge)
+        _acquire_url(input_str, src)
     else:
         shutil.copy(input_str, src)
     return src
+
+
+def _acquire_url(url: str, dst: Path) -> None:
+    """Download YouTube video. Tries yt-dlp first, falls back to pytubefix."""
+    import tempfile
+    cmd = [
+        sys.executable, "-m", "yt_dlp",
+        url,
+        "-f", "bestvideo[height<=1080]+bestaudio/best[height<=1080]",
+        "--merge-output-format", "mp4",
+        "-o", str(dst),
+    ]
+    print("[acquire] yt-dlp", url)
+    result = subprocess.run(cmd, check=False)
+    if result.returncode == 0 and dst.exists():
+        return
+
+    # Fallback: pytubefix
+    print("[acquire] yt-dlp fallito — fallback pytubefix...")
+    try:
+        from pytubefix import YouTube  # type: ignore
+    except ImportError:
+        subprocess.run([sys.executable, "-m", "pip", "install", "pytubefix"], check=True)
+        from pytubefix import YouTube  # type: ignore
+
+    yt = YouTube(url)
+    tmp_dir = dst.parent
+
+    # Video track (highest available ≤ 1080p)
+    video_stream = (yt.streams.filter(adaptive=True, file_extension='mp4', res='1080p').first()
+                    or yt.streams.filter(adaptive=True, file_extension='mp4').order_by('resolution').last())
+    audio_stream = yt.streams.filter(only_audio=True, file_extension='mp4').order_by('abr').last()
+
+    print(f"[acquire/pytubefix] video={video_stream.resolution} audio={audio_stream.abr}")
+    vid_tmp = tmp_dir / "_video_only.mp4"
+    aud_tmp = tmp_dir / "_audio_only.mp4"
+    video_stream.download(output_path=str(tmp_dir), filename="_video_only.mp4")
+    audio_stream.download(output_path=str(tmp_dir), filename="_audio_only.mp4")
+
+    # Merge with ffmpeg
+    merge_cmd = [
+        "ffmpeg", "-y",
+        "-i", str(vid_tmp),
+        "-i", str(aud_tmp),
+        "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+        str(dst),
+    ]
+    subprocess.run(merge_cmd, check=True, capture_output=True)
+    vid_tmp.unlink(missing_ok=True)
+    aud_tmp.unlink(missing_ok=True)
+    print(f"[acquire/pytubefix] OK: {dst.stat().st_size // 1024 // 1024} MB")
 
 
 def transcribe_step(video: Path, work_dir: Path):
@@ -421,6 +469,7 @@ def main():
     # short_base = short.mp4 → rinomina a short_no_subs.mp4 (già usato come alias ok)
     # poi scrivi il finale su short.mp4 tramite concat.
     short_no_cover = work_dir / "short_no_cover.mp4"
+    short_no_cover.unlink(missing_ok=True)   # Windows rename fails if target exists
     short_base.rename(short_no_cover)
     short = work_dir / "short.mp4"
     from render_video import prepend_cover

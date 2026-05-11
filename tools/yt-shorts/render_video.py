@@ -21,9 +21,15 @@ def _check_ffmpeg() -> None:
 
 
 def _escape_drawtext(s: str) -> str:
-    """Escape per ffmpeg drawtext: ' \\ : %"""
+    """Escape per ffmpeg drawtext filtergraph (Windows-safe).
+
+    In FFmpeg filter syntax, single quotes delimit option values and CANNOT be
+    escaped inside the quoted string (the string ends at the first unescaped ').
+    Solution: replace straight apostrophe (U+0027) with right single quotation
+    mark (U+2019) which is visually identical and requires no escaping.
+    """
     return (s.replace("\\", "\\\\")
-             .replace("'", "\\'")
+             .replace("'", "’")    # straight ' → curly ' (no ffmpeg escaping needed)
              .replace(":", "\\:")
              .replace("%", "\\%"))
 
@@ -213,7 +219,7 @@ def prepend_cover(cover_png: Path, short_mp4: Path, out_mp4: Path, cover_duratio
     for f in (cover_vid, cover_vid_audio, concat_txt):
         f.unlink(missing_ok=True)
 
-    print(f"[cover] prepended {cover_duration}s intro → {out_mp4.name} ({out_mp4.stat().st_size // 1024} KB)")
+    print(f"[cover] prepended {cover_duration}s intro -> {out_mp4.name} ({out_mp4.stat().st_size // 1024} KB)")
 
 
 if __name__ == "__main__":
