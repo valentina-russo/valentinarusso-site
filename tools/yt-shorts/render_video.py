@@ -176,48 +176,39 @@ def prepend_cover(cover_png: Path, short_mp4: Path, out_mp4: Path, cover_duratio
     Prepend cover_png as a still-image intro (cover_duration seconds) before short_mp4.
     Writes result to out_mp4. Used to embed the branded cover into the video itself,
     since YouTube Shorts does not support custom thumbnails via API or desktop web.
+
+    Uses filter_complex concat (NOT the concat demuxer) to guarantee A/V sync.
+    The concat demuxer with -c copy inherits the cover's timebase (30fps → 1/15360)
+    and misinterprets the main video's 25fps timestamps, making video play 20% too
+    fast vs audio (video=56s, audio=68s). filter_complex re-encodes both streams at
+    a consistent 25fps timebase, eliminating the drift entirely.
     """
     _check_ffmpeg()
-    tmp_dir = out_mp4.parent
-    cover_vid = tmp_dir / "_cover_intro.mp4"
-    cover_vid_audio = tmp_dir / "_cover_intro_audio.mp4"
-    concat_txt = tmp_dir / "_concat.txt"
 
-    # 1. cover PNG -> silent video clip
-    subprocess.run([
-        "ffmpeg", "-y",
-        "-loop", "1", "-i", str(cover_png),
-        "-vf", "scale=1080:1920:force_original_aspect_ratio=decrease,"
-               "pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1",
-        "-t", str(cover_duration), "-r", "30",
-        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-an",
-        str(cover_vid),
-    ], check=True, capture_output=True)
-
-    # 2. add silent audio track so both clips share the same stream layout
-    subprocess.run([
-        "ffmpeg", "-y",
-        "-i", str(cover_vid),
-        "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
-        "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest",
-        str(cover_vid_audio),
-    ], check=True, capture_output=True)
-
-    # 3. concat intro + main short
-    concat_txt.write_text(
-        f"file '{cover_vid_audio.as_posix()}'\nfile '{short_mp4.as_posix()}'",
-        encoding="utf-8",
+    # Single-pass: PNG looped for cover_duration + main short → filter_complex concat.
+    # [0:v] = cover PNG scaled/padded to 1080x1920 at 25fps
+    # aevalsrc = silent AAC-ready audio for the cover segment
+    # concat=n=2 merges cover(v+a) + short(v+a) into one stream pair
+    fc = (
+        f"[0:v]scale=1080:1920:force_original_aspect_ratio=decrease,"
+        f"pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=fps=25[cv];"
+        f"aevalsrc=0:c=stereo:s=44100:d={cover_duration}[ca];"
+        f"[cv][ca][1:v][1:a]concat=n=2:v=1:a=1[outv][outa]"
     )
-    subprocess.run([
+    cmd = [
         "ffmpeg", "-y",
-        "-f", "concat", "-safe", "0", "-i", str(concat_txt),
-        "-c", "copy",
+        "-loop", "1", "-t", str(cover_duration), "-i", str(cover_png),
+        "-i", str(short_mp4),
+        "-filter_complex", fc,
+        "-map", "[outv]", "-map", "[outa]",
+        "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p",
+        "-c:a", "aac", "-b:a", "192k",
+        "-movflags", "+faststart",
         str(out_mp4),
-    ], check=True, capture_output=True)
-
-    # cleanup temp files
-    for f in (cover_vid, cover_vid_audio, concat_txt):
-        f.unlink(missing_ok=True)
+    ]
+    rc = subprocess.run(cmd, check=False)
+    if rc.returncode != 0:
+        raise RuntimeError(f"prepend_cover ffmpeg failed (exit {rc.returncode})")
 
     print(f"[cover] prepended {cover_duration}s intro -> {out_mp4.name} ({out_mp4.stat().st_size // 1024} KB)")
 
