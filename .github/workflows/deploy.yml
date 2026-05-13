@@ -213,6 +213,16 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/hai-scoperto-di-essere-un-riflettore-human-design/
           dangerous-clean-slate: false
 
+      - name: Deploy articolo lancio-libretto-istruzioni
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/04.blog/articoli/lancio-libretto-istruzioni/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/lancio-libretto-istruzioni/
+          dangerous-clean-slate: false
+
       - name: Deploy articolo bg5-selezione-personale
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
