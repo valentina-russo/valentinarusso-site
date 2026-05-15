@@ -56,4 +56,4 @@ Il secondo passo è l'analisi dei candidati finalisti: si calcolano le carte dei
 
 Il terzo passo è la condivisione dei risultati con il team HR e il manager, presentati come informazioni complementari al processo decisionale già in corso. L'analisi BG5 non produce un verdetto di "assumi" o "non assumere" ma una mappa che mostra dove il candidato eccellerà naturalmente e dove potrebbe incontrare attrito, permettendo una decisione più informata.
 
-Per avviare un'analisi BG5 del tuo team e del processo di selezione, il punto di partenza è la [carta Human Design gratuita](/genera-carta) dei membri del team esistente, seguita da una sessione professionale che configura il Penta e definisce il profilo energetico ideale per la posizione aperta.
+Per avviare un'analisi BG5 del tuo team e del processo di selezione, il punto di partenza è la [carta Human Design gratuita](/calcolo-human-design) dei membri del team esistente, seguita da una sessione professionale che configura il Penta e definisce il profilo energetico ideale per la posizione aperta.

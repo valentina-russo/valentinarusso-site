@@ -26,7 +26,7 @@ faq:
         answer: "Il riposo ricarica la batteria, ma se torni a fare lo stesso lavoro con la stessa modalità, la batteria si scarica alla stessa velocità. Il burnout cronico indica un disallineamento strutturale tra la tua energia biologica e il modo in cui lavori, non una semplice stanchezza da risolvere con una vacanza."
     -
         question: "Come faccio a sapere qual è il mio tipo energetico?"
-        answer: "Il tipo energetico si calcola dalla data, ora e luogo di nascita attraverso la carta Human Design. Esistono cinque tipi: Manifestatore, Generatore, Generatore Manifestante, Proiettore e Riflettore. Puoi calcolare la tua carta gratuitamente su valentinarussobg5.com/genera-carta."
+        answer: "Il tipo energetico si calcola dalla data, ora e luogo di nascita attraverso la carta Human Design. Esistono cinque tipi: Manifestatore, Generatore, Generatore Manifestante, Proiettore e Riflettore. Puoi calcolare la tua carta gratuitamente su valentinarussobg5.com/calcolo-human-design."
     -
         question: "Il burnout del Proiettore è diverso da quello del Generatore?"
         answer: "Sì. Il Generatore ha energia rinnovabile ma va in burnout quando lavora su attività sbagliate che non gli risuonano. Il Proiettore non ha energia sacrale propria: va in burnout quando cerca di sostenere il ritmo lavorativo di un Generatore, cosa che il suo corpo non è progettato per fare."
@@ -65,7 +65,7 @@ Il problema è che il mondo del lavoro è costruito intorno alla meccanica del G
 
 ## Cosa puoi fare concretamente?
 
-Il primo passo è conoscere il tuo tipo energetico. La [carta Human Design gratuita](/genera-carta) ti dice esattamente quale dei cinque tipi sei, quale strategia decisionale è corretta per te e quale segnale il tuo corpo ti manda quando stai operando fuori meccanica. Il calcolo richiede data, ora e luogo di nascita e si completa in pochi secondi.
+Il primo passo è conoscere il tuo tipo energetico. La [carta Human Design gratuita](/calcolo-human-design) ti dice esattamente quale dei cinque tipi sei, quale strategia decisionale è corretta per te e quale segnale il tuo corpo ti manda quando stai operando fuori meccanica. Il calcolo richiede data, ora e luogo di nascita e si completa in pochi secondi.
 
 Il secondo passo è osservare come stai usando la tua energia nella settimana lavorativa. Se sei un Generatore, nota i momenti in cui lavori con soddisfazione e quelli in cui la frustrazione cresce: la differenza ti dice dove il tuo corpo vuole andare e dove la mente lo sta forzando. Se sei un Proiettore, conta le ore effettive in cui la tua lucidità è al massimo e confrontale con le ore che passi a cercare di produrre come un Generatore.
 

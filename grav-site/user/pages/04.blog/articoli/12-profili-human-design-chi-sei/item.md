@@ -114,7 +114,7 @@ Il passaggio da ombra a espressione autentica richiede una lettura precisa del p
 
 ## Come scoprire il tuo Profilo di Carriera e leggerlo nel contesto giusto
 
-Il profilo si calcola dal tuo **Success Code** con data, ora e luogo di nascita. Puoi [trovare i due numeri con un calcolatore gratuito](/genera-carta). Ma i numeri da soli dicono poco, per le ragioni che hai letto sopra: il profilo vive dentro un sistema più ampio, e leggerlo isolato produce comprensioni parziali.
+Il profilo si calcola dal tuo **Success Code** con data, ora e luogo di nascita. Puoi [trovare i due numeri con un calcolatore gratuito](/calcolo-human-design). Ma i numeri da soli dicono poco, per le ragioni che hai letto sopra: il profilo vive dentro un sistema più ampio, e leggerlo isolato produce comprensioni parziali.
 
 La **Panoramica BG5® del Disegno di Carriera** con Valentina Russo dura 90 minuti e costa €350. Include la lettura completa del Profilo di Carriera dentro il contesto del tuo Tipo di Carriera, dei tuoi centri, dei tuoi canali. Non è una lista di etichette: è una mappa operativa che ti mostra come funzioni nel lavoro, nelle relazioni, nelle decisioni quotidiane.
 

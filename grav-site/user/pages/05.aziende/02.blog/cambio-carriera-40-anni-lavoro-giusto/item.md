@@ -32,7 +32,7 @@ faq:
         answer: "I test attitudinali misurano competenze e interessi della mente, che è solo una parte dell'equazione. La mente è straordinaria nell'analizzare ma non è progettata per prendere decisioni personali: tende a razionalizzare, confrontare e scegliere in base a criteri esterni. L'Autorità Interiore in Human Design bypassa completamente la mente e accede a un sistema decisionale più antico e affidabile, diverso per ogni persona."
     -
         question: "Si può calcolare gratuitamente la propria Autorità Interiore?"
-        answer: "Sì. La carta Human Design gratuita su valentinarussobg5.com/genera-carta mostra il tuo Tipo Energetico, la Strategia e l'Autorità Interiore. Per una lettura approfondita di come applicare queste informazioni alla carriera, è disponibile una sessione individuale con analista certificata."
+        answer: "Sì. La carta Human Design gratuita su valentinarussobg5.com/calcolo-human-design mostra il tuo Tipo Energetico, la Strategia e l'Autorità Interiore. Per una lettura approfondita di come applicare queste informazioni alla carriera, è disponibile una sessione individuale con analista certificata."
 ---
 
 A quarant'anni la domanda non è più "cosa voglio fare da grande" ma diventa qualcosa di più urgente e meno romantico: "cosa posso ancora cambiare senza mandare tutto all'aria?". Il mercato del lavoro ti dice che sei troppo vecchio per ricominciare e troppo giovane per accontentarti, i coach ti propongono esercizi sulla visione e i test attitudinali ti restituiscono profili generici che potrebbero appartenere a chiunque. Il problema reale è che stai cercando la risposta nel posto sbagliato.
@@ -65,7 +65,7 @@ Una persona con Autorità Splenica deve imparare a fidarsi della prima impressio
 
 ## Cosa puoi fare adesso se stai pensando di cambiare?
 
-Il punto di partenza è conoscere la tua Autorità Interiore. La [carta Human Design gratuita](/genera-carta) ti mostra quale tipo di autorità decisionale hai, insieme al tuo **tipo energetico** e alla Strategia. Il calcolo richiede la tua data, ora e luogo di nascita.
+Il punto di partenza è conoscere la tua Autorità Interiore. La [carta Human Design gratuita](/calcolo-human-design) ti mostra quale tipo di autorità decisionale hai, insieme al tuo **tipo energetico** e alla Strategia. Il calcolo richiede la tua data, ora e luogo di nascita.
 
 Una volta che sai come il tuo corpo prende le decisioni, puoi applicare questo filtro a ogni scelta professionale che ti si presenta. Il cambio di carriera smette di essere un salto nel vuoto e diventa un processo guidato da un sistema che ti conosce meglio della tua mente, perché è il tuo corpo stesso.
 

@@ -1,6 +1,6 @@
 {% extends 'partials/base.html.twig' %}
 
-{% set is_genera_carta = 'genera-carta' in page.route %}
+{% set is_genera_carta = 'calcolo-human-design' in page.route or 'genera-carta' in page.route %}
 
 {% block extra_css %}
 {% if is_genera_carta %}

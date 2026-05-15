@@ -62,4 +62,4 @@ Il secondo livello è operativo: ridistribuire i ruoli secondo la **composizione
 
 Il terzo livello è strategico: usare l'analisi Penta nella composizione dei team futuri, incluse le assunzioni. Quando sai quale funzione manca nel tuo team, sai esattamente quale tipo di persona cercare, non solo per competenze ma per meccanica energetica.
 
-Per avviare un'analisi Penta del tuo team, il punto di partenza è la [carta Human Design gratuita](/genera-carta) di ogni membro, seguita da una sessione professionale che mappa il campo collettivo e produce raccomandazioni operative concrete.
+Per avviare un'analisi Penta del tuo team, il punto di partenza è la [carta Human Design gratuita](/calcolo-human-design) di ogni membro, seguita da una sessione professionale che mappa il campo collettivo e produce raccomandazioni operative concrete.

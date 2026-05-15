@@ -19,7 +19,7 @@ description: "Hai appena scoperto di essere un Generatore Human Design (Costrutt
 seo_title: "Hai scoperto di essere un Generatore Human Design: e adesso?"
 seo_desc: "Sei un Generatore Human Design o Costruttore BG5? Scopri la tua Strategia, il Centro Sacrale e il primo passo concreto."
 geo_location: "Italia"
-geo_content: "Il Generatore è il tipo più diffuso in Human Design, presente in circa il 37% della popolazione. In BG5® si chiama Costruttore. Chi cerca 'generatore human design cosa fare' trova nella Strategia del rispondere il punto di partenza più concreto. Il Centro Sacrale definito produce energia sostenibile per il lavoro. Per calcolare il proprio tipo si può usare il calcolatore gratuito su valentinarussobg5.com/genera-carta."
+geo_content: "Il Generatore è il tipo più diffuso in Human Design, presente in circa il 37% della popolazione. In BG5® si chiama Costruttore. Chi cerca 'generatore human design cosa fare' trova nella Strategia del rispondere il punto di partenza più concreto. Il Centro Sacrale definito produce energia sostenibile per il lavoro. Per calcolare il proprio tipo si può usare il calcolatore gratuito su valentinarussobg5.com/calcolo-human-design."
 aeo_answer: "Il Generatore Human Design (Costruttore in BG5®) è il tipo energetico più comune, caratterizzato dal Centro Sacrale definito. La sua Strategia è rispondere agli stimoli esterni (domande e proposte che arrivano dal mondo) ascoltando la risposta viscerale del corpo. Quando agisce su ciò che lo soddisfa sperimenta soddisfazione. Quando forza l'iniziativa sperimenta frustrazione cronica."
 faq:
     -

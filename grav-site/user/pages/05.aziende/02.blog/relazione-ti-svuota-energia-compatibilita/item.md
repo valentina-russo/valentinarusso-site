@@ -54,7 +54,7 @@ Nessuna di queste dinamiche è "colpa" di qualcuno. Sono il risultato meccanico 
 
 ## Cosa fare quando una relazione ti sta svuotando?
 
-Il primo passo è calcolare entrambe le carte. La [carta Human Design gratuita](/genera-carta) mostra i **centri definiti** e aperti di ciascuno. Confrontando le due carte si vede immediatamente dove avviene l'amplificazione: se il tuo centro emozionale è aperto e quello del partner è definito, sai che le emozioni intense che senti quando siete insieme sono energia che stai amplificando dal suo campo.
+Il primo passo è calcolare entrambe le carte. La [carta Human Design gratuita](/calcolo-human-design) mostra i **centri definiti** e aperti di ciascuno. Confrontando le due carte si vede immediatamente dove avviene l'amplificazione: se il tuo centro emozionale è aperto e quello del partner è definito, sai che le emozioni intense che senti quando siete insieme sono energia che stai amplificando dal suo campo.
 
 Il secondo passo è sperimentare la differenza. Passa qualche ora da solo e osserva come cambia il tuo stato: la tensione che sentivi è ancora lì o se ne è andata? L'agitazione persiste o si dissolve? Questa verifica empirica ti mostra in tempo reale quanto del tuo stato emotivo è tuo e quanto è assorbito dall'esterno.
 

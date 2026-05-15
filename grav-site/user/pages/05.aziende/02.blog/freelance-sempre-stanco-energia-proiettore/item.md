@@ -23,7 +23,7 @@ aeo_answer: "Un freelance sempre stanco potrebbe avere un tipo energetico incomp
 faq:
     -
         question: "Come faccio a sapere se sono un Proiettore?"
-        answer: "Il tipo energetico si calcola dalla carta Human Design utilizzando data, ora e luogo di nascita. Il Proiettore ha il centro Sacrale aperto (bianco nella carta) e nessun canale che colleghi un centro motore alla Gola. Puoi calcolare la tua carta gratuitamente su valentinarussobg5.com/genera-carta."
+        answer: "Il tipo energetico si calcola dalla carta Human Design utilizzando data, ora e luogo di nascita. Il Proiettore ha il centro Sacrale aperto (bianco nella carta) e nessun canale che colleghi un centro motore alla Gola. Puoi calcolare la tua carta gratuitamente su valentinarussobg5.com/calcolo-human-design."
     -
         question: "Un Proiettore freelance può guadagnare quanto un Generatore?"
         answer: "Sì, spesso di più. Il Proiettore è progettato per il lavoro qualitativo piuttosto che quantitativo. Un Proiettore che lavora 4-5 ore al massimo della lucidità e si posiziona come guida, consulente o specialista può generare più valore di un Proiettore che lavora 8 ore a metà della propria capacità. La chiave è tariffazione oraria alta e posizionamento come esperto, non volume di ore."
@@ -61,4 +61,4 @@ La struttura giornaliera che funziona per la maggior parte dei Proiettori preved
 
 Il secondo cambio strutturale riguarda il posizionamento: il Proiettore prospera quando viene cercato per la sua competenza, quando i clienti lo riconoscono come guida. Questo significa che l'investimento in visibilità qualitativa (un articolo che dimostra competenza, un caso studio approfondito, una presenza professionale che comunica autorevolezza) ha un ritorno molto più alto del marketing di massa che funziona per i Generatori.
 
-La [carta Human Design gratuita](/genera-carta) ti dice se sei un Proiettore e mostra la tua Autorità Interiore, cioè come il tuo corpo prende le decisioni migliori su quali clienti accettare e quali progetti seguire. Per chi vuole un'analisi completa della propria meccanica professionale, la sessione individuale mappa l'intero Design di Carriera: tipo energetico, canali di talento, centri aperti dove assorbi pressioni dall'esterno, e la strategia specifica per posizionarti nel mercato senza esaurirti.
+La [carta Human Design gratuita](/calcolo-human-design) ti dice se sei un Proiettore e mostra la tua Autorità Interiore, cioè come il tuo corpo prende le decisioni migliori su quali clienti accettare e quali progetti seguire. Per chi vuole un'analisi completa della propria meccanica professionale, la sessione individuale mappa l'intero Design di Carriera: tipo energetico, canali di talento, centri aperti dove assorbi pressioni dall'esterno, e la strategia specifica per posizionarti nel mercato senza esaurirti.

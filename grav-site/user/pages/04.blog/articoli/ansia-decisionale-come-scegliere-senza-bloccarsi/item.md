@@ -26,7 +26,7 @@ faq:
         answer: "L'ansia decisionale cronica può avere componenti psicologiche, ma nel sistema Human Design ha anche una spiegazione meccanica. Chi ha Autorità Emozionale (il 50% della popolazione) è biologicamente progettato per decidere con lentezza, e l'ansia emerge quando questa persona viene forzata a decidere in fretta. Non è un difetto: è il sistema che chiede il tempo di cui ha bisogno."
     -
         question: "Come faccio a sapere se ho Autorità Emozionale?"
-        answer: "L'Autorità Emozionale corrisponde al Plesso Solare (centro emozionale) definito nella carta Human Design. Si calcola dalla data, ora e luogo di nascita. Puoi verificarlo gratuitamente su valentinarussobg5.com/genera-carta. Se il centro emozionale appare colorato nella tua carta, hai Autorità Emozionale."
+        answer: "L'Autorità Emozionale corrisponde al Plesso Solare (centro emozionale) definito nella carta Human Design. Si calcola dalla data, ora e luogo di nascita. Puoi verificarlo gratuitamente su valentinarussobg5.com/calcolo-human-design. Se il centro emozionale appare colorato nella tua carta, hai Autorità Emozionale."
     -
         question: "Quanto tempo deve aspettare chi ha Autorità Emozionale prima di decidere?"
         answer: "Non esiste un tempo standard: dipende dall'ampiezza dell'onda emotiva individuale e dall'importanza della decisione. Per scelte quotidiane possono bastare ore; per decisioni importanti come un cambio di lavoro o di relazione, possono servire giorni o settimane. Il segnale che l'onda si è stabilizzata è una sensazione di chiarezza che non è né entusiasmo né paura, ma qualcosa di più neutro e fermo."
@@ -65,7 +65,7 @@ Ci sono anche autorità più rare (Autorità del Sé, Autorità Mentale proietta
 
 ## Come riconoscere la tua Autorità e smettere di bloccarti?
 
-Il primo passo è calcolare la tua [carta Human Design gratuita](/genera-carta), che mostra quale Autorità Interiore hai. Una volta che lo sai, il protocollo decisionale diventa specifico: se hai Autorità Emozionale, ti dai il permesso di aspettare senza sentirti in colpa per la lentezza; se hai Autorità Sacrale, impari a fidarti della prima risposta del corpo anche quando la mente la contraddice; se hai Autorità Splenica, sviluppi l'attenzione per quel segnale sottile che arriva una volta sola.
+Il primo passo è calcolare la tua [carta Human Design gratuita](/calcolo-human-design), che mostra quale Autorità Interiore hai. Una volta che lo sai, il protocollo decisionale diventa specifico: se hai Autorità Emozionale, ti dai il permesso di aspettare senza sentirti in colpa per la lentezza; se hai Autorità Sacrale, impari a fidarti della prima risposta del corpo anche quando la mente la contraddice; se hai Autorità Splenica, sviluppi l'attenzione per quel segnale sottile che arriva una volta sola.
 
 La conseguenza pratica è che l'ansia decisionale smette di essere un problema generico da gestire con tecniche di rilassamento e diventa un segnale specifico che ti dice: stai cercando di decidere dalla mente quando il tuo corpo ha bisogno di qualcosa di diverso. Quel "qualcosa di diverso" è diverso per ogni persona, e conoscerlo cambia radicalmente la qualità delle scelte che fai da quel momento in avanti.
 

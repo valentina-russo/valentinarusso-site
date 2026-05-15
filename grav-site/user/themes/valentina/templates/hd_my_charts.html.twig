@@ -185,7 +185,7 @@ body footer a:hover { color: #fff !important; }
                 <p class="mc-count" id="mc-count"></p>
             </div>
             <div style="display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap;">
-                <a href="{{ grav.base_url }}/genera-carta" style="padding: 0.5rem 1.2rem; background: #FDE8B0; color: #1E3A5F; font-weight: 700; font-size: 0.85rem; border-radius: 50px; text-decoration: none;">+ Nuova Carta</a>
+                <a href="{{ grav.base_url }}/calcolo-human-design" style="padding: 0.5rem 1.2rem; background: #FDE8B0; color: #1E3A5F; font-weight: 700; font-size: 0.85rem; border-radius: 50px; text-decoration: none;">+ Nuova Carta</a>
                 <a href="{{ grav.base_url }}/account" style="font-size: 0.82rem; color: rgba(255,255,255,0.6); text-decoration: underline;">Account</a>
             </div>
         </div>
@@ -195,7 +195,7 @@ body footer a:hover { color: #fff !important; }
         <div id="mc-empty" class="mc-empty" style="display:none;">
             <h3 style="margin-bottom: 1rem;">Nessuna carta salvata</h3>
             <p style="margin-bottom: 1.5rem;">Calcola la tua prima carta Human Design e salvala qui per ritrovarla in qualsiasi momento.</p>
-            <a href="{{ grav.base_url }}/genera-carta" style="padding: 0.65rem 1.5rem; background: #FDE8B0; color: #1E3A5F; font-weight: 700; border-radius: 50px; text-decoration: none;">Calcola la tua Carta</a>
+            <a href="{{ grav.base_url }}/calcolo-human-design" style="padding: 0.65rem 1.5rem; background: #FDE8B0; color: #1E3A5F; font-weight: 700; border-radius: 50px; text-decoration: none;">Calcola la tua Carta</a>
         </div>
 
         <div class="mc-grid" id="mc-grid"></div>
@@ -354,7 +354,7 @@ body footer a:hover { color: #fff !important; }
             if (!j.ok) { msg(j.error || 'Errore nel caricamento.', 'err'); return; }
             // Salva in sessionStorage → carta_hd.html.twig la rileva all'avvio
             sessionStorage.setItem('hd_load_chart', JSON.stringify(j.data));
-            window.location.href = '{{ grav.base_url }}/genera-carta';
+            window.location.href = '{{ grav.base_url }}/calcolo-human-design';
         } catch(e) {
             msg('Errore di rete. Riprova.', 'err');
         }

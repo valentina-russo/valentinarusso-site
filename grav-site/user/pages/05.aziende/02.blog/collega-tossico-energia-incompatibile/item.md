@@ -50,7 +50,7 @@ Due Proiettori che lavorano insieme senza Generatori nel team possono sentirsi e
 
 ## Come gestire queste dinamiche senza cambiare lavoro?
 
-La prima cosa da fare è calcolare la propria carta e, se possibile, quella del collega con cui si ha l'attrito maggiore. La [carta Human Design gratuita](/genera-carta) mostra i centri definiti e aperti di ciascuno, e il confronto rende immediatamente visibile dove avviene l'interferenza.
+La prima cosa da fare è calcolare la propria carta e, se possibile, quella del collega con cui si ha l'attrito maggiore. La [carta Human Design gratuita](/calcolo-human-design) mostra i centri definiti e aperti di ciascuno, e il confronto rende immediatamente visibile dove avviene l'interferenza.
 
 Il secondo passo è la distanza strategica. Non serve cambiare ufficio o evitare il collega: nella maggior parte dei casi basta aumentare la distanza fisica (le aure si indeboliscono oltre i due metri), usare comunicazione asincrona dove possibile (email invece di conversazione faccia a faccia quando la dinamica è particolarmente intensa), e prendersi momenti di solitudine durante la giornata per scaricare l'energia assorbita.
 

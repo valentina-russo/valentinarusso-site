@@ -60,7 +60,7 @@ La posizione effettiva di Alpha One in un team specifico dipende dalla combinazi
 
 ## Come identificare e attivare l'Alpha One nel tuo team?
 
-Il processo inizia calcolando la [carta Human Design gratuita](/genera-carta) di ogni membro del team. La sovrapposizione delle carte rivela la struttura del Penta e identifica chi occupa naturalmente la posizione di Alpha One. Questo dato viene poi confrontato con la struttura organizzativa attuale per verificare l'allineamento.
+Il processo inizia calcolando la [carta Human Design gratuita](/calcolo-human-design) di ogni membro del team. La sovrapposizione delle carte rivela la struttura del Penta e identifica chi occupa naturalmente la posizione di Alpha One. Questo dato viene poi confrontato con la struttura organizzativa attuale per verificare l'allineamento.
 
 Se il manager formale è anche l'Alpha One naturale, il team ha una base solida. Se non lo è, la soluzione pratica è redistribuire le responsabilità: il manager formale mantiene il ruolo operativo e organizzativo, mentre l'Alpha One naturale assume la funzione di direzione strategica del team, formalmente o informalmente. Questa redistribuzione elimina il conflitto strutturale e libera entrambe le figure di operare nella propria zona di competenza.
 

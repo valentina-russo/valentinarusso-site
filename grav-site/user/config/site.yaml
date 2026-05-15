@@ -25,7 +25,9 @@ taxonomies:
 google_verification: "hVvQ2yByWi_wqkv5-CpFa5ifdITtkTIsE1wBWU6WgOQ"
 
 # Redirect 301 — articoli privati spostati da /blog/ a /blog/articoli/
+# + URL /genera-carta → /calcolo-human-design (SEO: keyword nel slug)
 redirects:
+    '/genera-carta':                                        ['/calcolo-human-design', 301]
     '/blog/ansia-human-design-centro-ajna-mente-corpo':   ['/blog/articoli/ansia-human-design-centro-ajna-mente-corpo', 301]
     '/blog/potere-creativo-malinconia':                   ['/blog/articoli/potere-creativo-malinconia', 301]
     '/blog/la-mente-innamorata-3':                        ['/blog/articoli/la-mente-innamorata-3', 301]
