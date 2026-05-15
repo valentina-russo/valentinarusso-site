@@ -1,12 +1,12 @@
 ---
-title: Calcola la tua Carta Human Design Gratis
+title: Calcolo Human Design Gratis — Tipo, Profilo e Autorità
 published: true
 routable: true
 template: genera_carta_beta
 hd_account_enabled: true
-seo_title: "Calcola la Carta Human Design Gratis — Tipo, Profilo, Autorità | Valentina Russo"
-seo_desc: "Calcola gratis la tua carta Human Design e BG5® in pochi secondi. Inserisci data, ora e luogo di nascita: scopri subito Tipo Energetico, Profilo, Autorità interna e Tema di Vita."
-description: "Inserisci data, ora e luogo di nascita per scoprire il tuo Tipo, Profilo, Autorità e Tema di Vita — in pochi secondi."
+seo_title: "Calcolo Human Design Gratis — Tipo, Profilo, Autorità | Valentina Russo"
+seo_desc: "Calcola gratis la tua carta Human Design e BG5®. Inserisci data, ora e luogo di nascita: il calcolo Human Design è immediato e gratuito. Scopri Tipo Energetico, Profilo, Autorità interna e Tema di Vita."
+description: "Inserisci data, ora e luogo di nascita: il calcolo Human Design è gratuito e immediato. Scopri Tipo Energetico, Profilo, Autorità e Tema di Vita in pochi secondi."
 aeo_answer: "Per calcolare la propria carta Human Design servono tre dati: data di nascita, ora esatta (riportata sul certificato di nascita) e luogo di nascita. Il calcolo usa le effemeridi astronomiche per mappare le posizioni planetarie al momento della nascita e circa 88 giorni prima. Il risultato è il bodygraph, che rivela Tipo Energetico, Strategia, Autorità Decisionale, Profilo e i 9 Centri con le 64 Porte attive."
 faq:
     -

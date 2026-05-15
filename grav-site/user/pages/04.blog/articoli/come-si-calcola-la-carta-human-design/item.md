@@ -90,7 +90,7 @@ Una volta calcolata, la carta ti restituisce questi elementi:
 
 ## Come calcolare gratis la tua carta in italiano
 
-Puoi calcolare la tua carta Human Design gratuitamente, senza registrazione, direttamente su questo sito. Lo strumento è disponibile alla pagina [Genera la tua carta](/genera-carta).
+Puoi fare il calcolo Human Design gratuitamente, senza registrazione, direttamente su questo sito. Lo strumento è disponibile alla pagina [Calcolo Human Design gratuito](/genera-carta).
 
 Inserisci data, ora e luogo di nascita. Il sistema restituisce il tuo bodygraph completo con tutti i dati: Tipo, Strategia, Autorità Decisionale, Profilo, centri definiti e aperti, canali e gate attivi, Croce d'Incarnazione. Il calcolo avviene in tempo reale usando effemeridi astronomiche precise.
 
