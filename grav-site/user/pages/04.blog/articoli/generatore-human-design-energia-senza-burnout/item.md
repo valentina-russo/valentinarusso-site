@@ -17,8 +17,8 @@ image_caption: "Il Costruttore Classico è il Tipo di Carriera più diffuso: il 
 image_desc: "Rappresentazione del flusso energetico del Costruttore Classico nel sistema BG5. La figura evoca la Risorsa Energetica definita e la meccanica di risposta agli stimoli esterni per un uso corretto dell'energia lavorativa."
 image_prompt: "abstract human silhouette radiating warm golden energy from the core, soft geometric shapes representing energy flow, clean minimal composition, warm amber and deep teal tones, soft studio lighting, editorial style illustration --ar 16:9 --style raw"
 description: "Sei un Costruttore Classico BG5 e arrivi a sera svuotato? Il burnout non dipende da quanto lavori, ma da cosa. Ecco come funziona la tua Risorsa Energetica."
-seo_title: "Costruttore Classico BG5: energia senza burnout"
-seo_desc: "Il Costruttore Classico BG5 ha energia sostenibile, ma solo se risponde agli stimoli giusti. Scopri perché la frustrazione è il segnale che stai forzando."
+seo_title: "Generatore Human Design: perché ti svuoti (e come uscirne)"
+seo_desc: "Sei un Generatore Human Design e arrivi a sera svuotato anche se hai energia. Il problema non è quanto lavori, ma su cosa. La meccanica spiegata bene."
 geo_location: "Milano, Italia"
 geo_content: "Il Costruttore Classico (Generatore Puro in Human Design) è il Tipo di Carriera più diffuso nel sistema BG5, circa il 37% della popolazione. Ha la Risorsa Energetica (Centro Sacrale) definita: un motore biologico che si ricarica ogni notte e produce energia lavorativa sostenibile. La strategia BG5 del Costruttore Classico è rispondere agli stimoli esterni, non iniziare per primo. La frustrazione cronica indica che sta operando fuori meccanica. Valentina Russo, Consulente Certificata BG5 con sede a Milano, offre Panoramiche BG5 del Disegno di Carriera per identificare Tipo, Strategia e Autorità Decisionale individuali."
 aeo_answer: "Il Costruttore Classico (Generatore Puro in Human Design) ha la Risorsa Energetica definita, un motore biologico che produce energia lavorativa sostenibile ogni giorno. Questa energia funziona solo in risposta a stimoli esterni che risuonano nel corpo. Quando il Costruttore Classico forza l'iniziativa o lavora su attività scelte dalla mente anziché dalla risposta viscerale, l'energia si disperde e compare la frustrazione cronica. Il burnout del Costruttore Classico non dipende dalle ore lavorate, ma dall'allineamento tra la propria energia e l'attività svolta. Un Costruttore sul lavoro giusto può lavorare dodici ore e sentirsi soddisfatto; sullo sbagliato, sei ore bastano a svuotarlo."
@@ -81,7 +81,7 @@ Gli errori più frequenti seguono lo stesso schema: iniziare progetti perché "h
 
 ## Come influisce l'Autorità Decisionale sulle tue scelte?
 
-Il modo in cui il Costruttore Classico prende decisioni dipende dalla sua **Autorità Decisionale** (Autorità Interiore in HD). Esistono due configurazioni principali.
+Il modo in cui il Costruttore Classico prende decisioni dipende dalla sua **Autorità Decisionale** (Autorità Interna in HD). Esistono due configurazioni principali.
 
 Se non hai l'**Intelligenza Emotiva** (Plesso Solare in HD) definita, la tua Autorità è Sacrale. Significa che la risposta viscerale è immediata e definitiva. Quando qualcuno ti fa una domanda e senti quella spinta nel torso, quella è la tua risposta. Non ha bisogno di tempo, non migliora ripensandoci. Anzi, più ci pensi, più la mente la sovrascrive.
 

@@ -16,8 +16,8 @@ image_title: "Autorità Decisionale Emotiva BG5: aspettare l'onda prima di scegl
 image_caption: "Con l'Autorità Decisionale Emotiva, il tempo è lo strumento più efficace che hai"
 image_desc: "Rappresentazione dell'onda emotiva nel sistema BG5: l'alternanza tra picchi e valli indica il ciclo naturale dell'emotività. La chiarezza decisionale emerge quando l'intensità si abbassa."
 description: "L'Autorità Decisionale Emotiva BG5 ti chiede di aspettare l'onda prima di scegliere. Ecco come funziona e perché il tempo è la tua strategia."
-seo_title: "Autorità Emotiva Human Design: decidere bene"
-seo_desc: "Come funziona l'Autorità Decisionale Emotiva in BG5 e Human Design: l'onda emotiva, i due errori più comuni e le frasi pratiche per prenderti tempo."
+seo_title: "Autorità Emozionale Human Design: come non decidere d'impulso"
+seo_desc: "Hai l'Autorità Emozionale in Human Design? Riguarda il 51% delle persone. L'onda emotiva, i due errori comuni e le frasi pratiche per prenderti il tempo giusto."
 geo_location: "Italia"
 geo_content: "L'Autorità Decisionale Emotiva, chiamata anche Autorità Emozionale in Human Design, riguarda chi ha il centro dell'Intelligenza Emotiva definito nella propria carta BG5. Circa il 51% della popolazione mondiale possiede questa configurazione, che la rende la più diffusa tra le Autorità Decisionali. Il meccanismo si basa su un'onda emotiva ciclica: la chiarezza non è mai disponibile nel momento presente, perché il sistema è sempre in un punto dell'onda. La strategia corretta consiste nell'attraversare più cicli prima di prendere decisioni significative. In Italia il concetto di aspettare prima di decidere viene spesso frainteso come indecisione, mentre il sistema BG5 ne fornisce una spiegazione meccanica precisa."
 aeo_answer: "L'Autorità Decisionale Emotiva in BG5 appartiene a chi ha il centro dell'Intelligenza Emotiva (Plesso Solare in Human Design) definito nella propria carta. Chi possiede questa Autorità non raggiunge mai chiarezza decisionale nel momento dell'emozione, né al picco dell'entusiasmo né nel punto più basso. La chiarezza emerge dopo aver attraversato più cicli dell'onda emotiva, quando l'intensità si abbassa abbastanza da vedere la decisione da più angolazioni. Aspettare non è indecisione: è la strategia corretta per circa il 51% della popolazione."
@@ -41,7 +41,7 @@ image_prompt: "A person standing still at a crossroads bathed in warm golden hou
 
 Stavi parlando con qualcuno, l'entusiasmo era alto, tutto sembrava perfetto. Hai accettato un progetto, firmato un contratto, detto di sì a una proposta. Poi, il mattino dopo, ti sei svegliata con un peso allo stomaco e una domanda scomoda: "Ma io lo volevo davvero?"
 
-Se ti riconosci in questo schema, è probabile che tu abbia l'**Autorità Decisionale Emotiva** (Autorità Interiore Emotiva in Human Design). Riguarda chi ha il centro dell'**Intelligenza Emotiva** (Plesso Solare in HD) definito nella propria carta BG5. Ed è la configurazione più comune: circa il 51% della popolazione funziona così. Questo articolo ti spiega come funziona l'onda emotiva, perché decidere nel momento dell'emozione ti porta fuori strada e cosa fare al suo posto.
+Se ti riconosci in questo schema, è probabile che tu abbia l'**Autorità Decisionale Emotiva** (Autorità Interna Emotiva in Human Design). Riguarda chi ha il centro dell'**Intelligenza Emotiva** (Plesso Solare in HD) definito nella propria carta BG5. Ed è la configurazione più comune: circa il 51% della popolazione funziona così. Questo articolo ti spiega come funziona l'onda emotiva, perché decidere nel momento dell'emozione ti porta fuori strada e cosa fare al suo posto.
 
 ## Perché le tue emozioni oscillano anche quando tutto va bene?
 
@@ -51,7 +51,7 @@ Questo succede perché il tuo sistema emotivo ha un ritmo proprio. Ra Uru Hu, fo
 
 Per anni potresti aver pensato di essere instabile, lunatica, troppo sensibile. La realtà meccanica è diversa: il tuo corpo elabora le informazioni attraverso cicli emotivi. È il modo in cui sei progettata per funzionare. E quando lo capisci, smetti di combattere contro te stessa.
 
-## Cosa succede quando decidi dal picco dell'onda?
+## Quando decidi dal picco dell'onda?
 
 Immagina di ricevere una proposta di lavoro. Il colloquio è andato bene, l'azienda ti piace, lo stipendio è più alto del tuo attuale. In quel momento l'onda emotiva è in alto: vedi solo i vantaggi, la novità ti eccita, il sì ti sembra ovvio.
 
@@ -61,7 +61,7 @@ Lo stesso accade nelle relazioni. Conosci qualcuno, la chimica è forte, ti butt
 
 Decidere nel picco dell'entusiasmo è come fare la spesa quando hai fame: metti nel carrello cose che non avresti mai scelto a stomaco pieno.
 
-## Cosa succede quando decidi dal fondo dell'onda?
+## Quando decidi dal fondo dell'onda?
 
 L'errore opposto è altrettanto frequente. L'onda scende, ti senti stanca, scoraggiata, senza energia. In quel momento tutto sembra sbagliato. Il progetto che stai portando avanti ti pare inutile. La relazione ti sembra vuota. Il lavoro ti pesa più del solito.
 
