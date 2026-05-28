@@ -46,6 +46,59 @@
 }
 </script>
 {% endif %}
+{# HowTo — procedura passo-passo per calcolare la carta HD. Aiuta SERP rich results. #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Come calcolare il proprio Human Design gratis",
+  "description": "Procedura per ottenere la tua carta Human Design online in 30 secondi: bodygraph, Tipo, Profilo, Autorità.",
+  "totalTime": "PT30S",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "EUR",
+    "value": "0"
+  },
+  "supply": [
+    { "@type": "HowToSupply", "name": "Data di nascita" },
+    { "@type": "HowToSupply", "name": "Ora di nascita (da certificato integrale)" },
+    { "@type": "HowToSupply", "name": "Luogo di nascita" }
+  ],
+  "tool": [
+    { "@type": "HowToTool", "name": "Calcolatore Human Design gratuito su valentinarussobg5.com" }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "Inserisci la data di nascita",
+      "text": "Inserisci giorno, mese e anno di nascita nel form del calcolatore Human Design. Questi dati determinano la posizione del Sole e dei pianeti lenti (Saturno, Giove, Urano) al momento della tua nascita.",
+      "url": "{{ grav.base_url_absolute }}/calcolo-human-design#step-data"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "Inserisci l'ora esatta di nascita",
+      "text": "L'ora è il dato più critico per il calcolo Human Design. Pochi minuti di differenza possono cambiare il Profilo, l'Autorità Decisionale o spostare una Porta da un Centro all'altro. Usa l'ora del certificato di nascita integrale.",
+      "url": "{{ grav.base_url_absolute }}/calcolo-human-design#step-ora"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "Inserisci il luogo di nascita",
+      "text": "Digita la città di nascita. Il calcolatore Human Design usa il fuso orario corretto e le coordinate geografiche per calcolare gli archi orari precisi delle effemeridi svizzere.",
+      "url": "{{ grav.base_url_absolute }}/calcolo-human-design#step-luogo"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 4,
+      "name": "Visualizza il tuo bodygraph",
+      "text": "Il calcolo Human Design produce in meno di 30 secondi il tuo bodygraph completo: Tipo Energetico, Strategia, Autorità Decisionale, Profilo, Definizione, Croce di Incarnazione, 9 Centri e 64 Porte attive. Scaricalo in PDF.",
+      "url": "{{ grav.base_url_absolute }}/calcolo-human-design#step-risultato"
+    }
+  ]
+}
+</script>
 {% endblock %}
 
 {% block extra_css %}

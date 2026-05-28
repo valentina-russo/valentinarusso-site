@@ -52,8 +52,10 @@ grav-site/user/pages/*
 !grav-site/user/pages/workshop-proposta
 # Eccezione: tool HD Relazionale (pagina + template deployati via FTP)
 !grav-site/user/pages/hd-relazionale
-# Eccezione: calcolatore Carta Human Design — ora su /genera-carta (pagina + template deployati via FTP)
+# Eccezione: calcolatore Carta Human Design — ora su /calcolo-human-design (pagina + template deployati via FTP)
+# Storico nomi: 09.genera-carta (legacy, mantenuto per fallback if any reference) → 09.calcolo-human-design (corrente, dopo rename SEO 05/2026)
 !grav-site/user/pages/09.genera-carta
+!grav-site/user/pages/09.calcolo-human-design
 !grav-site/user/pages/carta-hd
 # Eccezione: HD Account System — pagine account e carte
 !grav-site/user/pages/22.account
@@ -155,3 +157,8 @@ tools/yt-shorts/studio_after_save.png
 tools/yt-shorts/studio_error.png
 tools/yt-shorts/studio_session.json
 tools/yt-shorts/cover-previews/
+
+# MCP config con secret (browser-control-mcp Firefox)
+.mcp.json
+.browser-control-mcp/
+.pw-firefox-profile-valentina/
