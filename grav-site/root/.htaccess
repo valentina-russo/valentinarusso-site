@@ -58,6 +58,14 @@ AddCharset UTF-8 .txt .md .json .xml
     ## Pagina /links → file statico links.html (Linktree-style, fuori da Grav)
     RewriteRule ^links/?$ /links.html [L]
 
+    ## /blog/{slug} → /blog/articoli/{slug} (301)
+    ## Gli articoli "nuovi" vivono in pages/04.blog/articoli/, ma Google indicizza /blog/{slug}.
+    ## Senza questa redirect Grav crasha (500). Escludiamo i 7 articoli "legacy" che invece
+    ## sono in pages/04.blog/{slug}/ direttamente (raggiungibili al path corto).
+    RewriteCond %{REQUEST_URI} !^/blog/articoli/
+    RewriteCond %{REQUEST_URI} !^/blog/(esplosioni-emotive|relazioni-bisogni-emotivi|la-mente-innamorata-[123]|potere-creativo-malinconia|ansia-human-design-centro-ajna-mente-corpo)/?$ [NC]
+    RewriteRule ^blog/([^/]+)/?$ /blog/articoli/$1 [R=301,L]
+
     ## Blocca accesso a file sensibili (non system/assets né themes/plugins — contengono CSS/JS)
     RewriteRule ^(\.git|cache|bin|logs|backup|vendor|webserver-configs)(/|$) [F,L]
     RewriteRule ^user/(config|data|accounts)(/|$) [F,L]
