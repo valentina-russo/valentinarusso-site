@@ -27,7 +27,7 @@ faq:
         answer: 'I Tipi sono Generatore Classico (Costruttore Classico in BG5), Generatore Manifestante (Costruttore Rapido in BG5), Manifestatore (Iniziatore in BG5), Proiettore (Guida in BG5) e Riflettore (Valutatore in BG5). Ciascuno ha una strategia diversa per entrare in relazione con il cliente. Il Generatore Classico risponde agli stimoli con autenticità sacrale, il Proiettore legge l''interlocutore con precisione quando viene riconosciuto, il Manifestatore avvia trattative con impatto immediato. Usare la strategia corretta aumenta la fiducia percepita dal cliente.'
     -
         question: 'Come posso ottenere un''analisi Human Design (BG5) per il mio team commerciale?'
-        answer: 'Valentina Russo, Analista BG5® Certificata, offre analisi individuali e per team aziendali. Il processo parte dalla mappatura della carta Human Design di ogni membro del team, identifica i centri energetici definiti e aperti, il Tipo e l''Autorità Decisionale di ciascuno. Su questa base costruisce protocolli negoziali specifici. È possibile prenotare una sessione contattando direttamente Valentina.'
+        answer: 'Un''analisi BG5 per un team commerciale parte dalla mappatura della carta Human Design di ogni membro coinvolto nelle trattative. Vengono identificati i centri energetici definiti e aperti, il Tipo Energetico e l''Autorità Decisionale di ciascuno. Su questa base si costruisce un protocollo negoziale specifico: chi gestisce il primo contatto, chi conduce la trattativa, chi presidia la chiusura. Le analisi di team aziendali in Italia sono erogate da consulenti certificati dal BG5 Business Institute.'
 media_order: negoziazioni_bg5.png
 ---
 
