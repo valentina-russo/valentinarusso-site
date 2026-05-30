@@ -111,6 +111,8 @@ grav-site/user/pages/05.aziende/02.blog/*
 !grav-site/user/pages/05.aziende/02.blog/cambio-carriera-40-anni-lavoro-giusto
 !grav-site/user/pages/05.aziende/02.blog/freelance-sempre-stanco-energia-proiettore
 !grav-site/user/pages/05.aziende/02.blog/farsi-valere-lavoro-senza-forzare
+!grav-site/user/pages/05.aziende/02.blog/iniziatori-business-remoto-modello-classico-fallisce
+!grav-site/user/pages/05.aziende/02.blog/bodygraph-human-design-negoziazioni-aziendali-sales
 # Eccezione: assets statici (foto, logo) — deployati via FTP
 !grav-site/user/pages/assets
 !grav-site/user/pages/assets/**

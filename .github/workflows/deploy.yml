@@ -266,6 +266,26 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/bg5-partnership-scegliere-socio/
           dangerous-clean-slate: false
 
+      - name: Deploy articolo iniziatori-business-remoto
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/iniziatori-business-remoto-modello-classico-fallisce/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/iniziatori-business-remoto-modello-classico-fallisce/
+          dangerous-clean-slate: false
+
+      - name: Deploy articolo bodygraph-negoziazioni-aziendali
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/bodygraph-human-design-negoziazioni-aziendali-sales/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/bodygraph-human-design-negoziazioni-aziendali-sales/
+          dangerous-clean-slate: false
+
       - name: Deploy articolo team-non-funziona
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
