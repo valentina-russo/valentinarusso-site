@@ -6,6 +6,67 @@
 <link rel="stylesheet" href="{{ theme_url }}/css/hero-aziende.css?v=20260311">
 {% endblock %}
 
+{% block schema %}
+{{ parent() }}
+{# ProfessionalService — Valentina Russo BG5® Consultant #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Consulenza BG5® per Aziende — Valentina Russo",
+  "description": "Consulenza Human Design applicata al business con metodologia BG5®. Selezione personale, team engineering, leadership, partnership aziendali e Career Success Code.",
+  "url": "{{ grav.base_url_absolute }}/aziende",
+  "image": "{{ grav.base_url_absolute }}/user/pages/assets/valentina-aziende-hero2.png",
+  "areaServed": {
+    "@type": "Country",
+    "name": "Italia"
+  },
+  "provider": {
+    "@type": "Person",
+    "name": "Valentina Russo",
+    "jobTitle": "Consulente Certificata BG5® Career & Business Professional",
+    "url": "{{ grav.base_url_absolute }}/chi-sono",
+    "sameAs": [
+      "https://www.instagram.com/valentinarussobg5/",
+      "https://bg5businessinstitute.com/professionals?id=399d41b3-612b-48d1-88b9-7bc26ed71418"
+    ]
+  },
+  "serviceType": "Business consulting based on Human Design and BG5® methodology",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Servizi BG5® Aziende",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Panoramica BG5 per Founder e Manager", "description": "Analisi individuale del Career Success Code per leader e decisori chiave." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "BG5 Selezione Personale", "description": "Analisi dei candidati in fase di assunzione per ruoli chiave." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Penta Analysis Team", "description": "Analisi della meccanica energetica di team da 5 persone." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Partnership Analysis", "description": "Compatibilità BG5 tra soci aziendali prima del patto parasociale." } }
+    ]
+  }
+}
+</script>
+{# FAQPage — domande BG5 business #}
+{% if page.header.faq is iterable and page.header.faq|length > 0 %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for faq in page.header.faq %}
+    {
+      "@type": "Question",
+      "name": {{ faq.question|json_encode|raw }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ faq.answer|json_encode|raw }}
+      }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+{% endblock %}
+
 {% block content %}
 <main>
     <!-- NEW HERO V2 AZIENDE -->
@@ -89,6 +150,112 @@
             </div>
         </div>
     </section>
+
+    <!-- ── ESPLORA GLI ARTICOLI PER RUOLO — internal linking SEO ai 24 articoli aziende ── -->
+    <section class="section-padding aziende-resources" style="background: linear-gradient(180deg, var(--cream, #FAF7F5) 0%, rgba(196,138,58,0.04) 100%);">
+        <div class="container">
+            <div class="text-center" style="max-width: 720px; margin: 0 auto var(--space-lg);">
+                <p class="eyebrow" style="color: var(--primary-color); letter-spacing: 0.12em; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">Approfondimenti</p>
+                <h2 data-animate style="font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 1rem; color: var(--primary-color);">Esplora il BG5® per il tuo ruolo</h2>
+                <p data-animate style="color: var(--text-muted, #555); font-size: 1.02rem; line-height: 1.6;">24 articoli pratici di Human Design applicato al business. Scegli il cluster più rilevante per il tuo contesto.</p>
+            </div>
+
+            <div class="cluster-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; max-width: 1180px; margin: 0 auto;">
+
+                <!-- Cluster 1: Selezione & HR -->
+                <div class="cluster" data-animate style="background: #fff; padding: 1.75rem 1.5rem; border-radius: 14px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 2px 12px rgba(30,20,60,0.06);">
+                    <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; color: var(--accent-color, #C48A3A); text-transform: uppercase; margin: 0 0 0.5rem;">HR e Recruiting</p>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--primary-color); margin: 0 0 1rem;">Selezione personale</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.92rem; line-height: 1.65;">
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/bg5-selezione-personale-assumere-design" style="color: #333; text-decoration: none;">→ Come selezionare con il BG5</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/assumere-persona-sbagliata-selezione-design" style="color: #333; text-decoration: none;">→ Hai assunto la persona sbagliata?</a></li>
+                    </ul>
+                </div>
+
+                <!-- Cluster 2: Leadership & Founder -->
+                <div class="cluster" data-animate style="background: #fff; padding: 1.75rem 1.5rem; border-radius: 14px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 2px 12px rgba(30,20,60,0.06);">
+                    <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; color: var(--accent-color, #C48A3A); text-transform: uppercase; margin: 0 0 0.5rem;">Founder e C-Level</p>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--primary-color); margin: 0 0 1rem;">Leadership autentica</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.92rem; line-height: 1.65;">
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/leadership-naturale-chi-guida-davvero" style="color: #333; text-decoration: none;">→ Leadership naturale: chi guida davvero</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/human-design-azienda-team-leadership" style="color: #333; text-decoration: none;">→ Guida per manager BG5</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/profilo-1-3-fallimenti-costruiscono-autorita-professionale" style="color: #333; text-decoration: none;">→ Profilo 1/3: autorità da fallimenti</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/profilo-4-6-rete-fiducia-asset-carriera" style="color: #333; text-decoration: none;">→ Profilo 4/6: rete di fiducia</a></li>
+                    </ul>
+                </div>
+
+                <!-- Cluster 3: Team & Performance -->
+                <div class="cluster" data-animate style="background: #fff; padding: 1.75rem 1.5rem; border-radius: 14px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 2px 12px rgba(30,20,60,0.06);">
+                    <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; color: var(--accent-color, #C48A3A); text-transform: uppercase; margin: 0 0 0.5rem;">Team Manager</p>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--primary-color); margin: 0 0 1rem;">Team e produttività</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.92rem; line-height: 1.65;">
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/team-non-funziona-dinamiche-gruppo" style="color: #333; text-decoration: none;">→ Team non funziona: cause invisibili</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/centri-motore-scadenze-bg5-produttivita-team" style="color: #333; text-decoration: none;">→ Centri Motore: team perde scadenze</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/potere-del-penta" style="color: #333; text-decoration: none;">→ Penta: ingegneria dei team</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/collega-tossico-energia-incompatibile" style="color: #333; text-decoration: none;">→ Collega tossico o incompatibile?</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/relazione-ti-svuota-energia-compatibilita" style="color: #333; text-decoration: none;">→ Relazione lavorativa che ti svuota</a></li>
+                    </ul>
+                </div>
+
+                <!-- Cluster 4: Carriera, Burnout, Freelance -->
+                <div class="cluster" data-animate style="background: #fff; padding: 1.75rem 1.5rem; border-radius: 14px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 2px 12px rgba(30,20,60,0.06);">
+                    <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; color: var(--accent-color, #C48A3A); text-transform: uppercase; margin: 0 0 0.5rem;">Professionisti e Freelance</p>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--primary-color); margin: 0 0 1rem;">Carriera e burnout</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.92rem; line-height: 1.65;">
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/burnout-lavoro-energia-tipo-energetico" style="color: #333; text-decoration: none;">→ Burnout: riposare non basta</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/cambio-carriera-40-anni-lavoro-giusto" style="color: #333; text-decoration: none;">→ Cambio carriera dopo i 40</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/freelance-sempre-stanco-energia-proiettore" style="color: #333; text-decoration: none;">→ Freelance sempre stanco</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/farsi-valere-lavoro-senza-forzare" style="color: #333; text-decoration: none;">→ Farsi valere senza forzare</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/costruttori-burn-out-imitare-iniziatore-strategia-bg5" style="color: #333; text-decoration: none;">→ Generatore: burnout da strategia sbagliata</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/iniziatori-business-remoto-modello-classico-fallisce" style="color: #333; text-decoration: none;">→ Manifestatore: business da remoto</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/gola-indefinita-silenzio-vantaggio-strategico" style="color: #333; text-decoration: none;">→ Gola Indefinita: il silenzio strategico</a></li>
+                    </ul>
+                </div>
+
+                <!-- Cluster 5: Partnership & Strategia -->
+                <div class="cluster" data-animate style="background: #fff; padding: 1.75rem 1.5rem; border-radius: 14px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 2px 12px rgba(30,20,60,0.06);">
+                    <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; color: var(--accent-color, #C48A3A); text-transform: uppercase; margin: 0 0 0.5rem;">Soci e Business Owner</p>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--primary-color); margin: 0 0 1rem;">Partnership e strategia</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.92rem; line-height: 1.65;">
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/bg5-partnership-scegliere-socio" style="color: #333; text-decoration: none;">→ Scegliere il socio giusto</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/partnership-aziendali-conflitto-projector-manifestor" style="color: #333; text-decoration: none;">→ Conflitti Proiettore + Manifestatore</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/bodygraph-human-design-negoziazioni-aziendali-sales" style="color: #333; text-decoration: none;">→ Negoziazioni e sales</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/bg5-attirare-clienti-ideali-coerenza-personal-brand" style="color: #333; text-decoration: none;">→ Attirare clienti ideali</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/potenziale-profitto-bg5-career-success-code" style="color: #333; text-decoration: none;">→ Career Success Code: profitto autentico</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ grav.base_url }}/aziende/blog/bg5-transizione-2027-preparare-azienda-cambio-ciclico" style="color: #333; text-decoration: none;">→ Transizione 2027: preparare l'azienda</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="text-center" style="margin-top: 3rem;">
+                <a href="{{ grav.base_url }}/aziende/blog" style="color: var(--primary-color); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--primary-color); padding-bottom: 2px;">Vedi tutti i 24 articoli del blog aziende →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── FAQ visibile per UX (oltre schema FAQPage) ── -->
+    {% if page.header.faq is iterable and page.header.faq|length > 0 %}
+    <section class="section-padding aziende-faq" style="background: var(--cream, #FAF7F5);">
+        <div class="container" style="max-width: 880px;">
+            <div class="text-center" style="margin-bottom: var(--space-lg);">
+                <p class="eyebrow" style="color: var(--primary-color); letter-spacing: 0.12em; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">Domande Frequenti</p>
+                <h2 data-animate style="font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--primary-color); margin-bottom: 0.5rem;">BG5® per il business: quello che ti chiedi</h2>
+            </div>
+            <div class="faq-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                {% for faq in page.header.faq %}
+                <details data-animate style="background: #fff; border-radius: 12px; border: 1px solid rgba(0,0,0,0.06); padding: 1.15rem 1.5rem; transition: box-shadow 0.18s ease;">
+                    <summary style="font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--primary-color); font-weight: 600; cursor: pointer; list-style: none; position: relative; padding-right: 2rem;">
+                        {{ faq.question }}
+                        <span style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 1.4rem; line-height: 1;">+</span>
+                    </summary>
+                    <p style="margin: 1rem 0 0; color: var(--text-muted, #555); font-size: 0.95rem; line-height: 1.65;">{{ faq.answer }}</p>
+                </details>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
 
     <!-- CTA Section -->
     <section class="section-padding text-center hero-cta-band" style="color: var(--white); margin-top: 0;">

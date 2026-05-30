@@ -96,6 +96,7 @@ grav-site/user/pages/04.blog/articoli/*
 # Eccezioni: nuovi articoli bozza aziende (deployati via FTP)
 !grav-site/user/pages/05.aziende
 grav-site/user/pages/05.aziende/*
+!grav-site/user/pages/05.aziende/aziende_home.md
 !grav-site/user/pages/05.aziende/02.blog
 grav-site/user/pages/05.aziende/02.blog/*
 !grav-site/user/pages/05.aziende/02.blog/bg5-selezione-personale-assumere-design
