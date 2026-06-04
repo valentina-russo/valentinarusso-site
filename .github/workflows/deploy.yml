@@ -286,6 +286,16 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/bodygraph-human-design-negoziazioni-aziendali-sales/
           dangerous-clean-slate: false
 
+      - name: Deploy articolo potere-del-penta (riscritto da 30 → 1700 parole 01/06)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/potere-del-penta/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/potere-del-penta/
+          dangerous-clean-slate: false
+
       - name: Deploy articolo team-non-funziona
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:

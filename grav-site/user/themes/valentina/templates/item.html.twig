@@ -226,6 +226,38 @@
             {% endif %}
         </div>
 
+        {# Continua a leggere — internal linking per articoli aziende #}
+        {% if is_corporate %}
+        {% set related = [] %}
+        {% for child in page.parent.children %}
+            {% if child.published and child.id != page.id and child.header.published is not same as(false) and related|length < 4 %}
+                {% set related = related|merge([child]) %}
+            {% endif %}
+        {% endfor %}
+        {% if related|length > 0 %}
+        <section class="related-articles" style="margin-top: 3.5rem;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <p style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; color: var(--corp-primary); text-transform: uppercase; margin: 0 0 0.5rem;">Approfondisci</p>
+                <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.4rem, 2.5vw, 1.8rem); color: var(--corp-primary); margin: 0;">Continua a leggere</h3>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem;">
+                {% for r in related %}
+                <a href="{{ r.url }}" style="display: flex; flex-direction: column; padding: 1.35rem 1.5rem; background: #fff; border: 1px solid rgba(30,58,95,0.1); border-radius: 12px; text-decoration: none; color: inherit; transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;" onmouseover="this.style.borderColor='var(--corp-primary)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(30,58,95,0.10)';" onmouseout="this.style.borderColor='rgba(30,58,95,0.1)';this.style.transform='translateY(0)';this.style.boxShadow='none';">
+                    <h4 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.05rem; line-height: 1.3; color: var(--corp-primary); margin: 0 0 0.5rem; font-weight: 600;">{{ r.title }}</h4>
+                    {% if r.header.description %}
+                    <p style="font-size: 0.88rem; line-height: 1.55; color: #555; margin: 0;">{{ r.header.description|truncate(120, true, '…') }}</p>
+                    {% endif %}
+                    <span style="margin-top: auto; padding-top: 0.75rem; font-size: 0.78rem; font-weight: 600; color: var(--corp-primary); letter-spacing: 0.02em;">Leggi articolo →</span>
+                </a>
+                {% endfor %}
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="{{ grav.base_url }}/aziende/blog" style="color: var(--corp-primary); text-decoration: none; font-weight: 600; font-size: 0.92rem; border-bottom: 1px solid var(--corp-primary); padding-bottom: 2px;">Vedi tutti gli articoli aziende →</a>
+            </div>
+        </section>
+        {% endif %}
+        {% endif %}
+
         {# Link location — SEO interno, presente solo sugli articoli privati #}
         {% if not is_corporate %}
         <div style="margin-top: 2.5rem; padding: 1.5rem 2rem; background: #faf8f6; border-radius: 12px; border: 1px solid #ece8e3; text-align: center;">
