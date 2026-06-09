@@ -113,6 +113,16 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/generatore-human-design-energia-senza-burnout/
           dangerous-clean-slate: false
 
+      - name: Deploy articolo 4-tipi-human-design-quale-sei (A4 nuovo 09/06 — entry point funnel calcolatore)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/04.blog/articoli/4-tipi-human-design-quale-sei/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/4-tipi-human-design-quale-sei/
+          dangerous-clean-slate: false
+
       - name: Deploy articolo proiettore-human-design
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
