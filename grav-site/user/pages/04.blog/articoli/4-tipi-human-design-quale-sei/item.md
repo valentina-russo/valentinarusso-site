@@ -116,7 +116,7 @@ L'unico modo per stabilire il tipo con certezza è calcolare la carta. Il tipo s
 
 **Servono tre dati: data di nascita, ora esatta, luogo di nascita.** L'ora è il dato più critico (anche pochi minuti possono cambiare il tipo). Cercala sul certificato di nascita integrale, non sulla memoria familiare.
 
-→ [Calcola la tua carta Human Design gratis, in 30 secondi](/calcolo-human-design)
+→ [Calcolo Human Design gratis: la tua carta in 30 secondi](/calcolo-human-design)
 
 ## Cosa fare dopo aver scoperto il tuo tipo
 
