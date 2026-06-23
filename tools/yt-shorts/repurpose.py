@@ -32,9 +32,12 @@ load_dotenv(HERE / ".env")
 
 OUT_ROOT = Path(os.environ.get("YT_SHORTS_OUT_ROOT", "D:/Download/yt-shorts"))
 COVER_TEMPLATE = os.environ.get("COVER_TEMPLATE", "6-photo-bottom-dark")
-COVER_PHOTO = os.environ.get("COVER_PHOTO", "square")
+COVER_PHOTO = os.environ.get("COVER_PHOTO", "pool")  # "pool" = rotazione selfie da photo_pool.py
 WATERMARK = os.environ.get("WATERMARK_TEXT", "@valentinarussobg5")
 DEFAULT_PRIVACY = os.environ.get("DEFAULT_PRIVACY", "unlisted")
+# CTA finale bruciata negli ultimi ~4s dello Short (punta al commento pinnato col link
+# al video intero). Disattivabile con YT_SHORT_CTA="" .
+SHORT_CTA = os.environ.get("YT_SHORT_CTA", "VIDEO COMPLETO QUI SOTTO") or None
 
 
 def _slugify(s: str) -> str:
@@ -144,9 +147,16 @@ def select_segment_step(transcript_full, args, work_dir: Path):
     return seg
 
 
-def write_segment_srt(transcript_full, seg, work_dir: Path) -> Path:
+def write_segment_srt(transcript_full, seg, work_dir: Path,
+                       pre_padding_s: float = 1.0) -> Path:
     """
-    Build subtitles for the chosen segment, rebased to t=0.
+    Build subtitles for the chosen segment, rebased to t=0 + pre_padding_s.
+
+    pre_padding_s: secondi di respiro audio aggiunti PRIMA del segmento da
+    render_video.render() (regola universale Valentina = 1.0s). I subtitoli
+    devono partire a t=pre_padding_s nel video finale per restare allineati
+    al parlato. Se pre_padding_s non combacia con silence_padding_s di
+    render(), i sottotitoli risulteranno disallineati.
 
     Writes:
       - subtitles.srt          (human-readable, for debug)
@@ -161,8 +171,8 @@ def write_segment_srt(transcript_full, seg, work_dir: Path) -> Path:
         if w.start >= seg.start_s and w.end <= seg.end_s:
             seg_words.append(WordTimestamp(
                 word=w.word,
-                start=w.start - seg.start_s,
-                end=w.end - seg.start_s,
+                start=w.start - seg.start_s + pre_padding_s,
+                end=w.end - seg.start_s + pre_padding_s,
             ))
     # SRT for readability
     (work_dir / "subtitles.srt").write_text(to_srt(seg_words), encoding="utf-8")
@@ -245,6 +255,7 @@ def render_video_step(source: Path, seg, title: str, srt: Path, work_dir: Path) 
         title=title,
         srt_path=srt,           # ASS karaoke subtitles
         watermark_text=WATERMARK,
+        cta_text=SHORT_CTA,
     )
     return out
 
@@ -395,6 +406,9 @@ def main():
                    help="Conferma pubblicazione automaticamente (no input interattivo)")
     p.add_argument("--resume", action="store_true",
                    help="Salta acquisizione+trascrizione se transcript_full.json esiste già in work_dir")
+    p.add_argument("--enhance-audio", action="store_true",
+                   help="Applica pipeline audio enhancement (WPE + VoiceFixer + broadcast). "
+                        "~4x realtime su CPU. Riproduce qualità podcast simile ad Adobe Podcast Enhance.")
     p.add_argument("--segment-only", action="store_true",
                    help="Ferma dopo acquire+trascrizione+selezione segmento (Phase 1). "
                         "Salva segment_info.json. Poi genera titoli esternamente e riprendi con --resume.")
@@ -477,6 +491,16 @@ def main():
 
     # description
     (work_dir / "description.txt").write_text(pkg.description, encoding="utf-8")
+
+    # Optional audio enhancement (WPE + VoiceFixer + broadcast mastering)
+    if args.enhance_audio:
+        print("[enhance] applico pipeline audio enhancement...")
+        from enhance_audio import enhance as enhance_audio_fn
+        # Backup pre-enhancement, sovrascrive short.mp4 con versione enhanced
+        short_pre_enhance = work_dir / "short_pre_enhance.mp4"
+        short_pre_enhance.unlink(missing_ok=True)
+        short.rename(short_pre_enhance)
+        enhance_audio_fn(short_pre_enhance, short)
 
     if not args.no_publish:
         if is_url:
