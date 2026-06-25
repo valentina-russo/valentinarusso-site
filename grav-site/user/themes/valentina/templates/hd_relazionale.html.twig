@@ -333,6 +333,7 @@
   const loading = document.getElementById('hd-loading');
   const errorBox = document.getElementById('hd-error');
   const resultBox = document.getElementById('hd-result');
+  const formCard = document.querySelector('.hd-form-card');
   const resetBtn = document.getElementById('reset-btn');
   const charCount = document.getElementById('char-count');
   const textarea = document.getElementById('problema');
@@ -429,8 +430,8 @@
     document.getElementById('card-diagnosi').style.display = diagnosi ? 'block' : 'none';
     document.getElementById('card-upsell').style.display = upsell ? 'block' : 'none';
 
-    // Nascondi il form, mostra solo i risultati
-    form.style.display = 'none';
+    // Nascondi l'intera card del form (non solo il form), così non resta una scatola bianca vuota
+    formCard.style.display = 'none';
 
     resultBox.style.display = 'block';
     requestAnimationFrame(() => resultBox.classList.add('visible'));
@@ -442,7 +443,7 @@
     resultBox.classList.remove('visible');
     resultBox.style.display = 'none';
     form.reset();
-    form.style.display = 'block';
+    formCard.style.display = 'block';
     charCount.textContent = '0';
     document.querySelector('.hd-form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });

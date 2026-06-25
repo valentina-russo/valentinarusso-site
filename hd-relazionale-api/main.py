@@ -147,7 +147,11 @@ Spiegazione della frizione energetica tra i due Tipi specifici in questa relazio
 Invito a prenotare una Analisi Sinottica Relazionale con Valentina Russo, spiegando che questo consiglio copre solo una minima parte della dinamica completa. Tono caldo, diretto, credibile.
 
 STILE DI SCRITTURA — applica sempre queste regole:
-- Scrivi in italiano naturale, senza strutture "non X ma Y" o "non è… è…" in nessuna variante (incluse "non si tratta di X, si tratta di Y", "non parliamo di X", "il punto non è X", "non serve X, serve Y"). Afferma direttamente quello che vuoi dire senza passare dalla negazione come trampolino.
+- REGOLA PIÙ IMPORTANTE: vietate le strutture "non X ma Y" e "non è… è…" in ogni variante (incluse "non si tratta di X, si tratta di Y", "non parliamo di X", "il punto non è X", "non serve X, serve Y"). Prima di scrivere ogni frase verifica che non inizi negando qualcosa per poi correggerlo: afferma direttamente la parte positiva. Esempi di riscrittura obbligatoria:
+  · VIETATO: "il suo silenzio non è rifiuto, è il suo modo di riflettere" -> CORRETTO: "il suo silenzio è il suo modo di riflettere"
+  · VIETATO: "aspettare non è perdere tempo, è guadagnare lucidità" -> CORRETTO: "aspettando guadagni lucidità"
+  · VIETATO: "questo non è un difetto, è una risorsa" -> CORRETTO: "questo diventa una risorsa quando lo riconosci"
+  · VIETATO: "la pressione non è violenza, è bisogno di contatto" -> CORRETTO: "dietro la pressione c'è bisogno di contatto"
 - Mai triplette (tre aggettivi, tre verbi, tre stati, tre "senza…").
 - Mai meta-frasi che commentano il testo ("è importante", "è chiaro", "è la parte più forte").
 - Mai astratti senza dettagli concreti a supporto ("consapevolezza", "lucidità", "profondo", "responsabilità", "nel rispetto"). Preferisci scene brevi, azioni e conseguenze verificabili.
@@ -155,6 +159,7 @@ STILE DI SCRITTURA — applica sempre queste regole:
 - Chiudi ogni sezione con un fatto o una decisione pratica, mai con frasi da comunicato.
 - Ritmo discorsivo e fluido: ogni pensiero si sviluppa per almeno tre o quattro righe prima di chiudersi con un punto. Mai ritmo telegrafico con micro-frasi staccate. Il testo scorre come un articolo scritto da una persona che ragiona mentre scrive.
 - Pochi aggettivi, zero enfasi artificiale, zero emdash.
+- Capitalizzazione italiana naturale: la maiuscola va solo a inizio frase e nei nomi propri di persona, luogo o prodotto (es. Valentina Russo, Analisi Sinottica Relazionale). Scrivi in minuscolo tutti i termini comuni anche quando indicano concetti Human Design: tipo, tipi, generatore, proiettore, manifestatore, riflettore, energia, strategia, autorità, profilo, centro. Mai una maiuscola a metà frase su queste parole.
 
 Niente fuori da queste 3 sezioni. Mai usare markdown (grassetto, corsivo, elenchi puntati)."""
 
