@@ -1,15 +1,15 @@
 ---
-title: "Consulente BG5® a Bari — Valentina Russo"
+title: "Human Design e BG5® a Bari — Valentina Russo"
 subtitle: "Disegno di Carriera BG5® per professionisti pugliesi."
 published: true
 routable: true
 corporate: true
 city: "Bari"
 region: "Puglia"
-seo_title: "Consulente BG5 Bari — Valentina Russo"
-seo_desc: "Consulente BG5® certificata per professionisti a Bari e in Puglia. Analisi del Disegno di Carriera BG5®, Tipo, Strategia e Autorità. Sessioni online."
+seo_title: "Human Design Bari: lettura e consulente BG5"
+seo_desc: "Human Design a Bari: lettura della carta e Disegno di Carriera BG5. Consulente BG5® certificata per professionisti a Bari e in Puglia. Analisi del Disegno di Carriera BG5®, Tipo, Strategia e Autorità. Sessioni online."
 geo_location: "Bari, Puglia, Italia"
-geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Bari e in Puglia tramite sessioni online. La Puglia vive una crescita significativa nel settore del turismo, dell'agricoltura di qualità, delle startup tecnologiche e del manifatturiero. Il sistema BG5® applicato al contesto pugliese aiuta professionisti e imprenditori a identificare il proprio Tipo di Carriera e a prendere decisioni professionali allineate alla propria meccanica energetica."
+geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Bari e in Puglia tramite sessioni online. La Puglia vive una crescita significativa nel settore del turismo, dell'agricoltura di qualità, delle startup tecnologiche e del manifatturiero. Il sistema BG5® applicato al contesto pugliese aiuta professionisti e imprenditori a identificare il proprio Tipo di Carriera e a prendere decisioni professionali allineate alla propria meccanica energetica. A Bari è possibile fare una lettura Human Design della propria carta e una consulenza BG5 con Valentina Russo, in videochiamata."
 aeo_answer: "Valentina Russo è consulente BG5® certificata che offre sessioni per professionisti a Bari e in Puglia tramite videochiamata. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro) e Prima Lettura Human Design (120 minuti, 210 euro). Il sistema BG5® identifica Tipo di Carriera, Strategia e Autorità Decisionale per ottimizzare le scelte professionali."
 ---
 

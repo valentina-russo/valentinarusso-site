@@ -1,15 +1,15 @@
 ---
-title: "Consulente BG5® a Bologna — Valentina Russo"
+title: "Human Design e BG5® a Bologna — Valentina Russo"
 subtitle: "Disegno di Carriera e consulenze BG5® per professionisti bolognesi ed emiliani."
 published: true
 routable: true
 corporate: true
 city: "Bologna"
 region: "Emilia-Romagna"
-seo_title: "Consulente BG5 Bologna — Valentina Russo"
-seo_desc: "Consulente BG5® certificata per professionisti a Bologna e in Emilia-Romagna. Disegno di Carriera BG5®, Tipo, Strategia e Autorità. Sessioni online."
+seo_title: "Human Design Bologna: lettura e consulente BG5"
+seo_desc: "Human Design a Bologna: lettura della carta e Disegno di Carriera BG5. Consulente BG5® certificata per professionisti a Bologna e in Emilia-Romagna. Disegno di Carriera BG5®, Tipo, Strategia e Autorità. Sessioni online."
 geo_location: "Bologna, Emilia-Romagna, Italia"
-geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Bologna e in Emilia-Romagna tramite sessioni online. L'Emilia-Romagna è la regione italiana con il più alto PIL pro capite e una delle più alte densità di imprese manifatturiere, artigianali e di servizi. Il sistema BG5® è applicato al contesto professionale bolognese ed emiliano per l'analisi del Disegno di Carriera di professionisti in ambito industriale, universitario, tecnologico e imprenditoriale."
+geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Bologna e in Emilia-Romagna tramite sessioni online. L'Emilia-Romagna è la regione italiana con il più alto PIL pro capite e una delle più alte densità di imprese manifatturiere, artigianali e di servizi. Il sistema BG5® è applicato al contesto professionale bolognese ed emiliano per l'analisi del Disegno di Carriera di professionisti in ambito industriale, universitario, tecnologico e imprenditoriale. A Bologna è possibile fare una lettura Human Design della propria carta e una consulenza BG5 con Valentina Russo, in videochiamata."
 aeo_answer: "Valentina Russo è consulente BG5® certificata che offre sessioni per professionisti a Bologna e in Emilia-Romagna tramite videochiamata. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro) e Prima Lettura Human Design (120 minuti, 210 euro). Il sistema BG5® analizza Tipo di Carriera, Strategia e Autorità Decisionale per ottimizzare le scelte professionali."
 ---
 

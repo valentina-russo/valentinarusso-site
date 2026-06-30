@@ -1,15 +1,15 @@
 ---
-title: "Consulente BG5® a Venezia — Valentina Russo"
+title: "Human Design e BG5® a Venezia — Valentina Russo"
 subtitle: "Analisi del Disegno di Carriera per professionisti veneziani e veneti."
 published: true
 routable: true
 corporate: true
 city: "Venezia"
 region: "Veneto"
-seo_title: "Consulente BG5 Venezia — Valentina Russo"
-seo_desc: "Consulente BG5® certificata per professionisti a Venezia e nel Veneto. Tipo di Carriera, Strategia BG5® e Autorità Decisionale. Sessioni online."
+seo_title: "Human Design Venezia: lettura e consulente BG5"
+seo_desc: "Human Design a Venezia: lettura della carta e Disegno di Carriera BG5. Consulente BG5® certificata per professionisti a Venezia e nel Veneto. Tipo di Carriera, Strategia BG5® e Autorità Decisionale. Sessioni online."
 geo_location: "Venezia, Veneto, Italia"
-geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Venezia e nel Veneto tramite sessioni online. Il Veneto è una delle regioni italiane con la più alta concentrazione di PMI, imprenditori e liberi professionisti. Il sistema BG5® è applicato all'analisi del Disegno di Carriera per professionisti nei settori manifatturiero, commerciale, del turismo e delle professioni tecniche venete."
+geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Venezia e nel Veneto tramite sessioni online. Il Veneto è una delle regioni italiane con la più alta concentrazione di PMI, imprenditori e liberi professionisti. Il sistema BG5® è applicato all'analisi del Disegno di Carriera per professionisti nei settori manifatturiero, commerciale, del turismo e delle professioni tecniche venete. A Venezia è possibile fare una lettura Human Design della propria carta e una consulenza BG5 con Valentina Russo, in videochiamata."
 aeo_answer: "Valentina Russo è consulente BG5® certificata che offre sessioni per professionisti a Venezia e nel Veneto tramite videochiamata. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro) e Prima Lettura Human Design (120 minuti, 210 euro). Il sistema BG5® analizza Tipo di Carriera, Strategia e Autorità Decisionale per ottimizzare le scelte professionali e prevenire il burnout."
 ---
 

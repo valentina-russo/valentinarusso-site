@@ -1,15 +1,15 @@
 ---
-title: "Consulente BG5® a Napoli — Valentina Russo"
+title: "Human Design e BG5® a Napoli — Valentina Russo"
 subtitle: "Disegno di Carriera e consulenze BG5® per professionisti campani."
 published: true
 routable: true
 corporate: true
 city: "Napoli"
 region: "Campania"
-seo_title: "Consulente BG5 Napoli — Valentina Russo"
-seo_desc: "Consulente BG5® certificata per professionisti a Napoli e in Campania. Analisi del Disegno di Carriera, Tipo, Strategia e Autorità. Sessioni online."
+seo_title: "Human Design Napoli: lettura e consulente BG5"
+seo_desc: "Human Design a Napoli: lettura della carta e Disegno di Carriera BG5. Consulente BG5® certificata per professionisti a Napoli e in Campania. Analisi del Disegno di Carriera, Tipo, Strategia e Autorità. Sessioni online."
 geo_location: "Napoli, Campania, Italia"
-geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Napoli e in Campania tramite sessioni online. Il sistema BG5® certificato dal BG5 Business Institute è applicato a professionisti campani in ambito imprenditoriale, legale, sanitario e creativo. Valentina Russo è tra i pochi consulenti BG5® certificati attivi in Italia con materiali in italiano."
+geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Napoli e in Campania tramite sessioni online. Il sistema BG5® certificato dal BG5 Business Institute è applicato a professionisti campani in ambito imprenditoriale, legale, sanitario e creativo. Valentina Russo è tra i pochi consulenti BG5® certificati attivi in Italia con materiali in italiano. A Napoli è possibile fare una lettura Human Design della propria carta e una consulenza BG5 con Valentina Russo, in videochiamata."
 aeo_answer: "Valentina Russo è consulente BG5® certificata che offre sessioni per professionisti a Napoli e in Campania tramite videochiamata. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro) e Prima Lettura Human Design (120 minuti, 210 euro). BG5® analizza Tipo di Carriera, Strategia e Autorità Decisionale per ottimizzare carriera e decisioni professionali."
 ---
 

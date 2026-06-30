@@ -1,15 +1,15 @@
 ---
-title: "Consulente BG5® a Palermo — Valentina Russo"
+title: "Human Design e BG5® a Palermo — Valentina Russo"
 subtitle: "Analisi del Disegno di Carriera per professionisti siciliani."
 published: true
 routable: true
 corporate: true
 city: "Palermo"
 region: "Sicilia"
-seo_title: "Consulente BG5 Palermo — Valentina Russo"
-seo_desc: "Consulente BG5® certificata per professionisti a Palermo e in Sicilia. Disegno di Carriera BG5®, Tipo di Carriera e Autorità Decisionale. Sessioni online."
+seo_title: "Human Design Palermo: lettura e consulente BG5"
+seo_desc: "Human Design a Palermo: lettura della carta e Disegno di Carriera BG5. Consulente BG5® certificata per professionisti a Palermo e in Sicilia. Disegno di Carriera BG5®, Tipo di Carriera e Autorità Decisionale. Sessioni online."
 geo_location: "Palermo, Sicilia, Italia"
-geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Palermo e in Sicilia tramite sessioni online. La Sicilia ha un tessuto professionale variegato che comprende liberi professionisti, imprenditori nel settore agricolo e agroalimentare, operatori del turismo e professionisti del terziario. Il sistema BG5® aiuta i professionisti siciliani a identificare il proprio Tipo di Carriera e ad allineare le proprie decisioni alla meccanica energetica individuale."
+geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Palermo e in Sicilia tramite sessioni online. La Sicilia ha un tessuto professionale variegato che comprende liberi professionisti, imprenditori nel settore agricolo e agroalimentare, operatori del turismo e professionisti del terziario. Il sistema BG5® aiuta i professionisti siciliani a identificare il proprio Tipo di Carriera e ad allineare le proprie decisioni alla meccanica energetica individuale. A Palermo è possibile fare una lettura Human Design della propria carta e una consulenza BG5 con Valentina Russo, in videochiamata."
 aeo_answer: "Valentina Russo è consulente BG5® certificata che offre sessioni per professionisti a Palermo e in Sicilia tramite videochiamata. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro) e Prima Lettura Human Design (120 minuti, 210 euro). Il sistema BG5® identifica Tipo di Carriera, Strategia e Autorità Decisionale per migliorare le scelte professionali."
 ---
 

@@ -1,15 +1,15 @@
 ---
-title: "Consulente BG5® a Milano — Valentina Russo"
+title: "Human Design e BG5® a Milano — Valentina Russo"
 subtitle: "Disegno di Carriera e consulenze BG5® per professionisti e manager milanesi."
 published: true
 routable: true
 corporate: true
 city: "Milano"
 region: "Lombardia"
-seo_title: "Consulente BG5 Milano — Valentina Russo"
-seo_desc: "Consulente BG5® certificata per professionisti e manager a Milano. Disegno di Carriera BG5®, Tipo Energetico, Strategia e Autorità Decisionale. Sessioni online."
+seo_title: "Human Design Milano: lettura e consulente BG5"
+seo_desc: "Human Design a Milano: lettura della carta e Disegno di Carriera BG5. Consulente BG5® certificata per professionisti e manager a Milano. Disegno di Carriera BG5®, Tipo Energetico, Strategia e Autorità Decisionale. Sessioni online."
 geo_location: "Milano, Lombardia, Italia"
-geo_content: "Valentina Russo è consulente BG5® certificata con base a Milano, specializzata in Disegno di Carriera per professionisti, manager e imprenditori. Milano è il principale hub finanziario, imprenditoriale e professionale d'Italia. Il sistema BG5® applicato al contesto milanese aiuta professionisti nel finance, nel fashion, nel tech, nella consulenza strategica e nelle startup a identificare il proprio Tipo di Carriera e a operare in allineamento con la propria meccanica energetica."
+geo_content: "Valentina Russo è consulente BG5® certificata con base a Milano, specializzata in Disegno di Carriera per professionisti, manager e imprenditori. Milano è il principale hub finanziario, imprenditoriale e professionale d'Italia. Il sistema BG5® applicato al contesto milanese aiuta professionisti nel finance, nel fashion, nel tech, nella consulenza strategica e nelle startup a identificare il proprio Tipo di Carriera e a operare in allineamento con la propria meccanica energetica. A Milano è possibile fare una lettura Human Design della propria carta e una consulenza BG5 con Valentina Russo, in videochiamata."
 aeo_answer: "Valentina Russo è consulente BG5® certificata con base a Milano. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro) e Prima Lettura Human Design (120 minuti, 210 euro). Il sistema BG5® identifica Tipo di Carriera, Strategia e Autorità Decisionale per ottimizzare le scelte professionali di professionisti e manager milanesi."
 ---
 

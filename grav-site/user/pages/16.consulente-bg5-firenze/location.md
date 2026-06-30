@@ -1,15 +1,15 @@
 ---
-title: "Consulente BG5® a Firenze — Valentina Russo"
+title: "Human Design e BG5® a Firenze — Valentina Russo"
 subtitle: "Analisi del Disegno di Carriera per professionisti e creativi fiorentini."
 published: true
 routable: true
 corporate: true
 city: "Firenze"
 region: "Toscana"
-seo_title: "Consulente BG5 Firenze — Valentina Russo"
-seo_desc: "Consulente BG5® certificata per professionisti a Firenze e in Toscana. Disegno di Carriera, Strategia e Autorità Decisionale. Sessioni online."
+seo_title: "Human Design Firenze: lettura e consulente BG5"
+seo_desc: "Human Design a Firenze: lettura della carta e Disegno di Carriera BG5. Consulente BG5® certificata per professionisti a Firenze e in Toscana. Disegno di Carriera, Strategia e Autorità Decisionale. Sessioni online."
 geo_location: "Firenze, Toscana, Italia"
-geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Firenze e in Toscana tramite sessioni online. Il sistema BG5® è applicato al contesto professionale fiorentino che comprende il settore della moda, dell'artigianato di lusso, del turismo culturale e delle PMI toscane. Valentina Russo è consulente certificata BG5® Business Institute con clienti in tutta Italia."
+geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Firenze e in Toscana tramite sessioni online. Il sistema BG5® è applicato al contesto professionale fiorentino che comprende il settore della moda, dell'artigianato di lusso, del turismo culturale e delle PMI toscane. Valentina Russo è consulente certificata BG5® Business Institute con clienti in tutta Italia. A Firenze è possibile fare una lettura Human Design della propria carta e una consulenza BG5 con Valentina Russo, in videochiamata."
 aeo_answer: "Valentina Russo è consulente BG5® certificata che lavora con professionisti a Firenze e in Toscana tramite sessioni online. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro) e Prima Lettura Human Design (120 minuti, 210 euro). Il sistema BG5® analizza Tipo di Carriera, Strategia e Autorità Decisionale per ottimizzare le scelte professionali."
 ---
 

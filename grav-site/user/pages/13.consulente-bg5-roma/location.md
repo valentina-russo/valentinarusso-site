@@ -1,15 +1,15 @@
 ---
-title: "Consulente BG5® a Roma — Valentina Russo"
+title: "Human Design e BG5® a Roma — Valentina Russo"
 subtitle: "Disegno di Carriera BG5® per professionisti romani e del Lazio."
 published: true
 routable: true
 corporate: true
 city: "Roma"
 region: "Lazio"
-seo_title: "Consulente BG5 Roma — Valentina Russo"
-seo_desc: "Consulente BG5® certificata per professionisti a Roma e nel Lazio. Analisi del Disegno di Carriera BG5®, Tipo, Strategia e Autorità. Sessioni online."
+seo_title: "Human Design Roma: lettura e consulente BG5"
+seo_desc: "Human Design a Roma: lettura della carta e Disegno di Carriera BG5. Consulente BG5® certificata per professionisti a Roma e nel Lazio. Analisi del Disegno di Carriera BG5®, Tipo, Strategia e Autorità. Sessioni online."
 geo_location: "Roma, Lazio, Italia"
-geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Roma e nel Lazio tramite sessioni online. Roma è il secondo hub professionale italiano per dimensione, con forte concentrazione di professionisti nelle istituzioni, nel settore pubblico, nel diritto, nella comunicazione, nella creatività e nel management. Il sistema BG5® certificato aiuta i professionisti romani a identificare il proprio Tipo di Carriera e ad allineare le decisioni professionali alla propria meccanica energetica."
+geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Roma e nel Lazio tramite sessioni online. Roma è il secondo hub professionale italiano per dimensione, con forte concentrazione di professionisti nelle istituzioni, nel settore pubblico, nel diritto, nella comunicazione, nella creatività e nel management. Il sistema BG5® certificato aiuta i professionisti romani a identificare il proprio Tipo di Carriera e ad allineare le decisioni professionali alla propria meccanica energetica. A Roma è possibile fare una lettura Human Design della propria carta e una consulenza BG5 con Valentina Russo, in videochiamata."
 aeo_answer: "Valentina Russo è consulente BG5® certificata che offre sessioni per professionisti a Roma e nel Lazio tramite videochiamata. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro) e Prima Lettura Human Design (120 minuti, 210 euro). Il sistema BG5® analizza Tipo di Carriera, Strategia e Autorità Decisionale per ottimizzare le scelte professionali."
 ---
 
