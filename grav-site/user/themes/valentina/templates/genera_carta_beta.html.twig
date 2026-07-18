@@ -388,6 +388,11 @@
   .gcb-forms-couple #cs-calcola-btn,
   .gcb-forms-couple #gcb-calcola-b-btn { display: none !important; }
   .gcb-forms-couple #carta-calculator .csingle-intro { display: none; }
+  /* La section calc-singolo ha un padding inline (3.5rem 0 4rem) pensato per
+     quando e' usata da sola su una pagina dedicata: in modalita' coppia sfalsa
+     la card A rispetto a B, che non ha quel padding. Azzerato per allineare
+     le due card alla stessa altezza. */
+  .gcb-forms-couple #carta-calculator { padding-top: 0 !important; padding-bottom: 0 !important; }
   .gcb-forms-couple #carta-calculator .container { padding: 0 0.35rem !important; }
   .gcb-forms-couple #carta-calculator .carta-form-card { padding: 1.25rem 1rem; }
   .gcb-forms-couple #carta-calculator .cf-row { gap: 0.45rem; }
