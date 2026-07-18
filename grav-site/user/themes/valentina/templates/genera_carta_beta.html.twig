@@ -361,9 +361,18 @@
   /* Hide intro/tips in couple mode */
   .gcb-single-only { transition: opacity 0.25s; }
   .gcb-single-only.gcb-hidden { display: none; }
-  /* Mobile: stack couple forms */
+  /* Mobile: stack couple forms. Una volta impilate a 1 colonna non serve piu'
+     comprimere i campi come nel 2-colonne desktop: si ripristina una dimensione
+     font >=16px (evita lo zoom automatico di iOS Safari al focus input) e un
+     padding piu' comodo per il tocco. */
   @media (max-width: 640px) {
     .gcb-forms-couple { grid-template-columns: 1fr; }
+    .gcb-forms-couple .cf-field input,
+    .gcb-forms-couple .cf-field select,
+    .gcb-forms-couple #carta-calculator .cf-field input,
+    .gcb-forms-couple #carta-calculator .cf-field select { font-size: 16px; padding: 0.7rem 0.9rem; }
+    .gcb-forms-couple .cf-field label,
+    .gcb-forms-couple #carta-calculator .cf-field label { font-size: 0.78rem; }
   }
 
   /* Carousel swipe dots (mobile only) */
