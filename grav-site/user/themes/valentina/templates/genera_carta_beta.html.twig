@@ -1604,7 +1604,7 @@ function renderEmAnalysis(emChannels,dominanzaChannels,compromessoGates,nomeA,no
   el.innerHTML=html;el.style.display='block';
 }
 
-document.addEventListener('keydown',e=>{if(e.key==='Enter'){const ae=document.activeElement;if(ae&&ae.id&&(ae.id.startsWith('cf-')||ae.closest('#gcb-zone-1')))calcolaCarta();}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'){const ae=document.activeElement;if(!ae||!ae.id)return;if(ae.id.startsWith('gcb-b-'))calcolaConnessione();else if(ae.id.startsWith('cs-')||ae.closest('#gcb-zone-1'))csCalcola();}});
 
 // ─── Touch swipe carousel ─────────────────────────────────────────────────────
 (function(){
@@ -1664,7 +1664,7 @@ async function gcbPickerOpen(target){
 function gcbPickerClose(){document.getElementById('gcb-picker-overlay')?.classList.remove('gcb-picker-overlay--open');}
 function gcbPickerSelect(idx){
   const c=_gcbPickerCharts?.[idx];if(!c)return;
-  const pfx=_gcbPickerTarget==='b'?'gcb-b-':'cf-';
+  const pfx=_gcbPickerTarget==='b'?'gcb-b-':'cs-';
   const sv=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined&&v!==null)el.value=v;};
   sv(pfx+'nome',c.chart_name);
   // Populate native date input (YYYY-MM-DD)
@@ -1695,11 +1695,11 @@ async function hdSaveConfirm(){
   if(!_lastCartaData)return;
   const ni=document.getElementById('hd-save-name'),name=ni?ni.value.trim():'';if(!name){hdSaveMsg('Inserisci un nome per la carta.','err');return;}
   const d=_lastCartaData;
-  const _dv=document.getElementById('cf-date')?.value||'',_dp=_dv.split('-');
-  const _tv=document.getElementById('cf-time')?.value||'',_tp=_tv.split(':');
+  const _dv=document.getElementById('cs-date')?.value||'',_dp=_dv.split('-');
+  const _tv=document.getElementById('cs-time')?.value||'',_tp=_tv.split(':');
   const day=parseInt(_dp[2]||'0',10),month=parseInt(_dp[1]||'0',10),year=parseInt(_dp[0]||'0',10);
   const hour=parseInt(_tp[0]||'0',10),min=parseInt(_tp[1]||'0',10);
-  const city=document.getElementById('cf-city')?.value||'',tz=document.getElementById('cf-tz')?.value||'Europe/Rome';
+  const city=document.getElementById('cs-city')?.value||'',tz=document.getElementById('cs-tz')?.value||'Europe/Rome';
   try{
     const csrfR=await fetch(HD_BASE+'/hd-auth.php?action=csrf&for=save_chart',{credentials:'include'}),csrfJ=await csrfR.json();
     if(!csrfJ.ok){hdSaveMsg('Sessione scaduta. Ricarica la pagina.','err');return;}
@@ -1723,10 +1723,10 @@ async function hdSaveConfirm(){
     const yr=chart.birth_year||'';
     const hr=chart.birth_hour!==undefined?String(chart.birth_hour).padStart(2,'0'):'00';
     const mn=chart.birth_min!==undefined?String(chart.birth_min).padStart(2,'0'):'00';
-    if(yr&&mo&&d2)sv('cf-date',yr+'-'+mo+'-'+d2);
-    sv('cf-time',hr+':'+mn);
-    sv('cf-city',chart.birth_city);
-    if(chart.birth_tz){const ts=document.getElementById('cf-tz');if(ts)ts.value=chart.birth_tz;}
+    if(yr&&mo&&d2)sv('cs-date',yr+'-'+mo+'-'+d2);
+    sv('cs-time',hr+':'+mn);
+    sv('cs-city',chart.birth_city);
+    if(chart.birth_tz){const ts=document.getElementById('cs-tz');if(ts)ts.value=chart.birth_tz;}
     if(chart.chart_data)document.addEventListener('DOMContentLoaded',()=>{renderRisultati(chart.chart_data,chart.chart_name||'');});
   }catch(e){}
 })();
