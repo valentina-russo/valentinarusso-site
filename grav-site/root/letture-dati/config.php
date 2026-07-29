@@ -8,10 +8,8 @@
  *   couple  -> due set di dati di nascita (persona A + persona B)
  *   child   -> dati di nascita del figlio/a + contatto del genitore
  *
- * NB PREZZI: base=210 (esistente) confermato da Marco. Le altre 8 letture
- * sono state impostate a 250 su indicazione esplicita di Marco per
- * "opposizioni, ritorni e ombra" — coppia/figlio/croce NON confermati
- * esplicitamente, impostati a 250 per coerenza in attesa di conferma.
+ * NB PREZZI: tutti confermati esplicitamente da Marco. Foundation 210,
+ * Bimbo 210, Coppia 300, Ritorno Solare 150, tutte le altre 250.
  */
 
 declare(strict_types=1);
@@ -27,14 +25,14 @@ const LETTURE_CATALOG = [
     'coppia' => [
         'name'        => 'Lettura di Coppia',
         'description' => 'Analisi del grafico di connessione tra due disegni: canali elettromagnetici, centri definiti a vicenda, tema energetico della coppia.',
-        'amount'      => 25000, // €250,00 — DA CONFERMARE (assunto = default "altre letture")
+        'amount'      => 30000, // €300,00 — CONFERMATO
         'data_mode'   => 'couple',
         'duration'    => '90 minuti',
     ],
     'figlio' => [
         'name'        => 'Lettura per il Figlio/a',
         'description' => 'Lettura del disegno di tuo figlio prima che il condizionamento si sedimenti, con indicazioni pratiche per non trasmettere gli schemi del Non-Sé.',
-        'amount'      => 25000, // €250,00 — DA CONFERMARE
+        'amount'      => 21000, // €210,00 — CONFERMATO
         'data_mode'   => 'child',
         'duration'    => '60 minuti',
     ],
@@ -48,14 +46,14 @@ const LETTURE_CATALOG = [
     'croce' => [
         'name'        => 'Lettura della Croce di Incarnazione',
         'description' => 'La tua Croce di Incarnazione: da dove nasce, cosa rappresenta, cosa sei venuto a incarnare in questa vita.',
-        'amount'      => 25000, // €250,00 — DA CONFERMARE (assunto = default "altre letture")
+        'amount'      => 25000, // €250,00 — CONFERMATO
         'data_mode'   => 'single',
         'duration'    => '90 minuti',
     ],
     'ritorno-solare' => [
         'name'        => 'Lettura del Ritorno Solare',
         'description' => 'Check-in annuale: quali porte si accendono nei prossimi dodici mesi, vicino al tuo compleanno.',
-        'amount'      => 25000, // €250,00 — CONFERMATO ("i ritorni")
+        'amount'      => 15000, // €150,00 — CONFERMATO
         'data_mode'   => 'single',
         'duration'    => '60 minuti',
     ],
