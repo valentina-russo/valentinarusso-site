@@ -1,0 +1,24 @@
+name: Check Stripe Klarna capability
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query account capabilities (read-only, no key printed)
+        env:
+          STRIPE_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+        run: |
+          if [ -z "$STRIPE_KEY" ]; then
+            echo "ERRORE: STRIPE_SECRET_KEY non configurata"
+            exit 1
+          fi
+          curl -s -u "$STRIPE_KEY:" https://api.stripe.com/v1/account -o account.json
+          echo "--- klarna_payments capability ---"
+          jq -r '.capabilities.klarna_payments // "NON PRESENTE (mai richiesta)"' account.json
+          echo "--- lista completa capabilities ---"
+          jq -r '.capabilities // {}' account.json
+          echo "--- country / default currency (per verifica eleggibilita regione) ---"
+          jq -r '{country: .country, default_currency: .default_currency}' account.json
+          rm -f account.json
