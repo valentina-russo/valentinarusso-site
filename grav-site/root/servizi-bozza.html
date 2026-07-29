@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/user/themes/valentina/css/style.css?v=20260312_ULTRA">
 <style>
 *, *::before, *::after { box-sizing: border-box; }
 :root {
@@ -85,6 +86,36 @@ h1.page-title { text-align:center; font-size: clamp(1.75rem, 4vw, 2.25rem); font
 </style>
 </head>
 <body>
+
+<header style="position: relative; z-index: 1000;">
+    <div class="container">
+        <div class="logo">
+            <a href="/">
+                <img src="/user/themes/valentina/images/logo.png" alt="Valentina Russo Logo" class="brand-logo"
+                     onerror="this.style.display='none'">
+                <div class="brand-text">
+                    <span class="brand-name">VALENTINA RUSSO</span>
+                    <span class="brand-tagline">Consulente BG5&reg;</span>
+                </div>
+            </a>
+        </div>
+        <button class="menu-toggle" aria-label="Menu">&#9776;</button>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/servizi">Servizi</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/chi-sono">Chi Sono</a></li>
+                <li><a href="/contatti">Contatti</a></li>
+                <li><a href="/libretto-istruzioni"
+                       style="color: #C48A3A; font-weight: 700;"
+                       title="PDF Human Design personalizzato">Libretto HD &#10022;</a></li>
+                <li><a href="/aziende" class="btn"
+                       style="background-color: var(--corp-primary); color: white; padding: 0.4rem 1rem; font-size: 0.85rem; border-radius: 4px;">Percorso Aziende</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 
 <div class="draft-banner">
   🔒 <strong>BOZZA — anteprima per Valentina</strong> · pagina non pubblicata, non indicizzata, non linkata dal sito pubblico. I link "Prenota e paga" sono collegati allo Stripe LIVE del sito: un pagamento completato qui è un addebito REALE.
@@ -214,5 +245,59 @@ h1.page-title { text-align:center; font-size: clamp(1.75rem, 4vw, 2.25rem); font
   </div>
 
 </div>
+
+<footer style="padding: 1.5rem 0 1rem 0; margin-top: 2rem; border-top: 1px solid #dcd7d3; background-color: #fff;">
+    <div class="container" style="display: flex; flex-direction: column; align-items: center; gap: 0.8rem; text-align: center;">
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; font-size: 0.85rem; font-weight: 600;">
+            <a href="/">Home</a>
+            <a href="/chi-sono">Chi Sono</a>
+            <a href="/servizi">Servizi</a>
+            <a href="/blog">Blog</a>
+            <a href="/contatti">Contatti</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Termini</a>
+            <a href="https://www.instagram.com/valentinarussobg5/" target="_blank" rel="noopener">Instagram</a>
+            <a href="/llms.txt">llms.txt</a>
+        </div>
+
+        <div style="margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid #eee;">
+            <a href="https://bg5businessinstitute.com/professionals?id=399d41b3-612b-48d1-88b9-7bc26ed71418" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 1rem; border: 1.5px solid #B68397; border-radius: 20px; color: #7a5c6e; text-decoration: none; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em;">
+                <span style="font-size: 1rem;">&#10003;</span> Analista Certificata BG5&reg; &mdash; Profilo Ufficiale
+            </a>
+        </div>
+
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; font-size: 0.75rem; color: #888;">
+            <div style="margin-bottom: 0.5rem; font-weight: 600; color: #666;">Consulente BG5&reg; per citt&agrave;</div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem 1.2rem;">
+                <a href="/consulente-bg5-milano" style="color: #9a7b8a; text-decoration: none;">Milano</a>
+                <a href="/consulente-bg5-torino" style="color: #9a7b8a; text-decoration: none;">Torino</a>
+                <a href="/consulente-bg5-roma" style="color: #9a7b8a; text-decoration: none;">Roma</a>
+                <a href="/consulente-bg5-bologna" style="color: #9a7b8a; text-decoration: none;">Bologna</a>
+                <a href="/consulente-bg5-firenze" style="color: #9a7b8a; text-decoration: none;">Firenze</a>
+                <a href="/consulente-bg5-napoli" style="color: #9a7b8a; text-decoration: none;">Napoli</a>
+                <a href="/consulente-bg5-venezia" style="color: #9a7b8a; text-decoration: none;">Venezia</a>
+                <a href="/consulente-bg5-bari" style="color: #9a7b8a; text-decoration: none;">Bari</a>
+                <a href="/consulente-bg5-palermo" style="color: #9a7b8a; text-decoration: none;">Palermo</a>
+                <a href="/consulente-bg5-verona" style="color: #9a7b8a; text-decoration: none;">Verona</a>
+                <a href="/consulente-bg5-italia" style="color: #9a7b8a; text-decoration: none;">Tutta Italia</a>
+            </div>
+        </div>
+
+        <div style="margin-top: 1rem; font-size: 0.75rem; color: #999;">
+            <div style="margin-bottom: 0.6rem; font-weight: 600; color: #666;">Risorse Ufficiali</div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;">
+                <a href="https://bg5businessinstitute.com/" target="_blank" rel="noopener noreferrer" style="color: #7a5c6e; text-decoration: none; font-weight: 500;">BG5&reg; Business Institute</a>
+                <a href="https://www.jovianarchive.com/" target="_blank" rel="noopener noreferrer" style="color: #7a5c6e; text-decoration: none; font-weight: 500;">Human Design Official</a>
+            </div>
+        </div>
+        <div style="font-size: 0.75rem; color: #666;">
+            &copy; 2026 Valentina Russo &mdash; Consulente BG5&reg; | Human Design Analyst. Tutti i diritti riservati.
+        </div>
+        <div style="font-size: 0.72rem; color: #aaa; letter-spacing: 0.01em;">
+            P.IVA 03831440049
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>
