@@ -38,6 +38,10 @@ h1.page-title { text-align:center; font-size: clamp(2rem, 5vw, 2.75rem); font-st
 }
 .honesty-note strong { color: var(--navy); }
 .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+@media (min-width: 900px) {
+  .grid-singole { grid-template-columns: repeat(4, 1fr); }
+  .foundation-card { grid-column: 1 / -1; }
+}
 .card {
   background: var(--white); border: 1px solid var(--soft-gray); border-top: 4px solid var(--primary-color);
   border-radius: 12px; padding: 1.75rem; display:flex; flex-direction:column; overflow: hidden;
@@ -82,7 +86,7 @@ h1.page-title { text-align:center; font-size: clamp(2rem, 5vw, 2.75rem); font-st
   <h2 class="section-title">Letture Singole</h2>
   <p class="section-sub">Sessioni singole su un tema specifico. La Foundation è il punto di ingresso, le altre puoi farle in qualsiasi momento tu ne senta il bisogno.</p>
 
-  <div class="grid">
+  <div class="grid grid-singole">
 
     <div class="card foundation-card">
       <span class="start-badge">Si parte da qui</span>
