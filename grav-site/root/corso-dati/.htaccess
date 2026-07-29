@@ -1,0 +1,30 @@
+# Blocca l'accesso HTTP a file sensibili in corso-dati/
+<Files ".env">
+    Order Allow,Deny
+    Deny from all
+</Files>
+<IfModule mod_authz_core.c>
+    <Files ".env">
+        Require all denied
+    </Files>
+</IfModule>
+
+<FilesMatch "\.(log|json|bak|sql|gitignore)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+<IfModule mod_authz_core.c>
+    <FilesMatch "\.(log|json|bak|sql|gitignore)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+
+<FilesMatch "\.example\.php$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+<IfModule mod_authz_core.c>
+    <FilesMatch "\.example\.php$">
+        Require all denied
+    </FilesMatch>
+</IfModule>

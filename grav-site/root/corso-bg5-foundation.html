@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corso BG5 Foundation | Valentina Russo</title>
+<meta name="description" content="Corso BG5 Foundation: 20 lezioni online dal vivo, 2 semestri, accreditato IACET. Impara a leggere il tuo Career Design e quello degli altri con il sistema BG5.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/user/themes/valentina/css/style.css?v=20260312_ULTRA">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+:root {
+  --primary-color: #B68397;
+  --primary-dark: #8B5E73;
+  --secondary-color: #5DAEB1;
+  --accent-color: #E6A756;
+  --accent-dark: #8A5A12;
+  --white: #FFFFFF;
+  --soft-gray: #EAE5E1;
+  --text: #2D2926;
+  --muted: #6B6560;
+  --navy: #1A2332;
+}
+body { margin:0; font-family:'Outfit',sans-serif; background:#FAF7F5; color:var(--text); line-height:1.6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+.draft-banner { background: var(--navy); color: #fff; text-align: center; padding: .75rem 1rem; font-size: .85rem; font-weight: 600; letter-spacing: .03em; }
+.draft-banner strong { color: #E6A756; }
+h1, h2, h3 { font-family:'Playfair Display', serif; color: var(--navy); }
+
+.hero { text-align:center; padding: 3rem 0 2rem; }
+.hero-eyebrow { font-size:.8rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color: var(--primary-dark); margin-bottom:1rem; }
+.hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight:700; margin: 0 0 1rem; line-height:1.15; }
+.hero-sub { font-size:1.15rem; color: var(--muted); max-width:640px; margin:0 auto 2rem; }
+.hero-facts { display:flex; flex-wrap:wrap; justify-content:center; gap:.75rem; margin-bottom:2rem; }
+.hero-fact { background:var(--white); border:1px solid var(--soft-gray); border-radius:100px; padding:.5rem 1.1rem; font-size:.85rem; font-weight:600; color:var(--navy); }
+.hero-fact strong { color: var(--primary-dark); }
+
+.price-box { background: var(--white); border:2px solid var(--accent-color); border-radius:16px; padding:2rem; max-width:420px; margin:0 auto 1rem; box-shadow:0 8px 24px rgba(0,0,0,.06); }
+.price-box .price { font-family:'Playfair Display',serif; font-size:2.75rem; font-weight:700; color:var(--navy); }
+.price-box .price small { font-size:1rem; font-weight:500; color:var(--muted); }
+.price-box .price-note { font-size:.85rem; color:var(--muted); margin: .25rem 0 1.25rem; }
+.btn-buy-primary {
+  display:block; text-align:center; padding: 1.05rem; background: var(--accent-color); border: 2px solid var(--accent-color);
+  color: var(--navy); text-decoration:none; border-radius: 8px; font-weight:700; font-size:1.1rem;
+  box-shadow: 0 4px 14px rgba(230,167,86,.35); transition: background .2s, border-color .2s;
+}
+.btn-buy-primary:hover, .btn-buy-primary:focus-visible { background:#d4933d; border-color:#d4933d; }
+.btn-buy-primary:focus-visible { outline: 2px solid var(--secondary-color); outline-offset: 2px; }
+.klarna-note { font-size:.8rem; color: var(--muted); margin-top:.9rem; }
+
+.section-title { text-align:center; font-size: 1.6rem; font-style:italic; margin: 3.5rem 0 .5rem; color: var(--primary-dark); }
+.section-sub { text-align:center; color: var(--muted); font-size:1rem; max-width:620px; margin:0 auto 2rem; }
+
+.impara-grid { display:grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 1rem; }
+@media (min-width: 700px) { .impara-grid { grid-template-columns: repeat(2, 1fr); } }
+.impara-item { background: var(--white); border:1px solid var(--soft-gray); border-left:3px solid var(--secondary-color); border-radius:8px; padding:1.1rem 1.25rem; font-size:.95rem; }
+.impara-item strong { color: var(--navy); display:block; margin-bottom:.25rem; font-family:'Playfair Display',serif; font-style:italic; font-size:1.05rem; }
+
+.semestre-block { margin-bottom: 3rem; }
+.semestre-head { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:.5rem; border-bottom:2px solid var(--soft-gray); padding-bottom:.6rem; margin-bottom:1.25rem; }
+.semestre-head h3 { margin:0; font-size:1.35rem; font-style:italic; }
+.semestre-ceu { font-size:.8rem; font-weight:700; color: var(--secondary-color); text-transform:uppercase; letter-spacing:.05em; }
+.lezione-list { list-style:none; margin:0; padding:0; display:grid; gap:.6rem; }
+.lezione-item { display:flex; gap:1rem; align-items:flex-start; background: var(--white); border:1px solid var(--soft-gray); border-radius:8px; padding:.9rem 1.1rem; }
+.lezione-num { flex-shrink:0; width:28px; height:28px; border-radius:50%; background: rgba(182,131,151,.12); color: var(--primary-dark); font-weight:700; font-size:.85rem; display:flex; align-items:center; justify-content:center; }
+.lezione-body strong { display:block; color:var(--navy); font-size:.95rem; margin-bottom:.15rem; }
+.lezione-body span { font-size:.85rem; color: var(--muted); }
+
+.per-chi-box { background: rgba(93,174,177,.08); border:1.5px solid rgba(93,174,177,.3); border-radius:10px; padding:1.75rem; margin: 1rem 0 3rem; }
+.per-chi-box h3 { margin:0 0 1rem; font-size:1.2rem; font-style:italic; }
+.per-chi-box ul { margin:0; padding-left:1.25rem; }
+.per-chi-box li { margin-bottom:.6rem; font-size:.95rem; }
+
+.cta-final { text-align:center; padding: 2.5rem 0 1rem; }
+.cta-final h2 { font-size:1.75rem; font-style:italic; margin-bottom:.75rem; }
+</style>
+</head>
+<body>
+
+<header style="position: relative; z-index: 1000;">
+    <div class="container">
+        <div class="logo">
+            <a href="/">
+                <img src="/user/themes/valentina/images/logo.png" alt="Valentina Russo Logo" class="brand-logo"
+                     onerror="this.style.display='none'">
+                <div class="brand-text">
+                    <span class="brand-name">VALENTINA RUSSO</span>
+                    <span class="brand-tagline">Consulente BG5&reg;</span>
+                </div>
+            </a>
+        </div>
+        <button class="menu-toggle" aria-label="Menu">&#9776;</button>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/servizi">Servizi</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/chi-sono">Chi Sono</a></li>
+                <li><a href="/contatti">Contatti</a></li>
+                <li><a href="/libretto-istruzioni"
+                       style="color: #C48A3A; font-weight: 700;"
+                       title="PDF Human Design personalizzato">Libretto HD &#10022;</a></li>
+                <li><a href="/aziende" class="btn"
+                       style="background-color: var(--corp-primary); color: white; padding: 0.4rem 1rem; font-size: 0.85rem; border-radius: 4px;">Percorso Aziende</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="draft-banner">
+  🔒 <strong>BOZZA — anteprima per Valentina</strong> · pagina non pubblicata, non indicizzata, non linkata dal sito pubblico. Il link "Iscriviti ora" è collegato allo Stripe LIVE del sito: un pagamento completato qui è un addebito REALE.
+</div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <p class="hero-eyebrow">Formazione Professionale &middot; Accreditata IACET</p>
+    <h1>Corso BG5 Foundation</h1>
+    <p class="hero-sub">Impara a leggere il tuo Career Design e quello di chi hai intorno: tipo di carriera, strategia di interazione, punti di forza, ombre. Le basi complete del sistema BG5&reg;, in due semestri dal vivo.</p>
+    <div class="hero-facts">
+      <span class="hero-fact"><strong>20</strong> lezioni live online</span>
+      <span class="hero-fact"><strong>2</strong> semestri &middot; 10 lezioni ciascuno</span>
+      <span class="hero-fact"><strong>2 ore</strong> a lezione, via Zoom</span>
+      <span class="hero-fact">Crediti <strong>IACET</strong> riconosciuti</span>
+    </div>
+  </div>
+
+  <div class="price-box">
+    <div class="price">1.200&euro; <small>totale corso</small></div>
+    <p class="price-note">Copre entrambi i semestri, tutte le 20 lezioni</p>
+    <a class="btn-buy-primary" href="/corso-dati/checkout.php?course=bg5-foundation">Iscriviti ora &rarr;</a>
+    <p class="klarna-note">Pagamento anche a rate con Klarna, disponibile direttamente al checkout.</p>
+  </div>
+
+  <h2 class="section-title">Cosa imparerai</h2>
+  <p class="section-sub">Il corso segue esattamente il curriculum ufficiale BG5&reg; Business Institute, diviso in due macro-aree.</p>
+
+  <div class="impara-grid">
+    <div class="impara-item">
+      <strong>Personal Operating Style (Semestre 1)</strong>
+      Come funzioni: tipo di carriera, strategia di interazione, capacità decisionale, indicatori chiave, stile di assimilazione delle informazioni, ombre e distrazioni da riconoscere.
+    </div>
+    <div class="impara-item">
+      <strong>Creative Operating Style (Semestre 2)</strong>
+      Dove porti valore: le tue tematiche generali, i punti di forza nei 5 circuiti energetici, le 6 qualità dei tratti, il tuo ruolo pubblico tra le 12 possibilità del sistema BG5&reg;.
+    </div>
+  </div>
+
+  <div class="semestre-block">
+    <div class="semestre-head">
+      <h3>Semestre 1 &middot; Personal Operating Style</h3>
+      <span class="semestre-ceu">3.1 CEU IACET</span>
+    </div>
+    <ul class="lezione-list">
+      <li class="lezione-item"><span class="lezione-num">1</span><div class="lezione-body"><strong>Introduzione a BG5</strong><span>Cos'è il BG5 Approach, le basi del Career Design Chart, aspetti conscio e inconscio</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">2</span><div class="lezione-body"><strong>Le 9 Funzioni</strong><span>Le funzioni che compongono ogni Career Design e i 5 modi in cui operano</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">3</span><div class="lezione-body"><strong>Il Builder</strong><span>Uno dei 4 tipi di carriera BG5&reg;: strategia di interazione, decisione, indicatori chiave</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">4</span><div class="lezione-body"><strong>L'Advisor</strong><span>Energia incostante, riconoscimento e invito come strategia di interazione</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">5</span><div class="lezione-body"><strong>L'Innovator</strong><span>Come informare invece di convincere, tra resistenza e riconoscimento</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">6</span><div class="lezione-body"><strong>L'Evaluator</strong><span>Sentirsi diversi dagli altri, il ruolo dell'ambiente, sorpresa e delusione come segnali</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">7</span><div class="lezione-body"><strong>Assimilazione</strong><span>I 5 stili con cui ciascuno elabora le informazioni: indipendente, collaborativo, sintetizzante, soggettivo, oggettivo</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">8</span><div class="lezione-body"><strong>Ombre &middot; Parte 1</strong><span>Le prime tre ombre e il relativo potenziale di saggezza nella gerarchia BG5&reg;</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">9</span><div class="lezione-body"><strong>Ombre &middot; Parte 2</strong><span>Le successive quattro ombre: confusione di ruolo, difficoltà a lasciar andare, difesa mentale, perdita di focus</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">10</span><div class="lezione-body"><strong>Ombre &middot; Parte 3 + Progetto Finale</strong><span>Le ultime tre ombre e sintesi completa del proprio Career Design</span></div></li>
+    </ul>
+  </div>
+
+  <div class="semestre-block">
+    <div class="semestre-head">
+      <h3>Semestre 2 &middot; Creative Operating Style</h3>
+      <span class="semestre-ceu">3.3 CEU IACET</span>
+    </div>
+    <ul class="lezione-list">
+      <li class="lezione-item"><span class="lezione-num">1</span><div class="lezione-body"><strong>General Thematics</strong><span>Le tre grandi tematiche generali che attraversano un Career Design</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">2</span><div class="lezione-body"><strong>Forze &amp; Tratti &middot; Integration and Centering</strong><span>Forze creative e di leadership nel circuito di integrazione</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">3</span><div class="lezione-body"><strong>Forze &amp; Tratti &middot; Knowing Circuit</strong><span>Applicazione pratica dei tratti legati al sapere istintivo</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">4</span><div class="lezione-body"><strong>Forze &amp; Tratti &middot; Logical Sharing</strong><span>Come condividi le tue idee in modo logico e sequenziale</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">5</span><div class="lezione-body"><strong>Forze &amp; Tratti &middot; Abstract Sharing</strong><span>Come condividi le tue idee attraverso esperienza e racconto</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">6</span><div class="lezione-body"><strong>Forze &amp; Tratti &middot; Tribal Support</strong><span>Il tuo modo di sostenere materialmente chi ti sta vicino</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">7</span><div class="lezione-body"><strong>Le 6 Trait Qualities</strong><span>Le qualità che colorano ogni tratto definito nel tuo Career Design</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">8</span><div class="lezione-body"><strong>Public Role &middot; Introduzione</strong><span>Il ruolo pubblico, tra aspetto conscio e inconscio</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">9</span><div class="lezione-body"><strong>I 12 Public Role &middot; Personal &amp; Steadfast</strong><span>I ruoli pubblici a focus personale e quelli a focus costante</span></div></li>
+      <li class="lezione-item"><span class="lezione-num">10</span><div class="lezione-body"><strong>I 12 Public Role &middot; Transpersonal + Progetto Finale</strong><span>I ruoli a focus transpersonale e sintesi di due Career Design completi</span></div></li>
+    </ul>
+  </div>
+
+  <div class="per-chi-box">
+    <h3>Per chi è questo corso</h3>
+    <ul>
+      <li>Per chi vuole leggere il proprio Career Design in autonomia, oltre la singola lettura individuale</li>
+      <li>Per chi lavora con le persone (HR, coach, consulenti, manager) e vuole uno strumento in più per capire chi ha davanti</li>
+      <li>Per chi ha già fatto la Lettura Foundation e vuole andare a fondo nel sistema BG5&reg; invece di fermarsi alla superficie</li>
+      <li>Per chi considera un percorso verso la certificazione professionale BG5&reg; e vuole partire dalle basi solide</li>
+    </ul>
+  </div>
+
+  <div class="cta-final">
+    <h2>Pronto/a a iniziare?</h2>
+    <div class="price-box" style="margin-top:1.5rem">
+      <div class="price">1.200&euro; <small>totale corso</small></div>
+      <p class="price-note">20 lezioni &middot; 2 semestri &middot; crediti IACET</p>
+      <a class="btn-buy-primary" href="/corso-dati/checkout.php?course=bg5-foundation">Iscriviti ora &rarr;</a>
+      <p class="klarna-note">Pagamento anche a rate con Klarna, disponibile direttamente al checkout.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer style="padding: 1.5rem 0 1rem 0; margin-top: 2rem; border-top: 1px solid #dcd7d3; background-color: #fff;">
+    <div class="container" style="display: flex; flex-direction: column; align-items: center; gap: 0.8rem; text-align: center;">
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; font-size: 0.85rem; font-weight: 600;">
+            <a href="/">Home</a>
+            <a href="/chi-sono">Chi Sono</a>
+            <a href="/servizi">Servizi</a>
+            <a href="/blog">Blog</a>
+            <a href="/contatti">Contatti</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Termini</a>
+            <a href="https://www.instagram.com/valentinarussobg5/" target="_blank" rel="noopener">Instagram</a>
+            <a href="/llms.txt">llms.txt</a>
+        </div>
+
+        <div style="margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid #eee;">
+            <a href="https://bg5businessinstitute.com/professionals?id=399d41b3-612b-48d1-88b9-7bc26ed71418" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 1rem; border: 1.5px solid #B68397; border-radius: 20px; color: #7a5c6e; text-decoration: none; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em;">
+                <span style="font-size: 1rem;">&#10003;</span> Analista Certificata BG5&reg; &mdash; Profilo Ufficiale
+            </a>
+        </div>
+
+        <div style="margin-top: 1rem; font-size: 0.75rem; color: #666;">
+            &copy; 2026 Valentina Russo &mdash; Consulente BG5&reg; | Human Design Analyst. Tutti i diritti riservati.
+        </div>
+        <div style="font-size: 0.72rem; color: #aaa; letter-spacing: 0.01em;">
+            P.IVA 03831440049
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
