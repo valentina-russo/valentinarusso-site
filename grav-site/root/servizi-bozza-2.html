@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOZZA 2 — Servizi Integrati · Valentina Russo</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+:root {
+  --primary-color: #B68397;
+  --secondary-color: #5DAEB1;
+  --accent-color: #E6A756;
+  --white: #FFFFFF;
+  --soft-gray: #EAE5E1;
+  --text: #2D2926;
+  --muted: #6B6560;
+  --navy: #1A2332;
+}
+body { margin:0; font-family:'Outfit',sans-serif; background:#FAF7F5; color:var(--text); line-height:1.6; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+.draft-banner {
+  background: var(--navy); color: #fff; text-align: center; padding: .75rem 1rem;
+  font-size: .85rem; font-weight: 600; letter-spacing: .03em;
+}
+.draft-banner strong { color: #E6A756; }
+h1, h2, h3, h4 { font-family:'Playfair Display', serif; color: var(--navy); }
+
+/* Hero */
+.hero-title { text-align:center; font-size: clamp(2rem, 5vw, 2.75rem); font-style: italic; margin: 2.5rem 0 1.25rem; }
+.hero-lead { text-align:center; font-family:'Playfair Display', serif; font-style: italic; font-size: 1.25rem; color: var(--primary-color); max-width: 750px; margin: 0 auto 1.25rem; }
+.hero-sub { text-align:center; max-width: 800px; margin: 0 auto 2.5rem; }
+.hero-sub strong { color: var(--secondary-color); }
+.hd-link-wrap { text-align:center; margin-bottom: 3.5rem; }
+.hd-link-pill {
+  display:inline-flex; align-items:center; gap:.6rem; padding:.7rem 1.5rem; border:1px solid rgba(182,131,151,.35);
+  border-radius: 100px; font-size:.85rem; font-weight:600; color: var(--primary-color); text-decoration:none;
+  background: rgba(182,131,151,.05);
+}
+
+/* Process steps */
+.process-wrap { margin-bottom: 4.5rem; }
+.process-title { text-align:center; color: var(--primary-color); margin-bottom: .35rem; }
+.process-sub { text-align:center; opacity:.7; margin-bottom: 2rem; }
+.process-steps { display:flex; align-items:stretch; justify-content:center; gap: 1rem; flex-wrap: wrap; }
+.step-item { flex:1; min-width: 200px; max-width: 260px; text-align:center; padding: 1.25rem; border-radius: 12px; background: var(--white); border: 1px solid var(--soft-gray); }
+.step-item.accent { border-color: rgba(230,167,86,.4); background: #FDF6EC; }
+.step-item.secondary { border-color: rgba(93,174,177,.3); background: rgba(93,174,177,.05); }
+.step-number { width:32px; height:32px; border-radius:50%; background: var(--soft-gray); color: var(--navy); font-weight:700; display:flex; align-items:center; justify-content:center; margin: 0 auto .75rem; }
+.step-title { color: var(--primary-color); margin-bottom:.5rem; font-size:1.1rem; }
+.step-text { font-size:.875rem; color: var(--muted); }
+.step-arrow { display:flex; align-items:center; font-size:1.5rem; color: var(--soft-gray); }
+
+/* Featured Foundation */
+.featured-wrap { margin-bottom: 5rem; }
+.featured-eyebrow { display:block; text-align:center; text-transform:uppercase; color: var(--primary-color); font-weight:700; letter-spacing:2px; font-size:.8rem; margin-bottom: .75rem; }
+.featured-title { text-align:center; margin-bottom: .5rem; }
+.featured-intro { text-align:center; max-width:600px; margin: 0 auto 2.5rem; color: var(--muted); }
+.featured-service { display:grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem; align-items:center; background: var(--white); border:1px solid var(--soft-gray); border-radius:16px; padding:2.5rem; }
+.featured-content h3 { font-size:1.75rem; margin: 0 0 1.25rem; color: var(--primary-color); }
+.featured-content p.body { margin-bottom: 1.5rem; }
+.check-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+.check-item { display:flex; gap:.6rem; align-items:flex-start; font-size:.875rem; }
+.check-item span.tick { color: var(--accent-color); font-weight:900; }
+.featured-buy-row { display:flex; align-items:center; gap: 1.5rem; flex-wrap:wrap; }
+.featured-price-label { font-size:.8rem; opacity:.6; display:block; }
+.featured-price { font-size:1.6rem; font-weight:700; color: var(--navy); }
+.featured-visual img { width:100%; border-radius:12px; display:block; }
+.featured-note { text-align:center; font-size:.875rem; font-style:italic; color: var(--secondary-color); margin-top:1.5rem; }
+
+/* Section titles (new grids) */
+.section-title { text-align:center; font-size: 1.8rem; font-style: italic; margin: 0 0 .5rem; color: var(--primary-color); }
+.section-sub { text-align:center; color: var(--muted); font-size: .95rem; max-width: 620px; margin: 0 auto 2rem; }
+.section-wrap { margin-bottom: 4.5rem; }
+.honesty-note {
+  background: rgba(93,174,177,.08); border: 1.5px solid rgba(93,174,177,.3); border-radius: 8px;
+  padding: 1rem 1.25rem; max-width: 700px; margin: 0 auto 2.5rem; font-size: .875rem; color: var(--muted);
+}
+.honesty-note strong { color: var(--navy); }
+
+/* Card grid (letture singole + cicli) */
+.grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+.card {
+  background: var(--white); border: 1px solid var(--soft-gray); border-top: 4px solid var(--primary-color);
+  border-radius: 12px; padding: 1.75rem; display:flex; flex-direction:column; overflow: hidden;
+}
+.card-img { width: calc(100% + 3.5rem); aspect-ratio: 4/3; object-fit: cover; display: block; margin: -1.75rem -1.75rem 1.25rem; }
+.card.cycle { border-top-color: var(--secondary-color); }
+.card h3 { font-size: 1.2rem; margin: 0 0 .6rem; font-style: italic; }
+.card p.desc { font-size: .875rem; color: var(--text); margin: 0 0 .85rem; }
+.card .per-chi { font-size: .8rem; color: var(--muted); background: var(--soft-gray); border-radius: 6px; padding: .6rem .8rem; margin-bottom: 1.1rem; }
+.card .per-chi strong { color: var(--navy); }
+.card .meta-row { display:flex; justify-content:space-between; align-items:baseline; margin-top:auto; padding-top: .85rem; border-top: 1px dashed var(--soft-gray); }
+.card .price { font-size: 1.25rem; font-weight: 700; color: var(--navy); }
+.card .duration { font-size: .75rem; color: var(--muted); }
+.card .price-flag { font-size: .65rem; color: var(--accent-color); font-weight: 700; display:block; margin-top:.15rem; }
+.btn-buy {
+  display:block; text-align:center; margin-top: 1rem; padding: .75rem 1rem; background: var(--primary-color);
+  color: #fff; text-decoration:none; border-radius: 6px; font-weight: 700; font-size: .9rem;
+}
+.btn-buy:hover { background: #a06f83; }
+
+/* Percorsi estesi (existing tiers) */
+.tier-wrap { margin-bottom: 3.5rem; }
+.tier-title { text-align:center; border-bottom: 2px solid var(--soft-gray); padding-bottom: .5rem; margin-bottom: 1.75rem; text-transform:uppercase; font-size:1.15rem; letter-spacing:1px; }
+.tier-title.relazioni { color: var(--accent-color); }
+.tier-title.business { color: var(--secondary-color); }
+.tier-sub { text-align:center; margin-bottom: 1.75rem; color: var(--muted); }
+.percorso-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+.percorso-card { background: var(--white); border:1px solid var(--soft-gray); border-radius:12px; padding:1.5rem; border-top: 4px solid var(--accent-color); }
+.percorso-card.business { border-top-color: var(--secondary-color); }
+.percorso-card h4 { margin: 0 0 .75rem; font-size:1.1rem; font-style: normal; }
+.percorso-card p { font-size:.875rem; margin-bottom: 1rem; }
+.percorso-price { font-weight:600; font-size: .9rem; }
+.percorso-price .label-accent { color: var(--accent-color); }
+.percorso-price .label-secondary { color: var(--secondary-color); }
+
+.final-cta { text-align:center; margin-top: 3rem; }
+.btn-primary-lg {
+  display:inline-block; font-size:1.1rem; padding: 1rem 2rem; background: var(--primary-color); color:#fff;
+  text-decoration:none; border-radius: 6px; font-weight:700;
+}
+.btn-primary-lg:hover { background:#a06f83; }
+
+@media (min-width: 900px) {
+  .grid-singole { grid-template-columns: repeat(4, 1fr); }
+  .foundation-note-card { grid-column: 1 / -1; }
+}
+@media (max-width: 800px) {
+  .featured-service { grid-template-columns: 1fr; }
+  .check-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="draft-banner">
+  🔒 <strong>BOZZA 2 — pagina servizi integrata</strong> · fonde la pagina /servizi live con le 9 nuove letture, non pubblicata/indicizzata. I link "Prenota e paga" sono collegati allo Stripe LIVE: un pagamento completato è un addebito REALE.
+</div>
+
+<div class="wrap">
+
+  <h1 class="hero-title">Il Tuo Funzionamento Naturale</h1>
+  <p class="hero-lead">Il sistema nervoso ha un perimetro esatto. Quando la mente cerca di forzare la forma, il corpo registra il colpo. La resistenza si accumula nei muscoli, le relazioni si complicano, i soldi si bloccano.</p>
+  <p class="hero-sub">
+    Io leggo il codice sorgente del tuo veicolo attraverso lo Human Design e il sistema BG5®. Ti fornisco i dati meccanici per far funzionare la tua vita e la tua carriera.<br><br>
+    <strong>Questa pagina mappa le possibilità di lavoro insieme. Scegli la tua porta d'accesso.</strong>
+  </p>
+
+  <div class="hd-link-wrap">
+    <a href="/human-design" class="hd-link-pill">✦ Prima di tutto — Scopri cos'è lo Human Design →</a>
+  </div>
+
+  <div class="process-wrap">
+    <h2 class="process-title">Il Tuo Percorso</h2>
+    <p class="process-sub">Dalla decodifica alla trasformazione pratica</p>
+    <div class="process-steps">
+      <div class="step-item">
+        <div class="step-number">1</div>
+        <h4 class="step-title">Foundation</h4>
+        <p class="step-text">La porta d'ingresso obbligata per conoscere il tuo codice meccanico di base.</p>
+      </div>
+      <div class="step-arrow">➔</div>
+      <div class="step-item accent">
+        <div class="step-number">2</div>
+        <h4 class="step-title">Letture Singole</h4>
+        <p class="step-text">Approfondisci un tema preciso: coppia, figli, ombra, croce di incarnazione, cicli di vita.</p>
+      </div>
+      <div class="step-arrow">➔</div>
+      <div class="step-item secondary">
+        <div class="step-number">3</div>
+        <h4 class="step-title">Percorsi Estesi</h4>
+        <p class="step-text">Vita e Relazioni o Individuo e Business, per incarnare il tuo disegno nella quotidianità.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="featured-wrap">
+    <span class="featured-eyebrow">Step 1 — Fondamentale</span>
+    <h2 class="featured-title">La Prima Lettura Human Design</h2>
+    <p class="featured-intro">Il punto di partenza imprescindibile. Senza la mappa del tuo veicolo, ogni direzione è un tentativo alla cieca.</p>
+    <div class="featured-service">
+      <div class="featured-content">
+        <h3>Decodifica la tua meccanica</h3>
+        <p class="body">Un incontro intensivo di due ore per identificare la tua <strong>Tipologia Energetica</strong>, la tua <strong>Strategia</strong> decisionale e la tua <strong>Autorità</strong> interna. Riceverai le istruzioni esatte per smettere di incontrare resistenza e iniziare a fluire con la tua natura.</p>
+        <div class="check-grid">
+          <div class="check-item"><span class="tick">✓</span><span>Registrazione Audio/Video inclusa</span></div>
+          <div class="check-item"><span class="tick">✓</span><span>Materiali PDF personalizzati</span></div>
+          <div class="check-item"><span class="tick">✓</span><span>Analisi delle Forze e Sfide</span></div>
+          <div class="check-item"><span class="tick">✓</span><span>Sessione Live di 120 minuti</span></div>
+        </div>
+        <div class="featured-buy-row">
+          <div>
+            <span class="featured-price-label">Investimento</span>
+            <span class="featured-price">210 Euro</span>
+          </div>
+          <a href="/letture-dati/checkout.php?reading=foundation" class="btn-buy" style="margin-top:0; padding:.85rem 1.5rem;">Prenota la Lettura →</a>
+        </div>
+      </div>
+      <div class="featured-visual">
+        <img src="/letture-dati/img/foundation.jpg" alt="Lettura Foundation">
+      </div>
+    </div>
+    <p class="featured-note">*(Completare la Prima Lettura sblocca l'accesso a tutte le consulenze avanzate).*</p>
+  </div>
+
+  <div class="section-wrap">
+    <h2 class="section-title">Letture Singole</h2>
+    <p class="section-sub">Sessioni singole su un tema specifico, da fare in qualsiasi momento tu ne senta il bisogno.</p>
+    <div class="grid grid-singole">
+
+      <div class="card">
+        <img class="card-img" src="/letture-dati/img/coppia.jpg" alt="Lettura di Coppia" loading="lazy">
+        <h3>Lettura di Coppia</h3>
+        <p class="desc">Analizziamo il grafico di connessione tra i vostri due disegni: canali elettromagnetici, centri condivisi, tema energetico della coppia.</p>
+        <div class="per-chi"><strong>Per chi è:</strong> per chi sente lo stesso conflitto tornare sempre uguale, o sta per fare un passo importante insieme.</div>
+        <div class="meta-row">
+          <div><span class="price">250€<span class="price-flag">da confermare</span></span><br><span class="duration">90 minuti</span></div>
+        </div>
+        <a class="btn-buy" href="/letture-dati/checkout.php?reading=coppia">Prenota e paga →</a>
+      </div>
+
+      <div class="card">
+        <img class="card-img" src="/letture-dati/img/figlio.jpg" alt="Lettura per il Figlio/a" loading="lazy">
+        <h3>Lettura per il Figlio/a</h3>
+        <p class="desc">Leggiamo il disegno di tuo figlio prima che il condizionamento si sedimenti, per non trasmettere schemi del Non-Sé.</p>
+        <div class="per-chi"><strong>Per chi è:</strong> per genitori di bambini piccoli, quando il disegno naturale è ancora leggibile.</div>
+        <div class="meta-row">
+          <div><span class="price">250€<span class="price-flag">da confermare</span></span><br><span class="duration">60 minuti</span></div>
+        </div>
+        <a class="btn-buy" href="/letture-dati/checkout.php?reading=figlio">Prenota e paga →</a>
+      </div>
+
+      <div class="card">
+        <img class="card-img" src="/letture-dati/img/ombra.jpg" alt="Lettura dei Lati Ombra" loading="lazy">
+        <h3>Lettura dei Lati Ombra</h3>
+        <p class="desc">Mappiamo il tuo tema del Non-Sé specifico e costruiamo un sistema di riconoscimento in tempo reale.</p>
+        <div class="per-chi"><strong>Per chi è:</strong> per chi ha già fatto la Foundation ma continua a cadere nello stesso schema.</div>
+        <div class="meta-row">
+          <div><span class="price">250€</span><br><span class="duration">90 minuti</span></div>
+        </div>
+        <a class="btn-buy" href="/letture-dati/checkout.php?reading=ombra">Prenota e paga →</a>
+      </div>
+
+      <div class="card">
+        <img class="card-img" src="/letture-dati/img/croce.jpg" alt="Lettura della Croce di Incarnazione" loading="lazy">
+        <h3>Croce di Incarnazione</h3>
+        <p class="desc">La tua Croce nasce da quattro porte, Sole e Terra coscienti e inconsci: circa il 70% della tua impronta energetica.</p>
+        <div class="per-chi"><strong>Per chi è:</strong> per chi cerca il proprio scopo più ampio, oltre il lavoro di tutti i giorni.</div>
+        <div class="meta-row">
+          <div><span class="price">250€<span class="price-flag">da confermare</span></span><br><span class="duration">90 minuti</span></div>
+        </div>
+        <a class="btn-buy" href="/letture-dati/checkout.php?reading=croce">Prenota e paga →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <h2 class="section-title">Cicli di Vita</h2>
+    <p class="section-sub">Letture legate a transiti specifici della vita, lette con la meccanica dello Human Design.</p>
+    <div class="honesty-note">
+      <strong>Nota di trasparenza:</strong> queste quattro letture nascono da transiti astrologici classici, riletti con la meccanica dello Human Design. Non fanno parte del nucleo originario (Tipologia, Strategia, Autorità, Croce di Incarnazione), sono un approfondimento avanzato.
+    </div>
+    <div class="grid">
+
+      <div class="card cycle">
+        <img class="card-img" src="/letture-dati/img/ritorno-solare.jpg" alt="Lettura del Ritorno Solare" loading="lazy">
+        <h3>Ritorno Solare</h3>
+        <p class="desc">Ogni anno, vicino al tuo compleanno, il Sole transita sulla porta esatta della tua nascita.</p>
+        <div class="per-chi"><strong>Per chi è:</strong> check-in annuale vicino al compleanno.</div>
+        <div class="meta-row"><div><span class="price">250€</span><br><span class="duration">60 minuti</span></div></div>
+        <a class="btn-buy" href="/letture-dati/checkout.php?reading=ritorno-solare">Prenota e paga →</a>
+      </div>
+
+      <div class="card cycle">
+        <img class="card-img" src="/letture-dati/img/ritorno-saturno.jpg" alt="Lettura del Ritorno di Saturno" loading="lazy">
+        <h3>Ritorno di Saturno</h3>
+        <p class="desc">Intorno ai 29 anni, il passaggio alla piena responsabilità della vita adulta.</p>
+        <div class="per-chi"><strong>Per chi è:</strong> chi si avvicina ai 29-30 anni.</div>
+        <div class="meta-row"><div><span class="price">250€</span><br><span class="duration">90 minuti</span></div></div>
+        <a class="btn-buy" href="/letture-dati/checkout.php?reading=ritorno-saturno">Prenota e paga →</a>
+      </div>
+
+      <div class="card cycle">
+        <img class="card-img" src="/letture-dati/img/ritorno-chirone.jpg" alt="Lettura del Ritorno di Chirone" loading="lazy">
+        <h3>Ritorno di Chirone</h3>
+        <p class="desc">Intorno ai 50 anni, la ferita d'infanzia che diventa il tuo contributo più grande.</p>
+        <div class="per-chi"><strong>Per chi è:</strong> chi si avvicina ai 50 anni.</div>
+        <div class="meta-row"><div><span class="price">250€</span><br><span class="duration">90 minuti</span></div></div>
+        <a class="btn-buy" href="/letture-dati/checkout.php?reading=ritorno-chirone">Prenota e paga →</a>
+      </div>
+
+      <div class="card cycle">
+        <img class="card-img" src="/letture-dati/img/opposizione-urano.jpg" alt="Lettura dell'Opposizione di Urano" loading="lazy">
+        <h3>Opposizione di Urano</h3>
+        <p class="desc">Tra i 38 e i 42 anni, lo spostamento dal Nodo Sud al Nodo Nord: la mezza età letta sulla tua carta.</p>
+        <div class="per-chi"><strong>Per chi è:</strong> chi ha tra i 38 e i 42 anni.</div>
+        <div class="meta-row"><div><span class="price">250€</span><br><span class="duration">90 minuti</span></div></div>
+        <a class="btn-buy" href="/letture-dati/checkout.php?reading=opposizione-urano">Prenota e paga →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="tier-wrap">
+    <h2 class="tier-title relazioni">Vita e Relazioni</h2>
+    <p class="tier-sub">Percorsi estesi. Usa la tua meccanica per ripulire la quotidianità dai condizionamenti, superare i blocchi inconsci e comprendere chi hai accanto.</p>
+    <div class="percorso-grid">
+      <div class="percorso-card">
+        <h4>Oltre l'Ombra</h4>
+        <p>Mini percorso di 3 sessioni da 90 minuti. Guardiamo in faccia gli schemi ripetitivi e le frustrazioni che ti portano fuori strada.</p>
+        <p class="percorso-price"><span class="label-accent">Prezzo:</span> 500 Euro</p>
+      </div>
+      <div class="percorso-card">
+        <h4>Ri-Conoscersi</h4>
+        <p>Percorso individuale di 10 sessioni da 90 minuti. Esploriamo il tema del tuo contributo e come manifesti il tuo scopo nel mondo.</p>
+        <p class="percorso-price"><span class="label-accent">Prezzo:</span> 1.200 Euro</p>
+      </div>
+      <div class="percorso-card">
+        <h4>Sinfonia a Due</h4>
+        <p>Percorso di coppia di 9 sessioni da 90 minuti. Analizziamo le connessioni elettromagnetiche tra i vostri grafici.</p>
+        <p class="percorso-price"><span class="label-accent">Prezzo:</span> 1.800 Euro</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier-wrap">
+    <h2 class="tier-title business">Individuo — Business</h2>
+    <p class="tier-sub">Applica la tua meccanica al mercato. Ottimizza la tua operatività professionale e le relazioni con i tuoi soci usando il codice BG5®.</p>
+    <div class="percorso-grid">
+      <div class="percorso-card business">
+        <h4>BG5® Business Blueprint</h4>
+        <p>Percorso di 15 sessioni da 90 minuti per liberi professionisti, consulenti e imprenditori indipendenti.</p>
+        <p class="percorso-price"><span class="label-secondary">Prezzo:</span> 1.800 Euro</p>
+      </div>
+      <div class="percorso-card business">
+        <h4>BG5® Partnership Dynamics</h4>
+        <p>Percorso per soci e co-fondatori. Analizziamo la compatibilità energetica e le dinamiche comunicative della partnership.</p>
+        <p class="percorso-price"><span class="label-secondary">Prezzo:</span> 2.200 Euro</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="final-cta">
+    <a href="/contatti" class="btn-primary-lg">Contattami per Iniziare</a>
+  </div>
+
+</div>
+</body>
+</html>
