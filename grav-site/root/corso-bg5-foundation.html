@@ -140,6 +140,7 @@ html { scroll-behavior: smooth; }
   display: grid; grid-template-columns: 1fr; gap: 2.75rem; align-items: center;
 }
 @media (min-width: 960px) { .cbg-hero__layout { grid-template-columns: 1.05fr .95fr; gap: 3.5rem; } }
+@media (max-width: 959px) { .cbg-hero__layout > div:nth-child(2) { order: -1; } }
 
 .cbg-hero__kicker {
   display: inline-flex; align-items: center; gap: .6rem;
