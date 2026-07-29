@@ -401,6 +401,13 @@ html { scroll-behavior: smooth; }
 .cbg-faq-item__body p + p { margin-top: .75rem; }
 .cbg-faq-item__body a { color: var(--primary-dark); }
 
+/* ── Foto reali di Valentina ── */
+.cbg-hero__photo { width: 100%; max-width: 320px; margin: 0 auto 1.75rem; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 44px rgba(26,35,50,.18); }
+.cbg-hero__photo img { width: 100%; height: auto; display: block; }
+@media (min-width: 960px) { .cbg-hero__photo { margin: 0 0 1.75rem; } }
+.cbg-section-photo { width: 100%; border-radius: 18px; overflow: hidden; margin: 3rem 0; box-shadow: 0 20px 50px rgba(26,35,50,.12); }
+.cbg-section-photo img { width: 100%; height: auto; display: block; object-fit: cover; }
+
 /* ── Utilities ── */
 .cbg-mt { margin-top: 2.5rem; }
 </style>
@@ -468,6 +475,9 @@ html { scroll-behavior: smooth; }
         </div>
 
         <div>
+          <div class="cbg-hero__photo">
+            <img src="/user/pages/assets/corso-bg5-foundation/hero-valentina.jpg" alt="Valentina Russo, Analista Certificata BG5&reg;" width="760" height="950" loading="eager">
+          </div>
           <div class="cbg-course-card">
             <div class="cbg-course-card__top">
               <p class="cbg-course-card__brand">BG5&reg; Foundation</p>
@@ -591,6 +601,12 @@ html { scroll-behavior: smooth; }
     </div>
   </section>
 
+
+  <div class="cbg-container">
+    <div class="cbg-section-photo cbg-reveal">
+      <img src="/user/pages/assets/corso-bg5-foundation/sezione-valentina.jpg" alt="Valentina Russo, Analista Certificata BG5&reg;" width="1400" height="612" loading="lazy">
+    </div>
+  </div>
 
   <!-- ══════════════════════════ PROGRAMMA ══════════════════════════ -->
   <section class="cbg-section cbg-section--parchment" id="programma">
