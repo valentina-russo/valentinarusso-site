@@ -40,11 +40,9 @@ h1.page-title { text-align:center; font-size: clamp(2rem, 5vw, 2.75rem); font-st
 .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
 .card {
   background: var(--white); border: 1px solid var(--soft-gray); border-top: 4px solid var(--primary-color);
-  border-radius: 12px; padding: 0 0 1.75rem; display:flex; flex-direction:column; overflow: hidden;
+  border-radius: 12px; padding: 1.75rem; display:flex; flex-direction:column; overflow: hidden;
 }
-.card-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; margin-bottom: 1.25rem; }
-.card h3, .card p.desc, .card .per-chi, .card .meta-row, .card .btn-buy { margin-left: 1.75rem; margin-right: 1.75rem; }
-.card .btn-buy { margin-bottom: 0; }
+.card-img { width: calc(100% + 3.5rem); aspect-ratio: 4/3; object-fit: cover; display: block; margin: -1.75rem -1.75rem 1.25rem; }
 .card.cycle { border-top-color: var(--secondary-color); }
 .card h3 { font-size: 1.3rem; margin: 0 0 .75rem; font-style: italic; }
 .card p.desc { font-size: .925rem; color: var(--text); margin: 0 0 1rem; flex-grow: 0; }
