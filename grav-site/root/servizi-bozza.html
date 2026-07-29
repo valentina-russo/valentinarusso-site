@@ -58,7 +58,12 @@ h1.page-title { text-align:center; font-size: clamp(2rem, 5vw, 2.75rem); font-st
   color: #fff; text-decoration:none; border-radius: 6px; font-weight: 700; font-size: .95rem; transition: background .2s;
 }
 .btn-buy:hover { background: #a06f83; }
-.foundation-card { border-top-color: var(--accent-color); }
+.foundation-card { border-top-color: var(--accent-color); background: #FDF6EC; position: relative; }
+.start-badge {
+  position: absolute; top: 1rem; left: 1rem; z-index: 2;
+  background: var(--accent-color); color: var(--navy); font-size: .75rem; font-weight: 700;
+  padding: .4rem .9rem; border-radius: 100px; letter-spacing: .02em; box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
 </style>
 </head>
 <body>
@@ -80,6 +85,7 @@ h1.page-title { text-align:center; font-size: clamp(2rem, 5vw, 2.75rem); font-st
   <div class="grid">
 
     <div class="card foundation-card">
+      <span class="start-badge">Si parte da qui</span>
       <img class="card-img" src="/letture-dati/img/foundation.jpg" alt="Valentina Russo" loading="lazy">
       <h3>Lettura Foundation (Prima Lettura)</h3>
       <p class="desc">Decodifica la tua Tipologia Energetica, Strategia, Autorità Interna e Profilo. Il punto di ingresso obbligato per tutte le altre letture.</p>
