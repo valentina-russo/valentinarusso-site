@@ -641,6 +641,31 @@ jobs:
             **/.git*/**
             **/logs/**
 
+      - name: Crea letture-dati/.env con la chiave Stripe (da GitHub Secret, stesso account libretto-dati)
+        env:
+          STRIPE_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+        run: |
+          if [ -z "$STRIPE_KEY" ]; then
+            echo "WARN: STRIPE_SECRET_KEY non configurata -- .env non verra creato"
+          else
+            echo "STRIPE_SECRET_KEY=$STRIPE_KEY" > grav-site/root/letture-dati/.env
+            echo "OK: .env creato (lunghezza chiave: ${#STRIPE_KEY} char)"
+          fi
+
+      - name: Deploy letture-dati (checkout, dati, invia PHP, .env, .htaccess) -- BOZZA servizi, non linkata pubblicamente
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/root/letture-dati/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}letture-dati/
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/logs/**
+
       - name: Crea bg5-blueprint/.env con segreti webhook (da GitHub Secrets)
         env:
           STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOZZA — Letture Human Design/BG5 · Valentina Russo</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+:root {
+  --primary-color: #B68397;
+  --secondary-color: #5DAEB1;
+  --accent-color: #E6A756;
+  --white: #FFFFFF;
+  --soft-gray: #EAE5E1;
+  --text: #2D2926;
+  --muted: #6B6560;
+  --navy: #1A2332;
+}
+body { margin:0; font-family:'Outfit',sans-serif; background:#FAF7F5; color:var(--text); line-height:1.6; }
+.wrap { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+.draft-banner {
+  background: var(--navy); color: #fff; text-align: center; padding: .75rem 1rem;
+  font-size: .85rem; font-weight: 600; letter-spacing: .03em;
+}
+.draft-banner strong { color: var(--accent-color); }
+h1, h2, h3 { font-family:'Playfair Display', serif; color: var(--navy); }
+h1.page-title { text-align:center; font-size: clamp(2rem, 5vw, 2.75rem); font-style: italic; margin: 2.5rem 0 .75rem; }
+.page-intro { text-align:center; max-width: 640px; margin: 0 auto 3rem; color: var(--muted); font-size: 1.05rem; }
+.section-title { text-align:center; font-size: 1.8rem; font-style: italic; margin: 3.5rem 0 .5rem; color: var(--primary-color); }
+.section-sub { text-align:center; color: var(--muted); font-size: .95rem; max-width: 620px; margin: 0 auto 2rem; }
+.honesty-note {
+  background: rgba(93,174,177,.08); border: 1.5px solid rgba(93,174,177,.3); border-radius: 8px;
+  padding: 1rem 1.25rem; max-width: 700px; margin: 0 auto 2.5rem; font-size: .875rem; color: var(--muted);
+}
+.honesty-note strong { color: var(--navy); }
+.grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+.card {
+  background: var(--white); border: 1px solid var(--soft-gray); border-top: 4px solid var(--primary-color);
+  border-radius: 12px; padding: 1.75rem; display:flex; flex-direction:column;
+}
+.card.cycle { border-top-color: var(--secondary-color); }
+.card h3 { font-size: 1.3rem; margin: 0 0 .75rem; font-style: italic; }
+.card p.desc { font-size: .925rem; color: var(--text); margin: 0 0 1rem; flex-grow: 0; }
+.card .per-chi { font-size: .85rem; color: var(--muted); background: var(--soft-gray); border-radius: 6px; padding: .7rem .9rem; margin-bottom: 1.25rem; }
+.card .per-chi strong { color: var(--navy); }
+.card .meta-row { display:flex; justify-content:space-between; align-items:baseline; margin-top:auto; padding-top: 1rem; border-top: 1px dashed var(--soft-gray); }
+.card .price { font-size: 1.4rem; font-weight: 700; color: var(--navy); }
+.card .price small { font-size: .75rem; font-weight: 500; color: var(--muted); }
+.card .duration { font-size: .8rem; color: var(--muted); }
+.card .price-flag { font-size: .7rem; color: var(--accent-color); font-weight: 700; display:block; margin-top:.15rem; }
+.btn-buy {
+  display:block; text-align:center; margin-top: 1rem; padding: .85rem 1rem; background: var(--primary-color);
+  color: #fff; text-decoration:none; border-radius: 6px; font-weight: 700; font-size: .95rem; transition: background .2s;
+}
+.btn-buy:hover { background: #a06f83; }
+.foundation-card { border-top-color: var(--accent-color); }
+</style>
+</head>
+<body>
+
+<div class="draft-banner">
+  🔒 <strong>BOZZA — anteprima per Valentina</strong> · pagina non pubblicata, non indicizzata, non linkata dal sito pubblico. I link "Prenota e paga" sono FUNZIONANTI su Stripe in modalità TEST (nessun addebito reale possibile).
+</div>
+
+<div class="wrap">
+
+  <h1 class="page-title">Le Letture</h1>
+  <p class="page-intro">
+    Ogni lettura parte da un momento preciso della tua vita, non da una teoria generale. Scegli quella che ti riguarda adesso, paghi online e Valentina ti contatta per fissare data e ora.
+  </p>
+
+  <h2 class="section-title">Letture Singole</h2>
+  <p class="section-sub">Sessioni singole su un tema specifico. La Foundation è il punto di ingresso, le altre puoi farle in qualsiasi momento tu ne senta il bisogno.</p>
+
+  <div class="grid">
+
+    <div class="card foundation-card">
+      <h3>Lettura Foundation (Prima Lettura)</h3>
+      <p class="desc">Decodifica la tua Tipologia Energetica, Strategia, Autorità Interna e Profilo. Il punto di ingresso obbligato per tutte le altre letture.</p>
+      <div class="per-chi"><strong>Per chi è:</strong> per chiunque non abbia ancora la propria mappa Human Design di base, prima di qualunque altra lettura.</div>
+      <div class="meta-row">
+        <div><span class="price">210€</span><br><span class="duration">120 minuti</span></div>
+      </div>
+      <a class="btn-buy" href="/letture-dati/checkout.php?reading=foundation">Prenota e paga →</a>
+    </div>
+
+    <div class="card">
+      <h3>Lettura di Coppia</h3>
+      <p class="desc">Analizziamo il grafico di connessione tra i vostri due disegni: i canali elettromagnetici che vi tengono insieme, i centri che si definiscono a vicenda, il tema energetico della coppia. La compatibilità si costruisce vivendo Strategia e Autorità ogni giorno, la lettura mostra dove la vostra energia si amplifica naturalmente e dove invece oscilla tra caldo e freddo.</p>
+      <div class="per-chi"><strong>Per chi è:</strong> per chi in una relazione sente lo stesso conflitto tornare sempre uguale, o sta per fare un passo importante insieme (convivenza, matrimonio, un figlio).</div>
+      <div class="meta-row">
+        <div><span class="price">250€<span class="price-flag">prezzo da confermare</span></span><br><span class="duration">90 minuti</span></div>
+      </div>
+      <a class="btn-buy" href="/letture-dati/checkout.php?reading=coppia">Prenota e paga →</a>
+    </div>
+
+    <div class="card">
+      <h3>Lettura per il Figlio/a</h3>
+      <p class="desc">Leggiamo il disegno di tuo figlio prima che il condizionamento si sedimenti, per capire dove è più vulnerabile a imparare a ignorare la propria energia naturale. La lettura ti dà gli strumenti per non trasmettere questi schemi.</p>
+      <div class="per-chi"><strong>Per chi è:</strong> per genitori di bambini piccoli, quando il disegno naturale del figlio è ancora leggibile senza troppi strati di condizionamento sopra.</div>
+      <div class="meta-row">
+        <div><span class="price">250€<span class="price-flag">prezzo da confermare</span></span><br><span class="duration">60 minuti</span></div>
+      </div>
+      <a class="btn-buy" href="/letture-dati/checkout.php?reading=figlio">Prenota e paga →</a>
+    </div>
+
+    <div class="card">
+      <h3>Lettura dei Lati Ombra</h3>
+      <p class="desc">Ogni Tipologia ha una Firma, la sensazione di quando vivi allineato al tuo disegno, e un tema del Non-Sé, il segnale di quando ne sei uscito. Mappiamo il tuo tema del Non-Sé specifico e costruiamo un sistema di riconoscimento in tempo reale.</p>
+      <div class="per-chi"><strong>Per chi è:</strong> per chi ha già fatto la Prima Lettura ma continua a cadere nello stesso schema senza riuscire a intercettarlo in tempo.</div>
+      <div class="meta-row">
+        <div><span class="price">250€</span><br><span class="duration">90 minuti</span></div>
+      </div>
+      <a class="btn-buy" href="/letture-dati/checkout.php?reading=ombra">Prenota e paga →</a>
+    </div>
+
+    <div class="card">
+      <h3>Lettura della Croce di Incarnazione</h3>
+      <p class="desc">La tua Croce di Incarnazione nasce da quattro porte, Sole e Terra coscienti e inconsci, e rappresenta circa il 70% della tua impronta energetica. La lettura ti mostra qual è la tua e cosa sei venuto a incarnare, non a fare.</p>
+      <div class="per-chi"><strong>Per chi è:</strong> per chi si chiede quale sia il proprio scopo più ampio, oltre il lavoro di tutti i giorni.</div>
+      <div class="meta-row">
+        <div><span class="price">250€<span class="price-flag">prezzo da confermare</span></span><br><span class="duration">90 minuti</span></div>
+      </div>
+      <a class="btn-buy" href="/letture-dati/checkout.php?reading=croce">Prenota e paga →</a>
+    </div>
+
+  </div>
+
+  <h2 class="section-title">Cicli di Vita</h2>
+  <p class="section-sub">Letture legate a transiti specifici della vita, lette con la meccanica dello Human Design.</p>
+  <div class="honesty-note">
+    <strong>Nota di trasparenza:</strong> queste quattro letture nascono da transiti astrologici classici (Ritorno Solare, di Saturno, di Chirone, Opposizione di Urano), riletti con la meccanica dello Human Design (porte e linee del tuo grafico). Non fanno parte del nucleo originario Human Design (Tipologia, Strategia, Autorità, Croce di Incarnazione), sono un approfondimento avanzato che molti analisti HD offrono in aggiunta.
+  </div>
+
+  <div class="grid">
+
+    <div class="card cycle">
+      <h3>Lettura del Ritorno Solare</h3>
+      <p class="desc">Ogni anno, vicino al tuo compleanno, il Sole transita di nuovo sulla porta esatta in cui si trovava alla tua nascita. La lettura individua quali porte si accendono nei prossimi dodici mesi.</p>
+      <div class="per-chi"><strong>Per chi è:</strong> per chi ha già la Prima Lettura e vuole un check-in annuale vicino al proprio compleanno.</div>
+      <div class="meta-row">
+        <div><span class="price">250€</span><br><span class="duration">60 minuti</span></div>
+      </div>
+      <a class="btn-buy" href="/letture-dati/checkout.php?reading=ritorno-solare">Prenota e paga →</a>
+    </div>
+
+    <div class="card cycle">
+      <h3>Lettura del Ritorno di Saturno</h3>
+      <p class="desc">Intorno ai 29 anni il Ritorno di Saturno segna il passaggio alla piena responsabilità della vita adulta. Calcoliamo il tuo grafico nel momento esatto del transito e lo confrontiamo con quello di nascita.</p>
+      <div class="per-chi"><strong>Per chi è:</strong> per chi si avvicina ai 29-30 anni e sente il peso di doversi prendere la responsabilità della propria vita.</div>
+      <div class="meta-row">
+        <div><span class="price">250€</span><br><span class="duration">90 minuti</span></div>
+      </div>
+      <a class="btn-buy" href="/letture-dati/checkout.php?reading=ritorno-saturno">Prenota e paga →</a>
+    </div>
+
+    <div class="card cycle">
+      <h3>Lettura del Ritorno di Chirone</h3>
+      <p class="desc">Intorno ai 50 anni il Ritorno di Chirone porta a galla la ferita che porti fin dall'infanzia. La lettura ti mostra come quella ferita può diventare il contributo più grande che hai da offrire.</p>
+      <div class="per-chi"><strong>Per chi è:</strong> per chi si avvicina ai 50 anni e sente riaffiorare una ferita di vecchia data.</div>
+      <div class="meta-row">
+        <div><span class="price">250€</span><br><span class="duration">90 minuti</span></div>
+      </div>
+      <a class="btn-buy" href="/letture-dati/checkout.php?reading=ritorno-chirone">Prenota e paga →</a>
+    </div>
+
+    <div class="card cycle">
+      <h3>Lettura dell'Opposizione di Urano</h3>
+      <p class="desc">Tra i 38 e i 42 anni l'Opposizione di Urano segna lo spostamento dal tema del Nodo Sud al tema del Nodo Nord: la fase che prepara la fioritura dei tuoi doni.</p>
+      <div class="per-chi"><strong>Per chi è:</strong> per chi ha tra i 38 e i 42 anni e sente che la vita costruita finora non basta più.</div>
+      <div class="meta-row">
+        <div><span class="price">250€</span><br><span class="duration">90 minuti</span></div>
+      </div>
+      <a class="btn-buy" href="/letture-dati/checkout.php?reading=opposizione-urano">Prenota e paga →</a>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

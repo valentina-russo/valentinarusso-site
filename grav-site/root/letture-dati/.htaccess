@@ -1,0 +1,36 @@
+# Blocca l'accesso HTTP a file sensibili in libretto-dati/
+# Apache su Aruba non gradisce le regex complesse di FilesMatch — usiamo
+# Files diretti per il file singolo (.env) e FilesMatch semplici per pattern.
+
+# .env (contiene STRIPE_SECRET_KEY)
+<Files ".env">
+    Order Allow,Deny
+    Deny from all
+</Files>
+<IfModule mod_authz_core.c>
+    <Files ".env">
+        Require all denied
+    </Files>
+</IfModule>
+
+# Pattern di file sensibili
+<FilesMatch "\.(log|json|bak|sql|gitignore)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+<IfModule mod_authz_core.c>
+    <FilesMatch "\.(log|json|bak|sql|gitignore)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+
+# File .example.php (template senza segreti)
+<FilesMatch "\.example\.php$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+<IfModule mod_authz_core.c>
+    <FilesMatch "\.example\.php$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
