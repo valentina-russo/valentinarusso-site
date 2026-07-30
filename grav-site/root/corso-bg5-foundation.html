@@ -440,17 +440,18 @@ html { scroll-behavior: smooth; }
   background-position: center;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 4rem 1.25rem;
 }
 .cbg-programma-bleed__card {
-  background: rgba(255,255,255,.95);
+  background: rgba(255,255,255,.96);
   border-radius: 20px;
   padding: 2.5rem 2.25rem;
-  max-width: 640px;
-  margin-left: auto;
-  box-shadow: 0 30px 70px rgba(0,0,0,.35);
+  max-width: 680px;
+  margin: 0 auto;
+  box-shadow: 0 30px 70px rgba(0,0,0,.4);
 }
-@media (max-width: 700px) { .cbg-programma-bleed__card { margin-left: 0; margin-right: 0; max-width: 100%; padding: 2rem 1.5rem; } }
+@media (max-width: 700px) { .cbg-programma-bleed__card { max-width: 100%; padding: 2rem 1.5rem; } }
 .cbg-programma-bleed__card .cbg-eyebrow { justify-content: flex-start; }
 .cbg-programma-bleed__card .cbg-section-title { font-size: clamp(1.4rem, 3vw, 1.8rem); }
 .cbg-programma-bleed__card .cbg-programma__grid { margin-top: 1.75rem; }
@@ -682,7 +683,7 @@ html { scroll-behavior: smooth; }
       <p class="cbg-section-sub">Apri ogni semestre per vedere il dettaglio completo delle 10 lezioni che lo compongono.</p>
 
       <div class="cbg-programma__grid">
-        <details class="cbg-sem" open>
+        <details class="cbg-sem">
           <summary>
             <span class="cbg-sem__head-text">
               <h3>Semestre 1 &middot; Personal Operating Style</h3>
