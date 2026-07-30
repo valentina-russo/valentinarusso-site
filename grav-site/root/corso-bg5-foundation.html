@@ -227,13 +227,21 @@ html { scroll-behavior: smooth; }
 .cbg-relevance__grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2.75rem; }
 @media (min-width: 860px) { .cbg-relevance__grid { grid-template-columns: repeat(3, 1fr); } }
 .cbg-relevance-card {
-  background: var(--white); border: 1px solid var(--soft-gray); border-radius: 14px;
-  padding: 1.9rem 1.7rem; position: relative;
+  background: var(--white); border: 1px solid var(--soft-gray); border-top: 3px solid var(--primary-color);
+  border-radius: 14px; padding: 1.9rem 1.7rem; position: relative;
+  transition: transform .22s ease, box-shadow .22s ease;
 }
+.cbg-relevance-card:hover { transform: translateY(-5px); box-shadow: 0 18px 34px rgba(26,35,50,.1); }
+.cbg-relevance-card:nth-child(2) { border-top-color: var(--secondary-color); }
+.cbg-relevance-card:nth-child(3) { border-top-color: var(--accent-color); }
 .cbg-relevance-card__icon {
-  width: 46px; height: 46px; border-radius: 50%; background: rgba(182,131,151,.1);
+  width: 46px; height: 46px; border-radius: 50%; background: rgba(182,131,151,.12);
   color: var(--primary-dark); display: flex; align-items: center; justify-content: center; margin-bottom: 1.1rem;
+  transition: transform .22s ease;
 }
+.cbg-relevance-card:hover .cbg-relevance-card__icon { transform: scale(1.08); }
+.cbg-relevance-card:nth-child(2) .cbg-relevance-card__icon { background: rgba(93,174,177,.14); color: var(--secondary-dark); }
+.cbg-relevance-card:nth-child(3) .cbg-relevance-card__icon { background: rgba(230,167,86,.16); color: var(--accent-dark); }
 .cbg-relevance-card h3 { font-size: 1.1rem; font-weight: 700; margin: 0 0 .6rem; line-height: 1.3; }
 .cbg-relevance-card p { font-size: .95rem; color: var(--text); line-height: 1.65; margin: 0; }
 
@@ -242,7 +250,8 @@ html { scroll-behavior: smooth; }
 ══════════════════════════════════════════ */
 .cbg-compare__grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2.75rem; align-items: stretch; }
 @media (min-width: 820px) { .cbg-compare__grid { grid-template-columns: 1fr 1.1fr; } }
-.cbg-compare-card { border-radius: 16px; padding: 2.1rem 2rem; }
+.cbg-compare-card { border-radius: 16px; padding: 2.1rem 2rem; transition: transform .22s ease, box-shadow .22s ease; }
+.cbg-compare-card:hover { transform: translateY(-4px); }
 .cbg-compare-card--light { background: var(--white); border: 1.5px solid var(--soft-gray); }
 .cbg-compare-card--dark { background: var(--navy); color: rgba(245,236,240,.9); box-shadow: 0 24px 48px rgba(16,24,35,.2); }
 .cbg-compare-card__label { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 .5rem; }
@@ -270,7 +279,9 @@ html { scroll-behavior: smooth; }
 .cbg-learn-item {
   background: var(--white); border: 1px solid var(--soft-gray); border-left: 3px solid var(--secondary-color);
   border-radius: 10px; padding: 1.6rem 1.6rem 1.5rem;
+  transition: transform .22s ease, box-shadow .22s ease;
 }
+.cbg-learn-item:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(26,35,50,.09); }
 .cbg-learn-item__eyebrow { font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--secondary-dark); margin: 0 0 .4rem; }
 .cbg-learn-item h3 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.2rem; margin: 0 0 .6rem; }
 .cbg-learn-item p { font-size: .97rem; color: var(--text); line-height: 1.65; margin: 0; }
@@ -320,7 +331,8 @@ html { scroll-behavior: smooth; }
 ══════════════════════════════════════════ */
 .cbg-fit__grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2.5rem; }
 @media (min-width: 820px) { .cbg-fit__grid { grid-template-columns: 1fr 1fr; } }
-.cbg-fit-box { border-radius: 14px; padding: 1.9rem 2rem; }
+.cbg-fit-box { border-radius: 14px; padding: 1.9rem 2rem; transition: transform .22s ease, box-shadow .22s ease; }
+.cbg-fit-box:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(26,35,50,.08); }
 .cbg-fit-box--yes { background: rgba(74,140,140,.07); border: 1.5px solid rgba(74,140,140,.28); }
 .cbg-fit-box--no { background: var(--white); border: 1.5px solid var(--soft-gray); }
 .cbg-fit-box h3 { font-size: 1.05rem; font-style: italic; margin: 0 0 1.1rem; }
@@ -354,7 +366,7 @@ html { scroll-behavior: smooth; }
   color: var(--primary-dark); font-size: .8rem; font-weight: 700; letter-spacing: .01em;
   background: var(--white); transition: background .18s ease, border-color .18s ease;
 }
-.cbg-badge:hover { background: rgba(182,131,151,.06); border-color: var(--primary-dark); }
+.cbg-badge:hover { background: rgba(182,131,151,.06); border-color: var(--primary-dark); transform: translateY(-2px); }
 .cbg-badge__mark { font-size: .95rem; }
 
 /* ══════════════════════════════════════════
@@ -362,8 +374,11 @@ html { scroll-behavior: smooth; }
 ══════════════════════════════════════════ */
 .cbg-price-card {
   max-width: 560px; margin: 2.75rem auto 0; background: var(--navy); border-radius: 20px;
+  border-top: 4px solid var(--accent-color);
   padding: 2.75rem 2.5rem; box-shadow: 0 32px 64px rgba(16,24,35,.28); position: relative; overflow: hidden;
+  transition: transform .22s ease, box-shadow .22s ease;
 }
+.cbg-price-card:hover { transform: translateY(-4px); box-shadow: 0 40px 76px rgba(16,24,35,.34); }
 .cbg-price-card::before {
   content: ''; position: absolute; inset: 0;
   background: radial-gradient(ellipse 500px 320px at 100% 0%, rgba(230,167,86,.14), transparent 60%);
@@ -392,7 +407,10 @@ html { scroll-behavior: smooth; }
    FAQ — accordion nativo
 ══════════════════════════════════════════ */
 .cbg-faq { max-width: 760px; margin: 2.75rem auto 0; display: grid; gap: .7rem; }
-.cbg-faq-item { background: var(--white); border: 1px solid var(--soft-gray); border-radius: 10px; overflow: hidden; }
+.cbg-faq-item { background: var(--white); border: 1px solid var(--soft-gray); border-radius: 10px; overflow: hidden; transition: border-color .22s ease, box-shadow .22s ease; }
+.cbg-faq-item:hover { box-shadow: 0 10px 26px rgba(26,35,50,.08); }
+.cbg-faq-item[open] { border-color: rgba(182,131,151,.4); box-shadow: 0 14px 34px rgba(26,35,50,.1); }
+.cbg-faq-item[open] summary { color: var(--primary-dark); }
 .cbg-faq-item summary {
   cursor: pointer; list-style: none; padding: 1.15rem 1.4rem; font-weight: 600; font-size: .98rem; color: var(--navy);
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
