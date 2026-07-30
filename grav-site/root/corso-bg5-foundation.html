@@ -432,29 +432,7 @@ html { scroll-behavior: smooth; }
 .cbg-section-photo img { width: 100%; height: auto; display: block; object-fit: cover; }
 
 /* ── Full-bleed Programma ── */
-.cbg-programma-bleed {
-  position: relative;
-  min-height: 560px;
-  background-image: url('/user/pages/assets/corso-bg5-foundation/programma-bleed.jpg');
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 1.25rem;
-}
-.cbg-programma-bleed__card {
-  background: rgba(255,255,255,.96);
-  border-radius: 20px;
-  padding: 2.5rem 2.25rem;
-  max-width: 680px;
-  margin: 0 auto;
-  box-shadow: 0 30px 70px rgba(0,0,0,.4);
-}
-@media (max-width: 700px) { .cbg-programma-bleed__card { max-width: 100%; padding: 2rem 1.5rem; } }
-.cbg-programma-bleed__card .cbg-eyebrow { justify-content: flex-start; }
-.cbg-programma-bleed__card .cbg-section-title { font-size: clamp(1.4rem, 3vw, 1.8rem); }
-.cbg-programma-bleed__card .cbg-programma__grid { margin-top: 1.75rem; }
+/* (full-bleed Programma rimosso, tornato a sezione standard) */
 
 /* ── Layout a split asimmetrico (immagine + contenuto) ── */
 .cbg-split { display: grid; grid-template-columns: 1fr; gap: 2.25rem; align-items: stretch; margin-top: 2.75rem; }
@@ -676,11 +654,17 @@ html { scroll-behavior: smooth; }
   </section>
 
   <!-- ══════════════════════════ PROGRAMMA ══════════════════════════ -->
-  <section class="cbg-programma-bleed" id="programma">
-    <div class="cbg-programma-bleed__card cbg-reveal">
-      <p class="cbg-eyebrow">Il programma</p>
-      <h2 class="cbg-section-title">20 lezioni, lezione per lezione.</h2>
-      <p class="cbg-section-sub">Apri ogni semestre per vedere il dettaglio completo delle 10 lezioni che lo compongono.</p>
+  <section class="cbg-section cbg-section--parchment" id="programma">
+    <div class="cbg-container">
+      <div class="cbg-center" style="max-width:700px;margin:0 auto">
+        <p class="cbg-eyebrow">Il programma</p>
+        <h2 class="cbg-section-title">20 lezioni, lezione per lezione.</h2>
+        <p class="cbg-section-sub">Apri ogni semestre per vedere il dettaglio completo delle 10 lezioni che lo compongono.</p>
+      </div>
+
+      <div class="cbg-section-photo cbg-reveal" style="margin-top:2.5rem">
+        <img src="/user/pages/assets/corso-bg5-foundation/programma-bleed.jpg" alt="Illustrazione astratta di una rete di connessioni luminose" loading="eager">
+      </div>
 
       <div class="cbg-programma__grid">
         <details class="cbg-sem">
