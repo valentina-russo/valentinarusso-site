@@ -41,7 +41,7 @@
   --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem; --space-16: 4rem;
 }
 
-.cbg { font-family: 'Outfit', sans-serif; color: var(--text); line-height: 1.6; background: var(--parchment) url('/user/pages/assets/corso-bg5-foundation/page-bg-texture.jpg') top center / 900px auto repeat-y; }
+.cbg { font-family: 'Outfit', sans-serif; color: var(--text); background: var(--parchment); line-height: 1.6; }
 .cbg h1, .cbg h2, .cbg h3, .cbg .cbg-price { font-family: 'Playfair Display', serif; color: var(--navy); }
 .cbg a { color: var(--primary-dark); }
 .cbg img { max-width: 100%; display: block; }
@@ -91,14 +91,18 @@
 
 /* ── Section rhythm — gradienti alternati, coerenti col sito ── */
 .cbg-section { position: relative; padding: 4.5rem 0; }
-.cbg-section--white     { background: linear-gradient(165deg, rgba(255,255,255,.93) 0%, rgba(251,248,246,.93) 55%, rgba(246,240,243,.93) 100%); }
-.cbg-section--parchment { background: linear-gradient(150deg, rgba(250,247,245,.93) 0%, rgba(244,238,242,.93) 50%, rgba(239,234,242,.93) 100%); }
-.cbg-section--soft      { background: linear-gradient(140deg, rgba(234,229,225,.93) 0%, rgba(227,220,230,.93) 50%, rgba(220,230,229,.93) 100%); }
-.cbg-section--amber     { background: linear-gradient(155deg, rgba(250,247,245,.93) 0%, rgba(246,239,239,.93) 45%, rgba(241,238,224,.93) 100%); }
+.cbg-section--white     { background: linear-gradient(165deg, #FFFFFF 0%, #FBF8F6 55%, #F6F0F3 100%); }
+.cbg-section--parchment { background: linear-gradient(150deg, #FAF7F5 0%, #F4EEF2 50%, #EFEAF2 100%); }
+.cbg-section--soft      { background: linear-gradient(140deg, #EAE5E1 0%, #E3DCE6 50%, #DCE6E5 100%); }
+.cbg-section--amber     { background: linear-gradient(155deg, #FAF7F5 0%, #F6EFEF 45%, #F1EEE0 100%); }
 .cbg-section--dark {
-  background: linear-gradient(150deg, var(--navy) 0%, #1D1B32 55%, var(--navy-deep) 100%);
+  background:
+    linear-gradient(150deg, rgba(26,35,50,.88) 0%, rgba(29,27,50,.90) 55%, rgba(16,24,35,.94) 100%),
+    url('/user/pages/assets/corso-bg5-foundation/page-bg-texture.jpg') center / cover;
   color: rgba(250,247,245,.82);
 }
+/* Divisore angolato tra Hero e "Perche questo corso" -- rompe la linea orizzontale piatta */
+#perche { position: relative; z-index: 2; clip-path: polygon(0 2.5vw, 100% 0, 100% 100%, 0 100%); margin-top: -2.5vw; }
 .cbg-section--dark .cbg-section-title { color: #F3EEF0; }
 .cbg-section--dark .cbg-section-sub { color: rgba(243,238,240,.68); }
 
@@ -409,6 +413,42 @@ html { scroll-behavior: smooth; }
 .cbg-section-photo { width: 100%; border-radius: 18px; overflow: hidden; margin: 3rem 0; box-shadow: 0 20px 50px rgba(26,35,50,.12); }
 .cbg-section-photo img { width: 100%; height: auto; display: block; object-fit: cover; }
 
+/* ── Full-bleed Programma ── */
+.cbg-programma-bleed {
+  position: relative;
+  min-height: 560px;
+  background-image: url('/user/pages/assets/corso-bg5-foundation/programma-bleed.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  padding: 4rem 1.25rem;
+}
+.cbg-programma-bleed__card {
+  background: rgba(255,255,255,.95);
+  border-radius: 20px;
+  padding: 2.5rem 2.25rem;
+  max-width: 640px;
+  margin-left: auto;
+  box-shadow: 0 30px 70px rgba(0,0,0,.35);
+}
+@media (max-width: 700px) { .cbg-programma-bleed__card { margin-left: 0; margin-right: 0; max-width: 100%; padding: 2rem 1.5rem; } }
+.cbg-programma-bleed__card .cbg-eyebrow { justify-content: flex-start; }
+.cbg-programma-bleed__card .cbg-section-title { font-size: clamp(1.4rem, 3vw, 1.8rem); }
+.cbg-programma-bleed__card .cbg-programma__grid { margin-top: 1.75rem; }
+
+/* ── Layout a split asimmetrico (immagine + contenuto) ── */
+.cbg-split { display: grid; grid-template-columns: 1fr; gap: 2.25rem; align-items: stretch; margin-top: 2.75rem; }
+@media (min-width: 860px) { .cbg-split { grid-template-columns: .85fr 1.15fr; gap: 3.25rem; } }
+@media (min-width: 860px) { .cbg-split--reverse { grid-template-columns: 1.15fr .85fr; } }
+.cbg-split--reverse .cbg-split__visual { order: 2; }
+.cbg-split--reverse .cbg-split__content { order: 1; }
+.cbg-split__visual { border-radius: 20px; overflow: hidden; box-shadow: 0 24px 56px rgba(26,35,50,.16); min-height: 280px; }
+.cbg-split__visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cbg-split__content .cbg-compare__grid,
+.cbg-split__content .cbg-learn__grid,
+.cbg-split__content .cbg-fit__grid { grid-template-columns: 1fr !important; margin-top: 0; }
+
 /* ── Utilities ── */
 .cbg-mt { margin-top: 2.5rem; }
 </style>
@@ -554,7 +594,12 @@ html { scroll-behavior: smooth; }
         <p class="cbg-section-sub">Sono due strumenti diversi, pensati per momenti diversi. Non uno sostituisce l'altro: ecco la differenza reale.</p>
       </div>
 
-      <div class="cbg-compare__grid cbg-reveal">
+      <div class="cbg-split cbg-reveal">
+        <div class="cbg-split__visual">
+          <img src="/user/pages/assets/corso-bg5-foundation/sezione-valentina.jpg" alt="Valentina Russo, Analista Certificata BG5&reg;" loading="lazy">
+        </div>
+        <div class="cbg-split__content">
+        <div class="cbg-compare__grid">
         <div class="cbg-compare-card cbg-compare-card--light">
           <p class="cbg-compare-card__label">Un punto di partenza</p>
           <h3>Lettura Foundation individuale</h3>
@@ -574,10 +619,9 @@ html { scroll-behavior: smooth; }
           </ul>
         </div>
       </div>
-      <p class="cbg-compare__bridge">Molte persone iniziano con la Lettura e arrivano al Corso quando cercano il metodo, non solo la fotografia del momento.</p>
-      <div class="cbg-section-photo cbg-reveal" style="margin-top:2.5rem">
-        <img src="/user/pages/assets/corso-bg5-foundation/confronto-lezione-live.jpg" alt="Lezione dal vivo online, prendere appunti durante una videochiamata" width="1400" height="781" loading="lazy">
+        </div>
       </div>
+      <p class="cbg-compare__bridge">Molte persone iniziano con la Lettura e arrivano al Corso quando cercano il metodo, non solo la fotografia del momento.</p>
     </div>
   </section>
 
@@ -590,7 +634,12 @@ html { scroll-behavior: smooth; }
         <h2 class="cbg-section-title">Il curriculum ufficiale BG5&reg; Business Institute, in due macro-aree.</h2>
         <p class="cbg-section-sub">Il corso segue esattamente il curriculum ufficiale BG5&reg; Foundation, diviso in due semestri complementari.</p>
       </div>
-      <div class="cbg-learn__grid">
+      <div class="cbg-split cbg-split--reverse cbg-reveal">
+        <div class="cbg-split__visual">
+          <img src="/user/pages/assets/corso-bg5-foundation/impari-split.jpg" alt="Illustrazione astratta di nastri di luce che convergono verso un punto dorato" loading="lazy">
+        </div>
+        <div class="cbg-split__content">
+        <div class="cbg-learn__grid">
         <div class="cbg-learn-item cbg-reveal">
           <p class="cbg-learn-item__eyebrow">Semestre 1</p>
           <h3>Personal Operating Style</h3>
@@ -602,27 +651,17 @@ html { scroll-behavior: smooth; }
           <p>Dove porti valore: le tue tematiche generali, i punti di forza nei 5 circuiti energetici, le 6 qualità dei tratti, il tuo ruolo pubblico tra le 12 possibilità del sistema BG5&reg;.</p>
         </div>
       </div>
-      <div class="cbg-section-photo cbg-reveal" style="margin-top:2.5rem">
-        <img src="/user/pages/assets/corso-bg5-foundation/programma-network.jpg" alt="Illustrazione astratta di una rete di connessioni, rappresenta l'interconnessione tra le funzioni del Career Design" width="1400" height="781" loading="lazy">
+        </div>
       </div>
     </div>
   </section>
 
-
-  <div class="cbg-container">
-    <div class="cbg-section-photo cbg-reveal">
-      <img src="/user/pages/assets/corso-bg5-foundation/sezione-valentina.jpg" alt="Valentina Russo, Analista Certificata BG5&reg;" width="1400" height="612" loading="lazy">
-    </div>
-  </div>
-
   <!-- ══════════════════════════ PROGRAMMA ══════════════════════════ -->
-  <section class="cbg-section cbg-section--parchment" id="programma">
-    <div class="cbg-container">
-      <div class="cbg-center" style="max-width:700px;margin:0 auto">
-        <p class="cbg-eyebrow">Il programma</p>
-        <h2 class="cbg-section-title">20 lezioni, lezione per lezione.</h2>
-        <p class="cbg-section-sub">Apri ogni semestre per vedere il dettaglio completo delle 10 lezioni che lo compongono.</p>
-      </div>
+  <section class="cbg-programma-bleed" id="programma">
+    <div class="cbg-programma-bleed__card cbg-reveal">
+      <p class="cbg-eyebrow">Il programma</p>
+      <h2 class="cbg-section-title">20 lezioni, lezione per lezione.</h2>
+      <p class="cbg-section-sub">Apri ogni semestre per vedere il dettaglio completo delle 10 lezioni che lo compongono.</p>
 
       <div class="cbg-programma__grid">
         <details class="cbg-sem" open>
@@ -692,7 +731,12 @@ html { scroll-behavior: smooth; }
         <p class="cbg-section-sub">Un percorso di 20 settimane è un impegno vero. Meglio saperlo prima di iscriversi.</p>
       </div>
 
-      <div class="cbg-fit__grid">
+      <div class="cbg-split cbg-reveal">
+        <div class="cbg-split__visual">
+          <img src="/user/pages/assets/corso-bg5-foundation/per-chi-split.jpg" alt="Mani che prendono appunti durante una lezione online" loading="lazy">
+        </div>
+        <div class="cbg-split__content">
+        <div class="cbg-fit__grid">
         <div class="cbg-fit-box cbg-fit-box--yes cbg-reveal">
           <h3>È per te se</h3>
           <ul>
@@ -710,6 +754,8 @@ html { scroll-behavior: smooth; }
             <li><span class="cbg-fit-box__mark">&minus;</span>Cerchi una risposta rapida su un singolo aspetto della tua carta: per quello c'è la lettura individuale</li>
             <li><span class="cbg-fit-box__mark">&minus;</span>Non puoi impegnare circa 2 ore a settimana per 20 settimane</li>
           </ul>
+        </div>
+        </div>
         </div>
       </div>
     </div>
