@@ -34,7 +34,7 @@
 .letture-wrap .hero-lead { text-align:center; font-family:'Playfair Display',serif; font-style:italic; font-size:1.2rem; color:var(--primary-color); max-width:720px; margin:0 auto 1.25rem; line-height:1.6; }
 .letture-wrap .hero-body { text-align:center; max-width:700px; margin:0 auto 1.25rem; color:#2D2926; }
 .letture-wrap .hero-cta { text-align:center; max-width:700px; margin:0 auto 2rem; color:var(--secondary-color); font-weight:700; }
-.letture-wrap .section-title { text-align:center; font-family:'Playfair Display',serif; font-size:1.5rem; font-style:italic; margin:2.5rem 0 .35rem; color:var(--primary-dark); }
+.letture-wrap .section-title { text-align:center; font-family:'Playfair Display',serif; font-size:1.5rem; font-style:italic; margin:1.25rem 0 1.5rem; color:var(--primary-dark); }
 .letture-wrap .section-sub { text-align:center; color:#6B6560; font-size:1rem; max-width:580px; margin:0 auto 1.5rem; }
 .letture-wrap .grid { display:grid; grid-template-columns:1fr; gap:1.5rem; }
 @media (min-width:900px) {
@@ -63,6 +63,11 @@
 .letture-wrap .foundation-card { border-top-color:var(--accent-color); background:#FDF6EC; position:relative; }
 .letture-wrap .foundation-card .price { font-size:1.6rem; }
 .letture-wrap .start-badge { position:absolute; top:1rem; left:1rem; z-index:2; background:var(--accent-color); color:var(--navy); font-size:.75rem; font-weight:700; padding:.4rem .9rem; border-radius:100px; letter-spacing:.02em; box-shadow:0 2px 8px rgba(0,0,0,.15); }
+.letture-wrap .card.corp { border-top-color:var(--navy); }
+.letture-wrap .card.corp ul { margin:0 0 1.25rem; padding-left:1.1rem; font-size:.92rem; color:#2D2926; }
+.letture-wrap .card.corp ul li { margin-bottom:.3rem; }
+.letture-wrap .card.corp .price.quote { font-size:1.05rem; }
+
 </style>
 {% endblock %}
 
@@ -200,6 +205,68 @@
               <a class="btn-buy" href="{{ grav.base_url }}/letture-dati/checkout.php?reading=opposizione-urano">Prenota e paga &rarr;</a>
             </div>
 
+          </div>
+
+          <h2 class="section-title">Percorsi BG5&reg; per il Business</h2>
+          <p class="section-sub">Lo stesso metodo applicato a carriera, partnership e team &mdash; per chi lavora e guida altre persone.</p>
+
+          <div class="grid grid-trio">
+
+            <div class="card corp" id="bg5-business-blueprint">
+              <h3>BG5 Business Blueprint</h3>
+              <p class="desc">Per liberi professionisti, consulenti e imprenditori indipendenti che vogliono lavorare in allineamento al proprio modo naturale di operare.</p>
+              <ul>
+                <li>Il tuo modo naturale di contribuire</li>
+                <li>Segnali di corretto allineamento</li>
+                <li>Ambiente di lavoro ideale</li>
+                <li>Individuazione dei condizionamenti</li>
+              </ul>
+              <div class="meta-row">
+                <div><span class="price">1.800&euro;</span><br><span class="duration">15 sessioni da 90 min + PDF + registrazioni</span></div>
+              </div>
+              <a class="btn-buy" href="{{ grav.base_url }}/aziende/contatti">Richiedi informazioni &rarr;</a>
+            </div>
+
+            <div class="card corp" id="bg5-partnership-dynamics">
+              <h3>BG5 Partnership Dynamics</h3>
+              <p class="desc">Percorso per soci e co-fondatori. Comprendere le meccaniche individuali e di relazione previene gli attriti e rende le decisioni chiare.</p>
+              <ul>
+                <li>Dinamiche naturali della coppia societaria</li>
+                <li>Talenti portati da ciascun socio</li>
+                <li>Connessioni elettromagnetiche</li>
+                <li>Aree di compromesso e affinit&agrave;</li>
+              </ul>
+              <div class="meta-row">
+                <div><span class="price">2.200&euro;</span><br><span class="duration">Analisi intensiva delle dinamiche tra soci</span></div>
+              </div>
+              <a class="btn-buy" href="{{ grav.base_url }}/aziende/contatti">Richiedi informazioni &rarr;</a>
+            </div>
+
+            <div class="card corp" id="alpha-one">
+              <h3>Alpha One &mdash; Personal Management</h3>
+              <p class="desc">Percorso intensivo premium per CEO e manager: guidare il team e ottenere risultati reali conoscendo il proprio design di leadership.</p>
+              <ul>
+                <li>Gestione del team con meno conflitti</li>
+                <li>Decisioni strategiche con chiarezza meccanica</li>
+                <li>Ottimizzazione di energia e tempo</li>
+              </ul>
+              <div class="meta-row">
+                <div><span class="price">1.800&euro;</span><br><span class="duration">4 sessioni da 90 min (6 ore totali)</span></div>
+              </div>
+              <a class="btn-buy" href="{{ grav.base_url }}/aziende/contatti">Richiedi informazioni &rarr;</a>
+            </div>
+
+          </div>
+
+          <div class="grid" style="margin-top:1.5rem;max-width:500px;margin-left:auto;margin-right:auto;">
+            <div class="card corp" id="bg5-corporate-analysis">
+              <h3>BG5 Corporate Analysis</h3>
+              <p class="desc">Ottimizzazione di performance, leadership e dinamiche interne per aziende e team: Disegno di Carriera, Team Engineering, Analisi Gruppo Unificato, consulenze 1:1 per HR e management. Progetto su misura, costruito sulla struttura reale dell&rsquo;organizzazione.</p>
+              <div class="meta-row">
+                <div><span class="price quote">Preventivo personalizzato</span><br><span class="duration">Progetto su misura</span></div>
+              </div>
+              <a class="btn-buy btn-buy-primary" href="{{ grav.base_url }}/aziende/contatti">Richiedi una consulenza &rarr;</a>
+            </div>
           </div>
 
         </div>
