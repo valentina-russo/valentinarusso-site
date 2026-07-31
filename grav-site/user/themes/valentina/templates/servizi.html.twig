@@ -63,10 +63,23 @@
 .letture-wrap .foundation-card { border-top-color:var(--accent-color); background:#FDF6EC; position:relative; }
 .letture-wrap .foundation-card .price { font-size:1.6rem; }
 .letture-wrap .start-badge { position:absolute; top:1rem; left:1rem; z-index:2; background:var(--accent-color); color:var(--navy); font-size:.75rem; font-weight:700; padding:.4rem .9rem; border-radius:100px; letter-spacing:.02em; box-shadow:0 2px 8px rgba(0,0,0,.15); }
-.letture-wrap .card.corp { border-top-color:var(--navy); }
+.corp-zone { background:linear-gradient(180deg, rgba(30,58,95,.05) 0%, rgba(30,58,95,.02) 100%); border-radius:20px; padding:2.5rem clamp(1rem,4vw,2.5rem) 2.75rem; margin-top:1.5rem; }
+.corp-zone .section-title { color:var(--corp-primary); margin-top:.5rem; }
+.letture-wrap .card.corp { border-top-color:var(--corp-primary); }
+.letture-wrap .card.corp h3 { color:var(--corp-primary); }
 .letture-wrap .card.corp ul { margin:0 0 1.25rem; padding-left:1.1rem; font-size:.92rem; color:#2D2926; }
 .letture-wrap .card.corp ul li { margin-bottom:.3rem; }
+.letture-wrap .card.corp .price { color:var(--corp-primary); }
 .letture-wrap .card.corp .price.quote { font-size:1.05rem; }
+.letture-wrap .card.corp .btn-buy { border-color:var(--corp-primary); color:var(--corp-primary); }
+.letture-wrap .card.corp .btn-buy:hover, .letture-wrap .card.corp .btn-buy:focus-visible { background:var(--corp-primary); color:#fff; }
+.letture-wrap .card.corp .btn-buy-primary { background:var(--corp-primary); border-color:var(--corp-primary); color:#fff; box-shadow:0 4px 14px rgba(30,58,95,.3); }
+.letture-wrap .card.corp .btn-buy-primary:hover, .letture-wrap .card.corp .btn-buy-primary:focus-visible { background:#16304d; border-color:#16304d; color:#fff; }
+.corp-course-teaser { margin-top:2rem; background:var(--corp-primary); border-radius:14px; padding:1.75rem 2rem; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1.25rem; }
+.corp-course-teaser p { margin:0; color:#fff; font-size:1.02rem; max-width:520px; }
+.corp-course-teaser p strong { display:block; font-family:'Playfair Display',serif; font-style:italic; font-size:1.2rem; margin-bottom:.3rem; }
+.corp-course-teaser a { flex-shrink:0; display:inline-block; padding:.85rem 1.5rem; background:#fff; color:var(--corp-primary); text-decoration:none; border-radius:8px; font-weight:700; white-space:nowrap; transition:transform .18s ease; }
+.corp-course-teaser a:hover, .corp-course-teaser a:focus-visible { transform:translateY(-2px); }
 
 </style>
 {% endblock %}
@@ -207,6 +220,7 @@
 
           </div>
 
+          <div class="corp-zone">
           <h2 class="section-title">Percorsi BG5&reg; per il Business</h2>
           <p class="section-sub">Lo stesso metodo applicato a carriera, partnership e team &mdash; per chi lavora e guida altre persone.</p>
 
@@ -267,6 +281,13 @@
               </div>
               <a class="btn-buy btn-buy-primary" href="{{ grav.base_url }}/aziende/contatti">Richiedi una consulenza &rarr;</a>
             </div>
+          </div>
+
+          <div class="corp-course-teaser">
+            <p><strong>In arrivo: il nuovo corso BG5&reg; in due semestri</strong>Venti lezioni dal vivo per imparare a leggere il sistema in autonomia. Nome definitivo in arrivo.</p>
+            <a href="{{ grav.base_url }}/corso-bg5-foundation.html">Scopri il corso &rarr;</a>
+          </div>
+
           </div>
 
         </div>
