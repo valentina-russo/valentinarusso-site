@@ -15,7 +15,7 @@ course_load_env();
 function clean(string $key): string { return htmlspecialchars(trim($_POST[$key] ?? ''), ENT_QUOTES, 'UTF-8'); }
 function cleanRaw(string $key): string { return trim($_POST[$key] ?? ''); }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') { header('Location: /corso-career-design.html'); exit; }
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') { header('Location: /corso-base-human-design.html'); exit; }
 
 session_start();
 $submittedToken = $_POST['csrf_token'] ?? '';
@@ -23,7 +23,7 @@ $storedToken    = $_SESSION['csrf_token'] ?? '';
 if (empty($storedToken) || !hash_equals($storedToken, $submittedToken)) {
     http_response_code(403);
     error_log('[corso-invia] CSRF token mismatch');
-    header('Location: /corso-career-design.html');
+    header('Location: /corso-base-human-design.html');
     exit;
 }
 $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -56,19 +56,19 @@ if ($sessionId !== '' && $STRIPE_KEY !== '') {
             $course = $stripeCourse;
         } else {
             error_log('[corso-invia] Stripe session not paid or invalid course: ' . $sessionId);
-            header('Location: /corso-career-design.html?error=session');
+            header('Location: /corso-base-human-design.html?error=session');
             exit;
         }
     } else {
         error_log('[corso-invia] Stripe verify failed HTTP ' . $verifyCode . ' for ' . $sessionId);
-        header('Location: /corso-career-design.html?error=session');
+        header('Location: /corso-base-human-design.html?error=session');
         exit;
     }
 }
 if ($STRIPE_KEY === '') {
     $course = course_get($courseKeyRaw) ? $courseKeyRaw : null;
 }
-if (!$course) { header('Location: /corso-career-design.html?error=session'); exit; }
+if (!$course) { header('Location: /corso-base-human-design.html?error=session'); exit; }
 
 $product  = course_get($course);
 $priceLabel = '€' . number_format($product['amount'] / 100, 0, ',', '.');

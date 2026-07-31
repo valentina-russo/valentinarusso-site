@@ -18,17 +18,17 @@ declare(strict_types=1);
 
 const COURSE_CATALOG = [
     'bg5-foundation' => [
-        'name'        => 'Corso di Career Design — Percorso Completo',
+        'name'        => 'Corso Base Human Design — Percorso Completo',
         'description' => '20 lezioni online dal vivo via Zoom, 2 semestri da 10 lezioni (2 ore ciascuna). Semestre 1: Personal Operating Style. Semestre 2: Creative Operating Style. Percorso non professionalizzante, nessuna certificazione rilasciata.',
         'amount'      => 120000, // €1.200,00 — pacchetto completo, risparmio 200€ vs semestri separati
     ],
     'bg5-foundation-s1' => [
-        'name'        => 'Corso di Career Design — Semestre 1',
+        'name'        => 'Corso Base Human Design — Semestre 1',
         'description' => '10 lezioni online dal vivo via Zoom (2 ore ciascuna) — Personal Operating Style. Percorso non professionalizzante, nessuna certificazione rilasciata.',
         'amount'      => 70000, // €700,00
     ],
     'bg5-foundation-s2' => [
-        'name'        => 'Corso di Career Design — Semestre 2',
+        'name'        => 'Corso Base Human Design — Semestre 2',
         'description' => '10 lezioni online dal vivo via Zoom (2 ore ciascuna) — Creative Operating Style. Consigliato dopo il Semestre 1. Percorso non professionalizzante, nessuna certificazione rilasciata.',
         'amount'      => 70000, // €700,00
     ],
