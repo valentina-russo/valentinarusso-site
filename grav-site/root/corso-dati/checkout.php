@@ -4,7 +4,7 @@
  * Chiamato da: /corso-dati/checkout.php?course=bg5-foundation
  *
  * Dopo il pagamento -> /corso-dati/dati.php?session_id={CHECKOUT_SESSION_ID}&course=...
- * In caso di annullamento -> /corso-bg5-foundation.html
+ * In caso di annullamento -> /corso-career-design.html
  *
  * BOZZA — pagina di vendita non ancora linkata pubblicamente.
  */
@@ -42,7 +42,7 @@ HTML;
 }
 
 $successUrl = $BASE_URL . '/corso-dati/dati.php?session_id={CHECKOUT_SESSION_ID}&course=' . urlencode($course);
-$cancelUrl  = $BASE_URL . '/corso-bg5-foundation.html';
+$cancelUrl  = $BASE_URL . '/corso-career-design.html';
 
 $fields = [
     'mode'                                                   => 'payment',
@@ -57,7 +57,7 @@ $fields = [
     'line_items[0][price_data][unit_amount]'                  => (string)$product['amount'],
     'line_items[0][quantity]'                                 => '1',
     'metadata[course]'                                        => $course,
-    'metadata[source]'                                        => 'valentinarussobg5.com/corso-bg5-foundation',
+    'metadata[source]'                                        => 'valentinarussobg5.com/corso-career-design',
 ];
 
 $ch = curl_init('https://api.stripe.com/v1/checkout/sessions');
