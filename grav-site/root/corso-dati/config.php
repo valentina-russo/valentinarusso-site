@@ -1,9 +1,13 @@
 <?php
 /**
- * Corso BG5 Foundation — Catalogo prodotto
+ * Corso BG5 — Catalogo prodotto
  * Usato da checkout.php, dati.php, invia.php
  *
- * Prezzo confermato da Marco: 1200 EUR pagamento unico.
+ * NOTA 31/07: nome prodotto "BG5 Foundation" e claim "Accreditato IACET / CEU"
+ * ritirati su indicazione diretta di Valentina — il corso non è professionalizzante
+ * e lei non rilascia crediti formativi. Nome definitivo TBD (Marco/Valentina).
+ * Prezzo a semestri (proposta Valentina 31/07): S1 da solo 700€, S2 da solo 700€
+ * (totale 1.400€ se separati), oppure tutto insieme a 1.200€ (risparmio 200€).
  * Pagamento a rate: gestito da Klarna una volta attivato lato Dashboard
  * Stripe (Impostazioni -> Metodi di pagamento). Il checkout non impone
  * payment_method_types, quindi Klarna compare automaticamente appena
@@ -14,9 +18,19 @@ declare(strict_types=1);
 
 const COURSE_CATALOG = [
     'bg5-foundation' => [
-        'name'        => 'Corso BG5 Foundation',
-        'description' => '20 lezioni online dal vivo via Zoom, 2 semestri da 10 lezioni (2 ore ciascuna). Semestre 1: Personal Operating Style. Semestre 2: Creative Operating Style. Accreditato IACET.',
-        'amount'      => 120000, // €1.200,00 — CONFERMATO
+        'name'        => 'Corso BG5 — Percorso Completo',
+        'description' => '20 lezioni online dal vivo via Zoom, 2 semestri da 10 lezioni (2 ore ciascuna). Semestre 1: Personal Operating Style. Semestre 2: Creative Operating Style. Percorso non professionalizzante, nessuna certificazione rilasciata.',
+        'amount'      => 120000, // €1.200,00 — pacchetto completo, risparmio 200€ vs semestri separati
+    ],
+    'bg5-foundation-s1' => [
+        'name'        => 'Corso BG5 — Semestre 1',
+        'description' => '10 lezioni online dal vivo via Zoom (2 ore ciascuna) — Personal Operating Style. Percorso non professionalizzante, nessuna certificazione rilasciata.',
+        'amount'      => 70000, // €700,00
+    ],
+    'bg5-foundation-s2' => [
+        'name'        => 'Corso BG5 — Semestre 2',
+        'description' => '10 lezioni online dal vivo via Zoom (2 ore ciascuna) — Creative Operating Style. Consigliato dopo il Semestre 1. Percorso non professionalizzante, nessuna certificazione rilasciata.',
+        'amount'      => 70000, // €700,00
     ],
 ];
 
