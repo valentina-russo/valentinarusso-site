@@ -1,0 +1,21 @@
+name: Check Klarna Checkout Session (diagnostic temporaneo)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query checkout session
+        env:
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+        run: |
+          echo "--- Session S1 (700 EUR) payment_method_types ---"
+          curl -s https://api.stripe.com/v1/checkout/sessions/cs_live_b1YfVknBtc36zmULJWS1DzucoWOtnSs7MbGJYaOJ81dyDs7uzdUS2G92ib             -u "$STRIPE_SECRET_KEY:" | python3 -c "import json,sys; d=json.load(sys.stdin); print('payment_method_types:', d.get('payment_method_types')); print('currency:', d.get('currency')); print('amount_total:', d.get('amount_total'))"
+          echo
+          echo "--- Account Klarna capability detail ---"
+          curl -s https://api.stripe.com/v1/account -u "$STRIPE_SECRET_KEY:" | python3 -c "import json,sys; d=json.load(sys.stdin); caps=d.get('capabilities',{}); print('klarna_payments:', caps.get('klarna_payments')); print('country:', d.get('country'))"
+          echo
+          echo "--- New test session (bg5-foundation full 1200 EUR) to see live eligible methods ---"
+          curl -s https://api.stripe.com/v1/checkout/sessions -u "$STRIPE_SECRET_KEY:"             -d mode=payment             -d success_url=https://valentinarussobg5.com/corso-bg5-foundation.html             -d cancel_url=https://valentinarussobg5.com/corso-bg5-foundation.html             -d locale=it             -d "line_items[0][price_data][currency]=eur"             -d "line_items[0][price_data][product_data][name]=Test Klarna Diagnostic"             -d "line_items[0][price_data][unit_amount]=70000"             -d "line_items[0][quantity]=1"             | python3 -c "import json,sys; d=json.load(sys.stdin); print('payment_method_types:', d.get('payment_method_types')); print('id:', d.get('id'))"
