@@ -43,12 +43,17 @@ In questo articolo trovi i segnali per riconoscere ciascun tipo, la strategia de
 
 ## I 4 tipi in 30 secondi
 
-| Tipo | Quanti sono | Sorgente energetica | Strategia decisionale |
-|---|---|---|---|
-| **Generatore** | ~70% | Centro Sacrale definito | Rispondere |
-| **Proiettore** | ~20% | Nessuna definizione del Sacrale | Aspettare l'Invito |
-| **Manifestatore** | ~8% | Gola collegata a un centro motore (non al Sacrale) | Informare |
-| **Riflettore** | ~1% | Nessun centro definito | Aspettare un ciclo lunare |
+<table class="stacked">
+<thead>
+<tr><th>Tipo</th><th>Quanti sono</th><th>Sorgente energetica</th><th>Strategia decisionale</th></tr>
+</thead>
+<tbody>
+<tr><td data-label="Tipo"><strong>Generatore</strong></td><td data-label="Quanti sono">~70%</td><td data-label="Sorgente energetica">Centro Sacrale definito</td><td data-label="Strategia decisionale">Rispondere</td></tr>
+<tr><td data-label="Tipo"><strong>Proiettore</strong></td><td data-label="Quanti sono">~20%</td><td data-label="Sorgente energetica">Nessuna definizione del Sacrale</td><td data-label="Strategia decisionale">Aspettare l'Invito</td></tr>
+<tr><td data-label="Tipo"><strong>Manifestatore</strong></td><td data-label="Quanti sono">~8%</td><td data-label="Sorgente energetica">Gola collegata a un centro motore (non al Sacrale)</td><td data-label="Strategia decisionale">Informare</td></tr>
+<tr><td data-label="Tipo"><strong>Riflettore</strong></td><td data-label="Quanti sono">~1%</td><td data-label="Sorgente energetica">Nessun centro definito</td><td data-label="Strategia decisionale">Aspettare un ciclo lunare</td></tr>
+</tbody>
+</table>
 
 Adesso scendiamo nel dettaglio di ciascuno.
 
