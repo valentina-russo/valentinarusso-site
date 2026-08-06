@@ -9,11 +9,12 @@ tags:
     - 'Leggere la Carta'
     - 'BG5'
     - 'Guida'
-featured_image: /user/images/blog/calcolo-carta-human-design.jpg
-image_alt: "Bodygraph Human Design con i nove centri energetici, alcuni colorati e alcuni bianchi"
+featured_image: /user/images/blog/come-leggere-carta-human-design.png
+image_alt: "Mano che segna con una penna dorata i centri energetici su una carta Human Design stesa su una scrivania"
 image_title: "Come leggere la carta Human Design passo passo"
 image_caption: "La carta si legge in un ordine preciso: prima il Tipo, poi Strategia, Autorità, Profilo e centri."
-image_desc: "Illustrazione di un bodygraph Human Design con centri definiti e aperti evidenziati, su sfondo scuro. Mostra gli elementi da leggere nella propria carta in ordine pratico."
+image_desc: "Fotografia cinematica di una carta Human Design su pergamena appoggiata su una scrivania in legno, con una mano che tiene una penna dorata luminosa e cerchia i centri energetici direttamente sulla carta. I centri definiti brillano di colore, quelli aperti sono appena delineati."
+image_prompt: "Cinematic overhead shot of an ornate Human Design bodygraph chart printed on aged parchment resting on a wooden desk, a hand holding a glowing golden pen marking and circling the energy centers directly on the paper, defined centers glowing with soft luminous color, open centers faintly outlined in silver light, warm dramatic side lighting, mystical atmosphere with subtle floating light particles, ultra-detailed digital painting, editorial photography style --ar 16:9"
 description: "Hai calcolato la tua carta Human Design e non sai da dove iniziare? La guida passo passo per leggerla: Tipo, Strategia, Autorità, Profilo e centri."
 seo_title: "Come leggere la carta Human Design: guida passo passo"
 seo_desc: "Come leggere la tua carta Human Design dopo il calcolo: da dove iniziare, cosa significano Tipo, Strategia, Autorità Decisionale, Profilo e i nove centri definiti e aperti."

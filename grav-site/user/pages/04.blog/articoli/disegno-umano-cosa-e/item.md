@@ -9,11 +9,12 @@ tags:
     - 'Calcolo Carta'
     - 'Bodygraph'
     - 'BG5'
-featured_image: /user/images/blog/calcolo-carta-human-design.jpg
-image_alt: "Bodygraph del Disegno Umano con i nove centri energetici e le posizioni planetarie sullo sfondo"
-image_title: "Disegno Umano: la carta che mostra come funzioni"
+featured_image: /user/images/blog/disegno-umano-carta-completa.png
+image_alt: "Silhouette umana che si trasforma in una costellazione cosmica con i nove centri del bodygraph Human Design"
+image_title: "Disegno Umano: la mappa cosmica di come funzioni"
 image_caption: "Disegno Umano e Human Design indicano lo stesso sistema: una mappa calcolata dai tuoi dati di nascita."
-image_desc: "Illustrazione di un bodygraph Human Design accanto a un grafico delle posizioni planetarie, su sfondo scuro. Rappresenta il Disegno Umano come mappa individuale calcolata dalle effemeridi astronomiche."
+image_desc: "Illustrazione concettuale di una figura umana che si dissolve in una costellazione luminosa, con i nove centri energetici del bodygraph Human Design resi come forme cristalline fluttuanti. Rappresenta il Disegno Umano come mappa individuale."
+image_prompt: "Epic sci-fi fantasy concept art of a human silhouette dissolving into a glowing cosmic bodygraph constellation, nine energy centers rendered as luminous crystalline geometric shapes floating in deep space, interconnected by radiant energy channels, surrounded by swirling nebula clouds in deep indigo and gold, dramatic volumetric lighting, ultra-detailed digital painting, ethereal and otherworldly atmosphere --ar 16:9"
 description: "Disegno Umano: cos'è, perché si chiama anche Human Design, come si calcola la carta dai tuoi dati di nascita e dove ottenerla gratis in italiano."
 seo_title: "Disegno Umano: cos'è e come si calcola (gratis, in italiano)"
 seo_desc: "Disegno Umano è il nome italiano di Human Design. Cos'è, come si calcola la carta da data, ora e luogo di nascita, cosa mostra il bodygraph e dove calcolarla gratis."

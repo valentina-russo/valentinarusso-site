@@ -9,11 +9,12 @@ tags:
     - 'Tema di Vita'
     - 'Bodygraph'
     - 'BG5'
-featured_image: /user/images/blog/calcolo-carta-human-design.jpg
-image_alt: "Bodygraph Human Design con evidenziati i quattro gate che formano la Croce di Incarnazione"
-image_title: "La Croce di Incarnazione nella carta Human Design"
+featured_image: /user/images/blog/croce-incarnazione-human-design.png
+image_alt: "Figura solitaria in piedi su un terreno antico spaccato tra una costellazione nera e una rossa già scolpite nella terra"
+image_title: "La Croce di Incarnazione: il tema di vita che esisteva prima di te"
 image_caption: "La Croce di Incarnazione nasce da quattro gate: Sole e Terra, conscio e inconscio."
-image_desc: "Illustrazione di un bodygraph Human Design con i quattro gate del Sole e della Terra evidenziati, su sfondo scuro. Rappresenta la Croce di Incarnazione, il tema di vita della carta."
+image_desc: "Illustrazione concettuale di una figura solitaria che fa un passo su un terreno antico e spaccato, dove una mappa stellare è già scolpita nel suolo, per metà in luce nera e per metà in luce rossa. Rappresenta la Croce di Incarnazione come tema di vita preesistente."
+image_prompt: "Epic sci-fi fantasy concept art of a lone silhouette taking a step forward onto ancient cracked earth, where an intricate glowing constellation map is already carved deep into the ground beneath their feet, half in obsidian black light and half in blazing crimson red light, as if the path existed long before the footstep, swirling cosmic dust rising from the ground, dramatic volumetric lighting, deep indigo atmosphere, ultra-detailed digital painting, mystical and otherworldly atmosphere --ar 16:9"
 description: "Croce di Incarnazione in Human Design: cos'è, come si forma dai quattro gate del Sole e della Terra, i tre tipi di Croce e cosa significa il tuo tema di vita."
 seo_title: "Croce di Incarnazione Human Design: cos'è e come leggerla"
 seo_desc: "Croce di Incarnazione Human Design: cos'è il tema di vita, come si forma dai quattro gate (Sole e Terra, conscio e inconscio), i tre tipi di Croce e come si legge nella tua carta."
