@@ -4,7 +4,7 @@ date: '2026-05-13 10:00:00'
 published: true
 author: "Valentina Russo"
 description: "Il Libretto d'Istruzioni Human Design è un PDF personalizzato che traduce la tua carta in linguaggio quotidiano. Calcolato dalla tua data, ora e luogo di nascita. Base €90, Avanzato €147."
-featured_image: /user/pages/assets/libretto/cover-hero.jpg
+featured_image: /user/images/blog/libretto-cover-hero.jpg
 image_alt: "Copertina del Libretto d'Istruzioni Human Design, documento PDF personalizzato di Valentina Russo"
 image_title: "Libretto d'Istruzioni Human Design · Valentina Russo"
 image_caption: "La tua carta tradotta in parole che usi tutti i giorni"
@@ -72,13 +72,31 @@ Il **Libretto Avanzato** costa €147 e ha 7 capitoli su circa 55 pagine. Contie
 
 Ogni pagina è scritta sulla tua carta specifica: bodygraph, profilo, centri attivi. Qui sotto alcuni campioni reali tratti dal Libretto Avanzato.
 
-<div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin: 1.5rem 0;">
-<img src="/user/pages/assets/libretto/preview-cover.jpg" alt="Anteprima della copertina del Libretto" style="width:150px; height:auto; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,0.12);" loading="lazy">
-<img src="/user/pages/assets/libretto/preview-bodygraph.jpg" alt="Anteprima della pagina con il bodygraph personalizzato" style="width:150px; height:auto; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,0.12);" loading="lazy">
-<img src="/user/pages/assets/libretto/preview-chi-sei.jpg" alt="Anteprima del capitolo Chi sei davvero" style="width:150px; height:auto; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,0.12);" loading="lazy">
-<img src="/user/pages/assets/libretto/preview-protocollo.jpg" alt="Anteprima del protocollo decisionale personalizzato" style="width:150px; height:auto; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,0.12);" loading="lazy">
-<img src="/user/pages/assets/libretto/preview-missione.jpg" alt="Anteprima della sezione sulla direzione di vita" style="width:150px; height:auto; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,0.12);" loading="lazy">
+<style>
+.lb-grid{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:1.5rem 0}
+.lb-grid a{display:block;width:150px;transition:transform .18s ease;cursor:zoom-in}
+.lb-grid a:hover{transform:translateY(-4px)}
+.lb-grid img{width:100%;height:auto;display:block;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.lb-hint{text-align:center;font-size:.9rem;opacity:.7;margin:.25rem 0 0}
+.lb-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,20,35,.93);z-index:9999;display:none;align-items:center;justify-content:center;padding:24px}
+.lb-modal:target{display:flex}
+.lb-modal img{max-width:92vw;max-height:90vh;width:auto;height:auto;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.55)}
+.lb-close{position:absolute;top:0;left:0;right:0;bottom:0;cursor:zoom-out}
+.lb-x{position:absolute;top:14px;right:22px;color:#fff;font-size:2.4rem;line-height:1;text-decoration:none;z-index:2}
+</style>
+<div class="lb-grid">
+<a href="#lb-cover" title="Ingrandisci"><img src="/user/pages/assets/libretto/preview-cover.jpg" alt="Anteprima della copertina del Libretto" loading="lazy"></a>
+<a href="#lb-bodygraph" title="Ingrandisci"><img src="/user/pages/assets/libretto/preview-bodygraph.jpg" alt="Anteprima della pagina con il bodygraph personalizzato" loading="lazy"></a>
+<a href="#lb-chisei" title="Ingrandisci"><img src="/user/pages/assets/libretto/preview-chi-sei.jpg" alt="Anteprima del capitolo Chi sei davvero" loading="lazy"></a>
+<a href="#lb-protocollo" title="Ingrandisci"><img src="/user/pages/assets/libretto/preview-protocollo.jpg" alt="Anteprima del protocollo decisionale personalizzato" loading="lazy"></a>
+<a href="#lb-missione" title="Ingrandisci"><img src="/user/pages/assets/libretto/preview-missione.jpg" alt="Anteprima della sezione sulla direzione di vita" loading="lazy"></a>
 </div>
+<p class="lb-hint">Tocca una pagina per ingrandirla.</p>
+<div class="lb-modal" id="lb-cover"><a href="#!" class="lb-close" aria-label="Chiudi anteprima"></a><a href="#!" class="lb-x" aria-label="Chiudi">&times;</a><img src="/user/pages/assets/libretto/preview-cover.jpg" alt="Anteprima della copertina del Libretto"></div>
+<div class="lb-modal" id="lb-bodygraph"><a href="#!" class="lb-close" aria-label="Chiudi anteprima"></a><a href="#!" class="lb-x" aria-label="Chiudi">&times;</a><img src="/user/pages/assets/libretto/preview-bodygraph.jpg" alt="Anteprima della pagina con il bodygraph personalizzato"></div>
+<div class="lb-modal" id="lb-chisei"><a href="#!" class="lb-close" aria-label="Chiudi anteprima"></a><a href="#!" class="lb-x" aria-label="Chiudi">&times;</a><img src="/user/pages/assets/libretto/preview-chi-sei.jpg" alt="Anteprima del capitolo Chi sei davvero"></div>
+<div class="lb-modal" id="lb-protocollo"><a href="#!" class="lb-close" aria-label="Chiudi anteprima"></a><a href="#!" class="lb-x" aria-label="Chiudi">&times;</a><img src="/user/pages/assets/libretto/preview-protocollo.jpg" alt="Anteprima del protocollo decisionale personalizzato"></div>
+<div class="lb-modal" id="lb-missione"><a href="#!" class="lb-close" aria-label="Chiudi anteprima"></a><a href="#!" class="lb-x" aria-label="Chiudi">&times;</a><img src="/user/pages/assets/libretto/preview-missione.jpg" alt="Anteprima della sezione sulla direzione di vita"></div>
 
 ## Per chi è
 
