@@ -3,7 +3,7 @@ title: Calcolo Human Design Gratis — Tipo, Profilo e Autorità
 published: true
 routable: true
 template: genera_carta_beta
-hd_account_enabled: true
+hd_account_enabled: false
 seo_title: "Calcolo Human Design Gratis — Carta in 30 secondi"
 seo_desc: "Calcolo Human Design gratis e immediato. Inserisci data, ora e luogo di nascita: scopri Tipo, Profilo, Autorità e bodygraph. Senza email, senza registrazione."
 featured_image: /user/pages/assets/valentina.jpg

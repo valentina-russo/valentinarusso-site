@@ -1,6 +1,6 @@
 ---
 title: Le mie Carte
-published: true
+published: false
 routable: true
 template: hd_my_charts
 seo_title: "Le mie Carte | Valentina Russo"

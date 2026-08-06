@@ -1,4 +1,17 @@
 <?php
+// ---------------------------------------------------------------------------
+// SISTEMA ACCOUNT DISATTIVATO (06/08/2026)
+// La registrazione e il salvataggio carte sono stati rimossi per ridurre la
+// superficie GDPR: il sito non raccoglie piu email, password ne dati di nascita.
+// Questo blocco resta deployato di proposito, per sovrascrivere sul server la
+// versione attiva dell'endpoint. Il codice sotto e conservato solo per storico.
+// Per riattivare: rimuovere questo blocco.
+// ---------------------------------------------------------------------------
+http_response_code(410);
+header('Content-Type: application/json; charset=utf-8');
+echo json_encode(['ok' => false, 'error' => 'Servizio non piu disponibile'], JSON_UNESCAPED_UNICODE);
+exit;
+
 /**
  * HD Account System — Gestione Account
  * Endpoint: POST /hd-account.php con campo JSON `action`

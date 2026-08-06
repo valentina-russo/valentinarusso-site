@@ -3,7 +3,7 @@ title: Calcola la tua Carta Human Design
 published: true
 routable: true
 template: genera_carta_beta
-hd_account_enabled: true
+hd_account_enabled: false
 noindex: true
 ga_internal_traffic: true
 seo_title: "Calcola la tua Carta Human Design Gratis | Valentina Russo"
