@@ -5,8 +5,11 @@ date: '09-06-2026 10:30'
 template: item
 author: "Valentina Russo"
 tags: ["Human Design", "Tipi Energetici", "Generatore", "Proiettore", "Manifestatore", "Riflettore"]
-featured_image: /user/pages/assets/valentina.jpg
-image_alt: "I quattro tipi energetici Human Design: Generatore, Proiettore, Manifestatore, Riflettore"
+featured_image: /user/images/blog/4-tipi-human-design-archetip.png
+image_alt: "Quattro figure archetipiche cosmiche che rappresentano i tipi energetici Human Design: forgia dorata, occhio vigile, fulmine, specchio lunare"
+image_title: "I 4 Tipi Human Design: quattro archetipi energetici"
+image_desc: "Illustrazione concettuale di quattro silhouette archetipiche in uno spazio cosmico: una che irradia energia dorata costante da una forgia interiore (Generatore), una coronata da un occhio vigile di luce stellare (Proiettore), una che erutta fulmini e comete (Manifestatore), una traslucida che riflette la luna e la nebulosa (Riflettore)."
+image_prompt: "Epic sci-fi fantasy concept art of four distinct archetypal silhouettes standing together in a cosmic space, one radiating steady golden forge-like energy from their chest, one crowned with a watchful glowing third eye of starlight, one erupting in bursts of blue lightning and comet trails, one translucent and mirror-like reflecting the moon and surrounding nebula, each figure representing a different elemental force, deep indigo cosmic background, dramatic volumetric lighting, ultra-detailed digital painting, mystical and otherworldly atmosphere --ar 16:9"
 description: "I 4 tipi energetici dello Human Design (Generatore, Proiettore, Manifestatore, Riflettore) determinano come funzioni davvero. Riconosci segnali e strategia, poi calcola la tua carta."
 seo_title: "I 4 Tipi Human Design: come scoprire il tuo in 30 secondi"
 seo_desc: "I 4 tipi Human Design (Generatore, Proiettore, Manifestatore, Riflettore): segnali per riconoscerli, strategia decisionale di ciascuno, e come scoprire il tuo gratis."
