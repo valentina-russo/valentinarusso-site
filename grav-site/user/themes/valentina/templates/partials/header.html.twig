@@ -40,18 +40,5 @@
             </ul>
             {% endif %}
         </nav>
-        <script>
-        (function(){
-          fetch('https://valentinarussobg5.com/hd-auth.php?action=me', { credentials: 'include' })
-            .then(r => r.json())
-            .then(j => {
-              if (j.ok && j.data && j.data.name) {
-                var link = document.getElementById('hd-account-link');
-                if (link) link.style.opacity = '1';
-              }
-            })
-            .catch(function(){});
-        })();
-        </script>
     </div>
 </header>
