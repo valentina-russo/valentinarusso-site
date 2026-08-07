@@ -395,6 +395,24 @@
   .gcb-forms-couple #carta-calculator { padding-top: 0 !important; padding-bottom: 0 !important; }
   .gcb-forms-couple #carta-calculator .container { padding: 0 0.35rem !important; }
   .gcb-forms-couple #carta-calculator .carta-form-card { padding: 1.25rem 1rem; }
+
+  /* Allineamento colonne Carta di Coppia.
+     La colonna A eredita il CSS scoped del partial (#carta-calculator), la B
+     quello generico della pagina, che ha gap piu' larghi (1rem contro 0.75rem).
+     La differenza si accumula riga dopo riga e le due card finiscono ad altezze
+     diverse. Qui la B viene riportata ai valori della A. */
+  .gcb-forms-couple #gcb-form-card-b .cf-row { gap: 0.75rem; margin-bottom: 0.75rem; }
+  .gcb-forms-couple #gcb-form-card-b .cf-row-datetime { gap: 0.75rem; margin-bottom: 0.75rem; }
+  .gcb-forms-couple #gcb-form-card-b .cf-field label { font-weight: 600; margin-bottom: 0.3rem; }
+  .gcb-forms-couple #gcb-form-card-b .cf-hint { font-size: 0.72rem; }
+  /* Le due card riempiono comunque tutta l'altezza della riga, cosi restano
+     pari anche se in futuro una delle due cambia contenuto. */
+  .gcb-forms-couple .gcb-form-col { display: flex; flex-direction: column; }
+  .gcb-forms-couple #gcb-form-card-b { flex: 1; }
+  .gcb-forms-couple #gcb-form-col-a #carta-calculator,
+  .gcb-forms-couple #gcb-form-col-a #carta-calculator .container { display: flex; flex-direction: column; flex: 1; }
+  .gcb-forms-couple #gcb-form-col-a .carta-form-card { flex: 1; }
+
   .gcb-forms-couple #carta-calculator .cf-row { gap: 0.45rem; }
   .gcb-forms-couple #carta-calculator .cf-field label { font-size: 0.7rem; }
   .gcb-forms-couple #carta-calculator .cf-field input,
