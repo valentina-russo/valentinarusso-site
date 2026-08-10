@@ -89,7 +89,7 @@ if ($missing) {
     exit;
 }
 
-$ADMIN_EMAIL = 'consulenza@marcomunich.com';
+$ADMIN_EMAIL = 'consulenza@marcomunich.com, consulenze@valentinarussobg5.com';
 $FROM_EMAIL  = 'info@valentinarussobg5.com';
 $FROM_NAME   = 'Valentina Russo — Corso BG5 Foundation';
 $nowIt = (new DateTimeImmutable('now', new DateTimeZone('Europe/Rome')))->format('d/m/Y H:i');

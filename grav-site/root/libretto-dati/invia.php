@@ -119,7 +119,7 @@ if (!$nome || !$email || !$birthDate || !$birthTime || !$birthPlace || !$recesso
 }
 
 // ─── Configurazione email ─────────────────────────────────────────────────────
-$ADMIN_EMAIL   = 'consulenza@marcomunich.com';
+$ADMIN_EMAIL   = 'consulenza@marcomunich.com, consulenze@valentinarussobg5.com';
 $FROM_EMAIL    = 'info@valentinarussobg5.com';
 $FROM_NAME     = 'Valentina Russo — Libretto HD';
 
