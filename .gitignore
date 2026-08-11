@@ -68,6 +68,7 @@ grav-site/user/pages/*
 !grav-site/user/pages/26.bg5-blueprint
 # Eccezione: Libretto d'Istruzioni — landing page prodotto
 !grav-site/user/pages/26.libretto-istruzioni
+!grav-site/user/pages/28.mammal-chart
 # Eccezione: pagina Human Design — guida introduttiva
 !grav-site/user/pages/human-design
 # Eccezione: Privacy + Terms — versionate per audit legale (compliance pre-go-live 02/05)

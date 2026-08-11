@@ -1,0 +1,1757 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block title %}{{ page.header.seo_title }}{% endblock %}
+
+{% block schema %}
+{{ parent() }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Calcolatore Carta Human Design Gratuito",
+  "description": "Calcola gratis la tua carta Human Design (BodyGraph) inserendo data, ora e luogo di nascita. Scopri Tipo Energetico, Strategia, Autorità e Profilo.",
+  "url": "{{ grav.base_url_absolute }}/calcolo-human-design",
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Valentina Russo",
+    "url": "{{ grav.base_url_absolute }}/chi-sono"
+  },
+  "inLanguage": "it"
+}
+</script>
+{% if page.header.faq is iterable and page.header.faq|length > 0 %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for faq in page.header.faq %}
+    {
+      "@type": "Question",
+      "name": {{ (faq.question ?? faq.q)|json_encode|raw }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ (faq.answer ?? faq.a)|json_encode|raw }}
+      }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+{# HowTo — procedura passo-passo per calcolare la carta HD. Aiuta SERP rich results. #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Come calcolare il proprio Human Design gratis",
+  "description": "Procedura per ottenere la tua carta Human Design online in 30 secondi: bodygraph, Tipo, Profilo, Autorità.",
+  "totalTime": "PT30S",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "EUR",
+    "value": "0"
+  },
+  "supply": [
+    { "@type": "HowToSupply", "name": "Data di nascita" },
+    { "@type": "HowToSupply", "name": "Ora di nascita (da certificato integrale)" },
+    { "@type": "HowToSupply", "name": "Luogo di nascita" }
+  ],
+  "tool": [
+    { "@type": "HowToTool", "name": "Calcolatore Human Design gratuito su valentinarussobg5.com" }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "Inserisci la data di nascita",
+      "text": "Inserisci giorno, mese e anno di nascita nel form del calcolatore Human Design. Questi dati determinano la posizione del Sole e dei pianeti lenti (Saturno, Giove, Urano) al momento della tua nascita.",
+      "url": "{{ grav.base_url_absolute }}/calcolo-human-design#step-data"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "Inserisci l'ora esatta di nascita",
+      "text": "L'ora è il dato più critico per il calcolo Human Design. Pochi minuti di differenza possono cambiare il Profilo, l'Autorità Decisionale o spostare una Porta da un Centro all'altro. Usa l'ora del certificato di nascita integrale.",
+      "url": "{{ grav.base_url_absolute }}/calcolo-human-design#step-ora"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "Inserisci il luogo di nascita",
+      "text": "Digita la città di nascita. Il calcolatore Human Design usa il fuso orario corretto e le coordinate geografiche per calcolare gli archi orari precisi delle effemeridi svizzere.",
+      "url": "{{ grav.base_url_absolute }}/calcolo-human-design#step-luogo"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 4,
+      "name": "Visualizza il tuo bodygraph",
+      "text": "Il calcolo Human Design produce in meno di 30 secondi il tuo bodygraph completo: Tipo Energetico, Strategia, Autorità Decisionale, Profilo, Definizione, Croce di Incarnazione, 9 Centri e 64 Porte attive. Scaricalo in PDF.",
+      "url": "{{ grav.base_url_absolute }}/calcolo-human-design#step-risultato"
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .carta-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: var(--space-lg) var(--space-md);
+  }
+  .carta-intro { text-align: center; margin-bottom: 2.5rem; }
+  .carta-intro h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.75rem; }
+  .carta-intro p { color: var(--text-muted, #666); font-size: 1rem; max-width: 560px; margin: 0 auto; line-height: 1.6; }
+  .carta-intro .carta-snippet { color: rgba(255,255,255,0.92); font-size: 1rem; max-width: 640px; margin: 1.4rem auto 0; line-height: 1.65; }
+
+  /* Form */
+  .carta-form-card { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.07); padding: 2rem; margin-bottom: 2rem; }
+  .cf-row { display: grid; gap: 1rem; margin-bottom: 1rem; }
+  .cf-row.cols-3 { grid-template-columns: 1fr 1fr 1.5fr; }
+  .cf-row.cols-2 { grid-template-columns: 1fr 1fr; }
+  .cf-row.cols-1 { grid-template-columns: 1fr; }
+  .cf-field label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--primary-color); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem; }
+  .cf-field input, .cf-field select { width: 100%; border: 1.5px solid #e0dbd7; border-radius: 8px; padding: 0.65rem 0.85rem; font-family: inherit; font-size: 0.95rem; color: #333; background: #faf9f8; box-sizing: border-box; transition: border-color 0.2s; }
+  .cf-field input:focus, .cf-field select:focus { outline: none; border-color: var(--primary-color); background: #fff; }
+  .cf-hint { font-size: 0.73rem; color: #aaa; margin-top: 0.25rem; }
+  .carta-btn { width: 100%; padding: 0.9rem 1.5rem; background: var(--primary-color); color: #fff; border: none; border-radius: 10px; font-family: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 0.5rem; transition: opacity 0.2s, transform 0.1s; }
+  .carta-btn:hover:not(:disabled) { opacity: 0.88; }
+  .carta-btn:active:not(:disabled) { transform: scale(0.99); }
+  .carta-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Loading */
+  .carta-loading { display: none; text-align: center; padding: 2.5rem; color: var(--primary-color); }
+  .carta-loading-dots span { display: inline-block; width: 8px; height: 8px; background: var(--primary-color); border-radius: 50%; margin: 0 3px; animation: dotPulse 1.2s ease-in-out infinite; }
+  .carta-loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .carta-loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dotPulse { 0%,80%,100%{opacity:0.2;transform:scale(0.8)} 40%{opacity:1;transform:scale(1)} }
+
+  /* Error */
+  .carta-error { display: none; background: #fff0f0; border: 1.5px solid #ffcccc; border-radius: 10px; padding: 1rem 1.25rem; color: #c0392b; font-size: 0.9rem; margin-bottom: 1rem; }
+
+  /* Results */
+  .carta-results { display: none; }
+  .carta-name-header { text-align: center; margin-bottom: 1.5rem; }
+  .carta-name-header h2 { font-size: 1.4rem; color: #fff; margin: 0 0 0.2rem; }
+  .carta-name-header p { color: rgba(255,255,255,0.72); font-size: 0.85rem; margin: 0; }
+  .carta-results { overflow-x: hidden; max-width: 100%; }
+  .carta-bodygraph-wrap svg { max-width: 100%; height: auto; display: block; }
+
+  /* Core cards */
+  .carta-core { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; margin-bottom: 1.5rem; }
+  .core-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 1rem 0.9rem; text-align: center; }
+  .core-card-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--primary-color); margin-bottom: 0.3rem; }
+  .core-card-value { font-size: 0.95rem; font-weight: 700; color: #2c2c2c; line-height: 1.3; }
+
+  /* Bodygraph */
+  .carta-bodygraph-wrap { display: flex; justify-content: center; margin-bottom: 2rem; }
+  .carta-bodygraph-wrap svg { max-width: 100%; height: auto; }
+
+  /* Planet table */
+  .carta-planets { background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 1.25rem; margin-bottom: 2rem; overflow-x: auto; }
+  .carta-planets h3 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary-color); margin: 0 0 1rem; }
+  .planets-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+  .planets-table th { text-align: left; padding: 0.25rem 0.4rem; font-weight: 700; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; color: #999; border-bottom: 1.5px solid #f0ece8; }
+  .planets-table td { padding: 0.25rem 0.4rem; border-bottom: 1px solid #f5f2ef; color: #444; line-height: 1.2; }
+  .planets-table tr:last-child td { border-bottom: none; }
+  .gate-black { color: #1a1a2e; font-weight: 700; }
+  .gate-red { color: #c0392b; font-weight: 700; }
+  .planet-bg5 { font-weight: 600; color: #333; font-size: 0.78rem; }
+  .planet-name { font-size: 0.65rem; color: #aaa; margin-left: 0.3rem; }
+
+  /* Desktop 2-col layout */
+  .carta-desktop-layout { display: flex; flex-direction: column; gap: 1.5rem; }
+  @media (min-width: 900px) {
+    .carta-desktop-layout { flex-direction: row; gap: 2rem; align-items: flex-start; }
+    .carta-col-left { flex: 0 0 45%; max-width: 45%; position: sticky; top: 1rem; }
+    .carta-col-right { flex: 1; min-width: 0; }
+  }
+
+  /* PDF button */
+  .carta-pdf-btn { display: block; width: 100%; padding: 0.85rem 1.5rem; margin-top: 2rem; background: var(--primary-color); color: #fff; border: none; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: opacity 0.2s; }
+  .carta-pdf-btn:hover { opacity: 0.88; }
+
+  /* CTA */
+  .carta-cta { background: #f5f0f8; border-radius: 16px; padding: 2rem; text-align: center; margin-top: 2.5rem; }
+  .carta-cta p { color: #555; font-size: 0.95rem; margin-bottom: 1.25rem; line-height: 1.6; }
+  .carta-cta a { display: inline-block; padding: 0.9rem 2rem; background: var(--primary-color); color: #fff; border-radius: 10px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: opacity 0.2s; }
+  .carta-cta a:hover { opacity: 0.88; }
+  .gcb-connect-cta { margin-top: 1rem; }
+
+  /* City autocomplete */
+  .cf-autocomplete-wrap { position: relative; }
+  .cf-autocomplete-list { position: absolute; top: calc(100% + 2px); left: 0; right: 0; background: #fff; border: 1.5px solid var(--primary-color); border-radius: 8px; box-shadow: 0 6px 20px rgba(0,0,0,0.12); z-index: 200; max-height: 220px; overflow-y: auto; display: none; }
+  .cf-autocomplete-list li { padding: 0.6rem 0.85rem; cursor: pointer; font-size: 0.9rem; color: #333; border-bottom: 1px solid #f5f2ef; list-style: none; }
+  .cf-autocomplete-list li:last-child { border-bottom: none; }
+  .cf-autocomplete-list li:hover { background: #f8f4ff; }
+  .cf-tz-detected { font-size: 0.73rem; color: #7c5cbf; margin-top: 0.25rem; display: none; }
+
+  @media (max-width: 600px) {
+    .cf-row.cols-3 { grid-template-columns: 1fr 1fr; }
+    .cf-row.cols-2 { grid-template-columns: 1fr; }
+    .carta-core { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 601px) and (max-width: 899px) {
+    .carta-core { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* PDF Layout */
+  #pdf-layout { display: none; font-family: 'Outfit', Arial, sans-serif; color: #222; }
+  #pdf-layout .pdf-header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2.5px solid #b8913e; padding-bottom: 8px; margin-bottom: 12px; }
+  #pdf-layout .pdf-header-right { font-size: 10pt; color: #444; text-align: right; }
+  #pdf-layout .pdf-brand { font-size: 15pt; font-weight: 800; color: #1a1a2e; }
+  #pdf-layout .pdf-brand-sub { font-size: 9pt; color: #8b7355; }
+  #pdf-layout .pdf-body { display: flex; gap: 14px; margin-bottom: 12px; }
+  #pdf-layout .pdf-col-left { flex: 0 0 290px; }
+  #pdf-layout .pdf-col-left img, #pdf-layout .pdf-col-left svg { width: 290px !important; height: auto !important; max-width: 290px !important; }
+  #pdf-layout .pdf-col-right { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+  #pdf-layout .pdf-card { border: 1px solid #e5e0da; border-radius: 4px; padding: 5px 10px; }
+  #pdf-layout .pdf-card-label { font-size: 6.5pt; text-transform: uppercase; letter-spacing: 0.5px; color: #8b7355; font-weight: 600; margin-bottom: 1px; }
+  #pdf-layout .pdf-card-value { font-size: 10pt; font-weight: 700; color: #1a1a2e; }
+  #pdf-layout .pdf-card-desc { font-size: 7pt; color: #555; line-height: 1.3; margin-top: 2px; }
+  #pdf-layout .pdf-planets { margin-bottom: 10px; }
+  #pdf-layout .pdf-planets table { width: 100%; border-collapse: collapse; font-size: 8pt; }
+  #pdf-layout .pdf-planets th { background: #f5f2ef; font-size: 6.5pt; text-transform: uppercase; color: #8b7355; padding: 3px 5px; text-align: left; border-bottom: 1px solid #ddd; }
+  #pdf-layout .pdf-planets td { padding: 2px 5px; border-bottom: 1px solid #f0ece8; }
+  #pdf-layout .pdf-planets td:nth-child(2) { font-weight: 600; color: #1a1a2e; }
+  #pdf-layout .pdf-planets td:nth-child(3) { font-weight: 600; color: #c0392b; }
+  #pdf-layout .pdf-cta { background: linear-gradient(135deg, #1a1a2e 0%, #2d2a4a 100%); border: none; border-radius: 10px; padding: 16px 20px; position: relative; overflow: hidden; }
+  #pdf-layout .pdf-cta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #b8913e, #d4a843, #b8913e); }
+  #pdf-layout .pdf-cta-inner { display: flex; align-items: center; gap: 16px; }
+  #pdf-layout .pdf-cta-photo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #b8913e; flex-shrink: 0; }
+  #pdf-layout .pdf-cta-content { flex: 1; }
+  #pdf-layout .pdf-cta-badge { font-size: 6pt; text-transform: uppercase; letter-spacing: 2px; color: #b8913e; font-weight: 700; margin-bottom: 4px; }
+  #pdf-layout .pdf-cta-title { font-size: 12pt; font-weight: 800; color: #fff; margin-bottom: 4px; line-height: 1.25; }
+  #pdf-layout .pdf-cta-text { font-size: 8pt; color: #c8c2bc; margin-bottom: 6px; line-height: 1.35; }
+  #pdf-layout .pdf-cta-button { display: inline-block; background: linear-gradient(135deg, #b8913e, #d4a843); color: #1a1a2e; font-size: 9pt; font-weight: 800; padding: 5px 22px; border-radius: 5px; margin-bottom: 5px; }
+  #pdf-layout .pdf-cta-links { font-size: 7.5pt; color: #8b8178; }
+  #pdf-layout .pdf-cta-links span { margin: 0 5px; }
+  #pdf-layout .pdf-footer { font-size: 5.5pt; color: #999; text-align: center; padding-top: 4px; margin-top: 4px; }
+
+  /* ── Gradient page styling ── */
+  body { background: linear-gradient(160deg, #B68397 0%, #8A6FA8 45%, #3A5A8A 80%, #1E3A5F 100%) !important; background-attachment: fixed !important; min-height: 100vh; }
+  body header { background: rgba(255,255,255,0.12) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.2) !important; position: sticky; top: 0; z-index: 1000; }
+  body header .brand-name, body header .brand-tagline, body header #main-nav a { color: #fff !important; }
+  body header #main-nav a:hover { color: rgba(255,255,255,0.7) !important; }
+  body header .menu-toggle { color: #fff !important; }
+  body footer { background: rgba(255,255,255,0.08) !important; backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.15) !important; }
+  body footer a, body footer div { color: rgba(255,255,255,0.75) !important; }
+  body footer a:hover { color: #fff !important; }
+  .carta-intro h1 { color: #fff !important; }
+  .carta-intro .carta-tagline { font-style: italic; font-family: var(--font-serif, 'Playfair Display', serif); font-size: 1.15rem; color: rgba(255,255,255,0.88); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+  /* ── calc-singolo intro su fondo scuro ── */
+  #carta-calculator .csingle-badge { background: rgba(255,255,255,0.18) !important; color: #fff !important; }
+  #carta-calculator .csingle-intro h2 { color: #fff !important; }
+  #carta-calculator .csingle-intro p { color: rgba(255,255,255,0.82) !important; }
+
+  /* Tips bar */
+  .gc-tips-bar { display: flex; gap: 1rem; margin-bottom: 1.5rem; background: rgba(255,255,255,0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.25); border-radius: 16px; padding: 1.25rem 1.5rem; flex-wrap: wrap; }
+  .gc-tips-item { display: flex; align-items: flex-start; gap: 0.5rem; flex: 1; min-width: 160px; }
+  .gc-tips-num { background: rgba(255,255,255,0.3); color: #fff; font-weight: 700; font-size: 0.72rem; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .gc-tips-text { color: rgba(255,255,255,0.88); font-size: 0.82rem; line-height: 1.45; }
+  .gc-tips-text strong { color: #fff; display: block; }
+
+  .carta-cta { background: rgba(255,255,255,0.15) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.25) !important; border-radius: 30px !important; }
+  .carta-cta p { color: rgba(255,255,255,0.88) !important; }
+  .carta-cta a { background: #fff !important; color: var(--primary-color) !important; }
+  .carta-cta a:hover { opacity: 0.9 !important; }
+
+  /* ── Connect CTA (shown after zone 1 calc) ── */
+  .gcb-connect-cta { display: none; background: rgba(255,255,255,0.12); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 2rem; text-align: center; margin-top: 2rem; }
+  .gcb-connect-cta h3 { font-family: var(--font-serif, 'Playfair Display', serif); font-size: 1.25rem; color: #fff; margin: 0 0 0.5rem; }
+  .gcb-connect-cta p { color: rgba(255,255,255,0.78); font-size: 0.9rem; margin: 0 0 1.5rem; line-height: 1.6; max-width: 420px; margin-inline: auto; margin-bottom: 1.5rem; }
+  .gcb-connect-btn { display: inline-block; padding: 0.9rem 2.5rem; background: #fff; color: var(--primary-color); border: none; border-radius: 50px; font-family: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; transition: opacity 0.2s, transform 0.1s; }
+  .gcb-connect-btn:hover { opacity: 0.9; }
+  .gcb-connect-btn:active { transform: scale(0.98); }
+
+  /* ── Zone 2 ── */
+  .gcb-zone-2 { display: none; opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease; padding-top: 0; border-top: none; margin-top: 0; }
+  .gcb-zone-2.gcb-zone-2--has-results { padding-top: 3rem; border-top: 1.5px solid rgba(255,255,255,0.15); margin-top: 2rem; }
+  .gcb-zone-2.gcb-zone-2--visible { opacity: 1; transform: translateY(0); }
+  .gcb-zone-header { text-align: center; margin-bottom: 2rem; }
+  .gcb-zone-header h2 { font-size: clamp(1.4rem, 3.5vw, 1.9rem); color: #fff; margin: 0 0 0.5rem; }
+  .gcb-zone-header p { color: rgba(255,255,255,0.75); font-size: 0.95rem; margin: 0; }
+  .gcb-persona-b-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(61,122,138,0.25); color: #a8dce8; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.3rem 0.8rem; border-radius: 20px; margin-bottom: 1rem; }
+
+  /* ── Tabs ── */
+  .gcb-tabs-bar { display: flex; border-bottom: 2px solid rgba(255,255,255,0.2); margin-bottom: 1.5rem; }
+  .gcb-tab-btn { flex: 1; padding: 0.75rem 0.5rem; border: none; background: none; cursor: pointer; font-family: inherit; font-size: 0.82rem; font-weight: 700; color: rgba(255,255,255,0.45); text-align: center; border-bottom: 2.5px solid transparent; margin-bottom: -2px; transition: color 0.2s, border-color 0.2s; min-height: 44px; }
+  .gcb-tab-btn[aria-selected="true"] { color: #fff; border-bottom-color: #fff; }
+  /* Carousel mobile */
+  .gcb-panels-grid { overflow: hidden; }
+  .gcb-carousel-track { display: flex; width: 300%; transition: transform 0.38s cubic-bezier(0.4,0,0.2,1); will-change: transform; }
+  .gcb-panel { width: calc(100% / 3); flex-shrink: 0; min-width: 0; }
+  .gcb-panel-label { text-align: center; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.5); margin-bottom: 0.75rem; }
+
+  @media (min-width: 900px) {
+    .gcb-tabs-bar { display: none; }
+    .gcb-panels-grid { overflow: visible; }
+    .gcb-carousel-track { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 1rem; width: 100%; transform: none !important; transition: none; }
+    .gcb-panel { width: auto; flex-shrink: unset; }
+  }
+
+  /* Composite legend */
+  .gcb-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 1rem; font-size: 0.75rem; }
+  .gcb-legend-item { display: flex; align-items: center; gap: 0.35rem; color: rgba(255,255,255,0.85); }
+  .gcb-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* EM Analysis cards */
+  .gcb-em-section { display: none; margin-top: 1.5rem; }
+  .gcb-em-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.18); border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; }
+  .gcb-em-card-title { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.9); margin-bottom: 0.75rem; }
+  .gcb-em-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .gcb-em-dot--em { background: linear-gradient(90deg,#5C1F6E 50%,#0E3C7B 50%); }
+  .gcb-em-dot--a { background: #5C1F6E; }
+  .gcb-em-dot--b { background: #0E3C7B; }
+  .gcb-em-dot--ab { background: linear-gradient(135deg,#5C1F6E 50%,#0E3C7B 50%); }
+  .gcb-em-card-body { font-size: 0.88rem; color: rgba(255,255,255,0.78); line-height: 1.6; }
+  .gcb-em-card-body p { margin: 0 0 0.5rem; }
+  .gcb-em-card-body ul { margin: 0.25rem 0 0; padding-left: 1.25rem; }
+  .gcb-em-card-body li { margin-bottom: 0.2rem; }
+  .gcb-em-count-badge { display: inline-block; background: rgba(255,255,255,0.15); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 10px; margin-left: 0.3rem; }
+
+  /* Panel chips (tipo / profilo / autorità sotto i bodygraph individuali) */
+  .gcb-panel-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; justify-content: center; margin-top: 0.8rem; padding: 0 0.25rem; }
+  .gcb-panel-chip { border-radius: 20px; padding: 0.22rem 0.65rem; font-size: 0.7rem; font-weight: 600; line-height: 1.3; }
+  .gcb-panel-chip--a { background: rgba(92,31,110,0.13); color: #4a1856; }
+  .gcb-panel-chip--b { background: rgba(14,60,123,0.13); color: #0a2f5e; }
+
+  /* Analisi connessione: tema + profili + definizione */
+  #gcb-conn-analysis { margin-top: 1.5rem; }
+  .gcb-analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 640px) { .gcb-analysis-grid { grid-template-columns: 1fr; } }
+  .gcb-analysis-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.18); border-radius: 14px; padding: 1.2rem 1.4rem; }
+  .gcb-analysis-lbl { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.5); margin-bottom: 0.45rem; }
+  .gcb-analysis-title { font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 0.3rem; }
+  .gcb-analysis-desc { font-size: 0.82rem; color: rgba(255,255,255,0.72); line-height: 1.55; }
+  .gcb-theme-number { font-size: 2rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.35rem; }
+  .gcb-profile-rel-badge { display: inline-block; padding: 0.22rem 0.75rem; border-radius: 20px; font-weight: 700; font-size: 0.82rem; margin-bottom: 0.4rem; }
+  .gcb-profile-rel--risonanza { background: rgba(139,62,168,0.3); color: #e0c8ff; }
+  .gcb-profile-rel--armonia   { background: rgba(46,138,122,0.3); color: #b8ece4; }
+  .gcb-profile-rel--dissonanza{ background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); }
+  .gcb-profile-pair { font-size: 0.77rem; color: rgba(255,255,255,0.5); margin-bottom: 0.4rem; }
+
+  /* Zone 2 results mini header */
+  .gcb-conn-names { text-align: center; margin-bottom: 1.5rem; }
+  .gcb-conn-names h3 { color: #fff; font-size: 1.1rem; margin: 0; }
+  .gcb-conn-names p { color: rgba(255,255,255,0.65); font-size: 0.82rem; margin: 0.25rem 0 0; }
+
+  /* ── Forms row (1-col single / 2-col couple) ── */
+  .gcb-forms-row { display: grid; grid-template-columns: 1fr; }
+  #gcb-form-col-b { display: none; }
+  .gcb-form-col-label { display: none; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem; padding: 0 0.25rem; }
+  /* Couple active */
+  .gcb-forms-couple { grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .gcb-forms-couple .gcb-form-col-label { display: block; }
+  .gcb-forms-couple .carta-form-card { padding: 1.25rem 1rem; }
+  .gcb-forms-couple .cf-field input, .gcb-forms-couple .cf-field select { font-size: 0.85rem; padding: 0.48rem 0.65rem; }
+  .gcb-forms-couple .cf-row { gap: 0.45rem; }
+  .gcb-forms-couple .cf-field label { font-size: 0.7rem; }
+  .gcb-forms-couple .carta-btn { padding: 0.72rem 1rem; font-size: 0.88rem; }
+  /* Hide intro/tips in couple mode */
+  .gcb-single-only { transition: opacity 0.25s; }
+  .gcb-single-only.gcb-hidden { display: none; }
+  /* Mobile: stack couple forms. Una volta impilate a 1 colonna non serve piu'
+     comprimere i campi come nel 2-colonne desktop: si ripristina una dimensione
+     font >=16px (evita lo zoom automatico di iOS Safari al focus input) e un
+     padding piu' comodo per il tocco. */
+  @media (max-width: 640px) {
+    .gcb-forms-couple { grid-template-columns: 1fr; }
+    .gcb-forms-couple .cf-field input,
+    .gcb-forms-couple .cf-field select,
+    .gcb-forms-couple #carta-calculator .cf-field input,
+    .gcb-forms-couple #carta-calculator .cf-field select { font-size: 16px; padding: 0.7rem 0.9rem; }
+    .gcb-forms-couple .cf-field label,
+    .gcb-forms-couple #carta-calculator .cf-field label { font-size: 0.78rem; }
+  }
+
+  /* Carousel swipe dots (mobile only) */
+  .gcb-swipe-dots { display: none; justify-content: center; gap: 7px; margin-top: 0.65rem; }
+  .gcb-swipe-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.22); transition: background 0.25s; }
+  .gcb-swipe-dot--active { background: rgba(255,255,255,0.85); }
+  @media (max-width: 899px) { .gcb-swipe-dots { display: flex; } }
+
+  /* ── Couple mode: colonne A+B affiancate, CTA unica, override colonna A
+       (serve il prefisso #carta-calculator per vincere la specificita' delle
+       regole equivalenti gia' scritte dentro calc-singolo.html.twig) ── */
+  #gcb-couple-calc-btn { display: none; }
+  .gcb-forms-couple #cs-calcola-btn,
+  .gcb-forms-couple #gcb-calcola-b-btn { display: none !important; }
+  .gcb-forms-couple #carta-calculator .csingle-intro { display: none; }
+  /* La section calc-singolo ha un padding inline (3.5rem 0 4rem) pensato per
+     quando e' usata da sola su una pagina dedicata: in modalita' coppia sfalsa
+     la card A rispetto a B, che non ha quel padding. Azzerato per allineare
+     le due card alla stessa altezza. */
+  .gcb-forms-couple #carta-calculator { padding-top: 0 !important; padding-bottom: 0 !important; }
+  .gcb-forms-couple #carta-calculator .container { padding: 0 0.35rem !important; }
+  .gcb-forms-couple #carta-calculator .carta-form-card { padding: 1.25rem 1rem; }
+
+  /* Allineamento colonne Carta di Coppia.
+     La colonna A eredita il CSS scoped del partial (#carta-calculator), la B
+     quello generico della pagina, che ha gap piu' larghi (1rem contro 0.75rem).
+     La differenza si accumula riga dopo riga e le due card finiscono ad altezze
+     diverse. Qui la B viene riportata ai valori della A. */
+  .gcb-forms-couple #gcb-form-card-b .cf-row { gap: 0.75rem; margin-bottom: 0.75rem; }
+  .gcb-forms-couple #gcb-form-card-b .cf-row-datetime { gap: 0.75rem; margin-bottom: 0.75rem; }
+  .gcb-forms-couple #gcb-form-card-b .cf-field label { font-weight: 600; margin-bottom: 0.3rem; }
+  .gcb-forms-couple #gcb-form-card-b .cf-hint { font-size: 0.72rem; }
+  /* Le due card riempiono comunque tutta l'altezza della riga, cosi restano
+     pari anche se in futuro una delle due cambia contenuto. */
+  .gcb-forms-couple .gcb-form-col { display: flex; flex-direction: column; }
+  .gcb-forms-couple #gcb-form-card-b { flex: 1; }
+  .gcb-forms-couple #gcb-form-col-a #carta-calculator,
+  .gcb-forms-couple #gcb-form-col-a #carta-calculator .container { display: flex; flex-direction: column; flex: 1; }
+  .gcb-forms-couple #gcb-form-col-a .carta-form-card { flex: 1; }
+
+  .gcb-forms-couple #carta-calculator .cf-row { gap: 0.45rem; }
+  .gcb-forms-couple #carta-calculator .cf-field label { font-size: 0.7rem; }
+  .gcb-forms-couple #carta-calculator .cf-field input,
+  .gcb-forms-couple #carta-calculator .cf-field select { font-size: 0.85rem; padding: 0.48rem 0.65rem; }
+  .gcb-forms-couple #carta-calculator #cs-results { display: none !important; }
+  /* Bodygraph panels — vassoio parchment per dare contrasto netto alle gate
+     colorate. Senza questo, le gate viola/navy si confondevano col gradient
+     viola-lavanda della pagina. */
+  .gcb-panel .carta-bodygraph-wrap {
+    background: #FAF7F5;
+    border: 1px solid rgba(196,138,58,.18);
+    border-radius: 12px;
+    padding: 1rem .75rem;
+    box-shadow: 0 1px 3px rgba(15,26,41,.08), inset 0 1px 0 rgba(255,255,255,.6);
+  }
+  @media (max-width: 899px) {
+    .gcb-panel .carta-bodygraph-wrap { min-height: 300px; display: flex; align-items: center; justify-content: center; }
+    .gcb-panel .carta-bodygraph-wrap svg { width: 100%; max-width: 340px; height: auto; }
+  }
+  /* Couple mode header */
+  #gcb-couple-header { text-align: center; margin-bottom: 1.5rem; }
+  #gcb-couple-header .csingle-badge { display: inline-block; background: rgba(255,255,255,0.18); color: #fff; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.25rem 0.8rem; border-radius: 20px; margin-bottom: 0.85rem; }
+  #gcb-couple-header h2 { font-family: var(--font-serif, 'Playfair Display', serif); font-size: clamp(1.3rem,4vw,1.8rem); color: #fff; margin: 0 0 0.5rem; }
+  #gcb-couple-header p { color: rgba(255,255,255,0.72); font-size: 0.9rem; margin: 0 auto; max-width: 480px; line-height: 1.6; }
+
+  /* ── Date/time row ── */
+  .cf-row-datetime { display: flex; gap: 0.75rem; align-items: flex-start; flex-wrap: wrap; }
+  .cf-field-date { flex: 1.6; min-width: 160px; }
+  .cf-field-time { flex: 1; min-width: 110px; }
+  /* Native date/time inputs — on white card background */
+  /* Date/time wrapper + custom placeholder for iOS */
+  .cf-dt-wrap { position: relative; }
+  .cf-dt-ph {
+    position: absolute;
+    inset: 0;
+    padding: 0.7rem 0.9rem;
+    color: #a093c0;
+    font-size: 0.95rem;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    background: #f7f5fc;
+  }
+  .cf-dt-ph.cf-dt-ph--hidden { display: none; }
+  input[type="date"], input[type="time"] {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 2.9rem;
+    line-height: 1.4;
+    padding: 0.7rem 0.9rem;
+    border-radius: 10px;
+    border: 1.5px solid rgba(107,79,168,0.35);
+    background: #f7f5fc;
+    color: #3a2560;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+  }
+  input[type="date"]:focus, input[type="time"]:focus {
+    outline: none;
+    border-color: #6b4fa8;
+    background: #f0eaf8;
+  }
+  .cf-field-date, .cf-field-time { min-width: 0; }
+  /* Mobile compact form */
+  @media (max-width: 640px) {
+    .carta-form-card { padding: 1rem 0.9rem 1.1rem; }
+    .cf-field label { font-size: 0.7rem; margin-bottom: 0.18rem; }
+    .cf-field input, .cf-field select { padding: 0.55rem 0.75rem; font-size: 0.88rem; }
+    input[type="date"], input[type="time"] { padding: 0.55rem 0.75rem; font-size: 0.88rem; }
+    .cf-row { gap: 0.5rem; margin-bottom: 0.5rem; }
+    .cf-row-datetime { gap: 0.5rem; }
+    .cf-hint { font-size: 0.68rem; margin-top: 0.2rem; }
+    .carta-btn { padding: 0.8rem 1.2rem; font-size: 0.95rem; margin-top: 0.5rem; }
+    .gcb-form-col-label { font-size: 0.78rem; margin-bottom: 0.4rem; }
+  }
+
+  /* ── Mode selector ── */
+  .gcb-mode-sel { display: flex; gap: 0.75rem; margin-bottom: 2rem; }
+  .gcb-mode-card { flex: 1; padding: 1rem 0.75rem; border-radius: 14px; border: 2px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.07); cursor: pointer; text-align: center; transition: border-color 0.2s, background 0.2s; }
+  .gcb-mode-card--active { border-color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.15); }
+  .gcb-mode-card-icon { font-size: 1.3rem; margin-bottom: 0.3rem; }
+  .gcb-mode-card-title { font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 0.15rem; }
+  .gcb-mode-card-desc { font-size: 0.72rem; color: rgba(255,255,255,0.55); line-height: 1.35; }
+
+  /* ── Account chart picker ── */
+  .gcb-pick-btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.85rem; background: rgba(107,79,168,0.08); border: 1px solid rgba(107,79,168,0.3); border-radius: 20px; color: #6b4fa8; font-size: 0.77rem; font-weight: 600; cursor: pointer; margin-bottom: 0.6rem; transition: background 0.15s; font-family: inherit; }
+  .gcb-pick-btn:hover { background: rgba(107,79,168,0.15); }
+  @media (max-width: 640px) {
+    .gcb-pick-btn { width: 100%; justify-content: center; border-radius: 10px; padding: 0.6rem 1rem; font-size: 0.85rem; }
+    .cf-row-datetime { flex-direction: column; }
+    .cf-field-date, .cf-field-time { min-width: 0; flex: none; width: 100%; }
+  }
+  .gcb-picker-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: flex-end; justify-content: center; }
+  .gcb-picker-overlay--open { display: flex; }
+  .gcb-picker-sheet { background: #fff; border-radius: 20px 20px 0 0; width: 100%; max-width: 520px; max-height: 65vh; overflow-y: auto; padding: 1.25rem 1.25rem 2.5rem; }
+  .gcb-picker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; }
+  .gcb-picker-header-title { font-weight: 700; color: #333; font-size: 0.97rem; }
+  .gcb-picker-close { background: none; border: none; font-size: 1.6rem; cursor: pointer; color: #aaa; line-height: 1; padding: 0; }
+  .gcb-picker-item { padding: 0.85rem 0.5rem; border-radius: 10px; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid #f0ece8; }
+  .gcb-picker-item:last-child { border-bottom: none; }
+  .gcb-picker-item:hover { background: #f5f3f1; }
+  .gcb-picker-item-name { font-weight: 700; color: var(--primary-color, #5b3a6b); font-size: 0.92rem; }
+  .gcb-picker-item-meta { font-size: 0.77rem; color: #888; margin-top: 0.15rem; }
+
+  @media print {
+    @page { size: A4; margin: 0.4cm 0.7cm; }
+    body { background: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    header, footer, nav, #carta-calculator, .carta-form-card, .carta-cta,
+    .carta-pdf-btn, .cf-autocomplete-list, .carta-wrap > *:not(#pdf-layout),
+    .gcb-progress, .gcb-connect-cta, #gcb-zone-2, #gcb-extra-actions { display: none !important; }
+    #pdf-layout { display: block !important; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="carta-wrap">
+
+  <!-- Mode selector -->
+  <div class="gcb-mode-sel">
+    <div class="gcb-mode-card gcb-mode-card--active" id="gcb-mode-single" onclick="gcbSetMode('single')">
+      <div class="gcb-mode-card-icon">◉</div>
+      <div class="gcb-mode-card-title">La mia carta</div>
+      <div class="gcb-mode-card-desc">Calcola la tua carta Human Design</div>
+    </div>
+    <div class="gcb-mode-card" id="gcb-mode-couple" onclick="gcbSetMode('couple')">
+      <div class="gcb-mode-card-icon">⊕</div>
+      <div class="gcb-mode-card-title">Carta di coppia</div>
+      <div class="gcb-mode-card-desc">Confronta due persone insieme</div>
+    </div>
+  </div>
+
+  <!-- ═══ ZONE 1: Carta Individuale / Carta di Coppia ═══ -->
+  <div id="gcb-zone-1">
+    <div class="carta-intro gcb-single-only">
+      <h1>{{ page.header.title }}</h1>
+      <p class="carta-tagline">{{ page.header.description ?? 'La Mammal Chart del tuo cane: stessa meccanica energetica, letta in chiave animale.' }}</p>
+      <p class="carta-snippet">La Mammal Chart usa lo stesso calcolo astronomico della carta Human Design umana (data, ora e luogo di nascita), applicato al tuo cane. Il calcolo avviene nel browser, senza email né registrazione.</p>
+      <div class="gcb-beta-notice" style="background:#FFF4E5;border:1px solid #E8A33D;border-radius:8px;padding:14px 18px;margin:16px 0;font-size:0.95rem;">
+        ⚠️ <strong>Contenuto in fase di validazione.</strong> Il bodygraph (tipo, porte, centri, canali) è calcolato correttamente. I testi di interpretazione (Tipo, Profilo, Autorità) sono ancora in revisione per il contesto animale e potrebbero non essere accurati.
+      </div>
+    </div>
+
+    <div class="carta-intro" id="gcb-couple-header" style="display:none;">
+      <span class="csingle-badge">Gratuito · nessuna registrazione</span>
+      <h2>Carta di Coppia</h2>
+      <p>State per confrontare due energie diverse. Inserite i dati di nascita di entrambe le persone: alla fine calcoliamo insieme tipo, profilo e la vostra carta composita.</p>
+    </div>
+
+    <div class="gc-tips-bar gcb-single-only">
+      <div class="gc-tips-item">
+        <div class="gc-tips-num">1</div>
+        <div class="gc-tips-text"><strong>Data di nascita</strong>Giorno, mese e anno completi.</div>
+      </div>
+      <div class="gc-tips-item">
+        <div class="gc-tips-num">2</div>
+        <div class="gc-tips-text"><strong>Ora esatta</strong>Anche pochi minuti cambiano il risultato. Cercala sull'estratto di nascita integrale.</div>
+      </div>
+      <div class="gc-tips-item">
+        <div class="gc-tips-num">3</div>
+        <div class="gc-tips-text"><strong>Luogo di nascita</strong>Inserisci la città — il fuso orario viene rilevato automaticamente.</div>
+      </div>
+    </div>
+
+    <!-- ── Forms row: Persona A + Persona B, entrambe visibili fin da subito in couple mode ── -->
+    <div class="gcb-forms-row" id="gcb-forms-row">
+
+    <!-- Colonna A -->
+    <div class="gcb-form-col" id="gcb-form-col-a">
+    <div class="gcb-form-col-label">Persona A</div>
+    {# ── Calcolatore singolo (sostituisce il vecchio form A) ── #}
+    {% include 'partials/calc-singolo.html.twig' with {'mode': 'genera'} %}
+    </div><!-- /gcb-form-col-a -->
+
+    <!-- Colonna B (visibile solo in couple mode) -->
+    <div class="gcb-form-col" id="gcb-form-col-b">
+    <div class="gcb-form-col-label">Persona B</div>
+    <div class="carta-form-card" id="gcb-form-card-b">
+      <div class="cf-row cols-1">
+        <div class="cf-field">
+          <label>Nome (opzionale)</label>
+          <input type="text" id="gcb-b-nome" placeholder="Nome della seconda persona">
+        </div>
+      </div>
+      {% if page.header.hd_account_enabled %}
+      <button type="button" class="gcb-pick-btn" onclick="gcbPickerOpen('b')">📂 Scegli una carta salvata</button>
+      {% endif %}
+      <div class="cf-row cf-row-datetime">
+        <div class="cf-field cf-field-date">
+          <label>📅 Data di nascita</label>
+          <div class="cf-dt-wrap">
+            <input type="date" id="gcb-b-date" min="1900-01-01" max="2050-12-31">
+            <span class="cf-dt-ph" id="gcb-b-date-ph" aria-hidden="true">gg / mm / aaaa</span>
+          </div>
+        </div>
+        <div class="cf-field cf-field-time">
+          <label>🕐 Ora di nascita</label>
+          <div class="cf-dt-wrap">
+            <input type="time" id="gcb-b-time">
+            <span class="cf-dt-ph" id="gcb-b-time-ph" aria-hidden="true">ora : min</span>
+          </div>
+        </div>
+      </div>
+      <div class="cf-row cols-1">
+        <div class="cf-field">
+          <label>📍 Luogo di nascita *</label>
+          <div class="cf-autocomplete-wrap">
+            <input type="text" id="gcb-b-city" placeholder="Es: Milano, Roma, Napoli…" autocomplete="off">
+            <ul class="cf-autocomplete-list" id="gcb-b-city-list"></ul>
+          </div>
+          <div class="cf-hint">Inserisci la città — fuso orario automatico</div>
+        </div>
+      </div>
+      <div class="cf-row cols-1">
+        <div class="cf-field">
+          <label>Fuso orario</label>
+          <select id="gcb-b-tz">
+            <option value="Europe/Rome" selected>Italia (Europe/Rome)</option>
+            <option value="Europe/London">Regno Unito</option>
+            <option value="Europe/Paris">Francia / Belgio</option>
+            <option value="Europe/Berlin">Germania / Austria</option>
+            <option value="Europe/Madrid">Spagna</option>
+            <option value="Europe/Zurich">Svizzera</option>
+            <option value="America/New_York">USA Est</option>
+            <option value="America/Chicago">USA Centrale</option>
+            <option value="America/Los_Angeles">USA Ovest</option>
+            <option value="America/Argentina/Buenos_Aires">Argentina</option>
+            <option value="America/Sao_Paulo">Brasile</option>
+            <option value="Asia/Dubai">Emirati Arabi</option>
+            <option value="Asia/Kolkata">India</option>
+            <option value="Asia/Tokyo">Giappone</option>
+            <option value="Australia/Sydney">Australia</option>
+          </select>
+          <div class="cf-hint">Selezionato automaticamente dalla città</div>
+          <div class="cf-tz-detected" id="gcb-b-tz-detected"></div>
+        </div>
+      </div>
+      <button class="carta-btn" id="gcb-calcola-b-btn" onclick="calcolaConnessione()">Calcola la Connessione</button>
+    </div>
+    <div class="carta-loading" id="gcb-loading-b">
+      <div class="carta-loading-dots"><span></span><span></span><span></span></div>
+      <p style="margin-top:0.75rem;color:#888;font-size:0.9rem;">Calcolo connessione…</p>
+    </div>
+    <div class="carta-error" id="gcb-error-b"></div>
+    </div><!-- /gcb-form-col-b -->
+
+    </div><!-- /gcb-forms-row -->
+
+    <button class="carta-btn" id="gcb-couple-calc-btn" onclick="gcbCalcolaCoppia()" style="display:none;max-width:480px;margin:1.25rem auto 0;">Calcola la Connessione</button>
+
+    {# ── Azioni post-calcolo: PDF + Connect CTA ── #}
+    <div id="gcb-extra-actions" class="gcb-single-only" style="display:none; max-width:720px; margin:0 auto; padding:0 1.25rem 2rem;">
+      {% if page.header.hd_account_enabled %}
+      <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top: 1rem;">
+        <button class="carta-pdf-btn" id="carta-pdf-btn" onclick="scaricaPDF()" style="margin-top:0; flex:1; min-width:140px;">Scarica PDF</button>
+        <button class="carta-pdf-btn" id="carta-save-btn" onclick="hdSaveOpen()" style="margin-top:0; flex:1; min-width:140px; background:#fff; color:var(--primary-color);">Salva Carta</button>
+      </div>
+      <div id="hd-save-panel" style="display:none; margin-top:1rem; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); border-radius:16px; padding:1.25rem;">
+        <div id="hd-save-msg" style="display:none; padding:0.65rem 0.9rem; border-radius:10px; font-size:0.88rem; margin-bottom:0.9rem;"></div>
+        <div id="hd-save-form">
+          <label style="display:block; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:rgba(255,255,255,0.7); margin-bottom:0.4rem;">Nome della carta</label>
+          <input type="text" id="hd-save-name" maxlength="100" placeholder="Es. Marco, La mia carta…" style="width:100%; padding:0.65rem 0.9rem; border-radius:10px; border:1px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.1); color:#fff; font-size:0.95rem; box-sizing:border-box; margin-bottom:0.9rem;">
+          <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
+            <button onclick="hdSaveConfirm()" style="flex:1; min-width:120px; padding:0.55rem 1rem; background:#FDE8B0; color:#1E3A5F; font-weight:700; border:none; border-radius:50px; cursor:pointer; font-size:0.88rem;">Salva</button>
+            <button onclick="hdSaveClose()" style="flex:1; min-width:80px; padding:0.55rem 1rem; background:transparent; border:1px solid rgba(255,255,255,0.35); color:#fff; border-radius:50px; cursor:pointer; font-size:0.88rem;">Annulla</button>
+          </div>
+        </div>
+        <div id="hd-save-login" style="display:none; text-align:center;">
+          <p style="color:rgba(255,255,255,0.85); font-size:0.9rem; margin-bottom:0.9rem;">Crea un account gratuito per salvare le tue carte.</p>
+          <div style="display:flex; gap:0.65rem; justify-content:center; flex-wrap:wrap;">
+            <a href="{{ grav.base_url }}/account" style="padding:0.55rem 1.2rem; background:#FDE8B0; color:#1E3A5F; font-weight:700; border-radius:50px; text-decoration:none; font-size:0.88rem;">Accedi o Registrati</a>
+            <button onclick="hdSaveClose()" style="padding:0.55rem 1rem; background:transparent; border:1px solid rgba(255,255,255,0.35); color:#fff; border-radius:50px; cursor:pointer; font-size:0.88rem;">Annulla</button>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <button class="carta-pdf-btn" id="carta-pdf-btn" onclick="scaricaPDF()" style="margin-top:1rem;">Scarica PDF</button>
+      {% endif %}
+      <div class="gcb-connect-cta" id="gcb-connect-cta" style="display:none;">
+        <h3>Scopri come sei in relazione</h3>
+        <p>Calcola la Carta di Coppia per vedere come la tua energia si intreccia con quella di un'altra persona.</p>
+        <button class="gcb-connect-btn" onclick="gcbGoCoupleFromCTA()">Confrontati con qualcuno</button>
+      </div>
+      <div style="margin-top:1.5rem; background:rgba(255,255,255,0.10); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.22); border-radius:20px; padding:1.75rem;">
+        <p style="font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(255,255,255,0.5); margin:0 0 0.85rem; text-align:center;">Cosa significa la tua carta</p>
+        <div style="display:grid; gap:0.55rem; max-width:460px; margin:0 auto;">
+          <a href="{{ grav.base_url }}/blog/articoli/4-tipi-human-design-quale-sei" style="display:flex; justify-content:space-between; align-items:center; gap:0.75rem; padding:0.85rem 1.1rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); border-radius:12px; color:#fff; text-decoration:none; font-size:0.9rem; line-height:1.35; transition:background 0.2s;">I 4 Tipi: scopri cosa dice il tuo <span style="color:#FDE8B0;">&rarr;</span></a>
+          <a href="{{ grav.base_url }}/blog/articoli/12-profili-human-design-chi-sei" style="display:flex; justify-content:space-between; align-items:center; gap:0.75rem; padding:0.85rem 1.1rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); border-radius:12px; color:#fff; text-decoration:none; font-size:0.9rem; line-height:1.35; transition:background 0.2s;">I 12 Profili: chi sei nelle relazioni <span style="color:#FDE8B0;">&rarr;</span></a>
+          <a href="{{ grav.base_url }}/blog/articoli/come-leggere-la-carta-human-design" style="display:flex; justify-content:space-between; align-items:center; gap:0.75rem; padding:0.85rem 1.1rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); border-radius:12px; color:#fff; text-decoration:none; font-size:0.9rem; line-height:1.35; transition:background 0.2s;">Come si legge la carta, passo passo <span style="color:#FDE8B0;">&rarr;</span></a>
+          <a href="{{ grav.base_url }}/blog/articoli/disegno-umano-cosa-e" style="display:flex; justify-content:space-between; align-items:center; gap:0.75rem; padding:0.85rem 1.1rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); border-radius:12px; color:#fff; text-decoration:none; font-size:0.9rem; line-height:1.35; transition:background 0.2s;">Cos'è il Disegno Umano (e come si calcola) <span style="color:#FDE8B0;">&rarr;</span></a>
+        </div>
+      </div>
+      <div style="margin-top:1.5rem; background:rgba(255,255,255,0.10); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.22); border-radius:20px; padding:1.75rem; text-align:center;">
+        <p style="font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(255,255,255,0.5); margin:0 0 0.5rem;">Hai la carta — e adesso?</p>
+        <h3 style="font-family:'Playfair Display',serif; font-size:1.2rem; color:#fff; margin:0 0 0.75rem; line-height:1.3;">Il tuo Libretto d'Istruzioni Human Design</h3>
+        <p style="color:rgba(255,255,255,0.75); font-size:0.88rem; line-height:1.6; max-width:400px; margin:0 auto 1.25rem;">Un documento scritto su di te — non un template. Ti spiega come funzioni davvero: Tipo, Strategia, Autorità, Profilo. Da €90.</p>
+        <a href="{{ grav.base_url }}/libretto-istruzioni" style="display:inline-block; padding:0.85rem 2.25rem; background:#fff; color:var(--primary-color); border-radius:50px; font-weight:700; font-size:0.95rem; text-decoration:none; transition:opacity 0.2s;">Scopri il Libretto &rarr;</a>
+      </div>
+      <p style="margin:1.25rem 0 0; text-align:center; font-size:0.88rem; color:rgba(255,255,255,0.7);">Hai un team o un'azienda? <a href="{{ grav.base_url }}/aziende" style="color:#FDE8B0; font-weight:700; text-decoration:underline; text-underline-offset:3px;">Scopri il lavoro di Valentina con le aziende &rarr;</a></p>
+    </div>
+
+  </div><!-- /gcb-zone-1 -->
+
+  <!-- ═══ ZONE 2: Carta di Coppia — risultati ═══ -->
+  <div class="gcb-zone-2" id="gcb-zone-2">
+    <div class="gcb-zone-header" id="gcb-zone2-header">
+      <h2>Carta di Coppia</h2>
+      <p>Inserisci i dati dell'altra persona per calcolare la connessione</p>
+    </div>
+
+    <!-- Zone 2 results -->
+    <div id="gcb-results" style="display:none">
+      <div class="gcb-conn-names">
+        <h3 id="gcb-conn-title"></h3>
+        <p id="gcb-conn-subtitle"></p>
+      </div>
+
+      <!-- Legend -->
+      <div class="gcb-legend">
+        <div class="gcb-legend-item"><span class="gcb-legend-dot" style="background:#5C1F6E"></span><span id="gcb-legend-a">Persona A</span></div>
+        <div class="gcb-legend-item"><span class="gcb-legend-dot" style="background:#0E3C7B"></span><span id="gcb-legend-b">Persona B</span></div>
+        <div class="gcb-legend-item"><span class="gcb-legend-dot" style="background:linear-gradient(90deg,#5C1F6E 50%,#0E3C7B 50%)"></span><span>Gate in comune</span></div>
+      </div>
+
+      <!-- Tab bar (mobile only) -->
+      <div class="gcb-tabs-bar">
+        <button class="gcb-tab-btn" id="gcb-tab-a" role="tab" aria-selected="false" aria-controls="gcb-panel-a" onclick="gcbSetTab('a')">Persona A</button>
+        <button class="gcb-tab-btn" id="gcb-tab-conn" role="tab" aria-selected="true" aria-controls="gcb-panel-conn" onclick="gcbSetTab('conn')">Coppia</button>
+        <button class="gcb-tab-btn" id="gcb-tab-b" role="tab" aria-selected="false" aria-controls="gcb-panel-b" onclick="gcbSetTab('b')">Persona B</button>
+      </div>
+
+      <!-- Panels grid (desktop: all 3 shown; mobile: carousel sliding) -->
+      <div class="gcb-panels-grid">
+        <div class="gcb-carousel-track" id="gcb-carousel-track">
+          <div class="gcb-panel" id="gcb-panel-a" role="tabpanel">
+            <p class="gcb-panel-label" id="gcb-label-a">Persona A</p>
+            <div class="carta-bodygraph-wrap" id="gcb-bg-a"></div>
+            <div class="gcb-panel-chips" id="gcb-chips-a"></div>
+          </div>
+          <div class="gcb-panel gcb-panel--active" id="gcb-panel-conn" role="tabpanel">
+            <p class="gcb-panel-label">Composito</p>
+            <div class="carta-bodygraph-wrap" id="gcb-bg-conn"></div>
+          </div>
+          <div class="gcb-panel" id="gcb-panel-b" role="tabpanel">
+            <p class="gcb-panel-label" id="gcb-label-b">Persona B</p>
+            <div class="carta-bodygraph-wrap" id="gcb-bg-b"></div>
+            <div class="gcb-panel-chips" id="gcb-chips-b"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Swipe dots (mobile only) -->
+      <div class="gcb-swipe-dots" id="gcb-swipe-dots">
+        <span class="gcb-swipe-dot" id="gcb-dot-a"></span>
+        <span class="gcb-swipe-dot gcb-swipe-dot--active" id="gcb-dot-conn"></span>
+        <span class="gcb-swipe-dot" id="gcb-dot-b"></span>
+      </div>
+
+      <!-- EM Analysis -->
+      <div class="gcb-em-section" id="gcb-em-analysis"></div>
+      <!-- Analisi connessione: tema, profili, definizione composito -->
+      <div id="gcb-conn-analysis"></div>
+    </div>
+  </div><!-- /gcb-zone-2 -->
+
+  <!-- ── Approfondisci (internal linking SEO: redistribuisce equity verso blog tematici) ── -->
+  <section class="gcb-related" aria-labelledby="gcb-related-title">
+    <h2 id="gcb-related-title" class="gcb-related-title">Approfondisci la tua carta</h2>
+    <p class="gcb-related-sub">Guide dedicate ai concetti chiave del tuo Human Design.</p>
+    <ul class="gcb-related-grid">
+      <li>
+        <a href="/blog/come-si-calcola-la-carta-human-design" class="gcb-related-card">
+          <span class="gcb-related-cat">Calcolo</span>
+          <span class="gcb-related-cardtitle">Come si calcola la carta Human Design</span>
+          <span class="gcb-related-desc">Dati di nascita, effemeridi, perché l'ora esatta è critica.</span>
+        </a>
+      </li>
+      <li>
+        <a href="/blog/generatore-human-design-energia-senza-burnout" class="gcb-related-card">
+          <span class="gcb-related-cat">Generatore</span>
+          <span class="gcb-related-cardtitle">Generatore Human Design: perché ti svuoti</span>
+          <span class="gcb-related-desc">Il 37% della popolazione. Burnout e meccanica della Risorsa Energetica.</span>
+        </a>
+      </li>
+      <li>
+        <a href="/blog/proiettore-human-design-invito-lavoro" class="gcb-related-card">
+          <span class="gcb-related-cat">Proiettore</span>
+          <span class="gcb-related-cardtitle">Proiettore Human Design: l'invito sul lavoro</span>
+          <span class="gcb-related-desc">Perché lavorare in attesa di riconoscimento, non in iniziativa.</span>
+        </a>
+      </li>
+      <li>
+        <a href="/blog/autorita-emozionale-human-design-decidere" class="gcb-related-card">
+          <span class="gcb-related-cat">Autorità Emozionale</span>
+          <span class="gcb-related-cardtitle">Autorità Emozionale: come non decidere d'impulso</span>
+          <span class="gcb-related-desc">Il 51% della popolazione. L'onda emotiva e le frasi pratiche.</span>
+        </a>
+      </li>
+      <li>
+        <a href="/blog/12-profili-human-design-chi-sei" class="gcb-related-card">
+          <span class="gcb-related-cat">Profilo</span>
+          <span class="gcb-related-cardtitle">12 Profili Human Design: chi sei davvero</span>
+          <span class="gcb-related-desc">Il ruolo che giochi nella vita secondo le 12 combinazioni del Profilo.</span>
+        </a>
+      </li>
+      <li>
+        <a href="/blog/ansia-decisionale-come-scegliere-senza-bloccarsi" class="gcb-related-card">
+          <span class="gcb-related-cat">Decisioni</span>
+          <span class="gcb-related-cardtitle">Ansia decisionale: scegliere senza bloccarsi</span>
+          <span class="gcb-related-desc">Quando l'Autorità Decisionale non viene rispettata.</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <style>
+    .gcb-related { max-width: 1100px; margin: 4rem auto 2rem; padding: 0 1.25rem; }
+    .gcb-related-title { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.5rem, 3vw, 2rem); color: #fff; margin: 0 0 0.35rem; text-align: center; font-weight: 600; letter-spacing: 0.01em; }
+    .gcb-related-sub { color: rgba(255,255,255,0.7); text-align: center; margin: 0 0 2rem; font-size: 0.98rem; }
+    .gcb-related-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .gcb-related-card { display: flex; flex-direction: column; gap: 0.4rem; padding: 1.15rem 1.25rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; text-decoration: none; color: inherit; transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease; backdrop-filter: blur(8px); }
+    .gcb-related-card:hover { background: rgba(255,255,255,0.10); border-color: rgba(196,138,58,0.5); transform: translateY(-2px); }
+    .gcb-related-cat { display: inline-block; align-self: flex-start; padding: 0.18rem 0.6rem; background: rgba(196,138,58,0.18); color: #C48A3A; border-radius: 100px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+    .gcb-related-cardtitle { font-family: 'Playfair Display', Georgia, serif; font-size: 1.05rem; color: #fff; font-weight: 600; line-height: 1.3; }
+    .gcb-related-desc { color: rgba(255,255,255,0.65); font-size: 0.88rem; line-height: 1.5; }
+  </style>
+
+  <!-- PDF Print Layout -->
+  <div id="pdf-layout">
+    <div class="pdf-header">
+      <div class="pdf-header-left">
+        <span class="pdf-brand">Valentina Russo</span> <span class="pdf-brand-sub">— Analista Certificata BG5®</span>
+      </div>
+      <div class="pdf-header-right" id="pdf-person-info"></div>
+    </div>
+    <div class="pdf-body">
+      <div class="pdf-col-left" id="pdf-bodygraph"></div>
+      <div class="pdf-col-right">
+        <div class="pdf-card" id="pdf-tipo"><div class="pdf-card-label">Tipo di Carriera</div><div class="pdf-card-value"></div><div class="pdf-card-desc"></div></div>
+        <div class="pdf-card" id="pdf-profilo"><div class="pdf-card-label">Profilo</div><div class="pdf-card-value"></div><div class="pdf-card-desc"></div></div>
+        <div class="pdf-card" id="pdf-autorita"><div class="pdf-card-label">Autorità</div><div class="pdf-card-value"></div><div class="pdf-card-desc"></div></div>
+        <div class="pdf-card" id="pdf-definizione"><div class="pdf-card-label">Definizione</div><div class="pdf-card-value"></div><div class="pdf-card-desc"></div></div>
+        <div class="pdf-card" id="pdf-croce"><div class="pdf-card-label">Tema di Vita</div><div class="pdf-card-value"></div><div class="pdf-card-desc"></div></div>
+      </div>
+    </div>
+    <div class="pdf-planets"><div class="pdf-planets-grid" id="pdf-planets"></div></div>
+    <div class="pdf-cta">
+      <div class="pdf-cta-inner">
+        <img src="/user/pages/assets/valentina-privati.jpg" alt="Valentina Russo" class="pdf-cta-photo">
+        <div class="pdf-cta-content">
+          <div class="pdf-cta-badge">Il prossimo passo</div>
+          <div class="pdf-cta-title">Questi dati raccontano come funzioni davvero.</div>
+          <div class="pdf-cta-text">Una consulenza con Valentina trasforma numeri e grafici in decisioni concrete: come gestire la tua energia, quali relazioni ti potenziano, e quale direzione professionale è allineata al tuo design.</div>
+          <div class="pdf-cta-button">Prenota la tua consulenza</div>
+          <div class="pdf-cta-links"><span>WhatsApp: +39 379 103 7653</span><span>|</span><span>valentinarussobg5.com/contatti</span><span>|</span><span>@valentinarussobg5</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="pdf-footer">© 2026 Valentina Russo — BG5® Analyst | valentinarussobg5.com | Questo report è generato automaticamente e non sostituisce una consulenza professionale.</div>
+  </div>
+
+  {% if page.header.hd_account_enabled %}
+  <!-- Account chart picker bottom sheet -->
+  <div class="gcb-picker-overlay" id="gcb-picker-overlay" onclick="gcbPickerClose()">
+    <div class="gcb-picker-sheet" onclick="event.stopPropagation()">
+      <div class="gcb-picker-header">
+        <span class="gcb-picker-header-title">Scegli una carta salvata</span>
+        <button class="gcb-picker-close" onclick="gcbPickerClose()" aria-label="Chiudi">×</button>
+      </div>
+      <div id="gcb-picker-list"></div>
+    </div>
+  </div>
+  {% endif %}
+
+</div><!-- /carta-wrap -->
+
+{# ── SEO Content Block ── #}
+{% include 'partials/seo-calcolatore.html.twig' %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
+<script src="/user/themes/valentina/js/swe-hd.js"></script>
+<script>
+
+// ─── Swiss Ephemeris init ─────────────────────────────────────────────────────
+let _sweMod = null, _sweCalc = null, _sweJulday = null;
+async function initSwe() {
+  if (_sweMod) return;
+  const SweClass = window.SwissEphemeris;
+  if (!SweClass) throw new Error('SwissEphemeris non caricato');
+  const inst = new SweClass();
+  await inst.init();
+  try { await inst.loadStandardEphemeris(); } catch(e) {}
+  _sweMod = inst.module;
+  try {
+    const CDN = 'https://cdn.jsdelivr.net/gh/aloistr/swisseph/ephe';
+    try { _sweMod.FS.mkdir('/ephe'); } catch(e) {}
+    const files = ['sepl_18.se1', 'semo_18.se1'];
+    await Promise.all(files.map(async f => {
+      const resp = await fetch(`${CDN}/${f}`);
+      if (resp.ok) _sweMod.FS.writeFile(`/ephe/${f}`, new Uint8Array(await resp.arrayBuffer()));
+    }));
+    _sweMod.cwrap('swe_set_ephe_path_wrap', null, ['string'])('/ephe');
+  } catch(e) {
+    _sweMod.cwrap('swe_set_ephe_path_wrap', null, ['string'])('');
+  }
+  _sweCalc = (jd, planet, flags) => {
+    const ptr = _sweMod.ccall('swe_calc_ut_wrap', 'number', ['number','number','number'], [jd, planet, flags]);
+    return _sweMod.getValue(ptr, 'double');
+  };
+  _sweJulday = _sweMod.cwrap('swe_julday_wrap', 'number', ['number','number','number','number','number']);
+}
+
+const HD_GATE_WHEEL = [41,19,13,49,30,55,37,63,22,36,25,17,21,51,42,3,27,24,2,23,8,20,16,35,45,12,15,52,39,53,62,56,31,33,7,4,29,59,40,64,47,6,46,18,48,57,32,50,28,44,1,43,14,34,9,5,26,11,10,58,38,54,61,60];
+const HD_RAVE_OFFSET = 58.0;
+
+const HD_CHANNELS = [
+  [64,47],[61,24],[63,4],[17,62],[43,23],[11,56],[16,48],[20,57],
+  [31,7],[8,1],[33,13],[10,20],[45,21],[35,36],[12,22],[20,34],
+  [10,34],[10,57],[26,44],[51,25],[40,37],[2,14],[5,15],[29,46],[27,50],[34,57],
+  [59,6],[3,60],[9,52],[42,53],[18,58],[28,38],[32,54],[30,41],[39,55],[19,49]
+];
+
+const HD_GATE_CENTER = {};
+[64,61,63].forEach(g=>HD_GATE_CENTER[g]='HEAD');
+[47,24,4,17,43,11].forEach(g=>HD_GATE_CENTER[g]='AJNA');
+[62,23,56,16,31,8,33,45,35,12,20].forEach(g=>HD_GATE_CENTER[g]='THROAT');
+[7,13,1,10,25,15,2,46].forEach(g=>HD_GATE_CENTER[g]='G');
+[21,51,26,40].forEach(g=>HD_GATE_CENTER[g]='HEART');
+[48,57,44,50,32,28,18].forEach(g=>HD_GATE_CENTER[g]='SPLEEN');
+[36,22,37,6,30,55,49].forEach(g=>HD_GATE_CENTER[g]='SOLAR');
+[34,5,14,29,3,42,9,27,59].forEach(g=>HD_GATE_CENTER[g]='SACRAL');
+[53,60,52,54,58,38,41,39,19].forEach(g=>HD_GATE_CENTER[g]='ROOT');
+
+const HD_PLANETS = [
+  {id:0,it:'Sole',en:'Sun'},{id:-2,it:'Terra',en:'Earth'},{id:1,it:'Luna',en:'Moon'},
+  {id:11,it:'Nodo Nord',en:'North Node'},{id:-1,it:'Nodo Sud',en:'South Node'},
+  {id:2,it:'Mercurio',en:'Mercury'},{id:3,it:'Venere',en:'Venus'},{id:4,it:'Marte',en:'Mars'},
+  {id:5,it:'Giove',en:'Jupiter'},{id:6,it:'Saturno',en:'Saturn'},{id:7,it:'Urano',en:'Uranus'},
+  {id:8,it:'Nettuno',en:'Neptune'},{id:9,it:'Plutone',en:'Pluto'},
+];
+const HD_PHS = {1:{name:'Appetito',a:'Consecutivo',b:'Alternato'},2:{name:'Gusto',a:'Aperto',b:'Chiuso'},3:{name:'Sete',a:'Caldo',b:'Freddo'},4:{name:'Tatto',a:'Calmo',b:'Nervoso'},5:{name:'Suono',a:'Alto',b:'Basso'},6:{name:'Luce',a:'Diretta',b:'Indiretta'}};
+const HD_ENV = {1:{name:'Grotte',a:'Selettivo',b:'Aperto'},2:{name:'Mercati',a:'Interno',b:'Esterno'},3:{name:'Cucine',a:'Umido',b:'Secco'},4:{name:'Montagne',a:'Attivo',b:'Passivo'},5:{name:'Valli',a:'Stretto',b:'Largo'},6:{name:'Rive',a:'Naturale',b:'Artificiale'}};
+function phsLabel(c,t){const p=HD_PHS[c];if(!p)return'?';return`${p.name} (${t<=3?p.a:p.b})`;}
+function envLabel(c,t){const e=HD_ENV[c];if(!e)return'?';return`${e.name} (${t<=3?e.a:e.b})`;}
+
+function hdDegreesToGateLineColor(deg) {
+  const angle=((deg+HD_RAVE_OFFSET)%360+360)%360, pct=angle/360;
+  const gate=HD_GATE_WHEEL[Math.min(Math.floor(pct*64),63)];
+  const line=Math.floor((pct*64*6)%6)+1, color=Math.floor((pct*64*6*6)%6)+1, tone=Math.floor((pct*64*6*6*6)%6)+1;
+  return {gate,line,color,tone};
+}
+function dateToJD(y,m,d,h,min,tzOffset){return _sweJulday(y,m,d,h+min/60-tzOffset,1);}
+async function calcPlanets(jd) {
+  await initSwe();
+  const results=[]; let nnLon=null, sunLon=null; const SWIEPH=2;
+  for(const p of HD_PLANETS) {
+    let lon;
+    if(p.id===-1){lon=nnLon!==null?(nnLon+180)%360:0;}
+    else if(p.id===-2){lon=sunLon!==null?(sunLon+180)%360:0;}
+    else{lon=_sweCalc(jd,p.id,SWIEPH);if(p.id===0)sunLon=lon;if(p.id===11)nnLon=lon;}
+    const glc=hdDegreesToGateLineColor(lon);
+    results.push({planet_it:p.it,planet_en:p.en,gate:glc.gate,line:glc.line,color:glc.color,tone:glc.tone,degrees:Math.round(lon*10000)/10000});
+  }
+  return results;
+}
+function hdGetDefinedChannels(activeGates){return HD_CHANNELS.filter(([g1,g2])=>activeGates.has(g1)&&activeGates.has(g2));}
+function hdGetDefinedCenters(activeGates){
+  const def=new Set();
+  for(const [g1,g2] of HD_CHANNELS){if(activeGates.has(g1)&&activeGates.has(g2)){if(HD_GATE_CENTER[g1])def.add(HD_GATE_CENTER[g1]);if(HD_GATE_CENTER[g2])def.add(HD_GATE_CENTER[g2]);}}
+  return def;
+}
+function hdCalcType(defCenters,defChannels){
+  const motors=new Set(['SACRAL','HEART','SOLAR','ROOT']);
+  if(!defCenters.size)return'Reflector';
+  function motorToThroat(start,visited=new Set()){
+    if(visited.has(start))return false;visited.add(start);if(start==='THROAT')return true;
+    const adj=new Set();
+    for(const [g1,g2] of defChannels){const c1=HD_GATE_CENTER[g1]||'',c2=HD_GATE_CENTER[g2]||'';if(c1===start)adj.add(c2);else if(c2===start)adj.add(c1);}
+    return[...adj].some(c=>motorToThroat(c,new Set(visited)));
+  }
+  const hasSacral=defCenters.has('SACRAL');
+  const anyMotorToThroat=[...motors].filter(m=>defCenters.has(m)).some(m=>motorToThroat(m));
+  if(hasSacral)return anyMotorToThroat?'Manifesting Generator':'Generator';
+  return anyMotorToThroat?'Manifestor':'Projector';
+}
+function hdCalcProfile(pers,des){const sP=pers.find(p=>p.planet_en==='Sun'),sD=des.find(p=>p.planet_en==='Sun');if(!sP||!sD)return'?/?';return`${sP.line}/${sD.line}`;}
+function hdCalcAuthority(defCenters){
+  const order=[['SOLAR','Emotional'],['SACRAL','Sacral'],['SPLEEN','Splenic'],['HEART','Ego Manifested'],['G','Self Projected']];
+  for(const [c,auth] of order){if(defCenters.has(c))return auth;}
+  return defCenters.size?'Mental Projector':'Lunar';
+}
+function hdCalcDefinition(defCenters,defChannels){
+  if(!defCenters.size)return'No Definition';
+  const adj={};for(const c of defCenters)adj[c]=new Set();
+  for(const [g1,g2] of defChannels){const c1=HD_GATE_CENTER[g1]||'',c2=HD_GATE_CENTER[g2]||'';if(adj[c1]&&adj[c2]){adj[c1].add(c2);adj[c2].add(c1);}}
+  const visited=new Set();let components=0;
+  for(const c of defCenters){if(visited.has(c))continue;components++;const stack=[c];while(stack.length){const n=stack.pop();if(visited.has(n))continue;visited.add(n);for(const nb of(adj[n]||[])){if(!visited.has(nb))stack.push(nb);}}}
+  return{1:'Single Definition',2:'Split Definition',3:'Triple Split',4:'Quadruple Split'}[components]||'Quadruple Split';
+}
+async function calculateHDChart(y,m,d,h,min,tzOffset){
+  await initSwe();
+  const jdBirth=dateToJD(y,m,d,h,min,tzOffset);
+  const SWIEPH2=2,natalSunLon=_sweCalc(jdBirth,0,SWIEPH2),targetLon=((natalSunLon-88)%360+360)%360;
+  let lo=jdBirth-95,hi=jdBirth-80;
+  for(let i=0;i<50;i++){const mid=(lo+hi)/2,midLon=_sweCalc(mid,0,SWIEPH2);let diff=(midLon-targetLon+180)%360-180;if(Math.abs(diff)<1e-6){lo=hi=mid;break;}if(diff<0)lo=mid;else hi=mid;}
+  const jdDesign=(lo+hi)/2,personality=await calcPlanets(jdBirth),design=await calcPlanets(jdDesign);
+  const activeGates=new Set();[...personality,...design].forEach(p=>activeGates.add(p.gate));
+  const defChannels=hdGetDefinedChannels(activeGates),defCenters=hdGetDefinedCenters(activeGates);
+  const type=hdCalcType(defCenters,defChannels),profile=hdCalcProfile(personality,design);
+  const authority=hdCalcAuthority(defCenters),definition=hdCalcDefinition(defCenters,defChannels);
+  const pGates=new Set(personality.map(p=>p.gate)),dGates=new Set(design.map(p=>p.gate));
+  const gate_colors={};
+  for(const g of new Set([...pGates,...dGates])){gate_colors[String(g)]=(pGates.has(g)&&dGates.has(g))?'PD':pGates.has(g)?'P':'D';}
+  const pSun=personality.find(p=>p.planet_en==='Sun')||{},dSun=design.find(p=>p.planet_en==='Sun')||{};
+  const arrowSun=t=>t<=3?'left':'right';
+  const dNode=design.find(p=>p.planet_en==='North Node')||{},pNode=personality.find(p=>p.planet_en==='North Node')||{};
+  return{type,profile,authority,definition,defined_centers:[...defCenters].sort(),defined_channels:defChannels.map(([a,b])=>[a,b]),gate_colors,personality,design,variables:{digestion:arrowSun(dSun.tone||1),environment:arrowSun(dNode.tone||1),perspective:arrowSun(pSun.tone||1),awareness:arrowSun(pNode.tone||1)},dietary_regime:phsLabel(dSun.color||1,dSun.tone||1),environment_name:envLabel(dNode.color||1,dNode.tone||1)};
+}
+
+// ─── City autocomplete (reusable) ────────────────────────────────────────────
+function initCityAutocomplete(cityInputId,cityListId,tzSelectId,tzDetectedId){
+  const cityInput=document.getElementById(cityInputId),cityList=document.getElementById(cityListId),tzSelect=document.getElementById(tzSelectId),tzDetected=document.getElementById(tzDetectedId);
+  if(!cityInput||!cityList||!tzSelect)return;
+  let debounce=null;
+  cityInput.addEventListener('input',()=>{clearTimeout(debounce);const q=cityInput.value.trim();if(q.length<3){cityList.style.display='none';return;}debounce=setTimeout(()=>fetchCities(q),350);});
+  cityInput.addEventListener('blur',()=>{setTimeout(()=>{cityList.style.display='none';},200);});
+  async function fetchCities(q){try{const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&addressdetails=1&featuretype=city`;const res=await fetch(url,{headers:{'Accept-Language':'it'}});const data=await res.json();showSuggestions(data);}catch(e){cityList.style.display='none';}}
+  function showSuggestions(places){cityList.innerHTML='';if(!places.length){cityList.style.display='none';return;}places.forEach(p=>{const li=document.createElement('li');const parts=[p.display_name.split(',')[0].trim()];if(p.address){if(p.address.state)parts.push(p.address.state);if(p.address.country)parts.push(p.address.country);}li.textContent=parts.join(', ');li.addEventListener('click',()=>selectCity(p,li.textContent));cityList.appendChild(li);});cityList.style.display='block';}
+  async function selectCity(place,label){cityInput.value=label;cityList.style.display='none';const lat=parseFloat(place.lat),lng=parseFloat(place.lon);try{const tzRes=await fetch(`https://timeapi.io/api/timezone/coordinate?latitude=${lat}&longitude=${lng}`);const tzData=await tzRes.json();const tz=tzData.timeZone;if(tz){let found=false;for(const opt of tzSelect.options){if(opt.value===tz){tzSelect.value=tz;found=true;break;}}if(!found){const opt=document.createElement('option');opt.value=tz;opt.textContent=tz;tzSelect.appendChild(opt);tzSelect.value=tz;}if(tzDetected){tzDetected.textContent=`✓ Fuso orario rilevato: ${tz}`;tzDetected.style.display='block';}}}catch(e){}}
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  initCityAutocomplete('gcb-b-city','gcb-b-city-list','gcb-b-tz','gcb-b-tz-detected');
+  // Custom placeholder for date/time inputs on iOS (-webkit-appearance:none hides native hint)
+  ['gcb-b-date','gcb-b-time'].forEach(id=>{
+    const inp=document.getElementById(id);
+    const ph=document.getElementById(id+'-ph');
+    if(!inp||!ph)return;
+    const upd=()=>ph.classList.toggle('cf-dt-ph--hidden',!!inp.value);
+    inp.addEventListener('focus',()=>ph.classList.add('cf-dt-ph--hidden'));
+    inp.addEventListener('blur',upd);
+    inp.addEventListener('change',upd);
+    upd();
+  });
+});
+
+// ─── Translation tables ───────────────────────────────────────────────────────
+const GATE_TO_CENTER={};
+const CENTER_GATES={HEAD:[64,61,63],AJNA:[47,24,4,17,43,11],THROAT:[62,23,56,35,12,45,33,8,31,20,16],G:[1,13,25,46,10,15,2,7],HEART:[51,21,40,26],SPLEEN:[48,57,44,50,32,28,18],SOLAR:[36,22,37,6,49,55,30],SACRAL:[5,14,29,27,34,9,3,42,59],ROOT:[38,54,53,60,52,19,39,41,58]};
+for(const [c,gs] of Object.entries(CENTER_GATES))gs.forEach(g=>GATE_TO_CENTER[g]=c);
+const CHANNELS=[[64,47,'HEAD','AJNA'],[61,24,'HEAD','AJNA'],[63,4,'HEAD','AJNA'],[17,62,'AJNA','THROAT'],[43,23,'AJNA','THROAT'],[11,56,'AJNA','THROAT'],[16,48,'THROAT','SPLEEN'],[20,57,'THROAT','SPLEEN'],[31,7,'THROAT','G'],[8,1,'THROAT','G'],[33,13,'THROAT','G'],[10,20,'THROAT','G'],[45,21,'THROAT','HEART'],[35,36,'THROAT','SOLAR'],[12,22,'THROAT','SOLAR'],[20,34,'THROAT','SACRAL'],[26,44,'HEART','SPLEEN'],[51,25,'HEART','G'],[40,37,'HEART','SOLAR'],[10,34,'G','SACRAL'],[2,14,'G','SACRAL'],[5,15,'G','SACRAL'],[29,46,'G','SACRAL'],[27,50,'SACRAL','SPLEEN'],[34,57,'SACRAL','SPLEEN'],[59,6,'SACRAL','SOLAR'],[3,60,'SACRAL','ROOT'],[9,52,'SACRAL','ROOT'],[42,53,'SACRAL','ROOT'],[18,58,'SPLEEN','ROOT'],[28,38,'SPLEEN','ROOT'],[32,54,'SPLEEN','ROOT'],[30,41,'SOLAR','ROOT'],[39,55,'SOLAR','ROOT'],[19,49,'SOLAR','ROOT']];
+const TIPO_IT={'Generator':'Costruttore Classico','Manifesting Generator':'Costruttore Rapido','Projector':'Guida','Manifestor':'Iniziatore','Reflector':'Valutatore'};
+const AUTH_IT={'Sacral':'Sacrale / Risorsa Energetica','Emotional':'Emotiva / Intelligenza Emotiva','Splenic':'Splenica / Istintiva','Ego Projected':'Ego / Proiettata','Ego Manifested':'Ego / Manifestata','Self Projected':'del Sé / G Center Proiettata','Mental Projector':'Ambientale / Mentale','Lunar':'Lunare'};
+const DEF_IT={'Single Definition':'Assimilazione Indipendente','Split Definition':'Assimilazione Collaborativa','Triple Split':'Assimilazione Sintetizzante','Quadruple Split':'Assimilazione Soggettiva','No Definition':'Assimilazione Oggettiva'};
+const PLANET_IT={'Sun':'Sole','Earth':'Terra','Moon':'Luna','North Node':'Nodo Nord','South Node':'Nodo Sud','Mercury':'Mercurio','Venus':'Venere','Mars':'Marte','Jupiter':'Giove','Saturn':'Saturno','Uranus':'Urano','Neptune':'Nettuno','Pluto':'Plutone'};
+const PLANET_BG5={'Sun':'Essenza Profonda','Earth':'Equilibrio e Radicamento','Moon':'Forza Motrice','North Node':'Direzione e Ambienti Futuri','South Node':'Direzione e Ambienti Passati','Mercury':'Comunicazione e Azione','Venus':'Valori','Mars':'Energia Immatura','Jupiter':'Legge Interiore','Saturn':'Giudizio e Disciplina','Uranus':'Unicità','Neptune':'Tema Celato','Pluto':'Verità Interiore'};
+const CENTER_IT={HEAD:'Testa',AJNA:'Mente',THROAT:'Comunicazione-Azione',G:'Identità',HEART:'Cuore/Volontà',SPLEEN:'Milza/Bazo',SOLAR:'Intelligenza Emotiva',SACRAL:'Risorsa Energetica',ROOT:'Spinta e Persistenza'};
+const PDF_DESC_TIPO={'Costruttore Classico':'Energia sostenibile per costruire e creare. Strategia: rispondere agli stimoli della vita, ascoltando la risposta viscerale della pancia.','Costruttore Rapido':'Stessa energia del Classico con accesso diretto alla manifestazione. Strategia: rispondere poi agire rapidamente.','Iniziatore':'Aura chiusa e potente, può dare inizio alle cose dal nulla. Strategia: informare prima di agire.','Guida':'Aura focalizzata che penetra l\'altro. Strategia: aspettare il riconoscimento e l\'invito.','Valutatore':'Aura campionante che riflette l\'ambiente. Strategia: aspettare un ciclo lunare.'};
+const PDF_DESC_PROFILO={'1/3':'Scoperta attraverso l\'indagine e la sperimentazione pratica.','1/4':'Basi solide condivise attraverso relazioni di fiducia.','2/4':'Talento naturale che emerge quando viene chiamato dal proprio cerchio.','2/5':'Talento naturale su cui gli altri proiettano grandi aspettative.','3/5':'Impara attraverso l\'errore e porta soluzioni alla collettività.','3/6':'Tre fasi evolutive: prove ed errori, distacco, modello autentico.','4/1':'Fondamenta della conoscenza espresse attraverso le relazioni.','4/6':'Tre fasi evolutive con fondamento relazionale.','5/1':'Portatore di soluzioni pratiche con basi solide.','5/2':'La collettività proietta soluzioni portate inconsapevolmente.','6/2':'Diventa un vero modello nella terza fase di vita.','6/3':'Fase intensa di prove più tre fasi evolutive.'};
+const PDF_DESC_AUTH={'Sacrale / Risorsa Energetica':'La risposta del Sacrale è immediata e viscerale. Ascolta la pancia, non la testa.','Emotiva / Intelligenza Emotiva':'Aspetta che l\'onda emotiva si assesti prima di decidere.','Splenica / Istintiva':'L\'intuizione parla una sola volta, sottovoce, nel momento presente.','Ego / Manifestata':'Ciò che il cuore vuole è la guida.','Ego / Proiettata':'La volontà emerge parlando con altri.','del Sé / G Center Proiettata':'La verità emerge parlando ad alta voce con persone fidate.','Ambientale / Mentale':'La guida viene dall\'ambiente e dalle persone di fiducia.','Lunare':'Aspetta un ciclo lunare completo prima delle decisioni importanti.'};
+const PDF_DESC_DEF={'Assimilazione Indipendente':'Tutti i centri definiti sono connessi tra loro. Processo autosufficiente.','Assimilazione Collaborativa':'Due gruppi separati. Cerca naturalmente chi colma il vuoto.','Assimilazione Sintetizzante':'Tre gruppi separati. Ha bisogno di diversità di persone e ambienti.','Assimilazione Soggettiva':'Quattro gruppi distinti. Il processo richiede tempo e varietà.','Assimilazione Oggettiva':'Nessun centro definito. Assorbe e riflette l\'energia altrui.'};
+const CROSS_BG5={1:{P:'della Direzione',T:'del Dissenso',S:"dell'Auto-espressione"},2:{P:'della Direzione',T:'del Dissenso',S:'del Guidatore'},3:{P:'delle Leggi',T:'dei Desideri',S:'della Mutazione'},4:{P:'della Spiegazione',T:'della Rivoluzione',S:'della Formulazione'},5:{P:'della Consapevolezza',T:'della Separazione',S:'delle Abitudini'},6:{P:"dell'Esperienza",T:'del Piano Materiale',S:"dell'Attrito"},7:{P:'della Direzione',T:"dell'Inquadramento",S:"dell'Interazione"},8:{P:'del Contagio',T:"dell'Incertezza",S:'del Contributo'},9:{P:'della Pianificazione',T:"dell'Identificazione",S:'della Convergenza'},10:{P:"dell'Amore",T:'della Prevenzione',S:'del Comportamento'},11:{P:"dell'Esperienza",T:"dell'Educazione",S:'delle Idee'},12:{P:"dell'Esperienza",T:"dell'Educazione",S:'della Formulazione'},13:{P:'della Direzione',T:"dell'Inquadramento",S:"dell'Ascolto"},14:{P:'del Contagio',T:"dell'Incertezza",S:'del Potenziamento'},15:{P:"dell'Amore",T:'della Prevenzione',S:'degli Estremi'},16:{P:'della Pianificazione',T:"dell'Identificazione",S:'della Sperimentazione'},17:{P:'del Servizio',T:'dello Sconvolgimento',S:'delle Opinioni'},18:{P:'del Servizio',T:'dello Sconvolgimento',S:'della Correzione'},19:{P:'della Bussola',T:'del Perfezionamento',S:'del Bisogno'},20:{P:'del Rinnovamento',T:'della Dualità',S:'del Presente'},21:{P:'della Tensione',T:"dell'Auto-realizzazione",S:'del Controllo'},22:{P:'del Governo',T:"dell'Informazione",S:'della Grazia'},23:{P:'della Spiegazione',T:"dell'Impegno Intellettuale",S:"dell'Assimilazione"},24:{P:'della Bussola',T:'della Metamorfosi',S:'della Razionalizzazione'},25:{P:"dell'Amore",T:'della Guarigione',S:"dell'Innocenza"},26:{P:'del Governo',T:'del Confronto',S:'della Persuasione'},27:{P:"dell'Inaspettato",T:"dell'Allineamento",S:'del Prendersi Cura'},28:{P:"dell'Inaspettato",T:"dell'Allineamento",S:'dei Rischi'},29:{P:'del Contagio',T:'della Produttività',S:'della Fedeltà'},30:{P:'del Contagio',T:'della Produttività',S:'della Disponibilità'},31:{P:"dell'Inaspettato",T:"dell'Alpha",S:"dell'Influenza"},32:{P:'del Mondo Materiale',T:'della Limitazione',S:'della Conservazione'},33:{P:'della Bussola',T:'del Perfezionamento',S:'del Ritiro'},34:{P:'del Rinnovamento',T:'della Dualità',S:"dell'Autonomia"},35:{P:'della Consapevolezza',T:'della Separazione',S:'della Sperimentazione Adattiva'},36:{P:"dell'Esperienza",T:'del Piano Materiale',S:'della Crisi'},37:{P:'della Pianificazione',T:'della Migrazione',S:'della Negoziazione'},38:{P:'della Tensione',T:"dell'Individualismo",S:"dell'Opposizione"},39:{P:'della Tensione',T:"dell'Individualismo",S:'della Provocazione'},40:{P:'della Pianificazione',T:'della Migrazione',S:'del Distacco'},41:{P:"dell'Inaspettato",T:"dell'Alpha",S:'della Fantasia'},42:{P:'del Mondo Materiale',T:'della Limitazione',S:'del Completamento'},43:{P:'della Spiegazione',T:"dell'Impegno Intellettuale",S:"dell'Intuizione"},44:{P:'della Bussola',T:'della Metamorfosi',S:"dell'Allerta"},45:{P:'del Governo',T:'del Confronto',S:'del Dominio'},46:{P:"dell'Amore",T:'della Guarigione',S:'della Sincronia'},47:{P:'del Governo',T:"dell'Informazione",S:'della Chiarezza'},48:{P:'della Tensione',T:"dell'Auto-realizzazione",S:'della Profondità'},49:{P:'della Spiegazione',T:'della Rivoluzione',S:'dei Principi'},50:{P:'delle Leggi',T:'dei Desideri',S:'dei Valori'},51:{P:'della Penetrazione',T:"dell'Avvertimento",S:'dello Shock'},52:{P:'del Servizio',T:'delle Esigenze',S:'della Quiete'},53:{P:'della Penetrazione',T:'dei Cicli',S:'degli Inizi'},54:{P:'della Penetrazione',T:'dei Cicli',S:"dell'Ambizione"},55:{P:'del Rinnovamento',T:'della Dedizione',S:'della Focalizzazione Emotiva'},56:{P:'delle Leggi',T:'della Distrazione',S:'della Stimolazione'},57:{P:'della Penetrazione',T:"dell'Avvertimento",S:"dell'Intuizione"},58:{P:'del Servizio',T:'delle Esigenze',S:'della Vitalità'},59:{P:'del Rinnovamento',T:'della Dedizione',S:'della Strategia'},60:{P:'delle Leggi',T:'della Distrazione',S:'del Rigore'},61:{P:'del Mondo Materiale',T:"dell'Oscuramento",S:'del Pensiero'},62:{P:'del Mondo Materiale',T:"dell'Oscuramento",S:'dei Dettagli'},63:{P:'della Consapevolezza',T:'del Possesso',S:'dei Dubbi'},64:{P:'della Consapevolezza',T:'del Possesso',S:'della Confusione'}};
+const QUARTER_NAMES={1:'Mente',2:'Forma',3:'Relazioni',4:'Trasformazione'};
+const GATE_WHEEL=[41,19,13,49,30,55,37,63,22,36,25,17,21,51,42,3,27,24,2,23,8,20,16,35,45,12,15,52,39,53,62,56,31,33,7,4,29,59,40,64,47,6,46,18,48,57,32,50,28,44,1,43,14,34,9,5,26,11,10,58,38,54,61,60];
+
+function getIncarnationCross(pSunGate,pEarthGate,profileStr){
+  const cross=CROSS_BG5[pSunGate]||{P:'?',T:'?',S:'?'};
+  const idx=GATE_WHEEL.indexOf(pSunGate);
+  let quarter;if(idx>=2&&idx<=17)quarter=1;else if(idx>=18&&idx<=33)quarter=2;else if(idx>=34&&idx<=49)quarter=3;else quarter=4;
+  const[l1,l2]=profileStr.split('/').map(Number);
+  let focusKey,focusLabel;
+  if(l1===4&&l2===1){focusKey='S';focusLabel='Focus Fisso';}else if(l1>=5){focusKey='T';focusLabel='Focus Transpersonale';}else{focusKey='P';focusLabel='Focus Personale';}
+  let variant;if(focusKey==='T'){const eIdx=GATE_WHEEL.indexOf(pEarthGate);variant=Math.floor(eIdx/16)+1;}else{variant=Math.floor(idx/16)+1;}
+  return`${cross[focusKey]||cross.P} ${variant}, ${focusLabel}, ${QUARTER_NAMES[quarter]}`;
+}
+
+// ─── Zone 1: calcolaCarta ─────────────────────────────────────────────────────
+async function calcolaCarta(){
+  const dateVal=document.getElementById('cf-date').value;
+  const timeVal=document.getElementById('cf-time').value;
+  const dateParts=dateVal?dateVal.split('-'):[];
+  const timeParts=timeVal?timeVal.split(':'):[];
+  const y=dateParts[0]?parseInt(dateParts[0]):NaN;
+  const m=dateParts[1]?parseInt(dateParts[1]):NaN;
+  const d=dateParts[2]?parseInt(dateParts[2]):NaN;
+  const h=timeParts[0]!==undefined?parseInt(timeParts[0]):NaN;
+  const min=timeParts[1]!==undefined?parseInt(timeParts[1]):NaN;
+  const tz=document.getElementById('cf-tz').value,nome=document.getElementById('cf-nome').value.trim(),city=document.getElementById('cf-city').value.trim();
+  if(!city){mostraErrore('Inserisci il luogo di nascita per continuare.');document.getElementById('cf-city').focus();return;}
+  if(!d||!m||!y||isNaN(h)||isNaN(min)){mostraErrore('Compila data, ora e luogo di nascita.');return;}
+  if(y<1900||y>2050){mostraErrore('Anno tra il 1900 e il 2050.');return;}
+  document.getElementById('carta-error').style.display='none';
+  document.getElementById('carta-results').style.display='none';
+  document.getElementById('carta-loading').style.display='block';
+  document.getElementById('carta-calcola-btn').disabled=true;
+  try{
+    const localDt=new Date(y,m-1,d,h,min);
+    const tzDate=new Date(localDt.toLocaleString('en-US',{timeZone:tz}));
+    const utcDate=new Date(localDt.toLocaleString('en-US',{timeZone:'UTC'}));
+    const tzOffset=(tzDate-utcDate)/3600000;
+    const data=await calculateHDChart(y,m,d,h,min,tzOffset);
+    if(data.environment_name){data.environment=data.environment_name;delete data.environment_name;}
+    await renderRisultati(data,nome);
+  }catch(e){mostraErrore(e.message||'Si è verificato un errore. Riprova.');}
+  finally{document.getElementById('carta-loading').style.display='none';document.getElementById('carta-calcola-btn').disabled=false;}
+}
+
+function mostraErrore(msg){document.getElementById('carta-loading').style.display='none';document.getElementById('carta-calcola-btn').disabled=false;const el=document.getElementById('carta-error');el.textContent=msg;el.style.display='block';}
+function mostraErroreB(msg){document.getElementById('gcb-loading-b').style.display='none';document.getElementById('gcb-calcola-b-btn').disabled=false;const el=document.getElementById('gcb-error-b');el.textContent=msg;el.style.display='block';}
+
+function normalizzaRisposta(data){
+  if(data.gate_colors){data.type=TIPO_IT[data.type]||data.type;data.authority=AUTH_IT[data.authority]||data.authority;data.definition=DEF_IT[data.definition]||data.definition;return data;}
+  const core=data.result&&data.result.Core,acts=data.result&&data.result.Activations;
+  if(!core||!acts)return null;
+  const pArr=Object.entries(acts.Personality).map(([en,v])=>({planet_en:en,planet_it:PLANET_IT[en]||en,gate:v.Gate,line:v.Line,degrees:0}));
+  const dArr=Object.entries(acts.Design).map(([en,v])=>({planet_en:en,planet_it:PLANET_IT[en]||en,gate:v.Gate,line:v.Line,degrees:0}));
+  const blackGates=new Set(pArr.map(p=>p.gate)),redGates=new Set(dArr.map(p=>p.gate)),allActive=new Set([...blackGates,...redGates]);
+  const gate_colors={};allActive.forEach(g=>{const inP=blackGates.has(g),inD=redGates.has(g);gate_colors[String(g)]=(inP&&inD)?'PD':inP?'P':'D';});
+  const defined_channels=CHANNELS.filter(([g1,g2])=>allActive.has(g1)&&allActive.has(g2)).map(([g1,g2])=>[g1,g2]);
+  const defined_centers=[];defined_channels.forEach(([g1,g2])=>{const c1=GATE_TO_CENTER[g1],c2=GATE_TO_CENTER[g2];if(c1&&!defined_centers.includes(c1))defined_centers.push(c1);if(c2&&!defined_centers.includes(c2))defined_centers.push(c2);});
+  return{type:TIPO_IT[core.Type]||core.Type,profile:core.Profile,authority:AUTH_IT[core.Authority]||core.Authority,definition:DEF_IT[core.Definition]||core.Definition,gate_colors,defined_channels,defined_centers,personality:pArr,design:dArr};
+}
+
+let _lastCartaData=null,_lastCartaNome=null,_lastChartA=null,_lastChartB=null,_lastNomeB=null;
+
+// ─── Bridge: partial calc-singolo → genera_carta state ───────────────────────
+window._csAfterRender = function(d, nome) {
+  _lastCartaData = d;
+  _lastChartA = d;
+  _lastCartaNome = nome;
+  // In couple mode i due form restano entrambi visibili: nessuno sblocco da fare.
+  // Extra actions (PDF/Save/upsell) e Connect CTA hanno senso solo in modalita' singola.
+  if(typeof _gcbMode === 'undefined' || _gcbMode !== 'couple') {
+    const extra = document.getElementById('gcb-extra-actions');
+    if(extra) extra.style.display = 'block';
+    const cta = document.getElementById('gcb-connect-cta');
+    if(cta) {
+      if(nome) { const btn = cta.querySelector('.gcb-connect-btn'); if(btn) btn.textContent = 'Confronta ' + nome + ' con qualcuno'; }
+      cta.style.display = 'block';
+    }
+  }
+};
+
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+async function renderRisultati(data,nome){
+  const d=normalizzaRisposta(data);
+  if(!d){mostraErrore('Formato risposta non riconosciuto.');return;}
+  _lastCartaData=d;_lastCartaNome=nome;_lastChartA=d;
+  const nh=document.getElementById('carta-name-header');
+  if(nome){nh.innerHTML=`<h2>${escHtml(nome)}</h2><p>Carta Human Design</p>`;nh.style.display='block';}else{nh.style.display='none';}
+  const coreItems=[{label:'Tipo di Carriera',value:d.type},{label:'Profilo',value:d.profile},{label:'Autorità',value:d.authority},{label:'Definizione',value:d.definition}];
+  if(d.personality&&d.personality.length>0){const pS=d.personality.find(p=>p.planet_en==='Sun');const pE=d.personality.find(p=>p.planet_en==='Earth');if(pS&&pE)coreItems.push({label:'Tema di Vita',value:getIncarnationCross(pS.gate,pE.gate,d.profile)});}
+  if(d.variables){const dS=d.variables.digestion==='left'?'L':'R',dN=d.variables.environment==='left'?'L':'R',pS=d.variables.perspective==='left'?'L':'R',pN=d.variables.awareness==='left'?'L':'R';coreItems.push({label:'Variabile',value:`P${pS}${pN} D${dS}${dN}`});}
+  if(d.dietary_regime)coreItems.push({label:'Regime Alimentare',value:d.dietary_regime});
+  if(d.environment)coreItems.push({label:'Ambiente',value:d.environment});
+  document.getElementById('carta-core').innerHTML=coreItems.map(i=>`<div class="core-card"><div class="core-card-label">${i.label}</div><div class="core-card-value">${escHtml(i.value)}</div></div>`).join('');
+  const blackGates=new Set(),redGates=new Set();
+  for(const [g,c] of Object.entries(d.gate_colors)){const gn=parseInt(g);if(c==='P'||c==='PD')blackGates.add(gn);if(c==='D'||c==='PD')redGates.add(gn);}
+  const definedCenterSet=new Set(d.defined_centers);
+  const definedChannels=d.defined_channels.map(([g1,g2])=>{const ch=CHANNELS.find(([c1,c2])=>(c1===g1&&c2===g2)||(c1===g2&&c2===g1));return ch||[g1,g2,GATE_TO_CENTER[g1]||'',GATE_TO_CENTER[g2]||''];});
+  await loadAndRenderBodygraph(d.gate_colors,definedChannels,definedCenterSet,blackGates,redGates,d.variables,'carta-bodygraph-wrap',false);
+  renderPlaneti(d.personality,d.design);
+  const prog=document.getElementById('gcb-progress');if(prog)prog.classList.add('gcb-progress--show');
+  if(_gcbMode==='couple'){
+    gcbUnlockFormB(nome);
+  } else {
+    document.getElementById('carta-results').style.display='block';
+    document.getElementById('carta-results').scrollIntoView({behavior:'smooth',block:'start'});
+    const cta=document.getElementById('gcb-connect-cta');
+    if(cta){if(nome){const btn=cta.querySelector('.gcb-connect-btn');if(btn)btn.textContent=`Confronta ${nome} con qualcuno`;}cta.style.display='block';}
+  }
+}
+
+// ─── Bodygraph renderer ───────────────────────────────────────────────────────
+async function loadAndRenderBodygraph(gateColors,definedChannels,definedCenterSet,blackGates,redGates,variables,targetId,compositeMode){
+  const wrap=document.getElementById(targetId||'carta-bodygraph-wrap');if(!wrap)return;
+  const ns='http://www.w3.org/2000/svg';
+  const CTR_ID={HEAD:'Head',AJNA:'Ajna',THROAT:'Throat',G:'G',HEART:'Heart',SPLEEN:'Splenic_Center',SACRAL:'Sacral',SOLAR:'Solar_Plexus',ROOT:'Root'};
+  const CTR_COL={HEAD:'#b4cfe8',AJNA:'#52a363',THROAT:'#b8913e',G:'#d9b82a',HEART:'#b83838',SPLEEN:'#957040',SOLAR:'#d47a2e',SACRAL:'#c94e4e',ROOT:'#8a7868'};
+  const COL_P='#1a1a2e',COL_D='#c0392b';
+  // COL_EMPTY: scurito da #c8c2bc a #9c948c per garantire contrasto >3:1 sul
+  // wrap cream #FAF7F5 dei pannelli composito (prima invisibile = "linee mancanti")
+  const COL_EMPTY='#9c948c';
+  // COL_A/COL_B: colori dei due partner nella carta di coppia.
+  // Devono distinguersi nettamente da: cream bg (#FAF7F5), centri Ajna verde
+  // (#52a363), Throat oro (#b8913e), Heart rosso (#b83838), Sacral rosso-arancio
+  // (#c94e4e), Solar arancio (#d47a2e). Evitato il teal/verde per A perché
+  // collide con Ajna; evitato viola medio per B perché contrasto basso su cream.
+  const COL_A='#5C1F6E',COL_B='#0E3C7B';  // viola scuro deep + navy blu profondo
+  const AB_PAT_ID='splitAB_'+(targetId||'x').replace(/[^a-z0-9]/gi,'_');
+  function gcFill(col){if(!compositeMode)return col==='P'?COL_P:col==='D'?COL_D:'url(#splitGatePattern)';return col==='A'?COL_A:col==='B'?COL_B:`url(#${AB_PAT_ID})`;}
+  try{
+    const resp=await fetch('/chart.svg',{cache:'no-cache'});if(!resp.ok)throw new Error('SVG non trovato');
+    const svgEl=(new DOMParser()).parseFromString(await resp.text(),'image/svg+xml').documentElement;
+    svgEl.setAttribute('style','max-width:520px;width:100%;height:auto;display:block;margin:0 auto');
+    svgEl.removeAttribute('class');
+    // Direct SVG attribute manipulation — naturally scoped to this SVG instance.
+    // No <style> injection into global HTML stylesheet → no ID conflicts between panels.
+    const sfEl=id=>svgEl.querySelector(`#${id}`);
+    const setF=(id,col)=>{const el=sfEl(id);if(el)el.setAttribute('fill',col);};
+    // 1. Defs: fix splitGatePattern (removes CSS-var dependency) + create AB pattern
+    let defs=svgEl.querySelector('defs');if(!defs){defs=document.createElementNS(ns,'defs');svgEl.insertBefore(defs,svgEl.firstChild);}
+    const spRects=svgEl.querySelectorAll('#splitGatePattern rect');
+    if(spRects[0])spRects[0].setAttribute('fill',COL_P);
+    if(spRects[1])spRects[1].setAttribute('fill',COL_D);
+    if(compositeMode){
+      const pat=document.createElementNS(ns,'pattern');
+      pat.setAttribute('id',AB_PAT_ID);pat.setAttribute('x','0');pat.setAttribute('y','0');
+      pat.setAttribute('width','1');pat.setAttribute('height','1');pat.setAttribute('patternUnits','objectBoundingBox');
+      // BUG-FIX: senza patternContentUnits='objectBoundingBox', i rect interni
+      // sono interpretati in userSpace (px) → width=0.5 = 0.5 PIXEL = invisibile.
+      // Le gate condivise A+B (es. 26, 19, 54, 1, 13, 7, 10, 14, 43) apparivano
+      // vuote perché il pattern non si vedeva. Forzando bbox-units, ogni rect
+      // copre metà del bbox della path.
+      pat.setAttribute('patternContentUnits','objectBoundingBox');
+      const r1=document.createElementNS(ns,'rect');r1.setAttribute('x','0');r1.setAttribute('y','0');r1.setAttribute('width','0.5');r1.setAttribute('height','1');r1.setAttribute('fill',COL_A);
+      const r2=document.createElementNS(ns,'rect');r2.setAttribute('x','0.5');r2.setAttribute('y','0');r2.setAttribute('width','0.5');r2.setAttribute('height','1');r2.setAttribute('fill',COL_B);
+      pat.appendChild(r1);pat.appendChild(r2);defs.appendChild(pat);
+    }
+    // 2. Color active gate channel arms con FILL solido. Le gate inattive
+    //    (default SVG #c8c2bc) vengono forzate a COL_EMPTY più scuro #9c948c
+    //    per essere visibili sul wrap cream (#FAF7F5) — altrimenti diventano
+    //    "linee invisibili" che sembrano stroke senza fill.
+    for(let g=1;g<=64;g++){
+      const col=gateColors[g]||gateColors[String(g)];
+      if(col){
+        setF(`Gate${g}`,gcFill(col));
+      } else {
+        setF(`Gate${g}`,COL_EMPTY);
+      }
+    }
+    // 3. Integration connectors (gates 10,20,34,57) e GateSpan — fill solido,
+    //    fallback COL_EMPTY se la gate non è attiva (così visibili su cream).
+    for(const ig of [10,20,34,57]){
+      const col=gateColors[ig]||gateColors[String(ig)];
+      setF(`GateConnect${ig}`, col?gcFill(col):COL_EMPTY);
+    }
+    {const col20=gateColors[20]||gateColors['20'];
+     setF('GateSpan', col20?gcFill(col20):COL_EMPTY);}
+    // 4. Center fills — attivi col loro colore HD, inattivi forzati a #b8b1a8
+    //    (più scuro del default SVG #cdc6be per essere visibili su cream wrap)
+    const COL_CENTER_EMPTY='#b8b1a8';
+    for(const [k,svgId] of Object.entries(CTR_ID)){
+      const isActive=definedCenterSet.has?definedCenterSet.has(k):definedCenterSet[k];
+      const col=isActive?CTR_COL[k]:COL_CENTER_EMPTY;
+      svgEl.querySelectorAll(`#${svgId} path`).forEach(el=>el.setAttribute('fill',col));
+    }
+    // 5. Gate text & background
+    const activeGates=new Set(Object.keys(gateColors).map(Number));
+    for(let g=1;g<=64;g++){
+      const tEl=sfEl(`GateText${g}`);
+      if(tEl){tEl.setAttribute('fill','#fff');tEl.setAttribute('opacity',activeGates.has(g)?'1':'0.4');if(activeGates.has(g))tEl.setAttribute('font-weight','bold');}
+      if(activeGates.has(g))svgEl.querySelectorAll(`#GateTextBg${g} path,#GateTextBg${g} circle`).forEach(el=>el.setAttribute('fill','#1a1a2e'));
+    }
+    const gg=svgEl.querySelector('#Gates');if(gg)gg.removeAttribute('class');
+    if(variables&&!compositeMode){
+      const toArrow=dir=>dir==='left'?'\u25C4':'\u25BA';
+      const hc=426,ay=30,ag=35,ao=80;
+      const mkA=(x,y,t,col)=>{const el=document.createElementNS(ns,'text');el.setAttribute('x',String(x));el.setAttribute('y',String(y));el.setAttribute('text-anchor','middle');el.setAttribute('font-size','28');el.setAttribute('fill',col);el.setAttribute('font-weight','bold');el.textContent=t;return el;};
+      const grp=document.createElementNS(ns,'g');grp.setAttribute('id','hd-variables');
+      grp.appendChild(mkA(hc-ao,ay,toArrow(variables.digestion),'#c0392b'));
+      grp.appendChild(mkA(hc-ao,ay+ag,toArrow(variables.environment),'#c0392b'));
+      grp.appendChild(mkA(hc+ao,ay,toArrow(variables.perspective),'#1a1a2e'));
+      grp.appendChild(mkA(hc+ao,ay+ag,toArrow(variables.awareness),'#1a1a2e'));
+      svgEl.appendChild(grp);
+    }
+    wrap.innerHTML='';wrap.appendChild(svgEl);
+  }catch(e){
+    const bg=blackGates||new Set(),rg=redGates||new Set();
+    wrap.innerHTML=buildBodygraph(bg,rg,definedChannels,definedCenterSet);
+  }
+}
+
+// ─── Fallback bodygraph ───────────────────────────────────────────────────────
+const C_PRIMARY='#7a5c9e',C_RED='#c0392b',C_BLACK='#1a1a2e',C_UNDEF='#f0ece8',C_UNDEF_STROKE='#d5cfc9';
+const CENTER_GEO={HEAD:{cx:210,cy:35,type:'tri-up',pts:[[168,62],[252,62],[210,8]]},AJNA:{cx:210,cy:94,type:'tri-dn',pts:[[168,68],[252,68],[210,120]]},THROAT:{cx:210,cy:154,type:'rect',rx:168,ry:138,rw:84,rh:32},G:{cx:210,cy:238,type:'diamond',pts:[[210,197],[256,238],[210,279],[164,238]]},HEART:{cx:290,cy:215,type:'tri-dn',pts:[[265,195],[315,195],[290,240]]},SPLEEN:{cx:83,cy:335,type:'tri-rt',pts:[[58,306],[58,364],[108,335]]},SOLAR:{cx:337,cy:335,type:'tri-lt',pts:[[362,306],[362,364],[312,335]]},SACRAL:{cx:210,cy:364,type:'rect',rx:168,ry:350,rw:84,rh:28},ROOT:{cx:210,cy:462,type:'rect',rx:168,ry:448,rw:84,rh:28}};
+const CHANNEL_PATHS={'HEAD-AJNA':[[210,62],[210,68]],'AJNA-THROAT':[[210,120],[210,138]],'THROAT-G':[[210,170],[210,197]],'THROAT-HEART':[[252,154],[265,210]],'THROAT-SPLEEN':[[168,154],[108,335]],'THROAT-SOLAR':[[252,154],[312,335]],'THROAT-SACRAL':[[210,170],[210,350]],'G-HEART':[[256,238],[265,220]],'G-SACRAL':[[210,279],[210,350]],'HEART-SPLEEN':[[265,232],[108,320]],'HEART-SOLAR':[[315,232],[312,320]],'SACRAL-SPLEEN':[[168,364],[108,345]],'SACRAL-SOLAR':[[252,364],[312,345]],'SACRAL-ROOT':[[210,378],[210,448]],'SPLEEN-ROOT':[[73,364],[185,448]],'SOLAR-ROOT':[[347,364],[235,448]]};
+function cpKey(c1,c2){const o=['HEAD','AJNA','THROAT','G','HEART','SPLEEN','SOLAR','SACRAL','ROOT'];return o.indexOf(c1)<o.indexOf(c2)?`${c1}-${c2}`:`${c2}-${c1}`;}
+function buildBodygraph(blackGates,redGates,definedChannels,definedCenterSet){
+  let svg=`<svg viewBox="0 0 420 510" width="420" height="510" xmlns="http://www.w3.org/2000/svg">`;
+  const activePairs=new Set();
+  definedChannels.forEach(([g1,g2,c1,c2])=>{const key=cpKey(c1,c2);if(!activePairs.has(key)&&CHANNEL_PATHS[key]){activePairs.add(key);const[[x1,y1],[x2,y2]]=CHANNEL_PATHS[key];const g1b=blackGates.has(g1),g1r=redGates.has(g1),g2b=blackGates.has(g2),g2r=redGates.has(g2);const color=(g1b&&!g1r&&g2b&&!g2r)?C_BLACK:(!g1b&&g1r&&!g2b&&g2r)?C_RED:C_PRIMARY;svg+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="4" stroke-linecap="round"/>`;} });
+  for(const [key,[[x1,y1],[x2,y2]]] of Object.entries(CHANNEL_PATHS)){if(!activePairs.has(key))svg+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${C_UNDEF_STROKE}" stroke-width="2" stroke-linecap="round"/>`;}
+  for(const [name,geo] of Object.entries(CENTER_GEO)){const isDef=definedCenterSet.has(name),fill=isDef?C_PRIMARY:C_UNDEF,stroke=isDef?C_PRIMARY:C_UNDEF_STROKE,tc=isDef?'#fff':'#aaa';if(geo.type==='rect')svg+=`<rect x="${geo.rx}" y="${geo.ry}" width="${geo.rw}" height="${geo.rh}" rx="5" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`;else{const pts=geo.pts.map(p=>p.join(',')).join(' ');svg+=`<polygon points="${pts}" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`;}svg+=`<text x="${geo.cx}" y="${geo.cy+5}" text-anchor="middle" fill="${tc}" font-size="9" font-weight="700">${CENTER_IT[name].toUpperCase()}</text>`;}
+  return svg+'</svg>';
+}
+
+// ─── Planet table ─────────────────────────────────────────────────────────────
+const PLANET_ORDER=['Sun','Earth','Moon','North Node','South Node','Mercury','Venus','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'];
+function renderPlaneti(personality,design){
+  const dMap={},pMap={};design.forEach(p=>{dMap[p.planet_en]=p;});personality.forEach(p=>{pMap[p.planet_en]=p;});
+  let rows='';
+  for(const key of PLANET_ORDER){const p=pMap[key];if(!p)continue;const d=dMap[p.planet_en]||{};rows+=`<tr><td><span class="planet-bg5">${escHtml(PLANET_BG5[p.planet_en]||p.planet_it)}</span><span class="planet-name">(${escHtml(p.planet_it)})</span></td><td class="gate-black">${p.gate}.${p.line}</td><td class="gate-red">${d.gate||'–'}.${d.line||''}</td></tr>`;}
+  document.getElementById('carta-planets').innerHTML=`<h3>Attivazioni Planetarie</h3><table class="planets-table"><thead><tr><th>Pianeta BG5</th><th style="color:#1a1a2e">Personalità</th><th style="color:#c0392b">Design</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+// ─── PDF ──────────────────────────────────────────────────────────────────────
+async function preparaPDF(){
+  if(!_lastCartaData)return;
+  const d=_lastCartaData,nome=_lastCartaNome;
+  const dateVal=document.getElementById('cs-date')?.value||'',timeVal=document.getElementById('cs-time')?.value||'';
+  const dp=dateVal?dateVal.split('-'):[];const tp=timeVal?timeVal.split(':'):[];
+  const birthStr=(dp[2]||'')+'/'+(dp[1]||'')+'/'+(dp[0]||'')+' ore '+(tp[0]||'00')+':'+(tp[1]||'00').padStart(2,'0');
+  const luogo=document.getElementById('cs-city')?.value||'';
+  const birthStrFull=birthStr+(luogo?' — '+escHtml(luogo):'');
+  document.getElementById('pdf-person-info').innerHTML=(nome?`<strong>${escHtml(nome)}</strong><br>`:'')+birthStrFull;
+  const srcSvg=document.querySelector('#cs-bodygraph-wrap svg'),pdfBg=document.getElementById('pdf-bodygraph');
+  pdfBg.innerHTML='';
+  if(srcSvg){
+    const clone=srcSvg.cloneNode(true);
+    const pat=clone.querySelector('#splitGatePattern');if(pat){pat.querySelectorAll('rect').forEach(r=>{const f=r.getAttribute('fill');if(f&&f.includes('--color-personality'))r.setAttribute('fill','#1a1a2e');if(f&&f.includes('--color-design'))r.setAttribute('fill','#c0392b');});}
+    const sEl=clone.querySelector('style');if(sEl)sEl.textContent=sEl.textContent.replace(/url\(#splitGatePattern\)/g,'#6b2d3e');
+    clone.querySelectorAll('*').forEach(el=>{const s=el.getAttribute('style');if(s&&s.includes('splitGatePattern'))el.setAttribute('style',s.replace(/url\(#splitGatePattern\)/g,'#6b2d3e'));const f=el.getAttribute('fill');if(f&&f.includes('splitGatePattern'))el.setAttribute('fill','#6b2d3e');});
+    try{
+      clone.setAttribute('width','560');clone.setAttribute('height','860');
+      const svgData=new XMLSerializer().serializeToString(clone);
+      const url=URL.createObjectURL(new Blob([svgData],{type:'image/svg+xml;charset=utf-8'}));
+      const img=new Image();await new Promise((r,j)=>{img.onload=r;img.onerror=j;img.src=url;});
+      const canvas=document.createElement('canvas');canvas.width=560;canvas.height=860;
+      const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,560,860);ctx.drawImage(img,0,0,560,860);
+      URL.revokeObjectURL(url);const pngImg=document.createElement('img');pngImg.src=canvas.toDataURL('image/png');pngImg.style.width='290px';pngImg.style.height='auto';pdfBg.appendChild(pngImg);
+    }catch(e){clone.style.width='240px';clone.style.height='auto';pdfBg.appendChild(clone);}
+  }
+  const setCard=(id,v,m)=>{const el=document.getElementById(id);if(!el)return;el.querySelector('.pdf-card-value').textContent=v;const de=el.querySelector('.pdf-card-desc');if(de)de.textContent=m[v]||'';};
+  setCard('pdf-tipo',d.type,PDF_DESC_TIPO);setCard('pdf-profilo',d.profile,PDF_DESC_PROFILO);setCard('pdf-autorita',d.authority,PDF_DESC_AUTH);setCard('pdf-definizione',d.definition,PDF_DESC_DEF);
+  if(d.personality&&d.personality.length>0){const pSun=d.personality.find(p=>p.planet_en==='Sun');const pEarth=d.personality.find(p=>p.planet_en==='Earth');if(pSun&&pEarth){const cross=getIncarnationCross(pSun.gate,pEarth.gate,d.profile);const el=document.getElementById('pdf-croce');if(el){el.querySelector('.pdf-card-value').textContent=cross;const de=el.querySelector('.pdf-card-desc');if(de){de.textContent='La Croce di Incarnazione rappresenta il tema di vita che emerge dai quattro gate dei luminari (Sole e Terra, lato conscio e inconscio).';}}}}
+  /* Full cross descriptions reserved for BG5 analysis app */
+  let tbl='<table><thead><tr><th>Funzione BG5</th><th>Personalità</th><th>Design</th></tr></thead><tbody>';
+  for(const pk of PLANET_ORDER){const pp=(d.personality||[]).find(p=>p.planet_en===pk),dp=(d.design||[]).find(p=>p.planet_en===pk);tbl+=`<tr><td>${PLANET_BG5[pk]||PLANET_IT[pk]||pk}</td><td>${pp?pp.gate+'.'+pp.line:'-'}</td><td>${dp?dp.gate+'.'+dp.line:'-'}</td></tr>`;}
+  document.getElementById('pdf-planets').innerHTML=tbl+'</tbody></table>';
+}
+
+async function scaricaPDF(){
+  await preparaPDF();
+  const el=document.getElementById('pdf-layout'),btn=document.getElementById('carta-pdf-btn');
+  if(btn){btn.disabled=true;btn.textContent='Generando PDF…';}
+  document.querySelectorAll('header,footer,nav,#carta-calculator,.carta-form-card,.gcb-connect-cta,#gcb-zone-2,.gcb-progress,#gcb-extra-actions').forEach(e=>e.style.display='none');
+  el.style.cssText='display:block;width:190mm;max-height:277mm;overflow:hidden;background:#fff;padding:5mm 8mm;box-sizing:border-box;margin:0 auto';
+  window.scrollTo(0,0);await new Promise(r=>setTimeout(r,500));
+  const nome=(document.getElementById('cs-nome')?.value||'carta-hd').trim();
+  try{await html2pdf().set({margin:0,filename:(nome?nome.replace(/\s+/g,'-').toLowerCase():'carta-hd')+'-human-design.pdf',image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,logging:false,backgroundColor:'#ffffff',scrollY:0,y:0},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:'avoid-all'}}).from(el).save();}catch(e){window.print();}
+  el.style.cssText='display:none';
+  document.querySelectorAll('header,footer,nav,#carta-calculator,.carta-form-card,.gcb-connect-cta,#gcb-zone-2,.gcb-progress,#gcb-extra-actions').forEach(e=>e.style.display='');
+  if(btn){btn.disabled=false;btn.textContent='Scarica PDF';}
+}
+
+// ─── Zone 2: Connection Chart ─────────────────────────────────────────────────
+let _gcbMode='single';
+
+function gcbSetMode(mode){
+  _gcbMode=mode;
+  ['single','couple'].forEach(m=>{document.getElementById('gcb-mode-'+m)?.classList.toggle('gcb-mode-card--active',m===mode);});
+  const formsRow=document.getElementById('gcb-forms-row');
+  const colB=document.getElementById('gcb-form-col-b');
+  const z2=document.getElementById('gcb-zone-2');
+  const z2hdr=document.getElementById('gcb-zone2-header');
+  const chdr=document.getElementById('gcb-couple-header');
+  const ccbtn=document.getElementById('gcb-couple-calc-btn');
+  const csNome=document.getElementById('cs-nome');
+  if(mode==='couple'){
+    if(formsRow)formsRow.classList.add('gcb-forms-couple');
+    if(colB)colB.style.display='block';
+    document.querySelectorAll('.gcb-single-only').forEach(el=>el.classList.add('gcb-hidden'));
+    document.getElementById('gcb-connect-cta')?.style&&(document.getElementById('gcb-connect-cta').style.display='none');
+    if(chdr)chdr.style.display='block';
+    if(ccbtn)ccbtn.style.display='block';
+    if(csNome)csNome.placeholder='Nome della prima persona';
+    const gcbResultsEl=document.getElementById('gcb-results');
+    if(z2&&gcbResultsEl&&gcbResultsEl.style.display==='block'){z2.style.display='block';z2.classList.add('gcb-zone-2--visible');}
+    if(z2hdr)z2hdr.style.display='none';
+  } else {
+    if(formsRow)formsRow.classList.remove('gcb-forms-couple');
+    if(colB)colB.style.display='none';
+    document.querySelectorAll('.gcb-single-only').forEach(el=>el.classList.remove('gcb-hidden'));
+    if(chdr)chdr.style.display='none';
+    if(ccbtn)ccbtn.style.display='none';
+    if(csNome)csNome.placeholder='Il tuo nome';
+    if(z2&&!_lastChartA){z2.style.display='none';z2.classList.remove('gcb-zone-2--visible');z2.classList.remove('gcb-zone-2--has-results');}
+    if(z2hdr)z2hdr.style.display='';
+    if(_lastChartA)document.getElementById('gcb-connect-cta')?.style&&(document.getElementById('gcb-connect-cta').style.display='block');
+  }
+}
+
+function gcbGoCoupleFromCTA(){
+  gcbSetMode('couple');
+  setTimeout(()=>{document.getElementById('gcb-forms-row')?.scrollIntoView({behavior:'smooth',block:'start'});},60);
+}
+
+async function gcbCalcolaCoppia(){
+  const btn=document.getElementById('gcb-couple-calc-btn');
+  if(btn){btn.disabled=true;btn.textContent='Calcolo in corso…';}
+  try{
+    await window.csCalcola();
+    if(!_lastChartA)return; // A non valida: csCalcola ha gia' mostrato l'errore sotto il suo form
+    await calcolaConnessione();
+  } finally {
+    if(btn){btn.disabled=false;btn.textContent='Calcola la Connessione';}
+  }
+}
+
+const _gcbRendered={a:false,b:false,conn:false};
+let _gcbCurrentTab='conn';
+
+const _gcbTabIdx={a:0,conn:1,b:2};
+function gcbSetTab(tab){
+  _gcbCurrentTab=tab;
+  ['a','b','conn'].forEach(t=>{
+    const btn=document.getElementById(`gcb-tab-${t}`),panel=document.getElementById(`gcb-panel-${t}`);
+    if(btn)btn.setAttribute('aria-selected',t===tab?'true':'false');
+    if(panel)panel.classList.toggle('gcb-panel--active',t===tab);
+    const dot=document.getElementById('gcb-dot-'+t);
+    if(dot)dot.classList.toggle('gcb-swipe-dot--active',t===tab);
+  });
+  const track=document.getElementById('gcb-carousel-track');
+  if(track)track.style.transform=`translateX(-${(_gcbTabIdx[tab]||0)*33.333}%)`;
+  if(tab==='a'&&!_gcbRendered.a)renderBodygraphA();
+  if(tab==='b'&&!_gcbRendered.b)renderBodygraphB();
+}
+
+async function renderBodygraphA(){
+  if(!_lastChartA||_gcbRendered.a)return;
+  const d=_lastChartA,blackGates=new Set(),redGates=new Set();
+  for(const [g,c] of Object.entries(d.gate_colors)){const gn=parseInt(g);if(c==='P'||c==='PD')blackGates.add(gn);if(c==='D'||c==='PD')redGates.add(gn);}
+  const dcs=new Set(d.defined_centers);
+  const dchan=d.defined_channels.map(([g1,g2])=>{const ch=CHANNELS.find(([c1,c2])=>(c1===g1&&c2===g2)||(c1===g2&&c2===g1));return ch||[g1,g2,GATE_TO_CENTER[g1]||'',GATE_TO_CENTER[g2]||''];});
+  await loadAndRenderBodygraph(d.gate_colors,dchan,dcs,blackGates,redGates,d.variables,'gcb-bg-a',false);
+  _gcbRendered.a=true;
+}
+
+async function renderBodygraphB(){
+  if(!_lastChartB||_gcbRendered.b)return;
+  const d=_lastChartB,blackGates=new Set(),redGates=new Set();
+  for(const [g,c] of Object.entries(d.gate_colors)){const gn=parseInt(g);if(c==='P'||c==='PD')blackGates.add(gn);if(c==='D'||c==='PD')redGates.add(gn);}
+  const dcs=new Set(d.defined_centers);
+  const dchan=d.defined_channels.map(([g1,g2])=>{const ch=CHANNELS.find(([c1,c2])=>(c1===g1&&c2===g2)||(c1===g2&&c2===g1));return ch||[g1,g2,GATE_TO_CENTER[g1]||'',GATE_TO_CENTER[g2]||''];});
+  await loadAndRenderBodygraph(d.gate_colors,dchan,dcs,blackGates,redGates,d.variables,'gcb-bg-b',false);
+  _gcbRendered.b=true;
+}
+
+async function calcolaConnessione(){
+  const dateVal=document.getElementById('gcb-b-date').value;
+  const timeVal=document.getElementById('gcb-b-time').value;
+  const dateParts=dateVal?dateVal.split('-'):[];
+  const timeParts=timeVal?timeVal.split(':'):[];
+  const y=dateParts[0]?parseInt(dateParts[0]):NaN;
+  const m=dateParts[1]?parseInt(dateParts[1]):NaN;
+  const d=dateParts[2]?parseInt(dateParts[2]):NaN;
+  const h=timeParts[0]!==undefined?parseInt(timeParts[0]):NaN;
+  const min=timeParts[1]!==undefined?parseInt(timeParts[1]):NaN;
+  const tz=document.getElementById('gcb-b-tz').value,nome=document.getElementById('gcb-b-nome').value.trim(),city=document.getElementById('gcb-b-city').value.trim();
+  if(!city){mostraErroreB('Inserisci il luogo di nascita della seconda persona.');document.getElementById('gcb-b-city').focus();return;}
+  if(!d||!m||!y||isNaN(h)||isNaN(min)){mostraErroreB('Compila data, ora e luogo di nascita della seconda persona.');return;}
+  if(y<1900||y>2050){mostraErroreB('Anno non valido.');return;}
+  if(!_lastChartA){mostraErroreB('Prima calcola la carta della Persona A.');return;}
+  document.getElementById('gcb-error-b').style.display='none';
+  document.getElementById('gcb-results').style.display='none';
+  document.getElementById('gcb-loading-b').style.display='block';
+  document.getElementById('gcb-calcola-b-btn').disabled=true;
+  try{
+    const localDt=new Date(y,m-1,d,h,min);
+    const tzDate=new Date(localDt.toLocaleString('en-US',{timeZone:tz}));
+    const utcDate=new Date(localDt.toLocaleString('en-US',{timeZone:'UTC'}));
+    const tzOffset=(tzDate-utcDate)/3600000;
+    const dataRaw=await calculateHDChart(y,m,d,h,min,tzOffset);
+    if(dataRaw.environment_name){dataRaw.environment=dataRaw.environment_name;delete dataRaw.environment_name;}
+    const dataB=normalizzaRisposta(dataRaw);if(!dataB)throw new Error('Formato risposta non riconosciuto.');
+    _lastChartB=dataB;_lastNomeB=nome;
+    await renderConnectionChart(_lastChartA,dataB,_lastCartaNome||'Persona A',nome||'Persona B');
+  }catch(e){mostraErroreB(e.message||'Errore nel calcolo. Riprova.');}
+  finally{document.getElementById('gcb-loading-b').style.display='none';document.getElementById('gcb-calcola-b-btn').disabled=false;}
+}
+
+// ─── Profilo: risonanza / armonia / dissonanza ────────────────────────────────
+function gcbProfileRelation(profA,profB){
+  const parseP=p=>p.split('/').map(Number).filter(n=>!isNaN(n));
+  const[a1,a2]=parseP(profA);const[b1,b2]=parseP(profB);
+  if(!a1||!a2||!b1||!b2)return'dissonanza';
+  if(a1===b1||a1===b2||a2===b1||a2===b2)return'risonanza';
+  const isHarm=(x,y)=>[[1,4],[2,5],[3,6]].some(([p,q])=>(x===p&&y===q)||(x===q&&y===p));
+  if((isHarm(a1,b1)&&isHarm(a2,b2))||(isHarm(a1,b2)&&isHarm(a2,b1)))return'armonia';
+  return'dissonanza';
+}
+
+// ─── Analisi connessione (tema + profili + definizione composito) ──────────────
+function renderConnAnalysis(compDefCenters,compDefChan,chartA,chartB,nomeA,nomeB){
+  const el=document.getElementById('gcb-conn-analysis');if(!el)return;
+  // 1. Tema della connessione
+  const def=compDefCenters.size,white=9-def;
+  const theme=`${def}+${white}`;
+  const themeDescs={
+    '9+0':'Tutti e 9 i centri sono attivi nel composito. Connessione totale: la coppia porta una quantità di energia definita molto alta.',
+    '8+1':'Otto centri attivi, uno aperto. Connessione molto strutturata con un unico spazio di apertura e crescita reciproca.',
+    '7+2':'Sette centri attivi, due aperti. Connessione forte e stabile, con margini di esplorazione condivisa.',
+    '6+3':'Sei centri attivi, tre aperti. Connessione bilanciata: struttura solida e ampio spazio per stimolarsi a vicenda.',
+    '5+4':'Cinque centri attivi, quattro aperti. La coppia ha molto spazio bianco: l\'attrazione nasce dall\'esplorazione più che da una struttura comune.',
+  };
+  const themeDesc=themeDescs[theme]||`${def} centri attivi, ${white} aperti nel composito.`;
+  // 2. Definizione del composito
+  const defRaw=hdCalcDefinition(compDefCenters,compDefChan);
+  const DEF_COMP={'No Definition':'Nessuna Definizione','Single Definition':'Definizione Singola','Split Definition':'Scissione Semplice','Triple Split':'Tripla Scissione','Quadruple Split':'Quadrupla Scissione'};
+  const defIT=DEF_COMP[defRaw]||defRaw;
+  const defDescs={
+    'No Definition':'Nessun centro definito nel composito.',
+    'Single Definition':'Tutti i centri attivi sono connessi tra loro. La coppia forma un circuito energetico continuo e coerente.',
+    'Split Definition':'Due isole separate di centri definiti. Le due persone si completano colmando la scissione: c\'è forte attrazione, ma anche tensione da gestire.',
+    'Triple Split':'Tre gruppi separati. La coppia ha bisogno di tempo — e spesso di persone esterne — per trovare coerenza interna.',
+    'Quadruple Split':'Quattro gruppi separati. Entrambi i partner sono molto indipendenti energeticamente: la relazione richiede consapevolezza.'
+  };
+  const defDesc=defDescs[defRaw]||'';
+  // 3. Relazione tra profili
+  const profA=chartA.profile||'?/?',profB=chartB.profile||'?/?';
+  const rel=gcbProfileRelation(profA,profB);
+  const relLabels={risonanza:'Risonanza',armonia:'Armonia',dissonanza:'Dissonanza'};
+  const relDescs={
+    risonanza:'Entrambi condividono almeno una linea del profilo. C\'è un riconoscimento immediato e una comprensione istintiva del modo in cui l\'altro funziona.',
+    armonia:'I profili si rispondono per linee armoniche (1↔4, 2↔5, 3↔6). Le due persone si bilanciano e si completano in modo naturale.',
+    dissonanza:'I profili non hanno linee comuni né armoniche. La relazione può essere stimolante per le differenze, ma richiede consapevolezza reciproca.'
+  };
+  el.innerHTML=`<div class="gcb-analysis-grid">
+    <div class="gcb-analysis-card">
+      <div class="gcb-analysis-lbl">Tema della Connessione</div>
+      <div class="gcb-theme-number">${theme}</div>
+      <div class="gcb-analysis-desc">${themeDesc}</div>
+    </div>
+    <div class="gcb-analysis-card">
+      <div class="gcb-analysis-lbl">Definizione del Composito</div>
+      <div class="gcb-analysis-title">${escHtml(defIT)}</div>
+      <div class="gcb-analysis-desc">${defDesc}</div>
+    </div>
+    <div class="gcb-analysis-card" style="grid-column:1/-1">
+      <div class="gcb-analysis-lbl">Relazione tra i Profili</div>
+      <div><span class="gcb-profile-rel-badge gcb-profile-rel--${rel}">${relLabels[rel]}</span></div>
+      <div class="gcb-profile-pair">${escHtml(nomeA)}: ${profA} &nbsp;·&nbsp; ${escHtml(nomeB)}: ${profB}</div>
+      <div class="gcb-analysis-desc">${relDescs[rel]}</div>
+    </div>
+  </div>`;
+}
+
+async function renderConnectionChart(chartA,chartB,nomeA,nomeB){
+  const activeA=new Set(Object.keys(chartA.gate_colors).map(Number));
+  const activeB=new Set(Object.keys(chartB.gate_colors).map(Number));
+  const allActive=new Set([...activeA,...activeB]);
+  const emGates=new Set(),emChannels=[],dominanzaChannels=[],compromessoGates=[];
+  for(const [g1,g2] of HD_CHANNELS){
+    const a1=activeA.has(g1),a2=activeA.has(g2),b1=activeB.has(g1),b2=activeB.has(g2);
+    if((a1&&!a2&&!b1&&b2)||(!a1&&a2&&b1&&!b2)){emGates.add(g1);emGates.add(g2);emChannels.push({gates:[g1,g2]});}
+    const aFull=a1&&a2,bFull=b1&&b2,aNone=!a1&&!a2,bNone=!b1&&!b2;
+    if(aFull&&bNone)dominanzaChannels.push({gates:[g1,g2],dominant:'A'});
+    if(bFull&&aNone)dominanzaChannels.push({gates:[g1,g2],dominant:'B'});
+    // Compromesso: una persona ha il canale completo, l'altra ha solo UNA delle due porte
+    if(aFull&&!bFull&&(b1||b2))compromessoGates.push({gates:[g1,g2],dominant:'A',disadvantaged:'B',disadvantagedGate:b1?g1:g2});
+    if(bFull&&!aFull&&(a1||a2))compromessoGates.push({gates:[g1,g2],dominant:'B',disadvantaged:'A',disadvantagedGate:a1?g1:g2});
+  }
+  const compositeGateColors={};
+  // Ogni gate è colorato in base a CHI ce l'ha, non al tipo di canale
+  // A solo → viola A, B solo → verde B, entrambi → split A+B
+  // I canali EM mostrano naturalmente metà A + metà B (le due braccia si vedono con colori diversi)
+  for(const g of allActive){const inA=activeA.has(g),inB=activeB.has(g);compositeGateColors[String(g)]=inA&&inB?'AB':inA?'A':'B';}
+  const compDefChan=hdGetDefinedChannels(allActive).map(([a,b])=>{const ch=CHANNELS.find(([c1,c2])=>(c1===a&&c2===b)||(c1===b&&c2===a));return ch||[a,b,HD_GATE_CENTER[a]||'',HD_GATE_CENTER[b]||''];});
+  const compDefCenters=hdGetDefinedCenters(allActive);
+  _gcbRendered.a=false;_gcbRendered.b=false;_gcbRendered.conn=false;
+  const legA=document.getElementById('gcb-legend-a'),legB=document.getElementById('gcb-legend-b');if(legA)legA.textContent=nomeA;if(legB)legB.textContent=nomeB;
+  const lblA=document.getElementById('gcb-label-a'),lblB=document.getElementById('gcb-label-b');if(lblA)lblA.textContent=nomeA;if(lblB)lblB.textContent=nomeB;
+  const tabA=document.getElementById('gcb-tab-a'),tabB=document.getElementById('gcb-tab-b');if(tabA)tabA.textContent=nomeA;if(tabB)tabB.textContent=nomeB;
+  const title=document.getElementById('gcb-conn-title'),sub=document.getElementById('gcb-conn-subtitle');
+  if(title)title.textContent=`${nomeA} & ${nomeB}`;
+  if(sub)sub.textContent=`${emChannels.length} canali EM · ${dominanzaChannels.length} dominanza · ${compromessoGates.length} compromesso`;
+  await loadAndRenderBodygraph(compositeGateColors,compDefChan,compDefCenters,null,null,null,'gcb-bg-conn',true);
+  _gcbRendered.conn=true;
+  const z2el=document.getElementById('gcb-zone-2');
+  if(z2el){z2el.classList.add('gcb-zone-2--has-results');z2el.style.display='block';requestAnimationFrame(()=>requestAnimationFrame(()=>{z2el.classList.add('gcb-zone-2--visible');}));}
+  document.getElementById('gcb-results').style.display='block';
+  gcbSetTab('conn');
+  setTimeout(()=>{document.getElementById('gcb-results')?.scrollIntoView({behavior:'smooth',block:'start'});},60);
+  renderEmAnalysis(emChannels,dominanzaChannels,compromessoGates,nomeA,nomeB);
+  renderConnAnalysis(compDefCenters,compDefChan,chartA,chartB,nomeA,nomeB);
+  // Chips tipo/profilo/autorità nei pannelli individuali
+  const chipsA=document.getElementById('gcb-chips-a');
+  if(chipsA)chipsA.innerHTML=[chartA.type,`Profilo ${chartA.profile||''}`,chartA.authority].filter(Boolean).map(v=>`<span class="gcb-panel-chip gcb-panel-chip--a">${escHtml(v)}</span>`).join('');
+  const chipsB=document.getElementById('gcb-chips-b');
+  if(chipsB)chipsB.innerHTML=[chartB.type,`Profilo ${chartB.profile||''}`,chartB.authority].filter(Boolean).map(v=>`<span class="gcb-panel-chip gcb-panel-chip--b">${escHtml(v)}</span>`).join('');
+  renderBodygraphA();
+  renderBodygraphB();
+}
+
+function renderEmAnalysis(emChannels,dominanzaChannels,compromessoGates,nomeA,nomeB){
+  const el=document.getElementById('gcb-em-analysis');if(!el)return;
+  let html='';
+  if(emChannels.length>0)html+=`<div class="gcb-em-card"><div class="gcb-em-card-title"><span class="gcb-em-dot gcb-em-dot--em"></span>Canali Elettromagnetici<span class="gcb-em-count-badge">${emChannels.length}</span></div><div class="gcb-em-card-body"><p>${escHtml(nomeA)} e ${escHtml(nomeB)} si completano su questi canali — uno ha un gate, l'altro ha quello opposto. La connessione EM attiva qualcosa che nessuno dei due possiede da solo.</p><ul>${emChannels.map(c=>`<li>Canale ${c.gates[0]}–${c.gates[1]}</li>`).join('')}</ul></div></div>`;
+  if(dominanzaChannels.length>0){const dA=dominanzaChannels.filter(c=>c.dominant==='A'),dB=dominanzaChannels.filter(c=>c.dominant==='B');html+=`<div class="gcb-em-card"><div class="gcb-em-card-title"><span class="gcb-em-dot gcb-em-dot--a"></span>Canali di Dominanza<span class="gcb-em-count-badge">${dominanzaChannels.length}</span></div><div class="gcb-em-card-body"><p>Un partner ha il canale completo, l'altro non attiva nessuno dei due gate. Chi ha il canale porta quella frequenza nella relazione.</p>${dA.length?`<p><strong>${escHtml(nomeA)}:</strong> ${dA.map(c=>c.gates.join('–')).join(', ')}</p>`:''}${dB.length?`<p><strong>${escHtml(nomeB)}:</strong> ${dB.map(c=>c.gates.join('–')).join(', ')}</p>`:''}</div></div>`;}
+  if(compromessoGates.length>0){
+    const rows=compromessoGates.map(c=>{
+      const domName=c.dominant==='A'?escHtml(nomeA):escHtml(nomeB);
+      const disName=c.disadvantaged==='A'?escHtml(nomeA):escHtml(nomeB);
+      return`<li>Canale ${c.gates[0]}–${c.gates[1]} — ${domName} ha il canale completo, ${disName} porta solo la porta ${c.disadvantagedGate}: non viene riconosciuta da ${domName} perché quel canale è già presente nel suo disegno.</li>`;
+    }).join('');
+    html+=`<div class="gcb-em-card"><div class="gcb-em-card-title"><span class="gcb-em-dot gcb-em-dot--ab"></span>Canali di Compromesso<span class="gcb-em-count-badge">${compromessoGates.length}</span></div><div class="gcb-em-card-body"><p>Una persona ha il canale completo, l'altra porta solo una delle due porte. Chi ha il canale intero non riesce a vedere né a riconoscere nell'altra la porta che porta.</p><ul>${rows}</ul></div></div>`;
+  }
+  if(!html)html=`<div class="gcb-em-card"><div class="gcb-em-card-body"><p>Nessun canale condiviso o elettromagnetico tra ${escHtml(nomeA)} e ${escHtml(nomeB)}. Le due carte sono energeticamente indipendenti.</p></div></div>`;
+  el.innerHTML=html;el.style.display='block';
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Enter'){const ae=document.activeElement;if(!ae||!ae.id)return;if(ae.id.startsWith('gcb-b-'))calcolaConnessione();else if(ae.id.startsWith('cs-')||ae.closest('#gcb-zone-1'))csCalcola();}});
+
+// ─── Touch swipe carousel ─────────────────────────────────────────────────────
+(function(){
+  let _ts=null;
+  const wrap=document.querySelector('.gcb-panels-grid');
+  if(!wrap)return;
+  wrap.addEventListener('touchstart',e=>{_ts=e.touches[0].clientX;},{passive:true});
+  wrap.addEventListener('touchend',e=>{
+    if(_ts===null)return;
+    const dx=e.changedTouches[0].clientX-_ts;
+    _ts=null;
+    if(Math.abs(dx)<45)return;
+    const tabs=['a','conn','b'];
+    const curIdx=tabs.indexOf(_gcbCurrentTab);
+    if(dx<0&&curIdx<2)gcbSetTab(tabs[curIdx+1]);
+    else if(dx>0&&curIdx>0)gcbSetTab(tabs[curIdx-1]);
+  },{passive:true});
+})();
+
+{% if page.header.hd_account_enabled %}
+// ─── Salva Carta ──────────────────────────────────────────────────────────────
+const HD_BASE='https://valentinarussobg5.com';
+
+// ─── Account chart picker ──────────────────────────────────────────────────────
+let _gcbPickerTarget=null,_gcbPickerCharts=null;
+async function gcbPickerOpen(target){
+  _gcbPickerTarget=target;
+  const overlay=document.getElementById('gcb-picker-overlay'),listEl=document.getElementById('gcb-picker-list');
+  if(!overlay||!listEl)return;
+  listEl.innerHTML='<div style="text-align:center;padding:2rem;color:#888;font-size:0.9rem;">Caricamento…</div>';
+  overlay.classList.add('gcb-picker-overlay--open');
+  try{
+    if(!_gcbPickerCharts){
+      const r=await fetch(HD_BASE+'/hd-charts.php?action=list',{credentials:'include'}),j=await r.json();
+      if(!j.ok){
+        // Not logged in — show friendly login prompt instead of generic error
+        listEl.innerHTML=`<div style="text-align:center;padding:2rem 1.5rem;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">🔒</div>
+          <p style="color:#3a2560;font-weight:700;font-size:1rem;margin:0 0 0.4rem;">Accedi per usare le carte salvate</p>
+          <p style="color:#888;font-size:0.85rem;margin:0 0 1.25rem;">Crea un account gratuito o accedi per salvare e richiamare le tue carte.</p>
+          <a href="/account" style="display:inline-block;background:#6b4fa8;color:#fff;padding:0.65rem 1.5rem;border-radius:20px;text-decoration:none;font-weight:700;font-size:0.9rem;">Vai all'account →</a>
+        </div>`;
+        return;
+      }
+      _gcbPickerCharts=j.data||[];
+    }
+    if(_gcbPickerCharts.length===0){
+      listEl.innerHTML='<div style="text-align:center;padding:2rem;color:#888;font-size:0.88rem;">Nessuna carta salvata ancora.<br>Calcola e salva una carta per usarla qui.</div>';
+    } else {
+      listEl.innerHTML=_gcbPickerCharts.map((c,i)=>{
+        const d=c.birth_day&&c.birth_month&&c.birth_year?`${c.birth_day}/${c.birth_month}/${c.birth_year}`:'';
+        return`<div class="gcb-picker-item" onclick="gcbPickerSelect(${i})"><div class="gcb-picker-item-name">${escHtml(c.chart_name)}</div>${d||c.birth_city?`<div class="gcb-picker-item-meta">${d}${d&&c.birth_city?' · ':''}${escHtml(c.birth_city||'')}</div>`:''}</div>`;
+      }).join('');
+    }
+  }catch(e){listEl.innerHTML=`<div style="text-align:center;padding:2rem;color:#c0392b;font-size:0.88rem;">Errore di rete.<br><small>Controlla la connessione e riprova.</small></div>`;}
+}
+function gcbPickerClose(){document.getElementById('gcb-picker-overlay')?.classList.remove('gcb-picker-overlay--open');}
+function gcbPickerSelect(idx){
+  const c=_gcbPickerCharts?.[idx];if(!c)return;
+  const pfx=_gcbPickerTarget==='b'?'gcb-b-':'cs-';
+  const sv=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined&&v!==null)el.value=v;};
+  sv(pfx+'nome',c.chart_name);
+  // Populate native date input (YYYY-MM-DD)
+  const d2=c.birth_day?String(c.birth_day).padStart(2,'0'):'';
+  const mo=c.birth_month?String(c.birth_month).padStart(2,'0'):'';
+  const yr=c.birth_year||'';
+  if(yr&&mo&&d2)sv(pfx+'date',yr+'-'+mo+'-'+d2);
+  // Populate native time input (HH:MM)
+  const hr=c.birth_hour!==undefined?String(c.birth_hour).padStart(2,'0'):'00';
+  const mn=c.birth_min!==undefined?String(c.birth_min).padStart(2,'0'):'00';
+  sv(pfx+'time',hr+':'+mn);
+  sv(pfx+'city',c.birth_city||'');
+  if(c.birth_tz){const ts=document.getElementById(pfx+'tz');if(ts)ts.value=c.birth_tz;}
+  gcbPickerClose();
+}
+function hdSaveMsg(text,type){const el=document.getElementById('hd-save-msg');if(!el)return;el.style.display='block';el.textContent=text;el.style.background=type==='ok'?'rgba(50,200,100,0.2)':'rgba(220,50,50,0.2)';el.style.border=type==='ok'?'1px solid rgba(50,200,100,0.4)':'1px solid rgba(220,50,50,0.4)';el.style.color=type==='ok'?'#b6f5c8':'#ffb3b3';}
+async function hdSaveOpen(){
+  if(!_lastCartaData)return;
+  const panel=document.getElementById('hd-save-panel');if(!panel)return;
+  panel.style.display='block';document.getElementById('hd-save-msg').style.display='none';
+  try{const r=await fetch(HD_BASE+'/hd-auth.php?action=me',{credentials:'include'}),j=await r.json();
+    if(j.ok&&j.data){document.getElementById('hd-save-form').style.display='block';document.getElementById('hd-save-login').style.display='none';const ni=document.getElementById('hd-save-name');if(ni&&!ni.value&&_lastCartaNome)ni.value=_lastCartaNome;}
+    else{document.getElementById('hd-save-form').style.display='none';document.getElementById('hd-save-login').style.display='block';}
+  }catch(e){document.getElementById('hd-save-form').style.display='none';document.getElementById('hd-save-login').style.display='block';}
+}
+function hdSaveClose(){const p=document.getElementById('hd-save-panel');if(p)p.style.display='none';}
+async function hdSaveConfirm(){
+  if(!_lastCartaData)return;
+  const ni=document.getElementById('hd-save-name'),name=ni?ni.value.trim():'';if(!name){hdSaveMsg('Inserisci un nome per la carta.','err');return;}
+  const d=_lastCartaData;
+  const _dv=document.getElementById('cs-date')?.value||'',_dp=_dv.split('-');
+  const _tv=document.getElementById('cs-time')?.value||'',_tp=_tv.split(':');
+  const day=parseInt(_dp[2]||'0',10),month=parseInt(_dp[1]||'0',10),year=parseInt(_dp[0]||'0',10);
+  const hour=parseInt(_tp[0]||'0',10),min=parseInt(_tp[1]||'0',10);
+  const city=document.getElementById('cs-city')?.value||'',tz=document.getElementById('cs-tz')?.value||'Europe/Rome';
+  try{
+    const csrfR=await fetch(HD_BASE+'/hd-auth.php?action=csrf&for=save_chart',{credentials:'include'}),csrfJ=await csrfR.json();
+    if(!csrfJ.ok){hdSaveMsg('Sessione scaduta. Ricarica la pagina.','err');return;}
+    const svgEl=document.querySelector('#carta-bodygraph-wrap svg');
+    const saveData=Object.assign({},d,{svg_preview:svgEl?svgEl.outerHTML:''});
+    const body={action:'save',chart_name:name,birth_day:day,birth_month:month,birth_year:year,birth_hour:hour,birth_min:min,birth_city:city,birth_tz:tz,chart_json:JSON.stringify(saveData),csrf:csrfJ.data.token};
+    const r=await fetch(HD_BASE+'/hd-charts.php',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}),j=await r.json();
+    if(j.ok){hdSaveMsg('Carta salvata! Trovala in "Le mie Carte".','ok');setTimeout(()=>hdSaveClose(),2500);}
+    else hdSaveMsg(j.error||'Errore durante il salvataggio.','err');
+  }catch(e){hdSaveMsg('Errore di rete. Riprova.','err');}
+}
+(function(){
+  const stored=sessionStorage.getItem('hd_load_chart');if(!stored)return;
+  sessionStorage.removeItem('hd_load_chart');
+  try{
+    const chart=JSON.parse(stored);
+    const sv=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined)el.value=v;};
+    // Populate native date/time inputs from stored chart data
+    const d2=chart.birth_day?String(chart.birth_day).padStart(2,'0'):'';
+    const mo=chart.birth_month?String(chart.birth_month).padStart(2,'0'):'';
+    const yr=chart.birth_year||'';
+    const hr=chart.birth_hour!==undefined?String(chart.birth_hour).padStart(2,'0'):'00';
+    const mn=chart.birth_min!==undefined?String(chart.birth_min).padStart(2,'0'):'00';
+    if(yr&&mo&&d2)sv('cs-date',yr+'-'+mo+'-'+d2);
+    sv('cs-time',hr+':'+mn);
+    sv('cs-city',chart.birth_city);
+    if(chart.birth_tz){const ts=document.getElementById('cs-tz');if(ts)ts.value=chart.birth_tz;}
+    if(chart.chart_data)document.addEventListener('DOMContentLoaded',()=>{renderRisultati(chart.chart_data,chart.chart_name||'');});
+  }catch(e){}
+})();
+{% endif %}
+
+</script>
+{% endblock %}
