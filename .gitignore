@@ -94,6 +94,7 @@ grav-site/user/pages/04.blog/articoli/*
 !grav-site/user/pages/04.blog/articoli/hai-scoperto-di-essere-un-manifestatore-human-design
 !grav-site/user/pages/04.blog/articoli/hai-scoperto-di-essere-un-riflettore-human-design
 !grav-site/user/pages/04.blog/articoli/lancio-libretto-istruzioni
+!grav-site/user/pages/04.blog/articoli/mammal-chart-cane
 # burnout, cambio-carriera, farsi-valere, freelance, relazione-ti-svuota: spostati in 05.aziende/02.blog
 # Eccezioni: nuovi articoli bozza aziende (deployati via FTP)
 !grav-site/user/pages/05.aziende
