@@ -20,7 +20,8 @@
   .mc-group{border:1px solid #E2DED8;border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1rem;}
   .mc-group h3{margin:0 0 .5rem;font-size:1.1rem;}
   .mc-group .mc-portal{font-size:.8rem;color:#A8722E;font-weight:600;text-transform:uppercase;letter-spacing:.03em;}
-  .mc-gate-row{display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid #F0EDE8;font-size:.92rem;}
+  .mc-gate-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.3rem;padding:.5rem 0;border-bottom:1px solid #F0EDE8;font-size:.92rem;}
+  .mc-gate-row .mc-badge{margin:.15rem 0 .15rem .4rem;}
   .mc-gate-row:last-child{border-bottom:none;}
   .mc-gate-row.active{font-weight:600;color:#1A2332;}
   .mc-gate-row.inactive{color:#AAA;}
@@ -147,11 +148,15 @@ async function calculateMammalChart(y,m,d,h,min,tzOffset){
   return{pGates,dGates,pMap,dMap,definedChannels,isOpenChart,daysToDesign};
 }
 
-function gateBadges(gate,pGates,dGates){
-  const inP=pGates.has(gate),inD=dGates.has(gate);
+function lineTag(kind,lineNum){
+  const keynote=MAMMAL_LINE_KEYNOTES[lineNum]||'';
+  const cls=kind==='design'?'mc-badge design':'mc-badge';
+  return '<span class="'+cls+'">'+(kind==='design'?'Design':'Personalità')+' &middot; Linea '+lineNum+' ('+keynote+')</span>';
+}
+function gateBadges(gate,pMap,dMap){
   let out='';
-  if(inP)out+='<span class="mc-badge">Personalità</span>';
-  if(inD)out+='<span class="mc-badge design">Design</span>';
+  if(pMap.has(gate))out+=lineTag('personality',pMap.get(gate));
+  if(dMap.has(gate))out+=lineTag('design',dMap.get(gate));
   return out;
 }
 
@@ -173,7 +178,7 @@ function renderResults(chart){
       const isPortal=g.n===group.portal;
       html+='<div class="mc-gate-row '+(active?'active':'inactive')+'">';
       html+='<span>Porta '+g.n+' &middot; '+g.k+(isPortal?' <span class="mc-portal">(porta-ponte)</span>':'')+'</span>';
-      html+='<span>'+(active?gateBadges(g.n,chart.pGates,chart.dGates):'non attiva')+'</span>';
+      html+='<span>'+(active?gateBadges(g.n,chart.pMap,chart.dMap):'non attiva')+'</span>';
       html+='</div>';
     }
     html+='</div>';
