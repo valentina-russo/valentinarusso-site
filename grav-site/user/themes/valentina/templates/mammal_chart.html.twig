@@ -33,8 +33,8 @@
   .mc-gate-row:last-child{border-bottom:none;}
   .mc-gate-row.active{font-weight:600;color:#1A2332;}
   .mc-gate-row.inactive{color:#AAA;}
-  .mc-badge{display:inline-block;font-size:.72rem;padding:.15rem .5rem;border-radius:4px;background:#1A2332;color:#fff;margin:.15rem 0 .15rem .4rem;}
-  .mc-badge.design{background:#8B2C2C;}
+  .mc-badge{display:inline-block;font-size:.72rem;padding:.15rem .5rem;border-radius:4px;background:#1a1a2e;color:#fff;margin:.15rem 0 .15rem .4rem;}
+  .mc-badge.design{background:#c0392b;}
   .mc-summary{background:#1A2332;color:#fff;border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;}
   .mc-summary h2{margin:0 0 .5rem;font-size:1.3rem;font-family:var(--font-serif,'Playfair Display',serif);}
   .mc-channels{font-size:.9rem;color:#EEE;margin:0;}
@@ -207,10 +207,11 @@ const CHANNEL_LINES=[[28,38],[57,20],[50,27],[53,42],[5,15],[1,8]];
 const PORTAL_STUBS=[{gate:19,to:[135,430],human:'49'},{gate:12,to:[680,430],human:'22'},{gate:62,to:[790,300],human:'17'}];
 
 function gateFill(gate,pGates,dGates){
+  // Palette allineata a hdkit (usata anche nel calcolatore umano): Personalita' #1a1a2e, Design #c0392b
   const inP=pGates.has(gate),inD=dGates.has(gate);
-  if(inP&&inD)return'#1A2332';
-  if(inD)return'#8B2C2C';
-  if(inP)return'#1A2332';
+  if(inP&&inD)return'#1a1a2e';
+  if(inD)return'#c0392b';
+  if(inP)return'#1a1a2e';
   return'#E8E4DE';
 }
 function buildSVG(chart){
@@ -227,7 +228,7 @@ function buildSVG(chart){
   for(const [g1,g2] of CHANNEL_LINES){
     const isDefined=(chart.pGates.has(g1)||chart.dGates.has(g1)) && (chart.pGates.has(g2)||chart.dGates.has(g2));
     const [x1,y1]=GATE_POS[g1],[x2,y2]=GATE_POS[g2];
-    svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+(isDefined?'#1A2332':'#DDD')+'" stroke-width="'+(isDefined?4:2)+'"/>';
+    svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+(isDefined?'#1a1a2e':'#DDD')+'" stroke-width="'+(isDefined?4:2)+'"/>';
   }
   // stub porte-ponte (verso l'umano)
   for(const stub of PORTAL_STUBS){
