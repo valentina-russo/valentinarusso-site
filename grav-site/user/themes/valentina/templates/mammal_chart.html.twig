@@ -4,28 +4,36 @@
 
 {% block content %}
 <style>
-  .mc-wrap{max-width:720px;margin:0 auto;padding:2rem 1.25rem 4rem;font-family:var(--font-body,inherit);}
+  .mc-wrap{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem;font-family:var(--font-body,inherit);}
   .mc-wrap h1{font-family:var(--font-serif,'Playfair Display',serif);font-size:2rem;margin-bottom:.5rem;}
   .mc-tagline{color:#666;margin-bottom:1.5rem;}
   .mc-notice{background:#FFF4E5;border:1px solid #E8A33D;border-radius:8px;padding:14px 18px;margin:0 0 1.5rem;font-size:.92rem;}
   .mc-form{display:grid;gap:.9rem;background:#F7F5F2;border-radius:12px;padding:1.5rem;margin-bottom:2rem;}
   .mc-form label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.3rem;}
-  .mc-form input{width:100%;padding:.6rem .75rem;border:1px solid #ccc;border-radius:6px;font-size:1rem;box-sizing:border-box;}
+  .mc-form input,.mc-form select{width:100%;padding:.6rem .75rem;border:1px solid #ccc;border-radius:6px;font-size:1rem;box-sizing:border-box;}
   .mc-form-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;}
   .mc-btn{background:#1A2332;color:#fff;border:none;border-radius:8px;padding:.85rem 1.5rem;font-size:1rem;cursor:pointer;font-weight:600;}
   .mc-btn:hover{opacity:.9;}
   .mc-btn:disabled{opacity:.5;cursor:not-allowed;}
   .mc-error{color:#B02020;font-size:.88rem;margin-top:.3rem;display:none;}
   .mc-results{display:none;}
+  .mc-autocomplete-wrap{position:relative;}
+  .mc-autocomplete-list{position:absolute;top:calc(100% + 2px);left:0;right:0;background:#fff;border:1.5px solid #1A2332;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.12);z-index:200;max-height:220px;overflow-y:auto;display:none;margin:0;padding:0;}
+  .mc-autocomplete-list li{padding:.6rem .85rem;cursor:pointer;font-size:.9rem;color:#333;border-bottom:1px solid #f5f2ef;list-style:none;}
+  .mc-autocomplete-list li:last-child{border-bottom:none;}
+  .mc-autocomplete-list li:hover{background:#f8f4ff;}
+  .mc-tz-detected{font-size:.75rem;color:#7c5cbf;margin-top:.25rem;display:none;}
+  .mc-hint{font-size:.75rem;color:#888;margin-top:.25rem;}
+  .mc-svg-wrap{background:#fff;border:1px solid #E2DED8;border-radius:12px;padding:1rem;margin-bottom:1.5rem;overflow-x:auto;}
+  .mc-svg-wrap svg{display:block;margin:0 auto;max-width:100%;height:auto;}
   .mc-group{border:1px solid #E2DED8;border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1rem;}
   .mc-group h3{margin:0 0 .5rem;font-size:1.1rem;}
   .mc-group .mc-portal{font-size:.8rem;color:#A8722E;font-weight:600;text-transform:uppercase;letter-spacing:.03em;}
   .mc-gate-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.3rem;padding:.5rem 0;border-bottom:1px solid #F0EDE8;font-size:.92rem;}
-  .mc-gate-row .mc-badge{margin:.15rem 0 .15rem .4rem;}
   .mc-gate-row:last-child{border-bottom:none;}
   .mc-gate-row.active{font-weight:600;color:#1A2332;}
   .mc-gate-row.inactive{color:#AAA;}
-  .mc-badge{display:inline-block;font-size:.72rem;padding:.15rem .5rem;border-radius:4px;background:#1A2332;color:#fff;margin-left:.4rem;}
+  .mc-badge{display:inline-block;font-size:.72rem;padding:.15rem .5rem;border-radius:4px;background:#1A2332;color:#fff;margin:.15rem 0 .15rem .4rem;}
   .mc-badge.design{background:#8B2C2C;}
   .mc-summary{background:#1A2332;color:#fff;border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;}
   .mc-summary h2{margin:0 0 .5rem;font-size:1.3rem;font-family:var(--font-serif,'Playfair Display',serif);}
@@ -55,8 +63,30 @@
       </div>
     </div>
     <div>
-      <label for="mc-tz">Fuso orario (offset UTC, es. 2 per l'Italia in estate)</label>
-      <input type="number" id="mc-tz" value="1" step="1">
+      <label for="mc-city">📍 Luogo di nascita</label>
+      <div class="mc-autocomplete-wrap">
+        <input type="text" id="mc-city" placeholder="Es: Milano, Roma, Napoli…" autocomplete="off">
+        <ul class="mc-autocomplete-list" id="mc-city-list"></ul>
+      </div>
+      <div class="mc-hint">Inserisci la città, il fuso orario viene rilevato automaticamente.</div>
+      <select id="mc-tz" style="margin-top:.5rem;">
+        <option value="Europe/Rome" selected>Italia (Europe/Rome)</option>
+        <option value="Europe/London">Regno Unito</option>
+        <option value="Europe/Paris">Francia / Belgio</option>
+        <option value="Europe/Berlin">Germania / Austria</option>
+        <option value="Europe/Madrid">Spagna</option>
+        <option value="Europe/Zurich">Svizzera</option>
+        <option value="America/New_York">USA Est</option>
+        <option value="America/Chicago">USA Centrale</option>
+        <option value="America/Los_Angeles">USA Ovest</option>
+        <option value="America/Argentina/Buenos_Aires">Argentina</option>
+        <option value="America/Sao_Paulo">Brasile</option>
+        <option value="Asia/Dubai">Emirati Arabi</option>
+        <option value="Asia/Kolkata">India</option>
+        <option value="Asia/Tokyo">Giappone</option>
+        <option value="Australia/Sydney">Australia</option>
+      </select>
+      <div class="mc-tz-detected" id="mc-tz-detected"></div>
     </div>
     <div id="mc-error" class="mc-error"></div>
     <button class="mc-btn" id="mc-calc-btn">Calcola la Mammal Chart</button>
@@ -67,6 +97,18 @@
 
 <script src="/user/themes/valentina/js/swe-hd.js"></script>
 <script>
+// ─── City autocomplete (identico al calcolatore umano) ─────────────────────
+function initCityAutocomplete(cityInputId,cityListId,tzSelectId,tzDetectedId){
+  const cityInput=document.getElementById(cityInputId),cityList=document.getElementById(cityListId),tzSelect=document.getElementById(tzSelectId),tzDetected=document.getElementById(tzDetectedId);
+  if(!cityInput||!cityList||!tzSelect)return;
+  let debounce=null;
+  cityInput.addEventListener('input',()=>{clearTimeout(debounce);const q=cityInput.value.trim();if(q.length<3){cityList.style.display='none';return;}debounce=setTimeout(()=>fetchCities(q),350);});
+  cityInput.addEventListener('blur',()=>{setTimeout(()=>{cityList.style.display='none';},200);});
+  async function fetchCities(q){try{const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&addressdetails=1&featuretype=city`;const res=await fetch(url,{headers:{'Accept-Language':'it'}});const data=await res.json();showSuggestions(data);}catch(e){cityList.style.display='none';}}
+  function showSuggestions(places){cityList.innerHTML='';if(!places.length){cityList.style.display='none';return;}places.forEach(p=>{const li=document.createElement('li');const parts=[p.display_name.split(',')[0].trim()];if(p.address){if(p.address.state)parts.push(p.address.state);if(p.address.country)parts.push(p.address.country);}li.textContent=parts.join(', ');li.addEventListener('click',()=>selectCity(p,li.textContent));cityList.appendChild(li);});cityList.style.display='block';}
+  async function selectCity(place,label){cityInput.value=label;cityList.style.display='none';const lat=parseFloat(place.lat),lng=parseFloat(place.lon);try{const tzRes=await fetch(`https://timeapi.io/api/timezone/coordinate?latitude=${lat}&longitude=${lng}`);const tzData=await tzRes.json();const tz=tzData.timeZone;if(tz){let found=false;for(const opt of tzSelect.options){if(opt.value===tz){tzSelect.value=tz;found=true;break;}}if(!found){const opt=document.createElement('option');opt.value=tz;opt.textContent=tz;tzSelect.appendChild(opt);tzSelect.value=tz;}if(tzDetected){tzDetected.textContent=`✓ Fuso orario rilevato: ${tz}`;tzDetected.style.display='block';}}}catch(e){}}
+}
+
 // ─── Swiss Ephemeris init (identico al calcolatore umano) ──────────────────
 let _sweMod=null,_sweCalc=null,_sweJulday=null;
 async function initSwe(){
@@ -114,6 +156,8 @@ async function calcPlanets(jd){
 }
 
 // ─── Matrice Mammifera (15 porte, fonte: Ra Uru Hu, "The Mammalian Design System", 2002) ──
+// Layout spaziale confermato da Illustration 4 "Shadow's Chart" (PDF originale, pag. 27):
+// triangolo (28,57,50) + box territorio (38,53,19) + box amicizia (42,27,5) + diamante (15) + gate 1 + box alpha (20,62,8,12)
 const MAMMAL_GROUPS=[
   {key:'territory',label:'Territorio',portal:19,
    gates:[{n:19,k:'Territorio'},{n:53,k:'Libertà'},{n:42,k:'Maturità'},{n:38,k:'Fierezza'},{n:28,k:'Paura'}]},
@@ -130,7 +174,7 @@ async function calculateMammalChart(y,m,d,h,min,tzOffset){
   const jdBirth=dateToJD(y,m,d,h,min,tzOffset);
   // Design mammifero: 88 gradi di retrogrado LUNARE (non solare), circa 6 giorni prima della nascita
   const SWIEPH2=2,natalMoonLon=_sweCalc(jdBirth,1,SWIEPH2),targetLon=((natalMoonLon-88)%360+360)%360;
-  let lo=jdBirth-10,hi=jdBirth-2; // finestra larga attorno ai ~6 giorni attesi
+  let lo=jdBirth-10,hi=jdBirth-2;
   for(let i=0;i<60;i++){
     const mid=(lo+hi)/2,midLon=_sweCalc(mid,1,SWIEPH2);
     let diff=(midLon-targetLon+180)%360-180;
@@ -146,6 +190,63 @@ async function calculateMammalChart(y,m,d,h,min,tzOffset){
   const isOpenChart=definedChannels.length===0 && ![19,12,62].some(g=>allActive.has(g));
   const daysToDesign=Math.round((jdBirth-jdDesign)*10)/10;
   return{pGates,dGates,pMap,dMap,definedChannels,isOpenChart,daysToDesign};
+}
+
+// ─── Bodygraph SVG (layout reale, Illustration 4) ───────────────────────────
+// Posizioni gate: [x,y] su viewBox 0 0 900 480
+const GATE_POS={
+  28:[230,150], 57:[330,150], 50:[280,220],           // triangolo
+  38:[90,300], 53:[180,300], 19:[135,360],             // box territorio
+  42:[240,300], 27:[290,300], 5:[340,300],             // box amicizia
+  15:[440,320],                                        // diamante
+  1:[520,320],                                         // gate singolo
+  20:[600,300], 62:[680,300], 8:[600,360], 12:[680,360] // box alpha
+};
+const GATE_SHAPE={28:'tri',57:'tri',50:'tri',38:'box',53:'box',19:'box',42:'box',27:'box',5:'box',15:'diamond',1:'circle',20:'box',62:'box',8:'box',12:'box'};
+const CHANNEL_LINES=[[28,38],[57,20],[50,27],[53,42],[5,15],[1,8]];
+const PORTAL_STUBS=[{gate:19,to:[135,430],human:'49'},{gate:12,to:[680,430],human:'22'},{gate:62,to:[790,300],human:'17'}];
+
+function gateFill(gate,pGates,dGates){
+  const inP=pGates.has(gate),inD=dGates.has(gate);
+  if(inP&&inD)return'#1A2332';
+  if(inD)return'#8B2C2C';
+  if(inP)return'#1A2332';
+  return'#E8E4DE';
+}
+function buildSVG(chart){
+  let svg='<svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">';
+  // triangolo di sfondo
+  svg+='<polygon points="230,150 330,150 280,220" fill="none" stroke="#DDD" stroke-width="1.5"/>';
+  // rettangoli di sfondo per i box (solo decorativi, dietro i cerchi porta)
+  svg+='<rect x="70" y="270" width="140" height="90" rx="10" fill="none" stroke="#DDD" stroke-width="1.5"/>';
+  svg+='<rect x="220" y="270" width="140" height="60" rx="10" fill="none" stroke="#DDD" stroke-width="1.5"/>';
+  svg+='<rect x="580" y="270" width="120" height="90" rx="10" fill="none" stroke="#DDD" stroke-width="1.5"/>';
+  svg+='<polygon points="440,290 470,320 440,350 410,320" fill="none" stroke="#DDD" stroke-width="1.5"/>';
+
+  // canali (linee) — colorate se entrambe le porte del canale sono attive
+  for(const [g1,g2] of CHANNEL_LINES){
+    const isDefined=(chart.pGates.has(g1)||chart.dGates.has(g1)) && (chart.pGates.has(g2)||chart.dGates.has(g2));
+    const [x1,y1]=GATE_POS[g1],[x2,y2]=GATE_POS[g2];
+    svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+(isDefined?'#1A2332':'#DDD')+'" stroke-width="'+(isDefined?4:2)+'"/>';
+  }
+  // stub porte-ponte (verso l'umano)
+  for(const stub of PORTAL_STUBS){
+    const [x1,y1]=GATE_POS[stub.gate],[x2,y2]=stub.to;
+    const active=chart.pGates.has(stub.gate)||chart.dGates.has(stub.gate);
+    svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+(active?'#A8722E':'#EEE')+'" stroke-width="2" stroke-dasharray="4,3"/>';
+    svg+='<text x="'+x2+'" y="'+(y2+14)+'" font-size="12" fill="#A8722E" text-anchor="middle">'+stub.human+'</text>';
+  }
+  // porte
+  for(const gate in GATE_POS){
+    const g=parseInt(gate);
+    const [x,y]=GATE_POS[g];
+    const fill=gateFill(g,chart.pGates,chart.dGates);
+    const r=18;
+    svg+='<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+fill+'" stroke="#fff" stroke-width="2"/>';
+    svg+='<text x="'+x+'" y="'+(y+5)+'" font-size="14" font-weight="700" fill="'+(fill==='#E8E4DE'?'#999':'#fff')+'" text-anchor="middle">'+g+'</text>';
+  }
+  svg+='</svg>';
+  return svg;
 }
 
 function lineTag(kind,lineNum){
@@ -170,6 +271,8 @@ function renderResults(chart){
     ? 'Nessuna porta della matrice mammifera è attiva. Per la fonte originale (Ra Uru Hu), è la condizione più comune: un animale completamente aperto assorbe e riflette il campo di chi ha intorno, il tipo di mammifero più facile da avere in casa.'
     : (chart.definedChannels.length+' canale/i completo/i su 6 possibili. Un mammifero con definizione ha un processo proprio da rispettare, non solo da assecondare.'))
     +' Design calcolato '+Math.abs(chart.daysToDesign)+' giorni prima della nascita (ciclo lunare).</p></div>';
+
+  html+='<div class="mc-svg-wrap">'+buildSVG(chart)+'</div>';
 
   for(const group of MAMMAL_GROUPS){
     html+='<div class="mc-group"><h3>'+group.label+'</h3>';
@@ -196,12 +299,16 @@ function renderResults(chart){
   el.style.display='block';
 }
 
+document.addEventListener('DOMContentLoaded',()=>{
+  initCityAutocomplete('mc-city','mc-city-list','mc-tz','mc-tz-detected');
+});
+
 document.getElementById('mc-calc-btn').addEventListener('click', async ()=>{
   const errEl=document.getElementById('mc-error');
   errEl.style.display='none';
   const dateVal=document.getElementById('mc-date').value;
   const timeVal=document.getElementById('mc-time').value||'12:00';
-  const tzVal=parseFloat(document.getElementById('mc-tz').value||'1');
+  const tz=document.getElementById('mc-tz').value;
   if(!dateVal){errEl.textContent='Inserisci una data di nascita o adozione.';errEl.style.display='block';return;}
   const [y,m,d]=dateVal.split('-').map(Number);
   const [h,min]=timeVal.split(':').map(Number);
@@ -210,7 +317,11 @@ document.getElementById('mc-calc-btn').addEventListener('click', async ()=>{
   const btn=document.getElementById('mc-calc-btn');
   btn.disabled=true;btn.textContent='Calcolo in corso…';
   try{
-    const chart=await calculateMammalChart(y,m,d,h,min,tzVal);
+    const localDt=new Date(y,m-1,d,h,min);
+    const tzDate=new Date(localDt.toLocaleString('en-US',{timeZone:tz}));
+    const utcDate=new Date(localDt.toLocaleString('en-US',{timeZone:'UTC'}));
+    const tzOffset=(tzDate-utcDate)/3600000;
+    const chart=await calculateMammalChart(y,m,d,h,min,tzOffset);
     renderResults(chart);
   }catch(e){
     errEl.textContent='Errore nel calcolo: '+e.message;errEl.style.display='block';
