@@ -167,29 +167,43 @@ const MAMMAL_GROUPS=[
    gates:[{n:62,k:"L'Alpha"},{n:20,k:'Presenza'},{n:57,k:'Consapevolezza'},{n:8,k:'Direzione'},{n:1,k:'Individualità'}]},
 ];
 const MAMMAL_CHANNELS=[[53,42],[38,28],[50,27],[5,15],[20,57],[8,1]];
+const MAMMAL_GATES=[19,53,42,38,28,12,27,50,5,15,62,20,57,8,1];
 const MAMMAL_LINE_KEYNOTES={1:'Stealth (Cautela)',2:'Mistero',3:'Lotta',4:'Influenza',5:'Attrazione',6:'Separazione'};
 
 async function calculateMammalChart(y,m,d,h,min,tzOffset){
   await initSwe();
   const jdBirth=dateToJD(y,m,d,h,min,tzOffset);
   // Design mammifero: 88 gradi di retrogrado LUNARE (non solare), circa 6 giorni prima della nascita
-  const SWIEPH2=2,natalMoonLon=_sweCalc(jdBirth,1,SWIEPH2),targetLon=((natalMoonLon-88)%360+360)%360;
-  let lo=jdBirth-10,hi=jdBirth-2;
-  for(let i=0;i<60;i++){
-    const mid=(lo+hi)/2,midLon=_sweCalc(mid,1,SWIEPH2);
-    let diff=(midLon-targetLon+180)%360-180;
-    if(Math.abs(diff)<1e-5){lo=hi=mid;break;}
-    if(diff<0)lo=mid;else hi=mid;
+  const SWIEPH2=2;
+  // Arco lunare cumulativo a ritroso: cerca il momento in cui la Luna ha percorso
+  // 88 gradi prima della nascita. Si accumulano gli step "srotolati" (unwrap) per
+  // non dipendere dalla longitudine assoluta: cosi' l'attraversamento del punto
+  // 0/360 non inverte il segno del confronto (bug del vecchio metodo a bisezione).
+  const STEP=1/48; // mezz'ora
+  let jdDesign=jdBirth,arc=0,prevLon=_sweCalc(jdBirth,1,SWIEPH2);
+  for(let t=jdBirth-STEP;t>jdBirth-15;t-=STEP){
+    const lon=_sweCalc(t,1,SWIEPH2);
+    let delta=(prevLon-lon+540)%360-180; // quanto e' avanzata la Luna in questo step
+    arc+=delta;
+    if(arc>=88){
+      // interpolazione lineare dentro l'ultimo step per precisione
+      const over=arc-88;
+      jdDesign=t+over/delta*STEP;
+      break;
+    }
+    prevLon=lon;jdDesign=t;
   }
-  const jdDesign=(lo+hi)/2;
   const personality=await calcPlanets(jdBirth),design=await calcPlanets(jdDesign);
   const pMap=new Map(personality.map(p=>[p.gate,p.line])),dMap=new Map(design.map(p=>[p.gate,p.line]));
   const pGates=new Set(pMap.keys()),dGates=new Set(dMap.keys());
   const allActive=new Set([...pGates,...dGates]);
+  // Per la fonte, delle 64 porte contano SOLO le 15 della matrice mammifera:
+  // un'attivazione fuori da queste "non esiste" per l'animale.
+  const activeMammalGates=MAMMAL_GATES.filter(g=>allActive.has(g));
   const definedChannels=MAMMAL_CHANNELS.filter(([g1,g2])=>allActive.has(g1)&&allActive.has(g2));
-  const isOpenChart=definedChannels.length===0 && ![19,12,62].some(g=>allActive.has(g));
+  const chartState=definedChannels.length?'defined':(activeMammalGates.length?'open':'blank');
   const daysToDesign=Math.round((jdBirth-jdDesign)*10)/10;
-  return{pGates,dGates,pMap,dMap,definedChannels,isOpenChart,daysToDesign};
+  return{pGates,dGates,pMap,dMap,definedChannels,activeMammalGates,chartState,daysToDesign};
 }
 
 // ─── Bodygraph SVG (layout reale, Illustration 4) ───────────────────────────
@@ -267,10 +281,14 @@ function renderResults(chart){
   const name=document.getElementById('mc-name').value.trim()||'Il tuo cane';
   let html='';
 
-  html+='<div class="mc-summary"><h2>'+name+(chart.isOpenChart?': carta aperta':': carta con definizione')+'</h2>';
-  html+='<p class="mc-channels">'+(chart.isOpenChart
-    ? 'Nessuna porta della matrice mammifera è attiva. Per la fonte originale (Ra Uru Hu), è la condizione più comune: un animale completamente aperto assorbe e riflette il campo di chi ha intorno, il tipo di mammifero più facile da avere in casa.'
-    : (chart.definedChannels.length+' canale/i completo/i su 6 possibili. Un mammifero con definizione ha un processo proprio da rispettare, non solo da assecondare.'))
+  const STATE_LABEL={blank:': carta vuota',open:': carta aperta (Riflettore)',defined:': carta definita'};
+  const STATE_TEXT={
+    blank:'Nessuna delle 15 porte della matrice mammifera è attiva. Ra Uru Hu descrive queste carte come del tutto aperte: l\'animale non ha un imprinting specifico e riflette il campo di chi ha intorno.',
+    open:chart.activeMammalGates.length+' porta/e attiva/e, ma nessun canale completo. È la condizione più comune nei mammiferi (tipo Riflettore): l\'animale si lascia condizionare dall\'ambiente e si adatta facilmente alla casa in cui vive.',
+    defined:chart.definedChannels.length+' canale/i completo/i su 6 possibili. Un mammifero con definizione ha un processo proprio da rispettare, non solo da assecondare.'
+  };
+  html+='<div class="mc-summary"><h2>'+name+STATE_LABEL[chart.chartState]+'</h2>';
+  html+='<p class="mc-channels">'+STATE_TEXT[chart.chartState]
     +' Design calcolato '+Math.abs(chart.daysToDesign)+' giorni prima della nascita (ciclo lunare).</p></div>';
 
   html+='<div class="mc-svg-wrap">'+buildSVG(chart)+'</div>';
