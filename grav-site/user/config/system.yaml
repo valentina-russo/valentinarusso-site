@@ -25,7 +25,7 @@ cache:
     cli_compatibility: false
     lifetime: 604800
     gzip: false
-    allow_webserver_gzip: true
+    allow_webserver_gzip: false
     redis:
         socket: false
         password:
