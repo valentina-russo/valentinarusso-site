@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    {# Font caricati qui invece che via @import in style.css: l'@import obbligava
+       il browser a scaricare e parsare il CSS prima ancora di chiedere i font,
+       tre round-trip in fila. Con preconnect ne resta uno. #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Outfit:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap">
+
     <title>{% block title %}{{ page.header.seo_title ?? page.title }} | Valentina Russo{% endblock %}</title>
     <meta name="description" content="{{ page.header.seo_desc ?? page.header.description ?? 'Consulente BG5® e Human Design per carriera, relazioni e amor proprio.' }}">
     <link rel="canonical" href="{{ page.url(true) }}">

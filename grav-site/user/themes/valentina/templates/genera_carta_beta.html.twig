@@ -898,7 +898,22 @@
 {# ── SEO Content Block ── #}
 {% include 'partials/seo-calcolatore.html.twig' %}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
+<script>
+/* html2pdf (187 KB) caricato solo quando l'utente chiede il PDF.
+   Prima era uno <script src> bloccante scaricato da tutti al load. */
+window.ensureHtml2Pdf = function () {
+  if (window.html2pdf) return Promise.resolve();
+  if (window.__h2pLoading) return window.__h2pLoading;
+  window.__h2pLoading = new Promise(function (resolve, reject) {
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js';
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+  return window.__h2pLoading;
+};
+</script>
 <script src="/user/themes/valentina/js/swe-hd.js"></script>
 <script>
 
@@ -1360,7 +1375,7 @@ async function scaricaPDF(){
   el.style.cssText='display:block;width:190mm;max-height:277mm;overflow:hidden;background:#fff;padding:5mm 8mm;box-sizing:border-box;margin:0 auto';
   window.scrollTo(0,0);await new Promise(r=>setTimeout(r,500));
   const nome=(document.getElementById('cs-nome')?.value||'carta-hd').trim();
-  try{await html2pdf().set({margin:0,filename:(nome?nome.replace(/\s+/g,'-').toLowerCase():'carta-hd')+'-human-design.pdf',image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,logging:false,backgroundColor:'#ffffff',scrollY:0,y:0},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:'avoid-all'}}).from(el).save();}catch(e){window.print();}
+  try{await window.ensureHtml2Pdf();await html2pdf().set({margin:0,filename:(nome?nome.replace(/\s+/g,'-').toLowerCase():'carta-hd')+'-human-design.pdf',image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,logging:false,backgroundColor:'#ffffff',scrollY:0,y:0},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:'avoid-all'}}).from(el).save();}catch(e){window.print();}
   el.style.cssText='display:none';
   document.querySelectorAll('header,footer,nav,#carta-calculator,.carta-form-card,.gcb-connect-cta,#gcb-zone-2,.gcb-progress,#gcb-extra-actions').forEach(e=>e.style.display='');
   if(btn){btn.disabled=false;btn.textContent='Scarica PDF';}
