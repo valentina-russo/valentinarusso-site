@@ -673,10 +673,19 @@ window.ensureHtml2Pdf = function () {
   if (window.html2pdf) return Promise.resolve();
   if (window.__h2pLoading) return window.__h2pLoading;
   window.__h2pLoading = new Promise(function (resolve, reject) {
+    /* Il bundle e' UMD: se trova window.module/window.exports (li definisce
+       swe-hd.js) si registra li' invece che su window.html2pdf. Prima non
+       succedeva solo perche' questo script stava per primo nella pagina.
+       Li nascondo per la durata del caricamento e li rimetto subito dopo. */
+    var savedModule = window.module, savedExports = window.exports;
+    try { window.module = undefined; window.exports = undefined; } catch (err) {}
+    var restore = function () {
+      try { window.module = savedModule; window.exports = savedExports; } catch (err) {}
+    };
     var s = document.createElement('script');
     s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js';
-    s.onload = resolve;
-    s.onerror = reject;
+    s.onload = function () { restore(); resolve(); };
+    s.onerror = function (err) { restore(); reject(err); };
     document.head.appendChild(s);
   });
   return window.__h2pLoading;
