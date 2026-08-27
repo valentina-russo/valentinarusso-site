@@ -30,7 +30,7 @@ Generare la carta Human Design su un sito gratuito richiede due minuti. Poi arri
 
 La maggior parte dei siti si ferma lì.
 
-Il problema è che tra "sei una Guida (Proiettore)" e capire come questo si traduce nella tua settimana lavorativa, nelle decisioni che prendi, nelle giornate in cui arrivi a sera completamente svuotata, c'è un salto che nessun generatore di grafici fa per te.
+Il problema è che tra "sei un Proiettore (Guida in BG5)" e capire come questo si traduce nella tua settimana lavorativa, nelle decisioni che prendi, nelle giornate in cui arrivi a sera completamente svuotata, c'è un salto che nessun generatore di grafici fa per te.
 
 Il Libretto d'Istruzioni Human Design è stato scritto per fare quel salto.
 
