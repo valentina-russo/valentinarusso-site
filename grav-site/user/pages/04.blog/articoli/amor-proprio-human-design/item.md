@@ -31,7 +31,7 @@ faq:
         answer: "Ra Uru Hu indicava sette anni come il tempo biologico per un decondizionamento profondo, corrispondente al ciclo cellulare completo. Nella pratica, molti clienti notano chiarezza nelle decisioni già dopo pochi mesi di lavoro con la propria Strategia e Autorità Decisionale. Il processo alterna fasi di lucidità e fasi di confusione."
     -
         question: "Come BG5 e Human Design aiutano l'autostima?"
-        answer: "BG5 sposta il problema: da 'devo convincermi di valere' a 'voglio capire come funziono'. Quando riconosci che la tua energia ha un funzionamento specifico e valido, smetti di giudicarti per non essere come gli altri. Una Guida non ha l'energia costante di un Costruttore Classico, e non deve averla. Rispettare questa differenza è il primo passo concreto verso l'autostima."
+        answer: "BG5 sposta il problema: da 'devo convincermi di valere' a 'voglio capire come funziono'. Quando riconosci che la tua energia ha un funzionamento specifico e valido, smetti di giudicarti per non essere come gli altri. Un Proiettore (Guida in BG5) non ha l'energia costante di un Generatore Puro (Costruttore Classico in BG5), e non deve averla. Rispettare questa differenza è il primo passo concreto verso l'autostima."
     -
         question: "Da dove si inizia con amor proprio e BG5?"
         answer: "Si inizia con una Panoramica BG5 del Disegno di Carriera, che mappa la tua meccanica: Tipo di Carriera, Autorità Decisionale, Profilo e centri. Da lì, i due punti di partenza sono la Strategia (il modo in cui il tuo Tipo interagisce senza forzare) e l'Autorità Decisionale (il tuo sistema interno di decisione). Ogni volta che segui l'Autorità invece della mente, pratichi rispetto verso te stesso nella forma più concreta."
@@ -67,15 +67,15 @@ La **Strategia** in BG5 descrive il modo in cui il tuo Tipo di Carriera interagi
 
 Un **Costruttore Classico** (Generatore Puro in Human Design) ha la **Risorsa Energetica** (Sacrale in Human Design) definita: un motore costante che si accende quando qualcosa lo attira. La sua Strategia è rispondere. Aspettare che la vita porti qualcosa davanti, sentire la risposta del corpo e poi muoversi. Quando un Costruttore Classico forza, quando inizia senza aspettare la risposta del Sacrale, sta ignorando la sua natura. Sta dicendo al proprio corpo: "so meglio di te."
 
-Una **Guida** (Proiettore in Human Design) non ha la Risorsa Energetica definita. Vede come funzionano i sistemi e le persone meglio di chiunque altro, ma la sua energia non è progettata per spingere. La sua Strategia è aspettare l'invito: il riconoscimento da parte degli altri che apre lo spazio per il suo contributo. Quando una Guida offre la sua visione senza che nessuno l'abbia chiesta, il messaggio che si dà è: "il mio valore deve essere imposto, altrimenti non esiste."
+Un **Proiettore** (Guida in BG5) non ha la Risorsa Energetica definita. Vede come funzionano i sistemi e le persone meglio di chiunque altro, ma la sua energia non è progettata per spingere. La sua Strategia è aspettare l'invito: il riconoscimento da parte degli altri che apre lo spazio per il suo contributo. Quando un Proiettore offre la sua visione senza che nessuno l'abbia chiesta, il messaggio che si dà è: "il mio valore deve essere imposto, altrimenti non esiste."
 
-Un **Iniziatore** (Manifestatore in Human Design) ha bisogno di informare prima di agire. Quando agisce senza informare, incontra resistenza. E quella resistenza, col tempo, diventa la conferma interna che il mondo è ostile, che deve fare tutto da solo.
+Un **Manifestatore** (Iniziatore in BG5) ha bisogno di informare prima di agire. Quando agisce senza informare, incontra resistenza. E quella resistenza, col tempo, diventa la conferma interna che il mondo è ostile, che deve fare tutto da solo.
 
 In ognuno di questi casi, andare contro la propria Strategia è un atto quotidiano contro sé stessi. È piccolo, silenzioso, ripetuto. E dopo anni di questo schema, quando qualcuno ti chiede "ti vuoi bene?", la risposta onesta è: non lo so più.
 
 ## Perché la mente non è mai la tua Autorità Decisionale?
 
-L'**Autorità Decisionale** (Autorità Interiore in Human Design) è il sistema che il tuo corpo usa per prendere decisioni corrette. Per alcuni è la risposta viscerale della Risorsa Energetica. Per altri è l'onda emotiva dell'Intelligenza Emotiva (il Plesso Solare), che richiede di aspettare prima di decidere. Per altri ancora è l'istinto della Milza, immediato e preciso.
+L'**Autorità Decisionale** (Autorità Interna in Human Design) è il sistema che il tuo corpo usa per prendere decisioni corrette. Per alcuni è la risposta viscerale della Risorsa Energetica. Per altri è l'onda emotiva dell'Intelligenza Emotiva (il Plesso Solare), che richiede di aspettare prima di decidere. Per altri ancora è l'istinto della Milza, immediato e preciso.
 
 La mente non è l'Autorità Decisionale di nessuno. Zero eccezioni.
 
