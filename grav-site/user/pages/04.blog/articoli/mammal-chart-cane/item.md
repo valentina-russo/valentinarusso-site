@@ -59,7 +59,3 @@ Come nell'uomo, ogni porta attivata ha una Linea (da 1 a 6), ma il significato c
 Gli stessi tre dati richiesti per qualunque carta del sistema Human Design/Rave: **data, ora e luogo di nascita**. Cambia solo la matrice applicata a questi dati (le 15 porte mammifere invece delle 64 umane) e l'offset del calcolo Design (6 giorni lunari invece di 88 giorni solari).
 
 Se non conosci l'ora o la data di nascita esatta del tuo cane (comune per animali adottati), il calcolo resta possibile, ma alcuni elementi, soprattutto le Linee attive, potrebbero non essere accurati.
-
-## Stato di questo contenuto
-
-Le informazioni sopra sono tratte dal materiale originale *The Mammalian Design System* di Ra Uru Hu (Rave Life Sciences, 2002). Il calcolatore interattivo per generare la Mammal Chart del tuo cane è **in sviluppo**: la matrice a 15 porte richiede una logica di calcolo diversa da quella della carta umana, non è un semplice riutilizzo del motore esistente.
