@@ -3,12 +3,10 @@ declare(strict_types=1);
 require_once __DIR__ . '/../lib.php';
 
 $admin = corsoRequireAdmin();
-$courseId = (int)($_GET['course_id'] ?? $_POST['course_id'] ?? 0);
-
-$stmt = hdDb()->prepare('SELECT id, title FROM courses WHERE id = ?');
-$stmt->execute([$courseId]);
-$course = $stmt->fetch();
-if (!$course) { http_response_code(404); exit('Corso non trovato.'); }
+$cohortId = (int)($_GET['cohort_id'] ?? $_POST['cohort_id'] ?? 0);
+$classe = corsoCohort($cohortId);
+if (!$classe) { http_response_code(404); exit('Classe non trovata.'); }
+$courseId = (int)$classe['course_id'];
 
 $error = '';
 $generatedPassword = '';
@@ -43,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $userId = (int)hdDb()->lastInsertId();
                 }
 
-                $stmt = hdDb()->prepare('INSERT IGNORE INTO course_enrollments (user_id, course_id) VALUES (?, ?)');
-                $stmt->execute([$userId, $courseId]);
+                $stmt = hdDb()->prepare('INSERT IGNORE INTO course_enrollments (user_id, course_id, cohort_id) VALUES (?, ?, ?)');
+                $stmt->execute([$userId, $courseId, $cohortId]);
                 $enrolledEmail = $email;
             } catch (PDOException $e) {
                 // SEC-CORSO-003: mai esporre il messaggio DB grezzo
@@ -54,12 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-corsoHtmlHead('Iscrivi corsista');
+corsoHtmlHead('Iscrivi allieva');
 corsoNav($admin, true, 'corsi');
 ?>
 <div class="wrap" style="max-width:560px">
-    <p class="eyebrow"><a href="index.php" style="color:inherit;text-decoration:none">&larr; <?= htmlspecialchars($course['title']) ?></a></p>
-    <h1 class="page">Iscrivi una corsista</h1>
+    <p class="eyebrow"><a href="classe.php?id=<?= $cohortId ?>" style="color:inherit;text-decoration:none">&larr; <?= htmlspecialchars($classe['course_title'] . ' · ' . $classe['name']) ?></a></p>
+    <h1 class="page">Iscrivi un'allieva</h1>
 
     <?php if ($error): ?><div class="msg err"><?= htmlspecialchars($error) ?></div><?php endif; ?>
 
@@ -72,24 +70,24 @@ corsoNav($admin, true, 'corsi');
         </div>
     <?php elseif ($enrolledEmail && $wasExisting): ?>
         <div class="msg ok">
-            <?= htmlspecialchars($enrolledEmail) ?> è ora iscritta a questo corso.
+            <?= htmlspecialchars($enrolledEmail) ?> è ora iscritta a questa classe.
             Aveva già un account, quindi entra con la password che usa di solito.
-            Se l'ha persa, puoi generarne una nuova dalla <a href="index.php">pagina dei corsi</a>.
+            Se l'ha persa, puoi generarne una nuova dalla <a href="classe.php?id=<?= (int)$cohortId ?>">pagina della classe</a>.
         </div>
     <?php endif; ?>
 
     <div class="card">
         <form method="post">
             <?= corsoCsrfField('iscrivi') ?>
-            <input type="hidden" name="course_id" value="<?= (int)$courseId ?>">
+            <input type="hidden" name="cohort_id" value="<?= (int)$cohortId ?>">
 
-            <label for="email">Email della corsista</label>
+            <label for="email">Email dell'allieva</label>
             <input type="email" id="email" name="email" required autofocus>
 
             <label for="name">Nome</label>
             <input type="text" id="name" name="name" placeholder="Come vuoi che appaia nel forum">
 
-            <button type="submit" class="btn">Iscrivi al corso</button>
+            <button type="submit" class="btn">Iscrivi alla classe</button>
         </form>
     </div>
 </div>

@@ -14,7 +14,7 @@ if (!in_array($type, ['slide', 'exercise'], true)) {
     exit('Richiesta non valida.');
 }
 
-$stmt = hdDb()->prepare('SELECT course_id, pdf_slide_path, pdf_exercise_path FROM lessons WHERE id = ? AND deleted_at IS NULL');
+$stmt = hdDb()->prepare('SELECT cohort_id, pdf_slide_path, pdf_exercise_path FROM lessons WHERE id = ? AND deleted_at IS NULL');
 $stmt->execute([$lessonId]);
 $lesson = $stmt->fetch();
 
@@ -23,7 +23,7 @@ if (!$lesson) {
     exit('Non trovato.');
 }
 
-corsoRequireEnrollment((int)$user['id'], (int)$lesson['course_id']);
+corsoRequireEnrollment((int)$user['id'], (int)$lesson['cohort_id']);
 
 $path = $type === 'slide' ? $lesson['pdf_slide_path'] : $lesson['pdf_exercise_path'];
 if (!$path || !file_exists($path)) {

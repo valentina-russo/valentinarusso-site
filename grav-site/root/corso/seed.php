@@ -119,6 +119,7 @@ try {
             $pdo->prepare("DELETE p FROM forum_posts p JOIN lessons l ON l.id = p.lesson_id WHERE l.course_id IN ($cin)")->execute($courseIds);
             $pdo->prepare("DELETE FROM lessons WHERE course_id IN ($cin)")->execute($courseIds);
             $pdo->prepare("DELETE FROM course_enrollments WHERE course_id IN ($cin)")->execute($courseIds);
+            $pdo->prepare("DELETE FROM cohorts WHERE course_id IN ($cin)")->execute($courseIds);
             $pdo->prepare("DELETE FROM courses WHERE id IN ($cin)")->execute($courseIds);
         }
         $pdo->exec("DELETE FROM hd_users WHERE email LIKE '%@demo.local'");
@@ -147,7 +148,7 @@ try {
     }
     $log[] = count($studentIds) . ' corsiste demo pronte (password: demo2026)';
 
-    // ── Corsi + classi ──────────────────────────────────────────────────────
+    // ── Corsi, classi (coorti), lezioni ─────────────────────────────────────
     $lessonRefs = [];
     foreach ($COURSES as $ci => $c) {
         $s = $pdo->prepare('SELECT id FROM courses WHERE slug = ?');
@@ -160,28 +161,45 @@ try {
             $courseId = (int)$pdo->lastInsertId();
         }
 
-        foreach ($c['lessons'] as $li => $lTitle) {
-            $pos = $li + 1;
-            $s = $pdo->prepare('SELECT id FROM lessons WHERE course_id = ? AND position = ?');
-            $s->execute([$courseId, $pos]);
-            if ($s->fetch()) continue;
+        // il primo corso ha 3 classi (il caso "pieno"), gli altri 1
+        $nClassi = $ci === 0 ? 3 : 1;
+        for ($k = 1; $k <= $nClassi; $k++) {
+            $s = $pdo->prepare('SELECT id FROM cohorts WHERE course_id = ? AND position = ?');
+            $s->execute([$courseId, $k]);
+            $r = $s->fetch();
+            if ($r) {
+                $cohortId = (int)$r['id'];
+            } else {
+                $pdo->prepare('INSERT INTO cohorts (course_id, name, position) VALUES (?,?,?)')
+                    ->execute([$courseId, 'Classe ' . $k, $k]);
+                $cohortId = (int)$pdo->lastInsertId();
+            }
 
-            // le prime classi hanno la registrazione, le ultime "in arrivo"
-            $hasVideo = $li < max(2, count($c['lessons']) - 3);
-            $guid = $hasVideo ? $V[($ci + $li) % 4] : null;
+            foreach ($c['lessons'] as $li => $lTitle) {
+                $pos = $li + 1;
+                $s = $pdo->prepare('SELECT id FROM lessons WHERE cohort_id = ? AND position = ?');
+                $s->execute([$cohortId, $pos]);
+                if ($s->fetch()) continue;
 
-            $pdo->prepare('INSERT INTO lessons (course_id, position, title, bunny_video_id) VALUES (?,?,?,?)')
-                ->execute([$courseId, $pos, $lTitle, $guid]);
-            $lessonRefs[] = ['id' => (int)$pdo->lastInsertId(), 'course' => $ci, 'pos' => $pos];
+                // le classi piu avanti nel tempo hanno meno registrazioni caricate
+                $limite = max(2, count($c['lessons']) - 2 * $k);
+                $guid = $li < $limite ? $V[($ci + $li + $k) % 4] : null;
+
+                $pdo->prepare('INSERT INTO lessons (course_id, cohort_id, position, title, bunny_video_id) VALUES (?,?,?,?,?)')
+                    ->execute([$courseId, $cohortId, $pos, $lTitle, $guid]);
+                if ($k === 1) $lessonRefs[] = ['id' => (int)$pdo->lastInsertId()];
+            }
+
+            // allieve diverse in classi diverse
+            $slice = $k === 1 ? array_slice($studentIds, 0, 3)
+                   : ($k === 2 ? array_slice($studentIds, 3) : array_slice($studentIds, 1, 2));
+            if ($ci > 0) $slice = array_slice($studentIds, 0, max(2, count($studentIds) - $ci));
+            foreach ($slice as $sid) {
+                $pdo->prepare('INSERT IGNORE INTO course_enrollments (user_id, course_id, cohort_id) VALUES (?,?,?)')
+                    ->execute([$sid, $courseId, $cohortId]);
+            }
         }
-        $log[] = 'Corso "' . $c['title'] . '" pronto';
-
-        // iscrive le corsiste: tutte al semestre 1, a scalare sugli altri
-        $enrolled = array_slice($studentIds, 0, max(2, count($studentIds) - $ci));
-        foreach ($enrolled as $sid) {
-            $pdo->prepare('INSERT IGNORE INTO course_enrollments (user_id, course_id) VALUES (?,?)')
-                ->execute([$sid, $courseId]);
-        }
+        $log[] = 'Corso "' . $c['title'] . '" pronto con ' . $nClassi . ' ' . ($nClassi === 1 ? 'classe' : 'classi');
     }
 
     // ── Compiti nel forum ───────────────────────────────────────────────────

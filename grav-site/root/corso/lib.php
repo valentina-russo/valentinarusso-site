@@ -39,84 +39,97 @@ function corsoIsAdmin(int $userId): bool {
     return $stmt->fetchColumn() === 'admin';
 }
 
+// ── Classi (coorti) ─────────────────────────────────────────────────────────
+// Una "classe" e un gruppo di allieve che segue lo stesso corso in un dato
+// periodo. Le lezioni e le iscrizioni appartengono alla classe, non al corso.
+
+const CORSO_MAX_CLASSI = 3; // tetto voluto: oltre diventa ingestibile
+
+function corsoCohorts(int $courseId, bool $includeArchived = false): array {
+    $sql = 'SELECT * FROM cohorts WHERE course_id = ?';
+    if (!$includeArchived) $sql .= ' AND archived_at IS NULL';
+    $sql .= ' ORDER BY position ASC, id ASC';
+    $stmt = hdDb()->prepare($sql);
+    $stmt->execute([$courseId]);
+    return $stmt->fetchAll();
+}
+
+function corsoCohort(int $cohortId): ?array {
+    $stmt = hdDb()->prepare('SELECT co.*, c.title AS course_title, c.slug AS course_slug
+                             FROM cohorts co JOIN courses c ON c.id = co.course_id
+                             WHERE co.id = ?');
+    $stmt->execute([$cohortId]);
+    return $stmt->fetch() ?: null;
+}
+
+function corsoCanAddCohort(int $courseId): bool {
+    return count(corsoCohorts($courseId)) < CORSO_MAX_CLASSI;
+}
+
 // ── Iscrizioni (R2, R11) ───────────────────────────────────────────────────
 
-function corsoIsEnrolled(int $userId, int $courseId): bool {
-    $stmt = hdDb()->prepare('SELECT 1 FROM course_enrollments WHERE user_id = ? AND course_id = ?');
-    $stmt->execute([$userId, $courseId]);
+function corsoIsEnrolled(int $userId, int $cohortId): bool {
+    $stmt = hdDb()->prepare('SELECT 1 FROM course_enrollments WHERE user_id = ? AND cohort_id = ?');
+    $stmt->execute([$userId, $cohortId]);
     return (bool)$stmt->fetchColumn();
 }
 
-function corsoRequireEnrollment(int $userId, int $courseId): void {
+function corsoRequireEnrollment(int $userId, int $cohortId): void {
     if (corsoIsAdmin($userId)) return;
-    if (!corsoIsEnrolled($userId, $courseId)) {
+    if (!corsoIsEnrolled($userId, $cohortId)) {
         http_response_code(403);
-        exit('Non sei iscritto a questo corso.');
+        exit('Non sei iscritta a questa classe.');
     }
 }
 
 // ── Compiti in attesa di correzione ─────────────────────────────────────────
-// Un post di uno studente e "in attesa" se dopo di esso non c'e nessun post
-// dell'admin nello stesso thread (= nella stessa classe).
+// Un post di un'allieva e "in attesa" se dopo di esso non c'e nessun post
+// dell'admin nello stesso thread (= nella stessa lezione).
 
-function corsoPendingHomework(?int $limit = null): array {
+function corsoPendingHomework(?int $cohortId = null): array {
     $sql = 'SELECT p.id, p.lesson_id, p.body, p.created_at,
                    u.name AS student_name, u.email AS student_email,
                    l.title AS lesson_title, l.position AS lesson_position,
-                   c.title AS course_title
+                   c.title AS course_title, co.name AS cohort_name, co.id AS cohort_id
             FROM forum_posts p
             JOIN hd_users u ON u.id = p.user_id
             JOIN lessons  l ON l.id = p.lesson_id
-            JOIN courses  c ON c.id = l.course_id
-            WHERE u.role = \'student\'
+            JOIN cohorts co ON co.id = l.cohort_id
+            JOIN courses  c ON c.id = co.course_id
+            WHERE u.role = ?
               AND l.deleted_at IS NULL
               AND NOT EXISTS (
                   SELECT 1 FROM forum_posts r
                   JOIN hd_users ru ON ru.id = r.user_id
                   WHERE r.lesson_id = p.lesson_id
-                    AND ru.role = \'admin\'
+                    AND ru.role = ?
                     AND r.created_at > p.created_at
-              )
-            ORDER BY p.created_at ASC';
-    if ($limit !== null) $sql .= ' LIMIT ' . (int)$limit;
-    return hdDb()->query($sql)->fetchAll();
+              )';
+    $params = ['student', 'admin'];
+    if ($cohortId !== null) { $sql .= ' AND co.id = ?'; $params[] = $cohortId; }
+    $sql .= ' ORDER BY p.created_at ASC';
+    $stmt = hdDb()->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchAll();
 }
 
-function corsoPendingCount(): int {
-    $stmt = hdDb()->query(
-        'SELECT COUNT(*) FROM forum_posts p
-         JOIN hd_users u ON u.id = p.user_id
-         JOIN lessons  l ON l.id = p.lesson_id
-         WHERE u.role = \'student\' AND l.deleted_at IS NULL
-           AND NOT EXISTS (
-               SELECT 1 FROM forum_posts r
-               JOIN hd_users ru ON ru.id = r.user_id
-               WHERE r.lesson_id = p.lesson_id AND ru.role = \'admin\'
-                 AND r.created_at > p.created_at
-           )'
-    );
+function corsoPendingCount(?int $cohortId = null): int {
+    $sql = 'SELECT COUNT(*) FROM forum_posts p
+            JOIN hd_users u ON u.id = p.user_id
+            JOIN lessons  l ON l.id = p.lesson_id
+            JOIN cohorts co ON co.id = l.cohort_id
+            WHERE u.role = ? AND l.deleted_at IS NULL
+              AND NOT EXISTS (
+                  SELECT 1 FROM forum_posts r
+                  JOIN hd_users ru ON ru.id = r.user_id
+                  WHERE r.lesson_id = p.lesson_id AND ru.role = ?
+                    AND r.created_at > p.created_at
+              )';
+    $params = ['student', 'admin'];
+    if ($cohortId !== null) { $sql .= ' AND co.id = ?'; $params[] = $cohortId; }
+    $stmt = hdDb()->prepare($sql);
+    $stmt->execute($params);
     return (int)$stmt->fetchColumn();
-}
-
-// Tempo relativo: "4 giorni fa" si legge piu in fretta di una data assoluta
-function corsoRelativeTime(string $datetime): string {
-    $diff = time() - strtotime($datetime);
-    if ($diff < 90)     return 'poco fa';
-    if ($diff < 3600)   return 'circa ' . max(1, (int)round($diff / 60)) . ' minuti fa';
-    if ($diff < 86400)  { $h = (int)round($diff / 3600); return $h === 1 ? 'un\'ora fa' : "$h ore fa"; }
-    $d = (int)floor($diff / 86400);
-    if ($d === 1)  return 'ieri';
-    if ($d < 30)   return "$d giorni fa";
-    $m = (int)floor($d / 30);
-    return $m === 1 ? 'un mese fa' : "$m mesi fa";
-}
-
-// Urgenza per il bordo colorato della card (leggibile con la coda dell'occhio)
-function corsoUrgency(string $datetime): string {
-    $days = (time() - strtotime($datetime)) / 86400;
-    if ($days > 5) return 'alta';
-    if ($days > 2) return 'media';
-    return 'nuova';
 }
 
 // ── Bunny Stream — upload + URL firmati (R14, R21, R22) ────────────────────

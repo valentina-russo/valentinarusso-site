@@ -7,7 +7,10 @@ $isAdmin = corsoIsAdmin((int)$user['id']);
 $lessonId = (int)($_GET['id'] ?? 0);
 
 $stmt = hdDb()->prepare('SELECT l.*, c.title AS course_title, c.slug AS course_slug
-    FROM lessons l JOIN courses c ON c.id = l.course_id
+    , co.name AS cohort_name, co.id AS cohort_id
+    FROM lessons l
+    JOIN cohorts co ON co.id = l.cohort_id
+    JOIN courses c ON c.id = co.course_id
     WHERE l.id = ? AND l.deleted_at IS NULL');
 $stmt->execute([$lessonId]);
 $lesson = $stmt->fetch();
@@ -22,7 +25,7 @@ if (!$lesson) {
 }
 
 // R11: controllo server-side anche indovinando l'id della classe
-corsoRequireEnrollment((int)$user['id'], (int)$lesson['course_id']);
+corsoRequireEnrollment((int)$user['id'], (int)$lesson['cohort_id']);
 
 $postError = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -54,8 +57,8 @@ corsoHtmlHead($lesson['title']);
 corsoNav($user, $isAdmin, 'corsi');
 ?>
 <div class="wrap">
-    <p class="eyebrow"><a href="corso.php?slug=<?= urlencode($lesson['course_slug']) ?>" style="color:inherit;text-decoration:none">&larr; <?= htmlspecialchars($lesson['course_title']) ?></a></p>
-    <h1 class="page">Classe <?= (int)$lesson['position'] ?> &middot; <?= htmlspecialchars($lesson['title']) ?></h1>
+    <p class="eyebrow"><a href="classe.php?id=<?= (int)$lesson['cohort_id'] ?>" style="color:inherit;text-decoration:none">&larr; <?= htmlspecialchars($lesson['course_title']) ?></a></p>
+    <h1 class="page">Lezione <?= (int)$lesson['position'] ?> &middot; <?= htmlspecialchars($lesson['title']) ?></h1>
 
     <?php if ($lesson['bunny_video_id']): ?>
         <iframe class="video" src="<?= htmlspecialchars(bunnySignedEmbedUrl($lesson['bunny_video_id'])) ?>"
