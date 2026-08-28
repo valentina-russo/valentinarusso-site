@@ -41,7 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             hdDb()->prepare('INSERT INTO forum_posts (lesson_id, cohort_id, parent_id, title, user_id, body) VALUES (?,?,NULL,?,?,?)')
                   ->execute([$lessonId, (int)$lesson['cohort_id'], $title, $user['id'], trim($body)]);
-            header('Location: discussione.php?id=' . (int)hdDb()->lastInsertId() . '&inviato=1');
+            $newId = (int)hdDb()->lastInsertId();
+            corsoSaveAttachments($newId, 'allegati', __DIR__ . '/private-uploads');
+            header('Location: discussione.php?id=' . $newId . '&inviato=1');
             exit;
         }
     }
@@ -117,13 +119,15 @@ corsoNav($user, $isAdmin, 'corsi');
         <?php if (!$threads): ?>
             <p class="meta">Nessun messaggio su questa lezione. Consegna qui il tuo compito, oppure fai una domanda.</p>
         <?php endif; ?>
-        <form method="post" style="margin-top:1rem">
+        <form method="post" enctype="multipart/form-data" style="margin-top:1rem">
             <?= corsoCsrfField('forum-post') ?>
             <label for="title">Titolo</label>
             <input type="text" id="title" name="title" maxlength="180"
                    placeholder="Compito · Lezione <?= (int)$lesson['position'] ?>">
             <label for="body"><?= $isAdmin ? 'Scrivi' : 'Il tuo compito, o la tua domanda' ?></label>
             <textarea id="body" name="body" rows="5" maxlength="10000" required></textarea>
+            <label for="allegati">Allegati</label>
+            <input type="file" id="allegati" name="allegati[]" multiple accept="application/pdf,image/jpeg,image/png,image/webp">
             <button type="submit" class="btn">Pubblica</button>
         </form>
     </div>

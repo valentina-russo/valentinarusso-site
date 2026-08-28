@@ -97,15 +97,44 @@ function corsoVisibleCohortIds(array $user, bool $isAdmin): array {
     return array_column($stmt->fetchAll(), 'id');
 }
 
-function corsoThreads(array $cohortIds, ?int $cohortFilter = null, int $limit = 60): array {
+function corsoThreads(array $cohortIds, array $opt = []): array {
     if (empty($cohortIds)) return [];
+    $cohortFilter = $opt['cohort'] ?? null;
+    $scope        = $opt['scope']  ?? 'all';   // all | mine | joined
+    $q            = trim((string)($opt['q'] ?? ''));
+    $limit        = (int)($opt['limit'] ?? 15);
+    $offset       = (int)($opt['offset'] ?? 0);
+    $userId       = (int)($opt['user_id'] ?? 0);
+
     if ($cohortFilter !== null) {
-        if (!in_array($cohortFilter, array_map('intval', $cohortIds), true)) return [];
-        $cohortIds = [$cohortFilter];
+        if (!in_array((int)$cohortFilter, array_map('intval', $cohortIds), true)) return [];
+        $cohortIds = [(int)$cohortFilter];
     }
     $in = implode(',', array_fill(0, count($cohortIds), '?'));
-    $sql = "SELECT p.id, p.title, p.body, p.created_at, p.lesson_id,
-                   u.name AS author_name, u.email AS author_email, u.role AS author_role,
+    $params = $cohortIds;
+
+    $where = ["p.parent_id IS NULL", "p.cohort_id IN ($in)"];
+
+    if ($scope === 'mine' && $userId) {
+        $where[] = 'p.user_id = ?';
+        $params[] = $userId;
+    } elseif ($scope === 'joined' && $userId) {
+        // discussioni in cui ho scritto: come autrice o rispondendo
+        $where[] = '(p.user_id = ? OR EXISTS(SELECT 1 FROM forum_posts rp WHERE rp.parent_id = p.id AND rp.user_id = ?))';
+        $params[] = $userId; $params[] = $userId;
+    }
+
+    if ($q !== '') {
+        // cerca nel titolo, nel testo, nelle risposte e in chi ha scritto
+        $where[] = "(p.title LIKE ? OR p.body LIKE ? OR u.name LIKE ? OR u.email LIKE ?
+                     OR EXISTS(SELECT 1 FROM forum_posts rq JOIN hd_users uq ON uq.id = rq.user_id
+                               WHERE rq.parent_id = p.id AND (rq.body LIKE ? OR uq.name LIKE ?)))";
+        $like = '%' . $q . '%';
+        array_push($params, $like, $like, $like, $like, $like, $like);
+    }
+
+    $sql = "SELECT p.id, p.title, p.body, p.created_at, p.lesson_id, p.pinned,
+                   u.id AS author_id, u.name AS author_name, u.email AS author_email, u.role AS author_role,
                    l.position AS lesson_position, co.name AS cohort_name, c.title AS course_title,
                    (SELECT COUNT(*) FROM forum_posts r WHERE r.parent_id = p.id) AS replies,
                    EXISTS(SELECT 1 FROM forum_posts ra JOIN hd_users ua ON ua.id = ra.user_id
@@ -116,11 +145,132 @@ function corsoThreads(array $cohortIds, ?int $cohortFilter = null, int $limit = 
             JOIN cohorts co ON co.id = p.cohort_id
             JOIN courses c ON c.id = co.course_id
             LEFT JOIN lessons l ON l.id = p.lesson_id
-            WHERE p.parent_id IS NULL AND p.cohort_id IN ($in)
-            ORDER BY last_activity DESC LIMIT " . (int)$limit;
+            WHERE " . implode(' AND ', $where) . "
+            ORDER BY p.pinned DESC, last_activity DESC
+            LIMIT " . (int)$limit . " OFFSET " . (int)$offset;
     $stmt = hdDb()->prepare($sql);
-    $stmt->execute($cohortIds);
+    $stmt->execute($params);
     return $stmt->fetchAll();
+}
+
+// L'ultima risposta di una discussione, come su Esmerise sotto il post
+function corsoLastReplies(array $threadIds): array {
+    if (empty($threadIds)) return [];
+    $in = implode(',', array_fill(0, count($threadIds), '?'));
+    $stmt = hdDb()->prepare("SELECT r.parent_id, r.body, r.created_at, u.name, u.email, u.role
+                             FROM forum_posts r JOIN hd_users u ON u.id = r.user_id
+                             WHERE r.parent_id IN ($in)
+                               AND r.id = (SELECT MAX(r2.id) FROM forum_posts r2 WHERE r2.parent_id = r.parent_id)");
+    $stmt->execute($threadIds);
+    $out = [];
+    foreach ($stmt->fetchAll() as $r) $out[(int)$r['parent_id']] = $r;
+    return $out;
+}
+
+// ── Allegati ────────────────────────────────────────────────────────────────
+
+function corsoAllegatiMime(): array {
+    return ['application/pdf' => 'pdf', 'image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp'];
+}
+
+function corsoAttachments(array $postIds): array {
+    if (empty($postIds)) return [];
+    $in = implode(',', array_fill(0, count($postIds), '?'));
+    $stmt = hdDb()->prepare("SELECT * FROM forum_attachments WHERE post_id IN ($in) ORDER BY id");
+    $stmt->execute($postIds);
+    $out = [];
+    foreach ($stmt->fetchAll() as $a) $out[(int)$a['post_id']][] = $a;
+    return $out;
+}
+
+function corsoIsImage(string $mime): bool {
+    return strncmp($mime, 'image/', 6) === 0;
+}
+
+// Salva gli allegati di un post. Stessa validazione dei PDF delle lezioni:
+// tipo reale + firma del file, mai l'estensione dichiarata dal browser.
+function corsoSaveAttachments(int $postId, string $field, string $destDir): int {
+    if (empty($_FILES[$field]) || !is_array($_FILES[$field]['name'])) return 0;
+    $allowed = corsoAllegatiMime();
+    $saved = 0;
+    foreach ($_FILES[$field]['name'] as $i => $origName) {
+        if (($_FILES[$field]['error'][$i] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) continue;
+        $tmp   = $_FILES[$field]['tmp_name'][$i];
+        $bytes = (int)$_FILES[$field]['size'][$i];
+        if ($bytes > 20 * 1024 * 1024) continue;
+
+        $mime = mime_content_type($tmp);
+        if (!isset($allowed[$mime])) continue;
+
+        $fh = fopen($tmp, 'rb'); $magic = fread($fh, 12); fclose($fh);
+        $okMagic = false;
+        if ($mime === 'application/pdf') $okMagic = strncmp($magic, '%PDF-', 5) === 0;
+        elseif ($mime === 'image/jpeg')  $okMagic = strncmp($magic, "\xFF\xD8\xFF", 3) === 0;
+        elseif ($mime === 'image/png')   $okMagic = strncmp($magic, "\x89PNG\r\n\x1a\n", 8) === 0;
+        elseif ($mime === 'image/webp')  $okMagic = strncmp($magic, 'RIFF', 4) === 0 && substr($magic, 8, 4) === 'WEBP';
+        if (!$okMagic) continue;
+
+        if (!is_dir($destDir)) mkdir($destDir, 0750, true);
+        // nome sempre generato dal server, mai quello del client
+        $safe = 'post' . $postId . '-' . bin2hex(random_bytes(6)) . '.' . $allowed[$mime];
+        $dest = $destDir . '/' . $safe;
+        if (!move_uploaded_file($tmp, $dest)) continue;
+
+        hdDb()->prepare('INSERT INTO forum_attachments (post_id, path, orig_name, mime, bytes) VALUES (?,?,?,?,?)')
+              ->execute([$postId, $dest, mb_substr($origName, 0, 180), $mime, $bytes]);
+        $saved++;
+    }
+    return $saved;
+}
+
+// ── Reazioni ────────────────────────────────────────────────────────────────
+
+function corsoEmoji(): array {
+    return ['&#10084;&#65039;', '&#128591;', '&#128079;', '&#128161;', '&#129300;'];
+}
+
+function corsoReactions(array $postIds, int $userId): array {
+    if (empty($postIds)) return [];
+    $in = implode(',', array_fill(0, count($postIds), '?'));
+    $stmt = hdDb()->prepare("SELECT post_id, emoji, COUNT(*) AS n, SUM(user_id = ?) AS mine
+                             FROM forum_reactions WHERE post_id IN ($in)
+                             GROUP BY post_id, emoji ORDER BY n DESC");
+    $stmt->execute(array_merge([$userId], $postIds));
+    $out = [];
+    foreach ($stmt->fetchAll() as $r) $out[(int)$r['post_id']][] = $r;
+    return $out;
+}
+
+function corsoToggleReaction(int $postId, int $userId, string $emoji): void {
+    if (!in_array($emoji, corsoEmoji(), true)) return;
+    $del = hdDb()->prepare('DELETE FROM forum_reactions WHERE post_id = ? AND user_id = ? AND emoji = ?');
+    $del->execute([$postId, $userId, $emoji]);
+    if ($del->rowCount() === 0) {
+        hdDb()->prepare('INSERT IGNORE INTO forum_reactions (post_id, user_id, emoji) VALUES (?,?,?)')
+              ->execute([$postId, $userId, $emoji]);
+    }
+}
+
+// ── Avatar ──────────────────────────────────────────────────────────────────
+// Iniziali su colore derivato dal nome: riconoscibile senza chiedere una foto.
+function corsoAvatar(?string $name, ?string $email, bool $isAdmin = false, int $size = 40): string {
+    $label = trim((string)($name ?: $email));
+    $parts = preg_split('/[\s._@-]+/', $label, -1, PREG_SPLIT_NO_EMPTY);
+    if (!$parts) $parts = [''];
+    $ini = mb_strtoupper(mb_substr($parts[0], 0, 1) . (count($parts) > 1 ? mb_substr($parts[1], 0, 1) : ''));
+    $hue = crc32(mb_strtolower($label)) % 360;
+    $bg  = $isAdmin ? 'var(--rosa)' : 'hsl(' . $hue . ' 30% 84%)';
+    $fg  = $isAdmin ? '#ffffff' : 'hsl(' . $hue . ' 45% 25%)';
+    return '<span class="avatar" style="width:' . $size . 'px;height:' . $size . 'px;background:' . $bg
+         . ';color:' . $fg . ';font-size:' . round($size * 0.36) . 'px" aria-hidden="true">'
+         . htmlspecialchars($ini) . '</span>';
+}
+
+// Rende cliccabili i link scritti nel testo, dopo l'escape
+function corsoBodyHtml(string $body): string {
+    $safe = htmlspecialchars($body);
+    $safe = preg_replace('~(https?://[^\s<]+)~', '<a href="$1" target="_blank" rel="noopener nofollow">$1</a>', $safe);
+    return nl2br($safe);
 }
 
 function corsoThread(int $id): ?array {
@@ -395,6 +545,61 @@ a.card:hover,a.card:focus-visible{transform:translateY(-2px);box-shadow:var(--sh
 .num{flex-shrink:0;width:44px;height:44px;border-radius:50%;background:var(--crema);
   border:1.5px solid var(--surface);display:flex;align-items:center;justify-content:center;
   font-family:var(--f-head);font-size:1.125rem;font-weight:700;color:var(--rosa)}
+
+/* ── Forum ────────────────────────────────────────────── */
+.avatar{flex-shrink:0;border-radius:50%;display:inline-flex;align-items:center;
+  justify-content:center;font-weight:600;font-family:var(--f-body);line-height:1}
+.chips{display:flex;gap:.4rem;flex-wrap:wrap;margin:0 0 1.1rem}
+.chip{display:inline-flex;align-items:center;gap:.35rem;padding:.42rem .85rem;border-radius:99px;
+  border:1.5px solid var(--surface);background:var(--white);color:var(--navy);
+  font-size:.8125rem;font-weight:600;text-decoration:none;white-space:nowrap;
+  transition:border-color .15s var(--ease),background .15s var(--ease)}
+.chip:hover{border-color:var(--rosa)}
+.chip.on{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.chip .n{opacity:.75;font-weight:400}
+.searchbar{position:relative;margin:0 0 1.5rem}
+.searchbar input{margin:0;padding-left:2.4rem}
+.searchbar svg{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;color:var(--ink-soft);pointer-events:none}
+
+.pin{display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--oro);margin:0 0 .6rem}
+
+.pcard{display:flex;gap:0;overflow:hidden;padding:0}
+.pcover{flex-shrink:0;width:190px;background:var(--surface);align-self:stretch}
+.pcover img{width:100%;height:100%;object-fit:cover;display:block;min-height:150px}
+.pbody{padding:1.25rem 1.4rem;min-width:0;flex:1}
+.pmeta{display:flex;align-items:center;gap:.6rem;margin:.55rem 0 .8rem}
+.pmeta .who{font-weight:600;color:var(--navy);font-size:.9375rem}
+.pmeta .when{font-size:.8125rem;color:var(--ink-soft)}
+.role{font-size:.6875rem;font-weight:700;letter-spacing:.04em;padding:.15rem .5rem;
+  border-radius:99px;background:var(--rosa);color:#fff;text-transform:uppercase}
+.ptitle{font-family:var(--f-body);font-weight:600;font-size:1.0625rem;color:var(--navy);margin:0 0 .3rem}
+.ptext{margin:0;overflow-wrap:anywhere}
+.ptext a{color:var(--secondary)}
+
+.reacts{display:flex;gap:.35rem;flex-wrap:wrap;align-items:center;margin-top:.9rem}
+.react{display:inline-flex;align-items:center;gap:.3rem;padding:.28rem .6rem;border-radius:99px;
+  border:1.5px solid var(--surface);background:var(--white);cursor:pointer;font-size:.875rem;
+  font-family:inherit;color:var(--ink);line-height:1.4;min-height:32px}
+.react:hover{border-color:var(--rosa)}
+.react.mine{background:rgba(182,131,151,.14);border-color:var(--rosa)}
+.react .n{font-size:.75rem;font-weight:600;color:var(--ink-soft)}
+.react-add{padding:.28rem .55rem;color:var(--ink-soft)}
+
+.replybox{background:var(--crema);border-radius:11px;padding:.9rem 1rem;margin-top:1rem}
+.replybox .more{display:inline-flex;align-items:center;gap:.35rem;font-size:.8125rem;font-weight:600;
+  color:var(--navy);text-decoration:none;background:var(--white);border:1.5px solid var(--surface);
+  border-radius:99px;padding:.25rem .7rem;margin-bottom:.7rem}
+.attach{display:inline-flex;align-items:center;gap:.45rem;padding:.45rem .8rem;border-radius:9px;
+  border:1.5px solid var(--surface);background:var(--white);text-decoration:none;color:var(--navy);
+  font-size:.875rem;font-weight:600;margin:.35rem .35rem 0 0}
+.attach:hover{border-color:var(--rosa)}
+@media(max-width:640px){
+  .pcard{flex-direction:column}
+  .pcover{width:100%;max-height:180px}
+  .pcover img{min-height:0;height:180px}
+}
 
 /* ── Anteprima video ──────────────────────────────────── */
 .thumb{position:relative;flex-shrink:0;width:104px;aspect-ratio:16/9;border-radius:9px;
