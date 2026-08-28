@@ -61,15 +61,26 @@ try {
     }
 
     if (!$hasCol('course_enrollments', 'cohort_id')) {
-        // la vecchia UNIQUE(user,course) impedirebbe di iscrivere la stessa
-        // persona a due classi dello stesso corso
-        try { $pdo->exec('ALTER TABLE course_enrollments DROP INDEX uniq_user_course'); } catch (PDOException $e) {}
         $pdo->exec('ALTER TABLE course_enrollments ADD COLUMN cohort_id INT UNSIGNED NULL AFTER course_id');
-        $pdo->exec('ALTER TABLE course_enrollments ADD UNIQUE KEY uniq_user_cohort (user_id, cohort_id)');
         $log[] = 'course_enrollments.cohort_id aggiunta';
     } else {
         $log[] = 'course_enrollments.cohort_id gia presente';
     }
+
+    // La vecchia UNIQUE(user_id, course_id) impedisce di iscrivere la stessa
+    // persona a due classi DELLO STESSO corso: va sostituita con
+    // UNIQUE(user_id, cohort_id). Verificato sugli indici reali, non assunto.
+    $idx = $pdo->query('SHOW INDEX FROM course_enrollments')->fetchAll();
+    $names = array_unique(array_column($idx, 'Key_name'));
+    if (in_array('uniq_user_course', $names, true)) {
+        $pdo->exec('ALTER TABLE course_enrollments DROP INDEX uniq_user_course');
+        $log[] = 'Vecchio indice uniq_user_course rimosso';
+    }
+    if (!in_array('uniq_user_cohort', $names, true)) {
+        $pdo->exec('ALTER TABLE course_enrollments ADD UNIQUE KEY uniq_user_cohort (user_id, cohort_id)');
+        $log[] = 'Indice uniq_user_cohort creato';
+    }
+    $log[] = 'Indici su course_enrollments: ' . implode(', ', array_unique(array_column($pdo->query('SHOW INDEX FROM course_enrollments')->fetchAll(), 'Key_name')));
 
     // Ogni corso esistente riceve la sua "Classe 1", che raccoglie tutto
     $courses = $pdo->query('SELECT id, title FROM courses')->fetchAll();
