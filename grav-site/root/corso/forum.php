@@ -247,7 +247,7 @@ corsoNav($user, $isAdmin, 'forum');
                             $already = false;
                             foreach ($mie as $r) if ($r['emoji'] === $e) $already = true;
                             if ($already) continue; ?>
-                            <button class="react react-add" type="submit" name="emoji" value="<?= $e ?>" title="Reagisci"><?= $e ?></button>
+                            <button class="react react-add" type="submit" name="emoji" value="<?= htmlspecialchars($e) ?>" title="Reagisci"><?= $e ?></button>
                         <?php endforeach; ?>
                     </form>
 

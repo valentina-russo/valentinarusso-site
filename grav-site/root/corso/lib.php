@@ -226,7 +226,17 @@ function corsoSaveAttachments(int $postId, string $field, string $destDir): int 
 // ── Reazioni ────────────────────────────────────────────────────────────────
 
 function corsoEmoji(): array {
-    return ['&#10084;&#65039;', '&#128591;', '&#128079;', '&#128161;', '&#129300;'];
+    // scritte come entita per tenere il sorgente in ASCII, ma restituite
+    // decodificate: il browser invia il carattere vero, e il confronto
+    // lato server deve avvenire sullo stesso valore
+    static $e = null;
+    if ($e === null) {
+        $e = array_map(
+            fn(string $x) => html_entity_decode($x, ENT_QUOTES, 'UTF-8'),
+            ['&#10084;&#65039;', '&#128591;', '&#128079;', '&#128161;', '&#129300;']
+        );
+    }
+    return $e;
 }
 
 function corsoReactions(array $postIds, int $userId): array {
