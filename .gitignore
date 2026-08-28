@@ -136,6 +136,10 @@ grav-site/user/pages/05.aziende/02.blog/*
 grav-site/root/ai-editor.config.php
 # HD Account System — credenziali DB (solo sul server, mai in git)
 grav-site/root/hd-db-config.php
+# Corso Base — credenziali Bunny Stream (solo sul server, mai in git)
+grav-site/root/corso/bunny-config.php
+# Corso Base — PDF caricati dagli admin (contenuto runtime, non versionato)
+grav-site/root/corso/private-uploads/*.pdf
 # GA4 Service Account — credenziali Google, MAI in git
 grav-site/root/ga4-service-account.json
 hd-relazionale-api/.env
@@ -169,3 +173,5 @@ tools/yt-shorts/cover-previews/
 .mcp.json
 .browser-control-mcp/
 .pw-firefox-profile-valentina/
+
+_mockup-restyling/
