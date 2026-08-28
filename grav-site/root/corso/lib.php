@@ -262,6 +262,8 @@ h2.sect{font-size:.8125rem;font-weight:800;letter-spacing:.09em;text-transform:u
 .card h3{font-size:1.125rem;font-weight:600;color:var(--navy);margin:0 0 .3rem}
 a.card{display:block;text-decoration:none;color:inherit;
   transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+/* specificita: a.card (0,1,1) batterebbe .card-row (0,1,0) e annullerebbe il flex */
+a.card.card-row,a.card.task{display:flex}
 a.card:hover,a.card:focus-visible{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
 .card-row{display:flex;align-items:center;gap:1rem}
 .card-row .grow{min-width:0;flex:1}
