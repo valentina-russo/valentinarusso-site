@@ -82,30 +82,101 @@ function corsoRequireEnrollment(int $userId, int $cohortId): void {
     }
 }
 
+// ── Forum ───────────────────────────────────────────────────────────────────
+// Una discussione e un post radice (parent_id NULL) con un titolo, legata a
+// una lezione oppure generale della classe. Le risposte hanno parent_id.
+
+function corsoVisibleCohortIds(array $user, bool $isAdmin): array {
+    if ($isAdmin) {
+        return array_column(hdDb()->query('SELECT id FROM cohorts WHERE archived_at IS NULL')->fetchAll(), 'id');
+    }
+    $stmt = hdDb()->prepare('SELECT co.id FROM course_enrollments e
+                             JOIN cohorts co ON co.id = e.cohort_id
+                             WHERE e.user_id = ? AND co.archived_at IS NULL');
+    $stmt->execute([$user['id']]);
+    return array_column($stmt->fetchAll(), 'id');
+}
+
+function corsoThreads(array $cohortIds, ?int $cohortFilter = null, int $limit = 60): array {
+    if (empty($cohortIds)) return [];
+    if ($cohortFilter !== null) {
+        if (!in_array($cohortFilter, array_map('intval', $cohortIds), true)) return [];
+        $cohortIds = [$cohortFilter];
+    }
+    $in = implode(',', array_fill(0, count($cohortIds), '?'));
+    $sql = "SELECT p.id, p.title, p.body, p.created_at, p.lesson_id,
+                   u.name AS author_name, u.email AS author_email, u.role AS author_role,
+                   l.position AS lesson_position, co.name AS cohort_name, c.title AS course_title,
+                   (SELECT COUNT(*) FROM forum_posts r WHERE r.parent_id = p.id) AS replies,
+                   EXISTS(SELECT 1 FROM forum_posts ra JOIN hd_users ua ON ua.id = ra.user_id
+                          WHERE ra.parent_id = p.id AND ua.role = 'admin') AS answered,
+                   COALESCE((SELECT MAX(r3.created_at) FROM forum_posts r3 WHERE r3.parent_id = p.id), p.created_at) AS last_activity
+            FROM forum_posts p
+            JOIN hd_users u ON u.id = p.user_id
+            JOIN cohorts co ON co.id = p.cohort_id
+            JOIN courses c ON c.id = co.course_id
+            LEFT JOIN lessons l ON l.id = p.lesson_id
+            WHERE p.parent_id IS NULL AND p.cohort_id IN ($in)
+            ORDER BY last_activity DESC LIMIT " . (int)$limit;
+    $stmt = hdDb()->prepare($sql);
+    $stmt->execute($cohortIds);
+    return $stmt->fetchAll();
+}
+
+function corsoThread(int $id): ?array {
+    $stmt = hdDb()->prepare(
+        'SELECT p.*, u.name AS author_name, u.email AS author_email, u.role AS author_role,
+                l.position AS lesson_position, l.title AS lesson_title,
+                co.name AS cohort_name, c.title AS course_title
+         FROM forum_posts p
+         JOIN hd_users u ON u.id = p.user_id
+         JOIN cohorts co ON co.id = p.cohort_id
+         JOIN courses c ON c.id = co.course_id
+         LEFT JOIN lessons l ON l.id = p.lesson_id
+         WHERE p.id = ? AND p.parent_id IS NULL'
+    );
+    $stmt->execute([$id]);
+    return $stmt->fetch() ?: null;
+}
+
+function corsoReplies(int $threadId): array {
+    $stmt = hdDb()->prepare(
+        'SELECT p.body, p.created_at, u.name, u.email, u.role
+         FROM forum_posts p JOIN hd_users u ON u.id = p.user_id
+         WHERE p.parent_id = ? ORDER BY p.created_at ASC'
+    );
+    $stmt->execute([$threadId]);
+    return $stmt->fetchAll();
+}
+
+function corsoValidateTitle(string $t): ?string {
+    $t = trim($t);
+    if ($t === '') return 'Serve un titolo per la discussione.';
+    if (mb_strlen($t) > 180) return 'Il titolo e troppo lungo (max 180 caratteri).';
+    return null;
+}
+
 // ── Compiti in attesa di correzione ─────────────────────────────────────────
-// Un post di un'allieva e "in attesa" se dopo di esso non c'e nessun post
-// dell'admin nello stesso thread (= nella stessa lezione).
+// Una discussione aperta da un'allieva resta "in attesa" finche Valentina non
+// risponde DENTRO quella discussione. Prima bastava una sua risposta qualsiasi
+// nella stessa lezione per far sparire anche i compiti delle altre allieve.
 
 function corsoPendingHomework(?int $cohortId = null): array {
-    $sql = 'SELECT p.id, p.lesson_id, p.body, p.created_at,
+    $sql = "SELECT p.id, p.lesson_id, p.title, p.body, p.created_at,
                    u.name AS student_name, u.email AS student_email,
-                   l.title AS lesson_title, l.position AS lesson_position,
+                   l.position AS lesson_position,
                    c.title AS course_title, co.name AS cohort_name, co.id AS cohort_id
             FROM forum_posts p
             JOIN hd_users u ON u.id = p.user_id
-            JOIN lessons  l ON l.id = p.lesson_id
-            JOIN cohorts co ON co.id = l.cohort_id
-            JOIN courses  c ON c.id = co.course_id
-            WHERE u.role = ?
-              AND l.deleted_at IS NULL
+            JOIN cohorts co ON co.id = p.cohort_id
+            JOIN courses c ON c.id = co.course_id
+            LEFT JOIN lessons l ON l.id = p.lesson_id
+            WHERE p.parent_id IS NULL AND u.role = 'student' AND co.archived_at IS NULL
               AND NOT EXISTS (
-                  SELECT 1 FROM forum_posts r
-                  JOIN hd_users ru ON ru.id = r.user_id
-                  WHERE r.lesson_id = p.lesson_id
-                    AND ru.role = ?
-                    AND r.created_at > p.created_at
-              )';
-    $params = ['student', 'admin'];
+                  SELECT 1 FROM forum_posts r JOIN hd_users ru ON ru.id = r.user_id
+                  WHERE r.parent_id = p.id AND ru.role = 'admin'
+              )";
+    $params = [];
     if ($cohortId !== null) { $sql .= ' AND co.id = ?'; $params[] = $cohortId; }
     $sql .= ' ORDER BY p.created_at ASC';
     $stmt = hdDb()->prepare($sql);
@@ -114,22 +185,40 @@ function corsoPendingHomework(?int $cohortId = null): array {
 }
 
 function corsoPendingCount(?int $cohortId = null): int {
-    $sql = 'SELECT COUNT(*) FROM forum_posts p
+    $sql = "SELECT COUNT(*) FROM forum_posts p
             JOIN hd_users u ON u.id = p.user_id
-            JOIN lessons  l ON l.id = p.lesson_id
-            JOIN cohorts co ON co.id = l.cohort_id
-            WHERE u.role = ? AND l.deleted_at IS NULL
+            JOIN cohorts co ON co.id = p.cohort_id
+            WHERE p.parent_id IS NULL AND u.role = 'student' AND co.archived_at IS NULL
               AND NOT EXISTS (
-                  SELECT 1 FROM forum_posts r
-                  JOIN hd_users ru ON ru.id = r.user_id
-                  WHERE r.lesson_id = p.lesson_id AND ru.role = ?
-                    AND r.created_at > p.created_at
-              )';
-    $params = ['student', 'admin'];
+                  SELECT 1 FROM forum_posts r JOIN hd_users ru ON ru.id = r.user_id
+                  WHERE r.parent_id = p.id AND ru.role = 'admin'
+              )";
+    $params = [];
     if ($cohortId !== null) { $sql .= ' AND co.id = ?'; $params[] = $cohortId; }
     $stmt = hdDb()->prepare($sql);
     $stmt->execute($params);
     return (int)$stmt->fetchColumn();
+}
+
+// Tempo relativo: "4 giorni fa" si legge piu in fretta di una data assoluta
+function corsoRelativeTime(string $datetime): string {
+    $diff = time() - strtotime($datetime);
+    if ($diff < 90)    return 'poco fa';
+    if ($diff < 3600)  return 'circa ' . max(1, (int)round($diff / 60)) . ' minuti fa';
+    if ($diff < 86400) { $h = (int)round($diff / 3600); return $h === 1 ? "un'ora fa" : "$h ore fa"; }
+    $d = (int)floor($diff / 86400);
+    if ($d === 1) return 'ieri';
+    if ($d < 30)  return "$d giorni fa";
+    $m = (int)floor($d / 30);
+    return $m === 1 ? 'un mese fa' : "$m mesi fa";
+}
+
+// Urgenza per il bordo colorato della card (leggibile con la coda dell'occhio)
+function corsoUrgency(string $datetime): string {
+    $days = (time() - strtotime($datetime)) / 86400;
+    if ($days > 5) return 'alta';
+    if ($days > 2) return 'media';
+    return 'nuova';
 }
 
 // ── Bunny Stream — upload + URL firmati (R14, R21, R22) ────────────────────
@@ -435,11 +524,13 @@ function corsoNav(array $user, bool $isAdmin, string $current = ''): void {
     if ($isAdmin) {
         $pending = corsoPendingCount();
         echo '<a href="' . $p . 'admin/index.php"' . $cur('corsi') . '>Corsi</a>';
+        echo '<a href="' . $p . 'forum.php"' . $cur('forum') . '>Forum</a>';
         echo '<a href="' . $p . 'admin/compiti.php"' . $cur('compiti') . '>Da correggere';
         if ($pending > 0) echo ' <span class="count">' . $pending . '</span>';
         echo '</a>';
     } else {
         echo '<a href="' . $p . 'index.php"' . $cur('corsi') . '>Il mio corso</a>';
+        echo '<a href="' . $p . 'forum.php"' . $cur('forum') . '>Forum</a>';
         echo '<a href="' . $p . 'letture.php"' . $cur('letture') . '>Prenota una lettura</a>';
     }
     echo '<a href="' . $p . 'logout.php">Esci</a>';

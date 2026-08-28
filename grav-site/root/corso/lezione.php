@@ -32,26 +32,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!hdCsrfVerify($_POST['csrf'] ?? '', 'forum-post')) {
         $postError = 'Sessione scaduta, riprova.';
     } else {
-        $body = $_POST['body'] ?? '';
-        $validationError = corsoValidatePostBody($body);
-        if ($validationError) {
-            $postError = $validationError;
+        $title = trim($_POST['title'] ?? '');
+        if ($title === '') $title = 'Compito · Lezione ' . (int)$lesson['position'];
+        $body  = $_POST['body'] ?? '';
+        $err = corsoValidateTitle($title) ?? corsoValidatePostBody($body);
+        if ($err) {
+            $postError = $err;
         } else {
-            $stmt = hdDb()->prepare('INSERT INTO forum_posts (lesson_id, user_id, body) VALUES (?, ?, ?)');
-            $stmt->execute([$lessonId, $user['id'], trim($body)]);
-            header('Location: lezione.php?id=' . $lessonId . '&inviato=1#forum');
+            hdDb()->prepare('INSERT INTO forum_posts (lesson_id, cohort_id, parent_id, title, user_id, body) VALUES (?,?,NULL,?,?,?)')
+                  ->execute([$lessonId, (int)$lesson['cohort_id'], $title, $user['id'], trim($body)]);
+            header('Location: discussione.php?id=' . (int)hdDb()->lastInsertId() . '&inviato=1');
             exit;
         }
     }
 }
 
-$stmt = hdDb()->prepare('SELECT p.body, p.created_at, u.name, u.email, u.role
-    FROM forum_posts p JOIN hd_users u ON u.id = p.user_id
-    WHERE p.lesson_id = ? ORDER BY p.created_at ASC');
+// discussioni aperte su questa lezione
+$stmt = hdDb()->prepare(
+    "SELECT p.id, p.title, p.body, p.created_at,
+            u.name, u.email, u.role,
+            (SELECT COUNT(*) FROM forum_posts r WHERE r.parent_id = p.id) AS replies,
+            EXISTS(SELECT 1 FROM forum_posts ra JOIN hd_users ua ON ua.id = ra.user_id
+                   WHERE ra.parent_id = p.id AND ua.role = 'admin') AS answered
+     FROM forum_posts p JOIN hd_users u ON u.id = p.user_id
+     WHERE p.lesson_id = ? AND p.parent_id IS NULL
+     ORDER BY p.created_at DESC"
+);
 $stmt->execute([$lessonId]);
-$posts = $stmt->fetchAll();
-
-$justSent = isset($_GET['inviato']);
+$threads = $stmt->fetchAll();
 
 corsoHtmlHead($lesson['title']);
 corsoNav($user, $isAdmin, 'corsi');
@@ -84,36 +92,39 @@ corsoNav($user, $isAdmin, 'corsi');
         <?php endif; ?>
     <?php endif; ?>
 
-    <h2 class="sect" id="forum">Il tuo compito</h2>
+    <h2 class="sect" id="forum">Compiti e domande</h2>
 
-    <?php if ($justSent): ?>
-        <div class="card" style="display:flex;align-items:center;gap:1rem">
-            <?= corsoCheckMark(true) ?>
-            <div><strong>Compito inviato.</strong>
-            <div class="meta">Valentina lo legge e ti risponde qui sotto.</div></div>
-        </div>
+    <?php if ($threads): ?>
+        <?php foreach ($threads as $t): ?>
+            <?php $sn = trim(preg_replace('/\s+/', ' ', $t['body']));
+                  if (mb_strlen($sn) > 110) $sn = mb_substr($sn, 0, 110) . '…'; ?>
+            <a class="card card-row" href="discussione.php?id=<?= (int)$t['id'] ?>">
+                <span class="grow">
+                    <h3><?= htmlspecialchars($t['title'] ?: 'Senza titolo') ?></h3>
+                    <div class="snippet"><?= htmlspecialchars($sn) ?></div>
+                    <span class="meta"><?= htmlspecialchars($t['name'] ?: $t['email']) ?> · <?= htmlspecialchars(corsoRelativeTime($t['created_at'])) ?></span>
+                </span>
+                <span style="text-align:right;flex-shrink:0">
+                    <?php if ((int)$t['replies'] > 0): ?><span class="badge"><?= (int)$t['replies'] ?></span><?php endif; ?>
+                    <?php if (!$t['answered'] && $t['role'] === 'student'): ?><span class="badge oro">In attesa</span><?php endif; ?>
+                </span>
+            </a>
+        <?php endforeach; ?>
     <?php endif; ?>
 
     <div class="card">
         <?php if ($postError): ?><div class="msg err"><?= htmlspecialchars($postError) ?></div><?php endif; ?>
-
-        <?php if (empty($posts)): ?>
-            <p class="meta">Nessun messaggio ancora. Scrivi qui sotto il tuo esercizio, oppure una domanda.</p>
-        <?php else: ?>
-            <?php foreach ($posts as $p): ?>
-                <div class="post<?= $p['role'] === 'admin' ? ' from-admin' : '' ?>">
-                    <span class="author<?= $p['role'] === 'admin' ? ' is-admin' : '' ?>"><?= htmlspecialchars($p['name'] ?: $p['email']) ?></span>
-                    <span class="meta"> &middot; <?= htmlspecialchars(corsoRelativeTime($p['created_at'])) ?></span>
-                    <div class="body"><?= htmlspecialchars($p['body']) ?></div>
-                </div>
-            <?php endforeach; ?>
+        <?php if (!$threads): ?>
+            <p class="meta">Nessun messaggio su questa lezione. Consegna qui il tuo compito, oppure fai una domanda.</p>
         <?php endif; ?>
-
-        <form method="post" style="margin-top:1.75rem">
+        <form method="post" style="margin-top:1rem">
             <?= corsoCsrfField('forum-post') ?>
-            <label for="body"><?= $isAdmin ? 'Rispondi' : 'Scrivi il tuo compito o una domanda' ?></label>
+            <label for="title">Titolo</label>
+            <input type="text" id="title" name="title" maxlength="180"
+                   placeholder="Compito · Lezione <?= (int)$lesson['position'] ?>">
+            <label for="body"><?= $isAdmin ? 'Scrivi' : 'Il tuo compito, o la tua domanda' ?></label>
             <textarea id="body" name="body" rows="5" maxlength="10000" required></textarea>
-            <button type="submit" class="btn"><?= $isAdmin ? 'Invia risposta' : 'Invia' ?></button>
+            <button type="submit" class="btn">Pubblica</button>
         </form>
     </div>
 </div>

@@ -53,11 +53,11 @@ corsoNav($admin, true, 'compiti');
             $snippet = trim(preg_replace('/\s+/', ' ', $t['body']));
             if (mb_strlen($snippet) > 110) $snippet = mb_substr($snippet, 0, 110) . '…';
             ?>
-            <a class="card task <?= $urg ?>" href="../lezione.php?id=<?= (int)$t['lesson_id'] ?>#forum">
+            <a class="card task <?= $urg ?>" href="../discussione.php?id=<?= (int)$t['id'] ?>">
                 <span class="grow">
                     <span class="who"><?= htmlspecialchars($t['student_name'] ?: $t['student_email']) ?></span>
-                    <span class="badge" style="margin-left:.5rem">Lezione <?= (int)$t['lesson_position'] ?></span>
-                    <div class="snippet"><?= htmlspecialchars($snippet) ?></div>
+                    <?php if ($t['lesson_position']): ?><span class="badge" style="margin-left:.5rem">Lezione <?= (int)$t['lesson_position'] ?></span><?php endif; ?>
+                    <div class="snippet"><?= htmlspecialchars($t['title'] ? $t['title'] . ' — ' . $snippet : $snippet) ?></div>
                     <span class="meta">
                         <?= htmlspecialchars(corsoRelativeTime($t['created_at'])) ?>
                         <?php if ($filtro === null): ?> · <?= htmlspecialchars($t['course_title'] . ' · ' . $t['cohort_name']) ?><?php endif; ?>
