@@ -17,11 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Sessione scaduta, riprova.';
     } else {
         $title = trim($_POST['title'] ?? '');
-        $slug = trim($_POST['slug'] ?? '');
-        $slug = preg_replace('/[^a-z0-9\-]/', '', strtolower(str_replace(' ', '-', $slug)));
+        $slug  = trim($_POST['slug'] ?? '');
+        $slug  = preg_replace('/[^a-z0-9\-]/', '', strtolower(str_replace(' ', '-', $slug)));
 
         if ($title === '' || $slug === '') {
-            $error = 'Titolo e slug sono obbligatori.';
+            $error = 'Servono sia il titolo sia lo slug.';
         } else {
             try {
                 if ($course) {
@@ -35,28 +35,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             } catch (PDOException $e) {
                 // SEC-CORSO-003: mai esporre il messaggio DB grezzo
-                $error = 'Slug gia in uso, scegline un altro.';
+                $error = 'Questo slug è già usato da un altro corso, scegline un altro.';
             }
         }
     }
 }
 
 corsoHtmlHead($course ? 'Modifica corso' : 'Nuovo corso');
+corsoNav($admin, true, 'corsi');
 ?>
-<div class="top-nav">
-    <a href="index.php">&larr; Corsi</a>
-    <a href="../logout.php">Esci</a>
-</div>
-<div class="container">
-    <h1><?= $course ? 'Modifica corso' : 'Nuovo corso' ?></h1>
+<div class="wrap" style="max-width:560px">
+    <p class="eyebrow"><a href="index.php" style="color:inherit;text-decoration:none">&larr; I tuoi corsi</a></p>
+    <h1 class="page"><?= $course ? 'Modifica corso' : 'Nuovo corso' ?></h1>
     <div class="card">
-        <?php if ($error): ?><div class="error"><?= htmlspecialchars($error) ?></div><?php endif; ?>
+        <?php if ($error): ?><div class="msg err"><?= htmlspecialchars($error) ?></div><?php endif; ?>
         <form method="post">
             <?= corsoCsrfField('corso-edit') ?>
-            <label for="title">Titolo</label>
+            <label for="title">Titolo del corso</label>
             <input type="text" id="title" name="title" value="<?= htmlspecialchars($course['title'] ?? '') ?>" required>
-            <label for="slug">Slug (per l'URL, solo lettere/numeri/trattini)</label>
+
+            <label for="slug">Indirizzo</label>
             <input type="text" id="slug" name="slug" value="<?= htmlspecialchars($course['slug'] ?? '') ?>" required>
+            <p class="hint">Solo lettere minuscole, numeri e trattini. Es. <em>corso-base-2026</em></p>
+
             <button type="submit" class="btn">Salva</button>
         </form>
     </div>

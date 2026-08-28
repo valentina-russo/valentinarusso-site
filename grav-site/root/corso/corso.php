@@ -12,7 +12,9 @@ $course = $stmt->fetch();
 if (!$course) {
     http_response_code(404);
     corsoHtmlHead('Corso non trovato');
-    echo '<div class="container"><div class="card"><p>Corso non trovato.</p><a href="index.php">Torna ai miei corsi</a></div></div>';
+    corsoNav($user, corsoIsAdmin((int)$user['id']));
+    echo '<div class="wrap"><div class="card empty"><p>Questo corso non esiste.</p>'
+       . '<p><a class="btn ghost" href="index.php">Torna ai miei corsi</a></p></div></div>';
     corsoHtmlFoot();
     exit;
 }
@@ -20,26 +22,31 @@ if (!$course) {
 // R11: controllo server-side ad ogni richiesta, non solo nascosto nell'UI
 corsoRequireEnrollment((int)$user['id'], (int)$course['id']);
 
-$stmt = hdDb()->prepare('SELECT id, position, title FROM lessons WHERE course_id = ? AND deleted_at IS NULL ORDER BY position ASC');
+$stmt = hdDb()->prepare('SELECT id, position, title, bunny_video_id FROM lessons
+    WHERE course_id = ? AND deleted_at IS NULL ORDER BY position ASC');
 $stmt->execute([$course['id']]);
 $lessons = $stmt->fetchAll();
 
 corsoHtmlHead($course['title']);
+corsoNav($user, false, 'corsi');
 ?>
-<div class="top-nav">
-    <a href="index.php">&larr; I miei corsi</a>
-    <a href="logout.php">Esci</a>
-</div>
-<div class="container">
-    <h1><?= htmlspecialchars($course['title']) ?></h1>
+<div class="wrap">
+    <p class="eyebrow"><a href="index.php" style="color:inherit;text-decoration:none">&larr; I miei corsi</a></p>
+    <h1 class="page"><?= htmlspecialchars($course['title']) ?></h1>
+
+    <h2 class="sect">Le lezioni</h2>
     <?php if (empty($lessons)): ?>
-        <div class="card empty-state"><p>Nessuna classe ancora pubblicata.</p></div>
+        <div class="card empty"><p>Nessuna classe pubblicata per ora.</p>
+        <p class="meta">Le trovi qui appena Valentina carica la prima registrazione.</p></div>
     <?php else: ?>
         <?php foreach ($lessons as $l): ?>
-            <div class="card">
-                <h3>Classe <?= (int)$l['position'] ?> &mdash; <?= htmlspecialchars($l['title']) ?></h3>
-                <a class="btn secondary" href="lezione.php?id=<?= (int)$l['id'] ?>">Apri</a>
-            </div>
+            <a class="card card-row" href="lezione.php?id=<?= (int)$l['id'] ?>">
+                <span class="num"><?= (int)$l['position'] ?></span>
+                <span class="grow">
+                    <h3><?= htmlspecialchars($l['title']) ?></h3>
+                    <span class="meta"><?= $l['bunny_video_id'] ? 'Registrazione disponibile' : 'Registrazione in arrivo' ?></span>
+                </span>
+            </a>
         <?php endforeach; ?>
     <?php endif; ?>
 </div>

@@ -3,9 +3,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/lib.php';
 
 $user = corsoRequireStudent();
-$isAdmin = corsoIsAdmin((int)$user['id']);
-
-if ($isAdmin) {
+if (corsoIsAdmin((int)$user['id'])) {
     header('Location: admin/index.php');
     exit;
 }
@@ -18,25 +16,36 @@ $stmt = hdDb()->prepare(
 $stmt->execute([$user['id']]);
 $courses = $stmt->fetchAll();
 
-corsoHtmlHead('I miei corsi');
+$firstName = trim(explode(' ', trim((string)$user['name']))[0] ?? '');
+
+corsoHtmlHead('Il mio corso');
+corsoNav($user, false, 'corsi');
 ?>
-<div class="top-nav">
-    <span>Ciao, <?= htmlspecialchars($user['name'] ?: $user['email']) ?></span>
-    <span><a href="letture.php">Prenota una lettura</a> &middot; <a href="logout.php">Esci</a></span>
-</div>
-<div class="container">
-    <h1>I miei corsi</h1>
+<div class="wrap">
+    <p class="eyebrow">Area riservata</p>
+    <h1 class="hero"><?= $firstName ? 'Ciao ' . htmlspecialchars($firstName) : 'Bentornata' ?></h1>
+    <p class="hero-sub">Qui trovi le lezioni, i materiali e lo spazio per i compiti.</p>
+
     <?php if (empty($courses)): ?>
-        <div class="card empty-state">
-            <p>Non risulti ancora iscritta/o a nessun corso.</p>
-            <p class="muted">Se pensi sia un errore, scrivi a Valentina.</p>
+        <div class="card empty">
+            <?= corsoCheckMark(false) ?>
+            <p>Non risulti ancora iscritta a nessun corso.</p>
+            <p class="meta">Se pensi sia un errore, scrivi a Valentina e sistemiamo subito.</p>
         </div>
     <?php else: ?>
         <?php foreach ($courses as $c): ?>
-            <div class="card">
-                <h2><?= htmlspecialchars($c['title']) ?></h2>
-                <a class="btn" href="corso.php?slug=<?= urlencode($c['slug']) ?>">Vai al corso</a>
-            </div>
+            <?php
+            $st = hdDb()->prepare('SELECT COUNT(*) FROM lessons WHERE course_id = ? AND deleted_at IS NULL');
+            $st->execute([$c['id']]);
+            $n = (int)$st->fetchColumn();
+            ?>
+            <a class="card card-row" href="corso.php?slug=<?= urlencode($c['slug']) ?>">
+                <span class="grow">
+                    <h3><?= htmlspecialchars($c['title']) ?></h3>
+                    <span class="meta"><?= $n ?> <?= $n === 1 ? 'classe' : 'classi' ?></span>
+                </span>
+                <span class="badge teal">Apri</span>
+            </a>
         <?php endforeach; ?>
     <?php endif; ?>
 </div>

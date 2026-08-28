@@ -6,8 +6,7 @@ hdSessionStart();
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $csrf = $_POST['csrf'] ?? '';
-    if (!hdCsrfVerify($csrf, 'login')) {
+    if (!hdCsrfVerify($_POST['csrf'] ?? '', 'login')) {
         $error = 'Sessione scaduta, riprova.';
     } else {
         $email = trim($_POST['email'] ?? '');
@@ -36,19 +35,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 corsoHtmlHead('Accedi');
 ?>
-<div class="container" style="max-width:420px; margin-top: 4rem;">
-    <div class="card">
-        <h1 style="text-align:center;">Corso Base Human Design</h1>
-        <?php if ($error): ?><div class="error"><?= htmlspecialchars($error) ?></div><?php endif; ?>
+<div class="wrap" style="max-width:420px;padding-top:3.5rem">
+    <p class="eyebrow" style="text-align:center">Area riservata</p>
+    <h1 class="hero" style="text-align:center;font-size:clamp(1.6rem,5vw,2rem)">Corso Base<br>Human Design</h1>
+    <div class="card" style="margin-top:1.75rem">
+        <?php if ($error): ?><div class="msg err"><?= htmlspecialchars($error) ?></div><?php endif; ?>
         <form method="post">
             <?= corsoCsrfField('login') ?>
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" required autofocus>
+            <input type="email" id="email" name="email" required autofocus autocomplete="username">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-            <button type="submit" class="btn" style="width:100%;">Accedi</button>
+            <input type="password" id="password" name="password" required autocomplete="current-password">
+            <button type="submit" class="btn full">Entra</button>
         </form>
-        <p class="muted" style="text-align:center; margin-top:1rem;">Non hai le credenziali? Contatta Valentina.</p>
     </div>
+    <p class="meta" style="text-align:center">Non hai le credenziali? Scrivi a Valentina.</p>
 </div>
 <?php corsoHtmlFoot(); ?>
