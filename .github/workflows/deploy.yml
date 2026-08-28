@@ -711,6 +711,27 @@ jobs:
             **/.git*/**
             **/logs/**
 
+      - name: Crea corso/bunny-config.php con le credenziali Bunny Stream (da GitHub Secrets)
+        env:
+          BUNNY_LIBRARY_ID: ${{ secrets.BUNNY_LIBRARY_ID }}
+          BUNNY_CDN_HOSTNAME: ${{ secrets.BUNNY_CDN_HOSTNAME }}
+          BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
+          BUNNY_TOKEN_KEY: ${{ secrets.BUNNY_TOKEN_KEY }}
+        run: |
+          if [ -z "$BUNNY_API_KEY" ]; then
+            echo "WARN: secrets Bunny non configurati -- bunny-config.php non verra creato"
+          else
+            {
+              echo "<?php"
+              echo "// Corso Base -- Bunny Stream Config (generato dal workflow, mai in git)"
+              echo "define('BUNNY_LIBRARY_ID',   '$BUNNY_LIBRARY_ID');"
+              echo "define('BUNNY_CDN_HOSTNAME', '$BUNNY_CDN_HOSTNAME');"
+              echo "define('BUNNY_API_KEY',      '$BUNNY_API_KEY');"
+              echo "define('BUNNY_TOKEN_KEY',    '$BUNNY_TOKEN_KEY');"
+            } > grav-site/root/corso/bunny-config.php
+            echo "OK: bunny-config.php creato"
+          fi
+
       - name: Deploy corso/ (dashboard corso base Human Design, area privata non linkata pubblicamente)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
