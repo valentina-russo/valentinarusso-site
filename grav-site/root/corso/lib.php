@@ -179,6 +179,27 @@ function bunnySignedEmbedUrl(string $videoGuid, int $ttlSeconds = 14400): string
     );
 }
 
+// Anteprima del video (fotogramma generato da Bunny). Firmata come il
+// player: il CDN accetta la richiesta solo con referer dal nostro sito.
+function bunnyThumbUrl(string $videoGuid, int $ttlSeconds = 14400): string {
+    $path    = '/' . $videoGuid . '/thumbnail.jpg';
+    $expires = time() + $ttlSeconds;
+    $raw     = hash('sha256', BUNNY_TOKEN_KEY . $path . $expires, true);
+    $token   = rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
+    return 'https://' . BUNNY_CDN_HOSTNAME . $path . '?token=' . $token . '&expires=' . $expires;
+}
+
+// Miniatura compatta per le liste: anteprima se c'e, altrimenti il numero.
+// Volutamente piccola: card fotografiche grandi darebbero alla lista un
+// registro "catalogo da consumare" invece che percorso da seguire.
+function corsoLessonThumb(?string $videoGuid, int $position): string {
+    if ($videoGuid) {
+        return '<span class="thumb"><img src="' . htmlspecialchars(bunnyThumbUrl($videoGuid))
+             . '" alt="" loading="lazy" decoding="async"><span class="thumb-n">' . $position . '</span></span>';
+    }
+    return '<span class="num">' . $position . '</span>';
+}
+
 // ── Materiali PDF (R18: MIME + magic bytes, non solo estensione) ────────────
 
 function corsoValidatedPdfUpload(string $fieldName, string $destDir, string $destBasename): ?string {
@@ -285,6 +306,15 @@ a.card:hover,a.card:focus-visible{transform:translateY(-2px);box-shadow:var(--sh
 .num{flex-shrink:0;width:44px;height:44px;border-radius:50%;background:var(--crema);
   border:1.5px solid var(--surface);display:flex;align-items:center;justify-content:center;
   font-family:var(--f-head);font-size:1.125rem;font-weight:700;color:var(--rosa)}
+
+/* ── Anteprima video ──────────────────────────────────── */
+.thumb{position:relative;flex-shrink:0;width:104px;aspect-ratio:16/9;border-radius:9px;
+  overflow:hidden;background:var(--navy);display:block}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb-n{position:absolute;left:5px;bottom:5px;min-width:20px;height:20px;padding:0 5px;
+  border-radius:6px;background:rgba(26,35,50,.82);color:var(--white);
+  font-family:var(--f-head);font-size:.75rem;font-weight:700;line-height:20px;text-align:center}
+@media(max-width:560px){.thumb{width:78px}}
 
 /* ── Bottoni (testo navy su rosa/oro/teal, mai bianco: WCAG AA) ─────────── */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;

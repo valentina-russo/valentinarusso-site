@@ -39,7 +39,7 @@ corsoNav($user, $isAdmin, 'corsi');
     <?php else: ?>
         <?php foreach ($lessons as $l): ?>
             <a class="card card-row" href="lezione.php?id=<?= (int)$l['id'] ?>">
-                <span class="num"><?= (int)$l['position'] ?></span>
+                <?= corsoLessonThumb($l['bunny_video_id'], (int)$l['position']) ?>
                 <span class="grow">
                     <h3><?= htmlspecialchars($l['title']) ?></h3>
                     <span class="meta"><?= $l['bunny_video_id'] ? 'Registrazione disponibile' : 'Registrazione in arrivo' ?></span>

@@ -103,7 +103,7 @@ corsoNav($admin, true, 'corsi');
         <div class="card">
         <?php foreach ($lessons as $l): ?>
             <div class="card-row" style="padding:.6rem 0;border-top:1px solid var(--surface)">
-                <span class="num" style="width:34px;height:34px;font-size:.9375rem"><?= (int)$l['position'] ?></span>
+                <?= corsoLessonThumb($l['bunny_video_id'], (int)$l['position']) ?>
                 <span class="grow">
                     <?= htmlspecialchars($l['title']) ?>
                     <?php if (!$l['bunny_video_id']): ?><div class="meta">Registrazione non ancora caricata</div><?php endif; ?>
