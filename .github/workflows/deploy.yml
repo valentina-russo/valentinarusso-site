@@ -711,6 +711,19 @@ jobs:
             **/.git*/**
             **/logs/**
 
+      - name: Deploy corso/ (dashboard corso base Human Design, area privata non linkata pubblicamente)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/root/corso/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}corso/
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+
       - name: Crea bg5-blueprint/.env con segreti webhook (da GitHub Secrets)
         env:
           STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
