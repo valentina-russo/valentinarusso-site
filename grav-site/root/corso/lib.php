@@ -619,6 +619,7 @@ h1,h2,h3{margin:0 0 .5rem}
 .nav .count{background:var(--oro);color:var(--navy);font-size:.6875rem;font-weight:800;
   min-width:20px;height:20px;padding:0 6px;border-radius:99px;display:inline-flex;
   align-items:center;justify-content:center;line-height:1}
+.nav a.nav-avatar{padding:.3rem}
 
 /* onda organica: continuita col sito pubblico */
 .wave{display:block;width:100%;height:22px;color:var(--navy)}
@@ -844,7 +845,7 @@ function corsoNav(array $user, bool $isAdmin, string $current = ''): void {
         echo '<a href="' . $p . 'forum.php"' . $cur('forum') . '>Forum</a>';
         echo '<a href="' . $p . 'letture.php"' . $cur('letture') . '>Prenota una lettura</a>';
     }
-    echo '<a href="' . $p . 'profilo.php"' . $cur('profilo') . '>' . htmlspecialchars($user['name'] ?: $user['email']) . '</a>';
+    echo '<a href="' . $p . 'profilo.php" class="nav-avatar"' . $cur('profilo') . '>' . corsoAvatar($user['name'] ?? null, $user['email'] ?? null, $isAdmin, 32, (int)$user['id']) . '</a>';
     echo '<a href="' . $p . 'logout.php">Esci</a>';
     echo '</nav></div></header>';
     // onda organica: stesso linguaggio visivo del sito pubblico
