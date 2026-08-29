@@ -70,10 +70,65 @@ corsoNav($user, $isAdmin, 'corsi');
     <p class="eyebrow"><a href="classe.php?id=<?= (int)$lesson['cohort_id'] ?>" style="color:inherit;text-decoration:none">&larr; <?= htmlspecialchars($lesson['course_title']) ?></a></p>
     <h1 class="page">Lezione <?= (int)$lesson['position'] ?> &middot; <?= htmlspecialchars($lesson['title']) ?></h1>
 
-    <?php if ($lesson['bunny_video_id']): ?>
-        <iframe class="video" src="<?= htmlspecialchars(bunnySignedEmbedUrl($lesson['bunny_video_id'])) ?>"
+    <?php if ($lesson['bunny_video_id']):
+        // R22: il token dura 4h, ma se l'allieva lascia la pagina aperta piu a
+        // lungo (pausa, distrazione) il player deve rinnovarlo da solo invece
+        // di interrompersi. Il tempo di scadenza e' calcolato qui e passato
+        // al JS, che rinfresca poco prima con lo stesso punto di ripresa.
+        $videoTtl = 14400;
+        $videoExpiresAt = time() + $videoTtl;
+    ?>
+        <iframe id="corso-video" class="video" src="<?= htmlspecialchars(bunnySignedEmbedUrl($lesson['bunny_video_id'], $videoTtl)) ?>"
                 allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;"
                 allowfullscreen loading="lazy" title="Registrazione della lezione"></iframe>
+        <script src="//assets.mediadelivery.net/playerjs/playerjs-latest.min.js"></script>
+        <script>
+        (function () {
+            var iframe = document.getElementById('corso-video');
+            var lessonId = <?= (int)$lessonId ?>;
+            var expiresAt = <?= (int)$videoExpiresAt ?> * 1000;
+            var refreshMarginMs = 5 * 60 * 1000; // rinnova 5 minuti prima della scadenza
+            var lastKnownTime = 0;
+            var wasPlaying = false;
+            var player = null;
+
+            function bind(iframeEl) {
+                player = new playerjs.Player(iframeEl);
+                player.on('ready', function () {
+                    player.on('timeupdate', function (data) {
+                        if (data && typeof data.seconds === 'number') lastKnownTime = data.seconds;
+                    });
+                    player.on('play', function () { wasPlaying = true; });
+                    player.on('pause', function () { wasPlaying = false; });
+                    if (wasPlaying) {
+                        player.setCurrentTime(lastKnownTime);
+                        player.play();
+                    }
+                });
+            }
+            bind(iframe);
+
+            function scheduleRefresh() {
+                var delay = Math.max(0, expiresAt - Date.now() - refreshMarginMs);
+                setTimeout(refresh, delay);
+            }
+
+            function refresh() {
+                fetch('video-token.php?lesson=' + lessonId, { credentials: 'same-origin' })
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        if (!data || !data.ok) return;
+                        expiresAt = Date.now() + <?= (int)$videoTtl ?> * 1000;
+                        iframe.src = data.embed_url;
+                        bind(iframe);
+                        scheduleRefresh();
+                    })
+                    .catch(function () { setTimeout(refresh, 30000); }); // rinnovo fallito, ritenta tra 30s invece di martellare il server
+            }
+
+            scheduleRefresh();
+        })();
+        </script>
     <?php else: ?>
         <div class="card empty"><p>La registrazione di questa lezione non è ancora disponibile.</p></div>
     <?php endif; ?>

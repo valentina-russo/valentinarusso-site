@@ -51,7 +51,7 @@ Dashboard custom per il "Corso Base Human Design" (€1.200, live via Zoom, 2 se
 - R18: Upload PDF rifiutato se il file non è un PDF valido o supera una dimensione massima (es. 20MB) — validazione sia su estensione/mimetype sia su contenuto (magic bytes), non solo estensione.
 - R19: Se l'admin elimina una classe con post forum già presenti, i post restano leggibili (nessuna cancellazione a cascata silenziosa) — coerente con la regola generale del progetto contro le cancellazioni permanenti non richieste esplicitamente.
 - R20: Tentativo di login con email non esistente e con password errata restituiscono lo stesso messaggio generico ("credenziali non valide") — nessuna user enumeration.
-- R22: Se il token firmato Bunny scade mentre il corsista sta guardando il video, il player deve poter richiedere un nuovo token senza ricaricare l'intera pagina (evita interruzioni durante una lezione di 2+ ore).
+- R22: IMPLEMENTATO E VERIFICATO 29/08. Se il token firmato Bunny scade mentre il corsista sta guardando il video, il player deve poter richiedere un nuovo token senza ricaricare l'intera pagina. Realizzato con video-token.php (endpoint autenticato, stesso controllo iscrizione di lezione.php) + Player.js lato client: 5 minuti prima della scadenza, il player chiede un nuovo URL firmato, lo carica nello stesso iframe e riprende dal secondo esatto in cui era, senza reload della pagina.
 
 ## Acceptance Criteria
 L'implementazione è completa quando:
