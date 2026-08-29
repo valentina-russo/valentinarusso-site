@@ -110,7 +110,7 @@ corsoNav($user, $isAdmin, 'corsi');
         <div class="card empty"><p>La registrazione di questa lezione non è ancora disponibile.</p></div>
     <?php endif; ?>
 
-    <p style="display:flex;justify-content:space-between;gap:1rem;margin:1rem 0 0">
+    <p style="display:flex;justify-content:space-between;gap:1rem;margin:1rem 0 1.5rem">
         <?php if ($prevLesson): ?>
             <a class="btn ghost" href="lezione.php?id=<?= (int)$prevLesson['id'] ?>">&larr; Lezione <?= (int)$prevLesson['position'] ?></a>
         <?php else: ?><span></span><?php endif; ?>
@@ -120,7 +120,7 @@ corsoNav($user, $isAdmin, 'corsi');
     </p>
 
     <?php if (!empty($lesson['description'])): ?>
-        <p class="ptext"><?= corsoBodyHtml($lesson['description']) ?></p>
+        <p class="ptext" style="margin-bottom:1.5rem"><?= corsoBodyHtml($lesson['description']) ?></p>
     <?php endif; ?>
 
     <?php $hasAudio = (bool)$lesson['audio_path'];
