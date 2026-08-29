@@ -646,7 +646,7 @@ a.card{display:block;text-decoration:none;color:inherit;
 a.card.card-row,a.card.task{display:flex}
 a.card:hover,a.card:focus-visible{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
 .card-row{display:flex;align-items:center;gap:1rem}
-.card-row .grow{min-width:0;flex:1}
+.card-row .grow,.task .grow{min-width:0;flex:1}
 
 /* numero classe: tipografia al posto delle thumbnail */
 .num{flex-shrink:0;width:44px;height:44px;border-radius:50%;background:var(--crema);

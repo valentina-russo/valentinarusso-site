@@ -53,7 +53,7 @@ corsoNav($admin, true, 'compiti');
             $snippet = trim(preg_replace('/\s+/', ' ', $t['body']));
             if (mb_strlen($snippet) > 110) $snippet = mb_substr($snippet, 0, 110) . '…';
             ?>
-            <a class="card task <?= $urg ?>" href="../discussione.php?id=<?= (int)$t['id'] ?>">
+            <a class="card task <?= $urg ?>" href="../discussione.php?id=<?= (int)$t['id'] ?>&from=compiti<?= $filtro ? '&classe=' . $filtro : '' ?>">
                 <span class="grow">
                     <span class="who"><?= htmlspecialchars($t['student_name'] ?: $t['student_email']) ?></span>
                     <?php if ($t['lesson_position']): ?><span class="badge" style="margin-left:.5rem">Lezione <?= (int)$t['lesson_position'] ?></span><?php endif; ?>

@@ -7,6 +7,13 @@ $isAdmin = corsoIsAdmin((int)$user['id']);
 $uid     = (int)$user['id'];
 $id      = (int)($_GET['id'] ?? 0);
 
+// Se si arriva da "Da correggere", si deve poter tornare li invece che al forum
+$fromCompiti = $isAdmin && ($_GET['from'] ?? '') === 'compiti';
+$fromClasse  = (int)($_GET['classe'] ?? 0);
+$backQuery   = $fromCompiti ? ('&from=compiti' . ($fromClasse ? '&classe=' . $fromClasse : '')) : '';
+$backHref    = $fromCompiti ? ('admin/compiti.php' . ($fromClasse ? '?classe=' . $fromClasse : '')) : 'forum.php';
+$backLabel   = $fromCompiti ? 'Da correggere' : 'Forum';
+
 $thread = corsoThread($id);
 if (!$thread) {
     http_response_code(404);
@@ -27,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['react_post'])) {
     if (hdCsrfVerify($_POST['csrf'] ?? '', 'reazione')) {
         corsoToggleReaction((int)$_POST['react_post'], $uid, (string)($_POST['emoji'] ?? ''));
     }
-    header('Location: discussione.php?id=' . $id);
+    header('Location: discussione.php?id=' . $id . $backQuery);
     exit;
 }
 
@@ -36,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_pin']) && $isA
     if (hdCsrfVerify($_POST['csrf'] ?? '', 'pin')) {
         hdDb()->prepare('UPDATE forum_posts SET pinned = 1 - pinned WHERE id = ?')->execute([$id]);
     }
-    header('Location: discussione.php?id=' . $id);
+    header('Location: discussione.php?id=' . $id . $backQuery);
     exit;
 }
 
@@ -51,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rispondi'])) {
             hdDb()->prepare('INSERT INTO forum_posts (lesson_id, cohort_id, parent_id, user_id, body) VALUES (?,?,?,?,?)')
                   ->execute([$thread['lesson_id'], $thread['cohort_id'], $thread['id'], $uid, trim($body)]);
             corsoSaveAttachments((int)hdDb()->lastInsertId(), 'allegati', __DIR__ . '/private-uploads');
-            header('Location: discussione.php?id=' . $id . '&inviato=1#fine');
+            header('Location: discussione.php?id=' . $id . $backQuery . '&inviato=1#fine');
             exit;
         }
     }
@@ -69,7 +76,7 @@ corsoHtmlHead($thread['title'] ?: 'Post');
 corsoNav($user, $isAdmin, 'forum');
 ?>
 <div class="wrap">
-    <p class="eyebrow"><a href="forum.php" style="color:inherit;text-decoration:none">&larr; Forum</a></p>
+    <p class="eyebrow"><a href="<?= htmlspecialchars($backHref) ?>" style="color:inherit;text-decoration:none">&larr; <?= htmlspecialchars($backLabel) ?></a></p>
 
     <?php if ((int)$thread['pinned'] === 1): ?><p class="pin">&#9733; Fissato in alto</p><?php endif; ?>
     <h1 class="page"><?= htmlspecialchars($thread['title'] ?: 'Post') ?></h1>
