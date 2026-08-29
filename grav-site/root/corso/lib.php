@@ -263,7 +263,17 @@ function corsoToggleReaction(int $postId, int $userId, string $emoji): void {
 
 // ── Avatar ──────────────────────────────────────────────────────────────────
 // Iniziali su colore derivato dal nome: riconoscibile senza chiedere una foto.
-function corsoAvatar(?string $name, ?string $email, bool $isAdmin = false, int $size = 40): string {
+function corsoAvatar(?string $name, ?string $email, bool $isAdmin = false, int $size = 40, ?int $avatarUserId = null): string {
+    if ($avatarUserId) {
+        $stmt = hdDb()->prepare('SELECT avatar_path FROM hd_users WHERE id = ?');
+        $stmt->execute([$avatarUserId]);
+        $path = $stmt->fetchColumn();
+        if ($path && is_file($path)) {
+            $url = 'avatar.php?id=' . $avatarUserId . '&t=' . filemtime($path);
+            return '<img class="avatar" src="' . htmlspecialchars($url) . '" alt="" loading="lazy"'
+                 . ' style="width:' . $size . 'px;height:' . $size . 'px;border-radius:999px;object-fit:cover">';
+        }
+    }
     $label = trim((string)($name ?: $email));
     $parts = preg_split('/[\s._@-]+/', $label, -1, PREG_SPLIT_NO_EMPTY);
     if (!$parts) $parts = [''];
@@ -447,6 +457,92 @@ function corsoLessonThumb(?string $videoGuid, int $position): string {
              . '" alt="" loading="lazy" decoding="async"><span class="thumb-n">' . $position . '</span></span>';
     }
     return '<span class="num">' . $position . '</span>';
+}
+
+// ── Navigazione lezione precedente/successiva ───────────────────────────────
+
+function corsoLessonNav(int $cohortId, int $position): array {
+    $stmt = hdDb()->prepare('SELECT id, position, title FROM lessons
+                             WHERE cohort_id = ? AND position < ? AND deleted_at IS NULL
+                             ORDER BY position DESC LIMIT 1');
+    $stmt->execute([$cohortId, $position]);
+    $prev = $stmt->fetch() ?: null;
+
+    $stmt = hdDb()->prepare('SELECT id, position, title FROM lessons
+                             WHERE cohort_id = ? AND position > ? AND deleted_at IS NULL
+                             ORDER BY position ASC LIMIT 1');
+    $stmt->execute([$cohortId, $position]);
+    $next = $stmt->fetch() ?: null;
+
+    return [$prev, $next];
+}
+
+// ── Appunti personali (privati, un solo blocco per lezione+persona) ────────
+
+function corsoGetNote(int $lessonId, int $userId): string {
+    $stmt = hdDb()->prepare('SELECT body FROM lesson_notes WHERE lesson_id = ? AND user_id = ?');
+    $stmt->execute([$lessonId, $userId]);
+    $row = $stmt->fetch();
+    return $row ? $row['body'] : '';
+}
+
+function corsoSaveNote(int $lessonId, int $userId, string $body): void {
+    $body = trim($body);
+    if ($body === '') {
+        hdDb()->prepare('DELETE FROM lesson_notes WHERE lesson_id = ? AND user_id = ?')->execute([$lessonId, $userId]);
+        return;
+    }
+    hdDb()->prepare('INSERT INTO lesson_notes (lesson_id, user_id, body) VALUES (?,?,?)
+                     ON DUPLICATE KEY UPDATE body = VALUES(body)')
+          ->execute([$lessonId, $userId, mb_substr($body, 0, 20000)]);
+}
+
+// ── Audio della lezione (stesso schema dei PDF: mime + magic bytes) ────────
+
+function corsoValidatedAudioUpload(string $fieldName, string $destDir, string $destBasename): ?string {
+    if (empty($_FILES[$fieldName]) || $_FILES[$fieldName]['error'] !== UPLOAD_ERR_OK) return null;
+    $tmp = $_FILES[$fieldName]['tmp_name'];
+    if ($_FILES[$fieldName]['size'] > 80 * 1024 * 1024) return null; // fino a 80MB, audio lungo
+
+    $mime = mime_content_type($tmp);
+    $ext = match ($mime) {
+        'audio/mpeg' => 'mp3',
+        'audio/mp4', 'audio/x-m4a' => 'm4a',
+        'audio/wav', 'audio/x-wav', 'audio/wave' => 'wav',
+        default => null,
+    };
+    if ($ext === null) return null;
+
+    if (!is_dir($destDir)) mkdir($destDir, 0750, true);
+    $destPath = $destDir . '/' . $destBasename . '.' . $ext;
+    if (!move_uploaded_file($tmp, $destPath)) return null;
+    return $destPath;
+}
+
+// ── Avatar (immagine, stessa validazione degli allegati immagine) ──────────
+
+function corsoValidatedAvatarUpload(string $fieldName, string $destDir, string $destBasename): ?string {
+    if (empty($_FILES[$fieldName]) || $_FILES[$fieldName]['error'] !== UPLOAD_ERR_OK) return null;
+    $tmp = $_FILES[$fieldName]['tmp_name'];
+    if ($_FILES[$fieldName]['size'] > 5 * 1024 * 1024) return null;
+
+    $allowed = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp'];
+    $mime = mime_content_type($tmp);
+    if (!isset($allowed[$mime])) return null;
+
+    $fh = fopen($tmp, 'rb'); $magic = fread($fh, 12); fclose($fh);
+    $okMagic = match ($mime) {
+        'image/jpeg' => strncmp($magic, "\xFF\xD8\xFF", 3) === 0,
+        'image/png'  => strncmp($magic, "\x89PNG\r\n\x1a\n", 8) === 0,
+        'image/webp' => strncmp($magic, 'RIFF', 4) === 0 && substr($magic, 8, 4) === 'WEBP',
+        default => false,
+    };
+    if (!$okMagic) return null;
+
+    if (!is_dir($destDir)) mkdir($destDir, 0750, true);
+    $destPath = $destDir . '/' . $destBasename . '.' . $allowed[$mime];
+    if (!move_uploaded_file($tmp, $destPath)) return null;
+    return $destPath;
 }
 
 // ── Materiali PDF (R18: MIME + magic bytes, non solo estensione) ────────────
@@ -748,6 +844,7 @@ function corsoNav(array $user, bool $isAdmin, string $current = ''): void {
         echo '<a href="' . $p . 'forum.php"' . $cur('forum') . '>Forum</a>';
         echo '<a href="' . $p . 'letture.php"' . $cur('letture') . '>Prenota una lettura</a>';
     }
+    echo '<a href="' . $p . 'profilo.php"' . $cur('profilo') . '>' . htmlspecialchars($user['name'] ?: $user['email']) . '</a>';
     echo '<a href="' . $p . 'logout.php">Esci</a>';
     echo '</nav></div></header>';
     // onda organica: stesso linguaggio visivo del sito pubblico

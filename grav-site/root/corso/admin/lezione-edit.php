@@ -37,15 +37,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: classe.php?id=' . $cohortId);
         exit;
     } else {
-        $title    = trim($_POST['title'] ?? '');
-        $position = (int)($_POST['position'] ?? 0);
-        $bunnyId  = trim($_POST['bunny_video_id'] ?? '');
+        $title       = trim($_POST['title'] ?? '');
+        $position    = (int)($_POST['position'] ?? 0);
+        $bunnyId     = trim($_POST['bunny_video_id'] ?? '');
+        $description = trim($_POST['description'] ?? '');
 
         if ($title === '') {
             $error = 'Serve il titolo della lezione.';
         } else {
             $slidePath    = $lesson['pdf_slide_path'] ?? null;
             $exercisePath = $lesson['pdf_exercise_path'] ?? null;
+            $audioPath    = $lesson['audio_path'] ?? null;
             $baseName  = 'classe' . $cohortId . '-lezione' . ($lesson['id'] ?? 'new') . '-' . time();
             $uploadDir = __DIR__ . '/../private-uploads';
 
@@ -60,15 +62,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($newPath === null) $error = 'L\'esercizio deve essere un PDF sotto i 20MB.';
                 else $exercisePath = $newPath;
             }
+            if (!$error && !empty($_FILES['audio']['name'])) {
+                $newPath = corsoValidatedAudioUpload('audio', $uploadDir, $baseName . '-audio');
+                if ($newPath === null) $error = 'L\'audio deve essere mp3/m4a/wav sotto gli 80MB.';
+                else $audioPath = $newPath;
+            }
 
             if (!$error) {
                 try {
                     if ($lesson) {
-                        $stmt = hdDb()->prepare('UPDATE lessons SET title = ?, position = ?, bunny_video_id = ?, pdf_slide_path = ?, pdf_exercise_path = ? WHERE id = ?');
-                        $stmt->execute([$title, $position, $bunnyId ?: null, $slidePath, $exercisePath, $lesson['id']]);
+                        $stmt = hdDb()->prepare('UPDATE lessons SET title = ?, position = ?, bunny_video_id = ?, description = ?, pdf_slide_path = ?, pdf_exercise_path = ?, audio_path = ? WHERE id = ?');
+                        $stmt->execute([$title, $position, $bunnyId ?: null, $description ?: null, $slidePath, $exercisePath, $audioPath, $lesson['id']]);
                     } else {
-                        $stmt = hdDb()->prepare('INSERT INTO lessons (course_id, cohort_id, title, position, bunny_video_id, pdf_slide_path, pdf_exercise_path) VALUES (?, ?, ?, ?, ?, ?, ?)');
-                        $stmt->execute([$courseId, $cohortId, $title, $position, $bunnyId ?: null, $slidePath, $exercisePath]);
+                        $stmt = hdDb()->prepare('INSERT INTO lessons (course_id, cohort_id, title, position, bunny_video_id, description, pdf_slide_path, pdf_exercise_path, audio_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+                        $stmt->execute([$courseId, $cohortId, $title, $position, $bunnyId ?: null, $description ?: null, $slidePath, $exercisePath, $audioPath]);
                     }
                     header('Location: classe.php?id=' . $cohortId);
                     exit;
@@ -103,6 +110,9 @@ corsoNav($admin, true, 'corsi');
             <input type="text" id="bunny_video_id" name="bunny_video_id" value="<?= htmlspecialchars($lesson['bunny_video_id'] ?? '') ?>" placeholder="eb1c4f77-0cda-46be-b47d-1118ad7c2ffe">
             <p class="hint">Carica prima il video su Bunny Stream (libreria <em>corso-base-human-design</em>), poi incolla qui il codice del video. Lascialo vuoto se la registrazione non è ancora pronta.</p>
 
+            <label for="description">Descrizione della lezione</label>
+            <textarea id="description" name="description" rows="4" placeholder="Cosa tratta questa lezione, cosa impareranno le allieve..."><?= htmlspecialchars($lesson['description'] ?? '') ?></textarea>
+
             <label for="pdf_slide">Slide della lezione (PDF)</label>
             <input type="file" id="pdf_slide" name="pdf_slide" accept="application/pdf">
             <?php if (!empty($lesson['pdf_slide_path'])): ?>
@@ -113,6 +123,12 @@ corsoNav($admin, true, 'corsi');
             <input type="file" id="pdf_exercise" name="pdf_exercise" accept="application/pdf">
             <?php if (!empty($lesson['pdf_exercise_path'])): ?>
                 <p class="hint">Già caricato: <?= htmlspecialchars(basename($lesson['pdf_exercise_path'])) ?></p>
+            <?php endif; ?>
+
+            <label for="audio">Versione audio della lezione</label>
+            <input type="file" id="audio" name="audio" accept="audio/mpeg,audio/mp4,audio/wav,.mp3,.m4a,.wav">
+            <?php if (!empty($lesson['audio_path'])): ?>
+                <p class="hint">Già caricato: <?= htmlspecialchars(basename($lesson['audio_path'])) ?></p>
             <?php endif; ?>
 
             <button type="submit" class="btn">Salva lezione</button>

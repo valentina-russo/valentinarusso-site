@@ -3,11 +3,12 @@ declare(strict_types=1);
 require_once __DIR__ . '/lib.php';
 
 $user    = corsoRequireStudent();
-$isAdmin = corsoIsAdmin((int)$user['id']);
+$uid     = (int)$user['id'];
+$isAdmin = corsoIsAdmin($uid);
 $lessonId = (int)($_GET['id'] ?? 0);
 
-$stmt = hdDb()->prepare('SELECT l.*, c.title AS course_title, c.slug AS course_slug
-    , co.name AS cohort_name, co.id AS cohort_id
+$stmt = hdDb()->prepare('SELECT l.*, c.title AS course_title, c.slug AS course_slug,
+        co.name AS cohort_name, co.id AS cohort_id
     FROM lessons l
     JOIN cohorts co ON co.id = l.cohort_id
     JOIN courses c ON c.id = co.course_id
@@ -17,51 +18,27 @@ $lesson = $stmt->fetch();
 
 if (!$lesson) {
     http_response_code(404);
-    corsoHtmlHead('Classe non trovata');
+    corsoHtmlHead('Lezione non trovata');
     corsoNav($user, $isAdmin);
-    echo '<div class="wrap"><div class="card empty"><p>Questa classe non esiste.</p></div></div>';
+    echo '<div class="wrap"><div class="card empty"><p>Questa lezione non esiste.</p></div></div>';
     corsoHtmlFoot();
     exit;
 }
 
-// R11: controllo server-side anche indovinando l'id della classe
-corsoRequireEnrollment((int)$user['id'], (int)$lesson['cohort_id']);
+// R11: controllo server-side anche indovinando l'id della lezione
+corsoRequireEnrollment($uid, (int)$lesson['cohort_id']);
 
-$postError = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!hdCsrfVerify($_POST['csrf'] ?? '', 'forum-post')) {
-        $postError = 'Sessione scaduta, riprova.';
-    } else {
-        $title = trim($_POST['title'] ?? '');
-        if ($title === '') $title = 'Compito · Lezione ' . (int)$lesson['position'];
-        $body  = $_POST['body'] ?? '';
-        $err = corsoValidateTitle($title) ?? corsoValidatePostBody($body);
-        if ($err) {
-            $postError = $err;
-        } else {
-            hdDb()->prepare('INSERT INTO forum_posts (lesson_id, cohort_id, parent_id, title, user_id, body) VALUES (?,?,NULL,?,?,?)')
-                  ->execute([$lessonId, (int)$lesson['cohort_id'], $title, $user['id'], trim($body)]);
-            $newId = (int)hdDb()->lastInsertId();
-            corsoSaveAttachments($newId, 'allegati', __DIR__ . '/private-uploads');
-            header('Location: discussione.php?id=' . $newId . '&inviato=1');
-            exit;
-        }
+// Appunti personali: privati, mai condivisi, salvati con un piccolo submit
+$noteMsg = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nota'])) {
+    if (hdCsrfVerify($_POST['csrf'] ?? '', 'appunti')) {
+        corsoSaveNote($lessonId, $uid, (string)$_POST['nota']);
+        $noteMsg = 'Appunti salvati.';
     }
 }
+$noteBody = corsoGetNote($lessonId, $uid);
 
-// discussioni aperte su questa lezione
-$stmt = hdDb()->prepare(
-    "SELECT p.id, p.title, p.body, p.created_at,
-            u.name, u.email, u.role,
-            (SELECT COUNT(*) FROM forum_posts r WHERE r.parent_id = p.id) AS replies,
-            EXISTS(SELECT 1 FROM forum_posts ra JOIN hd_users ua ON ua.id = ra.user_id
-                   WHERE ra.parent_id = p.id AND ua.role = 'admin') AS answered
-     FROM forum_posts p JOIN hd_users u ON u.id = p.user_id
-     WHERE p.lesson_id = ? AND p.parent_id IS NULL
-     ORDER BY p.created_at DESC"
-);
-$stmt->execute([$lessonId]);
-$threads = $stmt->fetchAll();
+[$prevLesson, $nextLesson] = corsoLessonNav((int)$lesson['cohort_id'], (int)$lesson['position']);
 
 corsoHtmlHead($lesson['title']);
 corsoNav($user, $isAdmin, 'corsi');
@@ -87,7 +64,7 @@ corsoNav($user, $isAdmin, 'corsi');
             var iframe = document.getElementById('corso-video');
             var lessonId = <?= (int)$lessonId ?>;
             var expiresAt = <?= (int)$videoExpiresAt ?> * 1000;
-            var refreshMarginMs = 5 * 60 * 1000; // rinnova 5 minuti prima della scadenza
+            var refreshMarginMs = 5 * 60 * 1000;
             var lastKnownTime = 0;
             var wasPlaying = false;
             var player = null;
@@ -123,7 +100,7 @@ corsoNav($user, $isAdmin, 'corsi');
                         bind(iframe);
                         scheduleRefresh();
                     })
-                    .catch(function () { setTimeout(refresh, 30000); }); // rinnovo fallito, ritenta tra 30s invece di martellare il server
+                    .catch(function () { setTimeout(refresh, 30000); });
             }
 
             scheduleRefresh();
@@ -133,58 +110,57 @@ corsoNav($user, $isAdmin, 'corsi');
         <div class="card empty"><p>La registrazione di questa lezione non è ancora disponibile.</p></div>
     <?php endif; ?>
 
-    <?php if ($lesson['pdf_slide_path'] || $lesson['pdf_exercise_path']): ?>
-        <h2 class="sect">Materiali</h2>
-        <?php if ($lesson['pdf_slide_path']): ?>
-            <a class="card card-row" href="materiale.php?lesson=<?= $lessonId ?>&type=slide" target="_blank" rel="noopener">
-                <span class="grow"><h3>Slide della lezione</h3><span class="meta">PDF</span></span>
-                <span class="badge">Apri</span>
-            </a>
+    <p style="display:flex;justify-content:space-between;gap:1rem;margin:1rem 0 0">
+        <?php if ($prevLesson): ?>
+            <a class="btn ghost" href="lezione.php?id=<?= (int)$prevLesson['id'] ?>">&larr; Lezione <?= (int)$prevLesson['position'] ?></a>
+        <?php else: ?><span></span><?php endif; ?>
+        <?php if ($nextLesson): ?>
+            <a class="btn ghost" href="lezione.php?id=<?= (int)$nextLesson['id'] ?>">Lezione <?= (int)$nextLesson['position'] ?> &rarr;</a>
         <?php endif; ?>
-        <?php if ($lesson['pdf_exercise_path']): ?>
-            <a class="card card-row" href="materiale.php?lesson=<?= $lessonId ?>&type=exercise" target="_blank" rel="noopener">
-                <span class="grow"><h3>Esercizio pratico</h3><span class="meta">PDF</span></span>
-                <span class="badge">Apri</span>
-            </a>
-        <?php endif; ?>
+    </p>
+
+    <?php if (!empty($lesson['description'])): ?>
+        <div class="card">
+            <p class="ptext"><?= corsoBodyHtml($lesson['description']) ?></p>
+        </div>
     <?php endif; ?>
 
-    <h2 class="sect" id="forum">Compiti e domande</h2>
+    <?php if ($lesson['audio_path']): ?>
+        <h2 class="sect">Versione audio</h2>
+        <div class="card">
+            <audio controls preload="none" style="width:100%">
+                <source src="materiale.php?lesson=<?= $lessonId ?>&type=audio">
+            </audio>
+            <p style="margin:.75rem 0 0"><a class="attach" href="materiale.php?lesson=<?= $lessonId ?>&type=audio&scarica=1">Scarica l'audio</a></p>
+        </div>
+    <?php endif; ?>
 
-    <?php if ($threads): ?>
-        <?php foreach ($threads as $t): ?>
-            <?php $sn = trim(preg_replace('/\s+/', ' ', $t['body']));
-                  if (mb_strlen($sn) > 110) $sn = mb_substr($sn, 0, 110) . '…'; ?>
-            <a class="card card-row" href="discussione.php?id=<?= (int)$t['id'] ?>">
-                <span class="grow">
-                    <h3><?= htmlspecialchars($t['title'] ?: 'Senza titolo') ?></h3>
-                    <div class="snippet"><?= htmlspecialchars($sn) ?></div>
-                    <span class="meta"><?= htmlspecialchars($t['name'] ?: $t['email']) ?> · <?= htmlspecialchars(corsoRelativeTime($t['created_at'])) ?></span>
-                </span>
-                <span style="text-align:right;flex-shrink:0">
-                    <?php if ((int)$t['replies'] > 0): ?><span class="badge"><?= (int)$t['replies'] ?></span><?php endif; ?>
-                    <?php if (!$t['answered'] && $t['role'] === 'student'): ?><span class="badge oro">In attesa</span><?php endif; ?>
-                </span>
-            </a>
+    <?php if ($lesson['pdf_slide_path'] || $lesson['pdf_exercise_path']): ?>
+        <h2 class="sect">Materiali</h2>
+        <?php foreach ([
+            ['slide', 'Slide della lezione', $lesson['pdf_slide_path']],
+            ['exercise', 'Esercizio pratico', $lesson['pdf_exercise_path']],
+        ] as [$mtype, $mlabel, $mpath]): if (!$mpath) continue; ?>
+            <div class="card card-row">
+                <span class="grow"><h3><?= $mlabel ?></h3><span class="meta">PDF</span></span>
+                <a class="btn ghost" style="min-height:38px;padding:.4rem .8rem;font-size:.8125rem" href="materiale.php?lesson=<?= $lessonId ?>&type=<?= $mtype ?>" target="_blank" rel="noopener">Visualizza</a>
+                <a class="btn ghost" style="min-height:38px;padding:.4rem .8rem;font-size:.8125rem" href="materiale.php?lesson=<?= $lessonId ?>&type=<?= $mtype ?>&scarica=1">Scarica</a>
+            </div>
         <?php endforeach; ?>
     <?php endif; ?>
 
+    <h2 class="sect">I miei appunti</h2>
     <div class="card">
-        <?php if ($postError): ?><div class="msg err"><?= htmlspecialchars($postError) ?></div><?php endif; ?>
-        <?php if (!$threads): ?>
-            <p class="meta">Nessun messaggio su questa lezione. Consegna qui il tuo compito, oppure fai una domanda.</p>
-        <?php endif; ?>
-        <form method="post" enctype="multipart/form-data" style="margin-top:1rem">
-            <?= corsoCsrfField('forum-post') ?>
-            <label for="title">Titolo</label>
-            <input type="text" id="title" name="title" maxlength="180"
-                   placeholder="Compito · Lezione <?= (int)$lesson['position'] ?>">
-            <label for="body"><?= $isAdmin ? 'Scrivi' : 'Il tuo compito, o la tua domanda' ?></label>
-            <textarea id="body" name="body" rows="5" maxlength="10000" required></textarea>
-            <label for="allegati">Allegati</label>
-            <input type="file" id="allegati" name="allegati[]" multiple accept="application/pdf,image/jpeg,image/png,image/webp">
-            <button type="submit" class="btn">Pubblica</button>
+        <?php if ($noteMsg): ?><div class="msg ok"><?= htmlspecialchars($noteMsg) ?></div><?php endif; ?>
+        <p class="meta" style="margin:0 0 .75rem">Solo tu li vedi. Non sono condivisi con nessuno, nemmeno con Valentina.</p>
+        <form method="post">
+            <?= corsoCsrfField('appunti') ?>
+            <input type="hidden" name="nota" value="1">
+            <textarea name="nota" rows="6" maxlength="20000" placeholder="Scrivi qui le tue osservazioni su questa lezione..."><?= htmlspecialchars($noteBody) ?></textarea>
+            <button type="submit" class="btn">Salva appunti</button>
         </form>
     </div>
+
+    <p class="meta" style="margin-top:1.5rem">Hai un compito da consegnare o una domanda? Vai al <a href="forum.php?lesson=<?= $lessonId ?>">forum di questa lezione</a>.</p>
 </div>
 <?php corsoHtmlFoot(); ?>
