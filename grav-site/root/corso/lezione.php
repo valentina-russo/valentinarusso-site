@@ -120,33 +120,34 @@ corsoNav($user, $isAdmin, 'corsi');
     </p>
 
     <?php if (!empty($lesson['description'])): ?>
-        <div class="card">
-            <p class="ptext"><?= corsoBodyHtml($lesson['description']) ?></p>
-        </div>
+        <p class="ptext"><?= corsoBodyHtml($lesson['description']) ?></p>
     <?php endif; ?>
 
-    <?php if ($lesson['audio_path']): ?>
-        <h2 class="sect">Versione audio</h2>
-        <div class="card">
-            <audio controls preload="none" style="width:100%">
-                <source src="materiale.php?lesson=<?= $lessonId ?>&type=audio">
-            </audio>
-            <p style="margin:.75rem 0 0"><a class="attach" href="materiale.php?lesson=<?= $lessonId ?>&type=audio&scarica=1">Scarica l'audio</a></p>
-        </div>
-    <?php endif; ?>
-
-    <?php if ($lesson['pdf_slide_path'] || $lesson['pdf_exercise_path']): ?>
+    <?php $hasAudio = (bool)$lesson['audio_path'];
+          $pdfList = array_filter([
+              ['slide', 'Slide della lezione', $lesson['pdf_slide_path']],
+              ['exercise', 'Esercizio pratico', $lesson['pdf_exercise_path']],
+          ], fn($m) => !empty($m[2])); ?>
+    <?php if ($hasAudio || $pdfList): ?>
         <h2 class="sect">Materiali</h2>
-        <?php foreach ([
-            ['slide', 'Slide della lezione', $lesson['pdf_slide_path']],
-            ['exercise', 'Esercizio pratico', $lesson['pdf_exercise_path']],
-        ] as [$mtype, $mlabel, $mpath]): if (!$mpath) continue; ?>
-            <div class="card card-row">
-                <span class="grow"><h3><?= $mlabel ?></h3><span class="meta">PDF</span></span>
-                <a class="btn ghost" style="min-height:38px;padding:.4rem .8rem;font-size:.8125rem" href="materiale.php?lesson=<?= $lessonId ?>&type=<?= $mtype ?>" target="_blank" rel="noopener">Visualizza</a>
-                <a class="btn ghost" style="min-height:38px;padding:.4rem .8rem;font-size:.8125rem" href="materiale.php?lesson=<?= $lessonId ?>&type=<?= $mtype ?>&scarica=1">Scarica</a>
-            </div>
-        <?php endforeach; ?>
+        <div class="card">
+            <?php $isFirst = true; ?>
+            <?php if ($hasAudio): $isFirst = false; ?>
+                <audio controls preload="none" style="width:100%">
+                    <source src="materiale.php?lesson=<?= $lessonId ?>&type=audio">
+                </audio>
+                <p style="margin:.75rem 0 0"><a class="attach" href="materiale.php?lesson=<?= $lessonId ?>&type=audio&scarica=1">Scarica l'audio</a></p>
+            <?php endif; ?>
+
+            <?php foreach ($pdfList as [$mtype, $mlabel, $mpath]): ?>
+                <div class="card-row"<?= !$isFirst ? ' style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--surface)"' : '' ?>>
+                    <span class="grow"><h3><?= $mlabel ?></h3><span class="meta">PDF</span></span>
+                    <a class="btn ghost" style="min-height:38px;padding:.4rem .8rem;font-size:.8125rem" href="materiale.php?lesson=<?= $lessonId ?>&type=<?= $mtype ?>" target="_blank" rel="noopener">Visualizza</a>
+                    <a class="btn ghost" style="min-height:38px;padding:.4rem .8rem;font-size:.8125rem" href="materiale.php?lesson=<?= $lessonId ?>&type=<?= $mtype ?>&scarica=1">Scarica</a>
+                </div>
+                <?php $isFirst = false; ?>
+            <?php endforeach; ?>
+        </div>
     <?php endif; ?>
 
     <h2 class="sect">I miei appunti</h2>
