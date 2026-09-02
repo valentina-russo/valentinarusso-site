@@ -287,7 +287,9 @@
     }
     </script>
 
-    {# FAQPage Schema — Domande frequenti per IA #}
+    {# FAQPage Schema — Domande frequenti per IA. Solo in home: le stesse FAQ
+       sono visibili solo li', e sulle altre pagine si sommavano al FAQPage proprio #}
+    {% if page.template == 'home' %}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -368,6 +370,7 @@
       ]
     }
     </script>
+    {% endif %}
 
     {# GA4 gia' caricato in head — rimosso duplicato #}
 </head>
