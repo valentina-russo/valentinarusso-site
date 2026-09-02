@@ -22,5 +22,8 @@ jobs:
           echo "=== site.yaml e system.yaml SUL SERVER (redirects/routes) ==="
           lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; get -O . ${D}user/config/site.yaml; get -O . ${D}user/config/system.yaml; bye" || echo "get config fallito"
           grep -n -A8 "^redirects:\|^routes:" site.yaml system.yaml || echo "nessun redirects/routes"
+          echo "=== plugin error sul server: config e file ==="
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; ls -la ${D}user/config/plugins/; ls ${D}user/plugins/error/; ls ${D}user/plugins/error/pages/; bye" || echo "ls plugin fallito"
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; get -O . ${D}user/config/plugins/error.yaml; bye" 2>/dev/null && cat error.yaml || echo "(nessun user/config/plugins/error.yaml)"
           echo "=== esiste user/pages/error/error.md sul server? ==="
           lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; ls -la ${D}user/pages/error/; ls ${D}user/themes/valentina/templates/error.html.twig; bye" || echo "ls fallito"
