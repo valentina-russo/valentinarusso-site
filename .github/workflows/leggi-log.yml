@@ -1,0 +1,23 @@
+name: Leggi log Grav dal server
+# Diagnostica: scarica logs/grav.log via FTP con i segreti gia' configurati e ne
+# stampa la coda. Nessun segreto finisce nell'output. Lancio manuale.
+on:
+  workflow_dispatch:
+
+jobs:
+  log:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scarica e stampa la coda del log
+        env:
+          H: ${{ secrets.ARUBA_FTP_HOST }}
+          U: ${{ secrets.ARUBA_FTP_USER }}
+          P: ${{ secrets.ARUBA_FTP_PASS }}
+          D: ${{ secrets.ARUBA_FTP_PATH }}
+        run: |
+          sudo apt-get install -y -q lftp >/dev/null
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; get -O . ${D}logs/grav.log; bye" || echo "download fallito"
+          echo "=== ultime 80 righe di grav.log ==="
+          tail -n 80 grav.log 2>/dev/null || echo "nessun log letto"
+          echo "=== esiste user/pages/error/error.md sul server? ==="
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; ls ${D}user/pages/error/; ls ${D}user/themes/valentina/templates/error.html.twig; bye" || echo "ls fallito"
