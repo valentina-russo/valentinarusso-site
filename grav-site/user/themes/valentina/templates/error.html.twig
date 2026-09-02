@@ -1,0 +1,24 @@
+{# Pagina di errore del tema.
+   Senza questo template il plugin "error" non trovava nulla da rendere e Grav
+   rispondeva 500 su qualunque URL inesistente (llms-full.txt, link rotti,
+   pagine cancellate). Ora un URL assente risponde 404 con una pagina vera. #}
+{% extends 'partials/base.html.twig' %}
+
+{% set codice = page.header.http_response_code|default(404) %}
+
+{% block title %}Pagina non trovata | Valentina Russo{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+  <div class="container text-center" style="max-width:640px">
+    <p class="eyebrow" style="margin-bottom:1rem">Errore {{ codice }}</p>
+    <h1 style="margin-bottom:1rem">Questa pagina non esiste</h1>
+    <p style="margin-bottom:2rem">L'indirizzo potrebbe essere cambiato o contenere un errore di battitura. Da qui puoi tornare alla home, calcolare la tua carta o leggere gli articoli.</p>
+    <p>
+      <a class="btn btn-primary" href="{{ base_url_relative ?: '/' }}">Torna alla home</a>
+      <a class="btn btn-outline" href="{{ base_url_relative }}/calcolo-human-design">Calcola la tua carta Human Design</a>
+      <a class="btn btn-outline" href="{{ base_url_relative }}/blog">Vai al blog</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

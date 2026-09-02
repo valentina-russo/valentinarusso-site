@@ -1,6 +1,5 @@
 {% extends 'partials/base.html.twig' %}
 
-{% block title %}{{ page.title }} | Valentina Russo{% endblock %}
 
 {% block schema %}
 {{ parent() }}
@@ -22,12 +21,12 @@
     {% for article in collection|slice(0, 5) %}
     {
       "@type": "BlogPosting",
-      "headline": {{ article.title|json_encode }},
+      "headline": {{ article.title|json_encode|raw }},
       "url": "{{ article.url(true) }}",
       "datePublished": "{{ article.date|date('c') }}",
       "dateModified": "{{ article.modified|date('c') }}"{% if article.header.description is defined %},
-      "description": {{ article.header.description|json_encode }}{% endif %}{% if article.header.author is defined %},
-      "author": { "@type": "Person", "name": {{ article.header.author|json_encode }} }{% endif %}
+      "description": {{ article.header.description|json_encode|raw }}{% endif %}{% if article.header.author is defined %},
+      "author": { "@type": "Person", "name": {{ article.header.author|json_encode|raw }} }{% endif %}
     }{% if not loop.last %},{% endif %}
     {% endfor %}
   ]{% endif %}
