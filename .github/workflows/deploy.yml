@@ -81,6 +81,16 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/09.calcolo-human-design/
           dangerous-clean-slate: false
 
+      - name: Deploy pagina /error (404 reale al posto del 500)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/error/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/error/
+          dangerous-clean-slate: false
+
       - name: Deploy pagina mammal-chart (beta, noindex, calcolatore per cani)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:

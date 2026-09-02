@@ -68,6 +68,8 @@ grav-site/user/pages/*
 !grav-site/user/pages/26.bg5-blueprint
 # Eccezione: Libretto d'Istruzioni — landing page prodotto
 !grav-site/user/pages/26.libretto-istruzioni
+# Eccezione: pagina /error (404 reale; il plugin error la cerca prima del suo fallback)
+!grav-site/user/pages/error
 !grav-site/user/pages/28.mammal-chart
 # Eccezione: pagina Human Design — guida introduttiva
 !grav-site/user/pages/human-design
