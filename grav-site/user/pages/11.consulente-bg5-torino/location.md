@@ -7,7 +7,7 @@ corporate: true
 city: "Torino"
 region: "Piemonte"
 seo_title: "Human Design Torino: lettura e consulente BG5"
-seo_desc: "Human Design a Torino: lettura della carta e Disegno di Carriera BG5. Consulente BG5® certificata per professionisti a Torino e in Piemonte. Disegno di Carriera, Tipo Energetico, Strategia e Autorità. Sessioni online."
+seo_desc: "Consulente BG5® e Human Design a Torino: letture della carta in presenza e online per chi cambia lavoro, ruolo o direzione. Calcolo gratuito e Libretto d'Istruzioni."
 geo_location: "Torino, Piemonte, Italia"
 geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Torino e in Piemonte tramite sessioni online. Torino è uno dei principali hub industriali, tecnologici e creativi del Nord Italia. Il sistema BG5® è applicato al contesto professionale torinese che comprende l'industria automobilistica, il settore tech, le startup, la consulenza e le PMI piemontesi. A Torino è possibile fare una lettura Human Design della propria carta e una consulenza BG5 con Valentina Russo, in videochiamata."
 aeo_answer: "Valentina Russo è consulente BG5® certificata che lavora con professionisti a Torino e in Piemonte tramite sessioni online. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro) e Prima Lettura Human Design (120 minuti, 210 euro). Il sistema BG5® analizza Tipo di Carriera, Strategia e Autorità Decisionale per ottimizzare le scelte professionali."
