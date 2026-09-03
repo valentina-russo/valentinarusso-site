@@ -1,0 +1,30 @@
+name: Leggi date articoli blog dal server
+# Diagnostica: scarica il frontmatter di ogni articolo del blog (solo item.md) e
+# le date di modifica dei file sul server, per confrontare data dichiarata e data reale.
+on:
+  workflow_dispatch:
+
+jobs:
+  date:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scarica gli item.md del blog e stampa data dichiarata + mtime
+        env:
+          H: ${{ secrets.ARUBA_FTP_HOST }}
+          U: ${{ secrets.ARUBA_FTP_USER }}
+          P: ${{ secrets.ARUBA_FTP_PASS }}
+          D: ${{ secrets.ARUBA_FTP_PATH }}
+        run: |
+          sudo apt-get install -y -q lftp >/dev/null
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; mirror --verbose=0 --include-glob *.md --include-glob *.yaml ${D}user/pages/04.blog blog; bye" || echo "mirror fallito"
+          echo "=== MTIME SUL SERVER (ls -la ricorsivo, solo .md) ==="
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; find -l ${D}user/pages/04.blog; bye" 2>/dev/null | grep "\.md$" || echo "find fallito"
+          echo "=== FRONTMATTER: percorso | date | published | publish_date ==="
+          for f in $(find blog -name "*.md" | sort); do
+            d=$(grep -m1 -E "^date:" "$f" | sed 's/^date: *//'); p=$(grep -m1 -E "^published:" "$f" | sed 's/^published: *//'); pd=$(grep -m1 -E "^publish_date:" "$f" | sed 's/^publish_date: *//')
+            echo "$f | date=${d:-(NESSUNA)} | published=${p:-?} | publish_date=${pd:-}"
+          done
+          echo "=== FRONTMATTER COMPLETI degli articoli SENZA date: ==="
+          for f in $(find blog -name "item.md" | sort); do
+            grep -q -E "^date:" "$f" || { echo "----- $f"; sed -n '1,/^---$/{/^---$/!p}' "$f" | sed -n '2,40p'; }
+          done
