@@ -1,7 +1,7 @@
 ---
 title: "I 4 Tipi Human Design: scopri il tuo (in 30 secondi)"
 published: true
-date: '09-06-2026 10:30'
+date: '2026-06-09 10:30:00'
 template: item
 author: "Valentina Russo"
 tags: ["Human Design", "Tipi Energetici", "Generatore", "Proiettore", "Manifestatore", "Riflettore"]

@@ -1,0 +1,47 @@
+name: Sistema date articoli blog sul server
+# Scarica gli item.md del blog, normalizza la data nel frontmatter (timestamp unix
+# e formato DD-MM-YYYY -> 'YYYY-MM-DD HH:MM:SS') e, se richiesto, ricarica solo i
+# file cambiati. Un eventuale item.it.md viene prima rinominato in item.md sul
+# server (Grav senza multilingua ignorava la sua data) e poi sovrascritto.
+on:
+  workflow_dispatch:
+    inputs:
+      applica:
+        description: "true = scrive sul server; false = solo anteprima"
+        required: true
+        default: "false"
+
+jobs:
+  date:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scarica, normalizza e (se applica) ricarica
+        env:
+          H: ${{ secrets.ARUBA_FTP_HOST }}
+          U: ${{ secrets.ARUBA_FTP_USER }}
+          P: ${{ secrets.ARUBA_FTP_PASS }}
+          D: ${{ secrets.ARUBA_FTP_PATH }}
+          APPLICA: ${{ github.event.inputs.applica }}
+        run: |
+          sudo apt-get install -y -q lftp >/dev/null
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; mirror --verbose=0 --include-glob item*.md ${D}user/pages/04.blog blog; bye"
+          echo "=== ANTEPRIMA ==="
+          if [ "$APPLICA" = "true" ]; then python3 .github/scripts/sistema_date_blog.py blog --applica; else python3 .github/scripts/sistema_date_blog.py blog; fi
+          if [ "$APPLICA" != "true" ]; then echo "(solo anteprima, nessuna scrittura)"; exit 0; fi
+          echo "=== UPLOAD ==="
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            rel="${f#blog/}"; dir="$(dirname "$rel")"; base="$(basename "$rel")"
+            R="${D}user/pages/04.blog/${dir}"
+            if [ "$base" = "item.it.md" ]; then
+              lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; mv ${R}/item.it.md ${R}/item.md; put -O ${R} \"$f\" -o item.md; bye" && echo "rinominato item.it.md -> item.md e caricato: ${dir}"
+            else
+              lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; put -O ${R} \"$f\"; bye" && echo "caricato ${rel}"
+            fi
+          done < blog/_cambiati.txt
+          echo "=== VERIFICA LIVE (datePublished) ==="
+          sleep 5
+          for slug in attrazione-chimica-romantica-human-design proiettori-potere-del-no-human-design 4-tipi-human-design-quale-sei esplosioni-emotive; do
+            echo -n "$slug: "; curl -s "https://valentinarussobg5.com/blog/articoli/$slug" | grep -o 'datePublished": "[^"]*' | head -1
+          done
