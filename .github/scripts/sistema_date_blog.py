@@ -1,6 +1,6 @@
 """Normalizza la data nel frontmatter degli articoli del blog.
 
-- timestamp unix (es. 1773186590)  -> '2026-03-11 00:49:50' (ora di Roma)
+- timestamp unix (es. 1773186590)  -> '2026-03-10 23:49:50' (UTC, come le mostra gia' Grav)
 - 'DD-MM-YYYY HH:MM'                -> 'YYYY-MM-DD HH:MM:00'
 - gia' 'YYYY-MM-DD ...'             -> invariato
 Stampa il riepilogo e scrive i file solo con --applica.
@@ -26,7 +26,7 @@ for f in sorted(glob.glob(os.path.join(radice, "**", "item*.md"), recursive=True
     grezzo = m.group(1).strip().strip("'\"")
     nuovo = None
     if re.fullmatch(r"\d{9,11}", grezzo):
-        nuovo = datetime.fromtimestamp(int(grezzo), tz=timezone.utc).astimezone(ROMA).strftime("%Y-%m-%d %H:%M:%S")
+        nuovo = datetime.fromtimestamp(int(grezzo), tz=timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
     elif re.fullmatch(r"(\d{2})-(\d{2})-(\d{4})(?:\s+(\d{2}):(\d{2}))?", grezzo):
         g, me, a, h, mi = re.fullmatch(r"(\d{2})-(\d{2})-(\d{4})(?:\s+(\d{2}):(\d{2}))?", grezzo).groups()
         nuovo = f"{a}-{me}-{g} {h or '10'}:{mi or '00'}:00"
