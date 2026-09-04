@@ -46,3 +46,4 @@
 .d2 .ct-form button:hover{transform:translateY(-2px)}
 .d2.az .ct-form button,.d2.az .ct-form input[type=submit]{background:linear-gradient(180deg,#127F94,#0C4A56);box-shadow:0 10px 24px -8px rgba(12,74,86,.5),inset 0 1px 0 rgba(255,255,255,.25)}
 .d2.az .ct-form input:focus,.d2.az .ct-form textarea:focus{border-color:var(--dom);box-shadow:0 0 0 3px rgba(12,74,86,.16)}
+.d2 .ct-diretto{margin:0 0 14px;color:var(--muto)}

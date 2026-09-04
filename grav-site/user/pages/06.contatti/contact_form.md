@@ -19,6 +19,10 @@ form:
             label: Messaggio / Tipo di Consulenza
             type: textarea
             required: true
+        privacy:
+            type: checkbox
+            label: "Ho letto l'informativa privacy e acconsento al trattamento dei dati per rispondere alla mia richiesta."
+            required: true
     buttons:
         submit:
             type: submit
