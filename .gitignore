@@ -104,6 +104,7 @@ grav-site/user/pages/04.blog/articoli/*
 !grav-site/user/pages/05.aziende
 grav-site/user/pages/05.aziende/*
 !grav-site/user/pages/05.aziende/aziende_home.md
+!grav-site/user/pages/05.aziende/00.bg5
 !grav-site/user/pages/05.aziende/02.blog
 grav-site/user/pages/05.aziende/02.blog/*
 !grav-site/user/pages/05.aziende/02.blog/bg5-selezione-personale-assumere-design
