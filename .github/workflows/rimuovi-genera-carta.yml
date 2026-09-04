@@ -1,0 +1,54 @@
+name: Rimuovi le copie di Genera carta
+# Diagnostica e rimozione controllata: elenca le cartelle delle pagine doppione,
+# ne salva una copia come artefatto e, solo se richiesto, le sposta fuori da
+# user/pages cosi' smettono di essere pagine del sito. Reversibile.
+on:
+  workflow_dispatch:
+    inputs:
+      applica:
+        description: "true = sposta le pagine fuori dal sito; false = solo elenco"
+        required: true
+        default: "false"
+
+jobs:
+  rimuovi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Elenca, salva copia e (se richiesto) rimuovi
+        env:
+          H: ${{ secrets.ARUBA_FTP_HOST }}
+          U: ${{ secrets.ARUBA_FTP_USER }}
+          P: ${{ secrets.ARUBA_FTP_PASS }}
+          D: ${{ secrets.ARUBA_FTP_PATH }}
+          APPLICA: ${{ github.event.inputs.applica }}
+        run: |
+          sudo apt-get install -y -q lftp >/dev/null
+          echo "=== cartelle in user/pages che riguardano il calcolo ==="
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; cls -1 ${D}user/pages/; bye" | grep -i "genera\|calcolo\|account\|carte" || echo "(nessuna)"
+          echo "=== copia di sicurezza ==="
+          mkdir -p backup
+          for d in $(lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; cls -1 ${D}user/pages/; bye" | grep -iE "genera-carta"); do
+            n=$(basename "$d"); echo "  scarico $n"
+            lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; mirror --verbose=0 ${D}user/pages/$n backup/$n; bye" || echo "  (fallito $n)"
+          done
+          find backup -type f | head -30
+          if [ "$APPLICA" != "true" ]; then echo "(solo elenco, niente rimosso)"; exit 0; fi
+          echo "=== rimozione: le pagine escono da user/pages ==="
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; mkdir -p ${D}user/data/pagine-rimosse; bye" || true
+          for d in $(lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; cls -1 ${D}user/pages/; bye" | grep -iE "genera-carta"); do
+            n=$(basename "$d")
+            lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; mv ${D}user/pages/$n ${D}user/data/pagine-rimosse/$n; bye" && echo "  spostata $n"
+          done
+          echo "=== verifica live ==="
+          sleep 5
+          for u in genera-carta genera-carta-beta genera-carta-v2 calcolo-human-design; do
+            printf "%-24s " "$u"
+            curl -s -o /dev/null -w "HTTP %{http_code} -> %{redirect_url}\n" "https://valentinarussobg5.com/$u"
+          done
+      - name: Conserva la copia di sicurezza
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: copia-genera-carta
+          path: backup
+          if-no-files-found: warn
