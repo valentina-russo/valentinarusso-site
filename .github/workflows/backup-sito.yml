@@ -1,12 +1,14 @@
 name: Backup completo del sito
-# Scarica via FTP tutta l'installazione Grav (pagine, temi, plugin, immagini,
+# Scarica via FTP l'installazione Grav (pagine, tema, plugin, immagini caricate,
 # configurazione) e la conserva come archivio scaricabile dalla scheda Actions.
+# Restano fuori: cache, log, temporanei e il vecchio backup WordPress del marzo 2026.
 on:
   workflow_dispatch:
 
 jobs:
   backup:
     runs-on: ubuntu-latest
+    timeout-minutes: 120
     steps:
       - name: Scarica il sito
         env:
@@ -17,13 +19,15 @@ jobs:
         run: |
           sudo apt-get install -y -q lftp >/dev/null
           mkdir -p sito
-          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; set net:timeout 20; set net:max-retries 3; set mirror:parallel-transfer-count 4; mirror --verbose=1 -x '^cache' -x '^cache-vecchia' -x '^logs' -x '^tmp' -x '^backup' ${D} sito/; bye"
-          echo '=== cosa e' stato scaricato ==='
+          echo "### cartelle sul server"
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; cls -1 ${D}; bye"
+          echo "### scarico"
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; set net:timeout 20; set net:max-retries 3; set mirror:parallel-transfer-count 6; mirror --verbose=0 -x '^wp_backup_marzo2026' -x '^cache' -x '^cache-vecchia' -x '^logs' -x '^tmp' -x '^backup' -x '^images' ${D} sito/; bye"
+          echo "### risultato"
           du -sh sito
-          find sito -maxdepth 2 -type d | head -40
-          echo '=== conteggi ==='
           echo "file totali: $(find sito -type f | wc -l)"
-          echo "pagine (.md): $(find sito -name '*.md' | wc -l)"
+          echo "pagine markdown: $(find sito -name '*.md' | wc -l)"
+          find sito -maxdepth 2 -type d | head -30
       - name: Comprimi
         run: tar -czf sito-online.tar.gz sito && ls -lh sito-online.tar.gz
       - uses: actions/upload-artifact@v4
