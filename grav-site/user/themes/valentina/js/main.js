@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Track genera-carta clicks
-  document.querySelectorAll('a[href*="/genera-carta"]').forEach(link => {
+  document.querySelectorAll('a[href*="/calcolo-human-design"], a[href*="/genera-carta"]').forEach(link => {
     link.addEventListener('click', () => {
       trackConversion('Genera_Carta', link.href);
     });

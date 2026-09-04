@@ -1,55 +1,14 @@
-<footer style="padding: 1.5rem 0 1rem 0; margin-top: 2rem; border-top: 1px solid #dcd7d3; background-color: #fff;">
-    <div class="container" style="display: flex; flex-direction: column; align-items: center; gap: 0.8rem; text-align: center;">
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; font-size: 0.85rem; font-weight: 600;">
-            <a href="{{ grav.base_url }}">Home</a>
-            <a href="{{ grav.base_url }}/chi-sono">Chi Sono</a>
-            <a href="{{ grav.base_url }}/servizi">Servizi</a>
-            <a href="{{ grav.base_url }}/blog">Blog</a>
-            <a href="{{ grav.base_url }}/contatti">Contatti</a>
-            <a href="{{ grav.base_url }}/privacy">Privacy</a>
-            <a href="{{ grav.base_url }}/terms">Termini</a>
-            <a href="https://www.instagram.com/valentinarussobg5/" target="_blank" rel="noopener">Instagram</a>
-            <a href="/llms.txt">llms.txt</a>
-        </div>
-
-        {# Certificazione ufficiale BG5 #}
-        <div style="margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid #eee;">
-            <a href="https://bg5businessinstitute.com/professionals?id=399d41b3-612b-48d1-88b9-7bc26ed71418" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 1rem; border: 1.5px solid #B68397; border-radius: 20px; color: #7a5c6e; text-decoration: none; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em; transition: background 0.2s;" onmouseover="this.style.background='#f9f0f4'" onmouseout="this.style.background='transparent'">
-                <span style="font-size: 1rem;">✓</span> Analista Certificata BG5® — Profilo Ufficiale
-            </a>
-        </div>
-
-        {# Consulente BG5 per città — link SEO locali #}
-        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; font-size: 0.75rem; color: #888;">
-            <div style="margin-bottom: 0.5rem; font-weight: 600; color: #666;">Consulente BG5® per città</div>
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem 1.2rem;">
-                <a href="{{ grav.base_url }}/consulente-bg5-milano" style="color: #9a7b8a; text-decoration: none;">Milano</a>
-                <a href="{{ grav.base_url }}/consulente-bg5-torino" style="color: #9a7b8a; text-decoration: none;">Torino</a>
-                <a href="{{ grav.base_url }}/consulente-bg5-roma" style="color: #9a7b8a; text-decoration: none;">Roma</a>
-                <a href="{{ grav.base_url }}/consulente-bg5-bologna" style="color: #9a7b8a; text-decoration: none;">Bologna</a>
-                <a href="{{ grav.base_url }}/consulente-bg5-firenze" style="color: #9a7b8a; text-decoration: none;">Firenze</a>
-                <a href="{{ grav.base_url }}/consulente-bg5-napoli" style="color: #9a7b8a; text-decoration: none;">Napoli</a>
-                <a href="{{ grav.base_url }}/consulente-bg5-venezia" style="color: #9a7b8a; text-decoration: none;">Venezia</a>
-                <a href="{{ grav.base_url }}/consulente-bg5-bari" style="color: #9a7b8a; text-decoration: none;">Bari</a>
-                <a href="{{ grav.base_url }}/consulente-bg5-palermo" style="color: #9a7b8a; text-decoration: none;">Palermo</a>
-                <a href="{{ grav.base_url }}/consulente-bg5-verona" style="color: #9a7b8a; text-decoration: none;">Verona</a>
-                <a href="{{ grav.base_url }}/consulente-bg5-italia" style="color: #9a7b8a; text-decoration: none;">Tutta Italia</a>
-            </div>
-        </div>
-
-        {# Trust Signals — Risorse Autorevoli #}
-        <div style="margin-top: 1rem; font-size: 0.75rem; color: #999;">
-            <div style="margin-bottom: 0.6rem; font-weight: 600; color: #666;">Risorse Ufficiali</div>
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;">
-                <a href="https://bg5businessinstitute.com/" target="_blank" rel="noopener noreferrer" style="color: #7a5c6e; text-decoration: none; font-weight: 500;">BG5® Business Institute</a>
-                <a href="https://www.jovianarchive.com/" target="_blank" rel="noopener noreferrer" style="color: #7a5c6e; text-decoration: none; font-weight: 500;">Human Design Official</a>
-            </div>
-        </div>
-        <div style="font-size: 0.75rem; color: #666;">
-            &copy; {{ "now"|date("Y") }} Valentina Russo &mdash; Consulente BG5&reg; | Human Design Analyst. Tutti i diritti riservati.
-        </div>
-        <div style="font-size: 0.72rem; color: #aaa; letter-spacing: 0.01em;">
-            P.IVA 03831440049
-        </div>
-    </div>
-</footer>
+{# Pie' di pagina - veste "Meccanica Calda", tre livelli distinti:
+   marchio + link, riga delle citta', riga legale. #}
+{% set base = grav.base_url %}
+<footer><div class="wrap">
+  <div class="riga-1">
+    <a class="brand" href="{{ base }}/"><img class="logo" src="{{ theme_url }}/images/logo-quadro.png" alt="" width="40" height="40"><span>Valentina Russo<em>Consulente Human Design / BG5&reg;</em></span></a>
+    <nav class="piede-link">
+      <a href="{{ base }}/">Home</a><a href="{{ base }}/chi-sono">Chi Sono</a><a href="{{ base }}/servizi">Servizi</a><a href="{{ base }}/libretto-istruzioni">Libretto HD</a><a href="{{ base }}/blog">Blog</a><a href="{{ base }}/contatti">Contatti</a><a href="{{ base }}/privacy">Privacy</a><a href="{{ base }}/terms">Termini</a><a href="https://www.instagram.com/valentinarussobg5/">Instagram</a><a href="https://bg5businessinstitute.com/">BG5&reg; Business Institute</a><a href="https://www.jovianarchive.com/">Human Design Official</a><a href="{{ base }}/llms.txt">llms.txt</a>
+    </nav>
+  </div>
+  <p class="citta-riga"><span>Consulente BG5&reg; per citt&agrave;:</span> <a href="{{ base }}/consulente-bg5-milano">Milano</a> &middot; <a href="{{ base }}/consulente-bg5-torino">Torino</a> &middot; <a href="{{ base }}/consulente-bg5-roma">Roma</a> &middot; <a href="{{ base }}/consulente-bg5-firenze">Firenze</a> &middot; <a href="{{ base }}/consulente-bg5-bologna">Bologna</a> &middot; <a href="{{ base }}/consulente-bg5-napoli">Napoli</a> &middot; <a href="{{ base }}/consulente-bg5-venezia">Venezia</a> &middot; <a href="{{ base }}/consulente-bg5-bari">Bari</a> &middot; <a href="{{ base }}/consulente-bg5-palermo">Palermo</a> &middot; <a href="{{ base }}/consulente-bg5-verona">Verona</a> &middot; <a href="{{ base }}/consulente-bg5-italia">Tutta Italia</a></p>
+  <p class="legale">&copy; {{ "now"|date("Y") }} Valentina Russo &mdash; Consulente BG5&reg; | Human Design Analyst. Tutti i diritti riservati. P.IVA 03831440049 &middot; <a href="https://bg5businessinstitute.com/professionals?id=399d41b3-612b-48d1-88b9-7bc26ed71418">Analista Certificata BG5&reg; &mdash; Profilo Ufficiale</a></p>
+</div></footer>
+<button class="su" id="su" type="button" aria-label="Torna in alto" hidden>&#8593;</button>

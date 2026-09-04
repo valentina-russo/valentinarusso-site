@@ -1,516 +1,6 @@
 {% extends 'partials/base.html.twig' %}
 
 
-{% block extra_css %}
-<style>
-/* ── Human Design intro page ── */
-.hd-hero {
-    background:
-        url("data:image/svg+xml,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.06'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
-        radial-gradient(ellipse at 15% 20%, rgba(182,131,151,0.22) 0%, transparent 55%),
-        radial-gradient(ellipse at 85% 15%, rgba(45,106,139,0.14) 0%, transparent 50%),
-        radial-gradient(ellipse at 70% 85%, rgba(182,131,151,0.12) 0%, transparent 45%),
-        radial-gradient(ellipse at 10% 80%, rgba(45,106,139,0.10) 0%, transparent 50%),
-        #FAF7F5;
-    padding: 4rem 1.25rem;
-}
-.hd-hero-inner {
-    max-width: 860px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: 2rem;
-    align-items: center;
-}
-.hd-hero-text { }
-.hd-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 4vw, 2.8rem);
-    color: #222;
-    margin: 0 0 1.25rem;
-    line-height: 1.2;
-}
-.hd-hero .hero-lead {
-    font-size: 1.05rem;
-    color: #555;
-    max-width: 520px;
-    margin: 0 0 2.25rem;
-    line-height: 1.75;
-}
-.hd-hero-visual {
-    position: relative;
-}
-/* ── Carousel bodygraph ── */
-.hd-demo-carousel {
-    position: relative;
-    width: 100%;
-    max-width: 280px;
-    margin: 0 auto;
-    aspect-ratio: 851 / 1309;
-}
-.hd-demo-slide {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    opacity: 0;
-    animation: hd-fade 28s infinite;
-    filter: drop-shadow(0 6px 24px rgba(45,106,139,0.15));
-}
-/* Ogni immagine è visibile per 2.8s su 28s totali (10%) */
-@keyframes hd-fade {
-    0%   { opacity: 0; }
-    2%   { opacity: 1; }
-    8%   { opacity: 1; }
-    10%  { opacity: 0; }
-    100% { opacity: 0; }
-}
-.hd-demo-slide:nth-child(1)  { animation-delay:  0.0s; }
-.hd-demo-slide:nth-child(2)  { animation-delay:  2.8s; }
-.hd-demo-slide:nth-child(3)  { animation-delay:  5.6s; }
-.hd-demo-slide:nth-child(4)  { animation-delay:  8.4s; }
-.hd-demo-slide:nth-child(5)  { animation-delay: 11.2s; }
-.hd-demo-slide:nth-child(6)  { animation-delay: 14.0s; }
-.hd-demo-slide:nth-child(7)  { animation-delay: 16.8s; }
-.hd-demo-slide:nth-child(8)  { animation-delay: 19.6s; }
-.hd-demo-slide:nth-child(9)  { animation-delay: 22.4s; }
-.hd-demo-slide:nth-child(10) { animation-delay: 25.2s; }
-.hd-type-label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    margin-top: 0.9rem;
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #999;
-    min-height: 1.4em;
-}
-.hd-type-dot {
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #ccc;
-    flex-shrink: 0;
-    transition: background 0.9s ease;
-}
-.hd-badge {
-    display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--primary-color, #B68397);
-    border: 1px solid var(--primary-color, #B68397);
-    border-radius: 20px;
-    padding: 0.3rem 1rem;
-    margin-bottom: 1.5rem;
-}
-
-/* ── Valentina box (BG5 section) ── */
-.valentina-box {
-    display: grid;
-    grid-template-columns: 160px 1fr;
-    gap: 2rem;
-    align-items: start;
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(45,106,139,0.15);
-}
-.valentina-photo {
-    width: 160px;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid rgba(45,106,139,0.2);
-}
-.valentina-box-text p {
-    font-size: 0.92rem;
-    color: #444;
-    line-height: 1.7;
-    margin-bottom: 1rem;
-}
-.valentina-box-text strong { color: #222; }
-.bg5-badge {
-    height: 48px;
-    width: auto;
-    opacity: 0.85;
-    margin-top: 0.5rem;
-}
-
-/* ── Sezioni ── */
-.hd-prose-wrap {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 4rem 1.25rem;
-}
-.hd-wide-wrap {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 4rem 1.25rem;
-}
-.hd-tinted { background: rgba(182,131,151,0.05); }
-.hd-teal-tinted { background: rgba(45,106,139,0.04); }
-
-.hd-prose-wrap h2,
-.hd-wide-wrap h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.7rem;
-    color: #222;
-    margin-bottom: 1.25rem;
-}
-.hd-wide-wrap h2 { text-align: center; margin-bottom: 0.75rem; }
-.hd-wide-wrap .section-lead {
-    text-align: center;
-    color: #666;
-    font-size: 0.95rem;
-    max-width: 580px;
-    margin: 0 auto 2.5rem;
-    line-height: 1.65;
-}
-
-.hd-prose p {
-    font-size: 1rem;
-    line-height: 1.85;
-    color: #444;
-    margin-bottom: 1.25rem;
-}
-.hd-prose strong { color: #222; }
-.hd-prose a { color: var(--primary-color, #B68397); font-weight: 600; text-decoration: none; }
-.hd-prose a:hover { text-decoration: underline; }
-
-/* ── AEO box ── */
-.aeo-box {
-    background: rgba(182,131,151,0.08);
-    border-left: 3px solid var(--primary-color, #B68397);
-    padding: 1rem 1.5rem;
-    border-radius: 0 8px 8px 0;
-    margin-bottom: 2.5rem;
-}
-.aeo-box p {
-    margin: 0;
-    font-size: 0.95rem;
-    font-style: italic;
-    color: #444;
-    line-height: 1.7;
-}
-
-/* ── Tipi grid ── */
-.types-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
-}
-.type-card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 1.5rem 1.1rem 1.25rem;
-    border: 1px solid #ece8e3;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.type-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 28px rgba(0,0,0,0.08);
-}
-.type-accent-bar {
-    width: 32px;
-    height: 4px;
-    border-radius: 2px;
-    margin-bottom: 1rem;
-}
-.type-card h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    color: #222;
-    margin-bottom: 0.2rem;
-    line-height: 1.3;
-}
-.type-hd { font-size: 0.72rem; color: #aaa; font-style: italic; margin-bottom: 0.75rem; }
-.type-pct {
-    font-size: 1.75rem;
-    font-weight: 800;
-    font-family: 'Outfit', sans-serif;
-    line-height: 1;
-    margin-bottom: 0.75rem;
-}
-.type-label {
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: #bbb;
-    margin-bottom: 0.2rem;
-    margin-top: 0.6rem;
-}
-.type-strategy { font-size: 0.82rem; color: #555; line-height: 1.5; }
-.type-shadow { font-size: 0.78rem; color: #888; font-style: italic; }
-
-/* ── Gerarchia ── */
-.hierarchy-steps {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 0.5rem;
-}
-.h-step {
-    background: #FEFCFB;
-    border-radius: 16px;
-    border: 1px solid rgba(182,131,151,0.14);
-    padding: 2.25rem 1.5rem;
-    text-align: center;
-}
-.h-step-num {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: var(--primary-color, #B68397);
-    color: #fff;
-    font-weight: 800;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.1rem;
-    box-shadow: 0 0 0 4px rgba(182,131,151,0.15), 0 4px 16px rgba(182,131,151,0.20);
-}
-.h-step h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    color: #222;
-    margin-bottom: 0.75rem;
-}
-.h-step p {
-    font-size: 0.88rem;
-    color: #555;
-    line-height: 1.65;
-    margin: 0;
-}
-
-/* ── Centri grid ── */
-.centers-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-}
-.center-chip {
-    background: #FAF7F5;
-    border: 1px solid rgba(182,131,151,0.16);
-    border-radius: 10px;
-    padding: 0.85rem 1rem;
-    transition: border-color 0.2s ease, transform 0.2s ease;
-}
-.center-chip:hover {
-    border-color: rgba(182,131,151,0.42);
-    transform: translateY(-2px);
-}
-.center-chip .cn { font-weight: 700; font-size: 0.88rem; color: #333; margin-bottom: 0.2rem; }
-.center-chip .cd { font-size: 0.75rem; color: #999; }
-
-/* ── FAQ ── */
-.hd-faq { margin-top: 0.5rem; }
-.faq-hd-item {
-    border-bottom: 1px solid #ece8e3;
-    padding: 1.25rem 0;
-}
-.faq-hd-item:first-child { border-top: 1px solid #ece8e3; }
-.faq-hd-item h4 {
-    font-size: 0.98rem;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 0.5rem;
-}
-.faq-hd-item p {
-    font-size: 0.9rem;
-    color: #555;
-    line-height: 1.7;
-    margin: 0;
-}
-
-/* ── CTA finale ── */
-.hd-cta {
-    background:
-        url("data:image/svg+xml,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.70' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.05'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
-        radial-gradient(ellipse at 50% 0%, rgba(182,131,151,0.20) 0%, transparent 60%),
-        #FAF7F5;
-    padding: 4.5rem 1.25rem;
-    text-align: center;
-}
-.hd-cta h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.7rem;
-    color: var(--primary-color, #B68397);
-    margin-bottom: 1rem;
-}
-.hd-cta p {
-    color: #666;
-    font-size: 0.95rem;
-    max-width: 500px;
-    margin: 0 auto 2rem;
-    line-height: 1.65;
-}
-.cta-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    align-items: center;
-}
-
-/* ── HD vs BG5 confronto ── */
-.hd-vs-grid {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 1.5rem;
-    align-items: start;
-    margin-top: 0.5rem;
-}
-.hd-vs-card {
-    background: #fff;
-    border-radius: 16px;
-    border: 1px solid #ece8e3;
-    overflow: hidden;
-}
-.hd-vs-bg5 { border-color: rgba(45,106,139,0.3); }
-.hd-vs-header {
-    padding: 1rem 1.5rem;
-    background: rgba(182,131,151,0.06);
-    border-bottom: 1px solid #ece8e3;
-}
-.hd-vs-bg5 .hd-vs-header { background: rgba(45,106,139,0.05); border-color: rgba(45,106,139,0.15); }
-.hd-vs-label {
-    font-size: 0.75rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    background: rgba(182,131,151,0.12);
-    color: var(--primary-color, #B68397);
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-}
-.hd-vs-list {
-    list-style: none;
-    margin: 0;
-    padding: 0.5rem 0;
-}
-.hd-vs-list li {
-    display: grid;
-    grid-template-columns: 90px 1fr;
-    gap: 0.75rem;
-    padding: 0.75rem 1.5rem;
-    border-bottom: 1px solid #f5f2ef;
-    align-items: start;
-}
-.hd-vs-list li:last-child { border-bottom: none; }
-.hd-vs-key {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #bbb;
-    padding-top: 0.1rem;
-}
-.hd-vs-val { font-size: 0.87rem; color: #444; line-height: 1.5; }
-.hd-vs-divider {
-    font-size: 0.8rem;
-    font-weight: 800;
-    color: #ccc;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    align-self: center;
-    text-align: center;
-    padding-top: 3rem;
-}
-
-/* ── CTA mid-page sticky bar ── */
-.hd-cta-bar {
-    background: var(--primary-color, #B68397);
-    padding: 1.25rem 1.25rem;
-    text-align: center;
-}
-.hd-cta-bar p {
-    display: inline;
-    color: rgba(255,255,255,0.9);
-    font-size: 0.95rem;
-    margin-right: 1.25rem;
-}
-.hd-cta-bar .btn-white {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.65rem 1.5rem;
-    background: #fff;
-    color: var(--primary-color, #B68397);
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    text-decoration: none;
-    transition: opacity 0.2s;
-}
-.hd-cta-bar .btn-white:hover { opacity: 0.88; }
-
-/* ── Wave dividers ── */
-.wave-divider { display: block; width: 100%; overflow: hidden; line-height: 0; margin: 0; padding: 0; }
-.wave-divider svg { display: block; width: 100%; }
-
-/* ── Sezione Tipi: rosa morbido ── */
-.hd-types-section {
-    background:
-        url("data:image/svg+xml,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.04'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
-        radial-gradient(ellipse at 15% 30%, rgba(182,131,151,0.14) 0%, transparent 55%),
-        radial-gradient(ellipse at 85% 70%, rgba(45,106,139,0.08) 0%, transparent 50%),
-        #FAF7F5;
-}
-
-/* ── Sezione BG5: teal morbido ── */
-.hd-bg5-section {
-    background:
-        url("data:image/svg+xml,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.04'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
-        radial-gradient(ellipse at 80% 20%, rgba(45,106,139,0.12) 0%, transparent 55%),
-        radial-gradient(ellipse at 15% 75%, rgba(182,131,151,0.09) 0%, transparent 50%),
-        #F5F9F8;
-}
-
-/* ── Responsive ── */
-@media (max-width: 900px) {
-    .types-grid { grid-template-columns: repeat(2, 1fr); }
-    .hd-vs-grid { grid-template-columns: 1fr; }
-    .hd-vs-divider { padding: 0; }
-}
-@media (max-width: 768px) {
-    /* Hero: stack verticale, testo sopra, bodygraph sotto */
-    .hd-hero-inner {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 2rem;
-    }
-    .hd-hero .hero-lead { max-width: 100%; }
-    .hd-hero .cta-row { justify-content: center; }
-    /* Valentina box: stack verticale */
-    .valentina-box {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-    .valentina-photo { margin: 0 auto; }
-}
-@media (max-width: 640px) {
-    .hierarchy-steps { grid-template-columns: 1fr; }
-    .hd-hero { padding: 2.5rem 1rem 2rem; }
-    .hd-prose-wrap { padding: 2.5rem 1rem; }
-    .hd-wide-wrap { padding: 2.5rem 1rem; }
-    .hd-cta { padding: 3rem 1rem; }
-    .hd-cta-bar p { display: block; margin: 0 0 1rem; }
-}
-@media (max-width: 480px) {
-    .types-grid { grid-template-columns: 1fr; }
-    .hd-demo-carousel { max-width: 220px; }
-}
-</style>
-{% endblock %}
-
 {% block schema %}
 <script type="application/ld+json">
 {
@@ -572,292 +62,237 @@
 </script>
 {% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ theme_url }}/css/d2/guida-d2.css?v={{ theme_version }}">
+{% endblock %}
+
 {% block content %}
-<main>
+{% set base = grav.base_url %}
+<div class="rv-d2">
 
-  {# ══ HERO ══ #}
-  <section class="hd-hero">
-    <div class="hd-hero-inner">
-      <div class="hd-hero-text">
-        <span class="hd-badge">Guida per chi inizia</span>
-        <h1>Cos'è l'Human Design?</h1>
-        <p class="hero-lead aeo-answer"><strong>Lo Human Design</strong> è un sistema di analisi logica dell'energia individuale, calcolato da data, ora e luogo di nascita, che combina astrologia, I Ching, Chakra e genetica in una mappa personale chiamata Bodygraph. Non è un sistema di credenze: individua il tuo Tipo Energetico, la tua Strategia e la tua Autorità Interna, i tre dati che stabiliscono come sei progettato per agire, decidere e relazionarti.</p>
-        <p class="hero-lead">Una mappa del tuo funzionamento unico: come prendi decisioni, dove metti energia, perché certe situazioni ti esauriscono e altre ti ricaricano.</p>
-        <div class="cta-row">
-          <a href="{{ grav.base_url }}/calcolo-human-design" class="btn btn-primary">Calcola gratis la tua carta</a>
-        </div>
-      </div>
-      <div class="hd-hero-visual">
-        <div class="hd-demo-carousel" aria-label="Esempi di bodygraph Human Design">
-          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd01.png" alt="Generatore — 22 lug 1988" class="hd-demo-slide">
-          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd02.png" alt="Proiettore — 3 nov 1975" class="hd-demo-slide">
-          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd03.png" alt="Riflettore — 14 feb 1992" class="hd-demo-slide">
-          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd04.png" alt="Proiettore — 8 set 1969" class="hd-demo-slide">
-          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd05.png" alt="Proiettore — 30 apr 2001" class="hd-demo-slide">
-          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd06.png" alt="Generatore — 25 dic 1983" class="hd-demo-slide">
-          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd07.png" alt="Proiettore — 18 giu 1997" class="hd-demo-slide">
-          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd08.png" alt="Proiettore — 4 ago 1961" class="hd-demo-slide">
-          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd09.png" alt="Proiettore — 11 ott 2004" class="hd-demo-slide">
-          <img src="{{ grav.base_url }}/user/pages/assets/hd-demo/hd10.png" alt="Generatore — 27 mag 1978" class="hd-demo-slide">
-        </div>
-        <p class="hd-type-label">
-          <span class="hd-type-dot" id="hd-type-dot" style="background:#B68397;"></span>
-          <span id="hd-type-label">Ogni carta è unica</span>
-        </p>
-      </div>
-    </div>
-  </section>
-  <div class="wave-divider" aria-hidden="true" style="background:#FAF7F5;">
-    <svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C360,48 720,0 1080,32 C1260,48 1380,16 1440,24 L1440,48 L0,48 Z" fill="#ffffff"/></svg>
-  </div>
+<section class="hd-hero">
+<div class="hd-hero-inner">
+<div class="hd-hero-text">
+<span class="hd-badge">Guida per chi inizia</span>
+<h1>Cos'&#232; l'Human Design?</h1>
+<p class="hero-lead aeo-answer"><strong>Lo Human Design</strong> &#232; un sistema di analisi logica dell'energia individuale, calcolato da data, ora e luogo di nascita, che combina astrologia, I Ching, Chakra e genetica in una mappa personale chiamata Bodygraph. Non &#232; un sistema di credenze: individua il tuo Tipo Energetico, la tua Strategia e la tua Autorit&#224; Interna, i tre dati che stabiliscono come sei progettato per agire, decidere e relazionarti.</p>
+<p class="hero-lead aeo-answer"><strong>Lo Human Design</strong> &#232; un sistema di analisi logica dell'energia individuale, calcolato da data, ora e luogo di nascita, che combina astrologia, I Ching, Chakra e genetica in una mappa personale chiamata Bodygraph. Non &#232; un sistema di credenze: individua il tuo Tipo Energetico, la tua Strategia e la tua Autorit&#224; Interna, i tre dati che stabiliscono come sei progettato per agire, decidere e relazionarti.</p>
+<p class="hero-lead">Una mappa del tuo funzionamento unico: come prendi decisioni, dove metti energia, perch&#233; certe situazioni ti esauriscono e altre ti ricaricano.</p>
+<div class="cta-row">
+<a href="{{ base }}/calcolo-human-design" class="btn btn-1">Calcola gratis la tua carta</a>
+</div>
+</div>
+<div class="hd-hero-visual">
+<div class="hd-demo-carousel">
+<img src="{{ base }}/user/pages/assets/hd-demo/hd01.png" alt="Generatore &#8212; 22 lug 1988" class="hd-demo-slide" loading="lazy">
+<img src="{{ base }}/user/pages/assets/hd-demo/hd02.png" alt="Proiettore &#8212; 3 nov 1975" class="hd-demo-slide" loading="lazy">
+<img src="{{ base }}/user/pages/assets/hd-demo/hd03.png" alt="Riflettore &#8212; 14 feb 1992" class="hd-demo-slide" loading="lazy">
+<img src="{{ base }}/user/pages/assets/hd-demo/hd04.png" alt="Proiettore &#8212; 8 set 1969" class="hd-demo-slide" loading="lazy">
+<img src="{{ base }}/user/pages/assets/hd-demo/hd05.png" alt="Proiettore &#8212; 30 apr 2001" class="hd-demo-slide" loading="lazy">
+<img src="{{ base }}/user/pages/assets/hd-demo/hd06.png" alt="Generatore &#8212; 25 dic 1983" class="hd-demo-slide" loading="lazy">
+<img src="{{ base }}/user/pages/assets/hd-demo/hd07.png" alt="Proiettore &#8212; 18 giu 1997" class="hd-demo-slide" loading="lazy">
+<img src="{{ base }}/user/pages/assets/hd-demo/hd08.png" alt="Proiettore &#8212; 4 ago 1961" class="hd-demo-slide" loading="lazy">
+<img src="{{ base }}/user/pages/assets/hd-demo/hd09.png" alt="Proiettore &#8212; 11 ott 2004" class="hd-demo-slide" loading="lazy">
+<img src="{{ base }}/user/pages/assets/hd-demo/hd10.png" alt="Generatore &#8212; 27 mag 1978" class="hd-demo-slide" loading="lazy">
+</div>
+<p class="hd-type-label">
+<span id="hd-type-dot" class="hd-type-dot"></span>
+<span id="hd-type-label">Ogni carta &#232; unica</span>
+</p>
+</div>
+</div>
+</section>
+<div class="wave-divider">
+</div>
+<section>
+<div>
+<img src="{{ base }}/user/pages/assets/bodygraph.png" alt="" loading="lazy">
+</div>
+<div class="hd-prose-wrap">
+<div class="aeo-box">
+<p>L'Human Design &#232; un sistema di autoconoscenza sviluppato nel 1987 da Ra Uru Hu che integra astrologia, I Ching, Kabbalah e fisica quantistica. Calcola un bodygraph individuale a partire da data, ora e luogo di nascita, rivelando il Tipo energetico (uno dei 4: Generatore, Proiettore, Manifestatore, Riflettore), la Strategia d'azione e l'Autorit&#224; Decisionale. BG5 &#232; la versione applicata al lavoro e alle carriere.</p>
+</div>
+<div class="hd-prose">
+<h2>Un sistema nato nel 1987</h2>
+<p>Nel gennaio 1987 a Ibiza, Ra Uru Hu &#8212; fisico e musicista canadese &#8212; descrive un'esperienza di otto giorni durante la quale, a suo racconto, ricevette informazioni sulla struttura energetica dell'essere umano. Ne nacque un sistema che sintetizza quattro tradizioni: astrologia occidentale e vedica, I Ching, Kabbalah e fisica quantistica.</p>
+<p>Il risultato &#232; il <strong>bodygraph</strong>: un diagramma con 9 centri energetici, 64 gate e 36 canali, calcolato a partire da data, ora esatta e luogo di nascita. Ogni combinazione &#232; unica. Il bodygraph non dice chi dovresti essere: descrive come funzioni quando sei allineato con la tua meccanica naturale.</p>
+<p>Human Design non &#232; psicologia e non &#232; astrologia nel senso convenzionale. &#200; un framework di autoconoscenza. Il suo valore si misura nell'utilit&#224; pratica: quanto ti aiuta a fare scelte pi&#249; coerenti con la tua natura, a capire perch&#233; certe dinamiche si ripetono, a smettere di combattere contro te stesso.</p>
+</div>
+</div>
+</section>
+<section class="hd-types-section">
+<div class="hd-wide-wrap">
+<h2>I 4 Tipi</h2>
+<p class="section-lead">Ogni persona appartiene a uno dei 4 Tipi &#8212; determinato dalla carta, non sceglibile. Ogni Tipo ha una Strategia specifica e un tema emotivo che segnala allineamento o disallineamento.</p>
+<div class="types-grid">
+<div class="type-card">
+<div class="type-accent-bar"></div>
+<h3>Generatore</h3>
+<div class="type-hd">Costruttore (BG5) &#8212; Classico o Rapido</div>
+<div class="type-pct">~70%</div>
+<div class="type-label">Strategia</div>
+<div class="type-strategy">Rispondere agli stimoli prima di agire &#8212; non iniziare da soli</div>
+<div class="type-label">Allineamento</div>
+<div class="type-shadow">Soddisfazione &#183; Frustrazione</div>
+</div>
+<div class="type-card">
+<div class="type-accent-bar"></div>
+<h3>Proiettore</h3>
+<div class="type-hd">Guida (BG5)</div>
+<div class="type-pct">20%</div>
+<div class="type-label">Strategia</div>
+<div class="type-strategy">Aspettare l'invito specifico prima di offrire la propria guida</div>
+<div class="type-label">Allineamento</div>
+<div class="type-shadow">Successo &#183; Amarezza</div>
+</div>
+<div class="type-card">
+<div class="type-accent-bar"></div>
+<h3>Manifestatore</h3>
+<div class="type-hd">Iniziatore (BG5)</div>
+<div class="type-pct">9%</div>
+<div class="type-label">Strategia</div>
+<div class="type-strategy">Informare le persone chiave prima di agire</div>
+<div class="type-label">Allineamento</div>
+<div class="type-shadow">Pace &#183; Rabbia</div>
+</div>
+<div class="type-card">
+<div class="type-accent-bar"></div>
+<h3>Riflettore</h3>
+<div class="type-hd">Valutatore (BG5)</div>
+<div class="type-pct">1%</div>
+<div class="type-label">Strategia</div>
+<div class="type-strategy">Aspettare un ciclo lunare completo (28 giorni) per le decisioni importanti</div>
+<div class="type-label">Allineamento</div>
+<div class="type-shadow">Sorpresa &#183; Delusione</div>
+</div>
+</div>
+<p>In BG5 il Generatore si distingue in Costruttore Classico (37%) e Costruttore Rapido (33%), per un totale di 5 profili di carriera. I nomi tra parentesi sono quelli usati nel contesto professionale.</p>
+</div>
+</section>
 
-  {# ══ COS'È HD ══ #}
-  <section style="background: #fff; position: relative; overflow: hidden;">
-    <div style="position:absolute;right:-60px;top:50%;transform:translateY(-50%);width:300px;opacity:0.04;pointer-events:none;filter:grayscale(1);" aria-hidden="true">
-      <img src="{{ grav.base_url }}/user/pages/assets/bodygraph.png" alt="" style="width:100%;height:auto;">
-    </div>
-    <div class="hd-prose-wrap" style="position:relative;z-index:1;">
+<section>
+<div class="hd-wide-wrap">
+<h2>Come si legge: tre livelli</h2>
+<p class="section-lead">Il sistema si legge in ordine preciso: prima il Tipo, poi la Strategia, poi l'Autorit&#224; Decisionale. Ogni livello si appoggia su quello precedente.</p>
+<div class="hierarchy-steps">
+<div class="h-step">
+<div class="h-step-num">1</div>
+<h3>Il Tipo</h3>
+<p>Il tuo motore energetico. Determina quanta energia hai a disposizione, come si ricarica e in quali condizioni funziona meglio. &#200; il punto di partenza di qualsiasi lettura.</p>
+</div>
+<div class="h-step">
+<div class="h-step-num">2</div>
+<h3>La Strategia</h3>
+<p>Il modo corretto in cui il tuo Tipo interagisce con il mondo. Non &#232; una tecnica comportamentale: &#232; la meccanica naturale del sistema, quella che produce meno resistenza e pi&#249; risultati concreti.</p>
+</div>
+<div class="h-step">
+<div class="h-step-num">3</div>
+<h3>L'Autorit&#224; Decisionale</h3>
+<p>Il tuo strumento interno di scelta. Indica da dove arriva la tua risposta pi&#249; affidabile: dal corpo, dalle emozioni, dall'ambiente. Ogni Autorit&#224; ha tempi e segnali precisi.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="hd-tinted">
+<div class="hd-prose-wrap">
+<div class="hd-prose">
+<h2>Il Profilo di Carriera</h2>
+<p>Il Profilo &#232; composto da due numeri (es. 2/4, 1/3, 5/1) che derivano dalla posizione dei gate lunari al momento della nascita. Descrive il <strong>ruolo che ricopri nella tua vita</strong> e il modo in cui ti relazioni con le esperienze e con gli altri.</p>
+<p>In BG5 esistono 12 combinazioni di Profilo. Il primo numero riguarda la parte consapevole &#8212; quella che conosci e gestisci. Il secondo numero riguarda la parte inconscia &#8212; come vieni percepito dagli altri e cosa porti senza rendertene conto. Il Profilo non cambia nel tempo e si integra con Tipo e Autorit&#224; per dare una lettura completa.</p>
+<p>&#8594; <a href="#">Leggi la guida completa ai 12 Profili di Carriera</a></p>
+</div>
+</div>
+</section>
+<section>
+<div class="hd-prose-wrap">
+<div class="hd-prose">
+<h2>I 9 Centri energetici</h2>
+<p>Il bodygraph ha 9 Centri. Ogni Centro pu&#242; essere <strong>definito</strong> (colorato nella carta) o <strong>aperto</strong> (bianco). Un Centro definito ha un'energia costante e prevedibile &#8212; &#232; parte stabile di chi sei. Un Centro aperto amplifica l'energia degli altri e assorbe l'ambiente circostante con maggiore sensibilit&#224;.</p>
+</div>
+<div class="centers-grid">
+<div class="center-chip"><div class="cn">Testa</div><div class="cd">Pressione mentale, ispirazione</div></div>
+<div class="center-chip"><div class="cn">Mente</div><div class="cd">Concettualizzazione, strategia</div></div>
+<div class="center-chip"><div class="cn">Gola</div><div class="cd">Comunicazione, manifestazione</div></div>
+<div class="center-chip"><div class="cn">Centro G</div><div class="cd">Identit&#224;, direzione, amore</div></div>
+<div class="center-chip"><div class="cn">Cuore</div><div class="cd">Forza di volont&#224;, valore</div></div>
+<div class="center-chip"><div class="cn">Plesso Solare</div><div class="cd">Intelligenza Emotiva, Autorit&#224;</div></div>
+<div class="center-chip"><div class="cn">Sacrale</div><div class="cd">Energia lavorativa, risposta</div></div>
+<div class="center-chip"><div class="cn">Milza</div><div class="cd">Intuizione, salute, sicurezza</div></div>
+<div class="center-chip"><div class="cn">Radice</div><div class="cd">Pressione adrenalinica</div></div>
+</div>
+<div class="hd-prose">
+<p>La presenza o assenza di Canali tra i Centri determina la <strong>Definizione</strong> della carta: Singola, Divisa, Tripla Divisa o Quadrupla Divisa. La Definizione descrive quanto la persona sia autosufficiente a livello energetico o quanto abbia bisogno dell'ambiente esterno per completare i propri circuiti.</p>
+</div>
+</div>
+</section>
 
-      {% if page.header.aeo_answer is defined and page.header.aeo_answer %}
-      <div class="aeo-box">
-        <p>{{ page.header.aeo_answer }}</p>
-      </div>
-      {% endif %}
+<section class="sez-scheda"><div class="hd-prose-wrap"><div class="valentina-box">
+<img src="{{ base }}/user/pages/assets/valentina.jpg" alt="Valentina Russo, Consulente Certificata BG5&#174;" class="valentina-photo">
+<div class="valentina-box-text">
+<p>Valentina Russo &#232; <strong>Consulente Certificata BG5&#174;</strong> &#8212; una delle poche professioniste italiane con certificazione ufficiale dell'International BG5 Business Institute. Le sessioni coprono sia Human Design (relazioni, amor proprio, vita) sia BG5 (carriera, lavoro, aziende).</p>
+<img src="{{ base }}/user/pages/assets/bg5-certified.png" alt="Certificata BG5 Business Institute" class="bg5-badge">
+</div>
+</div></div></section>
+<section>
+<div class="hd-prose-wrap">
+<h2>Domande frequenti</h2>
+<div class="hd-faq">
+<div class="faq-hd-item">
+<h4>Cos'&#232; l'Human Design?</h4>
+<p>L'Human Design &#232; un sistema di autoconoscenza sviluppato da Ra Uru Hu nel 1987 che combina astrologia occidentale e vedica, I Ching, Kabbalah e fisica quantistica. Calcola un bodygraph individuale da data, ora esatta e luogo di nascita, rivelando Tipo energetico, Strategia e Autorit&#224; Decisionale.</p>
+</div>
+<div class="faq-hd-item">
+<h4>Qual &#232; la differenza tra Human Design e BG5?</h4>
+<p>BG5 (Business Human Design) &#232; l'applicazione professionale di Human Design. Usa la stessa carta ma focalizza la lettura su dinamiche lavorative, processi decisionali professionali e compatibilit&#224; nei team. In BG5 il Tipo diventa Tipo di Carriera, l'Autorit&#224; diventa Autorit&#224; Decisionale, il Profilo diventa Profilo di Carriera.</p>
+</div>
+<div class="faq-hd-item">
+<h4>Quanti Tipi esistono in Human Design?</h4>
+<p>In Human Design esistono 4 Tipi: Generatore (circa 70%, include il Generatore Manifestante), Proiettore (20%), Manifestatore (9%) e Riflettore (1%). Ogni Tipo ha una Strategia specifica e un tema emotivo che indica allineamento o disallineamento. Nel sistema BG5 il Generatore si distingue in Costruttore Classico e Costruttore Rapido, per un totale di 5 profili di carriera.</p>
+</div>
+<div class="faq-hd-item">
+<h4>Come si calcola la carta Human Design?</h4>
+<p>La carta Human Design si calcola inserendo data di nascita, ora esatta e luogo di nascita. Il calcolo usa le effemeridi astronomiche per due momenti: la nascita e circa 88 giorni prima (imprinting prenatale). Il risultato &#232; il bodygraph con 9 Centri, 64 Gate e 36 Canali.</p>
+</div>
+<div class="faq-hd-item">
+<h4>L'Human Design &#232; scientifico?</h4>
+<p>L'Human Design non &#232; una scienza in senso accademico: le sue basi teoriche non sono verificabili con il metodo scientifico. &#200; pi&#249; corretto definirlo un framework di autoconoscenza. Il suo valore si misura nell'utilit&#224; pratica: quanto aiuta a fare scelte pi&#249; coerenti con la propria natura e a capire perch&#233; certe dinamiche si ripetono.</p>
+</div>
+<div class="faq-hd-item">
+<h4>Quanto costa una consulenza Human Design?</h4>
+<p>Valentina Russo offre la Panoramica BG5&#174; del Disegno di Carriera a 350 euro per 90 minuti. Include la lettura completa del Tipo di Carriera, Strategia, Autorit&#224; Decisionale, Profilo e centri principali. &#200; possibile calcolare gratis la propria carta sul sito per vedere i dati di base prima di prenotare.</p>
+</div>
+</div>
+</div>
+</section>
+<div>
+<div>
+<p>Approfondimenti</p>
+<p>Valentina Russo, Consulente Certificata BG5&#174; con sede a Milano e Torino, offre Panoramiche BG5 del Disegno di Carriera in tutta Italia, anche online. L'Human Design &#232; stato sviluppato da Ra Uru Hu nel 1987 a Ibiza. I 5 Tipi BG5 sono: Costruttore Classico (37%), Costruttore Rapido (33%), Guida (20%), Iniziatore (9%), Valutatore (1%). La certificazione BG5&#174; &#232; rilasciata dall'International BG5 Business Institute. Il sistema &#232; stato applicato in contesti di selezione del personale, coaching aziendale e career design.</p>
+</div>
+</div>
+<div class="hd-cta">
+<h2>Pronta a scoprire il tuo design?</h2>
+<p>Calcola gratis la tua carta per vedere subito il tuo Tipo, Profilo e Autorit&#224;. Se vuoi capire come si traducono nella tua vita reale, prenota una Panoramica BG5&#174;.</p>
+<div class="cta-row">
+<a href="{{ base }}/calcolo-human-design">
+Calcola gratis la tua carta
+</a>
+<a href="{{ base }}/servizi" class="btn btn-1">Prenota una Panoramica BG5&#174;</a>
+</div>
+</div>
 
-      <div class="hd-prose">
-        <h2>Un sistema nato nel 1987</h2>
-        <p>Nel gennaio 1987 a Ibiza, Ra Uru Hu — fisico e musicista canadese — descrive un'esperienza di otto giorni durante la quale, a suo racconto, ricevette informazioni sulla struttura energetica dell'essere umano. Ne nacque un sistema che sintetizza quattro tradizioni: astrologia occidentale e vedica, I Ching, Kabbalah e fisica quantistica.</p>
-        <p>Il risultato è il <strong>bodygraph</strong>: un diagramma con 9 centri energetici, 64 gate e 36 canali, calcolato a partire da data, ora esatta e luogo di nascita. Ogni combinazione è unica. Il bodygraph non dice chi dovresti essere: descrive come funzioni quando sei allineato con la tua meccanica naturale.</p>
-        <p>Human Design non è psicologia e non è astrologia nel senso convenzionale. È un framework di autoconoscenza. Il suo valore si misura nell'utilità pratica: quanto ti aiuta a fare scelte più coerenti con la tua natura, a capire perché certe dinamiche si ripetono, a smettere di combattere contro te stesso.</p>
-      </div>
-    </div>
-  </section>
+</div>
+{% endblock %}
 
-  {# ══ I 4 TIPI ══ #}
-  <section class="hd-types-section">
-    <div class="hd-wide-wrap">
-      <h2>I 4 Tipi</h2>
-      <p class="section-lead">Ogni persona appartiene a uno dei 4 Tipi — determinato dalla carta, non sceglibile. Ogni Tipo ha una Strategia specifica e un tema emotivo che segnala allineamento o disallineamento.</p>
-
-      <div class="types-grid">
-
-        <div class="type-card">
-          <div class="type-accent-bar" style="background: #2D6A8B;"></div>
-          <h3>Generatore</h3>
-          <div class="type-hd">Costruttore (BG5) — Classico o Rapido</div>
-          <div class="type-pct" style="color: #2D6A8B;">~70%</div>
-          <div class="type-label">Strategia</div>
-          <div class="type-strategy">Rispondere agli stimoli prima di agire — non iniziare da soli</div>
-          <div class="type-label">Allineamento</div>
-          <div class="type-shadow">Soddisfazione · Frustrazione</div>
-        </div>
-
-        <div class="type-card">
-          <div class="type-accent-bar" style="background: #B68397;"></div>
-          <h3>Proiettore</h3>
-          <div class="type-hd">Guida (BG5)</div>
-          <div class="type-pct" style="color: #B68397;">20%</div>
-          <div class="type-label">Strategia</div>
-          <div class="type-strategy">Aspettare l'invito specifico prima di offrire la propria guida</div>
-          <div class="type-label">Allineamento</div>
-          <div class="type-shadow">Successo · Amarezza</div>
-        </div>
-
-        <div class="type-card">
-          <div class="type-accent-bar" style="background: #8A6B3A;"></div>
-          <h3>Manifestatore</h3>
-          <div class="type-hd">Iniziatore (BG5)</div>
-          <div class="type-pct" style="color: #8A6B3A;">9%</div>
-          <div class="type-label">Strategia</div>
-          <div class="type-strategy">Informare le persone chiave prima di agire</div>
-          <div class="type-label">Allineamento</div>
-          <div class="type-shadow">Pace · Rabbia</div>
-        </div>
-
-        <div class="type-card">
-          <div class="type-accent-bar" style="background: #6A5A8A;"></div>
-          <h3>Riflettore</h3>
-          <div class="type-hd">Valutatore (BG5)</div>
-          <div class="type-pct" style="color: #6A5A8A;">1%</div>
-          <div class="type-label">Strategia</div>
-          <div class="type-strategy">Aspettare un ciclo lunare completo (28 giorni) per le decisioni importanti</div>
-          <div class="type-label">Allineamento</div>
-          <div class="type-shadow">Sorpresa · Delusione</div>
-        </div>
-
-      </div>
-      <p style="margin-top: 2rem; font-size: 0.8rem; color: #aaa; text-align: center;">In BG5 il Generatore si distingue in Costruttore Classico (37%) e Costruttore Rapido (33%), per un totale di 5 profili di carriera. I nomi tra parentesi sono quelli usati nel contesto professionale.</p>
-    </div>
-  </section>
-
-  {# ══ CTA BAR INTERMEDIA ══ #}
-  <div class="hd-cta-bar">
-    <p>Vuoi sapere il tuo Tipo? È gratis e pronto in 30 secondi.</p>
-    <a href="{{ grav.base_url }}/calcolo-human-design" class="btn-white">Calcola gratis la tua carta →</a>
-  </div>
-
-  {# ══ GERARCHIA ══ #}
-  <section style="background: #fff;">
-    <div class="hd-wide-wrap">
-      <h2>Come si legge: tre livelli</h2>
-      <p class="section-lead">Il sistema si legge in ordine preciso: prima il Tipo, poi la Strategia, poi l'Autorità Decisionale. Ogni livello si appoggia su quello precedente.</p>
-      <div class="hierarchy-steps">
-        <div class="h-step">
-          <div class="h-step-num">1</div>
-          <h3>Il Tipo</h3>
-          <p>Il tuo motore energetico. Determina quanta energia hai a disposizione, come si ricarica e in quali condizioni funziona meglio. È il punto di partenza di qualsiasi lettura.</p>
-        </div>
-        <div class="h-step">
-          <div class="h-step-num" style="background: #2D6A8B;">2</div>
-          <h3>La Strategia</h3>
-          <p>Il modo corretto in cui il tuo Tipo interagisce con il mondo. Non è una tecnica comportamentale: è la meccanica naturale del sistema, quella che produce meno resistenza e più risultati concreti.</p>
-        </div>
-        <div class="h-step">
-          <div class="h-step-num">3</div>
-          <h3>L'Autorità Decisionale</h3>
-          <p>Il tuo strumento interno di scelta. Indica da dove arriva la tua risposta più affidabile: dal corpo, dalle emozioni, dall'ambiente. Ogni Autorità ha tempi e segnali precisi.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  {# ══ PROFILO ══ #}
-  <section class="hd-tinted">
-    <div class="hd-prose-wrap">
-      <div class="hd-prose">
-        <h2>Il Profilo di Carriera</h2>
-        <p>Il Profilo è composto da due numeri (es. 2/4, 1/3, 5/1) che derivano dalla posizione dei gate lunari al momento della nascita. Descrive il <strong>ruolo che ricopri nella tua vita</strong> e il modo in cui ti relazioni con le esperienze e con gli altri.</p>
-        <p>In BG5 esistono 12 combinazioni di Profilo. Il primo numero riguarda la parte consapevole — quella che conosci e gestisci. Il secondo numero riguarda la parte inconscia — come vieni percepito dagli altri e cosa porti senza rendertene conto. Il Profilo non cambia nel tempo e si integra con Tipo e Autorità per dare una lettura completa.</p>
-        <p>→ <a href="{{ grav.base_url }}/blog/articoli/12-profili-human-design-chi-sei">Leggi la guida completa ai 12 Profili di Carriera</a></p>
-      </div>
-    </div>
-  </section>
-
-  {# ══ I 9 CENTRI ══ #}
-  <section style="background: #fff;">
-    <div class="hd-prose-wrap">
-      <div class="hd-prose">
-        <h2>I 9 Centri energetici</h2>
-        <p>Il bodygraph ha 9 Centri. Ogni Centro può essere <strong>definito</strong> (colorato nella carta) o <strong>aperto</strong> (bianco). Un Centro definito ha un'energia costante e prevedibile — è parte stabile di chi sei. Un Centro aperto amplifica l'energia degli altri e assorbe l'ambiente circostante con maggiore sensibilità.</p>
-      </div>
-      <div class="centers-grid">
-        <div class="center-chip"><div class="cn">Testa</div><div class="cd">Pressione mentale, ispirazione</div></div>
-        <div class="center-chip"><div class="cn">Mente</div><div class="cd">Concettualizzazione, strategia</div></div>
-        <div class="center-chip"><div class="cn">Gola</div><div class="cd">Comunicazione, manifestazione</div></div>
-        <div class="center-chip"><div class="cn">Centro G</div><div class="cd">Identità, direzione, amore</div></div>
-        <div class="center-chip"><div class="cn">Cuore</div><div class="cd">Forza di volontà, valore</div></div>
-        <div class="center-chip"><div class="cn">Plesso Solare</div><div class="cd">Intelligenza Emotiva, Autorità</div></div>
-        <div class="center-chip"><div class="cn">Sacrale</div><div class="cd">Energia lavorativa, risposta</div></div>
-        <div class="center-chip"><div class="cn">Milza</div><div class="cd">Intuizione, salute, sicurezza</div></div>
-        <div class="center-chip"><div class="cn">Radice</div><div class="cd">Pressione adrenalinica</div></div>
-      </div>
-      <div class="hd-prose" style="margin-top: 1.75rem;">
-        <p>La presenza o assenza di Canali tra i Centri determina la <strong>Definizione</strong> della carta: Singola, Divisa, Tripla Divisa o Quadrupla Divisa. La Definizione descrive quanto la persona sia autosufficiente a livello energetico o quanto abbia bisogno dell'ambiente esterno per completare i propri circuiti.</p>
-      </div>
-    </div>
-  </section>
-
-  {# ══ BG5 ══ #}
-  <section class="hd-bg5-section">
-    <div class="hd-wide-wrap">
-      <h2>Human Design e BG5: qual è la differenza?</h2>
-      <p class="section-lead">Stesso sistema, stesso bodygraph, angolazione diversa. Human Design guarda la persona nella sua interezza; BG5 applica gli stessi strumenti al lavoro, alla carriera e ai team.</p>
-
-      {# Confronto HD vs BG5 #}
-      <div class="hd-vs-grid">
-
-        <div class="hd-vs-card hd-vs-hd">
-          <div class="hd-vs-header">
-            <span class="hd-vs-label">Human Design</span>
-          </div>
-          <ul class="hd-vs-list">
-            <li><span class="hd-vs-key">Ambito</span><span class="hd-vs-val">Crescita personale, relazioni, amor proprio, vita quotidiana</span></li>
-            <li><span class="hd-vs-key">Tipo</span><span class="hd-vs-val">Generatore, Proiettore, Manifestatore, Riflettore…</span></li>
-            <li><span class="hd-vs-key">Autorità</span><span class="hd-vs-val">Autorità Interna (Sacrale, Emotiva, Splenica…)</span></li>
-            <li><span class="hd-vs-key">Profilo</span><span class="hd-vs-val">Profilo (es. 2/4, 1/3)</span></li>
-            <li><span class="hd-vs-key">Uso</span><span class="hd-vs-val">Self-discovery, coaching individuale, relazioni di coppia</span></li>
-            <li><span class="hd-vs-key">Certificazione</span><span class="hd-vs-val">Varie scuole (IHDS, JOVIAN…)</span></li>
-          </ul>
-        </div>
-
-        <div class="hd-vs-divider">vs</div>
-
-        <div class="hd-vs-card hd-vs-bg5">
-          <div class="hd-vs-header">
-            <span class="hd-vs-label" style="background: rgba(45,106,139,0.12); color: #2D6A8B;">BG5®</span>
-          </div>
-          <ul class="hd-vs-list">
-            <li><span class="hd-vs-key">Ambito</span><span class="hd-vs-val">Lavoro, carriera, business, dinamiche di team e azienda</span></li>
-            <li><span class="hd-vs-key">Tipo</span><span class="hd-vs-val">Tipo di Carriera (Costruttore Classico, Guida, Iniziatore…)</span></li>
-            <li><span class="hd-vs-key">Autorità</span><span class="hd-vs-val">Autorità Decisionale (come decidere in contesti professionali)</span></li>
-            <li><span class="hd-vs-key">Profilo</span><span class="hd-vs-val">Profilo di Carriera (ruolo naturale nel lavoro)</span></li>
-            <li><span class="hd-vs-key">Uso</span><span class="hd-vs-val">Consulenza professionale, selezione, team building, career design</span></li>
-            <li><span class="hd-vs-key">Certificazione</span><span class="hd-vs-val">BG5® Business Institute (certificazione internazionale)</span></li>
-          </ul>
-        </div>
-
-      </div>
-
-      <div style="max-width: 720px; margin: 2.5rem auto 0;">
-        <p style="font-size: 0.95rem; color: #555; line-height: 1.75; margin-bottom: 0;">La carta è la stessa. Cambia la lente con cui viene letta. Una sessione BG5 non sostituisce un percorso di crescita personale con HD — sono due applicazioni complementari dello stesso sistema.</p>
-
-        <div class="valentina-box">
-          <img src="{{ grav.base_url }}/user/pages/assets/valentina.jpg"
-               alt="Valentina Russo, Consulente Certificata BG5®"
-               class="valentina-photo"
-               loading="lazy">
-          <div class="valentina-box-text">
-            <p>Valentina Russo è <strong>Consulente Certificata BG5®</strong> — una delle poche professioniste italiane con certificazione ufficiale dell'International BG5 Business Institute. Le sessioni coprono sia Human Design (relazioni, amor proprio, vita) sia BG5 (carriera, lavoro, aziende).</p>
-            <img src="{{ grav.base_url }}/user/pages/assets/bg5-certified.png"
-                 alt="Certificata BG5 Business Institute"
-                 class="bg5-badge"
-                 loading="lazy">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  {# ══ FAQ ══ #}
-  {% if page.header.faq is defined and page.header.faq %}
-  <section style="background: #fff;">
-    <div class="hd-prose-wrap">
-      <h2 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 1.25rem; color: #222;">Domande frequenti</h2>
-      <div class="hd-faq">
-        {% for faq in page.header.faq %}
-        <div class="faq-hd-item">
-          <h4>{{ faq.question ?? faq.q }}</h4>
-          <p>{{ faq.answer ?? faq.a }}</p>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-  {% endif %}
-
-  {# ══ GEO content box ══ #}
-  {% if page.header.geo_content is defined and page.header.geo_content %}
-  <div style="max-width: 800px; margin: 2.5rem auto 0; padding: 0 1.25rem 2.5rem;">
-    <div style="padding: 1.5rem 2rem; background: rgba(182,131,151,0.05); border-radius: 12px; border: 1px solid rgba(182,131,151,0.18);">
-      <p style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary-color, #B68397); margin: 0 0 0.75rem 0;">Approfondimenti</p>
-      <p style="margin: 0; font-size: 0.88rem; line-height: 1.75; color: #666;">{{ page.header.geo_content }}</p>
-    </div>
-  </div>
-  {% endif %}
-
-  {# ══ CTA finale ══ #}
-  <div class="hd-cta">
-    <h2>Pronta a scoprire il tuo design?</h2>
-    <p>Calcola gratis la tua carta per vedere subito il tuo Tipo, Profilo e Autorità. Se vuoi capire come si traducono nella tua vita reale, prenota una Panoramica BG5®.</p>
-    <div class="cta-row">
-      <a href="{{ grav.base_url }}/calcolo-human-design"
-         style="padding: 0.75rem 1.5rem; border: 2px solid var(--primary-color, #B68397); color: var(--primary-color, #B68397); border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 0.95rem; background: transparent;">
-        Calcola gratis la tua carta
-      </a>
-      <a href="{{ grav.base_url }}/servizi" class="btn btn-primary">Prenota una Panoramica BG5®</a>
-    </div>
-  </div>
-
-
-
-</main>
+{% block scripts %}
+<script>
+(function(){
+  var s=[].slice.call(document.querySelectorAll('.hd-demo-slide')), l=document.getElementById('hd-type-label'); if(!s.length) return;
+  var i=0; function mostra(n){ s.forEach(function(x,k){x.classList.toggle('visibile',k===n)}); if(l) l.textContent=s[n].getAttribute('alt')||''; }
+  var ridotto = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  mostra(0);
+  // con le animazioni ridotte le carte cambiano lo stesso, ma senza dissolvenza
+  setInterval(function(){ i=(i+1)%s.length; mostra(i); }, ridotto ? 4500 : 3400);
+})();
+</script>
 {% endblock %}

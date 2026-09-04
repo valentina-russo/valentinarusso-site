@@ -1,44 +1,32 @@
-{% set is_corp_nav = ('/aziende/' in page.route) or (page.header.corporate is defined and page.header.corporate) %}
-<header style="position: relative; z-index: 1000;">
-    <div class="container">
-        <div class="logo">
-            <a href="{{ grav.base_url }}/{{ is_corp_nav ? 'aziende' : '' }}">
-                <img src="{{ theme_url }}/images/logo.png" alt="Valentina Russo Logo" class="brand-logo"
-                     onerror="this.style.display='none'">
-                <div class="brand-text">
-                    <span class="brand-name">VALENTINA RUSSO</span>
-                    <span class="brand-tagline">Consulente BG5&reg;</span>
-                </div>
-            </a>
-        </div>
-        <button class="menu-toggle" aria-label="Menu">&#9776;</button>
-        <nav id="main-nav">
-            {% if is_corp_nav %}
-            {# Corporate nav #}
-            <ul>
-                <li><a href="{{ grav.base_url }}/aziende">Home</a></li>
-                <li><a href="{{ grav.base_url }}/aziende/servizi">Servizi</a></li>
-                <li><a href="{{ grav.base_url }}/aziende/blog">Blog</a></li>
-                <li><a href="{{ grav.base_url }}/aziende/contatti">Contatti</a></li>
-                <li><a href="{{ grav.base_url }}/" class="btn"
-                       style="background-color: #9E6D80; color: white; padding: 0.4rem 1rem; font-size: 0.85rem; border-radius: 4px;">Ritorna ai Privati</a></li>
-            </ul>
-            {% else %}
-            {# Privati nav #}
-            <ul>
-                <li><a href="{{ grav.base_url }}/">Home</a></li>
-                <li><a href="{{ grav.base_url }}/servizi">Servizi</a></li>
-                <li><a href="{{ grav.base_url }}/blog">Blog</a></li>
-                {# <li><a href="{{ grav.base_url }}/hd-relazionale" style="color: var(--accent-color); font-weight: 700;">Analisi HD ✦</a></li> #}
-                <li><a href="{{ grav.base_url }}/chi-sono">Chi Sono</a></li>
-                <li><a href="{{ grav.base_url }}/contatti">Contatti</a></li>
-                <li><a href="{{ grav.base_url }}/libretto-istruzioni"
-                       style="color: #C48A3A; font-weight: 700;"
-                       title="PDF Human Design personalizzato">Libretto HD ✦</a></li>
-                <li><a href="{{ grav.base_url }}/aziende" class="btn"
-                       style="background-color: var(--corp-primary); color: white; padding: 0.4rem 1rem; font-size: 0.85rem; border-radius: 4px;">Percorso Aziende</a></li>
-            </ul>
-            {% endif %}
-        </nav>
-    </div>
-</header>
+{# Barra di navigazione - veste "Meccanica Calda". Gli indirizzi restano quelli
+   di Grav: nessun .html, nessun cambio di URL. #}
+{% set corp = ('/aziende' in page.route) or (page.header.corporate is defined and page.header.corporate) %}
+{% set base = grav.base_url %}
+<a class="salta-al-contenuto" href="#contenuto">Vai al contenuto</a>
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="{{ base }}/{{ corp ? 'aziende' : '' }}"><img class="logo" src="{{ theme_url }}/images/logo-quadro.png" alt="" width="40" height="40"><span>Valentina Russo<em>Consulente Human Design / BG5&reg;</em></span></a>
+  <button class="apri-menu" id="apri-menu" type="button" aria-controls="pannello" aria-expanded="false" aria-label="Apri il menu"><span></span></button>
+  <div class="pannello" id="pannello">
+    {% if corp %}
+    <ul class="menu">
+      <li><a href="{{ base }}/aziende/bg5"{{ page.route == '/aziende/bg5' ? ' aria-current="page"' : '' }}>Cos&rsquo;&egrave; il BG5&reg;</a></li>
+      <li><a href="{{ base }}/aziende"{{ page.route == '/aziende' ? ' aria-current="page"' : '' }}>Home</a></li>
+      <li><a href="{{ base }}/aziende/servizi"{{ '/aziende/servizi' in page.route ? ' aria-current="page"' : '' }}>Servizi</a></li>
+      <li><a href="{{ base }}/aziende/blog"{{ '/aziende/blog' in page.route ? ' aria-current="page"' : '' }}>Blog</a></li>
+      <li><a href="{{ base }}/aziende/contatti"{{ '/aziende/contatti' in page.route ? ' aria-current="page"' : '' }}>Contatti</a></li>
+      <li><a href="{{ base }}/">Privati</a></li>
+    </ul>
+    <a class="btn btn-1" href="{{ base }}/aziende/contatti">Parliamo del tuo team</a>
+    {% else %}
+    <ul class="menu">
+      <li><a href="{{ base }}/human-design"{{ '/human-design' in page.route ? ' aria-current="page"' : '' }}>Cos&rsquo;&egrave; lo Human Design</a></li>
+      <li><a href="{{ base }}/servizi"{{ '/servizi' in page.route ? ' aria-current="page"' : '' }}>Servizi</a></li>
+      <li><a href="{{ base }}/blog"{{ '/blog' in page.route ? ' aria-current="page"' : '' }}>Blog</a></li>
+      <li><a href="{{ base }}/chi-sono"{{ '/chi-sono' in page.route ? ' aria-current="page"' : '' }}>Chi Sono</a></li>
+      <li><a href="{{ base }}/contatti"{{ '/contatti' in page.route ? ' aria-current="page"' : '' }}>Contatti</a></li>
+      <li><a href="{{ base }}/aziende">Aziende</a></li>
+    </ul>
+    <a class="btn btn-1" href="{{ base }}/calcolo-human-design">Calcola la tua carta gratis</a>
+    {% endif %}
+  </div>
+</div></nav>

@@ -27,269 +27,67 @@
 {% endblock %}
 
 {% block extra_css %}
-<style>
-.letture-wrap { --primary-dark:#8B5E73; --accent-dark:#8A5A12; --navy:#1A2332; max-width:1000px; margin:0 auto; }
-.letture-wrap h1.page-title { text-align:center; font-family:'Playfair Display',serif; font-size:clamp(1.75rem,4vw,2.75rem); font-weight:700; margin:1.75rem 0 1.25rem; color:var(--navy); }
-.letture-wrap .hero-lead { text-align:center; font-family:'Playfair Display',serif; font-style:italic; font-size:1.2rem; color:var(--primary-color); max-width:720px; margin:0 auto 1.25rem; line-height:1.6; }
-.letture-wrap .hero-body { text-align:center; max-width:700px; margin:0 auto 1.25rem; color:#2D2926; }
-.letture-wrap .hero-cta { text-align:center; max-width:700px; margin:0 auto 2rem; color:var(--secondary-color); font-weight:700; }
-.letture-wrap .section-title { text-align:center; font-family:'Playfair Display',serif; font-size:1.5rem; font-style:italic; margin:1.25rem 0 1.5rem; color:var(--primary-dark); }
-.letture-wrap .section-sub { text-align:center; color:#6B6560; font-size:1rem; max-width:580px; margin:0 auto 1.5rem; }
-.letture-wrap .grid { display:grid; grid-template-columns:1fr; gap:1.5rem; }
-@media (min-width:900px) {
-  .letture-wrap .grid-singole { grid-template-columns:repeat(2,1fr); }
-  .letture-wrap .grid-trio { grid-template-columns:repeat(3,1fr); }
-}
-@media (min-width:700px) {
-  .letture-wrap .grid-cicli { grid-template-columns:repeat(2,1fr); }
-}
-.letture-wrap .card { background:var(--white); border:1px solid var(--soft-gray); border-top:4px solid var(--primary-color); border-radius:12px; padding:1.75rem; display:flex; flex-direction:column; overflow:hidden; }
-.letture-wrap .card-img { width:calc(100% + 3.5rem); aspect-ratio:4/3; object-fit:cover; display:block; margin:-1.75rem -1.75rem 1.25rem; }
-.letture-wrap .card.cycle { border-top-color:var(--secondary-color); }
-.letture-wrap .card h3 { font-family:'Playfair Display',serif; font-size:1.3rem; margin:0 0 .75rem; font-style:italic; color:var(--navy); }
-.letture-wrap .card p.desc { font-size:1rem; color:#2D2926; margin:0 0 1rem; }
-.letture-wrap .card .per-chi { font-size:.9rem; color:#6B6560; background:var(--soft-gray); border-radius:6px; padding:.7rem .9rem; margin-bottom:1.25rem; }
-.letture-wrap .card .per-chi strong { color:var(--navy); }
-.letture-wrap .card .meta-row { display:flex; justify-content:space-between; align-items:baseline; margin-top:auto; padding-top:1rem; border-top:1px dashed var(--soft-gray); }
-.letture-wrap .card .price { font-size:1.4rem; font-weight:700; color:var(--navy); }
-.letture-wrap .card .duration { font-size:.8rem; color:#6B6560; }
-.letture-wrap .card .price-flag { font-size:.7rem; color:var(--accent-dark); font-weight:700; display:block; margin-top:.15rem; }
-.letture-wrap .btn-buy { display:block; text-align:center; margin-top:1rem; padding:.85rem 1rem; background:transparent; border:2px solid var(--primary-dark); color:var(--primary-dark); text-decoration:none; border-radius:6px; font-weight:700; font-size:1rem; transition:background .2s,color .2s; cursor:pointer; }
-.letture-wrap .btn-buy:hover, .letture-wrap .btn-buy:focus-visible { background:var(--primary-dark); color:#fff; }
-.letture-wrap .btn-buy:focus-visible { outline:2px solid var(--secondary-color); outline-offset:2px; }
-.letture-wrap .btn-buy-primary { background:var(--accent-color); border-color:var(--accent-color); color:var(--navy); font-size:1.05rem; padding:1rem; box-shadow:0 4px 14px rgba(230,167,86,.35); }
-.letture-wrap .btn-buy-primary:hover, .letture-wrap .btn-buy-primary:focus-visible { background:#d4933d; border-color:#d4933d; color:var(--navy); }
-.letture-wrap .foundation-card { border-top-color:var(--accent-color); background:#FDF6EC; position:relative; }
-.letture-wrap .foundation-card .price { font-size:1.6rem; }
-.letture-wrap .start-badge { position:absolute; top:1rem; left:1rem; z-index:2; background:var(--accent-color); color:var(--navy); font-size:.75rem; font-weight:700; padding:.4rem .9rem; border-radius:100px; letter-spacing:.02em; box-shadow:0 2px 8px rgba(0,0,0,.15); }
-.corp-zone { background:linear-gradient(180deg, rgba(30,58,95,.05) 0%, rgba(30,58,95,.02) 100%); border-radius:20px; padding:2.5rem clamp(1rem,4vw,2.5rem) 2.75rem; margin-top:1.5rem; }
-.corp-zone .section-title { color:var(--corp-primary); margin-top:.5rem; }
-.letture-wrap .card.corp { border-top-color:var(--corp-primary); }
-.letture-wrap .card.corp h3 { color:var(--corp-primary); }
-.letture-wrap .card.corp ul { margin:0 0 1.25rem; padding-left:1.1rem; font-size:.92rem; color:#2D2926; }
-.letture-wrap .card.corp ul li { margin-bottom:.3rem; }
-.letture-wrap .card.corp .price { color:var(--corp-primary); }
-.letture-wrap .card.corp .price.quote { font-size:1.05rem; }
-.letture-wrap .card.corp .btn-buy { border-color:var(--corp-primary); color:var(--corp-primary); }
-.letture-wrap .card.corp .btn-buy:hover, .letture-wrap .card.corp .btn-buy:focus-visible { background:var(--corp-primary); color:#fff; }
-.letture-wrap .card.corp .btn-buy-primary { background:var(--corp-primary); border-color:var(--corp-primary); color:#fff; box-shadow:0 4px 14px rgba(30,58,95,.3); }
-.letture-wrap .card.corp .btn-buy-primary:hover, .letture-wrap .card.corp .btn-buy-primary:focus-visible { background:#16304d; border-color:#16304d; color:#fff; }
-.corp-course-teaser { margin-top:2rem; background:var(--corp-primary); border-radius:14px; padding:1.75rem 2rem; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1.25rem; }
-.corp-course-teaser p { margin:0; color:#fff; font-size:1.02rem; max-width:520px; }
-.corp-course-teaser p strong { display:block; font-family:'Playfair Display',serif; font-style:italic; font-size:1.2rem; margin-bottom:.3rem; }
-.corp-course-teaser a { flex-shrink:0; display:inline-block; padding:.85rem 1.5rem; background:#fff; color:var(--corp-primary); text-decoration:none; border-radius:8px; font-weight:700; white-space:nowrap; transition:transform .18s ease; }
-.corp-course-teaser a:hover, .corp-course-teaser a:focus-visible { transform:translateY(-2px); }
-
-</style>
+<link rel="stylesheet" href="{{ theme_url }}/css/d2/servizi-d2.css?v={{ theme_version }}">
 {% endblock %}
 
 {% block content %}
-<main>
-    <section class="section-padding">
-        <div class="letture-wrap">
+{% set base = grav.base_url %}
+<header class="hero sv-hero"><div class="wrap">
+  <div>
+    <p class="etich">Servizi</p>
+    <h1>Le Letture Human Design &amp; BG5&#174;</h1>
+    <p class="sotto">Ogni lettura affonda su un&#8217;area precisa del tuo Disegno: relazione, carriera, ciclo di vita, ombra.</p>
+    <p class="lead">Nove percorsi indipendenti, costruiti sui tuoi dati di nascita reali attraverso lo Human Design e il sistema BG5&#174;. Scegli quello che risponde alla domanda che hai adesso.</p>
+    <p class="lead sv-come">Scegli la lettura, paga online, Valentina ti contatta per fissare data e ora.</p>
+    <p class="nota"><a href="{{ base }}/human-design">&#10022; Prima di tutto &#8212; Scopri cos&#8217;&#232; lo Human Design &#8594;</a></p>
+  </div>
+  <nav class="sv-scelta" aria-label="Trova la lettura giusta">
+    <p class="etich">Cosa cerchi?</p>
+    <a href="#singole"><span class="q">La prima lettura, per partire</span><span class="r">Lettura Foundation &middot; 210&#8364;</span><i>&rarr;</i></a>
+    <a href="#singole"><span class="q">Una lettura su un tema preciso</span><span class="r">5 letture singole: coppia, figli, ombra, croce</span><i>&rarr;</i></a>
+    <a href="#cicli"><span class="q">Un passaggio della vita</span><span class="r">4 letture dei cicli: ritorni e opposizioni</span><i>&rarr;</i></a>
+    <a href="#libretto"><span class="q">Un documento da leggere con calma</span><span class="r">Libretto d&rsquo;Istruzioni in PDF &middot; da &#8364;90</span><i>&rarr;</i></a>
+    <a href="#business" class="biz"><span class="q">Per il lavoro, i soci, il team</span><span class="r">4 percorsi BG5&reg; per il Business</span><i>&rarr;</i></a>
+  </nav>
+</div></header>
 
-          <h1 class="page-title">Le Letture Human Design &amp; BG5&reg;</h1>
-          <p class="hero-lead">Ogni lettura affonda su un&rsquo;area precisa del tuo Disegno: relazione, carriera, ciclo di vita, ombra.</p>
-          <p class="hero-body">Nove percorsi indipendenti, costruiti sui tuoi dati di nascita reali attraverso lo Human Design e il sistema BG5&reg;. Scegli quello che risponde alla domanda che hai adesso.</p>
-          <p class="hero-cta">Scegli la lettura, paga online, Valentina ti contatta per fissare data e ora.</p>
+<section id="singole"><div class="wrap">
+  <div class="testa rivela"><p class="etich">Letture</p><h2>Letture Singole</h2></div>
+  <div class="sv-griglia rivela"><article class="sv-card sv-grande"><img src="{{ base }}/letture-dati/img/foundation.jpg" alt="Valentina Russo durante una Lettura Foundation Human Design" loading="lazy"><div class="sv-corpo"><p class="etich">Si parte da qui</p><h3>Lettura Foundation (Prima Lettura)</h3><p class="desc">Decodifica la tua Tipologia Energetica, Strategia, Autorit&#224; Interna e Profilo. Il punto di ingresso obbligato per tutte le altre letture.</p><p class="perchi">Per chi &#232;: per chiunque non abbia ancora la propria mappa Human Design di base, prima di qualunque altra lettura.</p><div class="sv-meta"><span class="prezzo">210&#8364;</span><span class="durata">120 minuti</span></div><a class="btn btn-1" href="https://valentinarussobg5.com/letture-dati/checkout.php?reading=foundation">Prenota e paga &#8594;</a></div></article><article class="sv-card"><img src="{{ base }}/letture-dati/img/coppia.jpg" alt="Due mani che si sfiorano su una tazza, simbolo della Lettura di Coppia" loading="lazy"><div class="sv-corpo"><h3>Lettura di Coppia</h3><p class="desc">Analizziamo il grafico di connessione tra i vostri due disegni: i canali elettromagnetici che vi tengono insieme, i centri che si definiscono a vicenda, il tema energetico della coppia. La compatibilit&#224; si costruisce vivendo Strategia e Autorit&#224; ogni giorno, la lettura mostra dove la vostra energia si amplifica naturalmente e dove invece oscilla tra caldo e freddo.</p><p class="perchi">Per chi &#232;: per chi in una relazione sente lo stesso conflitto tornare sempre uguale, o sta per fare un passo importante insieme (convivenza, matrimonio, un figlio).</p><div class="sv-meta"><span class="prezzo">300&#8364;</span><span class="durata">90 minuti</span></div><a class="btn btn-1" href="https://valentinarussobg5.com/letture-dati/checkout.php?reading=coppia">Prenota e paga &#8594;</a></div></article><article class="sv-card"><img src="{{ base }}/letture-dati/img/figlio.jpg" alt="Mano di un adulto che accompagna quella di un bambino, Lettura per il Figlio/a" loading="lazy"><div class="sv-corpo"><h3>Lettura per il Figlio/a</h3><p class="desc">Leggiamo il disegno di tuo figlio prima che il condizionamento si sedimenti, per capire dove &#232; pi&#249; vulnerabile a imparare a ignorare la propria energia naturale. La lettura ti d&#224; gli strumenti per non trasmettere questi schemi.</p><p class="perchi">Per chi &#232;: per genitori di bambini piccoli, quando il disegno naturale del figlio &#232; ancora leggibile senza troppi strati di condizionamento sopra.</p><div class="sv-meta"><span class="prezzo">210&#8364;</span><span class="durata">60 minuti</span></div><a class="btn btn-1" href="https://valentinarussobg5.com/letture-dati/checkout.php?reading=figlio">Prenota e paga &#8594;</a></div></article><article class="sv-card"><img src="{{ base }}/letture-dati/img/ombra.jpg" alt="Ombra proiettata al tramonto, simbolo della Lettura dei Lati Ombra" loading="lazy"><div class="sv-corpo"><h3>Lettura dei Lati Ombra</h3><p class="desc">Ogni Tipologia ha una Firma, la sensazione di quando vivi allineato al tuo disegno, e un tema del Non-S&#233;, il segnale di quando ne sei uscito. Mappiamo il tuo tema del Non-S&#233; specifico e costruiamo un sistema di riconoscimento in tempo reale.</p><p class="perchi">Per chi &#232;: per chi ha gi&#224; fatto la Prima Lettura ma continua a cadere nello stesso schema senza riuscire a intercettarlo in tempo.</p><div class="sv-meta"><span class="prezzo">250&#8364;</span><span class="durata">90 minuti</span></div><a class="btn btn-1" href="https://valentinarussobg5.com/letture-dati/checkout.php?reading=ombra">Prenota e paga &#8594;</a></div></article><article class="sv-card"><img src="{{ base }}/letture-dati/img/croce.jpg" alt="Libro illuminato dal sole, simbolo della Lettura della Croce di Incarnazione" loading="lazy"><div class="sv-corpo"><h3>Lettura della Croce di Incarnazione</h3><p class="desc">La tua Croce di Incarnazione nasce da quattro porte, Sole e Terra coscienti e inconsci, e rappresenta circa il 70% della tua impronta energetica. La lettura ti mostra qual &#232; la tua e cosa sei venuto a incarnare, non a fare.</p><p class="perchi">Per chi &#232;: per chi si chiede quale sia il proprio scopo pi&#249; ampio, oltre il lavoro di tutti i giorni.</p><div class="sv-meta"><span class="prezzo">250&#8364;</span><span class="durata">90 minuti</span></div><a class="btn btn-1" href="https://valentinarussobg5.com/letture-dati/checkout.php?reading=croce">Prenota e paga &#8594;</a></div></article></div>
+</div></section>
 
-          <div style="margin-bottom: 2.5rem; text-align: center;" data-animate>
-              <a href="{{ grav.base_url }}/human-design"
-                 style="display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.7rem 1.5rem; border: 1px solid rgba(182,131,151,0.35); border-radius: 50px; font-size: 0.85rem; font-weight: 600; color: var(--primary-color); text-decoration: none; background: rgba(182,131,151,0.05);">
-                  <span style="font-size:1rem;">&#10022;</span>
-                  Prima di tutto &mdash; Scopri cos&rsquo;&egrave; lo Human Design
-                  <span>&rarr;</span>
-              </a>
-          </div>
+<section class="sez-alt" id="cicli"><div class="wrap">
+  <div class="testa rivela"><p class="etich">Transiti</p><h2>Cicli di Vita</h2><p class="lead">Transiti astrologici classici, letti con la meccanica dello Human Design &#8212; un approfondimento avanzato, non il nucleo originario.</p></div>
+  <div class="sv-griglia sv-4 rivela"><article class="sv-card"><img src="{{ base }}/letture-dati/img/ritorno-solare.jpg" alt="Luce solare tra le foglie, simbolo del Ritorno Solare" loading="lazy"><div class="sv-corpo"><h3>Lettura del Ritorno Solare</h3><p class="desc">Ogni anno, vicino al tuo compleanno, il Sole transita di nuovo sulla porta esatta in cui si trovava alla tua nascita. La lettura individua quali porte si accendono nei prossimi dodici mesi.</p><p class="perchi">Per chi &#232;: per chi ha gi&#224; la Prima Lettura e vuole un check-in annuale vicino al proprio compleanno.</p><div class="sv-meta"><span class="prezzo">150&#8364;</span><span class="durata">60 minuti</span></div><a class="btn btn-1" href="https://valentinarussobg5.com/letture-dati/checkout.php?reading=ritorno-solare">Prenota e paga &#8594;</a></div></article><article class="sv-card"><img src="{{ base }}/letture-dati/img/ritorno-saturno.jpg" alt="Clessidra antica su una mensola, simbolo del Ritorno di Saturno" loading="lazy"><div class="sv-corpo"><h3>Lettura del Ritorno di Saturno</h3><p class="desc">Intorno ai 29 anni il Ritorno di Saturno segna il passaggio alla piena responsabilit&#224; della vita adulta. Calcoliamo il tuo grafico nel momento esatto del transito e lo confrontiamo con quello di nascita.</p><p class="perchi">Per chi &#232;: per chi si avvicina ai 29-30 anni e sente il peso di doversi prendere la responsabilit&#224; della propria vita.</p><div class="sv-meta"><span class="prezzo">250&#8364;</span><span class="durata">90 minuti</span></div><a class="btn btn-1" href="https://valentinarussobg5.com/letture-dati/checkout.php?reading=ritorno-saturno">Prenota e paga &#8594;</a></div></article><article class="sv-card"><img src="{{ base }}/letture-dati/img/ritorno-chirone.jpg" alt="Ciotola riparata con oro kintsugi, simbolo del Ritorno di Chirone" loading="lazy"><div class="sv-corpo"><h3>Lettura del Ritorno di Chirone</h3><p class="desc">Intorno ai 50 anni il Ritorno di Chirone porta a galla la ferita che porti fin dall&#8217;infanzia. La lettura ti mostra come quella ferita pu&#242; diventare il contributo pi&#249; grande che hai da offrire.</p><p class="perchi">Per chi &#232;: per chi si avvicina ai 50 anni e sente riaffiorare una ferita di vecchia data.</p><div class="sv-meta"><span class="prezzo">250&#8364;</span><span class="durata">90 minuti</span></div><a class="btn btn-1" href="https://valentinarussobg5.com/letture-dati/checkout.php?reading=ritorno-chirone">Prenota e paga &#8594;</a></div></article><article class="sv-card"><img src="{{ base }}/letture-dati/img/opposizione-urano.jpg" alt="Muta di pelle di serpente, simbolo dell'Opposizione di Urano" loading="lazy"><div class="sv-corpo"><h3>Lettura dell&#8217;Opposizione di Urano</h3><p class="desc">Tra i 38 e i 42 anni l&#8217;Opposizione di Urano segna lo spostamento dal tema del Nodo Sud al tema del Nodo Nord: la fase che prepara la fioritura dei tuoi doni.</p><p class="perchi">Per chi &#232;: per chi ha tra i 38 e i 42 anni e sente che la vita costruita finora non basta pi&#249;.</p><div class="sv-meta"><span class="prezzo">250&#8364;</span><span class="durata">90 minuti</span></div><a class="btn btn-1" href="https://valentinarussobg5.com/letture-dati/checkout.php?reading=opposizione-urano">Prenota e paga &#8594;</a></div></article></div>
+</div></section>
 
-          <h2 class="section-title">Letture Singole</h2>
+<section id="libretto"><div class="wrap sv-libretto rivela">
+  <figure class="sv-copertina"><img src="{{ base }}/user/pages/assets/libretto/cover-hero.jpg" alt="Il Libretto d&rsquo;Istruzioni Human Design" loading="lazy"></figure>
+  <div>
+    <p class="etich">PDF personalizzato</p>
+    <h2>Libretto d'Istruzioni Human Design.</h2>
+    <p class="lead">PDF personalizzato che traduce la tua configurazione Human Design in linguaggio pratico. Spiega perch&#233; ti esaurisci dove altri sembrano avere energia infinita, e dove riconoscere il segnale del corpo che ti dice se una decisione ti appartiene davvero.</p>
+    <ul class="sv-punti"><li>PDF via email</li><li>Niente call</li></ul>
+    <div class="sv-meta sv-meta-2"><span class="prezzo"><small>Libretto Avanzato</small>&#8364;147</span><span class="prezzo"><small>Libretto Base</small>&#8364;90</span></div>
+    <div class="azioni"><a class="btn btn-1" href="{{ base }}/libretto-istruzioni">Scopri il Libretto &rarr;</a></div>
+  </div>
+</div></section>
 
-          <div class="grid grid-singole">
+<section class="sez-alt sv-business" id="business"><div class="wrap">
+  <div class="testa rivela"><p class="etich">BG5&reg; Business</p><h2>Percorsi BG5&reg; per il Business</h2><p class="lead">Lo stesso metodo applicato a carriera, partnership e team &#8212; per chi lavora e guida altre persone.</p></div>
+  <div class="sv-griglia sv-4 rivela"><article class="sv-card"><div class="sv-corpo"><h3>BG5 Business Blueprint</h3><p class="desc">Per liberi professionisti, consulenti e imprenditori indipendenti che vogliono lavorare in allineamento al proprio modo naturale di operare.</p><ul class="sv-punti sv-punti-s"><li>Il tuo modo naturale di contribuire</li><li>Segnali di corretto allineamento</li><li>Ambiente di lavoro ideale</li><li>Individuazione dei condizionamenti</li></ul><div class="sv-meta"><span class="prezzo">1.800&#8364;</span><span class="durata">15 sessioni da 90 min + PDF + registrazioni</span></div><a class="btn btn-1" href="{{ base }}/aziende">Richiedi informazioni &#8594;</a></div></article><article class="sv-card"><div class="sv-corpo"><h3>BG5 Partnership Dynamics</h3><p class="desc">Percorso per soci e co-fondatori. Comprendere le meccaniche individuali e di relazione previene gli attriti e rende le decisioni chiare.</p><ul class="sv-punti sv-punti-s"><li>Dinamiche naturali della coppia societaria</li><li>Talenti portati da ciascun socio</li><li>Connessioni elettromagnetiche</li><li>Aree di compromesso e affinit&#224;</li></ul><div class="sv-meta"><span class="prezzo">2.200&#8364;</span><span class="durata">Analisi intensiva delle dinamiche tra soci</span></div><a class="btn btn-1" href="{{ base }}/aziende">Richiedi informazioni &#8594;</a></div></article><article class="sv-card"><div class="sv-corpo"><h3>Alpha One &#8212; Personal Management</h3><p class="desc">Percorso intensivo premium per CEO e manager: guidare il team e ottenere risultati reali conoscendo il proprio design di leadership.</p><ul class="sv-punti sv-punti-s"><li>Gestione del team con meno conflitti</li><li>Decisioni strategiche con chiarezza meccanica</li><li>Ottimizzazione di energia e tempo</li></ul><div class="sv-meta"><span class="prezzo">1.800&#8364;</span><span class="durata">4 sessioni da 90 min (6 ore totali)</span></div><a class="btn btn-1" href="{{ base }}/aziende">Richiedi informazioni &#8594;</a></div></article><article class="sv-card"><div class="sv-corpo"><h3>BG5 Corporate Analysis</h3><p class="desc">Ottimizzazione di performance, leadership e dinamiche interne per aziende e team: Disegno di Carriera, Team Engineering, Analisi Gruppo Unificato, consulenze 1:1 per HR e management. Progetto su misura, costruito sulla struttura reale dell&#8217;organizzazione.</p><div class="sv-meta"><span class="prezzo">Preventivo personalizzato</span><span class="durata">Progetto su misura</span></div><a class="btn btn-1" href="{{ base }}/aziende">Richiedi una consulenza &#8594;</a></div></article></div>
+  <div class="sv-teaser rivela"><p>Corso Base Human Design Venti lezioni dal vivo, in due semestri, per imparare a leggere la tua carta e quella degli altri. Da 700&#8364; a semestre, o 1.200&#8364; il percorso completo.</p><a class="btn btn-2" href="#">Iscriviti ora &#8594;</a></div>
+</div></section>
 
-            <div class="card foundation-card" id="foundation">
-              <span class="start-badge">Si parte da qui</span>
-              <img class="card-img" src="{{ grav.base_url }}/letture-dati/img/foundation.jpg" alt="Valentina Russo durante una Lettura Foundation Human Design" loading="lazy">
-              <h3>Lettura Foundation (Prima Lettura)</h3>
-              <p class="desc">Decodifica la tua Tipologia Energetica, Strategia, Autorit&agrave; Interna e Profilo. Il punto di ingresso obbligato per tutte le altre letture.</p>
-              <div class="per-chi"><strong>Per chi &egrave;:</strong> per chiunque non abbia ancora la propria mappa Human Design di base, prima di qualunque altra lettura.</div>
-              <div class="meta-row">
-                <div><span class="price">210&euro;</span><br><span class="duration">120 minuti</span></div>
-              </div>
-              <a class="btn-buy btn-buy-primary" href="{{ grav.base_url }}/letture-dati/checkout.php?reading=foundation">Prenota e paga &rarr;</a>
-            </div>
+<section class="fine"><div class="wrap">
+  <h2>Cominciamo il tuo percorso?</h2><p>Scegli il punto di ingresso che si adatta a te adesso.</p>
+  <div class="azioni"><a class="btn btn-1" href="#singole">Prenota la Prima Lettura</a><a class="btn btn-2" href="{{ base }}/calcolo-human-design">Calcola la tua carta gratis</a></div>
+</div></section>
+{% endblock %}
 
-            <div class="card" id="coppia">
-              <img class="card-img" src="{{ grav.base_url }}/letture-dati/img/coppia.jpg" alt="Due mani che si sfiorano su una tazza, simbolo della Lettura di Coppia" loading="lazy">
-              <h3>Lettura di Coppia</h3>
-              <p class="desc">Analizziamo il grafico di connessione tra i vostri due disegni: i canali elettromagnetici che vi tengono insieme, i centri che si definiscono a vicenda, il tema energetico della coppia. La compatibilit&agrave; si costruisce vivendo Strategia e Autorit&agrave; ogni giorno, la lettura mostra dove la vostra energia si amplifica naturalmente e dove invece oscilla tra caldo e freddo.</p>
-              <div class="per-chi"><strong>Per chi &egrave;:</strong> per chi in una relazione sente lo stesso conflitto tornare sempre uguale, o sta per fare un passo importante insieme (convivenza, matrimonio, un figlio).</div>
-              <div class="meta-row">
-                <div><span class="price">300&euro;</span><br><span class="duration">90 minuti</span></div>
-              </div>
-              <a class="btn-buy" href="{{ grav.base_url }}/letture-dati/checkout.php?reading=coppia">Prenota e paga &rarr;</a>
-            </div>
-
-          </div>
-
-          <div class="grid grid-trio" style="margin-top: 1.5rem;">
-
-            <div class="card" id="figlio">
-              <img class="card-img" src="{{ grav.base_url }}/letture-dati/img/figlio.jpg" alt="Mano di un adulto che accompagna quella di un bambino, Lettura per il Figlio/a" loading="lazy">
-              <h3>Lettura per il Figlio/a</h3>
-              <p class="desc">Leggiamo il disegno di tuo figlio prima che il condizionamento si sedimenti, per capire dove &egrave; pi&ugrave; vulnerabile a imparare a ignorare la propria energia naturale. La lettura ti d&agrave; gli strumenti per non trasmettere questi schemi.</p>
-              <div class="per-chi"><strong>Per chi &egrave;:</strong> per genitori di bambini piccoli, quando il disegno naturale del figlio &egrave; ancora leggibile senza troppi strati di condizionamento sopra.</div>
-              <div class="meta-row">
-                <div><span class="price">210&euro;</span><br><span class="duration">60 minuti</span></div>
-              </div>
-              <a class="btn-buy" href="{{ grav.base_url }}/letture-dati/checkout.php?reading=figlio">Prenota e paga &rarr;</a>
-            </div>
-
-            <div class="card" id="ombra">
-              <img class="card-img" src="{{ grav.base_url }}/letture-dati/img/ombra.jpg" alt="Ombra proiettata al tramonto, simbolo della Lettura dei Lati Ombra" loading="lazy">
-              <h3>Lettura dei Lati Ombra</h3>
-              <p class="desc">Ogni Tipologia ha una Firma, la sensazione di quando vivi allineato al tuo disegno, e un tema del Non-S&eacute;, il segnale di quando ne sei uscito. Mappiamo il tuo tema del Non-S&eacute; specifico e costruiamo un sistema di riconoscimento in tempo reale.</p>
-              <div class="per-chi"><strong>Per chi &egrave;:</strong> per chi ha gi&agrave; fatto la Prima Lettura ma continua a cadere nello stesso schema senza riuscire a intercettarlo in tempo.</div>
-              <div class="meta-row">
-                <div><span class="price">250&euro;</span><br><span class="duration">90 minuti</span></div>
-              </div>
-              <a class="btn-buy" href="{{ grav.base_url }}/letture-dati/checkout.php?reading=ombra">Prenota e paga &rarr;</a>
-            </div>
-
-            <div class="card" id="croce">
-              <img class="card-img" src="{{ grav.base_url }}/letture-dati/img/croce.jpg" alt="Libro illuminato dal sole, simbolo della Lettura della Croce di Incarnazione" loading="lazy">
-              <h3>Lettura della Croce di Incarnazione</h3>
-              <p class="desc">La tua Croce di Incarnazione nasce da quattro porte, Sole e Terra coscienti e inconsci, e rappresenta circa il 70% della tua impronta energetica. La lettura ti mostra qual &egrave; la tua e cosa sei venuto a incarnare, non a fare.</p>
-              <div class="per-chi"><strong>Per chi &egrave;:</strong> per chi si chiede quale sia il proprio scopo pi&ugrave; ampio, oltre il lavoro di tutti i giorni.</div>
-              <div class="meta-row">
-                <div><span class="price">250&euro;</span><br><span class="duration">90 minuti</span></div>
-              </div>
-              <a class="btn-buy" href="{{ grav.base_url }}/letture-dati/checkout.php?reading=croce">Prenota e paga &rarr;</a>
-            </div>
-
-          </div>
-
-          <h2 class="section-title">Cicli di Vita</h2>
-          <p class="section-sub">Transiti astrologici classici, letti con la meccanica dello Human Design &mdash; un approfondimento avanzato, non il nucleo originario.</p>
-
-          <div class="grid grid-cicli">
-
-            <div class="card cycle" id="ritorno-solare">
-              <img class="card-img" src="{{ grav.base_url }}/letture-dati/img/ritorno-solare.jpg" alt="Luce solare tra le foglie, simbolo del Ritorno Solare" loading="lazy">
-              <h3>Lettura del Ritorno Solare</h3>
-              <p class="desc">Ogni anno, vicino al tuo compleanno, il Sole transita di nuovo sulla porta esatta in cui si trovava alla tua nascita. La lettura individua quali porte si accendono nei prossimi dodici mesi.</p>
-              <div class="per-chi"><strong>Per chi &egrave;:</strong> per chi ha gi&agrave; la Prima Lettura e vuole un check-in annuale vicino al proprio compleanno.</div>
-              <div class="meta-row">
-                <div><span class="price">150&euro;</span><br><span class="duration">60 minuti</span></div>
-              </div>
-              <a class="btn-buy" href="{{ grav.base_url }}/letture-dati/checkout.php?reading=ritorno-solare">Prenota e paga &rarr;</a>
-            </div>
-
-            <div class="card cycle" id="ritorno-saturno">
-              <img class="card-img" src="{{ grav.base_url }}/letture-dati/img/ritorno-saturno.jpg" alt="Clessidra antica su una mensola, simbolo del Ritorno di Saturno" loading="lazy">
-              <h3>Lettura del Ritorno di Saturno</h3>
-              <p class="desc">Intorno ai 29 anni il Ritorno di Saturno segna il passaggio alla piena responsabilit&agrave; della vita adulta. Calcoliamo il tuo grafico nel momento esatto del transito e lo confrontiamo con quello di nascita.</p>
-              <div class="per-chi"><strong>Per chi &egrave;:</strong> per chi si avvicina ai 29-30 anni e sente il peso di doversi prendere la responsabilit&agrave; della propria vita.</div>
-              <div class="meta-row">
-                <div><span class="price">250&euro;</span><br><span class="duration">90 minuti</span></div>
-              </div>
-              <a class="btn-buy" href="{{ grav.base_url }}/letture-dati/checkout.php?reading=ritorno-saturno">Prenota e paga &rarr;</a>
-            </div>
-
-            <div class="card cycle" id="ritorno-chirone">
-              <img class="card-img" src="{{ grav.base_url }}/letture-dati/img/ritorno-chirone.jpg" alt="Ciotola riparata con oro kintsugi, simbolo del Ritorno di Chirone" loading="lazy">
-              <h3>Lettura del Ritorno di Chirone</h3>
-              <p class="desc">Intorno ai 50 anni il Ritorno di Chirone porta a galla la ferita che porti fin dall&rsquo;infanzia. La lettura ti mostra come quella ferita pu&ograve; diventare il contributo pi&ugrave; grande che hai da offrire.</p>
-              <div class="per-chi"><strong>Per chi &egrave;:</strong> per chi si avvicina ai 50 anni e sente riaffiorare una ferita di vecchia data.</div>
-              <div class="meta-row">
-                <div><span class="price">250&euro;</span><br><span class="duration">90 minuti</span></div>
-              </div>
-              <a class="btn-buy" href="{{ grav.base_url }}/letture-dati/checkout.php?reading=ritorno-chirone">Prenota e paga &rarr;</a>
-            </div>
-
-            <div class="card cycle" id="opposizione-urano">
-              <img class="card-img" src="{{ grav.base_url }}/letture-dati/img/opposizione-urano.jpg" alt="Muta di pelle di serpente, simbolo dell'Opposizione di Urano" loading="lazy">
-              <h3>Lettura dell&rsquo;Opposizione di Urano</h3>
-              <p class="desc">Tra i 38 e i 42 anni l&rsquo;Opposizione di Urano segna lo spostamento dal tema del Nodo Sud al tema del Nodo Nord: la fase che prepara la fioritura dei tuoi doni.</p>
-              <div class="per-chi"><strong>Per chi &egrave;:</strong> per chi ha tra i 38 e i 42 anni e sente che la vita costruita finora non basta pi&ugrave;.</div>
-              <div class="meta-row">
-                <div><span class="price">250&euro;</span><br><span class="duration">90 minuti</span></div>
-              </div>
-              <a class="btn-buy" href="{{ grav.base_url }}/letture-dati/checkout.php?reading=opposizione-urano">Prenota e paga &rarr;</a>
-            </div>
-
-          </div>
-
-          <div class="corp-zone">
-          <h2 class="section-title">Percorsi BG5&reg; per il Business</h2>
-          <p class="section-sub">Lo stesso metodo applicato a carriera, partnership e team &mdash; per chi lavora e guida altre persone.</p>
-
-          <div class="grid grid-trio">
-
-            <div class="card corp" id="bg5-business-blueprint">
-              <h3>BG5 Business Blueprint</h3>
-              <p class="desc">Per liberi professionisti, consulenti e imprenditori indipendenti che vogliono lavorare in allineamento al proprio modo naturale di operare.</p>
-              <ul>
-                <li>Il tuo modo naturale di contribuire</li>
-                <li>Segnali di corretto allineamento</li>
-                <li>Ambiente di lavoro ideale</li>
-                <li>Individuazione dei condizionamenti</li>
-              </ul>
-              <div class="meta-row">
-                <div><span class="price">1.800&euro;</span><br><span class="duration">15 sessioni da 90 min + PDF + registrazioni</span></div>
-              </div>
-              <a class="btn-buy" href="{{ grav.base_url }}/aziende/contatti">Richiedi informazioni &rarr;</a>
-            </div>
-
-            <div class="card corp" id="bg5-partnership-dynamics">
-              <h3>BG5 Partnership Dynamics</h3>
-              <p class="desc">Percorso per soci e co-fondatori. Comprendere le meccaniche individuali e di relazione previene gli attriti e rende le decisioni chiare.</p>
-              <ul>
-                <li>Dinamiche naturali della coppia societaria</li>
-                <li>Talenti portati da ciascun socio</li>
-                <li>Connessioni elettromagnetiche</li>
-                <li>Aree di compromesso e affinit&agrave;</li>
-              </ul>
-              <div class="meta-row">
-                <div><span class="price">2.200&euro;</span><br><span class="duration">Analisi intensiva delle dinamiche tra soci</span></div>
-              </div>
-              <a class="btn-buy" href="{{ grav.base_url }}/aziende/contatti">Richiedi informazioni &rarr;</a>
-            </div>
-
-            <div class="card corp" id="alpha-one">
-              <h3>Alpha One &mdash; Personal Management</h3>
-              <p class="desc">Percorso intensivo premium per CEO e manager: guidare il team e ottenere risultati reali conoscendo il proprio design di leadership.</p>
-              <ul>
-                <li>Gestione del team con meno conflitti</li>
-                <li>Decisioni strategiche con chiarezza meccanica</li>
-                <li>Ottimizzazione di energia e tempo</li>
-              </ul>
-              <div class="meta-row">
-                <div><span class="price">1.800&euro;</span><br><span class="duration">4 sessioni da 90 min (6 ore totali)</span></div>
-              </div>
-              <a class="btn-buy" href="{{ grav.base_url }}/aziende/contatti">Richiedi informazioni &rarr;</a>
-            </div>
-
-          </div>
-
-          <div class="grid" style="margin-top:1.5rem;max-width:500px;margin-left:auto;margin-right:auto;">
-            <div class="card corp" id="bg5-corporate-analysis">
-              <h3>BG5 Corporate Analysis</h3>
-              <p class="desc">Ottimizzazione di performance, leadership e dinamiche interne per aziende e team: Disegno di Carriera, Team Engineering, Analisi Gruppo Unificato, consulenze 1:1 per HR e management. Progetto su misura, costruito sulla struttura reale dell&rsquo;organizzazione.</p>
-              <div class="meta-row">
-                <div><span class="price quote">Preventivo personalizzato</span><br><span class="duration">Progetto su misura</span></div>
-              </div>
-              <a class="btn-buy btn-buy-primary" href="{{ grav.base_url }}/aziende/contatti">Richiedi una consulenza &rarr;</a>
-            </div>
-          </div>
-
-          <div class="corp-course-teaser">
-            <p><strong>Corso Base Human Design</strong>Venti lezioni dal vivo, in due semestri, per imparare a leggere la tua carta e quella degli altri. Da 700&euro; a semestre, o 1.200&euro; il percorso completo.</p>
-            <a href="{{ grav.base_url }}/corso-base-human-design.html">Iscriviti ora &rarr;</a>
-          </div>
-
-          </div>
-
-        </div>
-    </section>
-</main>
+{% block scripts %}
+<script>
+(function(){var io=('IntersectionObserver' in window)?new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in-vista');io.unobserve(x.target);}});},{threshold:.12}):null;
+document.querySelectorAll('.rivela').forEach(function(el){ if(io) io.observe(el); else el.classList.add('in-vista'); });})();
+</script>
 {% endblock %}

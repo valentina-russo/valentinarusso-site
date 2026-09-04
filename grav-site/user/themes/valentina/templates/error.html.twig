@@ -8,17 +8,20 @@
 
 {% block title %}Pagina non trovata | Valentina Russo{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ theme_url }}/css/d2/legali-d2.css?v={{ theme_version }}">
+{% endblock %}
+
 {% block content %}
-<section class="section-padding">
-  <div class="container text-center" style="max-width:640px">
-    <p class="eyebrow" style="margin-bottom:1rem">Errore {{ codice }}</p>
-    <h1 style="margin-bottom:1rem">Questa pagina non esiste</h1>
-    <p style="margin-bottom:2rem">L'indirizzo potrebbe essere cambiato o contenere un errore di battitura. Da qui puoi tornare alla home, calcolare la tua carta o leggere gli articoli.</p>
-    <p>
-      <a class="btn btn-primary" href="{{ base_url_relative ?: '/' }}">Torna alla home</a>
-      <a class="btn btn-outline" href="{{ base_url_relative }}/calcolo-human-design">Calcola la tua carta Human Design</a>
-      <a class="btn btn-outline" href="{{ base_url_relative }}/blog">Vai al blog</a>
-    </p>
+{% set base = grav.base_url %}
+<section class="err"><div class="wrap">
+  <p class="etich">Errore {{ codice }}</p>
+  <h1>Questa pagina non esiste</h1>
+  <p class="err-testo">L&rsquo;indirizzo potrebbe essere cambiato o contenere un errore di battitura. Da qui puoi tornare alla home, calcolare la tua carta o leggere gli articoli.</p>
+  <div class="azioni">
+    <a class="btn btn-1" href="{{ base }}/">Torna alla home</a>
+    <a class="btn btn-2" href="{{ base }}/calcolo-human-design">Calcola la tua carta Human Design</a>
+    <a class="btn btn-2" href="{{ base }}/blog">Vai al blog</a>
   </div>
-</section>
+</div></section>
 {% endblock %}

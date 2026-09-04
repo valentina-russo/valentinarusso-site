@@ -1,0 +1,97 @@
+
+/* Calcola la tua carta - direzione 2: sovrascrive la pelle viola del calcolatore, non tocca la logica */
+body.d2.pg-calcolo{background:radial-gradient(900px 520px at 78% 0%,rgba(207,143,169,.30),transparent 60%),radial-gradient(520px 420px at 8% 520px,rgba(253,188,90,.16),transparent 65%),linear-gradient(180deg,var(--tint) 0,var(--tint) 560px,var(--fondo) 980px)!important;background-attachment:scroll!important;color:var(--ink)}
+.d2.pg-calcolo footer{background:var(--carta)!important;border-top:1px solid var(--linea)!important;backdrop-filter:none}
+.d2.pg-calcolo footer a,.d2.pg-calcolo footer div,.d2.pg-calcolo footer p,.d2.pg-calcolo footer span{color:var(--muto)!important}
+.d2.pg-calcolo footer .brand,.d2.pg-calcolo footer .brand em{color:var(--ink)!important}
+.d2.pg-calcolo footer a:hover{color:var(--dom)!important}
+.d2 .carta-wrap{max-width:900px;padding:40px 28px 60px}
+/* scelta modalita' */
+.d2 .gcb-mode-card{background:var(--carta);border:2px solid transparent;box-shadow:var(--ombra);color:var(--ink);border-radius:14px}
+.d2 .gcb-mode-card:hover{transform:translateY(-3px)}
+.d2 .gcb-mode-card--active{border-color:var(--dom);background:#fff;box-shadow:0 18px 36px -16px rgba(94,58,71,.35)}
+.d2 .gcb-mode-card-icon{color:var(--dom)!important}
+.d2 .gcb-mode-card-title{color:var(--ink)!important;font-family:"Playfair Display",Georgia,serif;font-weight:600}
+.d2 .gcb-mode-card-desc{color:var(--muto)!important}
+/* apertura */
+.d2 .carta-intro h1{color:var(--ink)!important;font-family:"Playfair Display",Georgia,serif;font-weight:600;letter-spacing:-.01em;font-size:clamp(28px,4vw,44px)!important;line-height:1.1}
+.d2 .carta-intro .carta-tagline{color:var(--dom)!important;font-family:Fraunces,"Playfair Display",Georgia,serif;font-size:20px}
+.d2 .carta-intro .carta-snippet{color:var(--muto)!important}
+.d2 .carta-intro p{color:var(--muto)}
+.d2 .csingle-badge,.d2 #carta-calculator .csingle-badge{background:rgba(122,79,94,.10)!important;color:var(--dom)!important;letter-spacing:.12em}
+.d2 #carta-calculator .csingle-intro h2,.d2 .gcb-zone-header h2{color:var(--ink)!important;font-family:"Playfair Display",Georgia,serif}
+.d2 #carta-calculator .csingle-intro p,.d2 .gcb-zone-header p{color:var(--muto)!important}
+.d2 #gcb-couple-header h2{color:var(--ink)!important}.d2 #gcb-couple-header p{color:var(--muto)!important}
+/* consigli 1-2-3 */
+.d2 .gc-tips{background:var(--carta)!important;border:1px solid var(--linea)!important;box-shadow:var(--ombra);border-radius:14px!important;backdrop-filter:none!important}
+.d2 .gc-tips-num{background:linear-gradient(135deg,rgba(253,188,90,.55),rgba(207,143,169,.45))!important;color:var(--dom-2)!important}
+.d2 .gc-tips-text,.d2 .gc-tips-text strong,.d2 .gc-tips-text b{color:var(--ink)!important}
+.d2 .gc-tips-text{color:var(--muto)!important}
+/* .container e' una classe del tema (CSS non incluso qui): senza margin auto resta a sinistra */
+.d2.pg-calcolo .container{margin-left:auto!important;margin-right:auto!important}
+/* modulo: la card ha una larghezza massima, va centrata nella colonna */
+.d2 #carta-calculator .carta-form-card,.d2 #carta-calculator .carta-results,.d2 #carta-calculator .csingle-cta,.d2 #carta-calculator .carta-error,.d2 #carta-calculator .carta-loading{margin-left:auto!important;margin-right:auto!important}
+/* modulo */
+.d2 #carta-calculator .carta-form-card,.d2 .carta-form-card{background:var(--carta);border:1px solid rgba(232,221,217,.9);border-radius:16px;box-shadow:var(--ombra)}
+.d2 #carta-calculator .cf-field label,.d2 .cf-field label{color:var(--muto);font-weight:600;letter-spacing:.08em}
+.d2 #carta-calculator .cf-field input,.d2 #carta-calculator .cf-field select,.d2 #carta-calculator input[type="date"],.d2 #carta-calculator input[type="time"],.d2 .cf-field input,.d2 .cf-field select{border:1px solid var(--linea);background:var(--fondo);color:var(--ink);border-radius:10px;font-family:Outfit,sans-serif}
+.d2 #carta-calculator .cf-field input:focus,.d2 #carta-calculator .cf-field select:focus,.d2 #carta-calculator input[type="date"]:focus,.d2 #carta-calculator input[type="time"]:focus{border-color:var(--dom);background:#fff;box-shadow:0 0 0 3px rgba(122,79,94,.14)}
+.d2 #carta-calculator .cf-hint{color:var(--muto)}
+.d2 #carta-calculator .cf-dt-ph{color:#6B625D}
+.d2 .seo-calc-block span[style*="color"],.d2 .seo-calc-block small{color:var(--muto)!important}
+.d2 #carta-calculator .cf-autocomplete-list{border-color:var(--linea);box-shadow:var(--ombra)}
+.d2 #carta-calculator .cf-autocomplete-list li{color:var(--ink);border-color:var(--linea)}
+.d2 #carta-calculator .cf-autocomplete-list li:hover{background:var(--tint)}
+.d2 #carta-calculator .carta-btn,.d2 .carta-btn,.d2 .gcb-connect-btn{background:linear-gradient(180deg,#8B5E70,#6A4252)!important;color:#fff!important;border-radius:999px;box-shadow:0 10px 24px -8px rgba(122,79,94,.55),inset 0 1px 0 rgba(255,255,255,.22);font-family:Outfit,sans-serif;font-weight:600;letter-spacing:.01em;transition:transform .2s,box-shadow .2s}
+.d2 #carta-calculator .carta-btn:hover:not(:disabled),.d2 .gcb-connect-btn:hover{opacity:1!important;transform:translateY(-2px);box-shadow:0 16px 30px -10px rgba(122,79,94,.6),inset 0 1px 0 rgba(255,255,255,.22)}
+.d2 #carta-calculator .carta-loading-dots span{background:var(--dom)}
+/* risultati */
+.d2 #carta-calculator .carta-name-header h2,.d2 .carta-name-header h2{color:var(--ink)!important;font-family:"Playfair Display",Georgia,serif}
+.d2 #carta-calculator .carta-name-header p,.d2 .carta-name-header p{color:var(--muto)!important}
+.d2 #carta-calculator .core-card,.d2 .core-card{background:var(--carta);border:1px solid var(--linea);border-top:3px solid var(--acc);border-radius:12px;box-shadow:var(--ombra)}
+.d2 #carta-calculator .core-card-label,.d2 .core-card-label{color:var(--muto)}
+.d2 #carta-calculator .core-card-value,.d2 .core-card-value{color:var(--ink);font-family:"Playfair Display",Georgia,serif;font-weight:600;font-size:1rem}
+.d2 #carta-calculator .carta-bodygraph-wrap,.d2 #carta-calculator .carta-planets{border:1px solid var(--linea);border-radius:16px;box-shadow:var(--ombra);background:var(--carta)}
+.d2 #carta-calculator .carta-planets h3{color:var(--dom)}
+.d2 #carta-calculator .planets-table th{background:var(--tint);color:var(--dom-2)}
+.d2 #carta-calculator .planets-table td{color:var(--ink);border-color:var(--linea)}
+.d2 #carta-calculator .gate-black,.d2 #carta-calculator .planet-bg5{color:var(--ink)}
+.d2 #carta-calculator .cs-pdf-btn{background:#fff;color:var(--dom);border:1.5px solid var(--dom);border-radius:999px;font-family:Outfit,sans-serif;font-weight:600}
+.d2 #carta-calculator .cs-pdf-btn:hover:not(:disabled){background:var(--dom);color:#fff}
+.d2 .carta-pdf-btn{background:#fff!important;color:var(--dom)!important;border:1.5px solid var(--dom)!important;border-radius:999px!important;font-family:Outfit,sans-serif}
+.d2 .carta-pdf-btn:hover{background:var(--dom)!important;color:#fff!important;opacity:1!important}
+/* blocchi invito (dopo il risultato) */
+.d2 .carta-cta,.d2 #carta-calculator .csingle-cta,.d2 .gcb-connect-cta{background:var(--carta)!important;border:1px solid var(--linea)!important;backdrop-filter:none!important;border-radius:16px!important;box-shadow:var(--ombra)}
+.d2 .carta-cta h3,.d2 .gcb-connect-cta h3,.d2 .carta-cta strong{color:var(--ink)!important;font-family:"Playfair Display",Georgia,serif}
+.d2 .carta-cta p,.d2 .gcb-connect-cta p,.d2 #carta-calculator .csingle-cta p{color:var(--muto)!important}
+.d2 .carta-cta a,.d2 #carta-calculator .csingle-cta a{background:linear-gradient(180deg,#8B5E70,#6A4252)!important;color:#fff!important;border-radius:999px!important;font-family:Outfit,sans-serif;font-weight:600;box-shadow:0 10px 24px -8px rgba(122,79,94,.55)}
+.d2 .carta-cta a:hover{opacity:1!important;transform:translateY(-2px)}
+/* coppia */
+.d2 .gcb-form-col-label{color:var(--dom)!important}
+.d2 .gcb-legend-item{color:var(--muto)!important}
+.d2 .gcb-tabs-bar{background:var(--carta)!important;border:1px solid var(--linea)!important;border-radius:12px!important}
+.d2 .gcb-tab-btn{color:var(--muto)!important}
+.d2 .gcb-tab-btn--active,.d2 .gcb-tab-btn[aria-selected="true"]{color:var(--dom)!important;border-color:var(--dom)!important}
+.d2 .gcb-panel-label{color:var(--muto)!important}
+.d2 #gcb-conn-title{color:var(--ink)!important}.d2 #gcb-conn-subtitle{color:var(--muto)!important}
+.d2 .gcb-em-card,.d2 .gcb-conn-analysis,.d2 #gcb-conn-analysis>div{background:var(--carta)!important;border:1px solid var(--linea)!important;color:var(--ink)!important}
+.d2 .gcb-em-card-title,.d2 .gcb-em-card-body,.d2 .gcb-em-card-body p{color:var(--ink)!important}
+/* approfondimenti */
+.d2 .gcb-related-title{color:var(--ink)!important}
+.d2 .gcb-related-sub{color:var(--muto)!important}
+.d2 .gcb-related-card{background:var(--carta)!important;border:1px solid var(--linea)!important;box-shadow:var(--ombra);backdrop-filter:none!important}
+.d2 .gcb-related-card:hover{border-color:var(--acc)!important;transform:translateY(-4px)!important}
+.d2 .gcb-related-cat{background:rgba(253,188,90,.22)!important;color:var(--acc-ink)!important}
+.d2 .gcb-related-cardtitle{color:var(--ink)!important}
+.d2 .gcb-related-desc{color:var(--muto)!important}
+/* bodygraph: i centri/canali definiti sono viola nell'SVG generato; qui prendono il colore dominante d2 */
+.d2 #carta-calculator svg [fill="#7a5c9e"],.d2 .carta-bodygraph-wrap svg [fill="#7a5c9e"]{fill:var(--dom)}
+.d2 #carta-calculator svg [stroke="#7a5c9e"],.d2 .carta-bodygraph-wrap svg [stroke="#7a5c9e"]{stroke:var(--dom)}
+/* blocco SEO + FAQ */
+.d2 .seo-calc-block{background:var(--carta)!important;border:1px solid var(--linea)!important;border-radius:16px!important;box-shadow:var(--ombra);max-width:900px!important;color:var(--ink)!important}
+.d2 .seo-calc-block h2,.d2 .seo-calc-block h3{color:var(--ink)!important;font-family:"Playfair Display",Georgia,serif}
+.d2 .seo-calc-block p,.d2 .seo-calc-block li{color:var(--ink)!important;font-size:16px;line-height:1.65}
+.d2 .seo-calc-block details{background:var(--fondo)!important;border:1px solid var(--linea)!important;border-radius:12px!important;padding:12px 16px!important}
+.d2 .seo-calc-block summary{color:var(--ink)!important;font-weight:600;cursor:pointer}
+.d2 .seo-calc-block details[open] summary{color:var(--dom)!important}
+.d2 .seo-calc-block a{color:var(--dom)}

@@ -3,133 +3,33 @@
 {% set is_genera_carta = 'calcolo-human-design' in page.route or 'genera-carta' in page.route %}
 
 {% block extra_css %}
-{% if is_genera_carta %}
-<style>
-    body {
-        background: linear-gradient(160deg, #B68397 0%, #8A6FA8 45%, #3A5A8A 80%, #1E3A5F 100%) !important;
-        background-attachment: fixed !important;
-        min-height: 100vh;
-    }
-    body header {
-        background: rgba(255,255,255,0.12) !important;
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border-bottom: 1px solid rgba(255,255,255,0.2) !important;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
-    body header .brand-name,
-    body header .brand-tagline,
-    body header #main-nav a { color: #fff !important; }
-    body header #main-nav a:hover { color: rgba(255,255,255,0.7) !important; }
-    body header .menu-toggle { color: #fff !important; }
-    body h1, body h2, body h3 { color: #fff !important; }
-    body h4 { color: #FDE8B0 !important; }
-    body p, body .text-small { color: rgba(255,255,255,0.88); }
-    body .serif.italic { color: rgba(255,255,255,0.9) !important; }
-    .gc-card {
-        background: rgba(255,255,255,0.15) !important;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255,255,255,0.25) !important;
-        border-radius: 30px;
-    }
-    .gc-side {
-        background: rgba(255,255,255,0.15) !important;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255,255,255,0.25) !important;
-        border-radius: 20px;
-    }
-    .gc-cta {
-        background: rgba(255,255,255,0.15) !important;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255,255,255,0.3) !important;
-        border-radius: 50px;
-    }
-    .btn-outline { border-color: rgba(255,255,255,0.7) !important; color: #fff !important; }
-    .btn-outline:hover { background: rgba(255,255,255,0.15) !important; color: #fff !important; }
-    body footer { background: rgba(255,255,255,0.08) !important; backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.15) !important; }
-    body footer a, body footer div { color: rgba(255,255,255,0.75) !important; }
-    body footer a:hover { color: #fff !important; }
-</style>
-{% endif %}
+<link rel="stylesheet" href="{{ theme_url }}/css/d2/legali-d2.css?v={{ theme_version }}">
 {% endblock %}
 
 {% block content %}
-{% if is_genera_carta %}
-<main style="overflow-x: hidden;">
-    <section class="section-padding">
-        <div class="container">
-            <div class="text-center" style="max-width: 800px; margin: 0 auto;" data-animate>
-                <h1 style="margin-bottom: var(--space-md);">Genera la tua Carta</h1>
-                <p class="serif italic" style="font-size: 1.25rem; margin-bottom: var(--space-lg);">Il primo passo verso la consapevolezza del tuo disegno unico.</p>
-            </div>
+{% set base = grav.base_url %}
+<header class="lg-testa"><div class="wrap">
+  <p class="etich">{{ page.header.etichetta ?? page.title }}</p>
+  <h1>{{ page.title }}</h1>
+</div></header>
+<div class="wrap lg-griglia">
+  <aside class="lg-indice"><p class="etich">In questa pagina</p><nav id="lg-indice"></nav></aside>
+  <div class="lg-corpo blog-article-body">{{ page.content|raw }}</div>
+</div>
+{% endblock %}
 
-            <!-- Video Section -->
-            <div class="gc-card" style="max-width: 900px; margin: 0 auto var(--space-xl); padding: 2rem;" data-animate>
-                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 15px;">
-                    <iframe src="https://www.youtube.com/embed/FRZUXjTsYzU"
-                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen>
-                    </iframe>
-                </div>
-                <div style="margin-top: 2rem; text-align: center;">
-                    <h3 class="serif">Guarda la video guida di Valentina</h3>
-                    <p style="margin-top: 1rem;">In questo video ti spiego passo dopo passo come inserire i tuoi dati e come leggere le prime informazioni della tua carta.</p>
-                </div>
-            </div>
-
-            <!-- Instructions Section -->
-            <div class="footer-grid" style="align-items: flex-start; margin-bottom: var(--space-xl);">
-                <div data-animate>
-                    <h2 class="serif">Come procedere correttamente</h2>
-                    <p style="margin: 1.5rem 0; line-height: 1.6;">Per ottenere un Bodygraph accurato, &egrave; fondamentale inserire dati precisi. Il sistema di Human Design incrocia la posizione dei pianeti al momento della tua nascita con quella di circa 88 giorni prima.</p>
-                    <div style="margin-bottom: 2rem;">
-                        <div style="margin-bottom: 1.5rem;">
-                            <h4 class="serif">1. Data di Nascita</h4>
-                            <p class="text-small">Inserisci giorno, mese e anno completi.</p>
-                        </div>
-                        <div style="margin-bottom: 1.5rem;">
-                            <h4 class="serif">2. Ora Esatta</h4>
-                            <p class="text-small">L&rsquo;ora &egrave; cruciale: anche pochi minuti di differenza possono cambiare alcuni aspetti della tua carta (come la Luna o le Linee). Se non la conosci, cercala sull&rsquo;estratto di nascita integrale.</p>
-                        </div>
-                        <div style="margin-bottom: 1.5rem;">
-                            <h4 class="serif">3. Luogo di Nascita</h4>
-                            <p class="text-small">Inserisci la citt&agrave; dove sei nat&aelig;. Il software calcoler&agrave; automaticamente il fuso orario e le coordinate geografiche necessarie.</p>
-                        </div>
-                    </div>
-                    <a href="https://jovianarchive.com/pages/get-your-human-design-chart" target="_blank" class="btn btn-primary">Genera Gratuitamente su Jovian Archive</a>
-                </div>
-                <div class="gc-side" style="padding: 3rem; text-align: center;" data-animate>
-                    <img src="{{ grav.base_url }}/user/pages/assets/bodygraph.png" alt="Esempio Bodygraph" style="max-height: 350px; max-width: 100%; width: auto; margin: 0 auto;">
-                    <p class="text-small italic" style="margin-top: 1.5rem;">La tua carta &egrave; il &ldquo;libretto delle istruzioni&rdquo; del tuo veicolo energetico.</p>
-                </div>
-            </div>
-
-            <!-- Next Steps CTA -->
-            <div class="gc-cta section-padding text-center" data-animate>
-                <h2 class="serif">Hai gi&agrave; la tua carta?</h2>
-                <p style="margin: 1.5rem 0 var(--space-md);">Una volta ottenuta la mappa, il passo successivo &egrave; decodificarla. Senza una lettura professionale, rimangono solo colori e numeri.</p>
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <a href="{{ grav.base_url }}/servizi" class="btn btn-outline" style="font-size:0.82rem;padding:0.5rem 1.2rem;">Scopri i Servizi</a>
-                    <a href="{{ grav.base_url }}/contatti" class="btn btn-primary" style="font-size:0.82rem;padding:0.5rem 1.2rem;">Prenota una Lettura</a>
-                </div>
-            </div>
-        </div>
-    </section>
-</main>
-{% else %}
-<main class="section-padding">
-    <div class="container" style="max-width: 800px;">
-        <h1 style="margin-bottom: var(--space-md);" data-animate>{{ page.title }}</h1>
-        <div class="blog-article-body" data-animate>
-            {{ page.content|raw }}
-        </div>
-    </div>
-</main>
-{% endif %}
+{% block scripts %}
+<script>
+/* indice della pagina costruito dai titoli del testo */
+(function(){
+  var corpo=document.querySelector('.lg-corpo'), nav=document.getElementById('lg-indice');
+  if(!corpo||!nav) return;
+  var titoli=corpo.querySelectorAll('h2');
+  if(!titoli.length){ var col=document.querySelector('.lg-indice'); if(col) col.remove(); return; }
+  titoli.forEach(function(h,i){
+    if(!h.id) h.id='sez-'+(i+1);
+    var a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent.trim(); nav.appendChild(a);
+  });
+})();
+</script>
 {% endblock %}

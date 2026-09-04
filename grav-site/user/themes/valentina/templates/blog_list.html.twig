@@ -34,85 +34,78 @@
 </script>
 {% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ theme_url }}/css/d2/blog-d2.css?v={{ theme_version }}">
+{% endblock %}
+
 {% block content %}
-<main class="section-padding">
-    <div class="container">
-        <h1 class="text-center" style="margin-bottom: 0.5rem;" data-animate>{{ page.title }}</h1>
-        {% if page.header.description is defined %}
-        <p class="text-center serif italic" style="color: var(--primary-color); margin-bottom: var(--space-lg);" data-animate>
-            {{ page.header.description }}
-        </p>
-        {% endif %}
+{% set base = grav.base_url %}
+{% set collection = page.collection() %}
+<header class="hero bl-hero"><div class="wrap">
+  <div class="bl-testa"><h1>{{ page.title }}</h1>{% if page.header.description %}<p class="bl-sotto">{{ page.header.description }}</p>{% endif %}</div>
+</div></header>
 
-        {% set collection = page.collection() %}
-
-        {% if collection is empty %}
-        <p class="text-center" style="color: var(--text-muted, #777); margin-top: 3rem;">Nessun articolo disponibile al momento.</p>
-        {% else %}
-        <div class="blog-grid" id="blog-grid">
-            {% for article in collection %}
-            <article class="blog-card" data-category="{{ page.header.category ?? 'privati' }}">
-                {# ══════════════════════════════════════════════════════════════════════════════
-                   GUARD — Logica immagine card blog. NON modificare senza leggere.
-                   ⚠️  REGOLA: NON usare "grav.base_url_absolute ~" davanti ai path immagine.
-                       Restituisce stringa vuota → src="" → immagine rotta su TUTTI gli articoli.
-                   Priorità: 0.pages/ media → 1.filename → 2.page.media|first → 3.path assoluto
-                ══════════════════════════════════════════════════════════════════════════════ #}
-                {% set card_img = '' %}
-                {# 0. featured_image con path /user/pages/ → estrai filename e cerca nei media #}
-                {% if article.header.featured_image is defined and article.header.featured_image and '/user/pages/' in article.header.featured_image %}
-                  {% set _fname = article.header.featured_image|split('/')|last %}
-                  {% if article.media[_fname] is defined %}{% set card_img = article.media[_fname].url %}{% endif %}
-                {% endif %}
-                {# 1. featured_image filename semplice (no slash) → lookup diretto nei media della pagina #}
-                {% if not card_img and article.header.featured_image is defined and article.header.featured_image and '/' not in article.header.featured_image %}
-                  {% set card_img = article.media[article.header.featured_image].url ?? '' %}
-                {% endif %}
-                {# 2. Prima media della pagina (article.media|first funziona nel context collection) #}
-                {% if not card_img and article.media|length %}
-                  {% set card_img = article.media|first.url ?? '' %}
-                {% endif %}
-                {# 3. featured_image percorso assoluto legacy — MAI /user/pages/ che non è URL pubblico #}
-                {% if not card_img and article.header.featured_image is defined and article.header.featured_image and '/user/pages/' not in article.header.featured_image %}
-                  {% set card_img = article.header.featured_image %}
-                {% endif %}
-                {# Nessuna immagine trovata: non mostrare nulla #}
-                {% if card_img %}
-                <div class="blog-card-image">
-                    <img src="{{ card_img }}"
-                         alt="{{ article.header.image_alt ?? article.title }}"
-                         loading="lazy">
-                </div>
-                {% endif %}
-                <div class="blog-card-content">
-                    {% if article.header.tags is defined and article.header.tags %}
-                    <div class="article-tags" style="margin: 0 0 0.5rem;">
-                        {% for tag in (article.header.tags is iterable ? article.header.tags : article.header.tags|split(',')) %}
-                        <span class="article-tag">{{ tag|trim }}</span>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                    <h3>{{ article.title }}</h3>
-                    {% if article.header.description is defined %}
-                    <p class="text-small" style="color: var(--text-muted, #777); line-height: 1.6;">
-                        {{ article.header.description|slice(0, 120) }}{% if article.header.description|length > 120 %}...{% endif %}
-                    </p>
-                    {% endif %}
-                    <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #aaa;">
-                        {{ article.date|date("d M Y") }}
-                        {% if article.header.author is defined %}&mdash; {{ article.header.author }}{% endif %}
-                    </div>
-                    <a href="{{ article.url }}" class="btn-blog-link" style="margin-top: 1rem;">Leggi &rarr;</a>
-                </div>
-            </article>
-            {% endfor %}
-        </div>
-
-        {# Grav Pagination #}
-        {% if config.plugins.pagination.enabled and collection is defined %}
-            {% include 'partials/pagination.html.twig' %}
+<section class="bl-lista"><div class="wrap">
+  <form class="bl-cerca" id="bl-form" role="search"><label for="bl-q" class="etich">Cerca negli articoli</label><div class="bl-riga"><input id="bl-q" type="search" placeholder="Parola, tema, tipologia..." autocomplete="off"><button class="btn btn-1" type="submit">Cerca</button></div></form>
+  <p class="bl-conta"><span id="bl-conta"></span></p>
+    <div class="bl-griglia" id="bl-griglia">
+    {% for article in collection %}
+    {# immagine della scheda: stessa scala di priorita' di prima, ma il ritaglio
+       760x475 lo genera Grav, cosi' la miniatura pesa poco #}
+    {% set media = null %}
+    {% set fallback = '' %}
+    {% if article.header.featured_image is defined and article.header.featured_image %}
+      {% set nome = article.header.featured_image|split('/')|last %}
+      {% if article.media[nome] is defined %}{% set media = article.media[nome] %}
+      {% elseif '/user/pages/' not in article.header.featured_image %}{% set fallback = article.header.featured_image %}{% endif %}
+    {% endif %}
+    {% if not media and not fallback and article.media|length %}{% set media = article.media|first %}{% endif %}
+    {% set img = media ? media.cropZoom(760,475).quality(82).url : fallback %}
+    <article class="bl-card">
+      {% if img %}<a class="bl-img" href="{{ article.url }}" tabindex="-1" aria-hidden="true"><img src="{{ img }}" alt="{{ article.header.image_alt ?? article.title }}" loading="lazy" width="760" height="475"></a>{% endif %}
+      <div class="bl-corpo">
+        <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+        {% if article.header.tags is defined and article.header.tags %}
+        <p class="bl-tag">{% for tag in (article.header.tags is iterable ? article.header.tags : article.header.tags|split(',')) %}{{ tag|trim }}{% if not loop.last %} &middot; {% endif %}{% endfor %}</p>
         {% endif %}
-        {% endif %}
-    </div>
-</main>
+        {% if article.header.description is defined %}<p class="bl-estr">{{ article.header.description|slice(0,150) }}{% if article.header.description|length > 150 %}...{% endif %}</p>{% endif %}
+        <p class="bl-meta">{{ article.date|date("d M Y") }}{% if article.header.author is defined %} &mdash; {{ article.header.author }}{% endif %}</p>
+        <a class="lnk" href="{{ article.url }}" aria-label="Leggi: {{ article.title }}">Leggi &rarr;</a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</div>
+  <p class="bl-vuoto" id="bl-vuoto" hidden>Nessun articolo per questa ricerca.</p>
+</div></section>
+
+<section class="fine"><div class="wrap">
+  <h2>Cominciamo il tuo percorso?</h2><p>Scegli il punto di ingresso che si adatta a te adesso.</p>
+  <div class="azioni"><a class="btn btn-1" href="{{ base }}/servizi">Prenota la Prima Lettura</a><a class="btn btn-2" href="{{ base }}/calcolo-human-design">Calcola la tua carta gratis</a></div>
+</div></section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function(){
+  var tema='tutti', q=''; var form=document.getElementById('bl-form');
+  var carte=[].slice.call(document.querySelectorAll('#bl-griglia .bl-card'));
+  var chips=[].slice.call(document.querySelectorAll('.bl-chip')), conta=document.getElementById('bl-conta'), vuoto=document.getElementById('bl-vuoto'), campo=document.getElementById('bl-q');
+  function norm(t){ return (t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
+  function ok(el){
+    var t = tema==='tutti' || (el.getAttribute('data-temi')||'').split(' ').indexOf(tema)>=0;
+    var testo = norm(el.textContent);
+    var s = !q || q.split(/\s+/).every(function(w){ var r = w.length>4 ? w.replace(/[aeio]$/,'') : w; return testo.indexOf(r)>=0; });
+    return t && s;
+  }
+  function aggiorna(){
+    var n=0; carte.forEach(function(c){ var v=ok(c); c.hidden=!v; c.style.display = v ? '' : 'none'; if(v) n++; });
+    conta.textContent = n===carte.length ? carte.length+' articoli, dal più recente' : n+' di '+carte.length+' articoli';
+    vuoto.hidden = n>0;
+  }
+  form.addEventListener('submit', function(ev){ ev.preventDefault(); q=norm(campo.value.trim()); aggiorna(); });
+  campo.addEventListener('input', function(){ if(!campo.value.trim()){ q=''; aggiorna(); } });
+  aggiorna();
+})();
+</script>
 {% endblock %}

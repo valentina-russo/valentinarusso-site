@@ -40,116 +40,60 @@
 </script>
 {% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ theme_url }}/css/d2/citta-d2.css?v={{ theme_version }}">
+{% endblock %}
+
 {% block content %}
-<main>
+{% set base = grav.base_url %}
+<section class="hero ci-hero"><div class="wrap">
+  <div class="rivela">
+    <p class="etich">BG5&reg; Certified Consultant</p>
+    <h1>{{ page.title }}</h1>
+    <p class="sotto">{{ page.header.subtitle ?? 'Consulenze individuali BG5® e Human Design per carriera, relazioni e business.' }}</p>
+    <div class="azioni"><a class="btn btn-1" href="#carta-calculator">Calcola la tua Carta &rarr;</a><a class="btn btn-2" href="{{ base }}/contatti">Contattami ora</a></div>
+  </div>
+  <figure class="foto rivela"><img src="{{ base }}/user/pages/assets/valentina.jpg" alt="Valentina Russo, Consulente BG5&reg; e Human Design" width="800" height="1000"></figure>
+</div></section>
 
-  {# Hero #}
-  <section class="section-padding" style="background: linear-gradient(135deg, var(--bg-color) 0%, #f5f0eb 100%); border-bottom: 1px solid var(--soft-gray);">
-    <div class="container" style="max-width: 900px; text-align: center;">
-      <p class="text-uppercase" style="color: var(--primary-color); font-weight: 700; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 1rem;" data-animate>
-        BG5® Certified Consultant
-      </p>
-      <h1 style="margin-bottom: 1.25rem;" data-animate>{{ page.title }}</h1>
-      <p class="serif italic" style="font-size: 1.2rem; color: var(--primary-color); margin-bottom: 2rem; max-width: 700px; margin-inline: auto;" data-animate>
-        {{ page.header.subtitle ?? 'Consulenze individuali BG5® e Human Design per carriera, relazioni e business.' }}
-      </p>
-      <a href="#carta-calculator" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.9rem 2rem; background-color: var(--corp-primary);" data-animate onclick="event.preventDefault();document.getElementById('carta-calculator').scrollIntoView({behavior:'smooth',block:'start'});">
-        Calcola la tua Carta →
-      </a>
-    </div>
-  </section>
+<section class="ci-testo"><div class="wrap">
+  <div class="ci-prosa rivela">{{ page.content|raw }}</div>
+</div></section>
 
-  {# Main content #}
-  <section class="section-padding">
-    <div class="container" style="max-width: 900px;">
+<section class="sez-alt ci-offerte"><div class="wrap">
+  <div class="rivela ci-centro"><p class="etich">Consulenze</p><h2>Consulenze disponibili</h2><p class="sotto">Sessioni online &mdash; accessibili da {{ city }} e da tutta Italia</p></div>
+  <div class="griglia">
+    <div class="card ci-off rivela"><h3>Prima Lettura Human Design</h3><p>Sessione di 2 ore. Tipo Energetico, Strategia, Autorit&agrave; Decisionale. La mappa del tuo funzionamento naturale.</p><p class="ci-prezzo">210 &euro;</p></div>
+    <div class="card ci-off rivela"><h3>Panoramica BG5&reg; Carriera</h3><p>90 minuti. Disegno di Carriera, Tipo di Carriera, Strategia e Autorit&agrave; in chiave professionale. Certificato BG5&reg;.</p><p class="ci-prezzo">350 &euro;</p></div>
+    <div class="card ci-off rivela"><h3>Percorso BG5&reg; Business Blueprint</h3><p>15 sessioni per professionisti indipendenti e imprenditori. Strategia, posizionamento, partnership.</p><p class="ci-prezzo">1.800 &euro;</p></div>
+  </div>
+</div></section>
 
-      <div class="location-content" data-animate>
-        {{ page.content|raw }}
-      </div>
+<section class="sez-alt ci-diff"><div class="wrap rivela">
+  <p class="etich">Human Design e BG5&reg;</p>
+  <h2>Human Design e BG5: qual &egrave; la differenza?</h2>
+  <p class="ci-diff-testo">Stesso sistema, stesso bodygraph, angolazione diversa. Human Design guarda la persona nella sua interezza; BG5 applica gli stessi strumenti al lavoro, alla carriera e ai team.</p>
+  <p class="ci-diff-testo">La carta &egrave; la stessa. Cambia la lente con cui viene letta. Una sessione BG5 non sostituisce un percorso di crescita personale con HD &mdash; sono due applicazioni complementari dello stesso sistema.</p>
+  <p class="ci-diff-link"><a class="lnk" href="{{ base }}/human-design">Cos&rsquo;&egrave; lo Human Design &rarr;</a><a class="lnk" href="{{ base }}/aziende/bg5">Cos&rsquo;&egrave; il BG5&reg; &rarr;</a></p>
+</div></section>
 
-      {# Servizi #}
-      <div style="margin-top: 4rem;" data-animate>
-        <h2 style="color: var(--primary-color); margin-bottom: 0.5rem; text-align: center;">Consulenze disponibili</h2>
-        <p style="text-align: center; opacity: 0.7; margin-bottom: 2.5rem;">Sessioni online — accessibili da {{ city }} e da tutta Italia</p>
+<section class="ci-calc"><div class="wrap">
+  {% include 'partials/calc-singolo.html.twig' %}
+  {% include 'partials/seo-calcolatore.html.twig' %}
+</div></section>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;">
+<section class="ci-bio"><div class="wrap"><div class="card ci-scheda rivela">
+  <img src="{{ base }}/user/pages/assets/valentina.jpg" alt="Valentina Russo, Consulente BG5&reg; e Human Design" width="120" height="120">
+  <div>
+    <h3>Valentina Russo</h3>
+    <p>BG5&reg; Business Institute Certified Consultant &middot; Human Design Analyst &middot; Guida Mentale 2/4</p>
+    <p>Consulente certificata BG5&reg; con clienti in tutta Italia. Le sessioni si svolgono online in videochiamata &mdash; stessa qualit&agrave; e profondit&agrave; di una consulenza in presenza.</p>
+  </div>
+</div></div></section>
 
-          <div class="card" style="background: var(--white); border: 1px solid var(--soft-gray); border-top: 4px solid var(--primary-color); border-radius: 12px; padding: 1.5rem;">
-            <h3 style="margin-bottom: 0.75rem; font-size: 1.1rem;">Prima Lettura Human Design</h3>
-            <p style="font-size: 0.9rem; margin-bottom: 1rem; opacity: 0.85;">Sessione di 2 ore. Tipo Energetico, Strategia, Autorità Decisionale. La mappa del tuo funzionamento naturale.</p>
-            <p style="font-weight: 700; color: var(--primary-color);">210 €</p>
-          </div>
-
-          <div class="card" style="background: var(--white); border: 1px solid var(--soft-gray); border-top: 4px solid var(--accent-color); border-radius: 12px; padding: 1.5rem;">
-            <h3 style="margin-bottom: 0.75rem; font-size: 1.1rem;">Panoramica BG5® Carriera</h3>
-            <p style="font-size: 0.9rem; margin-bottom: 1rem; opacity: 0.85;">90 minuti. Disegno di Carriera, Tipo di Carriera, Strategia e Autorità in chiave professionale. Certificato BG5®.</p>
-            <p style="font-weight: 700; color: var(--accent-color);">350 €</p>
-          </div>
-
-          <div class="card" style="background: var(--white); border: 1px solid var(--soft-gray); border-top: 4px solid var(--secondary-color); border-radius: 12px; padding: 1.5rem;">
-            <h3 style="margin-bottom: 0.75rem; font-size: 1.1rem;">Percorso BG5® Business Blueprint</h3>
-            <p style="font-size: 0.9rem; margin-bottom: 1rem; opacity: 0.85;">15 sessioni per professionisti indipendenti e imprenditori. Strategia, posizionamento, partnership.</p>
-            <p style="font-weight: 700; color: var(--secondary-color);">1.800 €</p>
-          </div>
-
-        </div>
-      </div>
-
-      {# Calcolatore Carta Human Design #}
-      {% include 'partials/calc-singolo.html.twig' %}
-
-      {# SEO Content Block #}
-      {% include 'partials/seo-calcolatore.html.twig' %}
-
-      {# Chi sono #}
-      <div style="margin-top: 4rem; display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center; background: var(--white); border: 1px solid var(--soft-gray); border-radius: 16px; padding: 2rem;" data-animate>
-        <img src="{{ grav.base_url }}/user/pages/assets/valentina.jpg"
-             alt="Valentina Russo, Consulente BG5® e Human Design"
-             style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
-        <div>
-          <h3 style="margin-bottom: 0.5rem;">Valentina Russo</h3>
-          <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.75rem;">BG5® Business Institute Certified Consultant · Human Design Analyst · Guida Mentale 2/4</p>
-          <p style="font-size: 0.9rem; line-height: 1.7;">Consulente certificata BG5® con clienti in tutta Italia. Le sessioni si svolgono online in videochiamata — stessa qualità e profondità di una consulenza in presenza.</p>
-        </div>
-      </div>
-
-      {# CTA finale #}
-      <div style="margin-top: 4rem; text-align: center; padding: 3rem 2rem; background: linear-gradient(135deg, #f5f0eb, #ede8e3); border-radius: 16px;" data-animate>
-        <h2 style="margin-bottom: 1rem;">Pronto a partire?</h2>
-        <p style="max-width: 550px; margin: 0 auto 2rem; opacity: 0.8;">Scrivi da {{ city }} o da qualsiasi città italiana — rispondo entro 24 ore e concordiamo il primo appuntamento.</p>
-        <a href="{{ grav.base_url }}/aziende/contatti" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.9rem 2.2rem; background-color: var(--corp-primary);">Contattami ora</a>
-      </div>
-
-      {# Altre città — link interni SEO #}
-      <div style="margin-top: 3rem; padding: 1.5rem 2rem; background: #faf8f6; border-radius: 12px; border: 1px solid #ece8e3; text-align: center;" data-animate>
-        <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary-color); margin: 0 0 0.75rem 0;">Consulente BG5® disponibile in tutta Italia</p>
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1rem; font-size: 0.82rem;">
-          <a href="{{ grav.base_url }}/consulente-bg5-milano" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Milano</a>
-          <span style="color: #ccc;">&middot;</span>
-          <a href="{{ grav.base_url }}/consulente-bg5-torino" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Torino</a>
-          <span style="color: #ccc;">&middot;</span>
-          <a href="{{ grav.base_url }}/consulente-bg5-roma" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Roma</a>
-          <span style="color: #ccc;">&middot;</span>
-          <a href="{{ grav.base_url }}/consulente-bg5-bologna" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Bologna</a>
-          <span style="color: #ccc;">&middot;</span>
-          <a href="{{ grav.base_url }}/consulente-bg5-firenze" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Firenze</a>
-          <span style="color: #ccc;">&middot;</span>
-          <a href="{{ grav.base_url }}/consulente-bg5-napoli" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Napoli</a>
-          <span style="color: #ccc;">&middot;</span>
-          <a href="{{ grav.base_url }}/consulente-bg5-venezia" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Venezia</a>
-          <span style="color: #ccc;">&middot;</span>
-          <a href="{{ grav.base_url }}/consulente-bg5-bari" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Bari</a>
-          <span style="color: #ccc;">&middot;</span>
-          <a href="{{ grav.base_url }}/consulente-bg5-palermo" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Palermo</a>
-          <span style="color: #ccc;">&middot;</span>
-          <a href="{{ grav.base_url }}/consulente-bg5-verona" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Verona</a>
-          <span style="color: #ccc;">&middot;</span>
-          <a href="{{ grav.base_url }}/consulente-bg5-italia" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Tutta Italia &rarr;</a>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-</main>
+<section class="fine"><div class="wrap rivela">
+  <h2>Pronto a partire?</h2>
+  <p>Scrivi da {{ city }} o da qualsiasi citt&agrave; italiana &mdash; rispondo entro 24 ore e concordiamo il primo appuntamento.</p>
+  <div class="azioni"><a class="btn btn-1" href="{{ base }}/contatti">Contattami ora</a><a class="btn btn-2" href="{{ base }}/calcolo-human-design">Calcola la tua carta gratis</a></div>
+</div></section>
 {% endblock %}

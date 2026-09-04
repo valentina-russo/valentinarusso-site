@@ -1,0 +1,22 @@
+
+/* Libretto: l'oro del sito originale (#C48A3A) su fondo chiaro non e' leggibile (rapporto 2,8).
+   Resta oro, ma di un tono piu' profondo: cambia il valore alla radice, cosi' vale per tutta la pagina. */
+.d2.pg-libretto{--bp-gold:#8A5A12;--bp-gold-glow:rgba(138,90,18,.30)}
+/* sui blocchi scuri serve l'opposto: oro piu' chiaro, altrimenti sparisce nel fondo */
+.d2 .bp-hero__cover,.d2 .bp-pricing-card--comp,.d2 [class*="bp-tier-panel--comp"],.d2 .bp-doc-mockup{--bp-gold:#E0AE5E;--bp-gold-glow:rgba(224,174,94,.32)}
+.d2 .bp-hero__cover :is(p,span,h2,h3,div),.d2 .bp-pricing-card--comp .bp-pricing-card__title,.d2 [class*="bp-tier-panel--comp"] .bp-tier-panel__title,.d2 [class*="bp-tier-panel--comp"] .bp-tier-panel__count,.d2 .bp-pricing-card--comp .bp-price-label{color:#E0AE5E!important}
+.d2 .bp-hero__cover .bp-hero__cover-title,.d2 .bp-hero__cover .bp-hero__cover-author{color:#fff!important}
+/* il pulsante d'acquisto in testata: testo scuro su oro chiaro non si legge, va bianco su oro profondo */
+.d2 .bp-btn-hero-primary{background:#8A5A12!important;color:#fff!important;border-color:#8A5A12!important}
+.d2 .bp-hero__cover-caption,.d2 .bp-hero__cover-caption *{color:rgba(255,255,255,.86)!important}
+.d2 .bp-hero__kicker,.d2 .bp-eyebrow,.d2 .bp-tier-panel__title,.d2 .bp-pricing-card__title,
+.d2 .bp-hero__cover-caption,.d2 .bp-hero__cover-caption-num,.d2 .bp-price-label{color:#8A5A12!important}
+.d2 .bp-btn-outline,.d2 .bp-btn-outline-ess,.d2 .bp-btn-outline-lg,.d2 .bp-btn-hero-outline{color:#8A5A12!important;border-color:#A06820!important}
+.d2 .bp-pricing-badge{background:#8A5A12!important;color:#fff!important}
+/* Libretto: palette originale (oro / blu notte / pergamena). Qui solo le correzioni strutturali per convivere con testata e footer d2 */
+body.d2.pg-libretto{background:#FAF6EE}
+.d2 .bp-hero{min-height:0!important;padding:0 0 48px!important}
+.d2 .bp-hero__container{min-height:0!important;padding-top:56px!important}
+.d2 .bp-hero__scroll{display:none!important}
+.d2 .nav .btn-1,.d2 footer a{text-transform:none!important;letter-spacing:.01em!important}
+.d2.pg-libretto footer{background:#FFFFFF;border-top:1px solid #EAE5E1}

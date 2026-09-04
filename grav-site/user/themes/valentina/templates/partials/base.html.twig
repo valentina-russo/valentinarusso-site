@@ -1,3 +1,4 @@
+{% set theme_version = '20260904' %}
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -9,7 +10,7 @@
        tre round-trip in fila. Con preconnect ne resta uno. #}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Outfit:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Outfit:wght@400;500;600;700;800&family=Fraunces:ital,wght@1,400;1,600&display=swap">
 
     <title>{% block title %}{% set t = page.header.seo_title ?? page.title %}{{ t }}{% if 'Valentina Russo' not in t %} | Valentina Russo{% endif %}{% endblock %}</title>
     <meta name="description" content="{{ page.header.seo_desc ?? page.header.description ?? 'Consulente BG5® e Human Design per carriera, relazioni e amor proprio.' }}">
@@ -72,7 +73,8 @@
     <meta name="twitter:site" content="@valentinarussobg5">
 
     {# CSS #}
-    <link rel="stylesheet" href="{{ theme_url }}/css/style.css?v=20260312_ULTRA">
+    <link rel="stylesheet" href="{{ theme_url }}/css/d2/dir.css?v={{ theme_version }}">
+    <link rel="stylesheet" href="{{ theme_url }}/css/d2/home-d2.css?v={{ theme_version }}">
     {% block extra_css %}{% endblock %}
 
     {# Content freshness meta #}
@@ -383,19 +385,27 @@
 {% set is_corporate_page = ('/aziende/' in page.route) or (page.header.corporate is defined and page.header.corporate) %}
 {% set is_home = page.template == 'home' %}
 {% set is_aziende_home = page.template == 'aziende_home' %}
-{% set body_classes = [] %}
+{% set body_classes = ['d2'] %}
+{% if page.header.classe_corpo %}{% set body_classes = body_classes|merge([page.header.classe_corpo]) %}{% endif %}
+{% set classe_modello = block('classe_corpo')|trim %}
+{% if classe_modello %}{% set body_classes = body_classes|merge([classe_modello]) %}{% endif %}
+{% if is_corporate_page %}{% set body_classes = body_classes|merge(['az']) %}{% endif %}
 {% if is_corporate_page %}{% set body_classes = body_classes|merge(['corporate']) %}{% endif %}
 {% if is_home %}{% set body_classes = body_classes|merge(['hero-v2-privati']) %}{% endif %}
 {% if is_aziende_home %}{% set body_classes = body_classes|merge(['hero-v2-aziende']) %}{% endif %}
 <body{% if body_classes %} class="{{ body_classes|join(' ') }}"{% endif %}>
 
+    {% block classe_corpo %}{% endblock %}
     {% block header %}{% include 'partials/header.html.twig' %}{% endblock %}
 
-    {% block content %}{% endblock %}
+    <div id="contenuto">{% block content %}{% endblock %}</div>
 
     {% include 'partials/footer.html.twig' %}
 
     <script src="{{ theme_url }}/js/main.js"></script>
+    <script src="{{ theme_url }}/js/su.js" defer></script>
+    <script src="{{ theme_url }}/js/menu.js" defer></script>
+    <script src="{{ theme_url }}/js/cta.js" defer></script>
     {% block scripts %}{% endblock %}
 
 </body>

@@ -1,0 +1,33 @@
+
+/* Pagine citta' - direzione 2 */
+body.d2.pg-citta{background:var(--fondo)!important}
+.d2 .ci-hero .wrap{grid-template-columns:1.2fr .8fr;align-items:center}
+.d2 .ci-hero h1{font-size:clamp(30px,3.6vw,46px);margin:0 0 10px}
+.d2 .ci-hero .sotto{font-family:Fraunces,"Playfair Display",Georgia,serif;font-style:italic;font-size:21px;color:var(--dom);max-width:52ch}
+.d2 .ci-hero .foto{max-width:360px;justify-self:end}
+.d2 .ci-hero .foto img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%}
+.d2 .ci-testo{padding:80px 0 72px}
+.d2 .ci-prosa{max-width:820px;margin:0 auto}
+.d2 .ci-prosa h2{margin:0 0 18px}.d2 .ci-prosa h3{margin:30px 0 10px;font-size:22px}
+.d2 .ci-prosa p{font-size:17px;line-height:1.68;max-width:68ch;margin:0 0 16px}
+.d2 .ci-prosa strong{color:var(--dom-2)}
+.d2 .ci-offerte{padding:80px 0}
+.d2 .ci-centro{text-align:center}.d2 .ci-centro .sotto{margin:8px auto 0;color:var(--muto);font-size:17px}
+.d2 .ci-off h3{font-size:20px;margin:0}.d2 .ci-off p{color:var(--muto)}
+.d2 .ci-prezzo{font-family:Fraunces,Georgia,serif;font-style:italic;font-size:30px;color:var(--dom)!important;margin-top:auto}
+.d2 .ci-diff{padding:72px 0}
+.d2 .ci-diff .wrap{max-width:820px;text-align:center}
+.d2 .ci-diff h2{margin:0 0 14px}
+.d2 .ci-diff-testo{font-size:17.5px;line-height:1.65;color:var(--ink);margin:0 auto 14px;max-width:68ch}
+.d2 .ci-diff-link{margin-top:22px;display:flex;gap:26px;justify-content:center;flex-wrap:wrap}
+.d2 .ci-diff-link .lnk{font-weight:600}
+.d2 .ci-calc{padding:60px 0 40px}
+.d2 .ci-centro-azioni{justify-content:center;margin-top:34px}
+.d2 .ci-calc .wrap{max-width:900px}
+.d2 .ci-bio{padding:40px 0 80px}
+.d2 .ci-scheda{flex-direction:row;align-items:center;gap:26px;max-width:820px;margin:0 auto}
+.d2 .ci-scheda img{width:110px;height:110px;border-radius:50%;object-fit:cover;object-position:50% 20%;flex:none;box-shadow:var(--ombra)}
+.d2 .ci-scheda h3{margin:0 0 6px}.d2 .ci-scheda p{margin:0 0 8px;font-size:15.5px;color:var(--muto)}
+.d2 .ci-scheda p:first-of-type{color:var(--dom);font-weight:500}
+.d2 .fine .ci-nota{margin:22px auto 0;font-size:13.5px;opacity:.75}
+@media (max-width:900px){.d2 .ci-hero .wrap{grid-template-columns:1fr}.d2 .ci-hero .foto{max-width:300px;justify-self:start;order:-1}.d2 .ci-scheda{flex-direction:column;text-align:center}}

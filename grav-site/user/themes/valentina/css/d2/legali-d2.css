@@ -1,0 +1,30 @@
+
+/* Pagine legali - direzione 2 */
+.d2 .lg-testa{background:var(--tint);padding:44px 0 40px;border-bottom:1px solid var(--linea)}
+.d2 .lg-testa .wrap{max-width:1000px}
+.d2 .lg-testa h1{font-size:clamp(30px,3.4vw,42px);margin:0 0 10px}
+.d2 .lg-agg{font-size:14px;color:var(--muto);margin:0}
+.d2 .lg-griglia{max-width:1000px;display:grid;grid-template-columns:240px 1fr;gap:56px;padding-top:48px;padding-bottom:80px;align-items:start}
+.d2 .lg-indice{position:sticky;top:96px}
+.d2 .lg-indice .etich{margin-bottom:10px}
+.d2 .lg-indice nav{display:flex;flex-direction:column;gap:2px}
+.d2 .lg-indice a{font-size:14px;color:var(--muto);text-decoration:none;padding:6px 10px;border-left:2px solid var(--linea);line-height:1.35}
+.d2 .lg-indice a:hover{color:var(--dom);border-left-color:var(--dom)}
+.d2 .lg-corpo{max-width:68ch}
+.d2 .lg-corpo h2{font-size:24px;margin:40px 0 12px;scroll-margin-top:96px}
+.d2 .lg-corpo h2:first-child{margin-top:0}
+.d2 .lg-corpo h3{font-size:19px;margin:26px 0 8px}
+.d2 .lg-corpo p,.d2 .lg-corpo li{font-size:16.5px;line-height:1.68}
+.d2 .lg-corpo p{margin:0 0 14px}
+.d2 .lg-corpo ul,.d2 .lg-corpo ol{padding-left:22px;margin:0 0 16px}.d2 .lg-corpo li{margin-bottom:6px}
+.d2 .lg-corpo a{color:var(--dom);text-decoration:underline;text-underline-offset:3px}
+.d2 .lg-corpo strong{color:var(--dom-2)}
+.d2 .lg-corpo hr{border:0;border-top:1px solid var(--linea);margin:28px 0}
+.d2 .lg-corpo table{border-collapse:collapse;width:100%;font-size:15px;margin:0 0 18px}.d2 .lg-corpo td,.d2 .lg-corpo th{border:1px solid var(--linea);padding:8px 10px;text-align:left;vertical-align:top}
+/* pagina di errore */
+.d2 .err{min-height:56vh;display:flex;align-items:center;text-align:center;background:radial-gradient(900px 420px at 50% 0%,rgba(207,143,169,.24),transparent 60%),var(--tint)}
+.d2 .err .wrap{max-width:640px}
+.d2 .err h1{font-size:clamp(32px,4vw,48px);margin:0 0 14px}
+.d2 .err-testo{font-size:17.5px;line-height:1.6;color:var(--muto);margin:0 0 30px}
+.d2 .err .azioni{justify-content:center;flex-wrap:wrap}
+@media (max-width:900px){.d2 .lg-griglia{grid-template-columns:1fr;gap:28px}.d2 .lg-indice{position:static}.d2 .lg-indice nav{flex-direction:row;flex-wrap:wrap;gap:6px}.d2 .lg-indice a{border:1px solid var(--linea);border-radius:999px;padding:6px 12px}}

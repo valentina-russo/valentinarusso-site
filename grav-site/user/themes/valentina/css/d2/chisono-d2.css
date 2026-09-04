@@ -1,0 +1,23 @@
+
+/* Chi Sono - direzione 2 */
+.d2 .cs-hero .wrap{grid-template-columns:1.15fr .85fr;align-items:center}
+.d2 .cs-hero h1{margin:0 0 6px}
+.d2 .cs-profilo{font-family:Fraunces,"Playfair Display",Georgia,serif;font-style:italic;font-size:24px;color:var(--dom);margin:0 0 26px}
+.d2 .cs-testo p{font-size:17.5px;line-height:1.65;max-width:60ch;margin:0 0 16px}
+.d2 .cs-testo strong{color:var(--dom-2)}
+.d2 .cs-hero .foto{width:100%;max-width:400px;justify-self:end;margin:0}
+.d2 .cs-hero .foto img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%}
+.d2 .cs-hero{padding:64px 0 72px}
+.d2 .cs-formazione{padding:88px 0}
+.d2 .cs-comp{list-style:none;margin:36px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.d2 .comp{display:flex;align-items:center;gap:16px;padding:20px 22px;background:var(--carta);border-radius:12px;box-shadow:var(--ombra);font-size:16px;font-weight:500;color:var(--ink);position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.d2 .comp::after{content:"";position:absolute;top:0;left:-70%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);transition:left .6s ease;pointer-events:none}
+.d2 .comp:hover{transform:translateY(-4px);box-shadow:0 22px 44px -18px rgba(58,53,50,.28)}
+.d2 .comp:hover::after{left:130%}
+.d2 .comp-n{font-family:Fraunces,Georgia,serif;font-style:italic;font-size:22px;color:var(--acc-ink);background:linear-gradient(135deg,rgba(253,188,90,.35),rgba(207,143,169,.25));width:44px;height:44px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.d2 .cs-lavoro{padding:88px 0}
+.d2 .cs-lavoro .duo{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}
+.d2 .cs-lavoro h2{margin:0}
+.d2 .cs-lavoro-testo p{font-size:17px;line-height:1.65;max-width:62ch;margin:0 0 16px}
+.d2 .cs-lavoro-testo a{color:var(--dom);text-decoration:underline;text-underline-offset:3px}
+@media (max-width:900px){.d2 .cs-hero .wrap,.d2 .cs-lavoro .duo{grid-template-columns:1fr}.d2 .cs-hero .foto{max-width:360px;justify-self:start;margin-top:0;order:-1}}
