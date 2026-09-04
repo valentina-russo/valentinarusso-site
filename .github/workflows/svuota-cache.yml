@@ -25,6 +25,5 @@ jobs:
           echo "=== stato delle pagine ==="
           for u in genera-carta genera-carta-beta genera-carta-v2 calcolo-human-design blog chi-sono; do
             printf "%-24s " "$u"
-            curl -s -o /dev/null -w "HTTP %{http_code} -> %{redirect_url}
-" "https://valentinarussobg5.com/$u"
+            curl -s -o /dev/null -w "HTTP %{http_code} -> %{redirect_url}\n" "https://valentinarussobg5.com/$u"
           done
