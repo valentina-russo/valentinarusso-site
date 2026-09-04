@@ -57,7 +57,9 @@
     {% if article.header.featured_image is defined and article.header.featured_image %}
       {% set nome = article.header.featured_image|split('/')|last %}
       {% if article.media[nome] is defined %}{% set media = article.media[nome] %}
-      {% elseif '/user/pages/' not in article.header.featured_image %}{% set fallback = article.header.featured_image %}{% endif %}
+      {% elseif article.header.featured_image starts with '/' or article.header.featured_image starts with 'http' %}
+        {% if '/user/pages/' not in article.header.featured_image %}{% set fallback = article.header.featured_image %}{% endif %}
+      {% endif %}
     {% endif %}
     {% if not media and not fallback and article.media|length %}{% set media = article.media|first %}{% endif %}
     {% set img = media ? media.cropZoom(760,475).quality(82).url : fallback %}
