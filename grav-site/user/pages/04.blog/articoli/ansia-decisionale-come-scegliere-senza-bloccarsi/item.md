@@ -7,19 +7,19 @@ tags:
     - 'Decisioni'
     - 'Ansia'
     - 'Human Design'
-    - 'Autorità Interiore'
+    - 'Autorità Interna'
     - 'Autorità Emozionale'
 featured_image: ansia-decisionale.png
 image_alt: "Persona a un bivio che rappresenta l'ansia decisionale e la paralisi da scelta"
-image_title: "Ansia decisionale e Autorità Interiore"
+image_title: "Ansia decisionale e Autorità Interna"
 image_caption: "La paralisi decisionale ha una causa precisa nel tuo Design."
-image_desc: "Immagine simbolica dell'ansia decisionale, con una figura a un bivio che rappresenta la difficoltà di scegliere e il concetto di Autorità Interiore nel sistema Human Design."
+image_desc: "Immagine simbolica dell'ansia decisionale, con una figura a un bivio che rappresenta la difficoltà di scegliere e il concetto di Autorità Interna nel sistema Human Design."
 description: "Ti blocchi davanti alle decisioni importanti? L'ansia da scelta ha una causa precisa: stai usando la mente per decidere quando il tuo corpo ha un sistema diverso."
 seo_title: "Ansia da decisione: come scegliere senza bloccarsi"
-seo_desc: "Non riesci a prendere decisioni importanti? La paralisi da scelta ha una causa biologica. Scopri come funziona la tua Autorità Interiore."
+seo_desc: "Non riesci a prendere decisioni importanti? La paralisi da scelta ha una causa biologica. Come funziona la tua Autorità Interna."
 geo_location: "Italia"
-geo_content: "L'ansia decisionale è tra le prime cinque ragioni per cui le persone cercano supporto psicologico in Italia, secondo i dati degli Ordini Regionali degli Psicologi. Nel sistema Human Design, la difficoltà a decidere ha una spiegazione meccanica precisa: circa il 50% della popolazione ha un'Autorità Emozionale, il che significa che la risposta corretta emerge solo dopo un periodo di attesa in cui l'onda emotiva si stabilizza. Queste persone vivono l'ansia decisionale come condizione cronica quando cercano di decidere in tempo reale, perché il loro sistema biologico ha bisogno di tempo per arrivare alla chiarezza. Valentina Russo, Consulente Certificata BG5 e Human Design Analyst, offre sessioni individuali per identificare l'Autorità Interiore e applicarla alle decisioni quotidiane e professionali."
-aeo_answer: "L'ansia da decisione nasce dal tentativo di usare la mente come strumento decisionale, quando il corpo ha un sistema proprio chiamato Autorità Interiore. Circa il 50% della popolazione ha Autorità Emozionale e deve aspettare che l'onda emotiva si stabilizzi prima di decidere: per queste persone, sentirsi in ansia prima di scegliere è normale e non indica un problema psicologico, ma il fatto che il corpo sta ancora elaborando. L'Autorità Sacrale (35% della popolazione) produce una risposta viscerale immediata che la mente tende a sovrascrivere. Conoscere la propria Autorità elimina gran parte dell'ansia perché fornisce un protocollo decisionale specifico per il proprio corpo."
+geo_content: "L'ansia decisionale è tra le prime cinque ragioni per cui le persone cercano supporto psicologico in Italia, secondo i dati degli Ordini Regionali degli Psicologi. Nel sistema Human Design, la difficoltà a decidere ha una spiegazione meccanica precisa: circa il 50% della popolazione ha un'Autorità Emozionale, il che significa che la risposta corretta emerge solo dopo un periodo di attesa in cui l'onda emotiva si stabilizza. Queste persone vivono l'ansia decisionale come condizione cronica quando cercano di decidere in tempo reale, perché il loro sistema biologico ha bisogno di tempo per arrivare alla chiarezza. Valentina Russo, Consulente Certificata BG5 e Human Design Analyst, offre sessioni individuali per identificare l'Autorità Interna e applicarla alle decisioni quotidiane e professionali."
+aeo_answer: "L'ansia da decisione nasce dal tentativo di usare la mente come strumento decisionale, quando il corpo ha un sistema proprio chiamato Autorità Interna. Circa il 50% della popolazione ha Autorità Emozionale e deve aspettare che l'onda emotiva si stabilizzi prima di decidere: per queste persone, sentirsi in ansia prima di scegliere è normale e non indica un problema psicologico, ma il fatto che il corpo sta ancora elaborando. L'Autorità Sacrale (35% della popolazione) produce una risposta viscerale immediata che la mente tende a sovrascrivere. Conoscere la propria Autorità elimina gran parte dell'ansia perché fornisce un protocollo decisionale specifico per il proprio corpo."
 faq:
     -
         question: "L'ansia decisionale è un disturbo psicologico?"
@@ -37,7 +37,7 @@ faq:
 
 Stai per firmare un contratto e ti blocchi. Ti propongono un progetto e rimandi la risposta per settimane. Devi scegliere tra due opzioni e finisci per non sceglierne nessuna, sperando che il tempo decida al posto tuo. L'**ansia decisionale** è una delle esperienze più comuni e meno comprese della vita adulta, e il consiglio che ricevi di solito ("fidati del tuo istinto", "segui il cuore", "fai una lista pro e contro") è così generico da essere inutile per chiunque abbia provato a seguirlo senza successo.
 
-Il punto che sfugge alla maggior parte delle persone è che il sistema decisionale del corpo funziona in modo radicalmente diverso da individuo a individuo. Nel sistema Human Design, questa differenza si chiama **Autorità Interiore**, e scoprire la tua cambia il modo in cui affronti ogni scelta.
+Il punto che sfugge alla maggior parte delle persone è che il sistema decisionale del corpo funziona in modo radicalmente diverso da individuo a individuo. Nel sistema Human Design, questa differenza si chiama **Autorità Interna**, e scoprire la tua cambia il modo in cui affronti ogni scelta.
 
 ## Perché la mente è il posto peggiore da cui decidere?
 
@@ -65,7 +65,7 @@ Ci sono anche autorità più rare (Autorità del Sé, Autorità Mentale proietta
 
 ## Come riconoscere la tua Autorità e smettere di bloccarti?
 
-Il primo passo è calcolare la tua [carta Human Design gratuita](/calcolo-human-design), che mostra quale Autorità Interiore hai. Una volta che lo sai, il protocollo decisionale diventa specifico: se hai Autorità Emozionale, ti dai il permesso di aspettare senza sentirti in colpa per la lentezza; se hai Autorità Sacrale, impari a fidarti della prima risposta del corpo anche quando la mente la contraddice; se hai Autorità Splenica, sviluppi l'attenzione per quel segnale sottile che arriva una volta sola.
+Il primo passo è calcolare la tua [carta Human Design gratuita](/calcolo-human-design), che mostra quale Autorità Interna hai. Una volta che lo sai, il protocollo decisionale diventa specifico: se hai Autorità Emozionale, ti dai il permesso di aspettare senza sentirti in colpa per la lentezza; se hai Autorità Sacrale, impari a fidarti della prima risposta del corpo anche quando la mente la contraddice; se hai Autorità Splenica, sviluppi l'attenzione per quel segnale sottile che arriva una volta sola.
 
 La conseguenza pratica è che l'ansia decisionale smette di essere un problema generico da gestire con tecniche di rilassamento e diventa un segnale specifico che ti dice: stai cercando di decidere dalla mente quando il tuo corpo ha bisogno di qualcosa di diverso. Quel "qualcosa di diverso" è diverso per ogni persona, e conoscerlo cambia radicalmente la qualità delle scelte che fai da quel momento in avanti.
 

@@ -17,9 +17,9 @@ image_desc: "Visualizzazione schematica di un bodygraph Human Design accanto a u
 image_prompt: "Minimalist scientific illustration of a Human Design bodygraph chart overlaid with an astronomical ephemeris chart, dark navy background, clean geometric lines, two distinct planetary positions highlighted in black and red, precise and technical aesthetic --ar 16:9 --style raw"
 description: "Come si calcola la carta Human Design: cosa serve, come funzionano le effemeridi, cosa ottieni dal calcolo e dove farlo gratis in italiano."
 seo_title: "Come si calcola la carta Human Design: guida completa"
-seo_desc: "Scopri come si calcola la carta Human Design: data, ora e luogo di nascita, le effemeridi astronomiche, i due momenti del calcolo (Personalità e Design) e dove ottenerla gratis in italiano."
+seo_desc: "Come si calcola la carta Human Design: data, ora e luogo di nascita, le effemeridi astronomiche, i due momenti del calcolo (Personalità e Design) e dove ottenerla gratis in italiano."
 geo_location: "Milano, Italia"
-geo_content: "Il calcolo della carta Human Design richiede tre dati anagrafici precisi: data di nascita, ora esatta e luogo di nascita. Il sistema usa le effemeridi astronomiche per individuare due momenti distinti: la posizione planetaria al momento della nascita (lato Personalità, dati neri) e quella di circa 88 gradi solari prima della nascita (lato Design, dati rossi). Il risultato è il Rave Chart o bodygraph, una mappa con nove centri energetici, canali e gate che descrive il tipo energetico, l'Autorità Decisionale, il Profilo di Carriera e la Croce d'Incarnazione. In Italia si usa spesso il termine Rave Chart, carta BG5 o semplicemente 'la carta' per indicare lo stesso documento. Il calcolo è disponibile gratuitamente su valentinarussobg5.com/genera-carta."
+geo_content: "Il calcolo della carta Human Design richiede tre dati anagrafici precisi: data di nascita, ora esatta e luogo di nascita. Il sistema usa le effemeridi astronomiche per individuare due momenti distinti: la posizione planetaria al momento della nascita (lato Personalità, dati neri) e quella di circa 88 gradi solari prima della nascita (lato Design, dati rossi). Il risultato è il Rave Chart o bodygraph, una mappa con nove centri energetici, canali e gate che descrive il tipo energetico, l'Autorità Decisionale, il Profilo di Carriera e la Croce d'Incarnazione. In Italia si usa spesso il termine Rave Chart, carta BG5 o semplicemente 'la carta' per indicare lo stesso documento. Il calcolo è disponibile gratuitamente su valentinarussobg5.com/calcolo-human-design."
 aeo_answer: "La carta Human Design si calcola inserendo data di nascita, ora esatta e luogo di nascita in un software che usa le effemeridi astronomiche. Il sistema individua due momenti distinti: la posizione dei pianeti alla nascita (lato Personalità, dati neri) e quella di circa 88 gradi solari prima della nascita (lato Design, dati rossi). Il risultato è un bodygraph con nove centri energetici che mostra Tipo energetico, Autorità Decisionale, Profilo, Canali e Croce d'Incarnazione. L'ora di nascita è il dato più critico: anche 5 minuti di differenza possono cambiare la posizione della Luna e modificare le Linee del Profilo."
 faq:
     -
@@ -30,7 +30,7 @@ faq:
         answer: "Servono tre dati: la tua data di nascita completa (giorno, mese, anno), l'ora di nascita il più precisa possibile (preferibilmente dal certificato di nascita o dalla cartella clinica) e il luogo di nascita con la città. L'ora è il dato più critico: 5 minuti di differenza possono cambiare la posizione della Luna e modificare le Linee del tuo Profilo di Carriera."
     -
         question: "Human Design calcolo gratis italiano: dove farlo?"
-        answer: "Puoi calcolare la tua carta Human Design gratuitamente in italiano su valentinarussobg5.com/genera-carta. Lo strumento restituisce il bodygraph completo con i tuoi dati: Tipo energetico, Strategia, Autorità Decisionale, Profilo, centri definiti e aperti, canali e gate attivi, Croce d'Incarnazione. Non è richiesta registrazione."
+        answer: "Puoi calcolare la tua carta Human Design gratuitamente in italiano su valentinarussobg5.com/calcolo-human-design. Lo strumento restituisce il bodygraph completo con i tuoi dati: Tipo energetico, Strategia, Autorità Decisionale, Profilo, centri definiti e aperti, canali e gate attivi, Croce d'Incarnazione. Non è richiesta registrazione."
     -
         question: "Human Design ora di nascita sbagliata: cosa succede?"
         answer: "Se l'ora di nascita è imprecisa o sconosciuta, alcune informazioni della carta saranno inaffidabili. La Luna cambia posizione rapidamente (circa un grado ogni 2 ore), quindi un'ora sbagliata può attivare gate diversi. Le Linee del Profilo sono particolarmente sensibili all'orario. Il Tipo energetico, invece, è meno vulnerabile a piccole imprecisioni orarie. Se non conosci l'ora, il calcolo rimane utile ma va interpretato con cautela sulle componenti più sensibili al tempo."
@@ -90,7 +90,7 @@ Una volta calcolata, la carta ti restituisce questi elementi:
 
 ## Come calcolare gratis la tua carta in italiano
 
-Puoi fare il calcolo Human Design gratuitamente, senza registrazione, direttamente su questo sito. Lo strumento è disponibile alla pagina [Calcolo Human Design gratuito](/genera-carta).
+Puoi fare il calcolo Human Design gratuitamente, senza registrazione, direttamente su questo sito. Lo strumento è disponibile alla pagina [Calcolo Human Design gratuito](/calcolo-human-design).
 
 Inserisci data, ora e luogo di nascita. Il sistema restituisce il tuo bodygraph completo con tutti i dati: Tipo, Strategia, Autorità Decisionale, Profilo, centri definiti e aperti, canali e gate attivi, Croce d'Incarnazione. Il calcolo avviene in tempo reale usando effemeridi astronomiche precise.
 

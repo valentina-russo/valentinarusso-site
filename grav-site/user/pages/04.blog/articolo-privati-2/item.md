@@ -5,7 +5,7 @@ published: true
 author: "Valentina Russo"
 featured_image: /user/images/blog/costruttori-e-guide.jpg
 seo_title: "Cos'è il BG5®: guida semplice al Design System"
-seo_desc: "Il BG5® è l'incrocio tra il tuo tipo di personalità e la tua identità genetica. Scopri come rivela chi sei davvero e come funziona il tuo codice unico."
+seo_desc: "Il BG5® è l'incrocio tra il tuo tipo di personalità e la tua identità genetica. Come rivela chi sei davvero e come funziona il tuo codice unico."
 description: "Come il BG5® Design System rivela il tuo codice genetico e la tua personalità unica."
 ---
 

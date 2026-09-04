@@ -82,7 +82,7 @@ Non devi studiare Human Design o BG5® per mesi prima di fare qualcosa di utile,
 
 Per i prossimi tre giorni, prima di dire sì o no a qualcosa, fermati un secondo. Nota la tua prima reazione fisica (la sensazione che arriva prima del pensiero). C'è apertura o chiusura? Energia o resistenza?
 
-Per adesso annotala e basta, senza agire. Osserva quanto spesso la tua prima reazione corporea viene ignorata dalla mente razionale, e cosa succede quando la segui rispetto a quando la sopprimi.
+Per adesso annotala e basta, senza agire. Osserva quanto spesso la tua prima reazione corporea viene ignorata dalla mente razionale, e quando la segui rispetto a quando la sopprimi.
 
 Le piccole decisioni quotidiane sono il terreno di allenamento ideale: cosa mangiare a pranzo, quale messaggio rispondere per primo. La risposta sacrale si allena nelle cose banali prima di diventare disponibile per quelle importanti.
 

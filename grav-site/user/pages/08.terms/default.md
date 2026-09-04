@@ -60,6 +60,14 @@ La conferma di tale rinuncia è documentata nell'email di conferma ordine inviat
 
 Una volta avviata l'elaborazione, **non è possibile annullare l'ordine o richiedere un rimborso**.
 
+### 8-bis. Funzione digitale di recesso (art. 54-bis D.Lgs. 206/2005)
+
+Indipendentemente dall'esclusione di cui sopra, il consumatore può inviare una dichiarazione di recesso tramite la **funzione digitale dedicata** raggiungibile dal link presente nell'email di conferma ordine, disponibile per 14 giorni dalla conclusione del contratto.
+
+La funzione opera in due fasi: (1) compilazione della dichiarazione con nome, identificativo dell'ordine ed email di contatto; (2) conferma tramite il pulsante "Conferma recesso". Il recesso si perfeziona al momento dell'invio della dichiarazione. Il professionista trasmette senza indebito ritardo una ricevuta su supporto durevole (email) contenente il testo della dichiarazione e la data e ora di ricezione.
+
+Per il Libretto d'Istruzioni, contenuto digitale personalizzato, il diritto di recesso resta escluso ai sensi dell'art. 59 c.1 lett. o) CdC quando il consumatore ha richiesto l'avvio immediato dell'elaborazione e riconosciuto la perdita del diritto. La ricezione di una dichiarazione di recesso non ne implica l'accoglimento: il consumatore riceve risposta documentata entro 2 giorni lavorativi.
+
 ### 9. Garanzia Legale di Conformità
 
 Per i contenuti digitali si applica la garanzia legale di conformità ai sensi del D.Lgs. 170/2021 (recepimento Dir. 2019/770). Per difetti di conformità (es. PDF corrotto, dati elaborati in modo errato per refuso del cliente non rilevabile, mancata consegna oltre i 4 giorni lavorativi), contattare [info@valentinarussobg5.com](mailto:info@valentinarussobg5.com) entro 2 mesi dalla scoperta del difetto.
