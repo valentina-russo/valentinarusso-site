@@ -30,4 +30,8 @@ google_verification: "hVvQ2yByWi_wqkv5-CpFa5ifdITtkTIsE1wBWU6WgOQ"
 # esistono (gli articoli vivono in pages/04.blog/{slug}/ direttamente). Il vecchio set
 # di redirect causava 500 perché Grav rincorreva URL inesistenti.
 redirects:
+    # le voci esatte vanno prima: la regola generica '/genera-carta' fa da prefisso
+    # e da sola manderebbe /genera-carta-beta su /calcolo-human-design-beta (404)
+    '/genera-carta-beta': '/calcolo-human-design[301]'
+    '/genera-carta-v2': '/calcolo-human-design[301]'
     '/genera-carta': '/calcolo-human-design[301]'
