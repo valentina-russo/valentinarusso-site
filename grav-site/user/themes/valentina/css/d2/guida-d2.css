@@ -103,4 +103,8 @@
 .rv-d2 .hd-cta a:not(.btn){display:inline-flex;align-items:center;min-height:46px;padding:0 22px;border:1px solid rgba(255,255,255,.55);border-radius:8px;color:#fff;text-decoration:none;font-weight:600;font-size:15px}
 .rv-d2 .hd-cta .btn-1{background:var(--acc);color:#3A3532}
 @media (max-width:1000px){.rv-d2 .hd-hero-inner{grid-template-columns:1fr}.rv-d2 .types-grid{grid-template-columns:1fr 1fr}.rv-d2 .centers-grid{grid-template-columns:1fr 1fr}.rv-d2 .hd-vs-grid{grid-template-columns:1fr}.rv-d2 .hd-vs-divider{justify-self:center}.rv-d2 .valentina-box{grid-template-columns:1fr}.rv-d2 section{padding:64px 0}}
-@media (max-width:640px){.rv-d2 .types-grid,.rv-d2 .centers-grid{grid-template-columns:1fr}.rv-d2 .hd-demo-slide{height:240px}}
+@media (max-width:640px){.rv-d2 .types-grid,.rv-d2 .centers-grid{grid-template-columns:1fr}
+  /* su telefono il bodygraph prende quasi tutta la larghezza: l'altezza segue
+     le proporzioni vere dell'immagine (600x923), niente piu' riquadro da 240px */
+  .rv-d2 .hd-demo-carousel{width:100%;max-width:460px;margin-inline:auto;height:auto;aspect-ratio:600/923}
+  .rv-d2 .hd-demo-slide{height:100%}}
