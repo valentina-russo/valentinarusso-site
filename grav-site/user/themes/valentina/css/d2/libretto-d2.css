@@ -8,7 +8,9 @@
 .d2 .bp-hero__cover .bp-hero__cover-title,.d2 .bp-hero__cover .bp-hero__cover-author{color:#fff!important}
 /* il pulsante d'acquisto in testata: testo scuro su oro chiaro non si legge, va bianco su oro profondo */
 .d2 .bp-btn-hero-primary{background:#8A5A12!important;color:#fff!important;border-color:#8A5A12!important}
-.d2 .bp-hero__cover-caption,.d2 .bp-hero__cover-caption *{color:rgba(255,255,255,.86)!important}
+/* la didascalia sotto la copertina sta su fondo chiaro: bianco la rendeva invisibile */
+.d2 .bp-hero--dark .bp-hero__cover-caption,.d2 .bp-hero--dark .bp-hero__cover-caption *{color:rgba(255,255,255,.86)!important}
+.d2 .bp-hero__cover-caption *{color:inherit!important}
 .d2 .bp-hero__kicker,.d2 .bp-eyebrow,.d2 .bp-tier-panel__title,.d2 .bp-pricing-card__title,
 .d2 .bp-hero__cover-caption,.d2 .bp-hero__cover-caption-num,.d2 .bp-price-label{color:#8A5A12!important}
 .d2 .bp-btn-outline,.d2 .bp-btn-outline-ess,.d2 .bp-btn-outline-lg,.d2 .bp-btn-hero-outline{color:#8A5A12!important;border-color:#A06820!important}
@@ -20,3 +22,6 @@ body.d2.pg-libretto{background:#FAF6EE}
 .d2 .bp-hero__scroll{display:none!important}
 .d2 .nav .btn-1,.d2 footer a{text-transform:none!important;letter-spacing:.01em!important}
 .d2.pg-libretto footer{background:#FFFFFF;border-top:1px solid #EAE5E1}
+
+/* riga di servizio sotto i pulsanti: era troppo chiara per leggersi */
+.d2 .bp-hero__meta li{color:rgba(15,26,41,.72)}

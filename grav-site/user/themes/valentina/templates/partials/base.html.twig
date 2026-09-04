@@ -75,6 +75,7 @@
     {# CSS #}
     <link rel="stylesheet" href="{{ theme_url }}/css/d2/dir.css?v={{ theme_version }}">
     <link rel="stylesheet" href="{{ theme_url }}/css/d2/home-d2.css?v={{ theme_version }}">
+    <link rel="stylesheet" href="{{ theme_url }}/css/d2/contenuti-d2.css?v={{ theme_version }}">
     {% block extra_css %}{% endblock %}
 
     {# Content freshness meta #}
@@ -387,15 +388,14 @@
 {% set is_aziende_home = page.template == 'aziende_home' %}
 {% set body_classes = ['d2'] %}
 {% if page.header.classe_corpo %}{% set body_classes = body_classes|merge([page.header.classe_corpo]) %}{% endif %}
-{% set classe_modello = block('classe_corpo')|trim %}
-{% if classe_modello %}{% set body_classes = body_classes|merge([classe_modello]) %}{% endif %}
+{% set classi_modello = {'genera_carta_beta':'pg-calcolo','bg5_blueprint':'pg-libretto','workshop_proposta':'pg-workshop','hd_relazionale':'pg-hdrel'} %}
+{% if classi_modello[page.template] is defined %}{% set body_classes = body_classes|merge([classi_modello[page.template]]) %}{% endif %}
 {% if is_corporate_page %}{% set body_classes = body_classes|merge(['az']) %}{% endif %}
 {% if is_corporate_page %}{% set body_classes = body_classes|merge(['corporate']) %}{% endif %}
 {% if is_home %}{% set body_classes = body_classes|merge(['hero-v2-privati']) %}{% endif %}
 {% if is_aziende_home %}{% set body_classes = body_classes|merge(['hero-v2-aziende']) %}{% endif %}
 <body{% if body_classes %} class="{{ body_classes|join(' ') }}"{% endif %}>
 
-    {% block classe_corpo %}{% endblock %}
     {% block header %}{% include 'partials/header.html.twig' %}{% endblock %}
 
     <div id="contenuto">{% block content %}{% endblock %}</div>

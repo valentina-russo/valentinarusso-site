@@ -178,3 +178,30 @@ footer{border-top:1px solid var(--linea);padding:56px 0 36px;font-size:14.5px;co
 .d3 .foto img{border-radius:8px;filter:saturate(.75)}
 .d3 .dato{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dom);margin-top:12px}
 .d3 .sez-alt{background:var(--tint)}
+
+/* ── Compatibilita' con il tema precedente ───────────────────────────────
+   Molti modelli e contenuti hanno stili scritti direttamente nel segno
+   (style="...") che chiamano le variabili del vecchio tema. Senza queste
+   dichiarazioni quegli stili restano senza colore: testo bianco su niente.
+   Qui i vecchi nomi puntano ai colori della veste nuova. */
+.d2{
+  --bg-color:var(--fondo);
+  --text-color:var(--ink);
+  --text-muted:var(--muto);
+  --primary-color:var(--dom);
+  --secondary-color:#4A8C8C;
+  --accent-color:var(--acc-ink);
+  --white:#fff;
+  --soft-gray:var(--linea);
+  --corp-bg:#F1F7F9;
+  --corp-primary:#0C4A56;
+  --corp-secondary:#3F5A61;
+  --corp-accent:#0B6F80;
+  --font-heading:"Playfair Display",Georgia,serif;
+  --font-body:Outfit,system-ui,sans-serif;
+  --font-corp-heading:"Playfair Display",Georgia,serif;
+  --grid-xs:.5rem;--grid-sm:1rem;--grid-md:1.5rem;--grid-lg:2rem;--grid-xl:3rem;--grid-xxl:4rem;
+  --space-unit:1rem;--space-sm:.5rem;--space-md:1.5rem;--space-lg:3rem;--space-xl:4rem;
+  --transition-smooth:all .3s cubic-bezier(.4,0,.2,1);
+}
+.d2.az{--primary-color:var(--dom);--accent-color:var(--acc-ink)}

@@ -41,7 +41,9 @@
 {% endblock %}
 
 {% block extra_css %}
+{% include 'partials/calc-stile.html.twig' %}
 <link rel="stylesheet" href="{{ theme_url }}/css/d2/citta-d2.css?v={{ theme_version }}">
+<link rel="stylesheet" href="{{ theme_url }}/css/d2/calcolo-d2.css?v={{ theme_version }}">
 {% endblock %}
 
 {% block content %}
