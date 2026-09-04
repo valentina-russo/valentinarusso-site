@@ -21,11 +21,11 @@ Il sistema **BG5®** si inserisce in questo contesto con un approccio tecnico: i
 
 ### Le configurazioni BG5® nel Veneto imprenditoriale
 
-**Il Costruttore Classico** (37%) ha un motore potente e sostenibile, che funziona solo quando risponde a stimoli che il corpo riconosce come giusti. Un imprenditore Costruttore Classico che sceglie i progetti con la testa invece che con la risposta viscerale accumula frustrazione e dispersione energetica in modo sistematico.
+**Il Generatore (BG5: Costruttore Classico)** (37%) ha un motore potente e sostenibile, che funziona solo quando risponde a stimoli che il corpo riconosce come giusti. Un imprenditore Generatore che sceglie i progetti con la testa invece che con la risposta viscerale accumula frustrazione e dispersione energetica in modo sistematico.
 
-**La Guida** (20%) eccelle nella consulenza e nel management di piccoli team. Una Guida che gestisce una PMI produce risultati superiori quando riceve inviti specifici e riconoscimento per la sua competenza. Aspettare l'invito può sembrare controintuitivo in un contesto che valorizza l'iniziativa, ma i risultati sono nettamente superiori.
+**Il Proiettore (BG5: Guida)** (20%) eccelle nella consulenza e nel management di piccoli team. Un Proiettore che gestisce una PMI produce risultati superiori quando riceve inviti specifici e riconoscimento per la sua competenza. Aspettare l'invito può sembrare controintuitivo in un contesto che valorizza l'iniziativa, ma i risultati sono nettamente superiori.
 
-**L'Iniziatore** (8%) apre nuovi cicli con una forza naturale. La sfida più comune nelle regioni imprenditoriali: agire senza informare prima le persone coinvolte, creando resistenza e reazioni inaspettate.
+**L'Manifestatore (BG5: Iniziatore)** (8%) apre nuovi cicli con una forza naturale. La sfida più comune nelle regioni imprenditoriali: agire senza informare prima le persone coinvolte, creando resistenza e reazioni inaspettate.
 
 ### Sessioni online, per professionisti veneti in movimento
 

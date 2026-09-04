@@ -21,9 +21,9 @@ Il **Disegno di Carriera** è calcolato da data, ora e luogo di nascita e produc
 
 ### Perché Milano amplifica certi errori di meccanica
 
-Milano premia la proattività costante e la visibilità. Per la **Guida** (20% della popolazione) questo crea un problema preciso: la Guida eccelle quando riceve riconoscimento specifico e un invito diretto. In quel contesto la sua competenza produce risultati eccezionali. La Guida che si propone sistematicamente senza aspettare l'invito ottiene invece risultati deludenti a fronte di un'altissima competenza. Farsi trovare piuttosto che cercare produce risultati molto superiori.
+Milano premia la proattività costante e la visibilità. Per la **Proiettore (BG5: Guida)** (20% della popolazione) questo crea un problema preciso: il Proiettore eccelle quando riceve riconoscimento specifico e un invito diretto. In quel contesto la sua competenza produce risultati eccezionali. Il Proiettore che si propone sistematicamente senza aspettare l'invito ottiene invece risultati deludenti a fronte di un'altissima competenza. Farsi trovare piuttosto che cercare produce risultati molto superiori.
 
-Il **Costruttore Classico** (37%) ha un motore potente e rinnovabile, che funziona però solo in risposta a stimoli concreti che il corpo riconosce come giusti. Il networking proattivo senza uno stimolo esterno specifico esaurisce le riserve energetiche in modo sistematico, anche con grande disciplina.
+Il **Generatore (BG5: Costruttore Classico)** (37%) ha un motore potente e rinnovabile, che funziona però solo in risposta a stimoli concreti che il corpo riconosce come giusti. Il networking proattivo senza uno stimolo esterno specifico esaurisce le riserve energetiche in modo sistematico, anche con grande disciplina.
 
 ### Valentina Russo — consulente BG5® certificata
 

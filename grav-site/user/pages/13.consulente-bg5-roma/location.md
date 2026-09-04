@@ -21,9 +21,9 @@ Il sistema **BG5®** offre quella chiarezza: un'analisi tecnica di come sei fatt
 
 ### Come BG5® si applica al contesto romano
 
-Roma è una città in cui le relazioni professionali sono centrali. Per una **Guida**, capire la propria Strategia in questo contesto trasforma l'approccio: invece di proporsi e cercare visibilità, la Guida impara a farsi trovare. I tavoli informali e il passaparola, che a Roma sono fondamentali, diventano il terreno su cui aspettare l'invito giusto. I risultati sono più stabili e costano meno energia.
+Roma è una città in cui le relazioni professionali sono centrali. Per una **Proiettore (BG5: Guida)**, capire la propria Strategia in questo contesto trasforma l'approccio: invece di proporsi e cercare visibilità, il Proiettore impara a farsi trovare. I tavoli informali e il passaparola, che a Roma sono fondamentali, diventano il terreno su cui aspettare l'invito giusto. I risultati sono più stabili e costano meno energia.
 
-Per un **Costruttore Classico** a Roma, dove i tempi dell'amministrazione e delle decisioni istituzionali sono spesso lenti, comprendere il proprio motore energetico produce qualcosa di concreto: imparare a distinguere quando aspettare il segnale interno e quando la mente ha preso il controllo della decisione. Quella distinzione riduce la frustrazione quotidiana in modo misurabile.
+Per un **Generatore (BG5: Costruttore Classico)** a Roma, dove i tempi dell'amministrazione e delle decisioni istituzionali sono spesso lenti, comprendere il proprio motore energetico produce qualcosa di concreto: imparare a distinguere quando aspettare il segnale interno e quando la mente ha preso il controllo della decisione. Quella distinzione riduce la frustrazione quotidiana in modo misurabile.
 
 ### Prima sessione: la Panoramica BG5® del Disegno di Carriera
 

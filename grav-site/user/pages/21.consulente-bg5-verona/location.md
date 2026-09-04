@@ -21,11 +21,11 @@ Il sistema **BG5®** risponde a questa cultura con un approccio tecnico. Il **Di
 
 ### Applicazioni pratiche per professionisti veronesi
 
-**Per manager e responsabili di team:** capire il proprio Tipo di Carriera cambia il modo in cui si gestisce l'energia nelle riunioni e nelle decisioni strategiche. Un manager **Guida** che aspetta l'invito prima di intervenire ottiene ascolto. Uno che si impone senza invito, anche quando ha ragione, genera resistenza.
+**Per manager e responsabili di team:** capire il proprio Tipo di Carriera cambia il modo in cui si gestisce l'energia nelle riunioni e nelle decisioni strategiche. Un manager **Proiettore (BG5: Guida)** che aspetta l'invito prima di intervenire ottiene ascolto. Uno che si impone senza invito, anche quando ha ragione, genera resistenza.
 
 **Per imprenditori:** l'analisi **Penta** BG5® (dinamiche di gruppo da 2 a 5 persone) mappa come i profili dei soci interagiscono meccanicamente. Le partnership aziendali falliscono spesso per incompatibilità meccanica tra profili BG5® che nessuno aveva identificato, prima ancora che per problemi di strategia o finanziari.
 
-**Per liberi professionisti:** il **Costruttore Classico** veronese funziona meglio in risposta a stimoli specifici e concreti: offerte di lavoro dirette o proposte di progetto precise. Quando cerca di generare lavoro senza stimolo esterno, la sua energia non risponde e la frustrazione si accumula.
+**Per liberi professionisti:** il **Generatore (BG5: Costruttore Classico)** veronese funziona meglio in risposta a stimoli specifici e concreti: offerte di lavoro dirette o proposte di progetto precise. Quando cerca di generare lavoro senza stimolo esterno, la sua energia non risponde e la frustrazione si accumula.
 
 ### Sessioni online, accessibili da Verona
 

@@ -23,9 +23,9 @@ Il sistema **BG5®** fornisce un'analisi tecnica del tuo funzionamento energetic
 
 Il **Disegno di Carriera** è calcolato dalla data, ora e luogo di nascita e produce una mappa della tua configurazione energetica professionale.
 
-**Tipo di Carriera:** sei un Costruttore (Classico o Rapido), una Guida, un Iniziatore o un Valutatore? Ogni Tipo ha una meccanica diversa. Un Costruttore Classico che imita le strategie di un Iniziatore spreca energia in modo sistematico. Una Guida che si comporta come un Costruttore accumula amarezza e invisibilità.
+**Tipo di Carriera:** sei un Generatore (BG5: Costruttore, Classico o Rapido), un Proiettore (BG5: Guida), un Manifestatore (BG5: Iniziatore) o un Riflettore (BG5: Valutatore)? Ogni Tipo ha una meccanica diversa. Un Generatore (BG5: Costruttore Classico) che imita le strategie di un Manifestatore spreca energia in modo sistematico. Un Proiettore che si comporta come un Generatore accumula amarezza e invisibilità.
 
-**Strategia:** il modo corretto in cui la tua energia si muove. Il Costruttore risponde agli stimoli, la Guida aspetta l'invito specifico. La frustrazione cronica è quasi sempre un segnale di strategia violata.
+**Strategia:** il modo corretto in cui la tua energia si muove. Il Generatore risponde agli stimoli, il Proiettore aspetta l'invito specifico. La frustrazione cronica è quasi sempre un segnale di strategia violata.
 
 **Autorità Decisionale:** la tua fonte interna più affidabile. Per alcuni è una risposta fisica immediata nel torso, per altri è un processo emotivo che richiede tempo. Usare la propria Autorità produce scelte che nel lungo periodo reggono.
 

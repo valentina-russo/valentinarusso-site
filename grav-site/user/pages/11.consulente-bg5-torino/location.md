@@ -23,9 +23,9 @@ Il sistema **BG5®** fornisce quei dati. Il **Disegno di Carriera** è calcolato
 
 Il **Disegno di Carriera** produce una mappa della tua meccanica professionale a partire da tre componenti fondamentali.
 
-**Tipo di Carriera:** sei un Costruttore (il 70% della popolazione, Classico o Rapido), una Guida (20%), un Iniziatore (8%) o un Valutatore (1%)? Ogni Tipo ha una meccanica radicalmente diversa. Un Costruttore Classico che cerca lavoro senza risposta a stimoli specifici disperde energia in modo sistematico. Una Guida che aspetta il riconoscimento e l'invito giusto produce risultati nettamente superiori.
+**Tipo di Carriera:** sei un Generatore (BG5: Costruttore, il 70% della popolazione, Classico o Rapido), un Proiettore (BG5: Guida, 20%), un Manifestatore (BG5: Iniziatore, 8%) o un Riflettore (BG5: Valutatore, 1%)? Ogni Tipo ha una meccanica radicalmente diversa. Un Generatore (BG5: Costruttore Classico) che cerca lavoro senza risposta a stimoli specifici disperde energia in modo sistematico. Un Proiettore che aspetta il riconoscimento e l'invito giusto produce risultati nettamente superiori.
 
-**Strategia:** il modo corretto in cui la tua energia si muove nelle decisioni e nelle azioni professionali. Operare fuori dalla propria Strategia produce resistenza: il Costruttore accumula frustrazione, la Guida accumula amarezza. Riconoscere quel segnale è il primo cambiamento operativo.
+**Strategia:** il modo corretto in cui la tua energia si muove nelle decisioni e nelle azioni professionali. Operare fuori dalla propria Strategia produce resistenza: il Generatore accumula frustrazione, il Proiettore accumula amarezza. Riconoscere quel segnale è il primo cambiamento operativo.
 
 **Autorità Decisionale:** la fonte interna più affidabile per le scelte che contano. Decidere con la mente invece che con l'Autorità propria è la causa più comune delle scelte professionali che consumano energia senza risultati.
 

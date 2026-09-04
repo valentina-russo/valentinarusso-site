@@ -21,9 +21,9 @@ Il sistema **BG5®** è un'analisi tecnica del funzionamento professionale: data
 
 ### Il Tipo di Carriera: la configurazione che cambia il metodo
 
-**Costruttore Classico** (37% della popolazione): motore potente e rinnovabile, che risponde però solo agli stimoli giusti. Un libero professionista napoletano Costruttore Classico che sceglie i progetti con la mente invece che con la risposta corporea accumula frustrazione in modo prevedibile, anche quando lavora molto.
+**Generatore (BG5: Costruttore Classico)** (37% della popolazione): motore potente e rinnovabile, che risponde però solo agli stimoli giusti. Un libero professionista napoletano Generatore che sceglie i progetti con la mente invece che con la risposta corporea accumula frustrazione in modo prevedibile, anche quando lavora molto.
 
-**Guida** (20%): eccelle nella consulenza individuale e nel management. La sua competenza emerge quando riceve riconoscimento specifico e un invito diretto. A Napoli, dove le relazioni professionali si costruiscono su fiducia e segnali personali, la Guida che impara ad aspettare l'invito ottiene risultati stabili e superiori rispetto a chi si propone sistematicamente.
+**Proiettore (BG5: Guida)** (20%): eccelle nella consulenza individuale e nel management. La sua competenza emerge quando riceve riconoscimento specifico e un invito diretto. A Napoli, dove le relazioni professionali si costruiscono su fiducia e segnali personali, il Proiettore che impara ad aspettare l'invito ottiene risultati stabili e superiori rispetto a chi si propone sistematicamente.
 
 ### Sessioni online, dalla Campania e dal Sud Italia
 

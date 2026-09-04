@@ -19,11 +19,11 @@ L'Emilia-Romagna ha il PIL pro capite più alto d'Italia. Bologna è il centro d
 
 ### BG5® e la cultura produttiva emiliana
 
-In una regione dove il lavoro è parte centrale dell'identità professionale, la deriva più comune è lavorare molto senza una direzione energetica precisa. Il sistema BG5® distingue tra tipi con un motore energetico strutturale (i **Costruttori** e gli **Iniziatori**) e tipi che ne sono privi (la **Guida** e il **Valutatore**).
+In una regione dove il lavoro è parte centrale dell'identità professionale, la deriva più comune è lavorare molto senza una direzione energetica precisa. Il sistema BG5® distingue tra tipi con un motore energetico strutturale (i **Costruttori** e gli **Iniziatori**) e tipi che ne sono privi (la **Proiettore (BG5: Guida)** e il **Riflettore (BG5: Valutatore)**).
 
-Una Guida bolognese che lavora con la stessa intensità di un Costruttore esaurisce le proprie riserve energetiche in modo sistematico. La sua meccanica funziona per sprint mirati dentro relazioni di riconoscimento specifico, non per produzione continua e autonoma.
+Un Proiettore bolognese che lavora con la stessa intensità di un Generatore (BG5: Costruttore) esaurisce le proprie riserve energetiche in modo sistematico. La sua meccanica funziona per sprint mirati dentro relazioni di riconoscimento specifico, non per produzione continua e autonoma.
 
-Un **Costruttore Classico** emiliano ha invece un motore rinnovabile, che funziona però solo in risposta a stimoli che il corpo riconosce come giusti. Scegliere il lavoro con la testa invece che con la risposta viscerale produce frustrazione, anche quando la disciplina e il metodo ci sono.
+Un **Generatore (BG5: Costruttore Classico)** emiliano ha invece un motore rinnovabile, che funziona però solo in risposta a stimoli che il corpo riconosce come giusti. Scegliere il lavoro con la testa invece che con la risposta viscerale produce frustrazione, anche quando la disciplina e il metodo ci sono.
 
 ### Sessioni online, da Bologna e da tutta l'Emilia-Romagna
 

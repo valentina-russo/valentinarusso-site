@@ -25,10 +25,10 @@ La frustrazione professionale cronica, quella sensazione di lavorare molto senza
 
 Nel sistema BG5®, ogni Tipo di Carriera ha un segnale negativo che appare quando si lavora fuori dalla propria meccanica:
 
-- Il **Costruttore Classico** accumula frustrazione quando sceglie il lavoro con la testa invece che con la risposta viscerale.
-- La **Guida** accumula amarezza quando offre la propria competenza senza essere riconosciuta e invitata.
-- L'**Iniziatore** accumula rabbia quando le sue iniziative non vengono capite da chi è coinvolto.
-- Il **Valutatore** accumula delusione quando si aspetta che l'ambiente funzioni in modo prevedibile.
+- Il **Generatore (BG5: Costruttore Classico)** accumula frustrazione quando sceglie il lavoro con la testa invece che con la risposta viscerale.
+- La **Proiettore (BG5: Guida)** accumula amarezza quando offre la propria competenza senza essere riconosciuta e invitata.
+- L'**Manifestatore (BG5: Iniziatore)** accumula rabbia quando le sue iniziative non vengono capite da chi è coinvolto.
+- Il **Riflettore (BG5: Valutatore)** accumula delusione quando si aspetta che l'ambiente funzioni in modo prevedibile.
 
 Riconoscere il proprio segnale negativo è il primo passo. Sapere qual è la propria meccanica è il secondo.
 

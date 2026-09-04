@@ -23,9 +23,9 @@ Il sistema **BG5®** allinea questa cultura a dati tecnici: produrre in modo all
 
 Una **Panoramica BG5® del Disegno di Carriera** con Valentina Russo analizza:
 
-**Tipo di Carriera:** la tua configurazione energetica di base. Cinque Tipi con meccaniche distinte: il **Costruttore Classico** (37% della popolazione) funziona in risposta agli stimoli giusti, il **Costruttore Rapido** (33%) ha una connessione diretta all'azione, la **Guida** (20%) eccelle nella consulenza e nel management individuale, l'**Iniziatore** (8%) apre nuovi cicli, il **Valutatore** (1%) lavora su un ciclo decisionale mensile.
+**Tipo di Carriera:** la tua configurazione energetica di base. Cinque Tipi con meccaniche distinte: il **Generatore (BG5: Costruttore Classico)** (37% della popolazione) funziona in risposta agli stimoli giusti, il **Generatore Manifestante (BG5: Costruttore Rapido)** (33%) ha una connessione diretta all'azione, la **Proiettore (BG5: Guida)** (20%) eccelle nella consulenza e nel management individuale, l'**Manifestatore (BG5: Iniziatore)** (8%) apre nuovi cicli, il **Riflettore (BG5: Valutatore)** (1%) lavora su un ciclo decisionale mensile.
 
-**Strategia:** il modo in cui la tua energia si muove nel lavoro. Ogni Tipo ha la sua strategia ottimale. Operare fuori Strategia produce segnali negativi caratteristici: il Costruttore accumula frustrazione, la Guida accumula amarezza.
+**Strategia:** il modo in cui la tua energia si muove nel lavoro. Ogni Tipo ha la sua strategia ottimale. Operare fuori Strategia produce segnali negativi caratteristici: il Generatore (BG5: Costruttore) accumula frustrazione, il Proiettore accumula amarezza.
 
 **Autorità Decisionale:** la fonte interna più affidabile per le scelte professionali. Per alcuni è una risposta corporea immediata, per altri è un processo emotivo che richiede tempo. Usare la propria Autorità produce scelte che reggono nel lungo periodo.
 

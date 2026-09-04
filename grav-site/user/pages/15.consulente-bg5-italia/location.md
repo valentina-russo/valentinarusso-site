@@ -23,19 +23,19 @@ Valentina Russo è tra i pochissimi consulenti **BG5® Business Institute** cert
 
 - Dove l'Human Design parla di "Strategia e Autorità" in generale, il **BG5®** le declina specificamente nelle dinamiche professionali: team, clienti, contratti, partnership
 - Il BG5® include strumenti per le **dinamiche di gruppo** (Penta: 2-5 persone) e le strutture aziendali (OC16: oltre 16 persone)
-- Il BG5® ha cinque **Tipi di Carriera** calibrati per il contesto professionale: Costruttore Classico, Costruttore Rapido, Guida, Iniziatore, Valutatore
+- Il BG5® ha cinque **Tipi di Carriera** calibrati per il contesto professionale: Generatore (BG5: Costruttore Classico), Generatore Manifestante (BG5: Costruttore Rapido), Proiettore (BG5: Guida), Manifestatore (BG5: Iniziatore), Riflettore (BG5: Valutatore)
 
 ### I cinque Tipi di Carriera in Italia
 
-**Costruttore Classico** (37%): motore energetico potente e rinnovabile, funziona in risposta agli stimoli giusti. La frustrazione cronica è il segnale che qualcosa non funziona nella strategia.
+**Generatore** (37%): motore energetico potente e rinnovabile, funziona in risposta agli stimoli giusti. La frustrazione cronica è il segnale che qualcosa non funziona nella strategia.
 
-**Costruttore Rapido** (33%): accesso energetico più diretto all'azione rispetto al Classico. Funziona meglio in risposta a stimoli concreti e precisi.
+**Generatore Manifestante** (33%): accesso energetico più diretto all'azione rispetto al Classico. Funziona meglio in risposta a stimoli concreti e precisi.
 
-**Guida** (20%): il Tipo ideale per la consulenza e il management individuale. La sua competenza emerge quando riceve riconoscimento e invito specifico.
+**Proiettore** (20%): il Tipo ideale per la consulenza e il management individuale. La sua competenza emerge quando riceve riconoscimento e invito specifico.
 
-**Iniziatore** (8%): apre nuovi cicli con una forza unica. La sfida: informare prima di agire per ridurre la resistenza che altrimenti emerge in modo sistematico.
+**Manifestatore** (8%): apre nuovi cicli con una forza unica. La sfida: informare prima di agire per ridurre la resistenza che altrimenti emerge in modo sistematico.
 
-**Valutatore** (1%): ciclo decisionale mensile. Le scelte precipitate producono quasi sempre risultati da rivedere.
+**Riflettore** (1%): ciclo decisionale mensile. Le scelte precipitate producono quasi sempre risultati da rivedere.
 
 ### Sessioni da tutta Italia
 
