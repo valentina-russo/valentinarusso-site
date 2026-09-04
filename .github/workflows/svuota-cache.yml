@@ -1,0 +1,30 @@
+name: Svuota la cache di Grav
+# Le pagine tolte restano visibili finche' la cache non viene svuotata: qui la
+# cartella cache/ viene spostata da parte (non cancellata) e Grav la ricrea.
+on:
+  workflow_dispatch:
+
+jobs:
+  cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Metti da parte la cache e verifica
+        env:
+          H: ${{ secrets.ARUBA_FTP_HOST }}
+          U: ${{ secrets.ARUBA_FTP_USER }}
+          P: ${{ secrets.ARUBA_FTP_PASS }}
+          D: ${{ secrets.ARUBA_FTP_PATH }}
+        run: |
+          sudo apt-get install -y -q lftp >/dev/null
+          STAMPO=$(date +%s)
+          echo "=== contenuto attuale di cache/ ==="
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; cls -1 ${D}cache/; bye" || echo "(nessuna)"
+          echo "=== sposto cache/ in cache-vecchia-$STAMPO/ ==="
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; mv ${D}cache ${D}cache-vecchia-$STAMPO; mkdir ${D}cache; bye" && echo "spostata"
+          sleep 10
+          echo "=== stato delle pagine ==="
+          for u in genera-carta genera-carta-beta genera-carta-v2 calcolo-human-design blog chi-sono; do
+            printf "%-24s " "$u"
+            curl -s -o /dev/null -w "HTTP %{http_code} -> %{redirect_url}
+" "https://valentinarussobg5.com/$u"
+          done
