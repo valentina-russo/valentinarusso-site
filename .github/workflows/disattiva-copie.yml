@@ -1,0 +1,36 @@
+name: Disattiva le copie rimaste di Genera carta
+# Sul server restano 24.genera-carta-v2 e 25.genera-carta-beta: lo spostamento della
+# cartella via FTP non ha avuto effetto. Qui si rinomina il file .md che le rende
+# pagine (senza .md Grav non pubblica nulla). Reversibile: basta rinominare indietro.
+on:
+  workflow_dispatch:
+
+jobs:
+  disattiva:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rinomina i file di pagina, svuota la cache e verifica
+        env:
+          H: ${{ secrets.ARUBA_FTP_HOST }}
+          U: ${{ secrets.ARUBA_FTP_USER }}
+          P: ${{ secrets.ARUBA_FTP_PASS }}
+          D: ${{ secrets.ARUBA_FTP_PATH }}
+        run: |
+          sudo apt-get install -y -q lftp >/dev/null
+          for c in 24.genera-carta-v2 25.genera-carta-beta; do
+            echo "=== $c ==="
+            for f in $(lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; cls -1 ${D}user/pages/$c/; bye" | grep "[.]md$"); do
+              n=$(basename "$f")
+              lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; mv ${D}user/pages/$c/$n ${D}user/pages/$c/$n.spento; bye" && echo "  rinominato $n"
+            done
+            lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; cls -1 ${D}user/pages/$c/; bye" || true
+          done
+          echo "=== cache da parte ==="
+          S=$(date +%s)
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; mv ${D}cache ${D}cache-vecchia-$S; mkdir ${D}cache; bye" && echo "cache spostata"
+          sleep 12
+          echo "=== stato ==="
+          for u in genera-carta genera-carta-beta genera-carta-v2 calcolo-human-design blog; do
+            printf "%-24s " "$u"
+            curl -s -o /dev/null -w "HTTP %{http_code} -> %{redirect_url}\n" "https://valentinarussobg5.com/$u"
+          done
