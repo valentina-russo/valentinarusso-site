@@ -162,10 +162,10 @@
 
     {% if page.header.geo_content is defined and page.header.geo_content %}
     {% set geo = page.header.geo_content %}
-    <section class="art-appro">
-      <p class="etich">Approfondimenti</p>
-      {% if geo is iterable %}<ul>{% for item in geo %}<li>{{ item }}</li>{% endfor %}</ul>{% else %}<p>{{ geo }}</p>{% endif %}
-    </section>
+    <aside class="art-appro">
+      <p class="art-appro-et">Approfondimenti</p>
+      {% if geo is iterable %}{% for item in geo %}<p>{{ item }}</p>{% endfor %}{% else %}<p>{{ geo }}</p>{% endif %}
+    </aside>
     {% endif %}
 
     <section class="card art-cta rivela">
@@ -203,11 +203,5 @@
   </div></section>
   {% endif %}
 
-  {% if not corp %}
-  <section class="art-citta"><div class="wrap">
-    <p class="etich">Consulenze BG5&reg; disponibili in tutta Italia</p>
-    <p class="righe"><a href="{{ base }}/consulente-bg5-milano">Milano</a> &middot; <a href="{{ base }}/consulente-bg5-torino">Torino</a> &middot; <a href="{{ base }}/consulente-bg5-roma">Roma</a> &middot; <a href="{{ base }}/consulente-bg5-bologna">Bologna</a> &middot; <a href="{{ base }}/consulente-bg5-firenze">Firenze</a> &middot; <a href="{{ base }}/consulente-bg5-napoli">Napoli</a> &middot; <a href="{{ base }}/consulente-bg5-venezia">Venezia</a> &middot; <a href="{{ base }}/consulente-bg5-bari">Bari</a> &middot; <a href="{{ base }}/consulente-bg5-palermo">Palermo</a> &middot; <a href="{{ base }}/consulente-bg5-verona">Verona</a> &middot; <a href="{{ base }}/consulente-bg5-italia">Tutta Italia &rarr;</a></p>
-  </div></section>
-  {% endif %}
 </article>
 {% endblock %}

@@ -59,17 +59,3 @@
 .d2.az .art-risposta{border-left-color:#0A98B1}
 .d2.az .art-figura img{box-shadow:0 30px 60px -28px rgba(8,54,64,.45)}
 @media (max-width:900px){.d2 .art-figura{margin-top:-12px}}
-
-/* approfondimenti e riga delle citta': blocchi presenti sul sito online,
-   qui rivestiti invece che rimossi */
-.d2 .art-appro{margin:34px 0 0;padding:22px 26px;background:var(--tint);border-radius:14px}
-.d2 .art-appro .etich{margin:0 0 10px}
-.d2 .art-appro ul{margin:0;padding-left:1.1em;color:var(--muto);font-size:15.5px;line-height:1.7}
-.d2 .art-appro li{margin-bottom:6px}
-.d2 .art-appro p{margin:0;color:var(--muto);font-size:15.5px;line-height:1.7}
-.d2 .art-citta{padding:0 0 96px}
-.d2 .art-citta .wrap{max-width:820px;text-align:center}
-.d2 .art-citta .etich{margin:0 0 10px}
-.d2 .art-citta .righe{margin:0;font-size:14.5px;color:var(--muto);line-height:2}
-.d2 .art-citta a{color:var(--dom);text-decoration:none;font-weight:600}
-.d2 .art-citta a:hover{text-decoration:underline;text-underline-offset:3px}
