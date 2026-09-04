@@ -51,6 +51,56 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/assets/
           dangerous-clean-slate: false
 
+      - name: Deploy pagina home
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/01.home/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/01.home/
+          dangerous-clean-slate: false
+
+      - name: Deploy pagina chi-sono
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/02.chi-sono/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/02.chi-sono/
+          dangerous-clean-slate: false
+
+      - name: Deploy pagina servizi
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/03.servizi/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/03.servizi/
+          dangerous-clean-slate: false
+
+      - name: Deploy pagina contatti
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/06.contatti/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/06.contatti/
+          dangerous-clean-slate: false
+
+      - name: Deploy pagina archivio
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/10.archivio/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/10.archivio/
+          dangerous-clean-slate: false
+
       - name: Deploy pagina aziende/bg5
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
