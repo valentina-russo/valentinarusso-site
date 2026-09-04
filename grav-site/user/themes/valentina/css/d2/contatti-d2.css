@@ -22,3 +22,27 @@
 .d2 .ct-form .btn{align-self:flex-start;border:0;cursor:pointer;font:600 15px Outfit,sans-serif}
 .d2 .ct-nota{font-size:13.5px;color:var(--muto);margin:0}
 @media (max-width:900px){.d2 .ct-hero .wrap{grid-template-columns:1fr}.d2 .ct-form{padding:26px 22px}}
+
+/* Il modulo lo genera il plugin di Grav: qui prende la veste della bozza,
+   senza toccare struttura, nomi dei campi o invio. */
+.d2 .ct-form .form-wrapper{width:100%}
+.d2 .ct-form form{display:flex;flex-direction:column;gap:18px}
+.d2 .ct-form .form-field{display:flex;flex-direction:column;gap:7px}
+.d2 .ct-form .form-label,.d2 .ct-form label{font:600 12.5px Outfit,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muto)}
+.d2 .ct-form .form-input-wrapper{width:100%}
+.d2 .ct-form input[type=text],.d2 .ct-form input[type=email],.d2 .ct-form input[type=tel],.d2 .ct-form textarea,.d2 .ct-form select{
+  width:100%;font:400 16px Outfit,sans-serif;color:var(--ink);padding:13px 14px;border:1px solid var(--linea);
+  border-radius:10px;background:var(--fondo);transition:border-color .2s,box-shadow .2s}
+.d2 .ct-form input:focus,.d2 .ct-form textarea:focus,.d2 .ct-form select:focus{
+  outline:none;border-color:var(--dom);box-shadow:0 0 0 3px rgba(122,79,94,.15);background:#fff}
+.d2 .ct-form textarea{resize:vertical;min-height:150px}
+.d2 .ct-form .form-field-toggleable label,.d2 .ct-form label.inline{text-transform:none;letter-spacing:0;font-weight:400;font-size:13.5px;color:var(--muto);line-height:1.5}
+.d2 .ct-form input[type=checkbox]{accent-color:var(--dom);margin-right:8px}
+.d2 .ct-form .buttons,.d2 .ct-form .form-actions{margin-top:4px}
+.d2 .ct-form button,.d2 .ct-form input[type=submit]{display:inline-flex;align-items:center;justify-content:center;min-height:48px;
+  padding:0 26px;border:0;border-radius:999px;cursor:pointer;font:600 15px Outfit,sans-serif;color:#fff;
+  background:linear-gradient(180deg,#8B5E70,#6A4252);box-shadow:0 10px 24px -8px rgba(122,79,94,.55),inset 0 1px 0 rgba(255,255,255,.22);
+  transition:transform .2s,box-shadow .2s}
+.d2 .ct-form button:hover{transform:translateY(-2px)}
+.d2.az .ct-form button,.d2.az .ct-form input[type=submit]{background:linear-gradient(180deg,#127F94,#0C4A56);box-shadow:0 10px 24px -8px rgba(12,74,86,.5),inset 0 1px 0 rgba(255,255,255,.25)}
+.d2.az .ct-form input:focus,.d2.az .ct-form textarea:focus{border-color:var(--dom);box-shadow:0 0 0 3px rgba(12,74,86,.16)}
