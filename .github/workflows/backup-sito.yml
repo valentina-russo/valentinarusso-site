@@ -1,0 +1,33 @@
+name: Backup completo del sito
+# Scarica via FTP tutta l'installazione Grav (pagine, temi, plugin, immagini,
+# configurazione) e la conserva come archivio scaricabile dalla scheda Actions.
+on:
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scarica il sito
+        env:
+          H: ${{ secrets.ARUBA_FTP_HOST }}
+          U: ${{ secrets.ARUBA_FTP_USER }}
+          P: ${{ secrets.ARUBA_FTP_PASS }}
+          D: ${{ secrets.ARUBA_FTP_PATH }}
+        run: |
+          sudo apt-get install -y -q lftp >/dev/null
+          mkdir -p sito
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; set net:timeout 20; set net:max-retries 3; set mirror:parallel-transfer-count 4; mirror --verbose=1 -x '^cache' -x '^cache-vecchia' -x '^logs' -x '^tmp' -x '^backup' ${D} sito/; bye"
+          echo '=== cosa e' stato scaricato ==='
+          du -sh sito
+          find sito -maxdepth 2 -type d | head -40
+          echo '=== conteggi ==='
+          echo "file totali: $(find sito -type f | wc -l)"
+          echo "pagine (.md): $(find sito -name '*.md' | wc -l)"
+      - name: Comprimi
+        run: tar -czf sito-online.tar.gz sito && ls -lh sito-online.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: backup-sito-online
+          path: sito-online.tar.gz
+          retention-days: 90
