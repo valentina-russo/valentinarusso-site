@@ -326,6 +326,7 @@ async function csCalcHD(y,m,d,h,min,tzOff){
 
 // ─── Translation ──────────────────────────────────────────────────────────────
 var CS_TIPO_IT={'Generator':'Costruttore Classico','Manifesting Generator':'Costruttore Rapido','Projector':'Guida','Manifestor':'Iniziatore','Reflector':'Valutatore'};
+var CS_DEF_GUIDA={'Single Definition':'singola','Split Definition':'doppia','Triple Split':'tripla','Quadruple Split':'quadrupla','No Definition':'nessuna'};
 var CS_AUTH_GUIDA={'Sacral':'sacrale','Emotional':'emotiva','Splenic':'splenica','Ego Projected':'ego','Ego Manifested':'ego','Self Projected':'autoproiettata','Mental Projector':'mentale','Lunar':'nessuna-autorita'};
 var CS_CENTRI_GUIDA=[['SACRAL','Sacrale','sacrale'],['THROAT','Gola','gola'],['SOLAR','Plesso Solare','plesso-solare'],['SPLEEN','Milza','milza'],['ROOT','Radice','radice'],['HEART','Cuore','cuore'],['G','Centro G','g'],['AJNA','Ajna','ajna'],['HEAD','Testa','testa']];
 function csGuidaCentri(dcs){
@@ -434,13 +435,14 @@ async function csRenderRisultati(raw,nome){
   d.type=CS_TIPO_IT[d.type]||d.type;
   var csAuthGuida=CS_AUTH_GUIDA[d.authority]||'';
   d.authority=CS_AUTH_IT[d.authority]||d.authority;
+  var csDefGuida=CS_DEF_GUIDA[d.definition]||'';
   d.definition=CS_DEF_IT[d.definition]||d.definition;
   if(d.environment_name){d.environment=d.environment_name;delete d.environment_name;}
 
   var nh=document.getElementById('cs-name-header');
   if(nome){var _h2=document.createElement('h2');_h2.textContent=nome;var _p=document.createElement('p');_p.textContent='Carta Human Design';nh.innerHTML='';nh.appendChild(_h2);nh.appendChild(_p);nh.style.display='block';}else{nh.style.display='none';}
 
-  var items=[{label:'Tipo di Carriera',value:d.type},{label:'Profilo',value:d.profile},{label:'Autorità',value:d.authority,href:csAuthGuida?'/human-design/autorita/'+csAuthGuida:''},{label:'Definizione',value:d.definition}];
+  var items=[{label:'Tipo di Carriera',value:d.type},{label:'Profilo',value:d.profile},{label:'Autorità',value:d.authority,href:csAuthGuida?'/human-design/autorita/'+csAuthGuida:''},{label:'Definizione',value:d.definition,href:csDefGuida?'/human-design/definizione/'+csDefGuida:''}];
   if(d.personality&&d.personality.length){var pS=d.personality.find(function(p){return p.planet_en==='Sun';});var pE=d.personality.find(function(p){return p.planet_en==='Earth';});if(pS&&pE)items.push({label:'Tema di Vita',value:csGetCross(pS.gate,pE.gate,d.profile)});}
   if(d.variables){var dV=d.variables,dS2=dV.digestion==='left'?'L':'R',dN2=dV.environment==='left'?'L':'R',pS2=dV.perspective==='left'?'L':'R',pN2=dV.awareness==='left'?'L':'R';items.push({label:'Variabile',value:'P'+pS2+pN2+' D'+dS2+dN2});}
   if(d.dietary_regime)items.push({label:'Regime Alimentare',value:d.dietary_regime});
