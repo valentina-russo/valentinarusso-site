@@ -14,6 +14,15 @@ NOMI = ["blog-1", "blog-2", "blog-3", "blog-4", "blog-5",
         "mammal-chart-cane", "croce-incarnazione-human-design",
         "libretto-cover-hero-16x9", "firefly-double-exposure", "costruttori-e-guide"]
 
+TESTI = [("dell'Human Design", "dello Human Design"),
+         ("all'Human Design", "allo Human Design"),
+         ("nell'Human Design", "nello Human Design"),
+         ("l'Human Design", "lo Human Design"),
+         ("il Human Design", "lo Human Design"),
+         ("Il Human Design", "Lo Human Design"),
+         ("al Human Design", "allo Human Design"),
+         ("del Human Design", "dello Human Design")]
+
 
 def main(radice):
     cambiati = []
@@ -26,6 +35,8 @@ def main(radice):
             nuovo = t
             for n in NOMI:
                 nuovo = nuovo.replace(n + ".png", n + ".jpg")
+            for a, b in TESTI:
+                nuovo = nuovo.replace(a, b)
             if nuovo != t:
                 open(p, "w", encoding="utf-8", newline="\n").write(nuovo)
                 cambiati.append(p)
