@@ -32,13 +32,15 @@ Le Autorità sono sette, e ognuno ne ha una sola. Quale sia dipende da quali cen
 
 ## L'ordine di precedenza
 
+Si scorre dall'alto e ci si ferma al primo caso che corrisponde alla tua carta.
+
 1. **Plesso Solare** definito → Autorità Emotiva
-2. altrimenti **Sacrale** definito → Autorità Sacrale
-3. altrimenti **Milza** definita → Autorità Splenica
-4. altrimenti **Cuore** definito → Autorità dell'Ego
-5. altrimenti **Centro G** collegato alla Gola → Autorità Autoproiettata
-6. altrimenti, per certi Proiettori (Guide) → Autorità Mentale
-7. per i Riflettori (Valutatori) → Autorità Lunare
+2. **Sacrale** definito → Autorità Sacrale
+3. **Milza** definita → Autorità Splenica
+4. **Cuore** definito → Autorità dell'Ego
+5. **Centro G** collegato alla Gola → Autorità Autoproiettata
+6. nessuno dei precedenti, per certi Proiettori (Guide) → Autorità Mentale
+7. tutti i nove centri aperti, i Riflettori (Valutatori) → Autorità Lunare
 
 Non è una classifica di valore: è la sequenza con cui si legge la carta. Le prime tre coprono la grande maggioranza delle persone, le ultime quattro sono rare.
 
