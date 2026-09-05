@@ -36,9 +36,13 @@ def spegni_doppioni(testo):
     visto_rot = False
     for x in righe:
         if x.startswith("published:"):
-            fuori.append("published: false"); visto_pub = True; continue
+            if not visto_pub:
+                fuori.append("published: false"); visto_pub = True
+            continue
         if x.startswith("routable:"):
-            fuori.append("routable: false"); visto_rot = True; continue
+            if not visto_rot:
+                fuori.append("routable: false"); visto_rot = True
+            continue
         fuori.append(x)
         if x.startswith("title:") and not visto_pub:
             fuori.append("published: false"); visto_pub = True
