@@ -3,7 +3,7 @@ title: "Leadership naturale: perché il leader migliore non è chi urla più for
 date: '2026-04-02 13:30:00'
 published: true
 author: "Valentina Russo"
-featured_image: leadership-naturale.png
+featured_image: leadership-naturale.jpg
 image_alt: "Leader calmo in un ambiente aziendale che guida il team con autorevolezza naturale"
 image_title: "Leadership naturale e Alpha One nello Human Design applicato al business (BG5)"
 image_caption: "La leadership più efficace non si prende con la forza. Si riceve quando è il momento."

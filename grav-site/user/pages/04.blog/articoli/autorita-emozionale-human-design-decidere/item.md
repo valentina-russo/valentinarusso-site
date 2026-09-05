@@ -10,7 +10,7 @@ tags:
     - 'Onda emotiva'
     - 'Decisioni'
     - 'Panoramica BG5'
-featured_image: /user/images/blog/perche-ti-attrae-quella-persona.png
+featured_image: /user/images/blog/perche-ti-attrae-quella-persona.jpg
 image_alt: "Donna ferma davanti a un bivio, con la luce calda del tramonto che suggerisce attesa e chiarezza emotiva"
 image_title: "Autorità Decisionale Emotiva BG5: aspettare l'onda prima di scegliere"
 image_caption: "Con l'Autorità Decisionale Emotiva, il tempo è lo strumento più efficace che hai"

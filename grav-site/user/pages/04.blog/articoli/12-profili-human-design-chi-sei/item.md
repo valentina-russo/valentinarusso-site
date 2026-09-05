@@ -10,7 +10,7 @@ tags:
     - 'Linee Human Design'
     - 'Success Code'
     - 'Analisi BG5'
-featured_image: /user/images/blog/blog-3.png
+featured_image: /user/images/blog/blog-3.jpg
 image_alt: "Schema dei 12 Profili di Carriera BG5 con le sei Funzioni dall'Autorità al Leader"
 image_title: "I 12 Profili di Carriera BG5 spiegati con esempi pratici"
 image_caption: "Ogni Profilo di Carriera racconta il tuo ruolo nel lavoro e il modo in cui costruisci relazioni"

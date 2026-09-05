@@ -9,7 +9,7 @@ tags:
     - 'Human Design'
     - 'Lavoro'
     - 'Tipo Energetico'
-featured_image: burnout-lavoro-energia-tipo-energetico.png
+featured_image: burnout-lavoro-energia-tipo-energetico.jpg
 image_alt: "Persona esausta alla scrivania con luce calda che rappresenta il burnout da lavoro e il rapporto con la propria energia"
 image_title: "Burnout da lavoro e tipo energetico"
 image_caption: "Il burnout non dipende da quanto lavori, ma da come usi la tua energia."

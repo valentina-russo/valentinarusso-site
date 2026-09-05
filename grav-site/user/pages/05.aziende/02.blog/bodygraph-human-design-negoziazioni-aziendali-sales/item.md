@@ -3,7 +3,7 @@ title: 'Come la tua carta Human Design cambia le negoziazioni aziendali (metodo 
 date: 1773192173
 published: true
 author: 'Valentina Russo'
-featured_image: /user/images/blog/blog-5.png
+featured_image: /user/images/blog/blog-5.jpg
 image_alt: 'Carta Human Design applicata alla negoziazione aziendale con mappa dei centri energetici (Success Code BG5)'
 image_title: 'Negoziazione aziendale: Human Design e metodo BG5'
 image_caption: 'La carta Human Design (Success Code in BG5) applicata alle trattative: ogni centro energetico ha un ruolo negoziale preciso.'
@@ -28,7 +28,7 @@ faq:
     -
         question: 'Come posso ottenere un''analisi Human Design (BG5) per il mio team commerciale?'
         answer: 'Un''analisi BG5 per un team commerciale parte dalla mappatura della carta Human Design di ogni membro coinvolto nelle trattative. Vengono identificati i centri energetici definiti e aperti, il Tipo Energetico e l''Autorità Decisionale di ciascuno. Su questa base si costruisce un protocollo negoziale specifico: chi gestisce il primo contatto, chi conduce la trattativa, chi presidia la chiusura. Le analisi di team aziendali in Italia sono erogate da consulenti certificati dal BG5 Business Institute.'
-media_order: negoziazioni_bg5.png
+media_order: negoziazioni_bg5.jpg
 ---
 
 ## Hai appena perso una trattativa e stai già rivedendo le slide

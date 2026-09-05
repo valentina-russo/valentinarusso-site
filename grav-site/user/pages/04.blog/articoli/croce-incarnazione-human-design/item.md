@@ -9,7 +9,7 @@ tags:
     - 'Tema di Vita'
     - 'Bodygraph'
     - 'BG5'
-featured_image: /user/images/blog/croce-incarnazione-human-design.png
+featured_image: /user/images/blog/croce-incarnazione-human-design.jpg
 image_alt: "Figura solitaria in piedi su un terreno antico spaccato tra una costellazione nera e una rossa già scolpite nella terra"
 image_title: "La Croce di Incarnazione: il tema di vita che esisteva prima di te"
 image_caption: "La Croce di Incarnazione nasce da quattro gate: Sole e Terra, conscio e inconscio."

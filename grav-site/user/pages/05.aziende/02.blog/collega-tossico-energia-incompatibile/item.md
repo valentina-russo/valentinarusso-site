@@ -3,7 +3,7 @@ title: "Collega tossico o energia incompatibile? Come distinguere la differenza"
 date: '2026-04-02 12:30:00'
 published: true
 author: "Valentina Russo"
-featured_image: collega-tossico-energia.png
+featured_image: collega-tossico-energia.jpg
 image_alt: "Due colleghi in ufficio con espressioni contrastanti che rappresentano la dinamica energetica tra tipi diversi"
 image_title: "Colleghi e compatibilità energetica in ufficio"
 image_caption: "Quello che chiami conflitto potrebbe essere una meccanica energetica."

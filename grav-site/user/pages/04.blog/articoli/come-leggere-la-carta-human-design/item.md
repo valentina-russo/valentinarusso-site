@@ -9,7 +9,7 @@ tags:
     - 'Leggere la Carta'
     - 'BG5'
     - 'Guida'
-featured_image: /user/images/blog/come-leggere-carta-human-design.png
+featured_image: /user/images/blog/come-leggere-carta-human-design.jpg
 image_alt: "Mano che segna con una penna dorata i centri energetici su una carta Human Design stesa su una scrivania"
 image_title: "Come leggere la carta Human Design passo passo"
 image_caption: "La carta si legge in un ordine preciso: prima il Tipo, poi Strategia, Autorità, Profilo e centri."

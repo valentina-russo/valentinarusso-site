@@ -9,7 +9,7 @@ tags:
     - 'Energia'
     - 'Human Design'
     - 'Lavoro Autonomo'
-featured_image: freelance-sempre-stanco.png
+featured_image: freelance-sempre-stanco.jpg
 image_alt: "Freelance esausto alla scrivania con luce calda che evoca la stanchezza del lavoratore autonomo"
 image_title: "Freelance e tipo energetico Proiettore"
 image_caption: "Se sei freelance e sei sempre stanco, il problema potrebbe non essere il carico di lavoro."

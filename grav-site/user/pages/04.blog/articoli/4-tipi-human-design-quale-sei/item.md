@@ -5,7 +5,7 @@ date: '2026-06-09 10:30:00'
 template: item
 author: "Valentina Russo"
 tags: ["Human Design", "Tipi Energetici", "Generatore", "Proiettore", "Manifestatore", "Riflettore"]
-featured_image: /user/images/blog/4-tipi-human-design-archetip.png
+featured_image: /user/images/blog/4-tipi-human-design-archetip.jpg
 image_alt: "Quattro figure archetipiche cosmiche che rappresentano i tipi energetici Human Design: forgia dorata, occhio vigile, fulmine, specchio lunare"
 image_title: "I 4 Tipi Human Design: quattro archetipi energetici"
 image_desc: "Illustrazione concettuale di quattro silhouette archetipiche in uno spazio cosmico: una che irradia energia dorata costante da una forgia interiore (Generatore), una coronata da un occhio vigile di luce stellare (Proiettore), una che erutta fulmini e comete (Manifestatore), una traslucida che riflette la luna e la nebulosa (Riflettore)."

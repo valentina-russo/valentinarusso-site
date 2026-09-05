@@ -9,7 +9,7 @@ tags:
     - 'Human Design'
     - 'Autorità Interna'
     - 'Autorità Emozionale'
-featured_image: ansia-decisionale.png
+featured_image: ansia-decisionale.jpg
 image_alt: "Persona a un bivio che rappresenta l'ansia decisionale e la paralisi da scelta"
 image_title: "Ansia decisionale e Autorità Interna"
 image_caption: "La paralisi decisionale ha una causa precisa nel tuo Design."

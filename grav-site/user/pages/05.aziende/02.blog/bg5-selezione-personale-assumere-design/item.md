@@ -11,7 +11,7 @@ tags:
     - 'Penta team'
     - 'compatibilità team'
     - 'BG5 aziende'
-featured_image: /user/images/blog/blog-4.png
+featured_image: /user/images/blog/blog-4.jpg
 image_alt: 'Analisi della carta Human Design (metodo BG5) del candidato durante un processo di selezione del personale in azienda'
 image_title: 'Human Design e selezione del personale: analisi del Tipo per assumere meglio (metodo BG5)'
 image_caption: 'Lo Human Design applicato al business (BG5) aggiunge alla selezione una lettura della meccanica individuale, basata su dati fissi e oggettivi'

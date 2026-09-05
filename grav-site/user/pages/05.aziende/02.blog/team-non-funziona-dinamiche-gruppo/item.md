@@ -3,7 +3,7 @@ title: "Team che non funziona: cosa nessun team building ti dirà mai (Human Des
 date: '2026-04-02 12:00:00'
 published: true
 author: "Valentina Russo"
-featured_image: team-non-funziona.png
+featured_image: team-non-funziona.jpg
 image_alt: "Team di lavoro in riunione con dinamiche energetiche visibili tra i membri del gruppo"
 image_title: "Dinamiche di gruppo e Penta nello Human Design applicato al business (BG5)"
 image_caption: "Un team non fallisce per incompetenza. Fallisce per dinamiche energetiche invisibili."

@@ -9,7 +9,7 @@ tags:
     - 'Visibilità'
     - 'Human Design'
     - 'Riconoscimento'
-featured_image: farsi-valere-lavoro.png
+featured_image: farsi-valere-lavoro.jpg
 image_alt: "Professionista in un ambiente lavorativo luminoso che attira l'attenzione naturalmente senza forzare"
 image_title: "Farsi valere al lavoro senza forzare"
 image_caption: "Il riconoscimento professionale funziona diversamente per ogni tipo energetico."

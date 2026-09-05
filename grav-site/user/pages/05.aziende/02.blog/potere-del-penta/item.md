@@ -3,7 +3,7 @@ title: "Il Penta nel BG5: ingegneria dei team con Human Design applicato al busi
 date: 2026-03-07 14:00:00
 published: true
 author: "Valentina Russo"
-featured_image: /user/images/blog/firefly-double-exposure.png
+featured_image: /user/images/blog/firefly-double-exposure.jpg
 image_alt: "Schema del Penta BG5: cinque persone collegate in una struttura energetica con cinque funzioni"
 image_title: "Penta BG5: la meccanica dei team da 3-5 persone"
 image_caption: "Il Penta è il campo energetico che emerge quando 3-5 persone lavorano insieme stabilmente"

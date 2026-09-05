@@ -9,7 +9,7 @@ tags:
     - 'Calcolo Carta'
     - 'Bodygraph'
     - 'BG5'
-featured_image: /user/images/blog/disegno-umano-carta-completa.png
+featured_image: /user/images/blog/disegno-umano-carta-completa.jpg
 image_alt: "Silhouette umana che si trasforma in una costellazione cosmica con i nove centri del bodygraph Human Design"
 image_title: "Disegno Umano: la mappa cosmica di come funzioni"
 image_caption: "Disegno Umano e Human Design indicano lo stesso sistema: una mappa calcolata dai tuoi dati di nascita."

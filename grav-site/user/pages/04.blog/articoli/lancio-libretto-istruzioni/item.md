@@ -4,7 +4,7 @@ date: '2026-05-13 10:00:00'
 published: true
 author: "Valentina Russo"
 description: "Il Libretto d'Istruzioni Human Design è un PDF personalizzato che traduce la tua carta in linguaggio quotidiano. Calcolato dalla tua data, ora e luogo di nascita. Base €90, Avanzato €147."
-featured_image: /user/images/blog/libretto-cover-hero-16x9.png
+featured_image: /user/images/blog/libretto-cover-hero-16x9.jpg
 image_prompt: "Painterly still life in Dutch old-master style, wide horizontal composition: an ornate carved antique wooden treasure chest sitting open at the centre of a weathered wooden desk, its interior lined in dusty rose silk, a warm golden glow spilling out from inside. Within the chest, a rolled aged parchment map covered in a golden compass rose, constellation lines and delicate coastlines, closed with a dusty rose wax seal and a teal ribbon. To the left of the chest, a brass armillary sphere and an antique brass mariner's astrolabe. To the right, a black quill feather standing in a pewter inkwell and a lit candle in a brass holder casting warm light. In the foreground, a magnifying glass with a wooden handle and a few sprigs of dried lavender. Background of deep teal petrol shadow with a softly lit window on the far left, faint dust motes floating in the light beam. Rich chiaroscuro lighting, muted palette of dusty rose, deep teal and antique brass, ultra-detailed, cinematic, warm and mysterious atmosphere --ar 16:9"
 image_alt: "Copertina del Libretto d'Istruzioni Human Design, documento PDF personalizzato di Valentina Russo"
 image_title: "Libretto d'Istruzioni Human Design · Valentina Russo"

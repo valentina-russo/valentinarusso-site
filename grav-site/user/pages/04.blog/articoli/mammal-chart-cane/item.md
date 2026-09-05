@@ -8,7 +8,7 @@ tags:
     - 'Human Design'
     - 'Mammal Chart'
     - 'Animali'
-featured_image: /user/images/blog/mammal-chart-cane.png
+featured_image: /user/images/blog/mammal-chart-cane.jpg
 image_alt: "Mammal Chart, Human Design per cani e altri mammiferi"
 description: "La Mammal Chart applica i principi dell'Human Design ai mammiferi, ma con una matrice diversa da quella umana: 15 porte invece di 64, tre categorie (Territorio, Amicizia, Lavoro), nessun profilo. Cosa dice davvero del tuo cane."
 seo_title: "Mammal Chart: Human Design del tuo Cane, spiegato"

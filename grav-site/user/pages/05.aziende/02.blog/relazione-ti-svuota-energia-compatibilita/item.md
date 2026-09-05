@@ -9,7 +9,7 @@ tags:
     - 'Human Design'
     - 'Aura'
     - 'Compatibilità'
-featured_image: relazione-energia-compatibilita.png
+featured_image: relazione-energia-compatibilita.jpg
 image_alt: "Due silhouette con campi energetici che si sovrappongono, rappresentando la dinamica energetica nelle relazioni"
 image_title: "Relazioni e compatibilità energetica"
 image_caption: "La tua energia cambia in base a chi hai intorno."

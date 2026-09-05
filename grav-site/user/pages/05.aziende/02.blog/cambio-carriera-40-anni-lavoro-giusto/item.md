@@ -9,7 +9,7 @@ tags:
     - 'Human Design'
     - 'Tipo Energetico'
     - 'Autorità Interna'
-featured_image: cambio-carriera-40-anni.png
+featured_image: cambio-carriera-40-anni.jpg
 image_alt: "Persona a un bivio professionale con due strade che rappresentano il cambio carriera dopo i 40 anni"
 image_title: "Cambio carriera dopo i 40 anni"
 image_caption: "La decisione giusta non arriva dalla testa."

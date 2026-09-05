@@ -10,7 +10,7 @@ tags:
     - 'Centri Non Definiti'
     - 'Autorità Decisionale'
     - 'Strategia BG5'
-featured_image: /user/images/blog/blog-1.png
+featured_image: /user/images/blog/blog-1.jpg
 image_alt: "Donna che si guarda allo specchio e riconosce la propria natura autentica secondo il sistema BG5"
 image_title: "Amor proprio e BG5: scoprire chi sei sotto il condizionamento"
 image_caption: "L'amor proprio non si costruisce. Si scopre sotto gli strati di condizionamento."

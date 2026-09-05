@@ -4,7 +4,7 @@ date: '2026-03-20 10:00:00'
 published: true
 author: 'Valentina Russo'
 tags: 'Human Design,BG5,azienda,Leadership,Team design,Generatore,Proiettore,Manifestatore,Analisi Penta'
-featured_image: /user/images/blog/blog-5.png
+featured_image: /user/images/blog/blog-5.jpg
 image_alt: 'Manager che osserva la mappa Human Design (metodo BG5) del proprio team durante una riunione strategica'
 image_title: 'Human Design applicato alla leadership aziendale e alla gestione dei team (metodo BG5)'
 image_caption: 'Ogni team ha una meccanica propria: lo Human Design applicato al business (BG5) la rende visibile al manager'

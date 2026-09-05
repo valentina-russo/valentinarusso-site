@@ -3,7 +3,7 @@ title: "Human Design e selezione del personale: il metodo BG5 per non sbagliare 
 date: '2026-04-02 13:00:00'
 published: true
 author: "Valentina Russo"
-featured_image: assumere-persona-sbagliata.png
+featured_image: assumere-persona-sbagliata.jpg
 image_alt: "Colloquio di lavoro con due persone sedute a un tavolo, rappresentando il processo di selezione del personale"
 image_title: "Selezione del personale con Human Design e metodologia BG5"
 image_caption: "Il curriculum racconta le competenze. La carta Human Design racconta come la persona le usa."

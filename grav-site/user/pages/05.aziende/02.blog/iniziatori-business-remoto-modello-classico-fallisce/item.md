@@ -3,7 +3,7 @@ title: 'Manifestatori (Iniziatori BG5) e business da remoto: perché il modello 
 date: 1773193641
 published: true
 author: 'Valentina Russo'
-featured_image: /user/images/blog/blog-2.png
+featured_image: /user/images/blog/blog-2.jpg
 image_alt: 'Manifestatore Human Design (Iniziatore in BG5) che struttura un business da remoto sostenibile secondo il proprio Design energetico'
 image_title: 'Manifestatore (Iniziatore BG5) business da remoto'
 image_caption: 'Il business da remoto del Manifestatore funziona per impulsi, non per costanza giornaliera.'
@@ -28,7 +28,7 @@ faq:
     -
         question: 'Come faccio a sapere qual è la mia Autorità Interna di Manifestatore?'
         answer: 'L''Autorità Interna (Autorità Decisionale in BG5) dipende dalla configurazione specifica della tua carta Human Design. Per un Manifestatore può essere emozionale (basata sull''onda dei sentimenti che richiede tempo per stabilizzarsi), egoica (basata sulla volontà personale e il riconoscimento del valore di un impegno) oppure splenica (basata sull''intuizione istantanea del momento). Ogni tipo richiede un processo decisionale differente: attesa del ciclo emotivo prima di confermare un impegno, verifica della propria volontà su quel preciso oggetto, oppure ascolto dell''impulso intuitivo subito. La tua Autorità specifica si legge dai centri definiti della tua carta e una volta identificata diventa il filtro principale per le decisioni di business.'
-media_order: manifestatori_business_da_remoto.png
+media_order: manifestatori_business_da_remoto.jpg
 ---
 
 ## Pubblichi ogni giorno e ti senti svuotato: il problema non è la disciplina

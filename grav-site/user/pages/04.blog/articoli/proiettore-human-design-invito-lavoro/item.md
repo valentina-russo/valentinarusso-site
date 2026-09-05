@@ -10,7 +10,7 @@ tags:
     - 'Riconoscimento'
     - 'Amarezza'
     - 'Strategia BG5'
-featured_image: /user/images/blog/blog-2.png
+featured_image: /user/images/blog/blog-2.jpg
 image_alt: "Donna seduta alla scrivania con luce soffusa che legge documenti, rappresentazione della Guida BG5 che studia in attesa dell'invito"
 image_title: "La Guida BG5 e la strategia dell'invito nel lavoro"
 image_caption: "La Guida BG5 eccelle quando riceve riconoscimento specifico, non quando si impone"
