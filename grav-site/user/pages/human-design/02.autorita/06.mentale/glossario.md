@@ -55,6 +55,7 @@ aperto:
     **Decidere da soli, in fretta, in un posto qualunque.** È il modo più diretto per prendere una decisione che non è tua ma dell'ultima persona con cui hai parlato.
 
     L'altro errore è cercare la certezza. Con la mente aperta non arriva mai, e aspettarla significa non decidere mai. Quello che arriva, invece, è una posizione che resta stabile mentre la racconti a persone diverse: quella è la chiarezza disponibile, ed è sufficiente.
+nota_valentina: '<b>Anche la mia carta dice questo.</b> Sono un Proiettore (Guida nel BG5) con Autorit&agrave; Mentale: nessuna autorit&agrave; interna, e le decisioni che prendono forma parlando. Lo conosco da dentro, non solo dai libri. Se ti ci sei riconosciuto, nella Prima Lettura partiamo da qui.'
 ---
 
 ## Nel lavoro

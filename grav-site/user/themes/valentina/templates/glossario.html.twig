@@ -144,6 +144,9 @@
 <section class="fine"><div class="wrap rivela">
   <h2>{{ page.header.chiusa_titolo ?? 'Vuoi capire come funziona nel tuo caso?' }}</h2>
   <p>{{ page.header.chiusa_testo ?? 'La Prima Lettura parte dalla tua carta reale: 90 minuti sul tuo Tipo, la tua Strategia e la tua Autorit&agrave;, con quello che cambia nella pratica.' }}</p>
+  {% if page.header.nota_valentina %}
+  <div class="fine-nota"><img src="{{ base }}/user/pages/assets/valentina.jpg" alt="Valentina Russo" width="56" height="56" loading="lazy"><p>{{ page.header.nota_valentina|raw }}</p></div>
+  {% endif %}
   <div class="azioni"><a class="btn btn-1" href="{{ base }}/servizi#singole">Prenota la Prima Lettura</a><a class="btn btn-2" href="{{ base }}/libretto-istruzioni">Il Libretto d&rsquo;Istruzioni</a></div>
 </div></section>
 {% endblock %}

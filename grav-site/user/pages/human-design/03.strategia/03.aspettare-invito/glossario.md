@@ -59,6 +59,7 @@ aperto:
     Il secondo è **lavorare come i Generatori** (Costruttori Classici): senza Sacrale definito non c'è energia costante, e tenere il loro ritmo per anni porta a un esaurimento che sembra un problema di carattere e non lo è.
 
     La domanda che riorienta è: **questa cosa qualcuno me l'ha chiesta, o mi ci sto infilando?**
+nota_valentina: <b>Anche io aspetto l&rsquo;invito.</b> Sono un Proiettore (Guida nel BG5), quindi quello che leggi qui sopra &egrave; anche il mio funzionamento, non una teoria letta da qualche parte. Se ti ci sei riconosciuto, nella Prima Lettura partiamo da qui.
 ---
 
 ## Nel lavoro
