@@ -59,7 +59,7 @@
 <nav class="gl-barra" aria-label="{{ page.parent.title }}"><div class="wrap">
   {% for c in fratelli.order('header.ordine','asc') %}<a href="{{ c.url }}"{% if c.route == page.route %} aria-current="page"{% endif %}>{{ c.header.nome_breve ?? c.title }}</a>{% endfor %}
 </div></nav>
-<script>(function(){var b=document.querySelector('.gl-barra .wrap');if(!b)return;var a=b.querySelector('[aria-current]');if(a&&b.scrollWidth>b.clientWidth)b.scrollLeft=a.offsetLeft-(b.clientWidth-a.offsetWidth)/2;})();</script>
+<script>(function(){var b=document.querySelector('.gl-barra .wrap');if(!b)return;var n=b.parentNode,a=b.querySelector('[aria-current]');function stato(){n.classList.toggle('scorre-sx',b.scrollLeft>4);n.classList.toggle('scorre-dx',b.scrollLeft+b.clientWidth<b.scrollWidth-4);}if(a&&b.scrollWidth>b.clientWidth)b.scrollLeft=a.offsetLeft-(b.clientWidth-a.offsetWidth)/2;stato();b.addEventListener('scroll',stato,{passive:true});addEventListener('resize',stato);})();</script>
 {% endif %}
 
 <header class="hero gl-testa{% if img %} gl-testa-due{% endif %}"><div class="wrap">
