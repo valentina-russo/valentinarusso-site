@@ -1,0 +1,98 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block schema %}
+{{ parent() }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ (page.header.seo_title ?? page.title)|json_encode|raw }},
+  "description": {{ (page.header.seo_desc ?? page.header.description)|json_encode|raw }},
+  "inLanguage": "it",
+  "datePublished": "{{ page.date|date('c') }}",
+  "dateModified": "{{ page.modified|date('c') }}",
+  "author": { "@type": "Person", "@id": "{{ grav.base_url_absolute }}/#valentina-russo" },
+  "publisher": { "@type": "Organization", "@id": "{{ grav.base_url_absolute }}/#organization" },
+  "mainEntityOfPage": "{{ page.url(true) }}",
+  "isPartOf": { "@type": "WebPage", "url": "{{ page.parent.url(true) }}" }
+}
+</script>
+{% if page.header.faq %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for f in page.header.faq %}
+    { "@type": "Question", "name": {{ (f.question ?? f.q)|json_encode|raw }},
+      "acceptedAnswer": { "@type": "Answer", "text": {{ (f.answer ?? f.a)|json_encode|raw }} } }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Cos&rsquo;è lo Human Design", "item": "{{ grav.base_url_absolute }}/human-design" }{% if page.parent.route != '/human-design' %},
+    { "@type": "ListItem", "position": 2, "name": {{ page.parent.title|json_encode|raw }}, "item": "{{ page.parent.url(true) }}" },
+    { "@type": "ListItem", "position": 3, "name": {{ page.title|json_encode|raw }}, "item": "{{ page.url(true) }}" }{% else %},
+    { "@type": "ListItem", "position": 2, "name": {{ page.title|json_encode|raw }}, "item": "{{ page.url(true) }}" }{% endif %}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ theme_url }}/css/d2/glossario-d2.css?v={{ theme_version }}">
+{% endblock %}
+
+{% block content %}
+{% set base = grav.base_url %}
+<header class="hero gl-testa"><div class="wrap">
+  <div class="rivela">
+    <nav class="gl-briciole"><a href="{{ base }}/human-design">Cos&rsquo;&egrave; lo Human Design</a>{% if page.parent.route != '/human-design' %} <span>&rsaquo;</span> <a href="{{ page.parent.url }}">{{ page.parent.title }}</a>{% endif %}</nav>
+    <h1>{{ page.title }}</h1>
+    {% if page.header.description %}<p class="sotto">{{ page.header.description }}</p>{% endif %}
+    <div class="azioni"><a class="btn btn-1" href="{{ base }}/calcolo-human-design">Calcola la tua carta gratis</a></div>
+  </div>
+</div></header>
+
+{% set img = page.media|length ? page.media|first : null %}
+{% if img %}
+<figure class="gl-figura wrap"><img src="{{ img.cropZoom(760,1170).url }}" alt="{{ page.header.alt_immagine ?? page.title }}" width="760" height="1170" loading="lazy">{% if page.header.didascalia %}<figcaption>{{ page.header.didascalia }}</figcaption>{% endif %}</figure>
+{% endif %}
+
+<section class="gl-corpo"><div class="wrap">
+  <div class="gl-prosa blog-article-body rivela">{{ page.content|raw }}</div>
+  {% if page.header.richiamo %}
+  <aside class="gl-richiamo rivela"><p>{{ page.header.richiamo|raw }}</p></aside>
+  {% endif %}
+</div></section>
+
+{% if page.children.published.count %}
+<section class="sez-alt gl-figlie"><div class="wrap">
+  <div class="rivela ci-centro"><p class="etich">{{ page.header.etichetta_figlie ?? 'In questa guida' }}</p><h2>{{ page.header.titolo_figlie ?? 'Le voci' }}</h2></div>
+  <div class="griglia">
+    {% for c in page.children.published.order('header.ordine','asc') %}
+    <a class="card gl-voce rivela" href="{{ c.url }}"><h3>{{ c.title }}</h3>{% if c.header.description %}<p>{{ c.header.description }}</p>{% endif %}<span class="lnk">Leggi &rarr;</span></a>
+    {% endfor %}
+  </div>
+</div></section>
+{% endif %}
+
+{% if page.parent.children.published.count > 1 and page.parent.route != '/' %}
+<section class="gl-sorelle"><div class="wrap rivela">
+  <p class="etich">Continua</p>
+  <p class="gl-righe">{% for c in page.parent.children.published %}{% if c.route != page.route %}<a href="{{ c.url }}">{{ c.title }}</a>{% endif %}{% endfor %}</p>
+</div></section>
+{% endif %}
+
+<section class="fine"><div class="wrap rivela">
+  <h2>{{ page.header.chiusa_titolo ?? 'Vuoi capire come funziona nel tuo caso?' }}</h2>
+  <p>{{ page.header.chiusa_testo ?? 'La Prima Lettura parte dalla tua carta reale: 90 minuti sul tuo Tipo, la tua Strategia e la tua Autorit&agrave;, con quello che cambia nella pratica.' }}</p>
+  <div class="azioni"><a class="btn btn-1" href="{{ base }}/servizi#singole">Prenota la Prima Lettura</a><a class="btn btn-2" href="{{ base }}/libretto-istruzioni">Il Libretto d&rsquo;Istruzioni</a></div>
+</div></section>
+{% endblock %}

@@ -269,6 +269,19 @@
 <p>Valentina Russo, Consulente Certificata BG5&#174; con sede a Milano e Torino, offre Panoramiche BG5 del Disegno di Carriera in tutta Italia, anche online. L'Human Design &#232; stato sviluppato da Ra Uru Hu nel 1987 a Ibiza. I 5 Tipi BG5 sono: Costruttore Classico (37%), Costruttore Rapido (33%), Guida (20%), Iniziatore (9%), Valutatore (1%). La certificazione BG5&#174; &#232; rilasciata dall'International BG5 Business Institute. Il sistema &#232; stato applicato in contesti di selezione del personale, coaching aziendale e career design.</p>
 </div>
 </div>
+{% if page.children.published.count %}
+<section class="hd-guida"><div class="hd-prose-wrap">
+  <p class="etich">La guida in dettaglio</p>
+  <h2>Le voci del sistema, una per una</h2>
+  <p>Ogni elemento della carta ha la sua pagina: cosa fa, come si vive quando &egrave; definito e come quando &egrave; bianco.</p>
+  <div class="hd-guida-griglia">
+    {% for c in page.children.published.order('header.ordine','asc') %}
+    <a class="hd-guida-voce" href="{{ c.url }}"><h3>{{ c.title }}</h3>{% if c.header.description %}<p>{{ c.header.description }}</p>{% endif %}<span class="lnk">Apri &rarr;</span></a>
+    {% endfor %}
+  </div>
+</div></section>
+{% endif %}
+
 <div class="hd-cta">
 <h2>Pronta a scoprire il tuo design?</h2>
 <p>Calcola gratis la tua carta per vedere subito il tuo Tipo, Profilo e Autorit&#224;. Se vuoi capire come si traducono nella tua vita reale, prenota una Panoramica BG5&#174;.</p>

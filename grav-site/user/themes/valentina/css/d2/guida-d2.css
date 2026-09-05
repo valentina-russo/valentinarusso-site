@@ -108,3 +108,17 @@
      le proporzioni vere dell'immagine (600x923), niente piu' riquadro da 240px */
   .rv-d2 .hd-demo-carousel{width:100%;max-width:460px;margin-inline:auto;height:auto;aspect-ratio:600/923}
   .rv-d2 .hd-demo-slide{height:100%}}
+
+/* indice della guida: le voci di approfondimento sotto la pagina madre */
+.d2 .hd-guida{padding:72px 0 0}
+.d2 .hd-guida .etich{margin:0 0 10px}
+.d2 .hd-guida h2{margin:0 0 12px}
+.d2 .hd-guida-griglia{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:28px}
+.d2 .hd-guida-voce{display:flex;flex-direction:column;gap:8px;padding:22px 24px;background:var(--carta);
+  border:1px solid var(--linea);border-radius:14px;box-shadow:var(--ombra);text-decoration:none;color:var(--ink);
+  transition:transform .25s,box-shadow .25s}
+.d2 .hd-guida-voce:hover{transform:translateY(-3px);box-shadow:0 22px 44px -18px rgba(58,53,50,.28)}
+.d2 .hd-guida-voce h3{margin:0;font-size:19px;line-height:1.25}
+.d2 .hd-guida-voce p{margin:0;font-size:14.5px;line-height:1.55;color:var(--muto);max-width:none}
+.d2 .hd-guida-voce .lnk{margin-top:auto;padding-top:8px;color:var(--dom);font-weight:600;font-size:14.5px}
+@media (max-width:720px){.d2 .hd-guida-griglia{grid-template-columns:1fr}}
