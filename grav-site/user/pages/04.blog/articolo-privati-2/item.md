@@ -1,7 +1,7 @@
 ---
 title: "Il modo più semplice per capire il BG5®"
 date: 2026-03-07 19:45:00
-published: true
+published: false
 author: "Valentina Russo"
 featured_image: /user/images/blog/costruttori-e-guide.jpg
 seo_title: "Cos'è il BG5®: guida semplice al Design System"

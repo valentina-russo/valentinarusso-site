@@ -110,6 +110,9 @@ $tierPrice  = $tier === 'base' ? '€90' : '€147';
 // EC-02 (legal): waiver recesso obbligatorio (art. 59 c.1 lett. o) D.Lgs. 206/2005)
 $recessoWaiver = isset($_POST['recesso_waiver']);
 
+// M-03 (art. 54-bis): token per la funzione digitale di recesso (link in email cliente)
+$recessoToken = bin2hex(random_bytes(16));
+
 // ─── Validazione campi obbligatori ────────────────────────────────────────────
 $redir = '/libretto-dati/dati.php?tier=' . urlencode($tier) . '&session_id=' . urlencode($sessionId);
 
@@ -205,6 +208,10 @@ ai sensi dell'art. 59 c.1 lett. o) del Codice del Consumo (D.Lgs. 206/2005).
 Il Libretto è realizzato su tua specifica personalizzazione e non è soggetto
 a restituzione o rimborso una volta avviata l'elaborazione.
 
+Per esercitare comunque il recesso (funzione digitale art. 54-bis CdC):
+https://valentinarussobg5.com/libretto-dati/recesso.php?token={$recessoToken}
+(disponibile per 14 giorni dalla data di questo ordine)
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 VENDITORE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -258,6 +265,12 @@ if (!is_dir($logDir)) { @mkdir($logDir, 0755, true); }
 $sessionPrefix = substr(preg_replace('/[^a-zA-Z0-9_]/', '', $sessionId), 0, 16);
 $logLine = date('Y-m-d H:i:s') . " | {$tier} | sess:{$sessionPrefix}… | admin:" . ($ok1?'ok':'FAIL') . ' cliente:' . ($ok2?'ok':'FAIL') . "\n";
 @file_put_contents($logFile, $logLine, FILE_APPEND);
+
+// M-03 (art. 54-bis): token-log per la funzione di recesso (token|session|tier|data|waiver).
+// Base giuridica GDPR art. 6(1)(c) — obbligo legale. Retention consigliata: 2 anni.
+$recTokenLog = $logDir . 'recesso-tokens.log';
+@file_put_contents($recTokenLog,
+    "{$recessoToken}|{$sessionId}|{$tier}|" . date('Y-m-d') . "|1\n", FILE_APPEND);
 
 // ─── Redirect finale ──────────────────────────────────────────────────────────
 // EC-05/EC-10 (legal): l'email AD ADMIN ($ok1) è la conferma operativa che
