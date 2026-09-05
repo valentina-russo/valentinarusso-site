@@ -27,14 +27,18 @@ apertura: |
 
   Circa il 47% delle persone ce l'ha definito.
 scheda:
-  definito: 47
-  aperto: 53
-  tipo: Motore e consapevolezza
-  nota_tipo: l'unico che fa entrambe le cose
-  porte: 6, 22, 30, 36, 37, 49, 55
-  n_porte: 7
-  autorita: Emotiva
-  nota_autorita: ha la precedenza su tutte
+- etichetta: Definito nel
+  valore: 47%
+  nota: aperto nel 53%
+- etichetta: Tipo di centro
+  valore: Motore e consapevolezza
+  nota: l'unico che fa entrambe le cose
+- etichetta: Porte
+  valore: 7
+  nota: 6, 22, 30, 36, 37, 49, 55
+- etichetta: Autorità
+  valore: Emotiva
+  nota: ha la precedenza su tutte
 definito:
   titolo: La chiarezza arriva col tempo
   testo: |

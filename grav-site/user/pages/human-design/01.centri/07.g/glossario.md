@@ -27,14 +27,18 @@ apertura: |
 
   Circa il 57% delle persone ce l'ha definito.
 scheda:
-  definito: 57
-  aperto: 43
-  tipo: Identità e direzione
-  nota_tipo: sede del Monopolo Magnetico
-  porte: 1, 2, 7, 13, 10, 15, 25, 46
-  n_porte: 8
-  autorita: Autoproiettata
-  nota_autorita: solo per certi Proiettori (Guide)
+- etichetta: Definito nel
+  valore: 57%
+  nota: aperto nel 43%
+- etichetta: Tipo di centro
+  valore: Identità e direzione
+  nota: sede del Monopolo Magnetico
+- etichetta: Porte
+  valore: 8
+  nota: 1, 2, 7, 13, 10, 15, 25, 46
+- etichetta: Autorità
+  valore: Autoproiettata
+  nota: solo per certi Proiettori (Guide)
 definito:
   titolo: Sai chi sei e dove stai andando
   testo: |

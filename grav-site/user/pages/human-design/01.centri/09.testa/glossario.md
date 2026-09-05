@@ -27,14 +27,18 @@ apertura: |
 
   Circa il 30% delle persone ce l'ha definito. È il secondo centro più raro dopo il Cuore.
 scheda:
-  definito: 30
-  aperto: 70
-  tipo: Pressione
-  nota_tipo: spinge verso l'Ajna
-  porte: 64, 61, 63
-  n_porte: 3
-  autorita: Nessuna
-  nota_autorita: non genera Autorità
+- etichetta: Definito nel
+  valore: 30%
+  nota: aperto nel 70%
+- etichetta: Tipo di centro
+  valore: Pressione
+  nota: spinge verso l'Ajna
+- etichetta: Porte
+  valore: 3
+  nota: 64, 61, 63
+- etichetta: Autorità
+  valore: Nessuna
+  nota: non genera Autorità
 definito:
   titolo: Una fonte costante di domande
   testo: |

@@ -73,13 +73,11 @@
   {% endif %}
 </div></header>
 
-{% set s = page.header.scheda %}
-{% if s %}
+{% if page.header.scheda %}
 <section class="gl-dati"><dl class="wrap">
-  <div><dt>Definito nel</dt><dd>{{ s.definito }}%<small>aperto nel {{ s.aperto }}%</small></dd></div>
-  <div><dt>Tipo di centro</dt><dd>{{ s.tipo }}<small>{{ s.nota_tipo }}</small></dd></div>
-  <div><dt>Porte</dt><dd>{{ s.n_porte }}<small>{{ s.porte }}</small></dd></div>
-  <div><dt>Autorit&agrave;</dt><dd>{{ s.autorita }}<small>{{ s.nota_autorita }}</small></dd></div>
+  {% for v in page.header.scheda %}
+  <div><dt>{{ v.etichetta }}</dt><dd>{{ v.valore }}{% if v.nota %}<small>{{ v.nota }}</small>{% endif %}</dd></div>
+  {% endfor %}
 </dl></section>
 {% endif %}
 
@@ -90,12 +88,12 @@
 {% if page.header.definito and page.header.aperto %}
 <section class="gl-facce"><div class="wrap">
   <article class="gl-faccia rivela">
-    <span class="etich"><i class="gl-segno"></i> Se ce l&rsquo;hai definito</span>
+    <span class="etich"><i class="gl-segno"></i> {{ page.header.definito.etichetta ?? 'Se ce l&rsquo;hai definito'|raw }}</span>
     <h2>{{ page.header.definito.titolo }}</h2>
     <div class="blog-article-body">{{ page.header.definito.testo|markdown }}</div>
   </article>
   <article class="gl-faccia gl-aperta rivela">
-    <span class="etich"><i class="gl-segno"></i> Se ce l&rsquo;hai bianco</span>
+    <span class="etich"><i class="gl-segno"></i> {{ page.header.aperto.etichetta ?? 'Se ce l&rsquo;hai bianco'|raw }}</span>
     <h2>{{ page.header.aperto.titolo }}</h2>
     <div class="blog-article-body">{{ page.header.aperto.testo|markdown }}</div>
   </article>

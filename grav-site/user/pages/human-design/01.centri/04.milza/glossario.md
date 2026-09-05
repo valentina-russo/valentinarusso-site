@@ -27,14 +27,18 @@ apertura: |
 
   Circa il 55% delle persone ce l'ha definito.
 scheda:
-  definito: 55
-  aperto: 45
-  tipo: Consapevolezza
-  nota_tipo: non è un motore
-  porte: 48, 57, 44, 50, 32, 28, 18
-  n_porte: 7
-  autorita: Splenica
-  nota_autorita: se Plesso e Sacrale sono aperti
+- etichetta: Definito nel
+  valore: 55%
+  nota: aperto nel 45%
+- etichetta: Tipo di centro
+  valore: Consapevolezza
+  nota: non è un motore
+- etichetta: Porte
+  valore: 7
+  nota: 48, 57, 44, 50, 32, 28, 18
+- etichetta: Autorità
+  valore: Splenica
+  nota: se Plesso e Sacrale sono aperti
 definito:
   titolo: L'istinto funziona in tempo reale
   testo: |

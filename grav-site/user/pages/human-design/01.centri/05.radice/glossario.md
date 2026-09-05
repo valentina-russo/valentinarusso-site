@@ -27,14 +27,18 @@ apertura: |
 
   Circa il 60% delle persone ce l'ha definito.
 scheda:
-  definito: 60
-  aperto: 40
-  tipo: Motore e pressione
-  nota_tipo: la spinta che avvia tutto
-  porte: 58, 38, 54, 53, 60, 52, 19, 39, 41
-  n_porte: 9
-  autorita: Nessuna
-  nota_autorita: non genera Autorità
+- etichetta: Definito nel
+  valore: 60%
+  nota: aperto nel 40%
+- etichetta: Tipo di centro
+  valore: Motore e pressione
+  nota: la spinta che avvia tutto
+- etichetta: Porte
+  valore: 9
+  nota: 58, 38, 54, 53, 60, 52, 19, 39, 41
+- etichetta: Autorità
+  valore: Nessuna
+  nota: non genera Autorità
 definito:
   titolo: La pressione è tua e prevedibile
   testo: |

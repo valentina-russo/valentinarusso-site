@@ -60,7 +60,7 @@
 
 /* i dati in chiaro, non annegati nel testo */
 .d2 .gl-dati{padding:0;background:var(--carta);border-top:1px solid var(--linea);border-bottom:1px solid var(--linea)}
-.d2 .gl-dati .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:var(--maxw)}
+.d2 .gl-dati .wrap{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:0;max-width:var(--maxw)}
 .d2 .gl-dati div{padding:22px 0}
 .d2 .gl-dati div+div{border-left:1px solid var(--linea);padding-left:24px}
 .d2 .gl-dati dt{font:600 11.5px Outfit,sans-serif;letter-spacing:.1em;text-transform:uppercase;
@@ -103,7 +103,7 @@
 @media (max-width:900px){
   .d2 .gl-testa-due .wrap{grid-template-columns:1fr;gap:26px}
   .d2 .gl-disegno{max-width:260px;margin-inline:auto}
-  .d2 .gl-dati .wrap{grid-template-columns:1fr 1fr}
+  .d2 .gl-dati .wrap{grid-auto-flow:row;grid-template-columns:1fr 1fr}
   .d2 .gl-dati div:nth-child(3){border-left:none;padding-left:0;border-top:1px solid var(--linea)}
   .d2 .gl-dati div:nth-child(4){border-top:1px solid var(--linea)}
   .d2 .gl-facce .wrap{grid-template-columns:1fr;gap:18px}

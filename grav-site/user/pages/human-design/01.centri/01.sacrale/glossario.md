@@ -29,14 +29,18 @@ apertura: |
 
   È anche il centro che decide la tua Tipologia (Tipo di Carriera nel BG5): se è colorato sei un **Generatore** (Costruttore Classico) o un **Generatore Manifestante** (Costruttore Rapido), con tutto quello che ne consegue in termini di strategia.
 scheda:
-  definito: 70
-  aperto: 30
-  tipo: Motore
-  nota_tipo: il più potente della carta
-  porte: 34, 5, 14, 29, 59, 9, 3, 42, 27
-  n_porte: 9
-  autorita: Sacrale
-  nota_autorita: se il Plesso Solare è aperto
+- etichetta: Definito nel
+  valore: 70%
+  nota: aperto nel 30%
+- etichetta: Tipo di centro
+  valore: Motore
+  nota: il più potente della carta
+- etichetta: Porte
+  valore: 9
+  nota: 34, 5, 14, 29, 59, 9, 3, 42, 27
+- etichetta: Autorità
+  valore: Sacrale
+  nota: se il Plesso Solare è aperto
 definito:
   titolo: Energia che si rigenera ogni notte
   testo: |

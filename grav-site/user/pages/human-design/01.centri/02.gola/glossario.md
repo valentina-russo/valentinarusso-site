@@ -27,14 +27,18 @@ apertura: |
 
   Circa il 72% delle persone ce l'ha definito, il che ne fa il centro colorato più comune.
 scheda:
-  definito: 72
-  aperto: 28
-  tipo: Manifestazione
-  nota_tipo: l'unica uscita verso il mondo
-  porte: 62, 23, 56, 35, 12, 45, 33, 8, 31, 20, 16
-  n_porte: 11
-  autorita: Nessuna
-  nota_autorita: non genera Autorità
+- etichetta: Definito nel
+  valore: 72%
+  nota: aperto nel 28%
+- etichetta: Tipo di centro
+  valore: Manifestazione
+  nota: l'unica uscita verso il mondo
+- etichetta: Porte
+  valore: 11
+  nota: 62, 23, 56, 35, 12, 45, 33, 8, 31, 20, 16
+- etichetta: Autorità
+  valore: Nessuna
+  nota: non genera Autorità
 definito:
   titolo: Una voce che gli altri riconoscono
   testo: |

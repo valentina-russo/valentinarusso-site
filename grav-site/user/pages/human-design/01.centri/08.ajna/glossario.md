@@ -27,14 +27,18 @@ apertura: |
 
   Circa il 47% delle persone ce l'ha definito.
 scheda:
-  definito: 47
-  aperto: 53
-  tipo: Consapevolezza
-  nota_tipo: elabora, non decide
-  porte: 47, 24, 4, 11, 43, 17
-  n_porte: 6
-  autorita: Nessuna
-  nota_autorita: non genera Autorità
+- etichetta: Definito nel
+  valore: 47%
+  nota: aperto nel 53%
+- etichetta: Tipo di centro
+  valore: Consapevolezza
+  nota: elabora, non decide
+- etichetta: Porte
+  valore: 6
+  nota: 47, 24, 4, 11, 43, 17
+- etichetta: Autorità
+  valore: Nessuna
+  nota: non genera Autorità
 definito:
   titolo: Un modo fisso di ragionare
   testo: |

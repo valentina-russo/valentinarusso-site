@@ -27,14 +27,18 @@ apertura: |
 
   È il centro definito più raro: ce l'ha circa il 29% delle persone. Sette su dieci ce l'hanno bianco.
 scheda:
-  definito: 29
-  aperto: 71
-  tipo: Motore
-  nota_tipo: il centro definito più raro
-  porte: 21, 26, 40, 51
-  n_porte: 4
-  autorita: Dell'Ego
-  nota_autorita: solo per Manifestatori (Iniziatori) e Proiettori (Guide)
+- etichetta: Definito nel
+  valore: 29%
+  nota: aperto nel 71%
+- etichetta: Tipo di centro
+  valore: Motore
+  nota: il centro definito più raro
+- etichetta: Porte
+  valore: 4
+  nota: 21, 26, 40, 51
+- etichetta: Autorità
+  valore: Dell'Ego
+  nota: solo per Manifestatori (Iniziatori) e Proiettori (Guide)
 definito:
   titolo: Una volontà su cui contare
   testo: |
