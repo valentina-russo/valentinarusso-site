@@ -432,4 +432,22 @@
     .gcb-progress, .gcb-connect-cta, #gcb-zone-2, #gcb-extra-actions { display: none !important; }
     #pdf-layout { display: block !important; }
   }
+
+  /* ── dalla carta alla guida ─────────────────────────────────────────── */
+  .core-card-lnk{color:inherit;text-decoration:underline;text-underline-offset:3px;
+    text-decoration-color:rgba(255,255,255,.45)}
+  .core-card-lnk:hover{text-decoration-color:currentColor}
+  .cs-guida{margin-top:28px}
+  .cs-guida h3{margin:0 0 6px;font-size:18px}
+  .cs-guida p{margin:0 0 14px;font-size:14.5px;opacity:.75;max-width:none}
+  .cs-guida-griglia{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .cs-guida-voce{display:block;padding:10px 12px;border-radius:9px;text-decoration:none;
+    color:inherit;border:1px solid rgba(128,128,128,.28);
+    transition:border-color .15s ease,background .15s ease,transform .15s ease}
+  .cs-guida-voce:hover{transform:translateY(-2px)}
+  .cs-guida-voce b{display:block;font-size:14px;font-weight:600;line-height:1.2}
+  .cs-guida-voce span{display:block;margin-top:3px;font-size:11.5px;letter-spacing:.06em;
+    text-transform:uppercase;opacity:.6}
+  .cs-guida-voce--def{border-color:var(--dom,#7A4F5E);background:rgba(122,79,94,.07)}
+  @media (max-width:560px){.cs-guida-griglia{grid-template-columns:repeat(2,1fr)}}
 </style>

@@ -189,6 +189,7 @@
     <div class="carta-desktop-layout">
       <div>
         <div class="carta-bodygraph-wrap" id="cs-bodygraph-wrap"></div>
+        <div class="cs-guida" id="cs-guida-centri"></div>
       </div>
       <div class="carta-col-planets">
         <div class="carta-planets" id="cs-planets"></div>
@@ -325,6 +326,14 @@ async function csCalcHD(y,m,d,h,min,tzOff){
 
 // ─── Translation ──────────────────────────────────────────────────────────────
 var CS_TIPO_IT={'Generator':'Costruttore Classico','Manifesting Generator':'Costruttore Rapido','Projector':'Guida','Manifestor':'Iniziatore','Reflector':'Valutatore'};
+var CS_AUTH_GUIDA={'Sacral':'sacrale','Emotional':'emotiva','Splenic':'splenica','Ego Projected':'ego','Ego Manifested':'ego','Self Projected':'autoproiettata','Mental Projector':'mentale','Lunar':'lunare'};
+var CS_CENTRI_GUIDA=[['SACRAL','Sacrale','sacrale'],['THROAT','Gola','gola'],['SOLAR','Plesso Solare','plesso-solare'],['SPLEEN','Milza','milza'],['ROOT','Radice','radice'],['HEART','Cuore','cuore'],['G','Centro G','g'],['AJNA','Ajna','ajna'],['HEAD','Testa','testa']];
+function csGuidaCentri(dcs){
+  var el=document.getElementById('cs-guida-centri');if(!el)return;
+  var voci=CS_CENTRI_GUIDA.map(function(c){var def=dcs.has(c[0]);
+    return '<a class="cs-guida-voce'+(def?' cs-guida-voce--def':'')+'" href="/human-design/centri/'+c[2]+'"><b>'+c[1]+'</b><span>'+(def?'definito':'aperto')+'</span></a>';}).join('');
+  el.innerHTML='<h3>I tuoi centri, uno per uno</h3><p>Cosa cambia quando un centro &egrave; colorato e quando &egrave; bianco.</p><div class="cs-guida-griglia">'+voci+'</div>';
+}
 var CS_AUTH_IT={'Sacral':'Sacrale / Risorsa Energetica','Emotional':'Emotiva / Intelligenza Emotiva','Splenic':'Splenica / Istintiva','Ego Projected':'Ego / Proiettata','Ego Manifested':'Ego / Manifestata','Self Projected':'del Sé / G Center Proiettata','Mental Projector':'Ambientale / Mentale','Lunar':'Lunare'};
 var CS_DEF_IT={'Single Definition':'Assimilazione Indipendente','Split Definition':'Assimilazione Collaborativa','Triple Split':'Assimilazione Sintetizzante','Quadruple Split':'Assimilazione Soggettiva','No Definition':'Assimilazione Oggettiva'};
 var CS_PLANET_BG5={'Sun':'Essenza Profonda','Earth':'Equilibrio','Moon':'Forza Motrice','North Node':'Direzione Futura','South Node':'Direzione Passata','Mercury':'Comunicazione','Venus':'Valori','Mars':'Energia Immatura','Jupiter':'Legge Interiore','Saturn':'Giudizio','Uranus':'Unicità','Neptune':'Tema Celato','Pluto':'Verità Interiore'};
@@ -423,6 +432,7 @@ function csRenderPlanets(pers,des){
 async function csRenderRisultati(raw,nome){
   var d=raw;
   d.type=CS_TIPO_IT[d.type]||d.type;
+  var csAuthGuida=CS_AUTH_GUIDA[d.authority]||'';
   d.authority=CS_AUTH_IT[d.authority]||d.authority;
   d.definition=CS_DEF_IT[d.definition]||d.definition;
   if(d.environment_name){d.environment=d.environment_name;delete d.environment_name;}
@@ -430,12 +440,12 @@ async function csRenderRisultati(raw,nome){
   var nh=document.getElementById('cs-name-header');
   if(nome){var _h2=document.createElement('h2');_h2.textContent=nome;var _p=document.createElement('p');_p.textContent='Carta Human Design';nh.innerHTML='';nh.appendChild(_h2);nh.appendChild(_p);nh.style.display='block';}else{nh.style.display='none';}
 
-  var items=[{label:'Tipo di Carriera',value:d.type},{label:'Profilo',value:d.profile},{label:'Autorità',value:d.authority},{label:'Definizione',value:d.definition}];
+  var items=[{label:'Tipo di Carriera',value:d.type},{label:'Profilo',value:d.profile},{label:'Autorità',value:d.authority,href:csAuthGuida?'/human-design/autorita/'+csAuthGuida:''},{label:'Definizione',value:d.definition}];
   if(d.personality&&d.personality.length){var pS=d.personality.find(function(p){return p.planet_en==='Sun';});var pE=d.personality.find(function(p){return p.planet_en==='Earth';});if(pS&&pE)items.push({label:'Tema di Vita',value:csGetCross(pS.gate,pE.gate,d.profile)});}
   if(d.variables){var dV=d.variables,dS2=dV.digestion==='left'?'L':'R',dN2=dV.environment==='left'?'L':'R',pS2=dV.perspective==='left'?'L':'R',pN2=dV.awareness==='left'?'L':'R';items.push({label:'Variabile',value:'P'+pS2+pN2+' D'+dS2+dN2});}
   if(d.dietary_regime)items.push({label:'Regime Alimentare',value:d.dietary_regime});
   if(d.environment)items.push({label:'Ambiente',value:d.environment});
-  document.getElementById('cs-core').innerHTML=items.map(function(i){return'<div class="core-card"><div class="core-card-label">'+i.label+'</div><div class="core-card-value">'+i.value+'</div></div>';}).join('');
+  document.getElementById('cs-core').innerHTML=items.map(function(i){var v=i.href?'<a class="core-card-lnk" href="'+i.href+'">'+i.value+'</a>':i.value;return'<div class="core-card"><div class="core-card-label">'+i.label+'</div><div class="core-card-value">'+v+'</div></div>';}).join('');
 
   var bG=new Set(),rG=new Set();
   Object.keys(d.gate_colors).forEach(function(g){var gn=parseInt(g),c=d.gate_colors[g];if(c==='P'||c==='PD')bG.add(gn);if(c==='D'||c==='PD')rG.add(gn);});
@@ -443,6 +453,7 @@ async function csRenderRisultati(raw,nome){
   var dch=d.defined_channels.map(function(c){var g1=c[0],g2=c[1];return[g1,g2,CS_GATE_CENTER[g1]||'',CS_GATE_CENTER[g2]||''];});
 
   await csRenderBodygraph(d.gate_colors,dch,dcs,bG,rG,d.variables);
+  csGuidaCentri(dcs);
   csRenderPlanets(d.personality,d.design);
 
   document.getElementById('cs-results').style.display='block';
