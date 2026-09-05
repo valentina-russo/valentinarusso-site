@@ -5,8 +5,8 @@ published: true
 routable: true
 ordine: 7
 nome_breve: Nessuna Autorità
-seo_title: 'Nessuna Autorità interiore: i Riflettori e il ciclo lunare'
-seo_desc: 'I Riflettori non hanno un''autorità interiore: nessun centro definito, nessun punto fisso da cui decidere. La chiarezza arriva con il ciclo lunare.'
+seo_title: 'Nessuna Autorità: come decide un Riflettore (Valutatore)'
+seo_desc: 'I Riflettori (Valutatori) non hanno un''autorità interiore: nessun centro definito, nessun punto fisso da cui decidere. La chiarezza arriva con il ciclo lunare.'
 description: Non è un'autorità, è la sua assenza. Con tutti i centri aperti non c'è un punto fisso da cui decidere, e il tempo prende il suo posto.
 richiamo: Se ti hanno sempre detto che ci metti troppo a decidere, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> spiega perché il tuo tempo è quello giusto e come si organizza.
 didascalia: 'Nessuna Autorità: tutti e nove i centri aperti'

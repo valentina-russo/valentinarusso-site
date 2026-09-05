@@ -5,7 +5,7 @@ published: true
 routable: true
 ordine: 3
 nome_breve: Aspettare l'invito
-seo_title: 'Strategia del Proiettore: aspettare l''invito, e cosa vuol dire davvero'
+seo_title: 'Strategia del Proiettore (Guida): aspettare l''invito'
 seo_desc: 'La Strategia del Proiettore (Guida nel BG5) nello Human Design: aspettare l''invito e il riconoscimento, fra successo e amarezza.'
 description: 'Non candidarsi: essere cercati. È la Strategia più difficile da accettare e la più fraintesa.'
 richiamo: Se l'amarezza ti è familiare, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti mostra dove ti stai proponendo invece di farti trovare.

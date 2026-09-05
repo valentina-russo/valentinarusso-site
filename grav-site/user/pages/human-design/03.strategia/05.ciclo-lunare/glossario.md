@@ -5,7 +5,7 @@ published: true
 routable: true
 ordine: 5
 nome_breve: Il ciclo lunare
-seo_title: 'Strategia del Riflettore: aspettare un ciclo lunare di 28 giorni'
+seo_title: 'Strategia del Riflettore (Valutatore): il ciclo lunare'
 seo_desc: 'La Strategia del Riflettore (Valutatore nel BG5) nello Human Design: un ciclo lunare intero prima delle decisioni grandi, fra sorpresa e delusione.'
 description: Ventotto giorni prima delle scelte grandi, e un'attenzione all'ambiente che nessun'altra Tipologia richiede.
 richiamo: Se ti hanno sempre detto che ci metti troppo, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> spiega perché il tuo tempo è quello giusto e come si difende.

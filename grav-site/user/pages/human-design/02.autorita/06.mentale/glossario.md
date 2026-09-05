@@ -5,8 +5,8 @@ published: true
 routable: true
 ordine: 6
 nome_breve: Mentale
-seo_title: 'Autorità Mentale Human Design: nessuna autorità interna, e come si decide'
-seo_desc: 'L''Autorità Mentale nello Human Design: i Proiettori senza centri motori definiti decidono attraverso le conversazioni e l''ambiente, non dall''interno.'
+seo_title: 'Autorità Mentale: come decide un Proiettore (Guida)'
+seo_desc: 'L''Autorità Mentale nello Human Design: i Proiettori (Guide) senza centri motori definiti decidono attraverso le conversazioni e l''ambiente, non dall''interno.'
 description: Nessuna autorità interna. La chiarezza arriva parlando con le persone giuste, nei posti giusti.
 richiamo: Se decidi bene solo dopo averne parlato con qualcuno, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti dice con chi e in che ambienti il tuo disegno funziona meglio.
 didascalia: 'L''Autorità Mentale: nessun centro decisionale definito'
@@ -19,7 +19,7 @@ faq:
 - question: Se non ho un'autorità interna, come decido?
   answer: Parlando della questione con persone diverse, in momenti e luoghi diversi, e osservando quale posizione resta stabile. Il luogo conta quanto l'interlocutore.
 - question: L'Autorità Mentale vale anche per i Riflettori (Valutatori)?
-  answer: No. I Riflettori (Valutatori nel BG5) non hanno nessuna Autorità: decidono aspettando un ciclo lunare intero.
+  answer: 'No. I Riflettori (Valutatori nel BG5) non hanno nessuna Autorità: decidono aspettando un ciclo lunare intero.'
 - question: Come si interpreta lo Human Design?
   answer: Si parte dalla Tipologia (Tipo di Carriera nel BG5), dalla Strategia e dall'Autorità. I Centri spiegano il dettaglio, ma le decisioni si prendono con l'Autorità.
 apertura: |

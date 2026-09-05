@@ -5,7 +5,7 @@ published: true
 routable: true
 ordine: 1
 nome_breve: Rispondere
-seo_title: 'Strategia del Generatore: rispondere, e cosa significa davvero'
+seo_title: 'Strategia del Generatore (Costruttore Classico): rispondere'
 seo_desc: 'La Strategia del Generatore (Costruttore Classico nel BG5) nello Human Design: aspettare e rispondere, la soddisfazione quando funziona, la frustrazione quando no.'
 description: Aspettare qualcosa a cui rispondere invece di partire per primo. È la Strategia del 37% delle persone.
 richiamo: Se la frustrazione è la tua compagnia fissa, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti mostra dove stai partendo per primo invece di rispondere.

@@ -5,7 +5,7 @@ published: true
 routable: true
 ordine: 2
 nome_breve: Rispondere e informare
-seo_title: 'Strategia del Generatore Manifestante: rispondere e poi informare'
+seo_title: Strategia del Generatore Manifestante (Costruttore Rapido)
 seo_desc: 'La Strategia del Generatore Manifestante (Costruttore Rapido nel BG5): rispondere e poi informare, fra soddisfazione e pace, frustrazione e rabbia.'
 description: Prima la risposta del corpo, poi un avviso a chi verrà coinvolto. Due passaggi, e saltarne uno si paga.
 richiamo: Se ti trovi spesso a spiegare a cose fatte, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti mostra quando informare e a chi, senza che diventi chiedere il permesso.

@@ -17,7 +17,7 @@ chiusa_titolo: Non sai qual è la tua?
 chiusa_testo: Il calcolo gratuito te la dice in pochi secondi, insieme alla Tipologia (Tipo di Carriera nel BG5) e ai centri definiti.
 faq:
 - question: Quali sono le 7 Autorità dello Human Design?
-  answer: Emotiva, Sacrale, Splenica, dell'Ego, Autoproiettata, Mentale. La settima voce non è un'Autorità ma la sua assenza: i Riflettori (Valutatori nel BG5) non ne hanno nessuna e decidono con il ciclo lunare.
+  answer: "Emotiva, Sacrale, Splenica, dell'Ego, Autoproiettata, Mentale. La settima voce non è un'Autorità ma la sua assenza: i Riflettori (Valutatori nel BG5) non ne hanno nessuna e decidono con il ciclo lunare."
 - question: Che cos'è l'Autorità nello Human Design?
   answer: 'È il meccanismo con cui il corpo prende una decisione, e nel BG5 (Business Group 5) si chiama Autorità Decisionale. Non è un''opinione né un ragionamento: è il punto della carta a cui spetta l''ultima parola, e la mente non è mai quel punto.'
 - question: Come si interpreta lo Human Design?
