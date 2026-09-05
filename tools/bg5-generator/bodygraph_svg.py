@@ -181,11 +181,56 @@ def build_style_rules(activations: dict) -> str:
     return "\n".join(rules)
 
 
+# ─── Ordine di disegno canali (z-index) ───────────────────────────────────────
+#
+# Vicino al gate 10 (snodo/bridge G-Sacrale) piu' segmenti del template si
+# sovrappongono nello stesso punto: connettori del canale attivo (es. 20-34,
+# che nella geometria hdkit deve "piegare" proprio li') e lo strip del gate 10
+# stesso quando NON e' attivo. Nel template grezzo l'ordine di disegno e'
+# fisso e puo' far finire un segmento grigio inattivo sopra un canale colorato,
+# coprendolo visivamente. Fix: sposta in fondo al gruppo (= sopra, in ordine
+# di paint SVG) tutti i segmenti che appartengono a un canale attivo.
+
+def _reorder_channels_zindex(svg_text: str, activations: dict) -> str:
+    p_gates = set(activations.get("p_gates", []))
+    d_gates = set(activations.get("d_gates", []))
+    active_gates = p_gates | d_gates
+    span_active = any(g in active_gates for g in INTEGRATION_GATES)
+
+    m = re.search(r'<g id="Channels">(.*?)</g>', svg_text, re.DOTALL)
+    if not m:
+        return svg_text
+    elements = re.findall(r'<(?:path|polygon|polyline)[^>]*?/>', m.group(1))
+    if not elements:
+        return svg_text
+    # Il gruppo viene riscritto da zero: se un elemento non e' stato riconosciuto
+    # sparirebbe dal disegno senza errore. Meglio non riordinare che perdere pezzi.
+    if len(elements) != m.group(1).count("<"):
+        return svg_text
+
+    def is_active(el: str) -> bool:
+        gm = re.search(r'id="Gate(\d+)"', el)
+        if gm:
+            return int(gm.group(1)) in active_gates
+        cm = re.search(r'id="GateConnect(\d+)"', el)
+        if cm:
+            return int(cm.group(1)) in active_gates
+        if 'id="GateSpan"' in el:
+            return span_active
+        return False
+
+    inactive = [e for e in elements if not is_active(e)]
+    active = [e for e in elements if is_active(e)]
+    new_inner = "\n    " + "\n    ".join(inactive + active) + "\n  "
+    return svg_text[:m.start()] + f'<g id="Channels">{new_inner}</g>' + svg_text[m.end():]
+
+
 # ─── Inject stile nel template SVG ────────────────────────────────────────────
 
 def build_colored_svg(activations: dict, template_path: Path = CHART_SVG_PATH) -> str:
-    """Restituisce la stringa SVG completa, con lo stile iniettato."""
+    """Restituisce la stringa SVG completa, con canali riordinati (z-index) e stile iniettato."""
     svg_text = template_path.read_text(encoding="utf-8")
+    svg_text = _reorder_channels_zindex(svg_text, activations)
     style_block = build_style_rules(activations)
     style_el = f"<style><![CDATA[\n{style_block}\n]]></style>"
 

@@ -8,8 +8,8 @@ seo_title: "Centro Sacrale definito o indefinito: cosa significa nella tua carta
 seo_desc: "Il Centro Sacrale nello Human Design: come si vive con il sacrale definito, cosa cambia se è bianco, la risposta sacrale e il segnale di quando fermarsi."
 description: "Il motore più potente del bodygraph. Se è colorato hai energia rinnovabile e una risposta del corpo; se è bianco devi imparare quando basta."
 richiamo: "Se ti sei riconosciuto nel non sapere quando fermarti, il <a href=\"/libretto-istruzioni\">Libretto d&rsquo;Istruzioni</a> ha un capitolo scritto sulla tua carta: dove la tua energia si ricarica e dove la stai prendendo in prestito."
-didascalia: "Il Centro Sacrale definito, con le sue nove porte"
-alt_immagine: "Bodygraph con il Centro Sacrale colorato e le sue nove porte"
+didascalia: "Il Centro Sacrale e le sue nove porte"
+alt_immagine: "Dettaglio del bodygraph: il Centro Sacrale con le porte 34, 5, 14, 29, 59, 9, 3, 42 e 27"
 chiusa_titolo: "Il tuo Sacrale è colorato?"
 chiusa_testo: "Il calcolo gratuito ti mostra il bodygraph con i centri definiti e quelli bianchi, in pochi secondi."
 faq:

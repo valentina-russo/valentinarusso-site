@@ -62,7 +62,7 @@
 
 {% set img = page.media|length ? page.media|first : null %}
 {% if img %}
-<figure class="gl-figura wrap"><img src="{{ img.cropZoom(760,1170).url }}" alt="{{ page.header.alt_immagine ?? page.title }}" width="760" height="1170" loading="lazy">{% if page.header.didascalia %}<figcaption>{{ page.header.didascalia }}</figcaption>{% endif %}</figure>
+<figure class="gl-figura wrap"><img src="{{ img.cropResize(760,1170).url }}" alt="{{ page.header.alt_immagine ?? page.title }}" style="aspect-ratio:{{ img.width ?: 1 }}/{{ img.height ?: 1 }}" loading="lazy">{% if page.header.didascalia %}<figcaption>{{ page.header.didascalia }}</figcaption>{% endif %}</figure>
 {% endif %}
 
 <section class="gl-corpo"><div class="wrap">

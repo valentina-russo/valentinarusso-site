@@ -8,8 +8,8 @@ seo_title: "Centro della Milza Human Design: istinto, paura e Autorità Splenica
 seo_desc: "Il Centro della Milza nello Human Design: l'istinto costante di chi lo ha definito, le paure amplificate e le abitudini che restano di chi lo ha bianco."
 description: "Il centro dell'istinto e della sopravvivenza. Parla una volta sola, sottovoce, e non ripete."
 richiamo: "Se ti sei accorto di tenerti addosso cose che non ti fanno bene, il <a href=\"/libretto-istruzioni\">Libretto d&rsquo;Istruzioni</a> ti mostra dove il tuo corpo ti sta dando segnali che stai zittendo."
-didascalia: "Il Centro della Milza: l'istinto che parla una volta sola"
-alt_immagine: "Illustrazione di una figura con il Centro della Milza illuminato sul fianco"
+didascalia: "Il Centro della Milza e le sue sette porte"
+alt_immagine: "Dettaglio del bodygraph: il Centro della Milza con le porte 48, 57, 44, 50, 32, 28 e 18"
 chiusa_titolo: "La tua Milza è definita?"
 chiusa_testo: "Nella Prima Lettura vediamo se il tuo istinto è una guida affidabile o un segnale che stai prendendo in prestito."
 faq:

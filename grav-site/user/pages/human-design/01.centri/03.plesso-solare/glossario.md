@@ -8,8 +8,8 @@ seo_title: "Plesso Solare Human Design: l'onda emotiva e cosa cambia se è bianc
 seo_desc: "Il Plesso Solare nello Human Design: l'onda emotiva di chi lo ha definito, l'amplificazione delle emozioni altrui di chi lo ha aperto, l'Autorità Emotiva."
 description: "Il centro delle emozioni. Chi lo ha definito non ha mai la verità adesso: gli arriva col tempo, attraversando l'onda."
 richiamo: "Se decidi spesso a caldo e poi te ne penti, il <a href=\"/libretto-istruzioni\">Libretto d&rsquo;Istruzioni</a> ti dice se hai l&rsquo;Autorit&agrave; Emotiva e quanto tempo ti serve davvero prima di rispondere."
-didascalia: "Il Plesso Solare: l'onda emotiva che attraversa la giornata"
-alt_immagine: "Illustrazione di una figura seduta con un'onda che le attraversa il petto"
+didascalia: "Il Plesso Solare e le sue sette porte"
+alt_immagine: "Dettaglio del bodygraph: il Plesso Solare con le porte 6, 22, 30, 36, 37, 49 e 55"
 chiusa_titolo: "Decidi nell'onda o nell'istante?"
 chiusa_testo: "Nella Prima Lettura vediamo la tua Autorità Decisionale e come si applica alle scelte che stai rimandando."
 faq:
