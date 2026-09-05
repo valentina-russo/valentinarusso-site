@@ -442,7 +442,7 @@ async function csRenderRisultati(raw,nome){
   var nh=document.getElementById('cs-name-header');
   if(nome){var _h2=document.createElement('h2');_h2.textContent=nome;var _p=document.createElement('p');_p.textContent='Carta Human Design';nh.innerHTML='';nh.appendChild(_h2);nh.appendChild(_p);nh.style.display='block';}else{nh.style.display='none';}
 
-  var items=[{label:'Tipo di Carriera',value:d.type},{label:'Profilo',value:d.profile},{label:'Autorità',value:d.authority,href:csAuthGuida?'/human-design/autorita/'+csAuthGuida:''},{label:'Definizione',value:d.definition,href:csDefGuida?'/human-design/definizione/'+csDefGuida:''}];
+  var items=[{label:'Tipo di Carriera',value:d.type},{label:'Profilo',value:d.profile,href:/^[1-6]\/[1-6]$/.test(d.profile)?'/human-design/profili/'+d.profile.replace('/','-'):''},{label:'Autorità',value:d.authority,href:csAuthGuida?'/human-design/autorita/'+csAuthGuida:''},{label:'Definizione',value:d.definition,href:csDefGuida?'/human-design/definizione/'+csDefGuida:''}];
   if(d.personality&&d.personality.length){var pS=d.personality.find(function(p){return p.planet_en==='Sun';});var pE=d.personality.find(function(p){return p.planet_en==='Earth';});if(pS&&pE)items.push({label:'Tema di Vita',value:csGetCross(pS.gate,pE.gate,d.profile)});}
   if(d.variables){var dV=d.variables,dS2=dV.digestion==='left'?'L':'R',dN2=dV.environment==='left'?'L':'R',pS2=dV.perspective==='left'?'L':'R',pN2=dV.awareness==='left'?'L':'R';items.push({label:'Variabile',value:'P'+pS2+pN2+' D'+dS2+dN2});}
   if(d.dietary_regime)items.push({label:'Regime Alimentare',value:d.dietary_regime});
