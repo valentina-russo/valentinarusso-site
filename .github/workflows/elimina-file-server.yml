@@ -1,0 +1,45 @@
+name: Elimina file dal server
+# Il deploy FTP non cancella mai niente (dangerous-clean-slate: false), quindi
+# un file rimosso dal repo resta sul server e Grav continua a servirlo.
+# Qui si elencano i percorsi da togliere, uno per riga, relativi a user/.
+on:
+  workflow_dispatch:
+    inputs:
+      percorsi:
+        description: 'Percorsi da eliminare, uno per riga, relativi a user/'
+        required: true
+        default: |
+          pages/human-design/01.centri/02.gola/centro-gola-human-design.jpg
+          pages/human-design/01.centri/03.plesso-solare/centro-plesso-solare-human-design.jpg
+          pages/human-design/01.centri/04.milza/centro-milza-human-design.jpg
+          pages/human-design/01.centri/05.radice/centro-radice-human-design.jpg
+          pages/human-design/01.centri/06.cuore/centro-cuore-human-design.jpg
+          pages/human-design/01.centri/07.g/centro-g-human-design.jpg
+          pages/human-design/01.centri/08.ajna/centro-ajna-human-design.jpg
+          pages/human-design/01.centri/09.testa/centro-testa-human-design.jpg
+
+jobs:
+  elimina:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Togli i file indicati
+        env:
+          H: ${{ secrets.ARUBA_FTP_HOST }}
+          U: ${{ secrets.ARUBA_FTP_USER }}
+          P: ${{ secrets.ARUBA_FTP_PASS }}
+          D: ${{ secrets.ARUBA_FTP_PATH }}
+          PERCORSI: ${{ github.event.inputs.percorsi }}
+        run: |
+          sudo apt-get install -y -q lftp >/dev/null
+          echo "$PERCORSI" | while read -r p; do
+            p="$(echo "$p" | tr -d '\r' | xargs)"
+            [ -z "$p" ] && continue
+            case "$p" in
+              /*|*..*) echo "salto percorso non valido: $p"; continue ;;
+            esac
+            if lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; rm -f ${D}user/${p}; bye"; then
+              echo "eliminato user/${p}"
+            else
+              echo "non eliminato (forse gia' assente): user/${p}"
+            fi
+          done
