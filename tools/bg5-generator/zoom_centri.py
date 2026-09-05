@@ -49,13 +49,9 @@ LATO_MAX = 1100           # lato lungo dell'immagine finale
 PADDING = 0.34            # aria attorno al centro
 
 
-def su_fondo_bianco(img):
-    """Appiattisce la trasparenza su bianco: la scheda della pagina e' bianca."""
-    if img.mode in ("RGBA", "LA"):
-        fondo = Image.new("RGB", img.size, (255, 255, 255))
-        fondo.paste(img, mask=img.split()[-1])
-        return fondo
-    return img.convert("RGB")
+def trasparente(img):
+    """Le immagini vanno sulla pagina senza scheda: lo sfondo resta vuoto."""
+    return img.convert("RGBA")
 
 
 def ridimensiona(img, lato_max=LATO_MAX):
@@ -79,7 +75,7 @@ def zoom_centro(codice):
         {"p_gates": set(porte), "d_gates": set(), "defined_centers": {codice}},
         width=LARGHEZZA_RENDER,
     )
-    img = su_fondo_bianco(Image.open(io.BytesIO(png)))
+    img = trasparente(Image.open(io.BytesIO(png)))
     larg, alt = img.size
     sx = larg / bg.SVG_VIEWBOX_W
     sy = alt / bg.SVG_VIEWBOX_H
@@ -92,7 +88,7 @@ def zoom_centro(codice):
         round((cx - lato) * sx), round((cy - lato) * sy),
         round((cx + lato) * sx), round((cy + lato) * sy),
     )
-    tela = Image.new("RGB", (riquadro[2] - riquadro[0], riquadro[3] - riquadro[1]), (255, 255, 255))
+    tela = Image.new("RGBA", (riquadro[2] - riquadro[0], riquadro[3] - riquadro[1]), (255, 255, 255, 0))
     tela.paste(img, (-riquadro[0], -riquadro[1]))
     return ridimensiona(tela)
 
@@ -103,8 +99,7 @@ def carta_intera():
         {"p_gates": tutte, "d_gates": set(), "defined_centers": set(PORTE)},
         width=1200,
     )
-    img = Image.open(io.BytesIO(png))
-    return ridimensiona(su_fondo_bianco(img), 1400)
+    return ridimensiona(trasparente(Image.open(io.BytesIO(png))), 1400)
 
 
 def salva(img, percorso):

@@ -6,10 +6,9 @@
 .d2 .gl-briciole a:hover{text-decoration:underline;text-underline-offset:3px}
 .d2 .gl-briciole span{margin:0 6px;color:var(--linea)}
 .d2 .gl-testa h1{font-size:clamp(32px,3.8vw,48px);line-height:1.1;margin:0 0 18px}
-.d2 .gl-testa .sotto{font-size:18px;line-height:1.6;color:var(--muto);max-width:62ch;margin:0 0 26px}
-.d2 .gl-figura{max-width:340px;margin:0 auto 44px;background:#fff;border-radius:16px;padding:18px;
-  box-shadow:var(--ombra);border:1px solid var(--linea)}
-.d2 .gl-figura img{display:block;width:100%;height:auto;border-radius:8px}
+.d2 .gl-testa .sotto{font-size:18px;line-height:1.6;color:var(--muto);max-width:62ch;margin:0}
+.d2 .gl-figura{max-width:340px;margin:0 auto 44px}
+.d2 .gl-figura img{display:block;width:100%;height:auto}
 .d2 .gl-figura figcaption{margin-top:12px;font-size:13.5px;color:var(--muto);text-align:center}
 .d2 .gl-corpo{padding:0 0 88px}
 .d2 .gl-corpo .wrap{display:block;max-width:820px}
