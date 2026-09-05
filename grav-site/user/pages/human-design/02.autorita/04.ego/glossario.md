@@ -34,7 +34,7 @@ scheda:
   valore: Cuore
   nota: con Plesso, Sacrale e Milza aperti
 - etichetta: Chi la ha
-  valore: Manifestatori e Proiettori
+  valore: Manifestatori (Iniziatori) e Proiettori (Guide)
   nota: (Iniziatori e Guide)
 - etichetta: Quanto aspettare
   valore: Il tempo di dirlo

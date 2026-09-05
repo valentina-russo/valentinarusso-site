@@ -18,7 +18,7 @@ faq:
   answer: 'È la condizione di alcuni Proiettori (Guide nel BG5) che non hanno definito nessuno dei centri che generano un''Autorità. Non significa decidere con la testa: la chiarezza arriva attraverso più conversazioni e l''ambiente giusto.'
 - question: Se non ho un'autorità interna, come decido?
   answer: Parlando della questione con persone diverse, in momenti e luoghi diversi, e osservando quale posizione resta stabile. Il luogo conta quanto l'interlocutore.
-- question: L'Autorità Mentale vale anche per i Riflettori?
+- question: L'Autorità Mentale vale anche per i Riflettori (Valutatori)?
   answer: No. I Riflettori (Valutatori nel BG5) hanno sempre l'Autorità Lunare, che segue il ciclo della luna.
 - question: Come si interpreta lo Human Design?
   answer: Si parte dalla Tipologia (Tipo di Carriera nel BG5), dalla Strategia e dall'Autorità. I Centri spiegano il dettaglio, ma le decisioni si prendono con l'Autorità.
@@ -29,12 +29,12 @@ apertura: |
 scheda:
 - etichetta: Diffusione
   valore: Rara
-  nota: solo alcuni Proiettori
+  nota: solo alcuni Proiettori (Guide)
 - etichetta: Da quale centro
   valore: Nessuno
   nota: nessun centro sotto la Gola definito
 - etichetta: Chi la ha
-  valore: Proiettori
+  valore: Proiettori (Guide)
   nota: (Guide nel BG5)
 - etichetta: Quanto aspettare
   valore: Più conversazioni

@@ -34,7 +34,7 @@ scheda:
   valore: Milza
   nota: con Plesso Solare e Sacrale aperti
 - etichetta: Chi la ha
-  valore: Proiettori e Manifestatori
+  valore: Proiettori (Guide) e Manifestatori (Iniziatori)
   nota: (Guide e Iniziatori)
 - etichetta: Quanto aspettare
   valore: Niente

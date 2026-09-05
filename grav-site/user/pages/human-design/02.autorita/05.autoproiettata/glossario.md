@@ -7,7 +7,7 @@ ordine: 5
 nome_breve: Autoproiettata
 seo_title: 'Autorità Autoproiettata Human Design: il Centro G e la voce'
 seo_desc: 'L''Autorità Autoproiettata nello Human Design: chi ha il Centro G collegato alla Gola trova la direzione ascoltando la propria voce, non i consigli.'
-description: Rara, solo per certi Proiettori. La direzione si sente nella propria voce, parlando con chi ti ascolta.
+description: Rara, solo per certi Proiettori (Guide). La direzione si sente nella propria voce, parlando con chi ti ascolta.
 richiamo: 'Se ti sei chiesto più volte qual è la tua direzione, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> parte proprio da lì: come il tuo disegno usa i luoghi e le persone per trovarla.'
 didascalia: 'L''Autorità Autoproiettata: Centro G e Gola collegati'
 alt_immagine: Bodygraph con il Centro G e la Gola colorati, tutti gli altri centri aperti
@@ -18,7 +18,7 @@ faq:
   answer: È la forma di decisione di alcuni Proiettori (Guide nel BG5) che hanno il Centro G collegato alla Gola. La direzione giusta si sente parlando ad alta voce e ascoltando come suona la propria voce.
 - question: A chi devo parlare per decidere?
   answer: 'A qualcuno che ascolti senza intervenire. Non serve il suo parere, serve la sua presenza: un interlocutore che consiglia e argomenta rovina il meccanismo, perché a quel punto stai ascoltando lui.'
-- question: Chi sono i Proiettori nello Human Design?
+- question: Chi sono i Proiettori (Guide) nello Human Design?
   answer: Sono circa il 20% delle persone, le Guide nel BG5 (Business Group 5). Non hanno il Sacrale definito e la loro Strategia è aspettare l'invito.
 - question: Quali sono le 7 Autorità dello Human Design?
   answer: Emotiva, Sacrale, Splenica, dell'Ego, Autoproiettata, Mentale e Lunare.
@@ -29,12 +29,12 @@ apertura: |
 scheda:
 - etichetta: Diffusione
   valore: Rara
-  nota: solo alcuni Proiettori
+  nota: solo alcuni Proiettori (Guide)
 - etichetta: Da quale centro
   valore: Centro G
   nota: collegato alla Gola
 - etichetta: Chi la ha
-  valore: Proiettori
+  valore: Proiettori (Guide)
   nota: (Guide nel BG5)
 - etichetta: Quanto aspettare
   valore: Una conversazione

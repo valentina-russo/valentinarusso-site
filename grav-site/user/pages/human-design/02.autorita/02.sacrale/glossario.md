@@ -34,7 +34,7 @@ scheda:
   valore: Sacrale
   nota: definito, con Plesso Solare aperto
 - etichetta: Chi la ha
-  valore: Generatori e Gen. Manifestanti
+  valore: Generatori (Costruttori Classici) e Gen. Manifestanti
   nota: (Costruttori Classici e Rapidi)
 - etichetta: Quanto aspettare
   valore: L'istante
