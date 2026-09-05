@@ -121,6 +121,16 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/03.contatti/
           dangerous-clean-slate: false
 
+      - name: Deploy articolo aziende ansia-decisionale
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/user/pages/05.aziende/02.blog/ansia-decisionale-come-scegliere-senza-bloccarsi/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/ansia-decisionale-come-scegliere-senza-bloccarsi/
+          dangerous-clean-slate: false
+
       - name: Deploy pagina aziende/bg5
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:

@@ -62,6 +62,10 @@ AddCharset UTF-8 .txt .md .json .xml
     ## Gli articoli "nuovi" vivono in pages/04.blog/articoli/, ma Google indicizza /blog/{slug}.
     ## Senza questa redirect Grav crasha (500). Escludiamo i 7 articoli "legacy" che invece
     ## sono in pages/04.blog/{slug}/ direttamente (raggiungibili al path corto).
+    ## /blog/articoli (la cartella, senza articolo) -> /blog
+    ## senza questa riga la regola sotto lo manda su /blog/articoli/articoli (404)
+    RewriteRule ^blog/articoli/?$ /blog [R=301,L]
+
     RewriteCond %{REQUEST_URI} !^/blog/articoli/
     RewriteCond %{REQUEST_URI} !^/blog/(esplosioni-emotive|relazioni-bisogni-emotivi|la-mente-innamorata-[123]|potere-creativo-malinconia|ansia-human-design-centro-ajna-mente-corpo)/?$ [NC]
     RewriteRule ^blog/([^/]+)/?$ /blog/articoli/$1 [R=301,L]

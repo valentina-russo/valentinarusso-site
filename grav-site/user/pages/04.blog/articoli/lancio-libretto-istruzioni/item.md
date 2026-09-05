@@ -10,7 +10,7 @@ image_alt: "Copertina del Libretto d'Istruzioni Human Design, documento PDF pers
 image_title: "Libretto d'Istruzioni Human Design · Valentina Russo"
 image_caption: "La tua carta tradotta in parole che usi tutti i giorni"
 seo_title: "Manuale d'Istruzioni Human Design personalizzato | Valentina Russo"
-seo_desc: "Ricevi un PDF scritto sulla tua carta Human Design: tipo, autorità, profilo, centri. Esempi costruiti sulla tua data, ora e luogo di nascita. Base €90, Avanzato €147."
+seo_desc: "Ricevi un PDF scritto sulla tua carta Human Design: tipo, autorità, profilo, centri. Esempi costruiti sulla tua data, ora e luogo di nascita."
 geo_location: "Italia"
 aeo_answer: "Il Libretto d'Istruzioni Human Design è un PDF personalizzato scritto sulla carta specifica del cliente, calcolata a partire da data, ora e luogo di nascita. Traduce tipo, autorità, profilo e centri in linguaggio quotidiano con esempi calibrati sulla configurazione individuale. Disponibile in versione Base (4 capitoli, circa 35 pagine, €90) e Avanzata (7 capitoli, circa 55 pagine, €147), consegnato via email in 2-4 giorni lavorativi."
 faq:
