@@ -5,7 +5,7 @@ published: true
 routable: true
 ordine: 6
 nome_breve: Profili
-seo_title: 'I 12 Profili dello Human Design: trova il tuo e cosa significa'
+seo_title: 'I 12 Profili dello Human Design: trova il tuo'
 seo_desc: 'Dal 1/3 al 6/3: i dodici Profili dello Human Design, ognuno con le sue due Linee. Nel BG5 sono i Profili di Carriera.'
 description: 'Due Linee in coppia: una che riconosci come tua, una che agisce senza che tu te ne accorga. Sono dodici.'
 didascalia: 'L''esagramma: il Profilo nasce dalla riga occupata dal Sole'
