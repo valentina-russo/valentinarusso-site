@@ -86,6 +86,7 @@ grav-site/user/pages/*
 # Eccezioni: nuovi articoli bozza privati (deployati via FTP, dentro /blog/articoli)
 !grav-site/user/pages/04.blog
 grav-site/user/pages/04.blog/*
+!grav-site/user/pages/04.blog/blog_list.md
 !grav-site/user/pages/04.blog/articoli
 grav-site/user/pages/04.blog/articoli/*
 !grav-site/user/pages/04.blog/articoli/default.md
@@ -114,6 +115,7 @@ grav-site/user/pages/05.aziende/*
 !grav-site/user/pages/05.aziende/03.contatti
 !grav-site/user/pages/05.aziende/02.blog
 grav-site/user/pages/05.aziende/02.blog/*
+!grav-site/user/pages/05.aziende/02.blog/blog_list.md
 !grav-site/user/pages/05.aziende/02.blog/bg5-selezione-personale-assumere-design
 !grav-site/user/pages/05.aziende/02.blog/ansia-decisionale-come-scegliere-senza-bloccarsi
 !grav-site/user/pages/05.aziende/02.blog/human-design-azienda-team-leadership
