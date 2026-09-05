@@ -26,7 +26,7 @@
 .d2 .gl-voce h3{margin:0;font-size:19px;line-height:1.25}
 .d2 .gl-voce p{margin:0;font-size:14.5px;line-height:1.55;color:var(--muto)}
 .d2 .gl-voce .lnk{margin-top:auto;padding-top:10px;color:var(--dom);font-weight:600;font-size:14.5px}
-.d2 .gl-sorelle{padding:0 0 80px}
+.d2 .gl-sorelle{padding:72px 0 88px;text-align:center}
 .d2 .gl-sorelle .wrap{max-width:820px;display:block}
 .d2 .gl-righe{margin:10px 0 0;line-height:2;font-size:15px}
 .d2 .gl-righe a{color:var(--dom);text-decoration:none;font-weight:600;margin-right:16px}
@@ -132,7 +132,7 @@
 .d2 .gl-faq details[open]{padding-bottom:22px}
 
 /* le prossime voci della guida: schede, non una riga di link */
-.d2 .gl-prossime{display:grid;gap:14px;margin-top:18px}
+.d2 .gl-prossime{display:grid;gap:14px;margin:24px auto 0;max-width:680px}
 .d2 .gl-prossima{display:block;background:var(--carta);border:1px solid var(--linea);border-radius:12px;
   padding:20px 24px;text-decoration:none;transition:border-color .18s ease,transform .18s ease}
 .d2 .gl-prossima:hover{border-color:var(--dom);transform:translateX(3px)}
@@ -140,3 +140,11 @@
   font-size:20px;color:var(--ink);line-height:1.25}
 .d2 .gl-prossima-tit i{font-style:normal;color:var(--dom);margin-left:10px}
 .d2 .gl-prossima-sot{display:block;margin-top:6px;font-size:15.5px;line-height:1.55;color:var(--muto)}
+
+/* il blocco di chiusura sta al centro della pagina */
+.d2 .gl-sorelle .etich{margin:0;max-width:none}
+.d2 .gl-prossima{text-align:center}
+.d2 .gl-prossima-sot{margin-left:auto;margin-right:auto;max-width:46ch}
+@media (min-width:760px){
+  .d2 .gl-prossime:has(> :nth-child(2)){grid-template-columns:repeat(2,1fr);max-width:820px}
+}
