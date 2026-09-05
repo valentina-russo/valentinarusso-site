@@ -16,15 +16,16 @@
 .d2 .comp:hover::after{left:130%}
 .d2 .comp-n{font-family:Fraunces,Georgia,serif;font-style:italic;font-size:22px;color:var(--acc-ink);background:linear-gradient(135deg,rgba(253,188,90,.35),rgba(207,143,169,.25));width:44px;height:44px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none}
 .d2 .cs-lavoro{padding:88px 0}
-.d2 .cs-lavoro .duo{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}
+.d2 .cs-griglia{display:grid;grid-template-columns:340px 1fr;gap:20px 56px;align-items:start}
+.d2 .cs-testa{grid-column:1 / -1}
 .d2 .cs-lavoro h2{margin:0}
 .d2 .cs-lavoro-testo p{font-size:17px;line-height:1.65;max-width:62ch;margin:0 0 16px}
 .d2 .cs-lavoro-testo a{color:var(--dom);text-decoration:underline;text-underline-offset:3px}
 /* il disegno di Valentina accanto al testo del metodo */
-.d2 .cs-carta{margin:26px 0 0;max-width:340px;background:#fff;border-radius:16px;padding:18px;
+.d2 .cs-carta{margin:0;max-width:340px;background:#fff;border-radius:16px;padding:18px;
   box-shadow:var(--ombra);border:1px solid var(--linea)}
 .d2 .cs-carta img{display:block;width:100%;height:auto;border-radius:8px}
 .d2 .cs-carta figcaption{margin-top:12px;font-size:13.5px;color:var(--muto);text-align:center}
 
-@media (max-width:900px){.d2 .cs-hero .wrap,.d2 .cs-lavoro .duo{grid-template-columns:1fr}
+@media (max-width:900px){.d2 .cs-hero .wrap,.d2 .cs-griglia{grid-template-columns:1fr}
   .d2 .cs-carta{max-width:300px}.d2 .cs-hero .foto{max-width:360px;justify-self:start;margin-top:0;order:-1}}
