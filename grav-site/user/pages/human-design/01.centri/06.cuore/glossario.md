@@ -53,7 +53,7 @@ aperto:
 
 ## Nel lavoro
 
-Nel **BG5** il Cuore è uno dei fattori che spiegano chi sta bene nella trattativa e chi no. Chi ce l'ha definito negozia senza consumarsi e sostiene bene un ruolo dove bisogna impegnarsi e rispondere di quell'impegno.
+Nel **BG5** (Business Group 5) il Cuore è uno dei fattori che spiegano chi sta bene nella trattativa e chi no. Chi ce l'ha definito negozia senza consumarsi e sostiene bene un ruolo dove bisogna impegnarsi e rispondere di quell'impegno.
 
 Chi ce l'ha aperto può fare le stesse cose, ma non in modo continuativo e non spingendo sulla volontà: funziona a cicli, e quando il ciclo è giù forzare produce solo esaurimento. Un ruolo costruito sul dover dimostrare costantemente il proprio valore, per queste persone, è una trappola lenta.
 

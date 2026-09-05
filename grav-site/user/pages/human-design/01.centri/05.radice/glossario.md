@@ -53,7 +53,7 @@ aperto:
 
 ## Nel lavoro
 
-Nel **BG5** la Radice è uno dei fattori che spiegano perché due persone brave rendono in modo così diverso nello stesso ufficio. Chi ha la Radice definita regge un ambiente ad alta pressione e spesso lo alimenta. Chi ce l'ha aperta, nello stesso ambiente, non lavora meglio sotto stress: si limita ad assorbirlo, e dopo qualche mese arriva a chiudere le cose in fretta pur di respirare.
+Nel **BG5** (Business Group 5) la Radice è uno dei fattori che spiegano perché due persone brave rendono in modo così diverso nello stesso ufficio. Chi ha la Radice definita regge un ambiente ad alta pressione e spesso lo alimenta. Chi ce l'ha aperta, nello stesso ambiente, non lavora meglio sotto stress: si limita ad assorbirlo, e dopo qualche mese arriva a chiudere le cose in fretta pur di respirare.
 
 Chi ha questo centro bianco lavora meglio dove può darsi un ritmo, non dove il ritmo glielo danno.
 

@@ -55,7 +55,7 @@ aperto:
 
 ## Nel lavoro
 
-Nel **BG5** la Milza definita è la persona che sente in anticipo se un accordo, un fornitore o un ambiente è sano. Non sa spiegare perché, e spesso le viene chiesto di motivare una sensazione che non ha parole. Chi ha la Milza aperta, invece, è più esposto al clima di paura di un'organizzazione: in un'azienda che vive di allarmi lo assorbe tutto, e lo scambia per la propria ansia.
+Nel **BG5** (Business Group 5) la Milza definita è la persona che sente in anticipo se un accordo, un fornitore o un ambiente è sano. Non sa spiegare perché, e spesso le viene chiesto di motivare una sensazione che non ha parole. Chi ha la Milza aperta, invece, è più esposto al clima di paura di un'organizzazione: in un'azienda che vive di allarmi lo assorbe tutto, e lo scambia per la propria ansia.
 
 ## Come si legge nella tua carta
 

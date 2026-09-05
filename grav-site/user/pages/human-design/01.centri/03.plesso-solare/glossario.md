@@ -55,7 +55,7 @@ aperto:
 
 ## Nel lavoro
 
-Nel **BG5** questo centro cambia il modo di condurre le trattative e le decisioni di gruppo. Una persona con Autorità Emotiva messa a decidere in riunione, seduta stante, deciderà male: non perché sia lenta, ma perché il suo meccanismo richiede il tempo dell'onda. La stessa domanda il giorno dopo produce una risposta diversa e più solida.
+Nel **BG5** (Business Group 5) questo centro cambia il modo di condurre le trattative e le decisioni di gruppo. Una persona con Autorità Emotiva messa a decidere in riunione, seduta stante, deciderà male: non perché sia lenta, ma perché il suo meccanismo richiede il tempo dell'onda. La stessa domanda il giorno dopo produce una risposta diversa e più solida.
 
 Chi ha il centro aperto tende invece a sentire il clima del gruppo prima degli altri, e questa è un'informazione preziosa a patto di ricordare che quel clima non è suo.
 

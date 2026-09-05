@@ -53,7 +53,7 @@ aperto:
 
 ## Nel lavoro
 
-Nel **BG5** l'Ajna dice qualcosa sul tipo di contributo mentale. Chi ce l'ha definita porta coerenza concettuale: è la persona che tiene la linea di un ragionamento nel tempo e che formula una tesi riconoscibile.
+Nel **BG5** (Business Group 5) l'Ajna dice qualcosa sul tipo di contributo mentale. Chi ce l'ha definita porta coerenza concettuale: è la persona che tiene la linea di un ragionamento nel tempo e che formula una tesi riconoscibile.
 
 Chi ce l'ha aperta è più adatto a contesti dove serve considerare molte prospettive e cambiare inquadratura in fretta. Metterla in un ruolo dove deve difendere una posizione fissa per anni la costringe a fingere una rigidità che non ha.
 

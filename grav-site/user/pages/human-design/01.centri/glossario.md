@@ -52,7 +52,7 @@ Un centro **completamente aperto** è bianco e senza nessuna porta attivata. È 
 
 Riconoscere quali centri hai definiti risponde a domande molto pratiche. Perché ci sono giornate in cui hai energia infinita e altre in cui crolli. Perché in certi ambienti diventi un'altra persona. Perché continui a promettere più di quanto riesci a mantenere, o a rimanere in situazioni che hai già capito che non ti fanno bene.
 
-Nel lavoro la stessa lettura si applica al ruolo: il **BG5** usa la stessa meccanica per capire dove una persona è affidabile per natura e dove invece sta imitando l'energia di qualcun altro.
+Nel lavoro la stessa lettura si applica al ruolo: il **BG5** (Business Group 5) usa la stessa meccanica per capire dove una persona è affidabile per natura e dove invece sta imitando l'energia di qualcun altro.
 
 ## Come sono classificati
 

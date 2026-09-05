@@ -53,7 +53,7 @@ aperto:
 
 ## Nel lavoro
 
-Nel **BG5** il Centro G è legato alla direzione e al senso di appartenenza. Chi ce l'ha definito porta una rotta stabile in un gruppo, ed è la persona che si vede come punto fermo anche quando cambia tutto il resto.
+Nel **BG5** (Business Group 5) il Centro G è legato alla direzione e al senso di appartenenza. Chi ce l'ha definito porta una rotta stabile in un gruppo, ed è la persona che si vede come punto fermo anche quando cambia tutto il resto.
 
 Chi ce l'ha aperto ha bisogno del contesto giusto per esprimersi, e cambiare ambiente non è per lui un fallimento ma un meccanismo di funzionamento. Nella stessa azienda, cambiando reparto, quella persona può diventare improvvisamente brava a qualcosa che sembrava non riuscirle.
 

@@ -53,7 +53,7 @@ aperto:
 
 ## Nel lavoro
 
-Nel **BG5** la Testa definita è la persona che porta ispirazione dentro un gruppo, quella da cui partono le domande giuste all'inizio di un progetto. La Testa aperta, in un ambiente sovraccarico, assorbe il rumore mentale di tutti e lo scambia per la propria confusione.
+Nel **BG5** (Business Group 5) la Testa definita è la persona che porta ispirazione dentro un gruppo, quella da cui partono le domande giuste all'inizio di un progetto. La Testa aperta, in un ambiente sovraccarico, assorbe il rumore mentale di tutti e lo scambia per la propria confusione.
 
 Per chi ha questo centro bianco l'ambiente conta parecchio: in un contesto agitato non pensa peggio, pensa i pensieri di qualcun altro.
 

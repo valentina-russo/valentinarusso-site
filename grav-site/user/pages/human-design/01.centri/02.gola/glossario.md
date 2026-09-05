@@ -53,7 +53,7 @@ aperto:
 
 ## Nel lavoro
 
-Nel **BG5** la Gola dice molto sui ruoli. Una persona con la Gola definita porta una comunicazione affidabile: è la voce che un gruppo riconosce, quella che sta bene dove bisogna dire le stesse cose in modo coerente per anni.
+Nel **BG5** (Business Group 5) la Gola dice molto sui ruoli. Una persona con la Gola definita porta una comunicazione affidabile: è la voce che un gruppo riconosce, quella che sta bene dove bisogna dire le stesse cose in modo coerente per anni.
 
 Chi ce l'ha aperta lavora meglio dove la comunicazione cambia forma di continuo, con contesti e interlocutori diversi. Metterla in un ruolo che richiede un messaggio identico e ripetuto è sprecarla, e alla lunga le costa fatica.
 

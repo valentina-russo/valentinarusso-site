@@ -61,7 +61,7 @@ aperto:
 
 ## Nel lavoro
 
-Nel **BG5**, che applica la stessa meccanica alla carriera, il Sacrale è il discrimine fra chi è progettato per sostenere un carico costante e chi no. Mettere una persona con il Sacrale aperto in un ruolo che richiede nove ore di produttività lineare non è una scelta neutra: funziona per qualche mese, poi la persona cede e sembra un problema di motivazione. Non lo è.
+Nel **BG5** (Business Group 5), che applica la stessa meccanica alla carriera, il Sacrale è il discrimine fra chi è progettato per sostenere un carico costante e chi no. Mettere una persona con il Sacrale aperto in un ruolo che richiede nove ore di produttività lineare non è una scelta neutra: funziona per qualche mese, poi la persona cede e sembra un problema di motivazione. Non lo è.
 
 Chi ha il Sacrale definito, al contrario, ha bisogno di lavoro a cui poter **rispondere**: proposte concrete, richieste, stimoli. Messo a decidere da fermo, senza niente a cui reagire, si blocca e si sente inutile.
 
