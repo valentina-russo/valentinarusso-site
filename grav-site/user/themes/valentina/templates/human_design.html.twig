@@ -273,7 +273,7 @@
 <section class="hd-guida"><div class="hd-prose-wrap">
   <p class="etich">La guida in dettaglio</p>
   <h2>Le voci del sistema, una per una</h2>
-  <p>Ogni elemento della carta ha la sua pagina: cosa fa, come si vive quando &egrave; definito e come quando &egrave; bianco.</p>
+  <p>Come funziona ogni parte del sistema e cosa cambia nella pratica, a seconda di come &egrave; fatta la tua carta.</p>
   <div class="hd-guida-griglia">
     {% for c in page.children.published.order('header.ordine','asc') %}
     <a class="hd-guida-voce" href="{{ c.url }}"><h3>{{ c.title }}</h3>{% if c.header.description %}<p>{{ c.header.description }}</p>{% endif %}<span class="lnk">Apri &rarr;</span></a>

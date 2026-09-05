@@ -129,8 +129,15 @@
 
 {% if not barra and page.parent.children.published.count > 1 and page.parent.route != '/' %}
 <section class="gl-sorelle"><div class="wrap rivela">
-  <p class="etich">Continua</p>
-  <p class="gl-righe">{% for c in page.parent.children.published %}{% if c.route != page.route %}<a href="{{ c.url }}">{{ c.title }}</a>{% endif %}{% endfor %}</p>
+  <p class="etich">Continua la guida</p>
+  <div class="gl-prossime">
+    {% for c in page.parent.children.published %}{% if c.route != page.route %}
+    <a class="gl-prossima" href="{{ c.url }}">
+      <span class="gl-prossima-tit">{{ c.title }}<i>&rarr;</i></span>
+      {% if c.header.description %}<span class="gl-prossima-sot">{{ c.header.description }}</span>{% endif %}
+    </a>
+    {% endif %}{% endfor %}
+  </div>
 </div></section>
 {% endif %}
 

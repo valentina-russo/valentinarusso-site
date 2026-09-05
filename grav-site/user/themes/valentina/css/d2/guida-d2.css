@@ -122,3 +122,9 @@
 .d2 .hd-guida-voce p{margin:0;font-size:14.5px;line-height:1.55;color:var(--muto);max-width:none}
 .d2 .hd-guida-voce .lnk{margin-top:auto;padding-top:8px;color:var(--dom);font-weight:600;font-size:14.5px}
 @media (max-width:720px){.d2 .hd-guida-griglia{grid-template-columns:1fr}}
+
+/* sulle schede della guida la sottolineatura resta al titolo, non a tutto il testo */
+.d2 .hd-guida-voce{text-decoration:none}
+.d2 .hd-guida-voce h3{text-decoration:underline;text-decoration-color:var(--linea);text-underline-offset:4px}
+.d2 .hd-guida-voce:hover h3{text-decoration-color:var(--dom)}
+.d2 .hd-guida-voce p,.d2 .hd-guida-voce .lnk{text-decoration:none}
