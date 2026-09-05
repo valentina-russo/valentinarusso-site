@@ -29,6 +29,6 @@ jobs:
           if [ "$APPLICA" != "true" ]; then echo '### prova soltanto, non ho scritto nulla sul server'; exit 0; fi
           while read -r f; do
             [ -z "$f" ] && continue
-            rel="${f#pagine/}"; dir="$(dirname "$rel")"; base="$(basename "$rel")"
+            rel="${f#pagine/}"; rel="${rel#pages/}"; dir="$(dirname "$rel")"; base="$(basename "$rel")"
             lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; put -O ${D}user/pages/${dir} \"$f\" -o ${base}; bye" && echo "caricato ${rel}"
           done < _cambiati.txt
