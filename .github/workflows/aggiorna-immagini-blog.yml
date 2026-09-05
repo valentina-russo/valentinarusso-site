@@ -12,6 +12,7 @@ jobs:
   immagini:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Scarica, riscrivi, ricarica
         env:
           H: ${{ secrets.ARUBA_FTP_HOST }}
@@ -24,31 +25,8 @@ jobs:
           mkdir -p pagine
           lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; mirror --verbose=0 -I '*.md' ${D}user/pages pagine/; bye"
           echo "file markdown scaricati: $(find pagine -name '*.md' | wc -l)"
-          python3 - <<'PY'
-          import os, re
-          nomi = ['blog-1','blog-2','blog-3','blog-4','blog-5','perche-ti-attrae-quella-persona',
-                  'disegno-umano-carta-completa','come-leggere-carta-human-design',
-                  '4-tipi-human-design-archetip','mammal-chart-cane','croce-incarnazione-human-design',
-                  'libretto-cover-hero-16x9','firefly-double-exposure','costruttori-e-guide']
-          cambiati = []
-          for radice, _, file in os.walk('pagine'):
-              for f in file:
-                  if not f.endswith('.md'): continue
-                  p = os.path.join(radice, f)
-                  t = open(p, encoding='utf-8', errors='replace').read()
-                  o = t
-                  for n in nomi:
-                      t = t.replace(n + '.png', n + '.jpg')
-                  if t != o:
-                      open(p, 'w', encoding='utf-8', newline='
-').write(t)
-                      cambiati.append(p)
-          open('_cambiati.txt','w').write('
-'.join(cambiati))
-          print('pagine da aggiornare:', len(cambiati))
-          for c in cambiati: print('  ', c)
-          PY
-          if [ "$APPLICA" != "true" ]; then echo '### prova soltanto, non ho scritto nulla'; exit 0; fi
+          python3 .github/scripts/aggiorna_immagini.py pagine
+          if [ "$APPLICA" != "true" ]; then echo '### prova soltanto, non ho scritto nulla sul server'; exit 0; fi
           while read -r f; do
             [ -z "$f" ] && continue
             rel="${f#pagine/}"; dir="$(dirname "$rel")"; base="$(basename "$rel")"
