@@ -19,7 +19,7 @@ faq:
 - question: Se non ho un'autorità interna, come decido?
   answer: Parlando della questione con persone diverse, in momenti e luoghi diversi, e osservando quale posizione resta stabile. Il luogo conta quanto l'interlocutore.
 - question: L'Autorità Mentale vale anche per i Riflettori (Valutatori)?
-  answer: No. I Riflettori (Valutatori nel BG5) hanno sempre l'Autorità Lunare, che segue il ciclo della luna.
+  answer: No. I Riflettori (Valutatori nel BG5) non hanno nessuna Autorità: decidono aspettando un ciclo lunare intero.
 - question: Come si interpreta lo Human Design?
   answer: Si parte dalla Tipologia (Tipo di Carriera nel BG5), dalla Strategia e dall'Autorità. I Centri spiegano il dettaglio, ma le decisioni si prendono con l'Autorità.
 apertura: |

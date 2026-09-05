@@ -6,7 +6,7 @@ routable: true
 ordine: 2
 nome_breve: Autorità
 seo_title: 'Le 7 Autorità dello Human Design: qual è la tua e come funziona'
-seo_desc: 'Emotiva, Sacrale, Splenica, dell''Ego, Autoproiettata, Mentale e Lunare: le sette Autorità Decisionali dello Human Design, spiegate una per una.'
+seo_desc: 'Emotiva, Sacrale, Splenica, dell''Ego, Autoproiettata, Mentale, e il caso di chi non ne ha nessuna: le Autorità Decisionali dello Human Design, una per una.'
 description: 'L''Autorità è il modo in cui il tuo corpo decide. Non è la mente: è il punto della carta a cui spetta l''ultima parola.'
 didascalia: I tre centri da cui nascono le Autorità più diffuse
 alt_immagine: Bodygraph con Plesso Solare, Sacrale e Milza colorati, gli altri centri aperti
@@ -17,7 +17,7 @@ chiusa_titolo: Non sai qual è la tua?
 chiusa_testo: Il calcolo gratuito te la dice in pochi secondi, insieme alla Tipologia (Tipo di Carriera nel BG5) e ai centri definiti.
 faq:
 - question: Quali sono le 7 Autorità dello Human Design?
-  answer: Emotiva, Sacrale, Splenica, dell'Ego, Autoproiettata, Mentale e Lunare. Ognuna nasce da una diversa combinazione di centri definiti e aperti, e una carta ne ha sempre e soltanto una.
+  answer: Emotiva, Sacrale, Splenica, dell'Ego, Autoproiettata, Mentale. La settima voce non è un'Autorità ma la sua assenza: i Riflettori (Valutatori nel BG5) non ne hanno nessuna e decidono con il ciclo lunare.
 - question: Che cos'è l'Autorità nello Human Design?
   answer: 'È il meccanismo con cui il corpo prende una decisione, e nel BG5 (Business Group 5) si chiama Autorità Decisionale. Non è un''opinione né un ragionamento: è il punto della carta a cui spetta l''ultima parola, e la mente non è mai quel punto.'
 - question: Come si interpreta lo Human Design?
@@ -40,7 +40,7 @@ Si scorre dall'alto e ci si ferma al primo caso che corrisponde alla tua carta.
 4. **Cuore** definito → Autorità dell'Ego
 5. **Centro G** collegato alla Gola → Autorità Autoproiettata
 6. nessuno dei precedenti, per certi Proiettori (Guide) → Autorità Mentale
-7. tutti i nove centri aperti, i Riflettori (Valutatori) → Autorità Lunare
+7. tutti i nove centri aperti, i Riflettori (Valutatori) → nessuna Autorità, si decide col ciclo lunare
 
 Non è una classifica di valore: è la sequenza con cui si legge la carta. Le prime tre coprono la grande maggioranza delle persone, le ultime quattro sono rare.
 

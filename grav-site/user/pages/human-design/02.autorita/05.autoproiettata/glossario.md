@@ -21,7 +21,7 @@ faq:
 - question: Chi sono i Proiettori (Guide) nello Human Design?
   answer: Sono circa il 20% delle persone, le Guide nel BG5 (Business Group 5). Non hanno il Sacrale definito e la loro Strategia è aspettare l'invito.
 - question: Quali sono le 7 Autorità dello Human Design?
-  answer: Emotiva, Sacrale, Splenica, dell'Ego, Autoproiettata, Mentale e Lunare.
+  answer: Emotiva, Sacrale, Splenica, dell'Ego, Autoproiettata, Mentale, più il caso dei Riflettori (Valutatori) che non ne hanno nessuna.
 apertura: |
   L'**Autorità Autoproiettata** è quella di chi ha il **Centro G collegato alla Gola** e nessuno dei centri precedenti definito. Riguarda solo alcuni Proiettori (Guide nel BG5), ed è una delle più rare.
 

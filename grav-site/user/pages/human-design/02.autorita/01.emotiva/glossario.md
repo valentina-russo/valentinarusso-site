@@ -19,9 +19,9 @@ faq:
 - question: Quanto devo aspettare prima di decidere?
   answer: 'Non c''è un tempo fisso: dipende dalla persona e dall''importanza della scelta. C''è però un segnale, ed è la calma che resta quando ci ripensi e non senti più niente muoversi. Per le decisioni grandi si parla di giorni, non di minuti.'
 - question: L'Autorità Emotiva vale per tutte le Tipologie?
-  answer: Per tutte tranne i Riflettori (Valutatori nel BG5), che hanno sempre l'Autorità Lunare. Un Generatore (Costruttore Classico), un Generatore Manifestante (Costruttore Rapido), un Proiettore (Guida) e un Manifestatore (Iniziatore) con il Plesso Solare definito hanno tutti Autorità Emotiva.
+  answer: Per tutte tranne i Riflettori (Valutatori nel BG5), che non hanno nessuna Autorità. Un Generatore (Costruttore Classico), un Generatore Manifestante (Costruttore Rapido), un Proiettore (Guida) e un Manifestatore (Iniziatore) con il Plesso Solare definito hanno tutti Autorità Emotiva.
 - question: Quali sono le 7 Autorità dello Human Design?
-  answer: Emotiva, Sacrale, Splenica, dell'Ego, Autoproiettata, Mentale e Lunare. L'Emotiva ha la precedenza su tutte le altre.
+  answer: Emotiva, Sacrale, Splenica, dell'Ego, Autoproiettata, Mentale, più il caso dei Riflettori (Valutatori) che non ne hanno nessuna. L'Emotiva ha la precedenza su tutte le altre.
 apertura: |
   L'**Autorità Emotiva** è quella di chi ha il **Plesso Solare definito**: circa il 47% delle persone, quasi una su due. È anche la prima nell'ordine di precedenza, il che significa che se hai questo centro colorato la tua Autorità è questa, comunque sia fatto il resto della carta.
 

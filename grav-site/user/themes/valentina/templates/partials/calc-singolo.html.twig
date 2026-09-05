@@ -326,7 +326,7 @@ async function csCalcHD(y,m,d,h,min,tzOff){
 
 // ─── Translation ──────────────────────────────────────────────────────────────
 var CS_TIPO_IT={'Generator':'Costruttore Classico','Manifesting Generator':'Costruttore Rapido','Projector':'Guida','Manifestor':'Iniziatore','Reflector':'Valutatore'};
-var CS_AUTH_GUIDA={'Sacral':'sacrale','Emotional':'emotiva','Splenic':'splenica','Ego Projected':'ego','Ego Manifested':'ego','Self Projected':'autoproiettata','Mental Projector':'mentale','Lunar':'lunare'};
+var CS_AUTH_GUIDA={'Sacral':'sacrale','Emotional':'emotiva','Splenic':'splenica','Ego Projected':'ego','Ego Manifested':'ego','Self Projected':'autoproiettata','Mental Projector':'mentale','Lunar':'nessuna-autorita'};
 var CS_CENTRI_GUIDA=[['SACRAL','Sacrale','sacrale'],['THROAT','Gola','gola'],['SOLAR','Plesso Solare','plesso-solare'],['SPLEEN','Milza','milza'],['ROOT','Radice','radice'],['HEART','Cuore','cuore'],['G','Centro G','g'],['AJNA','Ajna','ajna'],['HEAD','Testa','testa']];
 function csGuidaCentri(dcs){
   var el=document.getElementById('cs-guida-centri');if(!el)return;
@@ -334,7 +334,7 @@ function csGuidaCentri(dcs){
     return '<a class="cs-guida-voce'+(def?' cs-guida-voce--def':'')+'" href="/human-design/centri/'+c[2]+'"><b>'+c[1]+'</b><span>'+(def?'definito':'aperto')+'</span></a>';}).join('');
   el.innerHTML='<h3>I tuoi centri, uno per uno</h3><p>Cosa cambia quando un centro &egrave; colorato e quando &egrave; bianco.</p><div class="cs-guida-griglia">'+voci+'</div>';
 }
-var CS_AUTH_IT={'Sacral':'Sacrale / Risorsa Energetica','Emotional':'Emotiva / Intelligenza Emotiva','Splenic':'Splenica / Istintiva','Ego Projected':'Ego / Proiettata','Ego Manifested':'Ego / Manifestata','Self Projected':'del Sé / G Center Proiettata','Mental Projector':'Ambientale / Mentale','Lunar':'Lunare'};
+var CS_AUTH_IT={'Sacral':'Sacrale / Risorsa Energetica','Emotional':'Emotiva / Intelligenza Emotiva','Splenic':'Splenica / Istintiva','Ego Projected':'Ego / Proiettata','Ego Manifested':'Ego / Manifestata','Self Projected':'del Sé / G Center Proiettata','Mental Projector':'Ambientale / Mentale','Lunar':'Nessuna (ciclo lunare)'};
 var CS_DEF_IT={'Single Definition':'Assimilazione Indipendente','Split Definition':'Assimilazione Collaborativa','Triple Split':'Assimilazione Sintetizzante','Quadruple Split':'Assimilazione Soggettiva','No Definition':'Assimilazione Oggettiva'};
 var CS_PLANET_BG5={'Sun':'Essenza Profonda','Earth':'Equilibrio','Moon':'Forza Motrice','North Node':'Direzione Futura','South Node':'Direzione Passata','Mercury':'Comunicazione','Venus':'Valori','Mars':'Energia Immatura','Jupiter':'Legge Interiore','Saturn':'Giudizio','Uranus':'Unicità','Neptune':'Tema Celato','Pluto':'Verità Interiore'};
 var CS_PLANET_IT={'Sun':'Sole','Earth':'Terra','Moon':'Luna','North Node':'Nodo Nord','South Node':'Nodo Sud','Mercury':'Mercurio','Venus':'Venere','Mars':'Marte','Jupiter':'Giove','Saturn':'Saturno','Uranus':'Urano','Neptune':'Nettuno','Pluto':'Plutone'};
