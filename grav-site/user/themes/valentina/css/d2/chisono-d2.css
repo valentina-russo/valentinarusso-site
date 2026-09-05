@@ -20,4 +20,11 @@
 .d2 .cs-lavoro h2{margin:0}
 .d2 .cs-lavoro-testo p{font-size:17px;line-height:1.65;max-width:62ch;margin:0 0 16px}
 .d2 .cs-lavoro-testo a{color:var(--dom);text-decoration:underline;text-underline-offset:3px}
-@media (max-width:900px){.d2 .cs-hero .wrap,.d2 .cs-lavoro .duo{grid-template-columns:1fr}.d2 .cs-hero .foto{max-width:360px;justify-self:start;margin-top:0;order:-1}}
+/* il disegno di Valentina accanto al testo del metodo */
+.d2 .cs-carta{margin:26px 0 0;max-width:340px;background:#fff;border-radius:16px;padding:18px;
+  box-shadow:var(--ombra);border:1px solid var(--linea)}
+.d2 .cs-carta img{display:block;width:100%;height:auto;border-radius:8px}
+.d2 .cs-carta figcaption{margin-top:12px;font-size:13.5px;color:var(--muto);text-align:center}
+
+@media (max-width:900px){.d2 .cs-hero .wrap,.d2 .cs-lavoro .duo{grid-template-columns:1fr}
+  .d2 .cs-carta{max-width:300px}.d2 .cs-hero .foto{max-width:360px;justify-self:start;margin-top:0;order:-1}}
