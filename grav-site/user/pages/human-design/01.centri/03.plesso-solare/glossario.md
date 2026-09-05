@@ -40,7 +40,7 @@ definito:
   testo: |
     Hai un'onda tua. Le emozioni salgono e scendono seguendo un ritmo che non dipende da quello che succede intorno: puoi svegliarti giù in una giornata perfetta e su in una giornata storta. Non è instabilità, è meccanica.
 
-    La conseguenza pratica è la più importante di tutta la carta: **per te la verità del momento non esiste**. Quello che senti adesso è un punto dell'onda, non la conclusione. Chi ha questo centro definito ha l'**Autorità Emotiva**, e la sua regola è una sola: aspettare. Non c'è una formula sul quanto, ma c'è un segnale, ed è la calma che arriva quando l'onda ha finito il giro.
+    La conseguenza pratica è la più importante di tutta la carta: **per te la verità del momento non esiste**. Quello che senti adesso è un punto dell'onda, non la conclusione. Chi ha questo centro definito ha l'**Autorità Emotiva**, che nel **BG5 (Business Group 5)** rientra in quella che si chiama Autorità Decisionale, e la sua regola è una sola: aspettare. Non c'è una formula sul quanto, ma c'è un segnale, ed è la calma che arriva quando l'onda ha finito il giro.
 
     La sfida quotidiana è resistere alla pressione di rispondere subito. Ogni "mi serve una risposta adesso" è, per te, una richiesta di decidere nel punto sbagliato dell'onda.
 aperto:
@@ -55,7 +55,7 @@ aperto:
 
 ## Nel lavoro
 
-Nel **BG5** (Business Group 5) questo centro cambia il modo di condurre le trattative e le decisioni di gruppo. Una persona con Autorità Emotiva messa a decidere in riunione, seduta stante, deciderà male: non perché sia lenta, ma perché il suo meccanismo richiede il tempo dell'onda. La stessa domanda il giorno dopo produce una risposta diversa e più solida.
+Nel **BG5** questo centro cambia il modo di condurre le trattative e le decisioni di gruppo. Una persona con Autorità Emotiva messa a decidere in riunione, seduta stante, deciderà male: non perché sia lenta, ma perché il suo meccanismo richiede il tempo dell'onda. La stessa domanda il giorno dopo produce una risposta diversa e più solida.
 
 Chi ha il centro aperto tende invece a sentire il clima del gruppo prima degli altri, e questa è un'informazione preziosa a patto di ricordare che quel clima non è suo.
 

@@ -21,7 +21,7 @@ faq:
   - question: "I 9 centri sono la stessa cosa dei chakra?"
     answer: "Derivano dal sistema dei chakra ma non coincidono. I chakra sono sette, i centri dello Human Design sono nove: il sistema descrive una configurazione diversa, con la Milza e il Plesso Solare separati e il Centro G al posto del cuore energetico."
   - question: "Si può non avere nessun centro definito?"
-    answer: "Sì, ed è la configurazione del Riflettore: nessun centro colorato, tutto il bodygraph bianco. È circa l'1% della popolazione. All'estremo opposto ci sono i Generatori e i Generatori Manifestanti, il 70% delle persone, che hanno sempre almeno il Sacrale definito."
+    answer: "Sì, ed è la configurazione del Riflettore: nessun centro colorato, il Valutatore del BG5: tutto il bodygraph bianco. È circa l'1% della popolazione. All'estremo opposto ci sono i Generatori e i Generatori Manifestanti, i Costruttori Classici e i Costruttori Rapidi del BG5, il 70% delle persone, che hanno sempre almeno il Sacrale definito."
 ---
 
 Il **bodygraph**, la mappa che esce dal calcolo della carta, è fatto di nove forme geometriche collegate fra loro. Sono i **centri**. Ognuno governa una funzione precisa del corpo e un tema della vita: l'energia vitale, la comunicazione, le emozioni, l'istinto, l'identità.

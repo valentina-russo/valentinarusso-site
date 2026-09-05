@@ -34,7 +34,7 @@ scheda:
   porte: 58, 38, 54, 53, 60, 52, 19, 39, 41
   n_porte: 9
   autorita: Nessuna
-  nota_autorita: non genera Autorità
+  nota_autorita: non genera Autorità Decisionale
 definito:
   titolo: La pressione è tua e prevedibile
   testo: |

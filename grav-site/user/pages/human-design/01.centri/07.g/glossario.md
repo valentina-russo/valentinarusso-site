@@ -34,7 +34,7 @@ scheda:
   porte: 1, 2, 7, 13, 10, 15, 25, 46
   n_porte: 8
   autorita: Autoproiettata
-  nota_autorita: solo per certi Proiettori
+  nota_autorita: solo per certi Proiettori (Guide nel BG5)
 definito:
   titolo: Sai chi sei e dove stai andando
   testo: |

@@ -25,9 +25,9 @@ faq:
   answer: 'È il suono che il corpo produce prima che la mente costruisca una spiegazione: un uh-huh di apertura o un unh-unh di chiusura. Risponde a domande chiuse, non a domande aperte, e arriva nel momento.'
 nome_breve: Sacrale
 apertura: |
-  Il **Centro Sacrale** è il quadrato in basso al centro del bodygraph, ed è il motore più potente della carta. Governa la forza vitale, la sessualità, la fertilità e la capacità di lavorare. Circa il 70% delle persone ce l'ha definito: sono i Generatori (37%) e i Generatori Manifestanti (33%).
+  Il **Centro Sacrale** è il quadrato in basso al centro del bodygraph, ed è il motore più potente della carta. Governa la forza vitale, la sessualità, la fertilità e la capacità di lavorare. Circa il 70% delle persone ce l'ha definito: sono i Generatori (37%) e i Generatori Manifestanti (33%), che nel **BG5 (Business Group 5)** prendono il nome di Costruttore Classico e Costruttore Rapido.
 
-  È anche il centro che decide il tuo Tipo: se è colorato sei un **Generatore** o un **Generatore Manifestante**, con tutto quello che ne consegue in termini di strategia.
+  È anche il centro che decide la tua Tipologia, quello che nel BG5 si chiama Tipo di Carriera: se è colorato sei un **Generatore** o un **Generatore Manifestante**, con tutto quello che ne consegue in termini di strategia.
 scheda:
   definito: 70
   aperto: 30
@@ -61,7 +61,7 @@ aperto:
 
 ## Nel lavoro
 
-Nel **BG5** (Business Group 5), che applica la stessa meccanica alla carriera, il Sacrale è il discrimine fra chi è progettato per sostenere un carico costante e chi no. Mettere una persona con il Sacrale aperto in un ruolo che richiede nove ore di produttività lineare non è una scelta neutra: funziona per qualche mese, poi la persona cede e sembra un problema di motivazione. Non lo è.
+Nel **BG5**, che applica la stessa meccanica alla carriera, il Sacrale è il discrimine fra chi è progettato per sostenere un carico costante e chi no. Mettere una persona con il Sacrale aperto in un ruolo che richiede nove ore di produttività lineare non è una scelta neutra: funziona per qualche mese, poi la persona cede e sembra un problema di motivazione. Non lo è.
 
 Chi ha il Sacrale definito, al contrario, ha bisogno di lavoro a cui poter **rispondere**: proposte concrete, richieste, stimoli. Messo a decidere da fermo, senza niente a cui reagire, si blocca e si sente inutile.
 
@@ -69,4 +69,4 @@ Chi ha il Sacrale definito, al contrario, ha bisogno di lavoro a cui poter **ris
 
 Nel bodygraph il Sacrale è collegato ad altri centri da nove porte: la 3, la 5, la 9, la 14, la 27, la 29, la 34, la 42 e la 59. Basta che uno di quei canali sia completo perché il centro risulti definito e colorato.
 
-Il [calcolo gratuito della carta](/calcolo-human-design) te lo mostra subito, insieme al Tipo e all'Autorità che ne derivano.
+Il [calcolo gratuito della carta](/calcolo-human-design) te lo mostra subito, insieme alla Tipologia e all'Autorità che ne derivano, cioè al Tipo di Carriera e all'Autorità Decisionale del BG5.

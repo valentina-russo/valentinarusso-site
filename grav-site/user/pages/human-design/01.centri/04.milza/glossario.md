@@ -61,4 +61,4 @@ Nel **BG5** (Business Group 5) la Milza definita è la persona che sente in anti
 
 La Milza è il triangolo in basso a sinistra, collegato dalle porte 48, 57, 44, 50, 32, 28 e 18.
 
-Il [calcolo gratuito](/calcolo-human-design) ti mostra se è colorata, e se da lì nasce la tua Autorità.
+Il [calcolo gratuito](/calcolo-human-design) ti mostra se è colorata, e se da lì nasce la tua Autorità, l'Autorità Decisionale del BG5.

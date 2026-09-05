@@ -18,7 +18,7 @@ faq:
 - question: Quante persone hanno la Gola definita?
   answer: Circa il 72%. È il centro definito più diffuso del bodygraph.
 - question: Avere la Gola definita significa essere un Manifestatore?
-  answer: No. Serve che un motore, cioè Sacrale, Plesso Solare, Cuore o Radice, sia collegato alla Gola da un canale completo. È quel collegamento a creare i Manifestatori e i Generatori Manifestanti, non la Gola da sola.
+  answer: No. Serve che un motore, cioè Sacrale, Plesso Solare, Cuore o Radice, sia collegato alla Gola da un canale completo. È quel collegamento a creare i Manifestatori e i Generatori Manifestanti, che nel BG5 si chiamano Iniziatori e Costruttori Rapidi, non la Gola da sola.
 - question: Quali sono i 9 Centri dello Human Design?
   answer: Testa, Ajna, Gola, Centro G, Cuore, Milza, Sacrale, Plesso Solare e Radice. Nel bodygraph ognuno appare colorato se definito, bianco se aperto.
 nome_breve: Gola
@@ -34,7 +34,7 @@ scheda:
   porte: 62, 23, 56, 35, 12, 45, 33, 8, 31, 20, 16
   n_porte: 11
   autorita: Nessuna
-  nota_autorita: non genera Autorità
+  nota_autorita: non genera Autorità Decisionale
 definito:
   titolo: Una voce che gli altri riconoscono
   testo: |
@@ -61,4 +61,4 @@ Chi ce l'ha aperta lavora meglio dove la comunicazione cambia forma di continuo,
 
 La Gola è il rettangolo largo sotto l'Ajna. È collegata al resto della carta dalle porte 62, 23, 56, 35, 12, 45, 33, 8, 31, 20 e 16. Basta che uno di quei canali sia completo perché risulti colorata.
 
-Il [calcolo gratuito](/calcolo-human-design) te la mostra subito, insieme alla Tipologia che ne deriva.
+Il [calcolo gratuito](/calcolo-human-design) te la mostra subito, insieme alla Tipologia che ne deriva, il Tipo di Carriera del BG5.
