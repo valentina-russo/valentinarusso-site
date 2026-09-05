@@ -1,5 +1,5 @@
 ---
-title: "Mammal Chart: cosa dice davvero l'Human Design del tuo cane"
+title: "Mammal Chart: cosa dice davvero lo Human Design del tuo cane"
 date: '2026-08-11 00:00:00'
 published: true
 noindex: true
@@ -10,20 +10,20 @@ tags:
     - 'Animali'
 featured_image: /user/images/blog/mammal-chart-cane.jpg
 image_alt: "Mammal Chart, Human Design per cani e altri mammiferi"
-description: "La Mammal Chart applica i principi dell'Human Design ai mammiferi, ma con una matrice diversa da quella umana: 15 porte invece di 64, tre categorie (Territorio, Amicizia, Lavoro), nessun profilo. Cosa dice davvero del tuo cane."
+description: "La Mammal Chart applica i principi dello Human Design ai mammiferi, ma con una matrice diversa da quella umana: 15 porte invece di 64, tre categorie (Territorio, Amicizia, Lavoro), nessun profilo. Cosa dice davvero del tuo cane."
 seo_title: "Mammal Chart: Human Design del tuo Cane, spiegato"
 seo_desc: "Cos'è la Mammal Chart (Mammalian Design System di Ra Uru Hu): come funziona, come si calcola, cosa dice davvero del tuo cane. Contenuto in fase di revisione."
 ---
 
 ## Cos'è la Mammal Chart
 
-La Mammal Chart nasce dal *Mammalian Design System*, il materiale che Ra Uru Hu (fondatore dell'Human Design) presentò per la prima volta in Europa nel 1999, a partire dall'osservazione del suo cane Barley. È un sistema pensato per leggere il disegno energetico dei mammiferi, non una versione "semplificata" della carta umana: usa una matrice diversa, con logiche diverse.
+La Mammal Chart nasce dal *Mammalian Design System*, il materiale che Ra Uru Hu (fondatore dello Human Design) presentò per la prima volta in Europa nel 1999, a partire dall'osservazione del suo cane Barley. È un sistema pensato per leggere il disegno energetico dei mammiferi, non una versione "semplificata" della carta umana: usa una matrice diversa, con logiche diverse.
 
 Chi si aspetta di vedere sul cane lo stesso bodygraph a 9 centri e 64 porte che conosce dalla propria carta resterà sorpreso. La Mammal Chart è un sistema più essenziale, costruito su misura per come i mammiferi ricevono ed elaborano l'informazione.
 
 ## In cosa è diversa dalla carta umana
 
-- **Solo 15 porte**, non 64. Delle 64 porte del sistema I Ching su cui si basa l'Human Design, soltanto 15 hanno un significato nella matrice mammalifera. Le altre 49 semplicemente non esistono per un animale: un'attivazione lì "non conta".
+- **Solo 15 porte**, non 64. Delle 64 porte del sistema I Ching su cui si basa lo Human Design, soltanto 15 hanno un significato nella matrice mammalifera. Le altre 49 semplicemente non esistono per un animale: un'attivazione lì "non conta".
 - **Nessun Profilo.** La carta mammifera non ha le Linee di Profilo che in un umano descrivono il ruolo di vita.
 - **Nessun Centro Plesso Solare (sistema emotivo).** I mammiferi non hanno questo centro: lo trovano disturbante e allo stesso tempo lo cercano, per questo gli animali si affiancano bene a persone con centro emotivo non definito o a bambini nello spettro autistico, che condividono in parte questa "assenza".
 - **Design calcolato su ciclo lunare, non solare.** Nell'uomo, la Personalità entra nel corpo circa 88 giorni solari prima della nascita. Nel mammifero il tempo di attesa è molto più breve: circa **6 giorni**, corrispondenti a 88 gradi di retrogrado lunare (la Luna, non il Sole, governa i mammiferi e tutte le forme di vita "inferiori").

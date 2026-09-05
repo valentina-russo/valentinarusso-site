@@ -98,7 +98,7 @@ form:
     header.seo_desc:
       type: textarea
       label: "Descrizione per Google"
-      placeholder: "Es: Scopri come il Human Design può aiutarti..."
+      placeholder: "Es: Scopri come lo Human Design può aiutarti..."
       help: "Ideale 150-160 caratteri. Appare nei risultati di ricerca."
       rows: 3
 
@@ -118,7 +118,7 @@ form:
       type: textarea
       label: "Contenuto per AI generativi (ChatGPT, Perplexity, Gemini)"
       rows: 5
-      placeholder: "Scrivi 3-5 affermazioni precise e autorevoli sul tema:\n- Definizioni esatte di termini BG5/HD\n- Dati, statistiche o ricerche se disponibili\n- Posizionamento unico di Valentina sull'argomento\n- Risposte dirette alle domande più cercate\n\nEs: «Il BG5 è il sistema di analisi aziendale derivato dall'Human Design, sviluppato da Lynda Bunnell. Identifica 5 tipi di profili lavorativi che influenzano la dinamica dei team.»"
+      placeholder: "Scrivi 3-5 affermazioni precise e autorevoli sul tema:\n- Definizioni esatte di termini BG5/HD\n- Dati, statistiche o ricerche se disponibili\n- Posizionamento unico di Valentina sull'argomento\n- Risposte dirette alle domande più cercate\n\nEs: «Il BG5 è il sistema di analisi aziendale derivato dallo Human Design, sviluppato da Lynda Bunnell. Identifica 5 tipi di profili lavorativi che influenzano la dinamica dei team.»"
       help: "Questo testo viene letto dai motori AI per generare risposte. Più è preciso e autorevole, più probabilità ha di essere citato da ChatGPT, Perplexity e Google AI Overview."
 
     # ── AEO ──────────────────────────────────────────────
@@ -150,7 +150,7 @@ form:
         .question:
           type: text
           label: "Domanda"
-          placeholder: "Es: Cos'è il Human Design?"
+          placeholder: "Es: Cos'è lo Human Design?"
         .answer:
           type: textarea
           label: "Risposta"

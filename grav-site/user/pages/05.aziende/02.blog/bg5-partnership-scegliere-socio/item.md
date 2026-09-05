@@ -46,7 +46,7 @@ Hai trovato la persona giusta. Stessa visione, stessa energia, stessa voglia di 
 
 Le incompatibilità meccaniche tra soci non si vedono nelle prime settimane, quando la motivazione copre tutto. Si vedono quando i **ritmi di lavoro** entrano in conflitto, quando uno ha bisogno di decidere subito e l'altro ha bisogno di dormirci sopra, quando la divisione dei ruoli che sembrava ovvia smette di funzionare.
 
-Lo **Human Design** applicato al business, la metodologia conosciuta come **BG5®**, offre uno strumento specifico per leggere queste dinamiche prima che diventino problemi: l'**Analisi Human Design applicata alla partnership** (Partnership Analysis nell'Human Design ufficiale, BG5 Partnership nella nomenclatura business). Si tratta di una lettura della compatibilità meccanica tra due persone nel contesto lavorativo. Quello che emerge non è un giudizio sulla relazione. È una mappa operativa di come funzionate insieme.
+Lo **Human Design** applicato al business, la metodologia conosciuta come **BG5®**, offre uno strumento specifico per leggere queste dinamiche prima che diventino problemi: l'**Analisi Human Design applicata alla partnership** (Partnership Analysis nello Human Design ufficiale, BG5 Partnership nella nomenclatura business). Si tratta di una lettura della compatibilità meccanica tra due persone nel contesto lavorativo. Quello che emerge non è un giudizio sulla relazione. È una mappa operativa di come funzionate insieme.
 
 ## Che cosa rivela la carta di ciascun socio?
 

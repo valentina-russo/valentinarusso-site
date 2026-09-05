@@ -24,7 +24,7 @@ aeo_answer: "Il Riflettore Human Design (Valutatore in BG5®) è uno dei cinque 
 faq:
     -
         question: "Cosa significa essere un Riflettore Human Design?"
-        answer: "Il Riflettore (Valutatore in BG5®) è uno dei cinque tipi del Human Design, circa l'1% della popolazione. Ha tutti i nove centri del bodygraph aperti: la sua energia arriva dall'esterno, assorbita e amplificata dalle persone intorno a sé. È progettato per essere uno specchio fedele dell'ambiente in cui si trova."
+        answer: "Il Riflettore (Valutatore in BG5®) è uno dei cinque tipi dello Human Design, circa l'1% della popolazione. Ha tutti i nove centri del bodygraph aperti: la sua energia arriva dall'esterno, assorbita e amplificata dalle persone intorno a sé. È progettato per essere uno specchio fedele dell'ambiente in cui si trova."
     -
         question: "Qual è la strategia del Riflettore Human Design?"
         answer: "La Strategia del Riflettore (Valutatore BG5®) è aspettare 28 giorni prima di prendere decisioni importanti. Questo corrisponde a un ciclo lunare completo: la Luna transita attraverso tutti i 64 gate del bodygraph in circa 28 giorni, permettendo al Riflettore di sentire la stessa decisione da ogni angolazione possibile prima di agire."

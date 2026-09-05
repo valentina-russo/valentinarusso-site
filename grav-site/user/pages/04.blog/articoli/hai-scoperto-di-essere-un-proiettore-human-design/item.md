@@ -24,7 +24,7 @@ aeo_answer: "Il Proiettore Human Design (Guida in BG5®) è un tipo senza Centro
 faq:
     -
         question: "Cosa significa essere un Proiettore Human Design?"
-        answer: "Il Proiettore (Guida in BG5®) è uno dei cinque tipi energetici del Human Design, senza Centro Sacrale definito. Assorbe e amplifica l'energia degli altri. È nato per guidare e consigliare, con una vocazione diversa dalla produzione continua di un Generatore. Rappresenta circa il 20% della popolazione e il suo punto di forza è la capacità di vedere le persone e i sistemi in profondità."
+        answer: "Il Proiettore (Guida in BG5®) è uno dei cinque tipi energetici dello Human Design, senza Centro Sacrale definito. Assorbe e amplifica l'energia degli altri. È nato per guidare e consigliare, con una vocazione diversa dalla produzione continua di un Generatore. Rappresenta circa il 20% della popolazione e il suo punto di forza è la capacità di vedere le persone e i sistemi in profondità."
     -
         question: "Qual è la strategia del Proiettore Human Design?"
         answer: "La Strategia del Proiettore (Guida BG5®) è aspettare l'invito. Aspettare significa continuare a costruire competenza e visibilità, finché qualcuno ti vede davvero e ti invita a guidare. Forzare senza invito porta esaurimento e mancanza di riconoscimento, cioè amarezza. L'invito vero contiene un riconoscimento specifico della tua competenza, lontano dalle richieste generiche."
@@ -64,7 +64,7 @@ Costruisci competenza in un'area specifica, renditi visibile in quella direzione
 
 ## Il segnale di allineamento
 
-Il Human Design ti dà due segnali chiari, uno positivo e uno di allarme.
+Lo Human Design ti dà due segnali chiari, uno positivo e uno di allarme.
 
 Il successo e il riconoscimento sono il segnale che sei in allineamento. Il successo rilevante per te è quello concreto: ciò che fai produce un effetto reale e le persone te lo riconoscono dentro un contesto specifico, anche piccolo.
 

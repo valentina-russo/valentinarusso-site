@@ -19,9 +19,9 @@ Il sistema **BG5®** è nato negli Stati Uniti e per anni è rimasto accessibile
 
 Valentina Russo è tra i pochissimi consulenti **BG5® Business Institute** certificati attivi in Italia con sessioni e materiali interamente in italiano.
 
-### Perché BG5® è diverso dall'Human Design standard
+### Perché BG5® è diverso dallo Human Design standard
 
-- Dove l'Human Design parla di "Strategia e Autorità" in generale, il **BG5®** le declina specificamente nelle dinamiche professionali: team, clienti, contratti, partnership
+- Dove lo Human Design parla di "Strategia e Autorità" in generale, il **BG5®** le declina specificamente nelle dinamiche professionali: team, clienti, contratti, partnership
 - Il BG5® include strumenti per le **dinamiche di gruppo** (Penta: 2-5 persone) e le strutture aziendali (OC16: oltre 16 persone)
 - Il BG5® ha cinque **Tipi di Carriera** calibrati per il contesto professionale: Generatore (BG5: Costruttore Classico), Generatore Manifestante (BG5: Costruttore Rapido), Proiettore (BG5: Guida), Manifestatore (BG5: Iniziatore), Riflettore (BG5: Valutatore)
 

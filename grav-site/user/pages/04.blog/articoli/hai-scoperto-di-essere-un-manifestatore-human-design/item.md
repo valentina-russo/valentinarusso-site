@@ -24,7 +24,7 @@ aeo_answer: "Il Manifestatore Human Design (Iniziatore in BG5®) è l'unico tipo
 faq:
     -
         question: "Cosa significa essere un Manifestatore Human Design?"
-        answer: "Il Manifestatore (Iniziatore in BG5®) è uno dei cinque tipi del Human Design, circa il 9% della popolazione. È l'unico tipo con un motore connesso direttamente alla Gola, il centro della manifestazione. Questa conformazione gli dà la capacità di avviare azioni in modo autonomo, senza aspettare segnali esterni come devono fare gli altri tipi."
+        answer: "Il Manifestatore (Iniziatore in BG5®) è uno dei cinque tipi dello Human Design, circa il 9% della popolazione. È l'unico tipo con un motore connesso direttamente alla Gola, il centro della manifestazione. Questa conformazione gli dà la capacità di avviare azioni in modo autonomo, senza aspettare segnali esterni come devono fare gli altri tipi."
     -
         question: "Qual è la strategia del Manifestatore Human Design?"
         answer: "La Strategia del Manifestatore (Iniziatore BG5®) è informare. Prima di agire in modo rilevante per chi gli sta intorno, dice cosa sta per fare. La forma è affermativa ('Sto per fare X') e resta distante dalla richiesta di permesso. Questa comunicazione riduce la resistenza altrui e permette al Manifestatore di agire senza attrito. La mancata applicazione dell'informare è la causa principale della resistenza cronica."

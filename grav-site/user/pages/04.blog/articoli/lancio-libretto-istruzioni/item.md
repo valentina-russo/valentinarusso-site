@@ -20,7 +20,7 @@ faq:
     answer: "La versione Base (€90) ha 4 capitoli su circa 35 pagine e copre chi sei, come decidi, come sei fatto e la tua mappa di fondo. La versione Avanzata (€147) ha 7 capitoli su circa 55 pagine: contiene tutto il Base e aggiunge come comunichi, come applicare il tuo design al lavoro e una sintesi con cinque passi pratici."
   - question: "Come funziona il processo di ordine e consegna?"
     answer: "Scegli la versione e completi il pagamento via Stripe, con carta o PayPal. Subito dopo inserisci data, ora e luogo di nascita, e puoi raccontare in che momento della tua vita ti trovi. Valentina Russo elabora la carta e scrive il Libretto su quella configurazione. Il PDF arriva via email in 2-4 giorni lavorativi, senza call."
-  - question: "È adatto anche a chi non conosce già l'Human Design?"
+  - question: "È adatto anche a chi non conosce già lo Human Design?"
     answer: "Sì. Il Libretto è scritto per chi parte da zero: ogni concetto viene spiegato nel contesto della tua carta specifica, quindi non c'è niente da studiare prima. Chi conosce già il sistema ci trova un approfondimento pratico su come applicarlo alla propria vita quotidiana."
   - question: "Serve l'ora esatta di nascita?"
     answer: "L'ora è il dato più importante per un calcolo accurato, perché pochi minuti possono spostare la posizione della Luna e cambiare le linee del profilo. La fonte più affidabile è il certificato di nascita. Se non conosci l'ora esatta il Libretto resta utile, con alcune componenti interpretate con più cautela."
@@ -137,7 +137,7 @@ La consegna richiede 2-4 giorni lavorativi proprio perché il documento viene sc
 
 ![Rotolo di pergamena su scrivania antica, il Libretto d'Istruzioni Human Design](/user/pages/assets/libretto/part-5-sintesi.jpg)
 
-Se non conosci ancora il Human Design, il **Base** è sufficiente: ti dà la tua configurazione energetica e il modo in cui prendi le decisioni.
+Se non conosci ancora lo Human Design, il **Base** è sufficiente: ti dà la tua configurazione energetica e il modo in cui prendi le decisioni.
 
 L'**Avanzato** ha senso se vuoi anche la parte applicativa, cioè come comunichi e come portare il tuo design dentro il lavoro. È la versione più scelta.
 

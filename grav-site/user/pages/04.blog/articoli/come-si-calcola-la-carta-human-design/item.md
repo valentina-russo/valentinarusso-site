@@ -42,7 +42,7 @@ Calcolare la carta Human Design vuol dire ottenere una mappa del tuo sistema ene
 
 Il risultato si chiama Rave Chart o bodygraph. È un diagramma con nove centri energetici collegati da canali e gate, e mostra come sei configurato per funzionare: Tipo energetico, Strategia, Autorità Decisionale, Profilo, con il dettaglio dei centri definiti e di quelli aperti. Ogni elemento ha un valore pratico e descrive come sei effettivamente cablato, non chi "dovresti essere".
 
-Nel sistema BG5®, la versione professionale del Human Design applicata a carriera e business, la stessa carta si chiama BG5 Career Design Chart. I dati di partenza sono identici; cambia il vocabolario e l'applicazione contestuale.
+Nel sistema BG5®, la versione professionale dello Human Design applicata a carriera e business, la stessa carta si chiama BG5 Career Design Chart. I dati di partenza sono identici; cambia il vocabolario e l'applicazione contestuale.
 
 ## Cosa serve per calcolare la carta
 

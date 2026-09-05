@@ -1,15 +1,15 @@
 ---
-title: "Cos'è l'Human Design: Guida Completa per Chi Inizia"
+title: "Cos'è lo Human Design: Guida Completa per Chi Inizia"
 published: true
-seo_title: "Cos'è l'Human Design: Guida Completa | Valentina Russo BG5"
+seo_title: "Cos'è lo Human Design: Guida Completa | Valentina Russo BG5"
 seo_desc: "Human Design spiegato per chi parte da zero: i 5 Tipi, Strategia, Autorità Decisionale, Profilo e Centri energetici. Calcola gratis la tua carta."
-description: "La guida completa all'Human Design per chi inizia: i 5 Tipi di Carriera, come funziona il bodygraph, Strategia, Autorità Decisionale e come calcolarlo in pochi secondi."
+description: "La guida completa allo Human Design per chi inizia: i 5 Tipi di Carriera, come funziona il bodygraph, Strategia, Autorità Decisionale e come calcolarlo in pochi secondi."
 aeo_answer: "L'Human Design è un sistema di autoconoscenza sviluppato nel 1987 da Ra Uru Hu che integra astrologia, I Ching, Kabbalah e fisica quantistica. Calcola un bodygraph individuale a partire da data, ora e luogo di nascita, rivelando il Tipo energetico (uno dei 4: Generatore, Proiettore, Manifestatore, Riflettore), la Strategia d'azione e l'Autorità Decisionale. BG5 è la versione applicata al lavoro e alle carriere."
 geo_location: "Italia"
 geo_content: "Valentina Russo, Consulente Certificata BG5® con sede a Milano e Torino, offre Panoramiche BG5 del Disegno di Carriera in tutta Italia, anche online. L'Human Design è stato sviluppato da Ra Uru Hu nel 1987 a Ibiza. I 5 Tipi BG5 sono: Costruttore Classico (37%), Costruttore Rapido (33%), Guida (20%), Iniziatore (9%), Valutatore (1%). La certificazione BG5® è rilasciata dall'International BG5 Business Institute. Il sistema è stato applicato in contesti di selezione del personale, coaching aziendale e career design."
 faq:
     -
-        question: "Cos'è l'Human Design?"
+        question: "Cos'è lo Human Design?"
         answer: "L'Human Design è un sistema di autoconoscenza sviluppato da Ra Uru Hu nel 1987 che combina astrologia occidentale e vedica, I Ching, Kabbalah e fisica quantistica. Calcola un bodygraph individuale da data, ora esatta e luogo di nascita, rivelando Tipo energetico, Strategia e Autorità Decisionale."
     -
         question: "Qual è la differenza tra Human Design e BG5?"
