@@ -34,7 +34,7 @@ scheda:
   porte: 64, 61, 63
   n_porte: 3
   autorita: Nessuna
-  nota_autorita: non genera Autorità Decisionale
+  nota_autorita: non genera Autorità
 definito:
   titolo: Una fonte costante di domande
   testo: |

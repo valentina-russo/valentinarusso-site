@@ -34,7 +34,7 @@ scheda:
   porte: 47, 24, 4, 11, 43, 17
   n_porte: 6
   autorita: Nessuna
-  nota_autorita: non genera Autorità Decisionale
+  nota_autorita: non genera Autorità
 definito:
   titolo: Un modo fisso di ragionare
   testo: |
@@ -57,7 +57,7 @@ Nel **BG5** (Business Group 5) l'Ajna dice qualcosa sul tipo di contributo menta
 
 Chi ce l'ha aperta è più adatto a contesti dove serve considerare molte prospettive e cambiare inquadratura in fretta. Metterla in un ruolo dove deve difendere una posizione fissa per anni la costringe a fingere una rigidità che non ha.
 
-Vale per entrambi, ed è uno dei punti più ripetuti dello Human Design: **la mente non è fatta per decidere**, né definita né aperta. È fatta per elaborare, comunicare e influenzare. Le decisioni arrivano dall'Autorità, che nel BG5 si chiama Autorità Decisionale.
+Vale per entrambi, ed è uno dei punti più ripetuti dello Human Design: **la mente non è fatta per decidere**, né definita né aperta. È fatta per elaborare, comunicare e influenzare. Le decisioni arrivano dall'Autorità (Autorità Decisionale nel BG5).
 
 ## Come si legge nella tua carta
 

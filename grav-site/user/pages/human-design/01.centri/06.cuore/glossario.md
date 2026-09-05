@@ -34,7 +34,7 @@ scheda:
   porte: 21, 26, 40, 51
   n_porte: 4
   autorita: Dell'Ego
-  nota_autorita: solo per Manifestatori e Proiettori (Iniziatori e Guide)
+  nota_autorita: solo per Manifestatori (Iniziatori) e Proiettori (Guide)
 definito:
   titolo: Una volontà su cui contare
   testo: |
@@ -53,7 +53,7 @@ aperto:
 
 ## Nel lavoro
 
-Nel **BG5** (Business Group 5) il Cuore è uno dei fattori che spiegano chi sta bene nella trattativa e chi no. Nel BG5 sono i Manifestatori, cioè gli Iniziatori, e i Proiettori, cioè le Guide, gli unici che possono decidere da questo centro. Chi ce l'ha definito negozia senza consumarsi e sostiene bene un ruolo dove bisogna impegnarsi e rispondere di quell'impegno.
+Nel **BG5** (Business Group 5) il Cuore è uno dei fattori che spiegano chi sta bene nella trattativa e chi no. Chi ce l'ha definito negozia senza consumarsi e sostiene bene un ruolo dove bisogna impegnarsi e rispondere di quell'impegno.
 
 Chi ce l'ha aperto può fare le stesse cose, ma non in modo continuativo e non spingendo sulla volontà: funziona a cicli, e quando il ciclo è giù forzare produce solo esaurimento. Un ruolo costruito sul dover dimostrare costantemente il proprio valore, per queste persone, è una trappola lenta.
 
