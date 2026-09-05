@@ -27,11 +27,9 @@ def main(radice):
             for n in NOMI:
                 nuovo = nuovo.replace(n + ".png", n + ".jpg")
             if nuovo != t:
-                open(p, "w", encoding="utf-8", newline="
-").write(nuovo)
+                open(p, "w", encoding="utf-8", newline="\n").write(nuovo)
                 cambiati.append(p)
-    open("_cambiati.txt", "w", encoding="utf-8").write("
-".join(cambiati))
+    open("_cambiati.txt", "w", encoding="utf-8").write("\n".join(cambiati))
     print("pagine da aggiornare:", len(cambiati))
     for c in cambiati:
         print("  ", c)
