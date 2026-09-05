@@ -4,7 +4,7 @@ template: glossario
 published: true
 routable: true
 ordine: 3
-seo_title: 'Plesso Solare Human Design: l''onda emotiva e cosa cambia se è bianco'
+seo_title: 'Plesso Solare Human Design: l''onda emotiva'
 seo_desc: 'Il Plesso Solare nello Human Design: l''onda emotiva di chi lo ha definito, l''amplificazione delle emozioni altrui di chi lo ha aperto, l''Autorità Emotiva.'
 description: 'Il centro delle emozioni. Chi lo ha definito non ha mai la verità adesso: gli arriva col tempo, attraversando l''onda.'
 richiamo: Se decidi spesso a caldo e poi te ne penti, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti dice se hai l&rsquo;Autorit&agrave; Emotiva e quanto tempo ti serve davvero prima di rispondere.

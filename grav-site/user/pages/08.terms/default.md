@@ -2,6 +2,8 @@
 title: Termini e Condizioni
 published: true
 routable: true
+seo_title: Termini e condizioni dei servizi di Valentina Russo
+seo_desc: 'Condizioni di utilizzo del sito e dei servizi di consulenza BG5 e Human Design: prenotazioni, pagamenti, diritto di recesso e responsabilità.'
 ---
 
 **Ultimo aggiornamento:** Maggio 2026

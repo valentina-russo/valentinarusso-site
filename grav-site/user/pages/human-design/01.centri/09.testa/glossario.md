@@ -4,7 +4,7 @@ template: glossario
 published: true
 routable: true
 ordine: 9
-seo_title: 'Centro della Testa Human Design: pressione mentale e ispirazione'
+seo_title: 'Centro della Testa Human Design: la pressione mentale'
 seo_desc: 'Il Centro della Testa nello Human Design: l''ispirazione costante di chi lo ha definito e la pressione a rispondere a domande non proprie di chi lo ha bianco.'
 description: Il centro della pressione mentale. Sette persone su dieci ce l'hanno bianco e passano la vita a rispondere a domande che non sono loro.
 richiamo: Se la tua testa non si spegne mai, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti mostra quali domande sono davvero tue e quali stai portando per conto di qualcun altro.

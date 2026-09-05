@@ -257,7 +257,7 @@
         <div id="hd-save-login" style="display:none; text-align:center;">
           <p style="color:rgba(255,255,255,0.85); font-size:0.9rem; margin-bottom:0.9rem;">Crea un account gratuito per salvare le tue carte.</p>
           <div style="display:flex; gap:0.65rem; justify-content:center; flex-wrap:wrap;">
-            <a href="{{ grav.base_url }}/account" style="padding:0.55rem 1.2rem; background:#FDE8B0; color:#1E3A5F; font-weight:700; border-radius:50px; text-decoration:none; font-size:0.88rem;">Accedi o Registrati</a>
+            {% if page.find("/account") and page.find("/account").published %}<a href="{{ grav.base_url }}/account" style="padding:0.55rem 1.2rem; background:#FDE8B0; color:#1E3A5F; font-weight:700; border-radius:50px; text-decoration:none; font-size:0.88rem;">Accedi o Registrati</a>{% endif %}
             <button onclick="hdSaveClose()" style="padding:0.55rem 1rem; background:transparent; border:1px solid rgba(255,255,255,0.35); color:#fff; border-radius:50px; cursor:pointer; font-size:0.88rem;">Annulla</button>
           </div>
         </div>
@@ -1254,7 +1254,7 @@ async function gcbPickerOpen(target){
           <div style="font-size:2rem;margin-bottom:0.75rem;">🔒</div>
           <p style="color:#3a2560;font-weight:700;font-size:1rem;margin:0 0 0.4rem;">Accedi per usare le carte salvate</p>
           <p style="color:#888;font-size:0.85rem;margin:0 0 1.25rem;">Crea un account gratuito o accedi per salvare e richiamare le tue carte.</p>
-          <a href="/account" style="display:inline-block;background:#6b4fa8;color:#fff;padding:0.65rem 1.5rem;border-radius:20px;text-decoration:none;font-weight:700;font-size:0.9rem;">Vai all'account →</a>
+          {% if page.find("/account") and page.find("/account").published %}<a href="/account" style="display:inline-block;background:#6b4fa8;color:#fff;padding:0.65rem 1.5rem;border-radius:20px;text-decoration:none;font-weight:700;font-size:0.9rem;">Vai all'account →</a>{% endif %}
         </div>`;
         return;
       }

@@ -186,7 +186,7 @@ body footer a:hover { color: #fff !important; }
             </div>
             <div style="display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap;">
                 <a href="{{ grav.base_url }}/calcolo-human-design" style="padding: 0.5rem 1.2rem; background: #FDE8B0; color: #1E3A5F; font-weight: 700; font-size: 0.85rem; border-radius: 50px; text-decoration: none;">+ Nuova Carta</a>
-                <a href="{{ grav.base_url }}/account" style="font-size: 0.82rem; color: rgba(255,255,255,0.6); text-decoration: underline;">Account</a>
+                {% if page.find("/account") and page.find("/account").published %}<a href="{{ grav.base_url }}/account" style="font-size: 0.82rem; color: rgba(255,255,255,0.6); text-decoration: underline;">Account</a>{% endif %}
             </div>
         </div>
 
@@ -204,7 +204,7 @@ body footer a:hover { color: #fff !important; }
     <div id="mc-unauth" style="display:none; text-align:center; padding: 4rem 1rem;">
         <h3 style="margin-bottom: 1rem;">Accesso richiesto</h3>
         <p style="margin-bottom: 1.5rem;">Accedi al tuo account per vedere le carte salvate.</p>
-        <a href="{{ grav.base_url }}/account" style="padding: 0.65rem 1.5rem; background: #FDE8B0; color: #1E3A5F; font-weight: 700; border-radius: 50px; text-decoration: none;">Accedi</a>
+        {% if page.find("/account") and page.find("/account").published %}<a href="{{ grav.base_url }}/account" style="padding: 0.65rem 1.5rem; background: #FDE8B0; color: #1E3A5F; font-weight: 700; border-radius: 50px; text-decoration: none;">Accedi</a>{% endif %}
     </div>
 
 </div>

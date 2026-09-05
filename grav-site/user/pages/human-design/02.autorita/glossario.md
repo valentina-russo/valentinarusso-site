@@ -5,7 +5,7 @@ published: true
 routable: true
 ordine: 2
 nome_breve: Autorità
-seo_title: 'Le 7 Autorità dello Human Design: qual è la tua e come funziona'
+seo_title: 'Le 7 Autorità dello Human Design: qual è la tua'
 seo_desc: 'Emotiva, Sacrale, Splenica, dell''Ego, Autoproiettata, Mentale, e il caso di chi non ne ha nessuna: le Autorità Decisionali dello Human Design, una per una.'
 description: 'L''Autorità è il modo in cui il tuo corpo decide. Non è la mente: è il punto della carta a cui spetta l''ultima parola.'
 didascalia: I tre centri da cui nascono le Autorità più diffuse
@@ -17,7 +17,7 @@ chiusa_titolo: Non sai qual è la tua?
 chiusa_testo: Il calcolo gratuito te la dice in pochi secondi, insieme alla Tipologia (Tipo di Carriera nel BG5) e ai centri definiti.
 faq:
 - question: Quali sono le 7 Autorità dello Human Design?
-  answer: "Emotiva, Sacrale, Splenica, dell'Ego, Autoproiettata, Mentale. La settima voce non è un'Autorità ma la sua assenza: i Riflettori (Valutatori nel BG5) non ne hanno nessuna e decidono con il ciclo lunare."
+  answer: 'Emotiva, Sacrale, Splenica, dell''Ego, Autoproiettata, Mentale. La settima voce non è un''Autorità ma la sua assenza: i Riflettori (Valutatori nel BG5) non ne hanno nessuna e decidono con il ciclo lunare.'
 - question: Che cos'è l'Autorità nello Human Design?
   answer: 'È il meccanismo con cui il corpo prende una decisione, e nel BG5 (Business Group 5) si chiama Autorità Decisionale. Non è un''opinione né un ragionamento: è il punto della carta a cui spetta l''ultima parola, e la mente non è mai quel punto.'
 - question: Come si interpreta lo Human Design?

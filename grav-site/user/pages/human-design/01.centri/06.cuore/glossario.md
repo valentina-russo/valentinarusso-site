@@ -4,7 +4,7 @@ template: glossario
 published: true
 routable: true
 ordine: 6
-seo_title: 'Centro del Cuore Human Design: forza di volontà, valore, promesse'
+seo_title: 'Centro del Cuore Human Design: volontà e valore'
 seo_desc: 'Il Centro del Cuore (Ego) nello Human Design: la volontà affidabile di chi lo ha definito e il bisogno di dimostrare il proprio valore di chi lo ha bianco.'
 description: Il centro della forza di volontà e del valore. Sette persone su dieci ce l'hanno bianco, e passano la vita a dimostrare qualcosa.
 richiamo: Se ti prendi impegni che poi ti pesano, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti mostra dove stai promettendo per dimostrare invece che per volont&agrave; vera.

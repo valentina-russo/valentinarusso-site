@@ -6,7 +6,7 @@ routable: true
 ordine: 6
 nome_breve: Mentale
 seo_title: 'Autorità Mentale: come decide un Proiettore (Guida)'
-seo_desc: 'L''Autorità Mentale nello Human Design: i Proiettori (Guide) senza centri motori definiti decidono attraverso le conversazioni e l''ambiente, non dall''interno.'
+seo_desc: 'L''Autorità Mentale nello Human Design: i Proiettori (Guide) senza centri decisionali definiti decidono attraverso le conversazioni e l''ambiente giusto.'
 description: Nessuna autorità interna. La chiarezza arriva parlando con le persone giuste, nei posti giusti.
 richiamo: Se decidi bene solo dopo averne parlato con qualcuno, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti dice con chi e in che ambienti il tuo disegno funziona meglio.
 didascalia: 'L''Autorità Mentale: nessun centro decisionale definito'

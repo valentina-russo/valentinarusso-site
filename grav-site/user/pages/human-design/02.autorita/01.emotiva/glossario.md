@@ -5,7 +5,7 @@ published: true
 routable: true
 ordine: 1
 nome_breve: Emotiva
-seo_title: 'Autorità Emotiva Human Design: cos''è e quanto aspettare prima di decidere'
+seo_title: 'Autorità Emotiva Human Design: quanto aspettare'
 seo_desc: 'L''Autorità Emotiva nello Human Design: chi ha il Plesso Solare definito non ha mai chiarezza nel momento. Come funziona l''onda emotiva e quanto aspettare.'
 description: 'La più diffusa: quasi una persona su due. Per te la verità non esiste adesso, arriva col tempo.'
 richiamo: Se ti riconosci nel decidere a caldo e pentirtene, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti dice quanto dura la tua onda e come si usa nelle scelte che hai davanti.

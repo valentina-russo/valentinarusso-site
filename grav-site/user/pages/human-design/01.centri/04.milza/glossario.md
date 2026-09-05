@@ -4,7 +4,7 @@ template: glossario
 published: true
 routable: true
 ordine: 4
-seo_title: 'Centro della Milza Human Design: istinto, paura e Autorità Splenica'
+seo_title: 'Centro della Milza Human Design: istinto e Autorità'
 seo_desc: 'Il Centro della Milza nello Human Design: l''istinto costante di chi lo ha definito, le paure amplificate e le abitudini che restano di chi lo ha bianco.'
 description: Il centro dell'istinto e della sopravvivenza. Parla una volta sola, sottovoce, e non ripete.
 richiamo: Se ti sei accorto di tenerti addosso cose che non ti fanno bene, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti mostra dove il tuo corpo ti sta dando segnali che stai zittendo.

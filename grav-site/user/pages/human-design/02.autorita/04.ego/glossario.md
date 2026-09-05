@@ -5,7 +5,7 @@ published: true
 routable: true
 ordine: 4
 nome_breve: Dell'Ego
-seo_title: 'Autorità dell''Ego Human Design: il Cuore che decide, e come si usa'
+seo_title: 'Autorità dell''Ego: il Cuore che decide'
 seo_desc: 'L''Autorità dell''Ego nello Human Design: chi decide dal Centro del Cuore sente la verità nel volere, non nel dovere. Come funziona e perché è rara.'
 description: Rara. La verità esce parlando, e la domanda non è cosa è giusto ma cosa voglio io.
 richiamo: Se ti prendi impegni che poi ti pesano, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti mostra dove stai promettendo per dimostrare invece che per volontà vera.

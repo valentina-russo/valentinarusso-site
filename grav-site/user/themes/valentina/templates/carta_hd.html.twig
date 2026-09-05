@@ -588,7 +588,7 @@
           <div id="hd-save-login" style="display:none; text-align:center;">
             <p style="color:rgba(255,255,255,0.85); font-size:0.9rem; margin-bottom:0.9rem;">Crea un account gratuito per salvare le tue carte e ritrovarle in qualsiasi momento.</p>
             <div style="display:flex; gap:0.65rem; justify-content:center; flex-wrap:wrap;">
-              <a href="{{ grav.base_url }}/account" style="padding:0.55rem 1.2rem; background:#FDE8B0; color:#1E3A5F; font-weight:700; border-radius:50px; text-decoration:none; font-size:0.88rem;">Accedi o Registrati</a>
+              {% if page.find("/account") and page.find("/account").published %}<a href="{{ grav.base_url }}/account" style="padding:0.55rem 1.2rem; background:#FDE8B0; color:#1E3A5F; font-weight:700; border-radius:50px; text-decoration:none; font-size:0.88rem;">Accedi o Registrati</a>{% endif %}
               <button onclick="hdSaveClose()" style="padding:0.55rem 1rem; background:transparent; border:1px solid rgba(255,255,255,0.35); color:#fff; border-radius:50px; cursor:pointer; font-size:0.88rem;">Annulla</button>
             </div>
           </div>

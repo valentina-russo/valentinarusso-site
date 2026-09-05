@@ -2,6 +2,8 @@
 title: Informativa sulla Privacy
 published: true
 routable: true
+seo_title: 'Informativa privacy: come Valentina Russo tratta i dati personali'
+seo_desc: 'Informativa sul trattamento dei dati personali ai sensi del GDPR: quali dati raccogliamo, perché, per quanto tempo li conserviamo e come esercitare i tuoi diritti.'
 ---
 
 **Ultimo aggiornamento:** Maggio 2026

@@ -4,7 +4,7 @@ template: glossario
 published: true
 routable: true
 ordine: 2
-seo_title: 'Centro della Gola Human Design: definito o indefinito, cosa cambia'
+seo_title: 'Centro della Gola Human Design: definito o indefinito'
 seo_desc: 'Il Centro della Gola nello Human Design: la voce costante di chi lo ha definito, la versatilità e la fretta di parlare di chi lo ha bianco.'
 description: Il punto da cui l'energia esce nel mondo, come parola o come azione. È il centro più collegato di tutta la carta.
 richiamo: Se ti riconosci nel parlare per riempire i silenzi, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> spiega quando la tua voce ha davvero qualcosa da dire e quando sta solo cercando attenzione.

@@ -5,7 +5,7 @@ published: true
 routable: true
 ordine: 2
 nome_breve: Sacrale
-seo_title: 'Autorità Sacrale Human Design: cos''è e come riconoscere la risposta'
+seo_title: 'Autorità Sacrale: la risposta del corpo'
 seo_desc: 'L''Autorità Sacrale nello Human Design: chi ha il Sacrale definito e il Plesso Solare aperto decide con una risposta del corpo, immediata e viscerale.'
 description: Il corpo risponde prima che la mente costruisca una spiegazione. Vale nel momento, e solo a domande chiuse.
 richiamo: Se non riesci a distinguere la risposta del corpo da quella della testa, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ha un capitolo su come allenarla, scritto sulla tua carta.

@@ -4,7 +4,7 @@ template: glossario
 published: true
 routable: true
 ordine: 1
-seo_title: 'Centro Sacrale definito o indefinito: cosa significa nella tua carta'
+seo_title: 'Centro Sacrale definito o indefinito: cosa cambia'
 seo_desc: 'Il Centro Sacrale nello Human Design: come si vive con il sacrale definito, cosa cambia se è bianco, la risposta sacrale e il segnale di quando fermarsi.'
 description: Il motore più potente del bodygraph. Se è colorato hai energia rinnovabile e una risposta del corpo; se è bianco devi imparare quando basta.
 richiamo: 'Se ti sei riconosciuto nel non sapere quando fermarti, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ha un capitolo scritto sulla tua carta: dove la tua energia si ricarica e dove la stai prendendo in prestito.'
@@ -13,7 +13,7 @@ alt_immagine: 'Dettaglio del bodygraph: il Centro Sacrale con le porte 34, 5, 14
 chiusa_titolo: Il tuo Sacrale è colorato?
 chiusa_testo: Il calcolo gratuito ti mostra il bodygraph con i centri definiti e quelli bianchi, in pochi secondi.
 faq:
-- question: Che cos'è l'Autorità Sacrale nel Human Design?
+- question: Che cos'è l'Autorità Sacrale nello Human Design?
   answer: 'È la forma di decisione di chi ha il Sacrale definito e il Plesso Solare aperto: circa il 35% della popolazione. La scelta arriva nel momento, come risposta del corpo a una domanda chiusa, prima che la mente costruisca una spiegazione.'
 - question: Come faccio a sapere se ho il Centro Sacrale definito?
   answer: 'Calcola la tua carta: nel bodygraph il Sacrale è il quadrato in basso al centro. Se è colorato di rosso è definito e sei un Generatore (Costruttore Classico) o un Generatore Manifestante (Costruttore Rapido). Se è bianco appartieni a uno degli altri tipi.'

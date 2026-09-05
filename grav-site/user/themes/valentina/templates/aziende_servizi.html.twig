@@ -1,6 +1,6 @@
 {% extends 'partials/base.html.twig' %}
 
-{% block title %}Servizi Corporate | Valentina Russo{% endblock %}
+{% block title %}{{ page.header.seo_title ?? page.title }} | Valentina Russo{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ theme_url }}/css/d2/aziende-d2.css?v={{ theme_version }}">
