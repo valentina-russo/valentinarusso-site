@@ -51,25 +51,72 @@
 
 {% block content %}
 {% set base = grav.base_url %}
-<header class="hero gl-testa"><div class="wrap">
+{% set img = page.media|length ? page.media|first : null %}
+{% set fratelli = page.parent.children.published %}
+{% set barra = page.parent.route != '/human-design' and fratelli.count > 1 %}
+
+{% if barra %}
+<nav class="gl-barra" aria-label="{{ page.parent.title }}"><div class="wrap">
+  {% for c in fratelli.order('header.ordine','asc') %}<a href="{{ c.url }}"{% if c.route == page.route %} aria-current="page"{% endif %}>{{ c.header.nome_breve ?? c.title }}</a>{% endfor %}
+</div></nav>
+<script>(function(){var b=document.querySelector('.gl-barra .wrap');if(!b)return;var a=b.querySelector('[aria-current]');if(a&&b.scrollWidth>b.clientWidth)b.scrollLeft=a.offsetLeft-(b.clientWidth-a.offsetWidth)/2;})();</script>
+{% endif %}
+
+<header class="hero gl-testa{% if img %} gl-testa-due{% endif %}"><div class="wrap">
   <div class="rivela">
     <nav class="gl-briciole"><a href="{{ base }}/human-design">Cos&rsquo;&egrave; lo Human Design</a>{% if page.parent.route != '/human-design' %} <span>&rsaquo;</span> <a href="{{ page.parent.url }}">{{ page.parent.title }}</a>{% endif %}</nav>
     <h1>{{ page.title }}</h1>
     {% if page.header.description %}<p class="sotto">{{ page.header.description }}</p>{% endif %}
   </div>
+  {% if img %}
+  <figure class="gl-disegno rivela"><img src="{{ img.cropResize(760,1170).url }}" alt="{{ page.header.alt_immagine ?? page.title }}" style="aspect-ratio:{{ img.width ?: 1 }}/{{ img.height ?: 1 }}">{% if page.header.didascalia %}<figcaption>{{ page.header.didascalia }}</figcaption>{% endif %}</figure>
+  {% endif %}
 </div></header>
 
-{% set img = page.media|length ? page.media|first : null %}
-{% if img %}
-<figure class="gl-figura wrap"><img src="{{ img.cropResize(760,1170).url }}" alt="{{ page.header.alt_immagine ?? page.title }}" style="aspect-ratio:{{ img.width ?: 1 }}/{{ img.height ?: 1 }}" loading="lazy">{% if page.header.didascalia %}<figcaption>{{ page.header.didascalia }}</figcaption>{% endif %}</figure>
+{% set s = page.header.scheda %}
+{% if s %}
+<section class="gl-dati"><dl class="wrap">
+  <div><dt>Definito nel</dt><dd>{{ s.definito }}%<small>aperto nel {{ s.aperto }}%</small></dd></div>
+  <div><dt>Tipo di centro</dt><dd>{{ s.tipo }}<small>{{ s.nota_tipo }}</small></dd></div>
+  <div><dt>Porte</dt><dd>{{ s.n_porte }}<small>{{ s.porte }}</small></dd></div>
+  <div><dt>Autorit&agrave;</dt><dd>{{ s.autorita }}<small>{{ s.nota_autorita }}</small></dd></div>
+</dl></section>
+{% endif %}
+
+{% if page.header.apertura %}
+<section class="gl-apertura"><div class="wrap rivela blog-article-body">{{ page.header.apertura|markdown }}</div></section>
+{% endif %}
+
+{% if page.header.definito and page.header.aperto %}
+<section class="gl-facce"><div class="wrap">
+  <article class="gl-faccia rivela">
+    <span class="etich"><i class="gl-segno"></i> Se ce l&rsquo;hai definito</span>
+    <h2>{{ page.header.definito.titolo }}</h2>
+    <div class="blog-article-body">{{ page.header.definito.testo|markdown }}</div>
+  </article>
+  <article class="gl-faccia gl-aperta rivela">
+    <span class="etich"><i class="gl-segno"></i> Se ce l&rsquo;hai bianco</span>
+    <h2>{{ page.header.aperto.titolo }}</h2>
+    <div class="blog-article-body">{{ page.header.aperto.testo|markdown }}</div>
+  </article>
+</div></section>
 {% endif %}
 
 <section class="gl-corpo"><div class="wrap">
-  <div class="gl-prosa blog-article-body rivela">{{ page.content|raw }}</div>
+  {% if page.content|trim %}<div class="gl-prosa blog-article-body rivela">{{ page.content|raw }}</div>{% endif %}
   {% if page.header.richiamo %}
   <aside class="gl-richiamo rivela"><p>{{ page.header.richiamo|raw }}</p></aside>
   {% endif %}
 </div></section>
+
+{% if page.header.faq %}
+<section class="gl-faq"><div class="wrap rivela">
+  <h2>Domande frequenti</h2>
+  {% for d in page.header.faq %}
+  <details{% if loop.first %} open{% endif %}><summary>{{ d.question }}</summary><p>{{ d.answer }}</p></details>
+  {% endfor %}
+</div></section>
+{% endif %}
 
 {% if page.children.published.count %}
 <section class="sez-alt gl-figlie"><div class="wrap">
@@ -82,7 +129,7 @@
 </div></section>
 {% endif %}
 
-{% if page.parent.children.published.count > 1 and page.parent.route != '/' %}
+{% if not barra and page.parent.children.published.count > 1 and page.parent.route != '/' %}
 <section class="gl-sorelle"><div class="wrap rivela">
   <p class="etich">Continua</p>
   <p class="gl-righe">{% for c in page.parent.children.published %}{% if c.route != page.route %}<a href="{{ c.url }}">{{ c.title }}</a>{% endif %}{% endfor %}</p>

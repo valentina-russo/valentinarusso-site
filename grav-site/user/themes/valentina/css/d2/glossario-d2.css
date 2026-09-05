@@ -39,3 +39,73 @@
   border-left:3px solid var(--dom);border-radius:0 12px 12px 0}
 .d2 .gl-richiamo p{margin:0;font-size:16.5px;line-height:1.65;color:var(--ink)}
 .d2 .gl-richiamo a{color:var(--dom);text-decoration:underline;text-underline-offset:3px;font-weight:600}
+
+/* ─── Impaginato a scheda (voci dei Centri) ──────────────────────────────── */
+
+/* gli altri centri, sempre a portata mentre si scorre */
+.d2 .gl-barra{position:sticky;top:73px;z-index:9;background:var(--fondo);border-bottom:1px solid var(--linea)}
+.d2 .gl-barra .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;
+  scrollbar-width:none;-ms-overflow-style:none}
+.d2 .gl-barra .wrap::-webkit-scrollbar{display:none}
+.d2 .gl-barra a{flex:0 0 auto;padding:7px 14px;border-radius:999px;font-size:14px;text-decoration:none;
+  color:var(--muto);border:1px solid transparent;white-space:nowrap}
+.d2 .gl-barra a:hover{border-color:var(--linea);color:var(--ink)}
+.d2 .gl-barra a[aria-current]{background:var(--dom);color:#fff;font-weight:600}
+
+/* testata a due colonne: il disegno accanto al titolo, non sotto */
+.d2 .gl-testa-due .wrap{display:grid;grid-template-columns:1fr 320px;gap:48px;align-items:center;max-width:var(--maxw)}
+.d2 .gl-disegno{margin:0}
+.d2 .gl-disegno img{display:block;width:100%;height:auto}
+.d2 .gl-disegno figcaption{margin-top:10px;font-size:13px;color:var(--muto);text-align:center}
+
+/* i dati in chiaro, non annegati nel testo */
+.d2 .gl-dati{padding:0;background:var(--carta);border-top:1px solid var(--linea);border-bottom:1px solid var(--linea)}
+.d2 .gl-dati .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:var(--maxw)}
+.d2 .gl-dati div{padding:22px 0}
+.d2 .gl-dati div+div{border-left:1px solid var(--linea);padding-left:24px}
+.d2 .gl-dati dt{font:600 11.5px Outfit,sans-serif;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muto);margin-bottom:6px}
+.d2 .gl-dati dd{margin:0;font-family:var(--num);font-size:24px;line-height:1.2;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.d2 .gl-dati dd small{display:block;font-family:Outfit,sans-serif;font-size:13.5px;color:var(--muto);
+  margin-top:4px;letter-spacing:0}
+
+/* apertura */
+.d2 .gl-apertura{padding:52px 0 0}
+.d2 .gl-apertura .wrap{display:block;max-width:720px}
+.d2 .gl-apertura p{font-size:19px;line-height:1.7;margin:0 0 16px;max-width:none}
+
+/* le due facce affiancate: e' la domanda vera di chi legge */
+.d2 .gl-facce{padding:44px 0 0}
+.d2 .gl-facce .wrap{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch;max-width:1000px}
+.d2 .gl-faccia{padding:30px 30px 26px;border-radius:14px;border:1px solid var(--linea);background:var(--carta)}
+.d2 .gl-aperta{background:transparent;border-style:dashed}
+.d2 .gl-faccia .etich{display:inline-flex;align-items:center;gap:9px;font:600 12px Outfit,sans-serif;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--dom);margin-bottom:14px}
+.d2 .gl-aperta .etich{color:var(--muto)}
+.d2 .gl-segno{width:12px;height:12px;border-radius:3px;background:var(--dom);flex:0 0 auto}
+.d2 .gl-aperta .gl-segno{background:transparent;border:1.5px solid var(--muto)}
+.d2 .gl-faccia h2{font-size:23px;line-height:1.25;margin:0 0 12px}
+.d2 .gl-faccia p{margin:0 0 14px;font-size:16.5px;line-height:1.65;max-width:none}
+.d2 .gl-faccia p:last-child{margin-bottom:0}
+
+/* domande frequenti, adesso anche visibili */
+.d2 .gl-faq{padding:64px 0 0}
+.d2 .gl-faq .wrap{display:block;max-width:720px}
+.d2 .gl-faq h2{font-size:clamp(24px,2.4vw,30px);margin:0 0 18px}
+.d2 .gl-faq details{border-bottom:1px solid var(--linea);padding:16px 0}
+.d2 .gl-faq summary{cursor:pointer;font-weight:600;font-size:17px;list-style:none;padding-right:28px;position:relative}
+.d2 .gl-faq summary::-webkit-details-marker{display:none}
+.d2 .gl-faq summary::after{content:"+";position:absolute;right:0;top:-2px;color:var(--dom);font-size:22px;line-height:1}
+.d2 .gl-faq details[open] summary::after{content:"\2212"}
+.d2 .gl-faq details p{margin:12px 0 0;color:var(--muto);font-size:16.5px;line-height:1.7;max-width:none}
+
+@media (max-width:900px){
+  .d2 .gl-testa-due .wrap{grid-template-columns:1fr;gap:26px}
+  .d2 .gl-disegno{max-width:260px;margin-inline:auto}
+  .d2 .gl-dati .wrap{grid-template-columns:1fr 1fr}
+  .d2 .gl-dati div:nth-child(3){border-left:none;padding-left:0;border-top:1px solid var(--linea)}
+  .d2 .gl-dati div:nth-child(4){border-top:1px solid var(--linea)}
+  .d2 .gl-facce .wrap{grid-template-columns:1fr;gap:18px}
+  .d2 .gl-faccia{padding:24px 22px}
+}
