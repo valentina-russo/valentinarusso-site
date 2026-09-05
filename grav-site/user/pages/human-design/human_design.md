@@ -13,7 +13,7 @@ faq:
         answer: "L'Human Design è un sistema di autoconoscenza sviluppato da Ra Uru Hu nel 1987 che combina astrologia occidentale e vedica, I Ching, Kabbalah e fisica quantistica. Calcola un bodygraph individuale da data, ora esatta e luogo di nascita, rivelando Tipo energetico, Strategia e Autorità Decisionale."
     -
         question: "Qual è la differenza tra Human Design e BG5?"
-        answer: "BG5 (Business Human Design) è l'applicazione professionale di Human Design. Usa la stessa carta ma focalizza la lettura su dinamiche lavorative, processi decisionali professionali e compatibilità nei team. In BG5 il Tipo diventa Tipo di Carriera, l'Autorità diventa Autorità Decisionale, il Profilo diventa Profilo di Carriera."
+        answer: "BG5 (Business Group 5) è l'applicazione professionale di Human Design. Usa la stessa carta ma focalizza la lettura su dinamiche lavorative, processi decisionali professionali e compatibilità nei team. In BG5 il Tipo diventa Tipo di Carriera, l'Autorità diventa Autorità Decisionale, il Profilo diventa Profilo di Carriera."
     -
         question: "Quanti Tipi esistono in Human Design?"
         answer: "In Human Design esistono 4 Tipi: Generatore (circa 70%, include il Generatore Manifestante), Proiettore (20%), Manifestatore (9%) e Riflettore (1%). Ogni Tipo ha una Strategia specifica e un tema emotivo che indica allineamento o disallineamento. Nel sistema BG5 il Generatore si distingue in Costruttore Classico e Costruttore Rapido, per un totale di 5 profili di carriera."
