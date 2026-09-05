@@ -383,31 +383,16 @@ jobs:
           server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/articoli/croce-incarnazione-human-design/
           dangerous-clean-slate: false
 
-      - name: Deploy pagina indice /blog (blog_list.md, senza gli articoli)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.ARUBA_FTP_HOST }}
-          username: ${{ secrets.ARUBA_FTP_USER }}
-          password: ${{ secrets.ARUBA_FTP_PASS }}
-          local-dir: ./grav-site/user/pages/04.blog/
-          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/04.blog/
-          dangerous-clean-slate: false
-          exclude: |
-            */**
-            **/.git*
-
-      - name: Deploy pagina indice /aziende/blog (blog_list.md, senza gli articoli)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.ARUBA_FTP_HOST }}
-          username: ${{ secrets.ARUBA_FTP_USER }}
-          password: ${{ secrets.ARUBA_FTP_PASS }}
-          local-dir: ./grav-site/user/pages/05.aziende/02.blog/
-          server-dir: ${{ secrets.ARUBA_FTP_PATH }}user/pages/05.aziende/02.blog/
-          dangerous-clean-slate: false
-          exclude: |
-            */**
-            **/.git*
+      - name: Deploy pagine indice del blog (i due blog_list.md)
+        env:
+          H: ${{ secrets.ARUBA_FTP_HOST }}
+          U: ${{ secrets.ARUBA_FTP_USER }}
+          P: ${{ secrets.ARUBA_FTP_PASS }}
+          D: ${{ secrets.ARUBA_FTP_PATH }}
+        run: |
+          sudo apt-get install -y -q lftp >/dev/null
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no;             put -O ${D}user/pages/04.blog grav-site/user/pages/04.blog/blog_list.md -o blog_list.md;             put -O ${D}user/pages/05.aziende/02.blog grav-site/user/pages/05.aziende/02.blog/blog_list.md -o blog_list.md;             bye"
+          echo "caricate le due pagine indice del blog"
 
       - name: Deploy pagina hub /aziende (aziende_home.md)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
