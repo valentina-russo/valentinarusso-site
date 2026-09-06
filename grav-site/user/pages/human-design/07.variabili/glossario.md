@@ -12,9 +12,9 @@ didascalia: 'Le quattro Variabili: ogni freccia punta a destra o a sinistra'
 alt_immagine: 'Le quattro Variabili disegnate come frecce: Determinazione e Ambiente dal Design, Prospettiva e Motivazione dalla Personalità'
 etichetta_figlie: Le quattro
 titolo_figlie: Una per una
-richiamo: Il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> arriva fino alla tua Determinazione e al tuo Ambiente, con le indicazioni pratiche scritte sulla tua carta.
+richiamo: 'Le Variabili si leggono in due modi: dentro la <a href="/servizi#singole">Prima Lettura</a>, insieme a Tipologia, Strategia e Autorit&agrave;, oppure con la <a href="/servizi#singole">Lettura PHS</a>, una sessione dedicata solo a questo strato per chi la mappa di base ce l&rsquo;ha gi&agrave;.'
 chiusa_titolo: Vuoi leggere le tue Variabili?
-chiusa_testo: 'Sono lo strato che chiede più precisione e più contesto: nella Prima Lettura partiamo dal verificare la tua ora di nascita e arriviamo alle indicazioni pratiche.'
+chiusa_testo: Nella Prima Lettura le guardiamo insieme al resto della carta. Se la mappa di base ce l'hai gi&agrave;, la Lettura PHS &egrave; la sessione dedicata solo a questo strato.
 faq:
 - question: Cosa sono le Variabili nello Human Design?
   answer: 'Sono le quattro frecce disegnate sopra la testa nel bodygraph: Determinazione, Ambiente, Prospettiva e Motivazione. Descrivono come una persona assimila, dove sta bene, come guarda le cose e cosa la mette in moto.'

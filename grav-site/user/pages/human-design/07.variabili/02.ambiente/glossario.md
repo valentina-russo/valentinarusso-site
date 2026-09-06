@@ -8,11 +8,11 @@ nome_breve: Ambiente
 seo_title: 'Ambiente corretto Human Design: la seconda Variabile'
 seo_desc: 'L''Ambiente nello Human Design: il tipo di spazio in cui il corpo funziona meglio. Cosa descrive e perché va letto sulla carta, non su una lista.'
 description: Il tipo di spazio in cui il tuo corpo si rilassa. Riguarda il posto, non le persone.
-richiamo: 'Il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> arriva fino a questa parte: che spazi cercare e quali evitare, sulla base della tua carta.'
+richiamo: Che spazi cercare e cosa cambiare in quelli in cui vivi adesso si vede nella <a href="/servizi#singole">Lettura PHS</a>, dove Ambiente e Determinazione si leggono in coppia. Se parti da zero, prima la <a href="/servizi#singole">Prima Lettura</a>.
 didascalia: 'L''Ambiente: la seconda freccia del Design, destra o sinistra'
 alt_immagine: Le quattro Variabili con l'Ambiente evidenziato, nelle due direzioni possibili
-chiusa_titolo: Sai qual è il tuo Ambiente?
-chiusa_testo: Nella Prima Lettura vediamo che tipo di spazi ti fanno bene, e perché in certi posti non riesci a stare.
+chiusa_titolo: Sai qual &egrave; il tuo Ambiente?
+chiusa_testo: Nella Lettura PHS guardiamo Ambiente e Determinazione insieme, e cosa spostare nei posti in cui vivi adesso. Se parti da zero, prima la Prima Lettura.
 faq:
 - question: Cos'è l'Ambiente nello Human Design?
   answer: 'È la Variabile che descrive il tipo di spazio in cui il corpo si rilassa e rende: riguarda caratteristiche strutturali del posto, come la luce o l''altezza rispetto a quello che c''è intorno, non l''arredamento.'

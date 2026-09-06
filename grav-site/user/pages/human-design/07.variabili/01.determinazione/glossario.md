@@ -8,11 +8,11 @@ nome_breve: Determinazione
 seo_title: 'PHS Human Design: la Determinazione e l''alimentazione'
 seo_desc: 'La Determinazione nello Human Design, il PHS: come il corpo assimila il cibo. Perché non è una dieta e perché serve l''ora di nascita al minuto.'
 description: 'Come il tuo corpo assimila. Non è una dieta: è il modo in cui il cibo va incontrato.'
-richiamo: 'Il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> arriva fino a questa parte: cosa cambia concretamente nel tuo modo di mangiare, scritto sulla tua carta.'
+richiamo: Il tuo regime alimentare si traduce in indicazioni pratiche nella <a href="/servizi#singole">Lettura PHS</a>, la sessione dedicata a questo strato. Se non hai ancora la mappa di base, si parte dalla <a href="/servizi#singole">Prima Lettura</a>.
 didascalia: 'La Determinazione: la prima freccia del Design, destra o sinistra'
 alt_immagine: Le quattro Variabili con la Determinazione evidenziata, nelle due direzioni possibili
 chiusa_titolo: Vuoi leggere il tuo PHS?
-chiusa_testo: Nella Prima Lettura verifichiamo prima l'ora di nascita, poi guardiamo cosa cambia davvero nel tuo modo di mangiare.
+chiusa_testo: La Lettura PHS parte dal verificare la tua ora di nascita e arriva a cosa cambia davvero nel tuo modo di mangiare. Se non hai ancora la mappa di base, si comincia dalla Prima Lettura.
 faq:
 - question: Cos'è il PHS nello Human Design?
   answer: 'PHS sta per Primary Health System ed è la Determinazione: il modo in cui il corpo assimila il cibo. Nel bodygraph è la freccia in alto a sinistra, quella che deriva dal Sole del Design.'

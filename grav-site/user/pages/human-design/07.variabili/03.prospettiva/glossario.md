@@ -8,11 +8,11 @@ nome_breve: Prospettiva
 seo_title: 'Prospettiva Human Design: la Variabile della Personalità'
 seo_desc: 'La Prospettiva nello Human Design: la lente attraverso cui guardi le cose. Cosa descrive e perché è una lettura personale, non una categoria.'
 description: Da che parte guardi le cose. È la lente che usi senza accorgerti di usarla.
-richiamo: Il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> parte da qui per spiegare perché certe cose ti sembrano ovvie e ad altri no.
+richiamo: 'La tua lente te la pu&ograve; descrivere solo qualcuno da fuori: si fa nella <a href="/servizi#singole">Prima Lettura</a>, dove la Prospettiva si legge insieme al resto della carta, o nella <a href="/servizi#singole">Lettura PHS</a> se la base ce l&rsquo;hai gi&agrave;.'
 didascalia: 'La Prospettiva: la prima freccia della Personalità, destra o sinistra'
 alt_immagine: Le quattro Variabili con la Prospettiva evidenziata, nelle due direzioni possibili
-chiusa_titolo: Qual è la tua Prospettiva?
-chiusa_testo: Nella Prima Lettura guardiamo la tua lente e cosa ti fa vedere che agli altri sfugge.
+chiusa_titolo: Qual &egrave; la tua Prospettiva?
+chiusa_testo: Nella Prima Lettura te la descrivo da fuori, verificandola su come hai deciso davvero. Se la base ce l'hai gi&agrave;, la Lettura PHS entra in tutte e quattro le Variabili.
 faq:
 - question: Cos'è la Prospettiva nello Human Design?
   answer: È la Variabile che descrive l'angolazione da cui una persona guarda le cose, prima ancora che diventino opinioni. Nel bodygraph è la freccia in alto a destra, dal Sole della Personalità.

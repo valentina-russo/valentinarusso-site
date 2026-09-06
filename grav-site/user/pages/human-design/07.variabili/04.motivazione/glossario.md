@@ -8,11 +8,11 @@ nome_breve: Motivazione
 seo_title: 'Motivazione Human Design: la quarta Variabile'
 seo_desc: 'La Motivazione nello Human Design: la spinta che sta sotto le ragioni che ci raccontiamo. Cosa descrive e perché va letta insieme al resto della carta.'
 description: Cosa ti mette in moto davvero, sotto le ragioni che ti racconti.
-richiamo: Il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti aiuta a distinguere la spinta vera dalla giustificazione, sulle scelte che hai in corso.
+richiamo: 'Qui serve un confronto, non una scheda: la Motivazione si verifica sulle scelte che hai fatto davvero, nella <a href="/servizi#singole">Prima Lettura</a> o nella <a href="/servizi#singole">Lettura PHS</a> se hai gi&agrave; la tua mappa di base.'
 didascalia: 'La Motivazione: la seconda freccia della Personalità, destra o sinistra'
 alt_immagine: Le quattro Variabili con la Motivazione evidenziata, nelle due direzioni possibili
 chiusa_titolo: Cosa ti muove davvero?
-chiusa_testo: Nella Prima Lettura guardiamo la tua Motivazione e dove sta lavorando contro di te.
+chiusa_testo: Nella Prima Lettura la verifichiamo sulle scelte che hai fatto, non su come ti descrivi. Se hai gi&agrave; la tua mappa, la Lettura PHS entra nel dettaglio delle quattro frecce.
 faq:
 - question: Cos'è la Motivazione nello Human Design?
   answer: 'È la Variabile che descrive la spinta che sta sotto le ragioni dichiarate: cosa mette davvero in moto una persona. Nel bodygraph è la freccia in basso a destra, dal Nodo della Personalità.'
