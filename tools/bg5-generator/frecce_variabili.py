@@ -60,6 +60,8 @@ SLOT = {
 
 
 def frecce(accesa=None):
+    """accesa: il nome di una Variabile, oppure un insieme di nomi."""
+    accese = set() if accesa is None else ({accesa} if isinstance(accesa, str) else set(accesa))
     img = Image.new("RGBA", (L, A), (255, 255, 255, 0))
     d = ImageDraw.Draw(img)
     f_et = _font(26)
@@ -78,7 +80,7 @@ def frecce(accesa=None):
     for nome, (col, riga, etichetta, colore) in SLOT.items():
         x = x0 + col * (LARG + GAP_X)
         y = y0 + riga * (alt_slot + GAP_Y)
-        acceso = nome == accesa
+        acceso = nome in accese
         c = colore if acceso else SPENTO
 
         freccia(d, x, y, LARG, ALT, "sinistra", c)
