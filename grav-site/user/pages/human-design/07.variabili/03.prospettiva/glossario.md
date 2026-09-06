@@ -9,8 +9,8 @@ seo_title: 'Prospettiva Human Design: la Variabile della Personalità'
 seo_desc: 'La Prospettiva nello Human Design: la lente attraverso cui guardi le cose. Cosa descrive e perché è una lettura personale, non una categoria.'
 description: Da che parte guardi le cose. È la lente che usi senza accorgerti di usarla.
 richiamo: Il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> parte da qui per spiegare perché certe cose ti sembrano ovvie e ad altri no.
-didascalia: 'La Prospettiva: la prima freccia della Personalità'
-alt_immagine: Le quattro Variabili con la Prospettiva evidenziata in alto a destra
+didascalia: 'La Prospettiva: la prima freccia della Personalità, destra o sinistra'
+alt_immagine: Le quattro Variabili con la Prospettiva evidenziata, nelle due direzioni possibili
 chiusa_titolo: Qual è la tua Prospettiva?
 chiusa_testo: Nella Prima Lettura guardiamo la tua lente e cosa ti fa vedere che agli altri sfugge.
 faq:

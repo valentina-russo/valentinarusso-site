@@ -9,8 +9,8 @@ seo_title: 'Motivazione Human Design: la quarta Variabile'
 seo_desc: 'La Motivazione nello Human Design: la spinta che sta sotto le ragioni che ci raccontiamo. Cosa descrive e perché va letta insieme al resto della carta.'
 description: Cosa ti mette in moto davvero, sotto le ragioni che ti racconti.
 richiamo: Il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti aiuta a distinguere la spinta vera dalla giustificazione, sulle scelte che hai in corso.
-didascalia: 'La Motivazione: la seconda freccia della Personalità'
-alt_immagine: Le quattro Variabili con la Motivazione evidenziata in basso a destra
+didascalia: 'La Motivazione: la seconda freccia della Personalità, destra o sinistra'
+alt_immagine: Le quattro Variabili con la Motivazione evidenziata, nelle due direzioni possibili
 chiusa_titolo: Cosa ti muove davvero?
 chiusa_testo: Nella Prima Lettura guardiamo la tua Motivazione e dove sta lavorando contro di te.
 faq:

@@ -9,8 +9,8 @@ seo_title: 'Ambiente corretto Human Design: la seconda Variabile'
 seo_desc: 'L''Ambiente nello Human Design: il tipo di spazio in cui il corpo funziona meglio. Cosa descrive e perché va letto sulla carta, non su una lista.'
 description: Il tipo di spazio in cui il tuo corpo si rilassa. Riguarda il posto, non le persone.
 richiamo: 'Il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> arriva fino a questa parte: che spazi cercare e quali evitare, sulla base della tua carta.'
-didascalia: 'L''Ambiente: la seconda freccia del Design'
-alt_immagine: Le quattro Variabili con l'Ambiente evidenziato in basso a sinistra
+didascalia: 'L''Ambiente: la seconda freccia del Design, destra o sinistra'
+alt_immagine: Le quattro Variabili con l'Ambiente evidenziato, nelle due direzioni possibili
 chiusa_titolo: Sai qual è il tuo Ambiente?
 chiusa_testo: Nella Prima Lettura vediamo che tipo di spazi ti fanno bene, e perché in certi posti non riesci a stare.
 faq:

@@ -8,8 +8,8 @@ nome_breve: Variabili
 seo_title: 'Variabili e PHS Human Design: le quattro frecce'
 seo_desc: 'Le quattro Variabili dello Human Design: Determinazione, Ambiente, Prospettiva e Motivazione. Cosa sono, e perché richiedono l''ora di nascita al minuto.'
 description: 'Le quattro frecce sopra la testa: come assimili, dove stai bene, come guardi, cosa ti muove. È lo strato più fine della carta.'
-didascalia: 'Le quattro Variabili: due dal Design, due dalla Personalità'
-alt_immagine: 'Le quattro posizioni delle Variabili: Determinazione e Ambiente a sinistra, Prospettiva e Motivazione a destra'
+didascalia: 'Le quattro Variabili: ogni freccia punta a destra o a sinistra'
+alt_immagine: 'Le quattro Variabili disegnate come frecce: Determinazione e Ambiente dal Design, Prospettiva e Motivazione dalla Personalità'
 etichetta_figlie: Le quattro
 titolo_figlie: Una per una
 richiamo: Il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> arriva fino alla tua Determinazione e al tuo Ambiente, con le indicazioni pratiche scritte sulla tua carta.
@@ -31,6 +31,8 @@ Sopra la testa del bodygraph ci sono **quattro frecce**. Sono le **Variabili**, 
 Due vengono dal **Design**, la parte inconscia: la **Determinazione**, cioè come assimili, e l'**Ambiente**, cioè dove stai bene. Due vengono dalla **Personalità**, la parte che riconosci: la **Prospettiva**, cioè come guardi le cose, e la **Motivazione**, cioè cosa ti mette in moto.
 
 La Determinazione ha anche un nome suo: **PHS**, *Primary Health System*.
+
+Ogni freccia punta **a destra o a sinistra**, e la direzione cambia da persona a persona: è quella a dire come funziona quella Variabile per te. Nel calcolo la trovi scritta in forma compatta, per esempio **PLR DLR**.
 
 ## Dove le trovi
 

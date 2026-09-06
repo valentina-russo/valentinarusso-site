@@ -9,8 +9,8 @@ seo_title: 'PHS Human Design: la Determinazione e l''alimentazione'
 seo_desc: 'La Determinazione nello Human Design, il PHS: come il corpo assimila il cibo. Perché non è una dieta e perché serve l''ora di nascita al minuto.'
 description: 'Come il tuo corpo assimila. Non è una dieta: è il modo in cui il cibo va incontrato.'
 richiamo: 'Il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> arriva fino a questa parte: cosa cambia concretamente nel tuo modo di mangiare, scritto sulla tua carta.'
-didascalia: 'La Determinazione: la prima freccia del Design'
-alt_immagine: Le quattro Variabili con la Determinazione evidenziata in alto a sinistra
+didascalia: 'La Determinazione: la prima freccia del Design, destra o sinistra'
+alt_immagine: Le quattro Variabili con la Determinazione evidenziata, nelle due direzioni possibili
 chiusa_titolo: Vuoi leggere il tuo PHS?
 chiusa_testo: Nella Prima Lettura verifichiamo prima l'ora di nascita, poi guardiamo cosa cambia davvero nel tuo modo di mangiare.
 faq:
