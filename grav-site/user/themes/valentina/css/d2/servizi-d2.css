@@ -62,3 +62,8 @@
 .d2 .sv-teaser p{max-width:60ch;color:var(--ink)}
 @media (max-width:1000px){.d2 .sv-hero .wrap{grid-template-columns:1fr}.d2 .sv-griglia,.d2 .sv-4{grid-template-columns:1fr 1fr}.d2 .sv-grande{grid-column:span 2}.d2 .sv-libretto{grid-template-columns:1fr}}
 @media (max-width:640px){.d2 .sv-griglia,.d2 .sv-4{grid-template-columns:1fr}.d2 .sv-grande{grid-column:auto}}
+
+/* scheda con due percorsi: la lettura da sola e quella insieme alla base */
+.d2 .sv-corpo .sv-azioni{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.d2 .sv-corpo .sv-azioni .btn{align-self:auto;margin-top:0;font-size:14.5px;padding:0 18px;min-height:42px}
+.d2 .sv-corpo .sv-nota{margin:2px 0 0;font-size:13px;line-height:1.5;color:var(--muto)}
