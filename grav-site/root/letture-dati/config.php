@@ -9,7 +9,8 @@
  *   child   -> dati di nascita del figlio/a + contatto del genitore
  *
  * NB PREZZI: tutti confermati esplicitamente da Marco. Foundation 210,
- * Bimbo 210, Coppia 300, Ritorno Solare 150, tutte le altre 250.
+ * Bimbo 210, Coppia 300, PHS 120, Prima Lettura + PHS 330, Ritorno
+ * Solare 150, tutte le altre 250.
  */
 
 declare(strict_types=1);
@@ -49,6 +50,20 @@ const LETTURE_CATALOG = [
         'amount'      => 25000, // €250,00 — CONFERMATO
         'data_mode'   => 'single',
         'duration'    => '90 minuti',
+    ],
+    'phs' => [
+        'name'        => 'Lettura PHS',
+        'description' => 'Determinazione e Ambiente: in che condizioni il corpo assimila e in che spazi funziona meglio. Per chi ha la mappa di base ma non questo strato.',
+        'amount'      => 12000, // €120,00 — CONFERMATO (06/09)
+        'data_mode'   => 'single',
+        'duration'    => '90 minuti',
+    ],
+    'foundation-phs' => [
+        'name'        => 'Prima Lettura + Lettura PHS',
+        'description' => 'Il percorso completo in due sessioni separate: prima la mappa di base, poi le Variabili con alimentazione e ambiente.',
+        'amount'      => 33000, // €330,00 — CONFERMATO (06/09), 210 + 120
+        'data_mode'   => 'single',
+        'duration'    => 'due sessioni',
     ],
     'ritorno-solare' => [
         'name'        => 'Lettura del Ritorno Solare',
