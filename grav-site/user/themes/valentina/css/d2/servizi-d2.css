@@ -71,6 +71,11 @@
 /* Lettura PHS: la scheda tiene tutta la riga e lo spazio in piu' serve a
    separare i due temi della lettura, invece di allungare un paragrafo solo.
    Sotto i 1000px resta la scheda impilata come le altre. */
+.d2 .sv-phs>picture{display:contents}
+/* con display:contents il <source> smette di essere nascosto dal browser e
+   diventa una cella della griglia: va spento a mano */
+.d2 .sv-phs>picture>source{display:none}
+.d2 .sv-phs>picture>img{width:100%;height:auto;aspect-ratio:16/7;object-fit:cover}
 .d2 .sv-phs-due{display:grid;gap:16px}
 .d2 .sv-phs-voce h4{font-family:"Playfair Display",Georgia,serif;font-weight:700;font-size:18px;line-height:1.25;margin:0 0 6px;color:var(--ink)}
 .d2 .sv-phs-voce p{margin:0;font-size:15px;line-height:1.6;color:var(--ink)}
@@ -78,7 +83,7 @@
 
 @media (min-width:1001px){
   .d2 .sv-phs{grid-column:span 3;display:grid;grid-template-columns:.52fr 1fr;align-items:stretch}
-  .d2 .sv-phs>img{height:100%;aspect-ratio:auto;object-fit:cover}
+  .d2 .sv-phs>picture>img{height:100%;aspect-ratio:auto;object-fit:cover}
   .d2 .sv-phs .sv-corpo{gap:24px;padding:34px 38px 36px}
   .d2 .sv-phs .desc{max-width:78ch}
   .d2 .sv-phs-due{grid-template-columns:1fr 1fr;column-gap:36px}
@@ -91,3 +96,8 @@
   .d2 .sv-phs-piede .sv-azioni .btn{justify-content:center}
   .d2 .sv-phs-piede .sv-nota{grid-column:1/-1;grid-row:3;margin:0}
 }
+
+/* Percorsi BG5: la riga di dettaglio (sessioni, materiali, durata) va sotto il
+   prezzo invece che di fianco, cosi' si legge per intero anche in colonna stretta */
+.d2 .sv-business .sv-meta{flex-direction:column;align-items:flex-start;gap:6px}
+.d2 .sv-business .sv-meta .durata{line-height:1.45}
