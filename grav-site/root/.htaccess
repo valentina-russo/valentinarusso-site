@@ -40,14 +40,18 @@ AddCharset UTF-8 .txt .md .json .xml
     RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
     ## REDIRECT vecchi URL WordPress → Grav equivalenti (301)
-    RewriteRule ^2025/02/03/relazioni-e-bisogni-emotivi/?$ /blog/relazioni-bisogni-emotivi [R=301,L]
-    RewriteRule ^2025/03/24/la-mente-innamorata1/?$ /blog/la-mente-innamorata-1 [R=301,L]
+    RewriteRule ^2025/02/03/relazioni-e-bisogni-emotivi/?$ /blog/articoli/relazioni-bisogni-emotivi [R=301,L]
     RewriteRule ^category/la-mente-innamorata/?$ /blog [R=301,L]
     RewriteRule ^info-contatti/?$ /contatti [R=301,L]
     RewriteRule ^sistema-mentecorpo/?$ /servizi [R=301,L]
     RewriteRule ^wp-admin/?$ / [R=301,L]
     RewriteRule ^wp-login\.php$ / [R=301,L]
     RewriteRule ^feed/?$ / [R=301,L]
+
+    ## Due URL sbagliate finite nell'indice di Google (una lettera di troppo,
+    ## e un residuo '-copy' di un duplicato): le mandiamo sull'articolo vero
+    RewriteRule ^aziende/blog/bg5-transizione-2027-preparare-azienda-cambio-ciclico/?$ /aziende/blog/bg5-transizione-2027-preparare-azienda-cambio-ciclo [R=301,L]
+    RewriteRule ^aziende/blog/bg5-selezione-personale-assumere-design-copy/?$ /aziende/blog/bg5-selezione-personale-assumere-design [R=301,L]
 
     ## REDIRECT admin.php → /admin (Grav Admin)
     RewriteRule ^admin\.php$ /admin [R=301,L]
@@ -60,14 +64,15 @@ AddCharset UTF-8 .txt .md .json .xml
 
     ## /blog/{slug} → /blog/articoli/{slug} (301)
     ## Gli articoli "nuovi" vivono in pages/04.blog/articoli/, ma Google indicizza /blog/{slug}.
-    ## Senza questa redirect Grav crasha (500). Escludiamo i 7 articoli "legacy" che invece
-    ## sono in pages/04.blog/{slug}/ direttamente (raggiungibili al path corto).
+    ## Senza questa redirect Grav crasha (500). Restano fuori solo i quattro slug
+    ## che non esistono piu' da nessuna parte (non pubblicati): per quelli un 404
+    ## diretto e' meglio di un 301 verso un 404.
     ## /blog/articoli (la cartella, senza articolo) -> /blog
     ## senza questa riga la regola sotto lo manda su /blog/articoli/articoli (404)
     RewriteRule ^blog/articoli/?$ /blog [R=301,L]
 
     RewriteCond %{REQUEST_URI} !^/blog/articoli/
-    RewriteCond %{REQUEST_URI} !^/blog/(esplosioni-emotive|relazioni-bisogni-emotivi|la-mente-innamorata-[123]|potere-creativo-malinconia|ansia-human-design-centro-ajna-mente-corpo)/?$ [NC]
+    RewriteCond %{REQUEST_URI} !^/blog/(la-mente-innamorata-[123]|potere-creativo-malinconia)/?$ [NC]
     RewriteRule ^blog/([^/]+)/?$ /blog/articoli/$1 [R=301,L]
 
     ## Blocca accesso a file sensibili (non system/assets né themes/plugins — contengono CSS/JS)

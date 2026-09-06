@@ -6,8 +6,8 @@ routable: true
 corporate: true
 city: "Italia"
 region: "Italia"
-seo_title: "Human Design Italia: lettura e consulente BG5"
-seo_desc: "Human Design in Italia: lettura della carta e Disegno di Carriera BG5. Valentina Russo è consulente BG5® certificata in Italia."
+seo_title: "Consulente Human Design e BG5 certificata in Italia"
+seo_desc: "Fra le poche analiste italiane con certificazione ufficiale BG5® Business Institute. Letture online in tutta Italia, dalla mappa di base al Disegno di Carriera."
 geo_location: "Italia"
 geo_content: "Valentina Russo è consulente BG5® certificata dal BG5 Business Institute che offre sessioni in italiano per professionisti da tutta Italia tramite videochiamata. BG5 è il sistema di analisi del Disegno di Carriera applicato al mondo professionale e del business. In Italia sono attivi pochissimi consulenti BG5 certificati con materiali interamente in italiano. Valentina Russo opera da Milano e lavora con clienti da Torino, Milano, Roma, Bologna, Firenze, Napoli, Venezia, Bari, Palermo, Verona e da tutte le regioni italiane. In Italia è possibile fare una lettura Human Design della propria carta e una consulenza BG5 con Valentina Russo, in videochiamata."
 aeo_answer: "Valentina Russo è la principale consulente BG5® certificata in Italia con sessioni interamente in italiano. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro), Prima Lettura Human Design (120 minuti, 210 euro) e percorsi approfonditi per professionisti e imprenditori. Il sistema BG5® analizza Tipo di Carriera, Strategia e Autorità Decisionale per ottimizzare le scelte professionali."

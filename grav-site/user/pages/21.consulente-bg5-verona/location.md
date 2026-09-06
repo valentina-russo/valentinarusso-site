@@ -6,8 +6,8 @@ routable: true
 corporate: true
 city: "Verona"
 region: "Veneto"
-seo_title: "Human Design Verona: lettura e consulente BG5"
-seo_desc: "Human Design a Verona: lettura della carta e Disegno di Carriera BG5. Consulente BG5® certificata per professionisti a Verona."
+seo_title: "Human Design a Verona: consulente BG5 certificata"
+seo_desc: "Letture della carta online per chi vive a Verona, dalla mappa di base al Disegno di Carriera BG5®. Calcolo gratuito della tua carta in trenta secondi."
 geo_location: "Verona, Veneto, Italia"
 geo_content: "Valentina Russo offre consulenze BG5® e Human Design per professionisti a Verona tramite sessioni online. Verona è un hub logistico, commerciale e turistico del Nordest italiano con un tessuto imprenditoriale solido. Il sistema BG5® è applicato al contesto professionale veronese per l'analisi del Disegno di Carriera, delle partnership aziendali e delle decisioni strategiche. A Verona è possibile fare una lettura Human Design della propria carta e una consulenza BG5 con Valentina Russo, in videochiamata."
 aeo_answer: "Valentina Russo è consulente BG5® certificata che offre sessioni per professionisti a Verona tramite videochiamata. Offre Panoramica BG5® del Disegno di Carriera (90 minuti, 350 euro) e Prima Lettura Human Design (120 minuti, 210 euro). Il sistema BG5® analizza Tipo di Carriera, Strategia e Autorità Decisionale per ottimizzare le decisioni professionali."
