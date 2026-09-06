@@ -193,9 +193,21 @@
     <h3>Continua a leggere</h3>
     <div class="griglia">
       {% for r in related %}
-      {% set media = r.media|length ? r.media|first : null %}
+      {# stessa scala di priorita' della lista blog: senza il ripiego su
+         featured_image la scheda resta senza immagine anche se l'articolo ce l'ha #}
+      {% set media = null %}
+      {% set fallback = '' %}
+      {% if r.header.featured_image is defined and r.header.featured_image %}
+        {% set nome = r.header.featured_image|split('/')|last %}
+        {% if r.media[nome] is defined %}{% set media = r.media[nome] %}
+        {% elseif r.header.featured_image starts with '/' or r.header.featured_image starts with 'http' %}
+          {% if '/user/pages/' not in r.header.featured_image %}{% set fallback = r.header.featured_image %}{% endif %}
+        {% endif %}
+      {% endif %}
+      {% if not media and not fallback and r.media|length %}{% set media = r.media|first %}{% endif %}
+      {% set img = media ? media.cropZoom(760,475).quality(82).url : fallback %}
       <a class="card art-rel rivela" href="{{ r.url }}">
-        {% if media %}<span class="art-rel-img"><img src="{{ media.cropZoom(760,475).quality(82).url }}" alt="{{ r.header.image_alt ?? r.title }}" loading="lazy" width="760" height="475"></span>{% endif %}
+        {% if img %}<span class="art-rel-img"><img src="{{ img }}" alt="{{ r.header.image_alt ?? r.title }}" loading="lazy" width="760" height="475"></span>{% endif %}
         <span class="art-rel-corpo"><h4>{{ r.title }}</h4>{% if r.header.description %}<p>{{ r.header.description|truncate(140, true, '&hellip;') }}</p>{% endif %}<span class="lnk">Leggi articolo &rarr;</span></span>
       </a>
       {% endfor %}
