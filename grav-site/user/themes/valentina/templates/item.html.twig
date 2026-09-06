@@ -199,12 +199,14 @@
       {% set fallback = '' %}
       {% if r.header.featured_image is defined and r.header.featured_image %}
         {% set nome = r.header.featured_image|split('/')|last %}
-        {% if r.media[nome] is defined %}{% set media = r.media[nome] %}
-        {% elseif r.header.featured_image starts with '/' or r.header.featured_image starts with 'http' %}
-          {% if '/user/pages/' not in r.header.featured_image %}{% set fallback = r.header.featured_image %}{% endif %}
-        {% endif %}
+        {% if r.media[nome] is defined %}{% set media = r.media[nome] %}{% endif %}
       {% endif %}
-      {% if not media and not fallback and r.media|length %}{% set media = r.media|first %}{% endif %}
+      {% if not media and r.media|length %}{% set media = r.media|first %}{% endif %}
+      {% if not media and r.header.featured_image is defined and r.header.featured_image
+            and (r.header.featured_image starts with '/' or r.header.featured_image starts with 'http')
+            and '/user/pages/' not in r.header.featured_image %}
+        {% set fallback = r.header.featured_image %}
+      {% endif %}
       {% set img = media ? media.cropZoom(760,475).quality(82).url : fallback %}
       <a class="card art-rel rivela" href="{{ r.url }}">
         {% if img %}<span class="art-rel-img"><img src="{{ img }}" alt="{{ r.header.image_alt ?? r.title }}" loading="lazy" width="760" height="475"></span>{% endif %}

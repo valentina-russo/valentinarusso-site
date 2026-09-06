@@ -35,6 +35,11 @@
 {% endblock %}
 
 {% block extra_css %}
+{# il blog aziende prende la veste corporate: il body ha gia' la classe .az,
+   ma i colori stanno nel foglio aziendale #}
+{% if '/aziende/' in page.route %}
+<link rel="stylesheet" href="{{ theme_url }}/css/d2/aziende-d2.css?v={{ theme_version }}">
+{% endif %}
 <link rel="stylesheet" href="{{ theme_url }}/css/d2/blog-d2.css?v={{ theme_version }}">
 {% endblock %}
 
@@ -56,12 +61,17 @@
     {% set fallback = '' %}
     {% if article.header.featured_image is defined and article.header.featured_image %}
       {% set nome = article.header.featured_image|split('/')|last %}
-      {% if article.media[nome] is defined %}{% set media = article.media[nome] %}
-      {% elseif article.header.featured_image starts with '/' or article.header.featured_image starts with 'http' %}
-        {% if '/user/pages/' not in article.header.featured_image %}{% set fallback = article.header.featured_image %}{% endif %}
-      {% endif %}
+      {% if article.media[nome] is defined %}{% set media = article.media[nome] %}{% endif %}
     {% endif %}
-    {% if not media and not fallback and article.media|length %}{% set media = article.media|first %}{% endif %}
+    {# l'immagine caricata sull'articolo viene prima di featured_image: quando
+       featured_image punta a un blog-N.jpg generico la scheda mostrava il
+       segnaposto mentre l'articolo apriva con l'immagine vera #}
+    {% if not media and article.media|length %}{% set media = article.media|first %}{% endif %}
+    {% if not media and article.header.featured_image is defined and article.header.featured_image
+          and (article.header.featured_image starts with '/' or article.header.featured_image starts with 'http')
+          and '/user/pages/' not in article.header.featured_image %}
+      {% set fallback = article.header.featured_image %}
+    {% endif %}
     {% set img = media ? media.cropZoom(760,475).quality(82).url : fallback %}
     <article class="bl-card">
       {% if img %}<a class="bl-img" href="{{ article.url }}" tabindex="-1" aria-hidden="true"><img src="{{ img }}" alt="{{ article.header.image_alt ?? article.title }}" loading="lazy" width="760" height="475"></a>{% endif %}
