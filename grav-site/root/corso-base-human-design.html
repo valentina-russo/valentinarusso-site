@@ -9,7 +9,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/user/themes/valentina/css/style.css?v=20260312_ULTRA">
 <style>
 /* ══════════════════════════════════════════════════════════════════════
@@ -150,35 +150,71 @@ html { scroll-behavior: smooth; }
 </head>
 <body>
 
-<header style="position: relative; z-index: 1000;">
-    <div class="container">
-        <div class="logo">
-            <a href="/">
-                <img src="/user/themes/valentina/images/logo.png" alt="Valentina Russo Logo" class="brand-logo"
-                     onerror="this.style.display='none'">
-                <div class="brand-text">
-                    <span class="brand-name">VALENTINA RUSSO</span>
-                    <span class="brand-tagline">Consulente BG5&reg;</span>
-                </div>
-            </a>
-        </div>
-        <button class="menu-toggle" aria-label="Menu">&#9776;</button>
-        <nav id="main-nav">
-            <!-- stesse voci del menu del sito: la pagina e' fuori da Grav,
-                 quindi il menu qui va tenuto allineato a mano -->
-            <ul>
+<style>
+/* Barra di navigazione: stessa veste del sito (direzione 2). Classi con
+   prefisso vr- perche' questa pagina carica ancora lo stylesheet vecchio. */
+.vr-nav{position:sticky;top:0;z-index:1000;background:rgba(251,247,245,.72);
+  backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);
+  border-bottom:1px solid rgba(122,79,94,.12);font-family:Outfit,system-ui,sans-serif}
+.vr-nav .vr-wrap{max-width:1160px;margin:0 auto;padding:0 28px;display:flex;align-items:center;
+  justify-content:space-between;height:72px;gap:20px}
+.vr-nav .vr-brand{display:flex;align-items:center;gap:12px;text-decoration:none;
+  font-family:"Playfair Display",Georgia,serif;font-weight:700;font-size:19px;color:#3A3532;line-height:1.05}
+.vr-nav .vr-brand img{width:40px;height:40px;display:block}
+.vr-nav .vr-brand em{display:block;font:600 10.5px Outfit,sans-serif;letter-spacing:.14em;
+  text-transform:uppercase;color:#6B625D;margin-top:4px;font-style:normal}
+.vr-nav .vr-pannello{display:flex;align-items:center;gap:18px}
+.vr-nav .vr-menu{display:flex;gap:6px;list-style:none;margin:0;padding:0}
+.vr-nav .vr-menu a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;font-size:15px;
+  color:#6B625D;text-decoration:none;border-bottom:2px solid transparent}
+.vr-nav .vr-menu a:hover{color:#3A3532;border-bottom-color:#7A4F5E}
+.vr-nav .vr-btn{display:inline-flex;align-items:center;min-height:46px;padding:0 22px;border-radius:999px;
+  background:#7A4F5E;color:#fff;font:600 15px Outfit,sans-serif;text-decoration:none;white-space:nowrap;
+  box-shadow:0 8px 24px rgba(58,53,50,.08)}
+.vr-nav .vr-btn:hover{background:#5E3A47}
+.vr-nav .vr-apri{display:none;width:44px;height:44px;border:0;background:none;cursor:pointer;
+  color:#3A3532;font-size:22px;line-height:1}
+@media (max-width:980px){
+  .vr-nav .vr-apri{display:inline-flex;align-items:center;justify-content:center}
+  .vr-nav .vr-pannello{position:absolute;left:0;right:0;top:72px;display:none;flex-direction:column;
+    align-items:stretch;gap:10px;padding:18px 28px 24px;background:#FBF7F5;
+    border-bottom:1px solid rgba(122,79,94,.12)}
+  .vr-nav .vr-pannello.aperto{display:flex}
+  .vr-nav .vr-menu{flex-direction:column;gap:0}
+  .vr-nav .vr-btn{justify-content:center}
+}
+</style>
+
+<header class="vr-nav">
+    <div class="vr-wrap">
+        <a class="vr-brand" href="/">
+            <img src="/user/themes/valentina/images/logo-quadro.png" alt="" width="40" height="40">
+            <span>Valentina Russo<em>Consulente Human Design / BG5&reg;</em></span>
+        </a>
+        <button class="vr-apri" id="vr-apri" type="button" aria-controls="vr-pannello" aria-expanded="false" aria-label="Apri il menu">&#9776;</button>
+        <div class="vr-pannello" id="vr-pannello">
+            <ul class="vr-menu">
                 <li><a href="/human-design">Cos&rsquo;&egrave; lo Human Design</a></li>
                 <li><a href="/servizi">Servizi</a></li>
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/chi-sono">Chi Sono</a></li>
                 <li><a href="/contatti">Contatti</a></li>
                 <li><a href="/aziende">Aziende</a></li>
-                <li><a href="/calcolo-human-design" class="btn"
-                       style="background-color: var(--corp-primary); color: white; padding: 0.4rem 1rem; font-size: 0.85rem; border-radius: 4px;">Calcola la tua carta gratis</a></li>
             </ul>
-        </nav>
+            <a class="vr-btn" href="/calcolo-human-design">Calcola la tua carta gratis</a>
+        </div>
     </div>
 </header>
+<script>
+(function(){
+  var b = document.getElementById('vr-apri'), p = document.getElementById('vr-pannello');
+  if (!b || !p) return;
+  b.addEventListener('click', function(){
+    var aperto = p.classList.toggle('aperto');
+    b.setAttribute('aria-expanded', aperto ? 'true' : 'false');
+  });
+})();
+</script>
 
 <div class="cbg">
 
