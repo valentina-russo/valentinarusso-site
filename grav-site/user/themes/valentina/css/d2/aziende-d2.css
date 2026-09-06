@@ -6,8 +6,8 @@
 .d2.az .nav{background:rgba(249,252,253,.75)}
 .d2.az .fine{background:radial-gradient(700px 400px at 50% 120%,rgba(47,179,201,.28),transparent 60%),var(--dom-2)}
 .d2.az .fine .btn-1{background:#fff;color:var(--dom-2)}
-.d2.az .az-hero{background:radial-gradient(1100px 600px at 80% 20%,rgba(10,152,177,.24),transparent 60%),var(--tint)}
-.d2.az .az-hero::before{background:radial-gradient(500px 500px at 15% 90%,rgba(47,179,201,.14),transparent 65%)}
+.d2.az .az-hero,.d2.az .hero{background:radial-gradient(1100px 600px at 80% 20%,rgba(10,152,177,.24),transparent 60%),var(--tint)}
+.d2.az .az-hero::before,.d2.az .hero::before{background:radial-gradient(500px 500px at 15% 90%,rgba(47,179,201,.14),transparent 65%)}
 .d2.az .foto::before{background:linear-gradient(135deg,rgba(10,152,177,.5),rgba(47,179,201,.32))}
 .d2.az .foto img{box-shadow:0 30px 60px -24px rgba(8,54,64,.45),0 0 0 1px rgba(255,255,255,.6) inset}
 .d2.az .banda-cit{background:var(--carta);border-color:var(--linea)}

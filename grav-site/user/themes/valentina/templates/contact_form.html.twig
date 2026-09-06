@@ -3,6 +3,11 @@
 {% block title %}{{ page.title }} | Valentina Russo{% endblock %}
 
 {% block extra_css %}
+{# la pagina corporate prende la veste aziendale: senza questo foglio il body ha
+   la classe .az ma i colori restano quelli dei privati #}
+{% if page.header.corporate is defined and page.header.corporate %}
+<link rel="stylesheet" href="{{ theme_url }}/css/d2/aziende-d2.css?v={{ theme_version }}">
+{% endif %}
 <link rel="stylesheet" href="{{ theme_url }}/css/d2/contatti-d2.css?v={{ theme_version }}">
 {% endblock %}
 
