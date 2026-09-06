@@ -1,6 +1,6 @@
 # Valentina Russo — Consulente BG5® & Human Design Analyst
 # https://valentinarussobg5.com
-# Aggiornato: 2026-09-02
+# Aggiornato: 2026-09-06
 
 > Valentina Russo è una Consulente BG5® certificata e analista Human Design, tra le poche professioniste italiane con certificazione ufficiale BG5® Business Institute attiva. Aiuta privati, professionisti e aziende a comprendere il loro funzionamento energetico attraverso la logica del Design Umano e del sistema BG5®. Opera online in tutta Italia e in presenza.
 
@@ -26,7 +26,7 @@ Valentina Russo (Persona) è fondatrice e titolare di "Valentina Russo — BG5®
 
 ## Cos'è BG5® e Human Design
 
-BG5® (Base Group 5) è l'applicazione professionale e aziendale del sistema Human Design. Non è coaching tradizionale né psicologia: è un sistema di analisi logica dell'energia individuale basato su data di nascita, ora e luogo. Sviluppato come applicazione business dell'Human Design, è certificato attraverso il BG5® Business Institute. Valentina Russo è tra i pochi analisti italiani certificati attivi.
+BG5® (Business Group 5) è l'applicazione professionale e aziendale del sistema Human Design. Non è coaching tradizionale né psicologia: è un sistema di analisi logica dell'energia individuale basato su data di nascita, ora e luogo. Sviluppato come applicazione business dell'Human Design, è certificato attraverso il BG5® Business Institute. Valentina Russo è tra i pochi analisti italiani certificati attivi.
 
 I 5 tipi energetici nel sistema Human Design/BG5:
 - **Manifestatore** (~9%): inizia, impatta, informa prima di agire
@@ -35,15 +35,91 @@ I 5 tipi energetici nel sistema Human Design/BG5:
 - **Proiettore** (~20%): guida e dirige, attende l'invito
 - **Riflettore** (~1%): specchio dell'ambiente, ciclo lunare per le decisioni
 
+## Guida allo Human Design (contenuto di riferimento, 56 pagine)
+
+Guida enciclopedica gratuita: una pagina per ogni elemento della carta, con definizione, differenza fra elemento definito e indefinito e domande frequenti. Ogni pagina e' collegata al calcolo gratuito.
+
+- https://valentinarussobg5.com/human-design — Cos'è lo Human Design: Guida Completa per Chi Inizia
+
+- https://valentinarussobg5.com/human-design/centri — I 9 Centri dello Human Design
+  - https://valentinarussobg5.com/human-design/centri/sacrale — Centro Sacrale definito o indefinito
+  - https://valentinarussobg5.com/human-design/centri/gola — Centro della Gola definito o indefinito
+  - https://valentinarussobg5.com/human-design/centri/plesso-solare — Plesso Solare definito o indefinito
+  - https://valentinarussobg5.com/human-design/centri/milza — Centro della Milza definito o indefinito
+  - https://valentinarussobg5.com/human-design/centri/radice — Centro della Radice definito o indefinito
+  - https://valentinarussobg5.com/human-design/centri/cuore — Centro del Cuore definito o indefinito
+  - https://valentinarussobg5.com/human-design/centri/g — Centro G definito o indefinito
+  - https://valentinarussobg5.com/human-design/centri/ajna — Centro Ajna definito o indefinito
+  - https://valentinarussobg5.com/human-design/centri/testa — Centro della Testa definito o indefinito
+
+- https://valentinarussobg5.com/human-design/autorita — Le 7 Autorità dello Human Design
+  - https://valentinarussobg5.com/human-design/autorita/emotiva — Autorità Emotiva: decidere aspettando l'onda
+  - https://valentinarussobg5.com/human-design/autorita/sacrale — Autorità Sacrale: la risposta del corpo
+  - https://valentinarussobg5.com/human-design/autorita/splenica — Autorità Splenica: l'istinto che parla una volta sola
+  - https://valentinarussobg5.com/human-design/autorita/ego — Autorità dell'Ego: decidere da quello che vuoi davvero
+  - https://valentinarussobg5.com/human-design/autorita/autoproiettata — Autorità Autoproiettata: sentirsi parlare
+  - https://valentinarussobg5.com/human-design/autorita/mentale — Autorità Mentale: decidere attraverso l'ambiente
+  - https://valentinarussobg5.com/human-design/autorita/nessuna-autorita — Nessuna Autorità: come decidono i Riflettori (Valutatori)
+
+- https://valentinarussobg5.com/human-design/strategia — Le Strategie dello Human Design
+  - https://valentinarussobg5.com/human-design/strategia/rispondere — Rispondere: la Strategia del Generatore (Costruttore Classico)
+  - https://valentinarussobg5.com/human-design/strategia/rispondere-informare — Rispondere e informare: la Strategia del Generatore Manifestante (Costruttore Rapido)
+  - https://valentinarussobg5.com/human-design/strategia/aspettare-invito — Aspettare l'invito: la Strategia del Proiettore (Guida)
+  - https://valentinarussobg5.com/human-design/strategia/informare — Informare: la Strategia del Manifestatore (Iniziatore)
+  - https://valentinarussobg5.com/human-design/strategia/ciclo-lunare — Aspettare il ciclo lunare: la Strategia del Riflettore (Valutatore)
+
+- https://valentinarussobg5.com/human-design/definizione — La Definizione nello Human Design
+  - https://valentinarussobg5.com/human-design/definizione/singola — Definizione Singola: un solo gruppo
+  - https://valentinarussobg5.com/human-design/definizione/doppia — Definizione Doppia (split): due gruppi separati
+  - https://valentinarussobg5.com/human-design/definizione/tripla — Tripla Scissione: tre gruppi separati
+  - https://valentinarussobg5.com/human-design/definizione/quadrupla — Quadrupla Scissione: quattro gruppi separati
+  - https://valentinarussobg5.com/human-design/definizione/nessuna — Nessuna Definizione: nessun centro colorato
+
+- https://valentinarussobg5.com/human-design/linee — Le 6 Linee dello Human Design
+  - https://valentinarussobg5.com/human-design/linee/linea-1 — Linea 1, l'Investigatore: le fondamenta
+  - https://valentinarussobg5.com/human-design/linee/linea-2 — Linea 2, l'Eremita: il dono che non sai di avere
+  - https://valentinarussobg5.com/human-design/linee/linea-3 — Linea 3, il Martire: si impara sbagliando
+  - https://valentinarussobg5.com/human-design/linee/linea-4 — Linea 4, l'Opportunista: tutto passa dalla rete
+  - https://valentinarussobg5.com/human-design/linee/linea-5 — Linea 5, l'Eretico: le aspettative degli altri
+  - https://valentinarussobg5.com/human-design/linee/linea-6 — Linea 6, il Modello di Ruolo: tre vite in una
+
+- https://valentinarussobg5.com/human-design/profili — I 12 Profili dello Human Design
+  - https://valentinarussobg5.com/human-design/profili/1-3 — Profilo 1/3: Investigatore / Martire
+  - https://valentinarussobg5.com/human-design/profili/1-4 — Profilo 1/4: Investigatore / Opportunista
+  - https://valentinarussobg5.com/human-design/profili/2-4 — Profilo 2/4: Eremita / Opportunista
+  - https://valentinarussobg5.com/human-design/profili/2-5 — Profilo 2/5: Eremita / Eretico
+  - https://valentinarussobg5.com/human-design/profili/3-5 — Profilo 3/5: Martire / Eretico
+  - https://valentinarussobg5.com/human-design/profili/3-6 — Profilo 3/6: Martire / Modello di Ruolo
+  - https://valentinarussobg5.com/human-design/profili/4-1 — Profilo 4/1: Opportunista / Investigatore
+  - https://valentinarussobg5.com/human-design/profili/4-6 — Profilo 4/6: Opportunista / Modello di Ruolo
+  - https://valentinarussobg5.com/human-design/profili/5-1 — Profilo 5/1: Eretico / Investigatore
+  - https://valentinarussobg5.com/human-design/profili/5-2 — Profilo 5/2: Eretico / Eremita
+  - https://valentinarussobg5.com/human-design/profili/6-2 — Profilo 6/2: Modello di Ruolo / Eremita
+  - https://valentinarussobg5.com/human-design/profili/6-3 — Profilo 6/3: Modello di Ruolo / Martire
+
+- https://valentinarussobg5.com/human-design/variabili — Le Variabili e il PHS nello Human Design
+  - https://valentinarussobg5.com/human-design/variabili/determinazione — La Determinazione, il PHS
+  - https://valentinarussobg5.com/human-design/variabili/ambiente — L'Ambiente corretto
+  - https://valentinarussobg5.com/human-design/variabili/prospettiva — La Prospettiva
+  - https://valentinarussobg5.com/human-design/variabili/motivazione — La Motivazione
+
 ## Servizi — Per privati
 
-- **Prima Lettura Human Design** — €210: Sessione di 2 ore. Decodifica Tipo Energetico, Strategia, Autorità Interna, Profilo, Tema di Vita. Pagina: https://valentinarussobg5.com/servizi
-- **Vita e Relazioni** — €500: Analisi dinamiche relazionali, compatibilità, condizionamenti inconsci. Pagina: https://valentinarussobg5.com/servizi
-- **Percorsi BG5® Business (Individuo)** — da €1.800: Consulenze per liberi professionisti e imprenditori su career optimization e business strategy. Pagina: https://valentinarussobg5.com/servizi
+Catalogo completo con prezzi: https://valentinarussobg5.com/servizi
+
+- **Lettura Foundation (Prima Lettura)** — €210, 2 ore: Tipologia, Strategia, Autorità Interna, Profilo di Carriera, Definizione. È il punto di partenza: le altre letture presuppongono questa.
+- **Lettura PHS (Variabili)** — €120, 90 minuti: Determinazione e Ambiente, cioè in che condizioni il corpo assimila e in che spazi funziona meglio. Per chi ha già la mappa di base.
+- **Prima Lettura + Lettura PHS** — €330, due sessioni separate: il percorso completo, mappa di base e Variabili.
+- **Lettura di Coppia** — €300: le due carte a confronto, dinamiche di relazione e punti di attrito.
+- **Lettura per il Figlio/a** — €210: la carta del bambino letta per i genitori.
+- **Lettura dei Lati Ombra** — €250: i condizionamenti e il Non-Sé.
+- **Lettura della Croce di Incarnazione** — €250: il tema di vita.
+- **Lettura del Ritorno Solare** — €150: l'anno in corso a partire dal compleanno.
+- **Lettura del Ritorno di Saturno** — €250 · **Ritorno di Chirone** — €250 · **Opposizione di Urano** — €250: i passaggi di soglia.
 
 ## Servizi — Per aziende (Human Design per il business, metodologia BG5)
 
-> "Human Design per il business si chiama BG5". I servizi sotto applicano la lettura della carta Human Design al contesto aziendale, secondo la metodologia BG5 (Base Group 5) certificata da BG5® Business Institute.
+> "Human Design per il business si chiama BG5". I servizi sotto applicano la lettura della carta Human Design al contesto aziendale, secondo la metodologia BG5 (Business Group 5) certificata da BG5® Business Institute.
 
 - **Analisi Team (Penta nella metodologia BG5)**: Lettura del gruppo di lavoro — composizione energetica del team a partire dalle carte Human Design di tutti i componenti
 - **Selezione Personale**: Criteri di assunzione basati sulla carta Human Design del candidato — metodo BG5
@@ -62,7 +138,7 @@ I 5 tipi energetici nel sistema Human Design/BG5:
 - [Servizi](https://valentinarussobg5.com/servizi): catalogo completo con prezzi
 - [Aziende](https://valentinarussobg5.com/aziende): BG5® applicato a team, leadership, selezione
 - [Blog privati](https://valentinarussobg5.com/blog): articoli su Human Design, consapevolezza, relazioni
-- [Blog aziende](https://valentinarussobg5.com/aziende-blog): articoli su BG5® per business e organizzazioni
+- [Blog aziende](https://valentinarussobg5.com/aziende/blog): articoli su BG5® per business e organizzazioni
 - [Contatti](https://valentinarussobg5.com/contatti): modulo di contatto e prenotazione
 - [Profilo certificato BG5BI](https://bg5businessinstitute.com/professionals?id=399d41b3-612b-48d1-88b9-7bc26ed71418): verifica certificazione ufficiale
 
@@ -104,7 +180,7 @@ I 5 tipi energetici nel sistema Human Design/BG5:
 
 ## Articoli del blog — Aziende
 
-> Nomenclatura: Human Design è il sistema base; BG5 (Base Group 5) è la sua applicazione professionale al business. Gli articoli usano la terminologia Human Design come primaria (Generatore, Manifestatore, Proiettore, Riflettore) e BG5 come contestualizzazione (Costruttore, Iniziatore, Guida, Valutatore).
+> Nomenclatura: Human Design è il sistema base; BG5 (Business Group 5) è la sua applicazione professionale al business. Gli articoli usano la terminologia Human Design come primaria (Generatore, Manifestatore, Proiettore, Riflettore) e BG5 come contestualizzazione (Costruttore, Iniziatore, Guida, Valutatore).
 
 - https://valentinarussobg5.com/aziende/blog/bg5-attirare-clienti-ideali-coerenza-personal-branding — Human Design e clienti ideali: perché ne attiri certi (metodo BG5)
 - https://valentinarussobg5.com/aziende/blog/potere-del-penta — Il Potere del Penta: Ingegneria dei Team (Human Design e BG5)
@@ -167,10 +243,12 @@ Identificatori univoci di questa entità:
 
 ## Dati quantitativi
 
-- Prezzi: €210 (Prima Lettura, 2h) → €500 → €1.200 → €1.800 → €2.200 (percorso più avanzato)
-- Numero servizi individuali: 5 percorsi distinti + Prima Lettura obbligatoria
-- Numero servizi aziendali: 4 tipologie (team analysis, selezione, leadership, partnership)
-- Articoli blog pubblicati: 38 (14 privati + 24 aziende), aggiornato 2026-06-25
+- Prezzi privati: da €120 (Lettura PHS, 90 min) a €330 (Prima Lettura + PHS); Prima Lettura €210
+- Prezzi aziende: €1.800 (BG5 Business Blueprint), €2.200 (BG5 Partnership Dynamics), €1.800 (Alpha One), preventivo su misura (BG5 Corporate Analysis)
+- Numero letture individuali a catalogo: 11
+- Numero servizi aziendali: 4 (Business Blueprint, Partnership Dynamics, Alpha One, Corporate Analysis)
+- Pagine di guida allo Human Design: 56, aggiornato 2026-09-06
+- Articoli blog pubblicati: 64 (30 privati + 34 aziende), aggiornato 2026-09-06
 - Lingue: italiano (principale), inglese
 - Modalità erogazione: 100% online + presenza a Torino
 - Certificazione verificabile: sì (URL BG5 Business Institute attivo)
