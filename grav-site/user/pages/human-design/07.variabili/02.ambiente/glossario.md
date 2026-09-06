@@ -41,16 +41,12 @@ scheda:
   nota: il Tono cambia in fretta
 ---
 
-## Perché qui non basta una pagina
+## Perché il nome dell'ambiente non ti dice ancora dove stare
 
-Le Variabili non si leggono come i [Centri](/human-design/centri) o le [Autorità](/human-design/autorita). Ci sono due motivi, e sono tecnici prima che commerciali.
+Il [calcolo gratuito](/calcolo-human-design) ti dà il nome del tuo **Ambiente**. Sono nomi evocativi, e questo è esattamente il problema: da soli non dicono se il tuo studio va bene, se quella casa ti sta spegnendo, se conviene spostare la scrivania o cambiare quartiere.
 
-Il primo è la **precisione**. Le quattro frecce nascono dal Colore e dal Tono, che sono le suddivisioni più fini della carta: cambiano nel giro di **pochi minuti**. Un'ora di nascita approssimata, presa a memoria o arrotondata, restituisce spesso una freccia sbagliata. Prima di leggerle va verificata, e a volte corretta.
+La traduzione da nome a stanza è il lavoro di una lettura, e passa dal guardare i posti in cui vivi adesso. È anche la Variabile che dà i risultati più rapidi, perché una volta capita si agisce in un pomeriggio: si sposta un tavolo, si cambia una luce.
 
-Il secondo è che l'indicazione è **specifica per persona**. Non esiste una descrizione generale che valga per tutti quelli che hanno quella freccia: quello che ne esce sono istruzioni pratiche sulla tua vita, e vanno costruite guardando la tua carta intera.
+Va letta insieme alla [Determinazione](/human-design/variabili/determinazione): vengono entrambe dal Design e in una consulenza si guardano in coppia, perché dove mangi conta quanto come mangi.
 
-Per questo qui trovi cosa sono e a cosa servono, non cosa fare. Quella parte è il lavoro di una lettura.
-
-## Cosa vedi già adesso
-
-Il [calcolo gratuito](/calcolo-human-design) ti dà il nome del tuo **Ambiente** fra i dati di base.
+Prima serve l'ora di nascita verificata, per il motivo spiegato [sull'indice delle Variabili](/human-design/variabili).

@@ -39,16 +39,12 @@ scheda:
   nota: il Tono cambia in fretta
 ---
 
-## Perché qui non basta una pagina
+## Perché il nome del tuo regime non basta
 
-Le Variabili non si leggono come i [Centri](/human-design/centri) o le [Autorità](/human-design/autorita). Ci sono due motivi, e sono tecnici prima che commerciali.
+Il [calcolo gratuito](/calcolo-human-design) ti dà il **Regime Alimentare**, cioè il nome del tuo PHS. È l'informazione di partenza, e da sola non si traduce in niente di pratico.
 
-Il primo è la **precisione**. Le quattro frecce nascono dal Colore e dal Tono, che sono le suddivisioni più fini della carta: cambiano nel giro di **pochi minuti**. Un'ora di nascita approssimata, presa a memoria o arrotondata, restituisce spesso una freccia sbagliata. Prima di leggerle va verificata, e a volte corretta.
+Il motivo è che il PHS non prescrive **cosa** mangiare ma **in che condizioni** il tuo corpo assimila, e quelle condizioni vanno incrociate con come mangi davvero: da solo o in compagnia, in piedi o seduto, a che ora, con quanti sapori nello stesso piatto. Due persone con lo stesso regime, con abitudini diverse, escono da una lettura con indicazioni opposte.
 
-Il secondo è che l'indicazione è **specifica per persona**. Non esiste una descrizione generale che valga per tutti quelli che hanno quella freccia: quello che ne esce sono istruzioni pratiche sulla tua vita, e vanno costruite guardando la tua carta intera.
+C'è poi un secondo strato: la Determinazione si legge insieme all'[Ambiente](/human-design/variabili/ambiente), perché vengono entrambe dal Design e lavorano in coppia. Guardarne una sola dà metà del quadro.
 
-Per questo qui trovi cosa sono e a cosa servono, non cosa fare. Quella parte è il lavoro di una lettura.
-
-## Cosa vedi già adesso
-
-Il [calcolo gratuito](/calcolo-human-design) ti dà il **Regime Alimentare** fra i dati di base. È il nome del tuo PHS, e da lì si parte.
+Prima di tutto questo va verificata l'ora di nascita, per il motivo spiegato [sull'indice delle Variabili](/human-design/variabili).

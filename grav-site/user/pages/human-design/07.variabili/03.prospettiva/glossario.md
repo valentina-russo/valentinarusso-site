@@ -41,12 +41,12 @@ scheda:
   nota: il Tono cambia in fretta
 ---
 
-## Perché qui non basta una pagina
+## Perché la tua lente non puoi vedertela da solo
 
-Le Variabili non si leggono come i [Centri](/human-design/centri) o le [Autorità](/human-design/autorita). Ci sono due motivi, e sono tecnici prima che commerciali.
+Qui la difficoltà non è tecnica, è strutturale: una lente non si vede mentre la si usa. Quello che la tua Prospettiva ti fa notare per primo ti sembra semplicemente **come stanno le cose**, non un punto di vista fra altri.
 
-Il primo è la **precisione**. Le quattro frecce nascono dal Colore e dal Tono, che sono le suddivisioni più fini della carta: cambiano nel giro di **pochi minuti**. Un'ora di nascita approssimata, presa a memoria o arrotondata, restituisce spesso una freccia sbagliata. Prima di leggerle va verificata, e a volte corretta.
+Per questo leggere una descrizione generica funziona male: o non ti riconosci, perché quello che descrive è l'aria che respiri, oppure ti riconosci in tutte, perché sono scritte in modo abbastanza vago da starti bene comunque.
 
-Il secondo è che l'indicazione è **specifica per persona**. Non esiste una descrizione generale che valga per tutti quelli che hanno quella freccia: quello che ne esce sono istruzioni pratiche sulla tua vita, e vanno costruite guardando la tua carta intera.
+Quello che serve è qualcuno che te la descriva da fuori, partendo dalla tua carta e verificandola su esempi concreti della tua vita: come hai deciso l'ultima volta, cosa hai visto per primo in una situazione, cosa invece ti era sfuggito. È una conversazione, non una scheda.
 
-Per questo qui trovi cosa sono e a cosa servono, non cosa fare. Quella parte è il lavoro di una lettura.
+Prima serve l'ora di nascita verificata, per il motivo spiegato [sull'indice delle Variabili](/human-design/variabili).

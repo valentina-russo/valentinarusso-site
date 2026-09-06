@@ -41,12 +41,12 @@ scheda:
   nota: il Tono cambia in fretta
 ---
 
-## Perché qui non basta una pagina
+## Perché su questa ci si inganna più facilmente
 
-Le Variabili non si leggono come i [Centri](/human-design/centri) o le [Autorità](/human-design/autorita). Ci sono due motivi, e sono tecnici prima che commerciali.
+La Motivazione è la Variabile su cui l'autodiagnosi sbaglia più spesso, e per un motivo prevedibile: fra le descrizioni possibili se ne sceglie quella che ci fa più onore.
 
-Il primo è la **precisione**. Le quattro frecce nascono dal Colore e dal Tono, che sono le suddivisioni più fini della carta: cambiano nel giro di **pochi minuti**. Un'ora di nascita approssimata, presa a memoria o arrotondata, restituisce spesso una freccia sbagliata. Prima di leggerle va verificata, e a volte corretta.
+È anche l'unica che parla della distanza fra il motivo dichiarato e la spinta vera. Chiedere a qualcuno di misurare da solo quella distanza è chiedergli di essere allo stesso tempo il testimone e l'imputato.
 
-Il secondo è che l'indicazione è **specifica per persona**. Non esiste una descrizione generale che valga per tutti quelli che hanno quella freccia: quello che ne esce sono istruzioni pratiche sulla tua vita, e vanno costruite guardando la tua carta intera.
+In una lettura si lavora al contrario: si parte dalla carta, e poi si va a vedere se regge sulle scelte che hai fatto davvero — perché hai accettato quel lavoro, perché sei rimasto in quella situazione più del dovuto. Se torna, torna su fatti, non su come ti descrivi.
 
-Per questo qui trovi cosa sono e a cosa servono, non cosa fare. Quella parte è il lavoro di una lettura.
+Prima serve l'ora di nascita verificata, per il motivo spiegato [sull'indice delle Variabili](/human-design/variabili).
