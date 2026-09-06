@@ -1,0 +1,35 @@
+name: Correggi la SEO degli articoli che stanno solo sul server
+# Alcuni articoli sono nati dall'admin di Grav e non esistono nel repo: qui si
+# scaricano, si riscrive il frontmatter e si ricaricano solo quelli cambiati.
+on:
+  workflow_dispatch:
+    inputs:
+      applica:
+        description: 'true per scrivere davvero, false per la prova'
+        default: 'false'
+
+jobs:
+  articoli:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scarica, correggi, ricarica
+        env:
+          H: ${{ secrets.ARUBA_FTP_HOST }}
+          U: ${{ secrets.ARUBA_FTP_USER }}
+          P: ${{ secrets.ARUBA_FTP_PASS }}
+          D: ${{ secrets.ARUBA_FTP_PATH }}
+          APPLICA: ${{ github.event.inputs.applica }}
+        run: |
+          sudo apt-get install -y -q lftp >/dev/null
+          mkdir -p pagine
+          lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; mirror --verbose=0 -I '*.md' ${D}user/pages/05.aziende/02.blog pagine/05.aziende/02.blog; bye"
+          echo "file markdown scaricati: $(find pagine -name '*.md' | wc -l)"
+          python3 .github/scripts/correggi_seo_articoli.py pagine
+          if [ "$APPLICA" != "true" ]; then echo '### prova soltanto, non ho scritto nulla sul server'; exit 0; fi
+          while read -r f; do
+            [ -z "$f" ] && continue
+            dir="$(dirname "$f")"; base="$(basename "$f")"
+            lftp -u "$U","$P" "$H" -e "set ssl:verify-certificate no; put -O ${D}user/pages/${dir} \"pagine/$f\" -o ${base}; bye" && echo "ricaricato ${f}"
+          done < _cambiati.txt

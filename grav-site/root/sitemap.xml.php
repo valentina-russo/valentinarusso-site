@@ -28,6 +28,23 @@ function sitemap_parse_frontmatter(string $content): array {
     return $fm;
 }
 
+// Pagine che non devono comparire nella sitemap: pagine legali, strumenti e
+// contenitori che rimandano altrove con un canonical.
+const SITEMAP_ESCLUSI = [
+    '/privacy',
+    '/terms',
+    '/workshop-proposta',
+    '/hd-relazionale',
+    '/blog/articoli',
+];
+
+function sitemap_escluso(string $slug): bool {
+    foreach (SITEMAP_ESCLUSI as $e) {
+        if ($slug === $e) return true;
+    }
+    return false;
+}
+
 function sitemap_collect(string $dir, string $base_dir): array {
     $pages = [];
     $items = @scandir($dir);
@@ -53,10 +70,12 @@ function sitemap_collect(string $dir, string $base_dir): array {
                     $slug  = '/' . implode('/', array_map('sitemap_strip_prefix', $parts));
                     if ($slug === '/home') $slug = '/';
 
-                    $pages[] = [
-                        'url'     => $slug,
-                        'lastmod' => date('Y-m-d', (int)filemtime($md_files[0])),
-                    ];
+                    if (!sitemap_escluso($slug)) {
+                        $pages[] = [
+                            'url'     => $slug,
+                            'lastmod' => date('Y-m-d', (int)filemtime($md_files[0])),
+                        ];
+                    }
                 }
             }
         }
