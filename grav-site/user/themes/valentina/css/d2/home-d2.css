@@ -102,3 +102,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .d2 .legale{margin:18px 0 0;padding-top:16px;border-top:1px solid var(--linea);font-size:12px;line-height:1.7;color:var(--muto);opacity:.85;max-width:none;text-align:center}
 .d2 .legale a{color:var(--muto)}
 @media (max-width:900px){.d2 .partenza{grid-template-columns:1fr}.d2 .riga-1{flex-direction:column;align-items:flex-start}}
+
+/* Domande frequenti in home: titolo e blocco centrati nella pagina */
+.d2 .sez-faq .testa{max-width:none;text-align:center}
+.d2 .sez-faq .faq{margin:36px auto 0}
