@@ -5,437 +5,232 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Valentina Russo — Consulente BG5</title>
   <meta name="description" content="Consulente BG5 · Amor proprio, relazioni e carriera">
+  <meta name="robots" content="noindex, follow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      min-height: 100dvh;
-      background: linear-gradient(160deg, #B68397 0%, #8A6FA8 45%, #3A5A8A 80%, #1E3A5F 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 48px 16px 40px;
-      font-family: 'Outfit', sans-serif;
+    /* Stessi valori della direzione 2 del sito (user/themes/valentina/css/d2/dir.css):
+       se cambiano li', vanno riportati qui a mano. */
+    :root{
+      --fondo:#FBF7F5; --carta:#FFFFFF; --ink:#3A3532; --muto:#6B625D; --linea:#E8DDD9;
+      --dom:#7A4F5E; --dom-2:#5E3A47; --tint:#F6EAEE; --acc:#FDBC5A; --acc-ink:#8A5A12;
+      --ombra:0 8px 24px rgba(58,53,50,.08);
+      --ombra-alta:0 18px 40px -18px rgba(58,53,50,.30);
+      --serif:"Playfair Display",Georgia,serif;
+      --sans:Outfit,system-ui,-apple-system,sans-serif;
     }
 
-    .container {
-      width: 100%;
-      max-width: 480px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    body{
+      min-height:100dvh;
+      /* le due luci radiali dell'hero del sito */
+      background:
+        radial-gradient(900px 520px at 82% 6%, rgba(207,143,169,.30), transparent 62%),
+        radial-gradient(520px 520px at 10% 92%, rgba(253,188,90,.16), transparent 66%),
+        var(--fondo);
+      background-attachment:fixed;
+      color:var(--ink);
+      font:400 16px/1.6 var(--sans);
+      -webkit-font-smoothing:antialiased;
+      display:flex;justify-content:center;
+      padding:56px 18px 44px;
     }
 
-    /* ── PROFILO ─────────────────────────── */
-    .profile {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 32px;
+    .container{width:100%;max-width:460px}
+
+    a{text-decoration:none;color:inherit}
+    a:focus-visible{outline:3px solid var(--dom);outline-offset:3px;border-radius:12px}
+
+    /* ── PROFILO ─────────────────────────────────────────────── */
+    .profilo{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:34px}
+
+    .ritratto{
+      width:104px;height:104px;border-radius:50%;
+      padding:4px;background:var(--carta);
+      box-shadow:0 0 0 1px var(--linea), var(--ombra-alta);
+    }
+    .ritratto img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:50% 30%;display:block}
+
+    .profilo h1{
+      font-family:var(--serif);font-weight:700;font-size:clamp(28px,7vw,33px);
+      line-height:1.1;letter-spacing:-.01em;margin-top:20px;
     }
 
-    .avatar-wrap {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      padding: 3px;
-      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.5) 100%);
-      box-shadow: 0 4px 20px rgba(30,20,60,0.30);
+    /* filetto in ottone: la firma grafica del sito */
+    .filetto{width:54px;height:2px;background:var(--acc);margin:14px 0 12px;border-radius:2px}
+
+    .ruolo{
+      font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+      color:var(--muto);line-height:1.7;max-width:34ch;
     }
 
-    .avatar-wrap img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-      object-position: top;
-      display: block;
+    /* ── PULSANTE PRINCIPALE ─────────────────────────────────── */
+    .principale{
+      display:flex;align-items:center;justify-content:center;
+      width:100%;min-height:56px;padding:0 24px;border-radius:999px;
+      background:var(--dom);color:#fff;
+      font:600 15.5px var(--sans);letter-spacing:.01em;text-align:center;
+      box-shadow:0 12px 26px -12px rgba(122,79,94,.65);
+      transition:background .2s, transform .2s, box-shadow .2s;
+    }
+    .principale:hover{background:var(--dom-2);transform:translateY(-2px);box-shadow:0 18px 32px -14px rgba(122,79,94,.7)}
+
+    /* ── CARTE OFFERTA ───────────────────────────────────────── */
+    .carte{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+
+    .carta{
+      position:relative;display:block;
+      background:var(--carta);border:1px solid var(--linea);border-radius:14px;
+      padding:20px 22px 20px 26px;box-shadow:var(--ombra);
+      transition:transform .2s, box-shadow .2s, border-color .2s;
+    }
+    /* la barretta verticale distingue le due offerte senza aggiungere etichette */
+    .carta::before{
+      content:"";position:absolute;left:0;top:16px;bottom:16px;width:3px;
+      border-radius:0 3px 3px 0;background:var(--dom);
+    }
+    .carta.oro::before{background:var(--acc)}
+    .carta:hover{transform:translateY(-2px);box-shadow:var(--ombra-alta);border-color:#DED0CA}
+
+    .carta-titolo{display:block;font-family:var(--serif);font-weight:700;font-size:18.5px;line-height:1.25;color:var(--ink)}
+    .carta-sotto{display:block;margin-top:5px;font-size:13.5px;line-height:1.5;color:var(--muto)}
+    .carta-sotto b{color:var(--acc-ink);font-weight:600}
+
+    /* ── RIGHE SECONDARIE ────────────────────────────────────── */
+    .righe{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+
+    .riga{
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
+      min-height:52px;padding:0 20px;border-radius:12px;
+      background:rgba(255,255,255,.55);border:1px solid var(--linea);
+      font:500 15px var(--sans);color:var(--ink);
+      transition:background .2s, border-color .2s, transform .2s;
+    }
+    .riga::after{content:"→";color:var(--dom);font-size:15px;transition:transform .2s}
+    .riga:hover{background:var(--carta);border-color:var(--dom);transform:translateY(-1px)}
+    .riga:hover::after{transform:translateX(3px)}
+
+    /* ── CONTATTI ────────────────────────────────────────────── */
+    .contatti{margin-top:34px}
+
+    .divisore{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+    .divisore::before,.divisore::after{content:"";flex:1;height:1px;background:var(--linea)}
+    .divisore span{
+      font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muto);
     }
 
-    .profile-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.45rem;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: 0.01em;
-      text-shadow: 0 1px 8px rgba(30,20,60,0.25);
+    .whatsapp{
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      width:100%;min-height:52px;padding:0 20px;border-radius:12px;
+      background:var(--carta);border:1px solid var(--linea);
+      font:600 15px var(--sans);color:var(--ink);
+      transition:border-color .2s, box-shadow .2s, transform .2s;
+    }
+    .whatsapp svg{width:19px;height:19px;flex:none}
+    .whatsapp:hover{border-color:#25D166;box-shadow:0 10px 24px -14px rgba(37,209,102,.8);transform:translateY(-1px)}
+
+    .social{display:flex;gap:10px;margin-top:10px}
+    .social a{
+      flex:1;display:flex;align-items:center;justify-content:center;gap:7px;
+      min-height:46px;border-radius:12px;
+      background:rgba(255,255,255,.55);border:1px solid var(--linea);
+      font:500 13px var(--sans);color:var(--muto);
+      transition:color .2s, border-color .2s, background .2s;
+    }
+    .social a svg{width:16px;height:16px;flex:none}
+    .social a:hover{color:var(--dom);border-color:var(--dom);background:var(--carta)}
+
+    /* ── PIEDE ───────────────────────────────────────────────── */
+    .piede{margin-top:34px;text-align:center}
+    .piede a{font-size:12.5px;font-weight:600;letter-spacing:.04em;color:var(--dom)}
+    .piede a:hover{color:var(--dom-2)}
+    .piede p{margin-top:6px;font-family:var(--serif);font-style:italic;font-size:12.5px;color:var(--muto)}
+
+    @media (max-width:380px){
+      body{padding:40px 14px 36px}
+      .carta{padding:17px 18px 17px 22px}
+      .riga{padding:0 16px;font-size:14.5px}
+      .social a{font-size:12px}
     }
 
-    .profile-bio {
-      font-size: 0.92rem;
-      color: rgba(255,255,255,0.88);
-      text-align: center;
-      font-weight: 400;
-      line-height: 1.5;
-      max-width: 320px;
-    }
-
-    /* ── BODYGRAPH CTA (piccolo, sopra Step 1) ── */
-    .link-btn.bodygraph {
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.38);
-      color: #fff;
-      font-size: 0.82rem;
-      font-weight: 500;
-      padding: 11px 20px;
-      margin-bottom: 6px;
-    }
-    .link-btn.bodygraph:hover {
-      background: rgba(255,255,255,0.28);
-    }
-    .link-btn.bodygraph .icon { font-size: 0.95rem; width: 18px; height: 18px; }
-
-    /* ── LINKS ───────────────────────────── */
-    .links-section {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    /* ── STEP LABEL ─────────────────────── */
-    .step-tag {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      margin-bottom: -2px;
-    }
-
-    .step-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.42);
-      border-radius: 20px;
-      padding: 4px 13px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    .section-label {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.78rem;
-      font-weight: 400;
-      font-style: italic;
-      color: rgba(255,255,255,0.6);
-      text-align: center;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-top: 6px;
-    }
-
-    /* ── STEP ARROW ─────────────────────── */
-    .step-arrow {
-      text-align: center;
-      color: rgba(255,255,255,0.35);
-      font-size: 1.1rem;
-      line-height: 1;
-      margin: 2px 0;
-      user-select: none;
-    }
-
-    /* ── BUTTONS BASE ───────────────────── */
-    .link-btn {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      padding: 15px 22px;
-      background: rgba(255,255,255,0.92);
-      border-radius: 100px;
-      text-decoration: none;
-      color: #2D2926;
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-      box-shadow: 0 2px 12px rgba(30,20,60,0.18);
-      gap: 12px;
-    }
-
-    .link-btn:hover {
-      background: #fff;
-      transform: scale(1.025);
-      box-shadow: 0 6px 24px rgba(30,20,60,0.25);
-    }
-
-    .link-btn:active { transform: scale(0.985); }
-
-    .link-btn .icon {
-      width: 26px;
-      height: 26px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      line-height: 1;
-    }
-
-    .link-btn .btn-label { flex: 1; text-align: center; }
-
-    /* ── HERO BUTTON (Lettura Individuale) ─ */
-    .link-btn.hero {
-      background: #fff;
-      padding: 18px 22px;
-      box-shadow: 0 4px 28px rgba(30,20,60,0.30), 0 0 0 2px rgba(255,255,255,0.55);
-      border-radius: 18px;
-      align-items: flex-start;
-      gap: 14px;
-    }
-
-    .link-btn.hero:hover {
-      box-shadow: 0 8px 36px rgba(30,20,60,0.38), 0 0 0 3px rgba(255,255,255,0.75);
-      transform: scale(1.025);
-    }
-
-    .link-btn.hero .icon {
-      width: 36px;
-      height: 36px;
-      font-size: 1.4rem;
-      margin-top: 2px;
-    }
-
-    .hero-text { flex: 1; }
-
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #2A3A6A;
-      display: block;
-      line-height: 1.25;
-    }
-
-    .hero-sub {
-      font-size: 0.78rem;
-      font-weight: 400;
-      color: rgba(30,30,80,0.6);
-      display: block;
-      margin-top: 3px;
-      font-style: italic;
-    }
-
-    /* ── PERCORSI ───────────────────────── */
-    .link-btn.primary { color: #2A3A6A; }
-    .link-btn.primary:hover { color: #3A5A8A; }
-
-    /* ── WHATSAPP ───────────────────────── */
-    .link-btn.whatsapp {
-      background: rgba(37,211,102,0.13);
-      border: 1.5px solid rgba(37,211,102,0.45);
-      color: #fff;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .link-btn.whatsapp:hover { background: rgba(37,211,102,0.22); }
-
-    .link-btn.whatsapp .icon {
-      width: 22px;
-      height: 22px;
-    }
-
-    .link-btn.whatsapp .icon svg {
-      width: 22px;
-      height: 22px;
-    }
-
-    /* ── CONTACTS BLOCK ─────────────────── */
-    .contacts-block {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 32px; /* stacca visivamente dai percorsi */
-    }
-
-    .contacts-divider {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 2px;
-    }
-
-    .contacts-divider::before,
-    .contacts-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(255,255,255,0.25);
-    }
-
-    .contacts-divider span {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
-      white-space: nowrap;
-    }
-
-    /* ── SOCIAL ROW ─────────────────────── */
-    .social-row {
-      display: flex;
-      gap: 10px;
-      width: 100%;
-    }
-
-    .social-btn {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 13px 10px;
-      background: rgba(255,255,255,0.14);
-      border: 1.5px solid rgba(255,255,255,0.32);
-      border-radius: 100px;
-      text-decoration: none;
-      color: #fff;
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      transition: background 0.15s, transform 0.15s;
-    }
-
-    .social-btn:hover {
-      background: rgba(255,255,255,0.24);
-      transform: scale(1.03);
-    }
-
-    .social-btn svg {
-      width: 17px;
-      height: 17px;
-      flex-shrink: 0;
-    }
-
-    /* ── FOOTER ─────────────────────────── */
-    .footer {
-      margin-top: 36px;
-      text-align: center;
-    }
-
-    .footer a {
-      font-size: 0.78rem;
-      color: rgba(255,255,255,0.45);
-      text-decoration: none;
-      font-weight: 400;
-      letter-spacing: 0.03em;
-    }
-
-    .footer a:hover { color: rgba(255,255,255,0.75); }
-
-    .footer-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.35);
-      margin-top: 6px;
-      letter-spacing: 0.05em;
+    @media (prefers-reduced-motion:reduce){
+      *{transition:none!important}
+      .principale:hover,.carta:hover,.riga:hover,.whatsapp:hover{transform:none}
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <main class="container">
 
     <!-- PROFILO -->
-    <div class="profile">
-      <div class="avatar-wrap">
-        <img src="/user/pages/assets/valentina-privati.jpg" alt="Valentina Russo" loading="eager">
-      </div>
-      <div class="profile-name">Valentina Russo</div>
-      <p class="profile-bio">🧬 Consulente di Vita e Carriera BG5</p>
+    <header class="profilo">
+      <span class="ritratto">
+        <img src="/user/pages/assets/valentina.jpg" alt="Valentina Russo" width="104" height="104" loading="eager">
+      </span>
+      <h1>Valentina Russo</h1>
+      <span class="filetto" aria-hidden="true"></span>
+      <p class="ruolo">Consulente Certificata BG5 (Human Design per il business)</p>
+    </header>
+
+    <!-- AZIONE GRATUITA -->
+    <a class="principale" href="https://valentinarussobg5.com/genera-carta">
+      Calcola il tuo Bodygraph gratuito
+    </a>
+
+    <!-- LE DUE OFFERTE -->
+    <div class="carte">
+      <a class="carta oro" href="https://valentinarussobg5.com/libretto-istruzioni">
+        <span class="carta-titolo">Libretto d&rsquo;Istruzioni Human Design</span>
+        <span class="carta-sotto">PDF personalizzato &middot; <b>&euro;90 Base</b> &middot; <b>&euro;147 Avanzato</b> &middot; niente call</span>
+      </a>
+
+      <a class="carta" href="https://valentinarussobg5.com/servizi#percorso">
+        <span class="carta-titolo">Lettura individuale Human Design</span>
+        <span class="carta-sotto">Una sessione con Valentina sulla tua carta</span>
+      </a>
     </div>
 
-    <!-- LINKS -->
-    <div class="links-section">
+    <!-- APPROFONDIMENTI -->
+    <div class="righe">
+      <a class="riga" href="https://valentinarussobg5.com/servizi">Tutti i servizi e le letture</a>
+      <a class="riga" href="https://valentinarussobg5.com/corso-base-human-design.html">Corso Base Human Design</a>
+    </div>
 
-      <!-- ── BODYGRAPH GRATUITO (pre-step) ── -->
-      <a class="link-btn bodygraph" href="https://valentinarussobg5.com/genera-carta">
-        <span class="icon">✨</span>
-        <span class="btn-label">Crea il tuo Bodygraph gratuito</span>
+    <!-- CONTATTI -->
+    <section class="contatti">
+      <div class="divisore"><span>Contatti</span></div>
+
+      <a class="whatsapp" href="https://wa.me/393791037653" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="#25D166" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Contattami su WhatsApp
       </a>
 
-      <!-- ── STEP 1: LETTURA INDIVIDUALE ── -->
-      <div class="step-tag">
-        <span class="step-badge">✦ Inizia da qui — Step 1</span>
-      </div>
-
-      <a class="link-btn hero" href="https://valentinarussobg5.com/servizi#percorso">
-        <span class="icon">🔍</span>
-        <span class="hero-text">
-          <span class="hero-title">Lettura Individuale BG5</span>
-          <span class="hero-sub">Il primo passo obbligatorio — scopri il tuo disegno</span>
-        </span>
-      </a>
-
-      <div class="step-arrow">↓</div>
-
-      <!-- ── STEP 2: PERCORSI ── -->
-      <div class="section-label">Poi scegli il tuo percorso</div>
-
-      <a class="link-btn primary" href="https://valentinarussobg5.com/aziende/servizi#leadership">
-        <span class="icon">💼</span>
-        <span class="btn-label">Percorso Carriera con BG5</span>
-      </a>
-
-      <a class="link-btn primary" href="https://valentinarussobg5.com/servizi#relazioni">
-        <span class="icon">💕</span>
-        <span class="btn-label">Percorso di Coppia con BG5</span>
-      </a>
-
-      <a class="link-btn primary" href="https://valentinarussobg5.com/servizi#percorso-ombre">
-        <span class="icon">🌟</span>
-        <span class="btn-label">Percorso Individuale — le tue ombre</span>
-      </a>
-
-    </div><!-- /links-section -->
-
-    <!-- ── CONTATTI ── (staccato visivamente) -->
-    <div class="contacts-block">
-
-      <div class="contacts-divider"><span>Contatti</span></div>
-
-      <a class="link-btn whatsapp" href="https://wa.me/393791037653" target="_blank" rel="noopener">
-        <span class="icon">
-          <svg viewBox="0 0 24 24" fill="#25D166" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-        </span>
-        <span class="btn-label">Contattami su WhatsApp</span>
-      </a>
-
-      <div class="social-row">
-        <a class="social-btn" href="https://www.youtube.com/@valentinarussobg5?sub_confirmation=1" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      <div class="social">
+        <a href="https://www.youtube.com/@valentinarussobg5?sub_confirmation=1" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
           YouTube
         </a>
-        <a class="social-btn" href="https://www.instagram.com/valentinarussobg5" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        <a href="https://www.instagram.com/valentinarussobg5" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
           Instagram
         </a>
-        <a class="social-btn" href="mailto:info@valentinarussobg5.com">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <a href="mailto:info@valentinarussobg5.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           Email
         </a>
       </div>
+    </section>
 
-    </div><!-- /contacts-block -->
-
-    <div class="footer">
+    <!-- PIEDE -->
+    <footer class="piede">
       <a href="https://valentinarussobg5.com">valentinarussobg5.com</a>
-      <div class="footer-logo">Valentina Russo · BG5 &amp; Human Design</div>
-    </div>
+      <p>Valentina Russo &middot; BG5 &amp; Human Design</p>
+    </footer>
 
-  </div>
+  </main>
 </body>
 </html>
