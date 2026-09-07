@@ -15,6 +15,8 @@
     :root{
       --fondo:#FBF7F5; --carta:#FFFFFF; --ink:#3A3532; --muto:#6B625D; --linea:#E8DDD9;
       --dom:#7A4F5E; --dom-2:#5E3A47; --tint:#F6EAEE; --acc:#FDBC5A; --acc-ink:#8A5A12;
+      /* ottone schiarito: sul fondo vinaccia quello pieno resta sotto la soglia di contrasto */
+      --acc-chiaro:#FFD08A;
       --ombra:0 8px 24px rgba(58,53,50,.08);
       --ombra-alta:0 18px 40px -18px rgba(58,53,50,.30);
       --serif:"Playfair Display",Georgia,serif;
@@ -66,40 +68,57 @@
       color:var(--muto);line-height:1.7;max-width:34ch;
     }
 
-    /* ── PULSANTE PRINCIPALE ─────────────────────────────────── */
-    .principale{
+    /* ── PULSANTE DEL CALCOLO (gratuito, a contorno) ─────────── */
+    .gratuito{
       display:flex;align-items:center;justify-content:center;
-      width:100%;min-height:56px;padding:0 24px;border-radius:999px;
-      background:var(--dom);color:#fff;
-      font:600 15.5px var(--sans);letter-spacing:.01em;text-align:center;
-      box-shadow:0 12px 26px -12px rgba(122,79,94,.65);
-      transition:background .2s, transform .2s, box-shadow .2s;
+      width:100%;min-height:52px;padding:0 24px;border-radius:999px;
+      background:rgba(255,255,255,.55);border:1px solid var(--dom);color:var(--dom);
+      font:600 15px var(--sans);text-align:center;
+      transition:background .2s, color .2s, transform .2s;
     }
-    .principale:hover{background:var(--dom-2);transform:translateY(-2px);box-shadow:0 18px 32px -14px rgba(122,79,94,.7)}
+    .gratuito:hover{background:var(--tint);transform:translateY(-1px)}
 
-    /* ── CARTE OFFERTA ───────────────────────────────────────── */
-    .carte{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+    /* ── BLOCCO PRINCIPALE: la lettura, e sotto il libretto ──── */
+    .principale{margin-top:16px;border-radius:16px;box-shadow:var(--ombra-alta);overflow:hidden}
 
-    .carta{
-      position:relative;display:block;
-      background:var(--carta);border:1px solid var(--linea);border-radius:14px;
-      padding:20px 22px 20px 26px;box-shadow:var(--ombra);
-      transition:transform .2s, box-shadow .2s, border-color .2s;
+    .principale .lettura{
+      display:block;background:var(--dom);color:#fff;
+      padding:24px 26px 22px;
+      transition:background .2s;
     }
-    /* la barretta verticale distingue le due offerte senza aggiungere etichette */
-    .carta::before{
-      content:"";position:absolute;left:0;top:16px;bottom:16px;width:3px;
-      border-radius:0 3px 3px 0;background:var(--dom);
+    .principale .lettura:hover{background:var(--dom-2)}
+    .principale .etich{
+      display:block;font-size:10.5px;font-weight:600;letter-spacing:.18em;
+      text-transform:uppercase;color:var(--acc-chiaro);margin-bottom:9px;
     }
-    .carta.oro::before{background:var(--acc)}
-    .carta:hover{transform:translateY(-2px);box-shadow:var(--ombra-alta);border-color:#DED0CA}
+    .principale .titolo{
+      display:block;font-family:var(--serif);font-weight:700;font-size:23px;line-height:1.2;
+    }
+    .principale .sotto{
+      display:block;margin-top:7px;font-size:14px;line-height:1.5;color:rgba(255,255,255,.85);
+    }
 
-    .carta-titolo{display:block;font-family:var(--serif);font-weight:700;font-size:18.5px;line-height:1.25;color:var(--ink)}
-    .carta-sotto{display:block;margin-top:5px;font-size:13.5px;line-height:1.5;color:var(--muto)}
-    .carta-sotto b{color:var(--acc-ink);font-weight:600}
+    /* il libretto sta sotto la lettura, dentro lo stesso blocco: e' l'alternativa
+       piu' leggera, non un'offerta di pari livello */
+    .principale .libretto{
+      display:block;background:var(--carta);
+      padding:16px 26px 17px;border-top:1px solid var(--linea);
+      transition:background .2s;
+    }
+    .principale .libretto:hover{background:#FFFBF7}
+    .principale .libretto .oppure{
+      font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--acc-ink);
+    }
+    .principale .libretto .titolo-2{
+      display:block;margin-top:5px;font-family:var(--serif);font-weight:700;font-size:16px;color:var(--ink);
+    }
+    .principale .libretto .sotto-2{
+      display:block;margin-top:3px;font-size:13px;line-height:1.5;color:var(--muto);
+    }
+    .principale .libretto b{color:var(--acc-ink);font-weight:600}
 
     /* ── RIGHE SECONDARIE ────────────────────────────────────── */
-    .righe{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+    .righe{display:flex;flex-direction:column;gap:10px;margin-top:16px}
 
     .riga{
       display:flex;align-items:center;justify-content:space-between;gap:14px;
@@ -150,14 +169,15 @@
 
     @media (max-width:380px){
       body{padding:40px 14px 36px}
-      .carta{padding:17px 18px 17px 22px}
+      .principale .lettura{padding:20px 20px 18px}
+      .principale .libretto{padding:14px 20px 15px}
       .riga{padding:0 16px;font-size:14.5px}
       .social a{font-size:12px}
     }
 
     @media (prefers-reduced-motion:reduce){
       *{transition:none!important}
-      .principale:hover,.carta:hover,.riga:hover,.whatsapp:hover{transform:none}
+      .gratuito:hover,.riga:hover,.whatsapp:hover{transform:none}
     }
   </style>
 </head>
@@ -174,21 +194,23 @@
       <p class="ruolo">Consulente Certificata BG5 (Human Design per il business)</p>
     </header>
 
-    <!-- AZIONE GRATUITA -->
-    <a class="principale" href="https://valentinarussobg5.com/genera-carta">
+    <!-- CALCOLO GRATUITO -->
+    <a class="gratuito" href="https://valentinarussobg5.com/genera-carta">
       Calcola il tuo Bodygraph gratuito
     </a>
 
-    <!-- LE DUE OFFERTE -->
-    <div class="carte">
-      <a class="carta oro" href="https://valentinarussobg5.com/libretto-istruzioni">
-        <span class="carta-titolo">Libretto d&rsquo;Istruzioni Human Design</span>
-        <span class="carta-sotto">PDF personalizzato &middot; <b>&euro;90 Base</b> &middot; <b>&euro;147 Avanzato</b> &middot; niente call</span>
+    <!-- LA COSA PRINCIPALE, E SOTTO L'ALTERNATIVA -->
+    <div class="principale">
+      <a class="lettura" href="https://valentinarussobg5.com/servizi#singole">
+        <span class="etich">Si parte da qui</span>
+        <span class="titolo">Lettura individuale Human Design</span>
+        <span class="sotto">Una sessione con Valentina sulla tua carta</span>
       </a>
 
-      <a class="carta" href="https://valentinarussobg5.com/servizi#singole">
-        <span class="carta-titolo">Lettura individuale Human Design</span>
-        <span class="carta-sotto">Una sessione con Valentina sulla tua carta</span>
+      <a class="libretto" href="https://valentinarussobg5.com/libretto-istruzioni">
+        <span class="oppure">Oppure, senza call</span>
+        <span class="titolo-2">Libretto d&rsquo;Istruzioni Human Design</span>
+        <span class="sotto-2">PDF personalizzato &middot; <b>&euro;90 Base</b> &middot; <b>&euro;147 Avanzato</b></span>
       </a>
     </div>
 
