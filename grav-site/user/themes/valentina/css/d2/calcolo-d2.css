@@ -28,7 +28,7 @@ body.d2.pg-calcolo{background:radial-gradient(900px 520px at 78% 0%,rgba(207,143
 .d2 .gc-tips-text,.d2 .gc-tips-text strong,.d2 .gc-tips-text b{color:var(--ink)!important}
 .d2 .gc-tips-text{color:var(--muto)!important}
 /* .container e' una classe del tema (CSS non incluso qui): senza margin auto resta a sinistra */
-.d2.pg-calcolo .container{margin-left:auto!important;margin-right:auto!important}
+.d2.pg-calcolo .container,.d2.pg-citta .container{margin-left:auto!important;margin-right:auto!important}
 /* modulo: la card ha una larghezza massima, va centrata nella colonna */
 .d2 #carta-calculator .carta-form-card,.d2 #carta-calculator .carta-results,.d2 #carta-calculator .csingle-cta,.d2 #carta-calculator .carta-error,.d2 #carta-calculator .carta-loading{margin-left:auto!important;margin-right:auto!important}
 /* modulo */

@@ -3,7 +3,6 @@ title: "Human Design e BG5® a Verona — Valentina Russo"
 subtitle: "Disegno di Carriera BG5® per professionisti veronesi e del Veneto."
 published: true
 routable: true
-corporate: true
 city: "Verona"
 region: "Veneto"
 seo_title: "Human Design a Verona: consulente BG5 certificata"

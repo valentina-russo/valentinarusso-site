@@ -3,7 +3,6 @@ title: "Human Design e BG5® a Venezia — Valentina Russo"
 subtitle: "Analisi del Disegno di Carriera per professionisti veneziani e veneti."
 published: true
 routable: true
-corporate: true
 city: "Venezia"
 region: "Veneto"
 seo_title: "Human Design Venezia: lettura e consulente BG5"

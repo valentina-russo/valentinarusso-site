@@ -3,7 +3,6 @@ title: "Human Design e BG5® a Milano — Valentina Russo"
 subtitle: "Disegno di Carriera e consulenze BG5® per professionisti e manager milanesi."
 published: true
 routable: true
-corporate: true
 city: "Milano"
 region: "Lombardia"
 seo_title: "Human Design Milano: lettura e consulente BG5"

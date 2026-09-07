@@ -3,7 +3,6 @@ title: "Human Design e BG5® a Bologna — Valentina Russo"
 subtitle: "Disegno di Carriera e consulenze BG5® per professionisti bolognesi ed emiliani."
 published: true
 routable: true
-corporate: true
 city: "Bologna"
 region: "Emilia-Romagna"
 seo_title: "Human Design Bologna: lettura e consulente BG5"

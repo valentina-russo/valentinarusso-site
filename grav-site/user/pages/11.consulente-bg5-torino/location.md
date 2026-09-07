@@ -3,7 +3,6 @@ title: "Human Design e BG5® a Torino — Valentina Russo"
 subtitle: "Disegno di Carriera e consulenze BG5® per professionisti torinesi e piemontesi."
 published: true
 routable: true
-corporate: true
 city: "Torino"
 region: "Piemonte"
 seo_title: "Human Design a Torino: consulente BG5 certificata"

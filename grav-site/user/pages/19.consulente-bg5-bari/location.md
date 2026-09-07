@@ -3,7 +3,6 @@ title: "Human Design e BG5® a Bari — Valentina Russo"
 subtitle: "Disegno di Carriera BG5® per professionisti pugliesi."
 published: true
 routable: true
-corporate: true
 city: "Bari"
 region: "Puglia"
 seo_title: "Human Design Bari: lettura e consulente BG5"

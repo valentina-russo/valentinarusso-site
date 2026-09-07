@@ -3,7 +3,6 @@ title: "Human Design e BG5® a Roma — Valentina Russo"
 subtitle: "Disegno di Carriera BG5® per professionisti romani e del Lazio."
 published: true
 routable: true
-corporate: true
 city: "Roma"
 region: "Lazio"
 seo_title: "Human Design Roma: lettura e consulente BG5"

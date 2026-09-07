@@ -3,7 +3,6 @@ title: "Human Design e BG5® in Italia — Valentina Russo"
 subtitle: "L'unica consulente BG5® certificata in Italia con sessioni interamente in italiano."
 published: true
 routable: true
-corporate: true
 city: "Italia"
 region: "Italia"
 seo_title: "Consulente Human Design e BG5 certificata in Italia"

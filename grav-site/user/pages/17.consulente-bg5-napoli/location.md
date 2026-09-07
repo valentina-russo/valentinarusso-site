@@ -3,7 +3,6 @@ title: "Human Design e BG5® a Napoli — Valentina Russo"
 subtitle: "Disegno di Carriera e consulenze BG5® per professionisti campani."
 published: true
 routable: true
-corporate: true
 city: "Napoli"
 region: "Campania"
 seo_title: "Human Design Napoli: lettura e consulente BG5"

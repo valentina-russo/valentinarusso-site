@@ -3,7 +3,6 @@ title: "Human Design e BG5® a Palermo — Valentina Russo"
 subtitle: "Analisi del Disegno di Carriera per professionisti siciliani."
 published: true
 routable: true
-corporate: true
 city: "Palermo"
 region: "Sicilia"
 seo_title: "Human Design Palermo: lettura e consulente BG5"

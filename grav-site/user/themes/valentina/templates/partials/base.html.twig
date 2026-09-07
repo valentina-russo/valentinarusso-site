@@ -1,4 +1,4 @@
-{% set theme_version = '20260907a' %}
+{% set theme_version = '20260907b' %}
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -468,7 +468,7 @@
 {% set is_aziende_home = page.template == 'aziende_home' %}
 {% set body_classes = ['d2'] %}
 {% if page.header.classe_corpo %}{% set body_classes = body_classes|merge([page.header.classe_corpo]) %}{% endif %}
-{% set classi_modello = {'genera_carta_beta':'pg-calcolo','bg5_blueprint':'pg-libretto','workshop_proposta':'pg-workshop','hd_relazionale':'pg-hdrel'} %}
+{% set classi_modello = {'genera_carta_beta':'pg-calcolo','bg5_blueprint':'pg-libretto','workshop_proposta':'pg-workshop','hd_relazionale':'pg-hdrel','location':'pg-citta'} %}
 {% if classi_modello[page.template] is defined %}{% set body_classes = body_classes|merge([classi_modello[page.template]]) %}{% endif %}
 {% if is_corporate_page %}{% set body_classes = body_classes|merge(['az']) %}{% endif %}
 {% if is_corporate_page %}{% set body_classes = body_classes|merge(['corporate']) %}{% endif %}
