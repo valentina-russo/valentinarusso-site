@@ -117,6 +117,35 @@
     }
     .principale .libretto b{color:var(--acc-ink);font-weight:600}
 
+    /* ── CORSO IN EVIDENZA ───────────────────────────────────── */
+    .corso{
+      display:block;margin-top:16px;position:relative;
+      background:linear-gradient(180deg,#FFFDF9 0%,#FFF7EC 100%);
+      border:1px solid #F0DDBE;border-radius:16px;
+      padding:22px 24px 20px;box-shadow:var(--ombra);
+      transition:transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .corso::before{
+      content:"";position:absolute;left:0;top:18px;bottom:18px;width:3px;
+      border-radius:0 3px 3px 0;background:var(--acc);
+    }
+    .corso:hover{transform:translateY(-2px);box-shadow:var(--ombra-alta);border-color:var(--acc)}
+
+    .corso .data{
+      display:inline-block;padding:4px 11px;border-radius:999px;
+      background:var(--acc);color:#4A3208;
+      font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    }
+    .corso .titolo-3{
+      display:block;margin-top:11px;font-family:var(--serif);font-weight:700;
+      font-size:20px;line-height:1.2;color:var(--ink);
+    }
+    .corso .sotto-3{display:block;margin-top:6px;font-size:13.5px;line-height:1.55;color:var(--muto)}
+    .corso .prezzo{
+      display:block;margin-top:10px;padding-top:10px;border-top:1px solid #F0DDBE;
+      font-size:13px;font-weight:600;color:var(--acc-ink);
+    }
+
     /* ── RIGHE SECONDARIE ────────────────────────────────────── */
     .righe{display:flex;flex-direction:column;gap:10px;margin-top:16px}
 
@@ -171,13 +200,14 @@
       body{padding:40px 14px 36px}
       .principale .lettura{padding:20px 20px 18px}
       .principale .libretto{padding:14px 20px 15px}
+      .corso{padding:18px 18px 16px}
       .riga{padding:0 16px;font-size:14.5px}
       .social a{font-size:12px}
     }
 
     @media (prefers-reduced-motion:reduce){
       *{transition:none!important}
-      .gratuito:hover,.riga:hover,.whatsapp:hover{transform:none}
+      .gratuito:hover,.corso:hover,.riga:hover,.whatsapp:hover{transform:none}
     }
   </style>
 </head>
@@ -214,10 +244,17 @@
       </a>
     </div>
 
+    <!-- IL CORSO, IN EVIDENZA -->
+    <a class="corso" href="https://valentinarussobg5.com/corso-base-human-design.html">
+      <span class="data">Dal 12 ottobre</span>
+      <span class="titolo-3">Corso Base Human Design</span>
+      <span class="sotto-3">Venti lezioni dal vivo su Zoom, in due semestri, ogni luned&igrave; alle 18. Impari a leggere la tua carta e quella degli altri.</span>
+      <span class="prezzo">700&euro; a semestre &middot; 1.200&euro; il percorso completo, anche a rate</span>
+    </a>
+
     <!-- APPROFONDIMENTI -->
     <div class="righe">
       <a class="riga" href="https://valentinarussobg5.com/servizi">Tutti i servizi e le letture</a>
-      <a class="riga" href="https://valentinarussobg5.com/corso-base-human-design.html">Corso Base Human Design</a>
     </div>
 
     <!-- CONTATTI -->
