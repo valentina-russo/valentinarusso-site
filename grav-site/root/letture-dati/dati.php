@@ -247,6 +247,34 @@ body { margin:0; font-family:'Outfit',sans-serif; background:var(--parch); color
         <label class="ld-label" for="ld-c-luogo">Luogo di nascita <span class="ld-req">*</span></label>
         <input class="ld-input" type="text" id="ld-c-luogo" name="child_birth_place" required placeholder="es. Bologna, Italia">
       </div>
+
+    <?php elseif ($dataMode === 'penta'): ?>
+      <p class="ld-section-title">I membri del gruppo</p>
+      <p class="ld-hint" style="margin:-.5rem 0 1.25rem">Servono da tre a cinque persone. I primi tre sono obbligatori, il quarto e il quinto solo se fanno parte del gruppo.</p>
+      <?php for ($i = 1; $i <= 5; $i++):
+        $obb = $i <= 3;
+        $tit = $obb ? "Persona {$i}" : "Persona {$i} (facoltativa)";
+      ?>
+        <p class="ld-section-title"><?= $tit ?></p>
+        <div class="ld-group">
+          <label class="ld-label" for="ld-p<?= $i ?>-nome">Nome e ruolo in famiglia <?php if ($obb): ?><span class="ld-req">*</span><?php endif; ?></label>
+          <input class="ld-input" type="text" id="ld-p<?= $i ?>-nome" name="p<?= $i ?>_nome" <?= $obb ? 'required' : '' ?> placeholder="es. Anna, madre">
+        </div>
+        <div class="ld-row">
+          <div class="ld-group">
+            <label class="ld-label" for="ld-p<?= $i ?>-data">Data di nascita <?php if ($obb): ?><span class="ld-req">*</span><?php endif; ?></label>
+            <input class="ld-input" type="date" id="ld-p<?= $i ?>-data" name="p<?= $i ?>_birth_date" <?= $obb ? 'required' : '' ?>>
+          </div>
+          <div class="ld-group">
+            <label class="ld-label" for="ld-p<?= $i ?>-ora">Ora di nascita <?php if ($obb): ?><span class="ld-req">*</span><?php endif; ?></label>
+            <input class="ld-input" type="time" id="ld-p<?= $i ?>-ora" name="p<?= $i ?>_birth_time" <?= $obb ? 'required' : '' ?>>
+          </div>
+        </div>
+        <div class="ld-group">
+          <label class="ld-label" for="ld-p<?= $i ?>-luogo">Luogo di nascita <?php if ($obb): ?><span class="ld-req">*</span><?php endif; ?></label>
+          <input class="ld-input" type="text" id="ld-p<?= $i ?>-luogo" name="p<?= $i ?>_birth_place" <?= $obb ? 'required' : '' ?> placeholder="es. Milano, Italia">
+        </div>
+      <?php endfor; ?>
     <?php endif; ?>
 
     <hr class="ld-divider">

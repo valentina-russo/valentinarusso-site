@@ -7,6 +7,7 @@
  *   single  -> un solo set di dati di nascita (il cliente)
  *   couple  -> due set di dati di nascita (persona A + persona B)
  *   child   -> dati di nascita del figlio/a + contatto del genitore
+ *   penta   -> da tre a cinque set di dati di nascita (i membri del gruppo)
  *
  * NB PREZZI: tutti confermati esplicitamente da Marco. Foundation 210,
  * Bimbo 210, Coppia 300, PHS 120, Prima Lettura + PHS 330, Ritorno
@@ -29,6 +30,13 @@ const LETTURE_CATALOG = [
         'amount'      => 30000, // €300,00 — CONFERMATO
         'data_mode'   => 'couple',
         'duration'    => '90 minuti',
+    ],
+    'penta-familiare' => [
+        'name'        => 'Lettura del Penta Familiare',
+        'description' => 'La famiglia letta come sistema da tre a cinque persone: l'energia che il gruppo produce insieme e come pesa su chi ne fa parte.',
+        'amount'      => 30000, // €300,00 — CONFERMATO (07/09)
+        'data_mode'   => 'penta',
+        'duration'    => '120 minuti',
     ],
     'figlio' => [
         'name'        => 'Lettura per il Figlio/a',

@@ -103,6 +103,21 @@ if ($dataMode === 'single') {
     $cNome = clean('child_nome'); $cDate = clean('child_birth_date'); $cTime = clean('child_birth_time'); $cPlace = clean('child_birth_place');
     $missingSpecific = !$cNome || !$cDate || !$cTime || !$cPlace;
     $datiPersonaTxt = "FIGLIO/A   : {$cNome}\n  Data/ora/luogo: {$cDate} {$cTime} — {$cPlace}";
+} elseif ($dataMode === 'penta') {
+    $righe = [];
+    $mancanti = false;
+    for ($i = 1; $i <= 5; $i++) {
+        $pNome  = clean("p{$i}_nome");
+        $pDate  = clean("p{$i}_birth_date");
+        $pTime  = clean("p{$i}_birth_time");
+        $pPlace = clean("p{$i}_birth_place");
+        $vuota  = !$pNome && !$pDate && !$pTime && !$pPlace;
+        if ($i > 3 && $vuota) { continue; }
+        if (!$pNome || !$pDate || !$pTime || !$pPlace) { $mancanti = true; }
+        $righe[] = "PERSONA {$i}  : {$pNome}\n  Data/ora/luogo: {$pDate} {$pTime} — {$pPlace}";
+    }
+    $missingSpecific = $mancanti;
+    $datiPersonaTxt = implode("\n", $righe);
 }
 
 if ($missingBase || $missingSpecific) {
