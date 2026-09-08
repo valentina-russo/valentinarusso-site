@@ -26,3 +26,9 @@
 
 # Niente elenco della cartella
 Options -Indexes
+
+# L'evento da aggiungere al calendario deve essere servito col tipo giusto,
+# altrimenti il telefono lo scarica invece di aprirlo.
+<IfModule mod_mime.c>
+    AddType text/calendar .ics
+</IfModule>

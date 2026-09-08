@@ -10,6 +10,9 @@ declare(strict_types=1);
 const PAGINA   = '/lezione-gratuita-human-design';
 const REGISTRO = __DIR__ . '/iscritti.csv';
 const LIMITI   = __DIR__ . '/limiti.json';
+const ZOOM     = 'https://us06web.zoom.us/j/83827304626?pwd=uLLsTsjbwY5mUIP6VaiETC6y5BblPF.1';
+const QUANDO   = 'lunedì 14 settembre 2026, ore 20:30';
+const CALENDARIO = __DIR__ . '/lezione-14-settembre.ics';
 const A_VALENTINA = 'consulenze@valentinarussobg5.com, consulenza@marcomunich.com';
 const DA_EMAIL    = 'info@valentinarussobg5.com';
 
@@ -76,10 +79,92 @@ function scudo(string $v): string {
 ", $v[0])) ? "'" . $v : $v;
 }
 
+/**
+ * Conferma con dentro il link della call e l'evento da aggiungere al calendario.
+ * L'.ics arriva come allegato: Apple Calendar e Google lo riconoscono e
+ * propongono di salvarlo con un tocco.
+ */
+function manda_conferma(string $nome, string $email): void {
+    $testo = "Ciao {$nome},
+
+"
+        . "sei iscritto alla prima lezione del Corso Base di Human Design.
+
+"
+        . "QUANDO
+" . QUANDO . "
+
+"
+        . "DOVE
+Su Zoom, da questo link:
+" . ZOOM . "
+
+"
+        . "Il link e' gia' attivo: ti basta aprirlo qualche minuto prima. "
+        . "In allegato trovi l'evento da aggiungere al calendario, cosi' il promemoria "
+        . "arriva da solo il giorno prima e un'ora prima.
+
+"
+        . "Se nel frattempo vuoi arrivare preparata o preparato, calcola il tuo Bodygraph qui:
+"
+        . "https://valentinarussobg5.com/genera-carta
+
+"
+        . "A presto,
+Valentina Russo
+Analista BG5 / Human Design
+";
+
+    $ics = is_file(CALENDARIO) ? (string)file_get_contents(CALENDARIO) : '';
+    $mittente = "Valentina Russo <" . DA_EMAIL . ">";
+    $oggetto  = 'Il link della lezione di lunedi 14 settembre';
+
+    if ($ics === '') {
+        @mail($email, $oggetto, $testo,
+            "From: {$mittente}
+Content-Type: text/plain; charset=UTF-8");
+        return;
+    }
+
+    $confine = 'lz' . bin2hex(random_bytes(10));
+    $intestazioni = "From: {$mittente}
+MIME-Version: 1.0
+"
+        . "Content-Type: multipart/mixed; boundary=\"{$confine}\"";
+    $corpo = "--{$confine}
+"
+        . "Content-Type: text/plain; charset=UTF-8
+"
+        . "Content-Transfer-Encoding: 8bit
+
+"
+        . $testo . "
+
+"
+        . "--{$confine}
+"
+        . "Content-Type: text/calendar; charset=UTF-8; method=PUBLISH; name=\"lezione-14-settembre.ics\"
+"
+        . "Content-Transfer-Encoding: base64
+"
+        . "Content-Disposition: attachment; filename=\"lezione-14-settembre.ics\"
+
+"
+        . chunk_split(base64_encode($ics)) . "
+"
+        . "--{$confine}--
+";
+    @mail($email, $oggetto, $corpo, $intestazioni);
+}
+
 function rimanda(string $esito): never {
     header('Location: ' . PAGINA . '?esito=' . $esito, true, 303);
     exit;
 }
+
+// Fin qui solo definizioni: cosi' un altro script puo' includere questo file
+// per riusare manda_conferma() senza far partire la gestione del modulo.
+if (basename((string)($_SERVER['SCRIPT_FILENAME'] ?? '')) !== 'iscrivi.php') { return; }
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') { rimanda('metodo'); }
 
@@ -144,24 +229,13 @@ if (!$gia) {
 
 a_brevo($nome, $email, $origine);
 
-$quando = 'lunedi 14 settembre 2026, ore 20:30';
-
 if (!$gia) {
     $oggetto = 'Nuova iscrizione lezione gratuita: ' . $nome;
-    $corpo = "NOME  : {$nome}\nEMAIL : {$email}\nQUANDO: {$quando}\nORIGINE: "
+    $corpo = "NOME  : {$nome}\nEMAIL : {$email}\nQUANDO: " . QUANDO . "\nORIGINE: "
            . ($origine !== '' ? $origine : '-') . "\nDATA  : " . date('d/m/Y H:i') . "\n";
     @mail(A_VALENTINA, $oggetto, $corpo,
         "From: Valentina Russo <" . DA_EMAIL . ">\r\nContent-Type: text/plain; charset=UTF-8");
-}
-
-if (!$gia) {
-    $saluto = "Ciao {$nome},\n\n"
-        . "ti ho segnato per la lezione gratuita di {$quando}, su Zoom.\n\n"
-        . "Ti scrivo io con il link qualche giorno prima. Se nel frattempo vuoi arrivare preparata o preparato, "
-        . "calcola intanto il tuo Bodygraph qui: https://valentinarussobg5.com/genera-carta\n\n"
-        . "A presto,\nValentina Russo\nAnalista BG5 / Human Design\n";
-    @mail($email, 'Sei iscritto alla lezione gratuita del 14 settembre', $saluto,
-        "From: Valentina Russo <" . DA_EMAIL . ">\r\nContent-Type: text/plain; charset=UTF-8");
+    manda_conferma($nome, $email);
 }
 
 rimanda('ok');

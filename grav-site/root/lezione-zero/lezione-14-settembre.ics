@@ -1,0 +1,28 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Valentina Russo//Corso Base Human Design//IT
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:lezione-gratuita-14-settembre-2026@valentinarussobg5.com
+DTSTAMP:20260908T120000Z
+DTSTART:20260914T183000Z
+DTEND:20260914T193000Z
+SUMMARY:Corso Base di Human Design - prima lezione gratuita
+DESCRIPTION:Prima lezione del Corso Base di Human Design con Valentina Russo\, in diretta su Zoom.\n\nEntra da qui: https://us06web.zoom.us/j/83827304626?pwd=uLLsTsjbwY5mUIP6VaiETC6y5BblPF.1\n\nDettagli del corso: https://valentinarussobg5.com/lezione-gratuita-human-design
+LOCATION:Zoom
+URL:https://us06web.zoom.us/j/83827304626?pwd=uLLsTsjbwY5mUIP6VaiETC6y5BblPF.1
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+TRIGGER:-PT1H
+ACTION:DISPLAY
+DESCRIPTION:Fra un'ora la lezione gratuita di Human Design
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Domani sera la lezione gratuita di Human Design
+END:VALARM
+END:VEVENT
+END:VCALENDAR

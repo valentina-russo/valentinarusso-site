@@ -81,7 +81,7 @@ html{scroll-behavior:smooth}
   </section>
 
 <?php if ($esito === 'ok'): ?>
-  <div class="avviso ok"><strong>Ci sei.</strong> Ti arriva un&rsquo;email di conferma fra pochi minuti, e il link di Zoom qualche giorno prima della lezione. Se non trovi nulla, guarda nella posta indesiderata.</div>
+  <div class="avviso ok"><strong>Ci sei.</strong> Fra pochi minuti ricevi un&rsquo;email con il link di Zoom, gi&agrave; attivo, e l&rsquo;evento da aggiungere al calendario. Se non trovi nulla, guarda nella posta indesiderata. Puoi anche <a href="/lezione-zero/lezione-14-settembre.ics">aggiungere subito la lezione al calendario</a>.</div>
 <?php elseif ($esito === 'dati'): ?>
   <div class="avviso no">Manca qualcosa: servono il nome, un indirizzo email valido e la spunta sul consenso.</div>
 <?php elseif ($esito === 'troppi'): ?>
