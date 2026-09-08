@@ -29,13 +29,15 @@ GOLD     = "#C48A3A"
 CREAM    = "#FAF7F5"
 WHITE    = "#FFFFFF"
 NEAR_W   = "#F4EFE9"
+DARK_INK = "#31271D"   # marrone scuro delle cover a pannello chiaro
 
 PLAYFAIR_BOLD       = str(FONTS_DIR / "PlayfairDisplay-Bold.ttf")
 PLAYFAIR_BOLD_ITAL  = str(FONTS_DIR / "PlayfairDisplay-BoldItalic.ttf")
 OUTFIT_BOLD         = str(FONTS_DIR / "Outfit-Bold.ttf")
 OUTFIT_MEDIUM       = str(FONTS_DIR / "Outfit-Medium.ttf")
 
-W, H = 1280, 720
+SCALE = 1.5  # 1280x720 (min YouTube) -> 1920x1080 (risoluzione reale del video sorgente, niente upscale)
+W, H = int(1280 * SCALE), int(720 * SCALE)
 
 PROJECT_ROOT = HERE.parent.parent
 ASSETS_DIR = PROJECT_ROOT / "grav-site" / "user" / "pages" / "assets"
@@ -133,19 +135,19 @@ def _photo_for_right_panel(photo_path: Path, panel_w: int, panel_h: int,
     return photo.resize((panel_w, panel_h), Image.LANCZOS)
 
 
-TITLE_MAX   = 96   # px — titoli brevi (1-2 parole), pannello dominante
-TITLE_MIN   = 60   # px — floor assoluto: ~15px a thumbnail 320px, leggibile con Playfair
-TITLE_STEP  =  6   # px — step di riduzione per auto-fit
+TITLE_MAX   = int(106 * SCALE)  # px — titoli brevi (1-2 parole), pannello dominante — alzato 22/07/2026
+TITLE_MIN   = int(66 * SCALE)   # px — floor assoluto: leggibile con Playfair — alzato 22/07/2026
+TITLE_STEP  = int(6 * SCALE)    # px — step di riduzione per auto-fit
 TITLE_MAX_LINES = 3  # max righe: 4 righe a 60px diventano troppo sottili a thumbnail
 
 # Zona verticale sicura per il blocco titolo (tra eyebrow e brand bar)
-SAFE_TOP    = 130  # px dal top canvas — sotto eyebrow + gap
-SAFE_BOTTOM = 630  # px dal top canvas — sopra brand bar
+SAFE_TOP    = int(130 * SCALE)  # px dal top canvas — sotto eyebrow + gap
+SAFE_BOTTOM = int(630 * SCALE)  # px dal top canvas — sopra brand bar
 
 
 def build_cover(title: str, eyebrow: str = "", photo_path: Path | None = None,
                  bg_color: str = NAVY, subtitle: str = "",
-                 title_size: int | None = None) -> Image.Image:
+                 title_size: int | None = None, badge_text: str | None = "BG5® Analyst") -> Image.Image:
     """
     Magazine split layout:
     - LEFT 60% panel: bg_color solido con eyebrow gold + titolo bianco Playfair + brand
@@ -157,7 +159,7 @@ def build_cover(title: str, eyebrow: str = "", photo_path: Path | None = None,
       - Iniziatore/Manifestatore: arancione (#B85F2F)
       - Costruttore/Generatore: rosso scuro (#8B2C2C) [da confermare]
       - Guida/Proiettore: verde scuro (#2C5F3F) [da confermare]
-      - Valutatore/Riflettore: blu scuro (#1F3A5F) [da confermare]
+      - Valutatore/Riflettore: azzurro cielo (#B9D8EC), testi su marrone scuro
       - Default/generale: navy (#1A2332)
 
     title_size: None (default) = auto-fit tra TITLE_MIN e TITLE_MAX.
@@ -168,9 +170,26 @@ def build_cover(title: str, eyebrow: str = "", photo_path: Path | None = None,
 
     # Adattamento contrasto: su bg navy gold funziona, su altri colori (es. arancione)
     # gold scompare → usare cream per eyebrow + badge text.
-    is_navy_bg = bg_color.lower() in (NAVY.lower(), "#1a2332")
-    eyebrow_color = GOLD if is_navy_bg else NEAR_W
+    def _luminanza(hexcol: str) -> float:
+        h = hexcol.lstrip("#")
+        r, g, b = (int(h[i:i + 2], 16) for i in (0, 2, 4))
+        return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255
+
+    # Prima si confrontava il colore esatto con NAVY: qualsiasi altro sfondo
+    # scuro (es. il bordeaux delle cover intervista) perdeva gli accenti oro.
+    # Soglia 0.35 catturava anche i colori --type saturi (rosso Costruttore
+    # 0.289, verde Guida 0.321), che nelle cover live hanno sempre eyebrow
+    # bianca, non oro. 0.25 include ancora il bordeaux (~0.185) ma esclude
+    # i colori --type.
+    is_navy_bg = _luminanza(bg_color) < 0.25
+    # Pannello molto chiaro (crema): il testo chiaro sparirebbe, quindi si
+    # inverte su marrone scuro e l'oro torna leggibile per gli accenti.
+    is_light_bg = _luminanza(bg_color) > 0.75
+    eyebrow_color = GOLD if (is_navy_bg or is_light_bg) else NEAR_W
     badge_text_color = GOLD if is_navy_bg else NEAR_W
+    title_color = DARK_INK if is_light_bg else WHITE
+    subtitle_color = GOLD if is_light_bg else NEAR_W
+    brand_color = DARK_INK if is_light_bg else NEAR_W
 
     # Right panel: photo
     img = Image.new("RGB", (W, H), bg_color)
@@ -180,12 +199,12 @@ def build_cover(title: str, eyebrow: str = "", photo_path: Path | None = None,
     draw = ImageDraw.Draw(img)
 
     # Gold vertical accent line at split boundary
-    draw.line([(split_x - 2, 0), (split_x - 2, H)], fill=GOLD, width=3)
+    draw.line([(split_x - 2, 0), (split_x - 2, H)], fill=GOLD, width=max(3, int(3 * SCALE)))
 
     # Subtle gradient on right edge of left panel (soft transition into photo)
     overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     ov_draw = ImageDraw.Draw(overlay)
-    fade_w = 100
+    fade_w = int(100 * SCALE)
     for i in range(fade_w):
         alpha = int(180 * (1.0 - i / fade_w) ** 1.5)
         ov_draw.line([(split_x + i, 0), (split_x + i, H)], fill=(0, 0, 0, alpha))
@@ -194,30 +213,34 @@ def build_cover(title: str, eyebrow: str = "", photo_path: Path | None = None,
 
     # Eyebrow uppercase (cream su bg non-navy per contrasto)
     if eyebrow:
-        eyebrow_font = ImageFont.truetype(OUTFIT_BOLD, 24)
-        draw.text((60, 75), eyebrow.upper(), font=eyebrow_font, fill=eyebrow_color)
+        eyebrow_font = ImageFont.truetype(OUTFIT_BOLD, int(24 * SCALE))
+        ey_x, ey_y = int(60 * SCALE), int(75 * SCALE)
+        draw.text((ey_x, ey_y), eyebrow.upper(), font=eyebrow_font, fill=eyebrow_color)
         # Underline same color as eyebrow
-        bbox = draw.textbbox((60, 75), eyebrow.upper(), font=eyebrow_font)
-        draw.line([(60, bbox[3] + 8), (60 + 40, bbox[3] + 8)], fill=eyebrow_color, width=2)
+        bbox = draw.textbbox((ey_x, ey_y), eyebrow.upper(), font=eyebrow_font)
+        gap, ulen = int(8 * SCALE), int(40 * SCALE)
+        draw.line([(ey_x, bbox[3] + gap), (ey_x + ulen, bbox[3] + gap)], fill=eyebrow_color, width=max(2, int(2*SCALE)))
 
     # Title: Playfair Bold, width-based wrap (greedy fill)
-    max_title_w = split_x - 110
+    max_title_w = split_x - int(110 * SCALE)
 
     def wrap_by_width(text: str, font) -> list[str]:
-        """Greedy wrap basato sulla larghezza pixel reale."""
-        words = text.split()
-        lines, cur = [], ""
-        for w in words:
-            candidate = (cur + " " + w).strip() if cur else w
-            bbox = draw.textbbox((0, 0), candidate, font=font)
-            if bbox[2] - bbox[0] <= max_title_w:
-                cur = candidate
-            else:
-                if cur:
-                    lines.append(cur)
-                cur = w
-        if cur:
-            lines.append(cur)
+        """Greedy wrap basato sulla larghezza pixel reale. "\n" esplicito = a-capo forzato."""
+        lines: list[str] = []
+        for segment in text.split("\n"):
+            words = segment.split()
+            cur = ""
+            for w in words:
+                candidate = (cur + " " + w).strip() if cur else w
+                bbox = draw.textbbox((0, 0), candidate, font=font)
+                if bbox[2] - bbox[0] <= max_title_w:
+                    cur = candidate
+                else:
+                    if cur:
+                        lines.append(cur)
+                    cur = w
+            if cur:
+                lines.append(cur)
         return lines
 
     # Auto-fit: parte da TITLE_MAX (o dall'override manuale) e scende di TITLE_STEP
@@ -261,7 +284,7 @@ def build_cover(title: str, eyebrow: str = "", photo_path: Path | None = None,
     subtitle_total_h = 0
     subtitle_gap = 0
     if subtitle:
-        sub_size = max(26, int(title_font_size * 0.36))
+        sub_size = max(int(30 * SCALE), int(title_font_size * 0.42))  # alzato 22/07/2026
         subtitle_font = ImageFont.truetype(PLAYFAIR_BOLD_ITAL, sub_size)
         # Wrap subtitle by width (same max_title_w)
         def _wrap_sub(text: str, font) -> list[str]:
@@ -292,37 +315,39 @@ def build_cover(title: str, eyebrow: str = "", photo_path: Path | None = None,
     y0 = SAFE_TOP + (safe_h - total_h) // 2
 
     for i, line in enumerate(lines):
-        draw.text((60, y0 + i * line_height), line, font=title_font, fill=WHITE)
+        draw.text((int(60*SCALE), y0 + i * line_height), line, font=title_font, fill=title_color)
 
     if subtitle_lines and subtitle_font is not None:
         y_sub = y0 + title_total_h + subtitle_gap
         for i, line in enumerate(subtitle_lines):
-            draw.text((60, y_sub + i * subtitle_line_height), line,
-                      font=subtitle_font, fill=NEAR_W)
+            draw.text((int(60*SCALE), y_sub + i * subtitle_line_height), line,
+                      font=subtitle_font, fill=subtitle_color)
 
     # Bottom-left: gold line + brand
-    line_y = H - 80
-    draw.line([(60, line_y), (160, line_y)], fill=GOLD, width=3)
+    line_y = H - int(80 * SCALE)
+    draw.line([(int(60*SCALE), line_y), (int(160*SCALE), line_y)], fill=GOLD, width=max(3, int(3*SCALE)))
 
-    brand_font = ImageFont.truetype(OUTFIT_BOLD, 26)
-    draw.text((60, line_y + 16), "@valentinarussobg5", font=brand_font, fill=NEAR_W)
+    brand_font = ImageFont.truetype(OUTFIT_BOLD, int(26 * SCALE))
+    draw.text((int(60*SCALE), line_y + int(16*SCALE)), "@valentinarussobg5", font=brand_font, fill=brand_color)
 
-    # Bottom-right (over photo, bottom-right corner): BG5 Analyst small badge
-    badge_font = ImageFont.truetype(OUTFIT_MEDIUM, 18)
-    badge_text = "BG5® Analyst"
-    bbox = draw.textbbox((0, 0), badge_text, font=badge_font)
-    tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
-    # Dark rounded box behind badge
-    pad_x, pad_y = 14, 8
-    box_x0 = W - 70 - tw - pad_x * 2
-    box_y0 = H - 70 - th - pad_y * 2
-    box_x1 = W - 70
-    box_y1 = H - 70
-    # Badge background = bg_color with alpha (matches left panel theme)
-    bg_rgba = (*_hex_to_rgba(bg_color)[:3], 220)
-    draw.rounded_rectangle([(box_x0, box_y0), (box_x1, box_y1)], radius=6,
-                            fill=bg_rgba)
-    draw.text((box_x0 + pad_x, box_y0 + pad_y - 2), badge_text, font=badge_font, fill=badge_text_color)
+    # Bottom-right (over photo, bottom-right corner): badge opzionale (default BG5 Analyst,
+    # va disattivato con badge_text=None quando la foto non e' di Valentina, es. figura storica)
+    if badge_text:
+        badge_font = ImageFont.truetype(OUTFIT_MEDIUM, int(18 * SCALE))
+        bbox = draw.textbbox((0, 0), badge_text, font=badge_font)
+        tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
+        # Dark rounded box behind badge
+        pad_x, pad_y = int(14 * SCALE), int(8 * SCALE)
+        bo = int(70 * SCALE)
+        box_x0 = W - bo - tw - pad_x * 2
+        box_y0 = H - bo - th - pad_y * 2
+        box_x1 = W - bo
+        box_y1 = H - bo
+        # Badge background = bg_color with alpha (matches left panel theme)
+        bg_rgba = (*_hex_to_rgba(bg_color)[:3], 220)
+        draw.rounded_rectangle([(box_x0, box_y0), (box_x1, box_y1)], radius=int(6*SCALE),
+                                fill=bg_rgba)
+        draw.text((box_x0 + pad_x, box_y0 + pad_y - int(2*SCALE)), badge_text, font=badge_font, fill=badge_text_color)
 
     return img
 
@@ -330,19 +355,21 @@ def build_cover(title: str, eyebrow: str = "", photo_path: Path | None = None,
 def main():
     parser = argparse.ArgumentParser(description="Cover YouTube long-form (1280x720)")
     parser.add_argument("title", help="Titolo principale (max ~40 chars per leggibilità)")
-    parser.add_argument("out", nargs="?", default="cover-long.png", help="Path PNG output")
+    parser.add_argument("out", nargs="?", default="cover-long.jpg", help="Path JPEG output")
     parser.add_argument("--eyebrow", default="", help="Eyebrow uppercase (opzionale)")
     parser.add_argument("--subtitle", default="", help="Sottotitolo italic sotto il titolo (opzionale)")
     parser.add_argument("--title-size", type=int, default=None,
                         help="Override dimensione font titolo (default: auto-fit tra 60-96px). "
                              "Ometti per auto-fit ottimale. Passa un valore per forzare.")
     parser.add_argument("--photo", default=None, help="Path foto custom (default: valentina.jpg)")
+    parser.add_argument("--no-badge", action="store_true",
+                         help="Disattiva il badge 'BG5 Analyst' (usare quando la foto non e' di Valentina)")
     parser.add_argument("--bg-color", default=NAVY,
                         help=f"Hex color pannello sinistro (default: {NAVY}). "
                              "Convenzione: Iniziatore #B85F2F (arancione), "
                              "Costruttore/Guida/Valutatore da definire.")
-    parser.add_argument("--type", choices=["iniziatore", "costruttore", "guida", "valutatore"],
-                        help="Shortcut per --bg-color basato sul Tipo HD/BG5.")
+    parser.add_argument("--type", choices=["iniziatore", "costruttore", "guida", "valutatore", "attualita"],
+                        help="Shortcut per --bg-color basato sul Tipo HD/BG5, o 'attualita' per la playlist di cronaca/attualità.")
     args = parser.parse_args()
 
     # Type shortcut → bg_color override
@@ -350,7 +377,8 @@ def main():
         "iniziatore": "#B85F2F",   # arancione (Manifestatore)
         "costruttore": "#C62828",  # rosso vivo (Generatore) — confermato 23/05/2026
         "guida": "#2C5F3F",        # verde scuro (Proiettore) — da confermare
-        "valutatore": "#1F3A5F",   # blu scuro (Riflettore) — da confermare
+        "valutatore": "#B9D8EC",   # azzurro cielo (Riflettore) — scelto da Marco 08/09/2026
+        "attualita": "#3A3D42",    # grigio grafite (playlist Attualità, casi di cronaca) — 21/07/2026
     }
     bg_color = type_colors[args.type] if args.type else args.bg_color
 
@@ -360,11 +388,19 @@ def main():
         print(f"[photo-pool] {photo.name}")
     else:
         photo = Path(args.photo) if args.photo else None
+        if photo is not None:
+            from photo_pool import mark_used
+            mark_used(photo, tag=Path(args.out).stem)
     args.subtitle = args.subtitle.replace("\\n", "\n")  # "\n" da CLI = a-capo forzato
+    args.title = args.title.replace("\\n", "\n")  # "\n" da CLI = a-capo forzato anche sul titolo
     img = build_cover(args.title, args.eyebrow, photo, bg_color=bg_color,
-                       subtitle=args.subtitle, title_size=args.title_size)
+                       subtitle=args.subtitle, title_size=args.title_size,
+                       badge_text=None if args.no_badge else "BG5® Analyst")
     out_path = Path(args.out).resolve()
-    img.save(out_path, "PNG", quality=95)
+    # JPEG, non PNG: a 1920x1080 un PNG lossless supera facilmente il limite
+    # di 2MB dell'API thumbnails().set() di YouTube. JPEG qualita 92 resta
+    # nitido e sta ben sotto il limite.
+    img.convert("RGB").save(out_path, "JPEG", quality=92)
     print(f"[cover] {out_path} ({img.size[0]}x{img.size[1]})")
 
 
