@@ -48,8 +48,11 @@ AddCharset UTF-8 .txt .md .json .xml
     RewriteRule ^carriera-aziende/?$ /aziende [R=301,L]
     # L'articolo dietro questo indirizzo non e' mai stato ripubblicato: si manda al blog.
     RewriteRule ^2025/03/24/la-mente-innamorata1/?$ /blog [R=301,L]
-    # /ephe era una cartella di servizio, non tornera': 410 dice a Google di toglierla.
-    RewriteRule ^ephe(/.*)?$ - [G,L]
+    # /ephe era una cartella di servizio e non tornera'. Il 410 sarebbe il segnale
+    # piu' netto per Google, ma su questo hosting la regola non scatta: la richiesta
+    # arriva comunque a Grav, che risponde 404. Va bene lo stesso, il 404 toglie
+    # l'URL dall'indice, solo un po' piu' lentamente.
+    RewriteRule ^ephe(/.*)?$ - [R=410,L]
     RewriteRule ^info-contatti/?$ /contatti [R=301,L]
     RewriteRule ^sistema-mentecorpo/?$ /servizi [R=301,L]
     RewriteRule ^wp-admin/?$ / [R=301,L]
