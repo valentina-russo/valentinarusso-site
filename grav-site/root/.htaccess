@@ -42,6 +42,14 @@ AddCharset UTF-8 .txt .md .json .xml
     ## REDIRECT vecchi URL WordPress → Grav equivalenti (301)
     RewriteRule ^2025/02/03/relazioni-e-bisogni-emotivi/?$ /blog/articoli/relazioni-bisogni-emotivi [R=301,L]
     RewriteRule ^category/la-mente-innamorata/?$ /blog [R=301,L]
+
+    # Errori 5xx rimasti in Search Console al 04/09/2026.
+    # /carriera-aziende esisteva sul vecchio sito: la sezione ora e' /aziende.
+    RewriteRule ^carriera-aziende/?$ /aziende [R=301,L]
+    # L'articolo dietro questo indirizzo non e' mai stato ripubblicato: si manda al blog.
+    RewriteRule ^2025/03/24/la-mente-innamorata1/?$ /blog [R=301,L]
+    # /ephe era una cartella di servizio, non tornera': 410 dice a Google di toglierla.
+    RewriteRule ^ephe(/.*)?$ - [G,L]
     RewriteRule ^info-contatti/?$ /contatti [R=301,L]
     RewriteRule ^sistema-mentecorpo/?$ /servizi [R=301,L]
     RewriteRule ^wp-admin/?$ / [R=301,L]
