@@ -88,7 +88,7 @@ function manda_conferma(string $nome, string $email): void {
     $testo = "Ciao {$nome},
 
 "
-        . "sei iscritto alla prima lezione del Corso Base di Human Design.
+        . "la tua iscrizione alla prima lezione del Corso Base di Human Design è registrata.
 
 "
         . "QUANDO
@@ -100,12 +100,12 @@ Su Zoom, da questo link:
 " . ZOOM . "
 
 "
-        . "Il link e' gia' attivo: ti basta aprirlo qualche minuto prima. "
-        . "In allegato trovi l'evento da aggiungere al calendario, cosi' il promemoria "
+        . "Il link è già attivo: basta aprirlo qualche minuto prima. "
+        . "In allegato trovi l'evento da aggiungere al calendario, così il promemoria "
         . "arriva da solo il giorno prima e un'ora prima.
 
 "
-        . "Se nel frattempo vuoi arrivare preparata o preparato, calcola il tuo Bodygraph qui:
+        . "Se nel frattempo vuoi arrivare con qualche base, calcola il tuo Bodygraph qui:
 "
         . "https://valentinarussobg5.com/genera-carta
 
@@ -117,7 +117,7 @@ Analista BG5 / Human Design
 
     $ics = is_file(CALENDARIO) ? (string)file_get_contents(CALENDARIO) : '';
     $mittente = "Valentina Russo <" . DA_EMAIL . ">";
-    $oggetto  = 'Il link della lezione di lunedi 14 settembre';
+    $oggetto  = 'Il link della lezione di lunedì 14 settembre';
 
     if ($ics === '') {
         @mail($email, $oggetto, $testo,
