@@ -13,8 +13,8 @@ $da    = preg_replace('/[^a-z0-9_-]/i', '', (string)($_GET['da'] ?? ''));
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#1A2332">
-<title>Lezione gratuita di Human Design &mdash; luned&igrave; 14 settembre | Valentina Russo</title>
-<meta name="description" content="Prima lezione gratuita del Corso Base Human Design, in diretta su Zoom luned&igrave; 14 settembre alle 20:30. Iscriviti e ricevi il link.">
+<title>Corso Base di Human Design &mdash; prima lezione gratuita il 14 settembre | Valentina Russo</title>
+<meta name="description" content="Corso Base di Human Design con Valentina Russo: la prima lezione &egrave; gratuita, in diretta su Zoom luned&igrave; 14 settembre alle 20:30. Iscriviti e ricevi il link.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,6 +34,7 @@ body{margin:0}
 .lz .quando{display:inline-flex;align-items:center;gap:.6rem;margin:1.6rem 0 0;padding:.85rem 1.6rem;
   border-radius:999px;background:var(--navy);color:#fff;font:600 1.05rem Outfit,sans-serif}
 .lz .sotto{margin:1.1rem auto 0;max-width:44ch;color:var(--muted)}
+.lz .richiamo{margin:.7rem 0 0;font:600 clamp(1.15rem,3vw,1.5rem) Outfit,sans-serif;color:var(--brass)}
 .lz .vai{display:inline-flex;align-items:center;gap:.55rem;margin-top:2rem;padding:1rem 2.4rem;
   border-radius:3px;background:var(--navy);color:#fff;font:700 1.05rem Outfit,sans-serif;
   text-decoration:none;box-shadow:0 10px 26px rgba(26,35,50,.18)}
@@ -71,10 +72,11 @@ html{scroll-behavior:smooth}
 <main class="wrap">
 
   <section class="hero">
-    <p class="occhiello">Corso Base Human Design</p>
-    <h1>La prima lezione &egrave; gratuita</h1>
+    <p class="occhiello">Con Valentina Russo, analista BG5</p>
+    <h1>Corso Base di Human Design</h1>
+    <p class="richiamo">La prima lezione &egrave; gratuita</p>
     <div class="quando">Luned&igrave; 14 settembre, ore 20:30</div>
-    <p class="sotto">In diretta su Zoom, con Valentina Russo. Un&rsquo;ora per capire com&rsquo;&egrave; fatto il corso e decidere con calma se fa per te.</p>
+    <p class="sotto">Un&rsquo;ora su Zoom per vedere come si impara a leggere un Bodygraph, il proprio e quello degli altri. Poi decidi con calma se il corso fa per te.</p>
     <a class="vai" href="#iscriviti">Iscriviti <em>&darr;</em></a>
   </section>
 

@@ -395,23 +395,36 @@ def community_lezione_zero():
     d = ImageDraw.Draw(im)
     d.rectangle([60, 60, W - 60, H - 60], outline=OTTONE, width=2)
 
-    y = occhiello(d, "Corso Base Human Design", W / 2, 184, dim=24) + 66
-    filetto(d, W / 2, y)
-    y += 56
+    # il corso davanti, grande; la lezione gratuita e' il richiamo sotto
+    righe_tit = ["Corso Base", "Human Design"]
+    for dim in range(132, 70, -2):
+        f_tit = f(PF_BOLD, dim)
+        if max(d.textlength(r, font=f_tit) for r in righe_tit) <= W - 220:
+            break
+    ih = int(dim * 1.10)
 
-    font, righe = adatta(d, "Prima lezione gratuita", PF_BOLD, W - 220, 2, 92, 58)
-    y = blocco(d, righe, font, 0, y, CARTA, 1.10, cx=W / 2) + 62
+    y = 196
+    for r in righe_tit:
+        centrato(d, r, f_tit, y, CARTA, W / 2)
+        y += ih
+    y += 46
+
+    filetto(d, W / 2, y, larg=120)
+    y += 42
+
+    f_sub = f(PF_BOLD_IT, 66)
+    centrato(d, "1ª lezione gratuita", f_sub, y, OTTONE, W / 2)
+    y += 116
 
     y = pillola(d, "lunedì 14 settembre · ore 20:30",
-                f(OUT_BOLD, 34), W / 2, y, OTTONE, NAVY) + 46
+                f(OUT_BOLD, 34), W / 2, y, OTTONE, NAVY) + 44
 
-    fs = f(OUT_REG, 31)
-    testo = ("Su Zoom. Presento il programma delle venti lezioni "
-             "e rispondo a tutte le domande.")
-    y = blocco(d, a_capo(d, testo, fs, W - 260), fs, 0, y, NEAR_W, 1.36, cx=W / 2)
+    fs = f(OUT_REG, 30)
+    testo = "Su Zoom. Presento il programma delle venti lezioni e rispondo a tutte le domande."
+    blocco(d, a_capo(d, testo, fs, W - 280), fs, 0, y, NEAR_W, 1.36, cx=W / 2)
 
-    centrato(d, "Scrivimi per ricevere il link", f(OUT_SEMI, 28), H - 196, OTTONE, W / 2)
-    centrato(d, HANDLE, f(OUT_MED, 26), H - 150, MUTO, W / 2)
+    centrato(d, "Iscriviti dal link qui sotto", f(OUT_SEMI, 28), H - 196, OTTONE, W / 2)
+    centrato(d, "valentinarussobg5.com/lezione-gratuita-human-design", f(OUT_MED, 26), H - 150, MUTO, W / 2)
     salva(im, "05b-community-lezione-zero.jpg")
 
 

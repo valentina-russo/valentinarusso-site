@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-const PAGINA   = '/lezione-gratuita';
+const PAGINA   = '/lezione-gratuita-human-design';
 const REGISTRO = __DIR__ . '/iscritti.csv';
 const LIMITI   = __DIR__ . '/limiti.json';
 const A_VALENTINA = 'consulenze@valentinarussobg5.com, consulenza@marcomunich.com';

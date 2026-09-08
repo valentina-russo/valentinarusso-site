@@ -62,8 +62,11 @@ AddCharset UTF-8 .txt .md .json .xml
     ## Pagina /links → file statico links.html (Linktree-style, fuori da Grav)
     RewriteRule ^links/?$ /links.html [L]
 
-    # Iscrizione alla lezione gratuita del 14 settembre
-    RewriteRule ^lezione-gratuita/?$ /lezione-gratuita.php [L]
+    # Iscrizione alla lezione gratuita del 14 settembre.
+    # Il primo indirizzo era /lezione-gratuita, gia' pubblicato su YouTube:
+    # resta valido e porta al nuovo, che dice di cosa si tratta.
+    RewriteRule ^lezione-gratuita/?$ /lezione-gratuita-human-design [R=301,L]
+    RewriteRule ^lezione-gratuita-human-design/?$ /lezione-gratuita.php [L]
 
     ## /blog/{slug} → /blog/articoli/{slug} (301)
     ## Gli articoli "nuovi" vivono in pages/04.blog/articoli/, ma Google indicizza /blog/{slug}.
