@@ -191,3 +191,9 @@ tools/yt-shorts/cover-previews/
 .pw-firefox-profile-valentina/
 
 _mockup-restyling/
+
+# Registro iscritti alla lezione gratuita: dati personali, vive solo sul server
+grav-site/root/lezione-zero/iscritti.csv
+grav-site/root/lezione-zero/limiti.json
+grav-site/root/lezione-zero/brevo.log
+grav-site/root/lezione-zero/.env

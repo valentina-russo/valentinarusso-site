@@ -1,0 +1,28 @@
+# Nulla di questa cartella deve essere scaricabile via HTTP tranne iscrivi.php.
+# Apache su Aruba non gradisce le regex complesse: si usano Files diretti per i
+# nomi singoli e FilesMatch semplici per le estensioni.
+
+# .env: contiene la chiave API di Brevo
+<Files ".env">
+    Order Allow,Deny
+    Deny from all
+</Files>
+<IfModule mod_authz_core.c>
+    <Files ".env">
+        Require all denied
+    </Files>
+</IfModule>
+
+# Registro iscritti, contatore del limite, log: dati personali e diagnostica
+<FilesMatch "\.(csv|json|log|bak|txt|example)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+<IfModule mod_authz_core.c>
+    <FilesMatch "\.(csv|json|log|bak|txt|example)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+
+# Niente elenco della cartella
+Options -Indexes

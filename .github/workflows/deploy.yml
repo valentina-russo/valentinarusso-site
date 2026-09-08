@@ -783,6 +783,37 @@ jobs:
             echo "OK: .env creato (lunghezza chiave: ${#STRIPE_KEY} char)"
           fi
 
+      - name: Crea lezione-zero/.env con le chiavi Brevo (da GitHub Secret)
+        env:
+          BREVO_KEY: ${{ secrets.BREVO_API_KEY }}
+          BREVO_LISTA: ${{ secrets.BREVO_LIST_ID }}
+        run: |
+          if [ -z "$BREVO_KEY" ]; then
+            echo "WARN: BREVO_API_KEY non configurata -- le iscrizioni restano solo nel registro locale"
+          else
+            {
+              echo "BREVO_API_KEY=$BREVO_KEY"
+              echo "BREVO_LIST_ID=$BREVO_LISTA"
+            } > grav-site/root/lezione-zero/.env
+            echo "OK: .env creato (lunghezza chiave: ${#BREVO_KEY} char)"
+          fi
+
+      - name: Deploy lezione-zero (modulo iscrizione lezione gratuita 14 settembre)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/root/lezione-zero/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}lezione-zero/
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/iscritti.csv
+            **/limiti.json
+            **/brevo.log
+
       - name: Deploy letture-dati (checkout, dati, invia PHP, .env, .htaccess) -- BOZZA servizi, non linkata pubblicamente
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:

@@ -62,6 +62,9 @@ AddCharset UTF-8 .txt .md .json .xml
     ## Pagina /links → file statico links.html (Linktree-style, fuori da Grav)
     RewriteRule ^links/?$ /links.html [L]
 
+    # Iscrizione alla lezione gratuita del 14 settembre
+    RewriteRule ^lezione-gratuita/?$ /lezione-gratuita.php [L]
+
     ## /blog/{slug} → /blog/articoli/{slug} (301)
     ## Gli articoli "nuovi" vivono in pages/04.blog/articoli/, ma Google indicizza /blog/{slug}.
     ## Senza questa redirect Grav crasha (500). Restano fuori solo i quattro slug
