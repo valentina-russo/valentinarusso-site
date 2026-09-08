@@ -34,6 +34,14 @@ body{margin:0}
 .lz .quando{display:inline-flex;align-items:center;gap:.6rem;margin:1.6rem 0 0;padding:.85rem 1.6rem;
   border-radius:999px;background:var(--navy);color:#fff;font:600 1.05rem Outfit,sans-serif}
 .lz .sotto{margin:1.1rem auto 0;max-width:44ch;color:var(--muted)}
+.lz .vai{display:inline-flex;align-items:center;gap:.55rem;margin-top:2rem;padding:1rem 2.4rem;
+  border-radius:3px;background:var(--navy);color:#fff;font:700 1.05rem Outfit,sans-serif;
+  text-decoration:none;box-shadow:0 10px 26px rgba(26,35,50,.18)}
+.lz .vai:hover{background:#0F1721;color:#fff}
+.lz .vai em{font-style:normal;font-size:1.15em;line-height:1}
+.lz #iscriviti{scroll-margin-top:1.5rem}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 .lz .scheda{background:var(--carta);border:1px solid var(--line);border-radius:6px;padding:2.2rem 2rem;margin:2.5rem 0}
 .lz .scheda h2{font-size:1.45rem;margin-bottom:1.1rem}
 .lz ul.punti{list-style:none;margin:0;padding:0}
@@ -67,6 +75,7 @@ body{margin:0}
     <h1>La prima lezione &egrave; gratuita</h1>
     <div class="quando">Luned&igrave; 14 settembre, ore 20:30</div>
     <p class="sotto">In diretta su Zoom, con Valentina Russo. Un&rsquo;ora per capire com&rsquo;&egrave; fatto il corso e decidere con calma se fa per te.</p>
+    <a class="vai" href="#iscriviti">Iscriviti <em>&darr;</em></a>
   </section>
 
 <?php if ($esito === 'ok'): ?>
@@ -89,7 +98,7 @@ body{margin:0}
     </ul>
   </div>
 
-  <div class="scheda">
+  <div class="scheda" id="iscriviti">
     <h2>Iscriviti</h2>
     <form method="POST" action="/lezione-zero/iscrivi.php" novalidate>
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf, ENT_QUOTES) ?>">
