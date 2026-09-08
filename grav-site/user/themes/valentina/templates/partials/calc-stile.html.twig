@@ -135,33 +135,33 @@
   #pdf-layout .pdf-footer { font-size: 5.5pt; color: #999; text-align: center; padding-top: 4px; margin-top: 4px; }
 
   /* ── Gradient page styling ── */
-  body.pg-calcolo { background: linear-gradient(160deg, #B68397 0%, #8A6FA8 45%, #3A5A8A 80%, #1E3A5F 100%) !important; background-attachment: fixed !important; min-height: 100vh; }
-  body.pg-calcolo header { background: rgba(255,255,255,0.12) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.2) !important; position: sticky; top: 0; z-index: 1000; }
-  body.pg-calcolo header .brand-name, body.pg-calcolo header .brand-tagline, body.pg-calcolo header #main-nav a { color: #fff !important; }
-  body.pg-calcolo header #main-nav a:hover { color: rgba(255,255,255,0.7) !important; }
-  body.pg-calcolo header .menu-toggle { color: #fff !important; }
-  body.pg-calcolo footer { background: rgba(255,255,255,0.08) !important; backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.15) !important; }
-  body.pg-calcolo footer a, body.pg-calcolo footer div { color: rgba(255,255,255,0.75) !important; }
-  body.pg-calcolo footer a:hover { color: #fff !important; }
-  body.pg-calcolo .carta-intro h1 { color: #fff !important; }
-  body.pg-calcolo .carta-intro .carta-tagline { font-style: italic; font-family: var(--font-serif, 'Playfair Display', serif); font-size: 1.15rem; color: rgba(255,255,255,0.88); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+  body.pg-calcolo:not(.d2) { background: linear-gradient(160deg, #B68397 0%, #8A6FA8 45%, #3A5A8A 80%, #1E3A5F 100%) !important; background-attachment: fixed !important; min-height: 100vh; }
+  body.pg-calcolo:not(.d2) header { background: rgba(255,255,255,0.12) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.2) !important; position: sticky; top: 0; z-index: 1000; }
+  body.pg-calcolo:not(.d2) header .brand-name, body.pg-calcolo:not(.d2) header .brand-tagline, body.pg-calcolo:not(.d2) header #main-nav a { color: #fff !important; }
+  body.pg-calcolo:not(.d2) header #main-nav a:hover { color: rgba(255,255,255,0.7) !important; }
+  body.pg-calcolo:not(.d2) header .menu-toggle { color: #fff !important; }
+  body.pg-calcolo:not(.d2) footer { background: rgba(255,255,255,0.08) !important; backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.15) !important; }
+  body.pg-calcolo:not(.d2) footer a, body.pg-calcolo:not(.d2) footer div { color: rgba(255,255,255,0.75) !important; }
+  body.pg-calcolo:not(.d2) footer a:hover { color: #fff !important; }
+  body.pg-calcolo:not(.d2) .carta-intro h1 { color: #fff !important; }
+  body.pg-calcolo:not(.d2) .carta-intro .carta-tagline { font-style: italic; font-family: var(--font-serif, 'Playfair Display', serif); font-size: 1.15rem; color: rgba(255,255,255,0.88); max-width: 600px; margin: 0 auto; line-height: 1.6; }
 
   /* ── calc-singolo intro su fondo scuro ── */
-  body.pg-calcolo #carta-calculator .csingle-badge { background: rgba(255,255,255,0.18) !important; color: #fff !important; }
-  body.pg-calcolo #carta-calculator .csingle-intro h2 { color: #fff !important; }
-  body.pg-calcolo #carta-calculator .csingle-intro p { color: rgba(255,255,255,0.82) !important; }
+  body.pg-calcolo:not(.d2) #carta-calculator .csingle-badge { background: rgba(255,255,255,0.18) !important; color: #fff !important; }
+  body.pg-calcolo:not(.d2) #carta-calculator .csingle-intro h2 { color: #fff !important; }
+  body.pg-calcolo:not(.d2) #carta-calculator .csingle-intro p { color: rgba(255,255,255,0.82) !important; }
 
   /* Tips bar */
-  body.pg-calcolo .gc-tips-bar { display: flex; gap: 1rem; margin-bottom: 1.5rem; background: rgba(255,255,255,0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.25); border-radius: 16px; padding: 1.25rem 1.5rem; flex-wrap: wrap; }
-  body.pg-calcolo .gc-tips-item { display: flex; align-items: flex-start; gap: 0.5rem; flex: 1; min-width: 160px; }
-  body.pg-calcolo .gc-tips-num { background: rgba(255,255,255,0.3); color: #fff; font-weight: 700; font-size: 0.72rem; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-  body.pg-calcolo .gc-tips-text { color: rgba(255,255,255,0.88); font-size: 0.82rem; line-height: 1.45; }
-  body.pg-calcolo .gc-tips-text strong { color: #fff; display: block; }
+  body.pg-calcolo:not(.d2) .gc-tips-bar { display: flex; gap: 1rem; margin-bottom: 1.5rem; background: rgba(255,255,255,0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.25); border-radius: 16px; padding: 1.25rem 1.5rem; flex-wrap: wrap; }
+  body.pg-calcolo:not(.d2) .gc-tips-item { display: flex; align-items: flex-start; gap: 0.5rem; flex: 1; min-width: 160px; }
+  body.pg-calcolo:not(.d2) .gc-tips-num { background: rgba(255,255,255,0.3); color: #fff; font-weight: 700; font-size: 0.72rem; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  body.pg-calcolo:not(.d2) .gc-tips-text { color: rgba(255,255,255,0.88); font-size: 0.82rem; line-height: 1.45; }
+  body.pg-calcolo:not(.d2) .gc-tips-text strong { color: #fff; display: block; }
 
-  body.pg-calcolo .carta-cta { background: rgba(255,255,255,0.15) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.25) !important; border-radius: 30px !important; }
-  body.pg-calcolo .carta-cta p { color: rgba(255,255,255,0.88) !important; }
-  body.pg-calcolo .carta-cta a { background: #fff !important; color: var(--primary-color) !important; }
-  body.pg-calcolo .carta-cta a:hover { opacity: 0.9 !important; }
+  body.pg-calcolo:not(.d2) .carta-cta { background: rgba(255,255,255,0.15) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.25) !important; border-radius: 30px !important; }
+  body.pg-calcolo:not(.d2) .carta-cta p { color: rgba(255,255,255,0.88) !important; }
+  body.pg-calcolo:not(.d2) .carta-cta a { background: #fff !important; color: var(--primary-color) !important; }
+  body.pg-calcolo:not(.d2) .carta-cta a:hover { opacity: 0.9 !important; }
 
   /* ── Connect CTA (shown after zone 1 calc) ── */
   .gcb-connect-cta { display: none; background: rgba(255,255,255,0.12); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 2rem; text-align: center; margin-top: 2rem; }
