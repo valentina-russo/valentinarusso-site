@@ -95,3 +95,17 @@ body.d2.pg-calcolo{background:radial-gradient(900px 520px at 78% 0%,rgba(207,143
 .d2 .seo-calc-block summary{color:var(--ink)!important;font-weight:600;cursor:pointer}
 .d2 .seo-calc-block details[open] summary{color:var(--dom)!important}
 .d2 .seo-calc-block a{color:var(--dom)}
+
+/* Barra dei tre consigli sopra il modulo. L'impaginazione stava nel blocco del
+   vecchio calcolatore scuro, che ora non si applica piu' al tema chiaro: senza
+   queste regole le tre voci si impilavano a tutta larghezza. Il contenitore
+   nel markup e' .gc-tips-bar, non .gc-tips. */
+.d2 .gc-tips-bar{display:flex;gap:1rem;flex-wrap:wrap;margin:0 0 1.5rem;padding:1.25rem 1.5rem;
+  background:var(--carta);border:1px solid var(--linea);border-radius:14px;box-shadow:var(--ombra)}
+.d2 .gc-tips-item{display:flex;align-items:flex-start;gap:.6rem;flex:1;min-width:190px}
+.d2 .gc-tips-num{flex-shrink:0;width:22px;height:22px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin-top:2px;
+  font:700 .72rem/1 Outfit,sans-serif;
+  background:linear-gradient(135deg,rgba(253,188,90,.55),rgba(207,143,169,.45));color:var(--dom-2)}
+.d2 .gc-tips-text{font-size:.86rem;line-height:1.5;color:var(--muto)}
+.d2 .gc-tips-text strong{display:block;color:var(--ink);font-weight:600;margin-bottom:2px}
