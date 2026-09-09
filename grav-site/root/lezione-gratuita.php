@@ -72,7 +72,7 @@ html{scroll-behavior:smooth}
 <main class="wrap">
 
   <section class="hero">
-    <p class="occhiello">Con Valentina Russo, analista BG5</p>
+    <p class="occhiello">Con Valentina Russo</p>
     <h1>Corso Base di Human Design</h1>
     <p class="richiamo">La prima lezione &egrave; gratuita</p>
     <div class="quando">Luned&igrave; 14 settembre, ore 20:30</div>

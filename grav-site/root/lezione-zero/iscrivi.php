@@ -112,7 +112,7 @@ Su Zoom, da questo link:
 "
         . "A presto,
 Valentina Russo
-Analista BG5 / Human Design
+Analista BG5 (Business Group 5) e Human Design
 ";
 
     $ics = is_file(CALENDARIO) ? (string)file_get_contents(CALENDARIO) : '';
