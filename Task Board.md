@@ -30,14 +30,6 @@ Piano completo: `.claude/plans/keen-finding-cocke.md`
 
 ## Today (prossima sessione)
 
-> **Priorita' proposte al wrap-up 08/09** (in ordine):
-> 1. **Pubblicare i due post community YouTube** — quello del corso ha la scadenza di lunedi 14. Serve un clic di Marco sull'icona Playwriter nel browser, poi li pubblico io. Asset in `D:/Download/post-youtube-da-pubblicare/`.
-> 2. **Verificare i pubblici caldi su Meta e lanciare la sponsorizzata in Storia** — se sono sopra la soglia minima. Creativita' e budget gia' pronti, manca solo la conferma del livello e il browser collegato.
-> 3. **Controllare le iscrizioni alla lezione** su `iscritti.csv` e sulla lista Brevo, e togliere la riga di prova. Se arrivano iscritti veri, decidere se mandare un promemoria il 13.
-> 4. Confermare con Valentina la durata della lettura del Penta familiare (ora 120 minuti, messi da me) e se linkarla da /servizi.
-> 5. Le priorita' del 31/08 sotto restano valide e non sono state toccate.
-
-
 > **Priorita' proposte al wrap-up 31/08** (in ordine):
 > 1. **Eseguire i due prompt di refactoring automazione IG** su Alberto Sturiale e Hannele Behm (dati a Marco in sessione, non ancora lanciati) — riscrivono gli script adb grezzi esistenti sul nuovo `tools/android-ui-agent/ui.py`.
 > 2. **Confermare pubblicazione Story IG "Milza definita"** e **Community Post carosello "Milza definita"** — restano aperti da ieri, non toccati oggi.

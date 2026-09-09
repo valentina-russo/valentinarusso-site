@@ -129,6 +129,15 @@
       <h1>{{ page.header.title }}</h1>
       <p class="aeo-answer">Il calcolo della carta Human Design è gratuito e immediato: inserisci data, ora e luogo di nascita e ottieni subito il tuo Tipo Energetico, il Profilo, l’Autorità Decisionale e il Tema di Vita, insieme al bodygraph con i 9 Centri energetici. Il calcolo avviene nel tuo browser, senza registrazione e senza che i tuoi dati vengano salvati o trasmessi a terzi.</p>
     </div>
+{# Richiamo alla lezione gratuita del 14 settembre. Temporaneo per scelta:
+     la condizione sulla data lo fa sparire da solo il 15, senza dover tornare qui. #}
+{% if date() < date('2026-09-15 00:00') %}
+    <a class="lz-fascia" href="{{ grav.base_url }}/lezione-gratuita-human-design?da=calcolatore">
+      <span class="lz-fascia-eti">Luned&igrave; 14 settembre, 20:30</span>
+      <span class="lz-fascia-testo">Un&rsquo;ora gratuita su Zoom per imparare a leggere la carta che stai per calcolare</span>
+      <span class="lz-fascia-vai" aria-hidden="true">&rarr;</span>
+    </a>
+{% endif %}
 
     <div class="carta-intro" id="gcb-couple-header" style="display:none;">
       <span class="csingle-badge">Gratuito · nessuna registrazione</span>
@@ -279,6 +288,16 @@
           <a href="{{ grav.base_url }}/blog/articoli/disegno-umano-cosa-e" style="display:flex; justify-content:space-between; align-items:center; gap:0.75rem; padding:0.85rem 1.1rem; background:var(--fondo); border:1px solid var(--linea); border-radius:12px; color:var(--ink); text-decoration:none; font-size:0.9rem; line-height:1.35; transition:background 0.2s;">Cos'è il Disegno Umano (e come si calcola) <span style="color:var(--dom);">&rarr;</span></a>
         </div>
       </div>
+{# Richiamo alla lezione gratuita del 14 settembre. Temporaneo per scelta:
+     la condizione sulla data lo fa sparire da solo il 15, senza dover tornare qui. #}
+{% if date() < date('2026-09-15 00:00') %}
+      <div class="lz-dopo">
+        <p class="lz-dopo-eti">Hai la carta. Sai leggerla?</p>
+        <h3 class="lz-dopo-tit">Luned&igrave; 14 settembre, ore 20:30</h3>
+        <p class="lz-dopo-testo">Un&rsquo;ora gratuita su Zoom, la prima lezione del Corso Base di Human Design. Si parte da un bodygraph come quello che hai appena calcolato.</p>
+        <a class="lz-dopo-btn" href="{{ grav.base_url }}/lezione-gratuita-human-design?da=risultato">Iscriviti, &egrave; gratis &rarr;</a>
+      </div>
+{% endif %}
       <div style="margin-top:1.5rem; background:var(--carta); border:1px solid var(--linea); box-shadow:var(--ombra); border-radius:20px; padding:1.75rem; text-align:center;">
         <p style="font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--muto); margin:0 0 0.5rem;">Hai la carta — e adesso?</p>
         <h3 style="font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--ink); margin:0 0 0.75rem; line-height:1.3;">Il tuo Libretto d'Istruzioni Human Design</h3>
