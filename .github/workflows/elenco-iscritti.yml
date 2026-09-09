@@ -1,0 +1,41 @@
+name: Elenco iscritti lezione gratuita
+
+# Scarica il registro delle iscrizioni dal server e lo consegna come artifact
+# della run, non come testo nel log: sono nomi e indirizzi di persone vere e nel
+# log resterebbero leggibili a chiunque abbia accesso al repository.
+# L'artifact scade da solo dopo un giorno.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  scarica:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prendi il registro via FTP
+        env:
+          HOST: ${{ secrets.ARUBA_FTP_HOST }}
+          USER: ${{ secrets.ARUBA_FTP_USER }}
+          PASS: ${{ secrets.ARUBA_FTP_PASS }}
+          BASE: ${{ secrets.ARUBA_FTP_PATH }}
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          mkdir -p scarico
+          lftp -u "$USER","$PASS" "$HOST" -e "
+            set ssl:verify-certificate no;
+            get ${BASE}lezione-zero/iscritti.csv -o scarico/iscritti.csv;
+            bye" || echo "registro non trovato o vuoto"
+          if [ -s scarico/iscritti.csv ]; then
+            echo "righe nel registro: $(wc -l < scarico/iscritti.csv)"
+          else
+            echo "il registro e' vuoto o non esiste ancora"
+            : > scarico/iscritti.csv
+          fi
+
+      - name: Consegna il registro
+        uses: actions/upload-artifact@v4
+        with:
+          name: iscritti
+          path: scarico/iscritti.csv
+          retention-days: 1
