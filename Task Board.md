@@ -30,6 +30,19 @@ Piano completo: `.claude/plans/keen-finding-cocke.md`
 
 ## Today (prossima sessione)
 
+> **Priorita' proposte al wrap-up 09/09** (in ordine):
+> 1. **Decidere sui commenti non fissati**: 75 degli 85 video lunghi hanno il commento di invito ma non in primo piano. L'API non sa fissarli, si fa solo dall'app. Se vale la pena, e' una sessione di automazione sull'emulatore da fare **entro venerdi 12** perche' lunedi 14 il contenuto scade.
+> 2. **⚠️ Bunny Stream: il trial scade ~11/09**, dopodomani. Senza metodo di pagamento i video del corso smettono di funzionare. E' la scadenza piu' vicina sul tabellone.
+> 3. **Contenuti del corso da Valentina** (10 lezioni semestre 2, nome e date definitive, video di presentazione): attesi per il 29/08, mai arrivati. La lezione zero e' fra cinque giorni.
+> 4. Controllare le iscrizioni con `gh workflow run elenco-iscritti.yml` prima del 14, per sapere quante persone aspettarsi in call.
+
+### Fatto il 09/09
+- [x] **Storia Instagram del corso pubblicata** (12:58) con sticker link alla pagina di iscrizione, verificata in Stories archive. Tre giri di creativita' prima dell'ok: elenco puntato, tabella a voci, descrizione discorsiva.
+- [x] **Invito alla lezione sotto tutti gli 85 video lunghi pubblici** del canale (prima erano dieci, di cui sette Short). Lista ricavata dal canale filtrando per durata: `tools/yt-shorts/invito_lezione_commenti.py metti|togli`, idempotente nelle due direzioni.
+- [x] **Pulizia automatica del 15/09 estesa ai commenti**: prima toglieva solo il richiamo dalle descrizioni.
+- [x] **Modo per leggere il registro iscritti** senza aprire endpoint pubblici: `.github/workflows/elenco-iscritti.yml`, lo prende via FTP e lo consegna come artifact con retention di un giorno.
+
+
 > **Priorita' proposte al wrap-up 31/08** (in ordine):
 > 1. **Eseguire i due prompt di refactoring automazione IG** su Alberto Sturiale e Hannele Behm (dati a Marco in sessione, non ancora lanciati) — riscrivono gli script adb grezzi esistenti sul nuovo `tools/android-ui-agent/ui.py`.
 > 2. **Confermare pubblicazione Story IG "Milza definita"** e **Community Post carosello "Milza definita"** — restano aperti da ieri, non toccati oggi.
