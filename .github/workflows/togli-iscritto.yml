@@ -1,0 +1,96 @@
+name: Togli un iscritto dalla lezione
+
+# Rimuove uno o piu' indirizzi dal registro delle iscrizioni e dalla lista Brevo.
+# Serve per le prove tecniche e per chi chiede di essere cancellato.
+# Il registro originale viene consegnato come artifact prima di essere toccato,
+# cosi' un errore si puo' sempre annullare.
+
+on:
+  workflow_dispatch:
+    inputs:
+      indirizzi:
+        description: "indirizzi da togliere, separati da virgola"
+        required: true
+        type: string
+
+jobs:
+  togli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scarica il registro e togli le righe
+        env:
+          HOST: ${{ secrets.ARUBA_FTP_HOST }}
+          UTENTE: ${{ secrets.ARUBA_FTP_USER }}
+          PAROLA: ${{ secrets.ARUBA_FTP_PASS }}
+          BASE: ${{ secrets.ARUBA_FTP_PATH }}
+          ELENCO: ${{ inputs.indirizzi }}
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          mkdir -p lavoro
+
+          lftp -u "$UTENTE","$PAROLA" "$HOST" -e "
+            set ssl:verify-certificate no;
+            get ${BASE}lezione-zero/iscritti.csv -o lavoro/prima.csv;
+            bye"
+
+          cp lavoro/prima.csv lavoro/registro-prima.csv
+          echo "righe prima: $(wc -l < lavoro/prima.csv)"
+
+          python3 - <<'PY'
+          import csv, os, sys
+          da_togliere = {e.strip().lower() for e in os.environ["ELENCO"].split(",") if e.strip()}
+          with open("lavoro/prima.csv", newline="", encoding="utf-8") as f:
+              righe = list(csv.reader(f))
+          testa, corpo = righe[0], righe[1:]
+          tenute = [r for r in corpo if len(r) < 3 or r[2].strip().lower() not in da_togliere]
+          tolte = len(corpo) - len(tenute)
+          with open("lavoro/dopo.csv", "w", newline="", encoding="utf-8") as f:
+              w = csv.writer(f)
+              w.writerow(testa)
+              w.writerows(tenute)
+          print(f"togliere: {sorted(da_togliere)}")
+          print(f"righe tolte: {tolte}")
+          if tolte == 0:
+              print("::warning::nessuna riga corrispondente, il registro non viene toccato")
+              sys.exit(0)
+          open("lavoro/DA_CARICARE", "w").write("si")
+          PY
+
+          if [ -f lavoro/DA_CARICARE ]; then
+            lftp -u "$UTENTE","$PAROLA" "$HOST" -e "
+              set ssl:verify-certificate no;
+              put lavoro/dopo.csv -o ${BASE}lezione-zero/iscritti.csv;
+              bye"
+            echo "registro aggiornato sul server"
+          else
+            echo "registro lasciato come era"
+          fi
+
+      - name: Consegna il registro di prima
+        uses: actions/upload-artifact@v4
+        with:
+          name: registro-prima
+          path: lavoro/registro-prima.csv
+          retention-days: 3
+
+      - name: Togli i contatti da Brevo
+        env:
+          CHIAVE: ${{ secrets.BREVO_API_KEY }}
+          ELENCO: ${{ inputs.indirizzi }}
+        run: |
+          set -uo pipefail
+          if [ -z "$CHIAVE" ]; then echo "::warning::BREVO_API_KEY non configurata, salto"; exit 0; fi
+          IFS=',' read -ra INDIRIZZI <<< "$ELENCO"
+          for RAW in "${INDIRIZZI[@]}"; do
+            EM=$(echo "$RAW" | xargs)
+            [ -n "$EM" ] || continue
+            CODICE=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE \
+              "https://api.brevo.com/v3/contacts/$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1],safe=''))" "$EM")" \
+              -H "api-key: $CHIAVE" -H "accept: application/json")
+            case "$CODICE" in
+              204) echo "$EM  tolto da Brevo";;
+              404) echo "$EM  non era su Brevo";;
+              *)   echo "$EM  Brevo ha risposto $CODICE";;
+            esac
+          done
