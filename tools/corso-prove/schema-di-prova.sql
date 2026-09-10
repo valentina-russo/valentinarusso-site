@@ -62,3 +62,20 @@ CREATE TABLE IF NOT EXISTS forum_attachments (id INT UNSIGNED AUTO_INCREMENT PRI
 CREATE TABLE IF NOT EXISTS forum_reactions (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, post_id INT UNSIGNED NULL, user_id INT UNSIGNED NULL, emoji VARCHAR(16) NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE IF NOT EXISTS lessons (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, course_id INT UNSIGNED NULL, cohort_id INT UNSIGNED NULL, title VARCHAR(200) NULL, position INT NOT NULL DEFAULT 1, video_guid VARCHAR(64) NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE IF NOT EXISTS lesson_notes (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, lesson_id INT UNSIGNED NULL, user_id INT UNSIGNED NULL, body TEXT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Colonne che servono per rendere le PAGINE del corso, non solo il percorso di
+-- iscrizione: senza queste, lezione.php, forum.php, profilo.php e il pannello
+-- muoiono con "Unknown column". Aggiunte il 10/09/2026 provando la CSP.
+ALTER TABLE lessons  ADD COLUMN IF NOT EXISTS bunny_video_id      VARCHAR(64)  NULL,
+                     ADD COLUMN IF NOT EXISTS description         TEXT         NULL,
+                     ADD COLUMN IF NOT EXISTS pdf_slide_path      VARCHAR(255) NULL,
+                     ADD COLUMN IF NOT EXISTS pdf_exercise_path   VARCHAR(255) NULL,
+                     ADD COLUMN IF NOT EXISTS audio_path          VARCHAR(255) NULL,
+                     ADD COLUMN IF NOT EXISTS deleted_at          DATETIME     NULL;
+ALTER TABLE forum_posts ADD COLUMN IF NOT EXISTS lesson_id INT UNSIGNED NULL;
+ALTER TABLE forum_attachments ADD COLUMN IF NOT EXISTS path      VARCHAR(255) NULL,
+                              ADD COLUMN IF NOT EXISTS orig_name VARCHAR(255) NULL,
+                              ADD COLUMN IF NOT EXISTS bytes     INT UNSIGNED NULL;
+ALTER TABLE courses  ADD COLUMN IF NOT EXISTS created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE hd_users ADD COLUMN IF NOT EXISTS phone               VARCHAR(40)  NULL,
+                     ADD COLUMN IF NOT EXISTS email_notifications TINYINT(1)   NOT NULL DEFAULT 1;
