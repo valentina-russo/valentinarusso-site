@@ -1,0 +1,56 @@
+name: Prove dell'invio delle conferme
+
+# Raccoglie quello che il server sa sugli invii: il log degli errori PHP, dove
+# la conferma scrive quando mail() la rifiuta, e l'elenco degli indirizzi che il
+# rinvio massivo ha servito. Non prova il recapito, prova l'accettazione.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  raccogli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scarica log ed elenco
+        env:
+          HOST: ${{ secrets.ARUBA_FTP_HOST }}
+          UTENTE: ${{ secrets.ARUBA_FTP_USER }}
+          PAROLA: ${{ secrets.ARUBA_FTP_PASS }}
+          BASE: ${{ secrets.ARUBA_FTP_PATH }}
+        run: |
+          set -uo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          mkdir -p prove
+
+          for F in "error_log" "lezione-zero/rinviati-crlf.txt" "lezione-zero/error_log"; do
+            NOME=$(echo "$F" | tr '/' '-')
+            lftp -u "$UTENTE","$PAROLA" "$HOST" -e "
+              set ssl:verify-certificate no;
+              get ${BASE}${F} -o prove/${NOME};
+              bye" 2>/dev/null || echo "$F non presente"
+          done
+
+          echo "== indirizzi serviti dal rinvio =="
+          if [ -s prove/lezione-zero-rinviati-crlf.txt ]; then
+            wc -l < prove/lezione-zero-rinviati-crlf.txt
+          else
+            echo "elenco assente"
+          fi
+
+          echo
+          echo "== conferme rifiutate da mail() =="
+          FALLITE=$(grep -ch "conferma non partita" prove/* 2>/dev/null | paste -sd+ | bc 2>/dev/null || echo 0)
+          echo "righe di fallimento trovate: ${FALLITE:-0}"
+
+          echo
+          echo "== ultime righe dei log, per contesto =="
+          for L in prove/error_log prove/lezione-zero-error_log; do
+            [ -s "$L" ] && { echo "--- $L ---"; tail -15 "$L"; }
+          done || echo "nessun log scaricato"
+
+      - name: Consegna le prove
+        uses: actions/upload-artifact@v4
+        with:
+          name: prove-invio
+          path: prove/
+          retention-days: 3
