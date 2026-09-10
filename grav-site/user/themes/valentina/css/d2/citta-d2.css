@@ -14,6 +14,10 @@ body.d2.pg-citta{background:var(--fondo)!important}
 .d2 .ci-prosa p{font-size:17px;line-height:1.68;max-width:68ch;margin:0 auto 16px}
 .d2 .ci-prosa strong{color:var(--dom-2)}
 .d2 .ci-offerte{padding:80px 0}
+/* Le etichette ereditano un max-width dai paragrafi: dentro un contenitore
+   centrato restano un blocco stretto appoggiato a sinistra, col testo
+   centrato solo dentro quel blocco. Tolto il limite e centrato il blocco. */
+.d2 .ci-centro .etich,.d2 .ci-diff .etich,.d2 .fine .etich{max-width:none;margin-left:auto;margin-right:auto}
 .d2 .ci-centro{text-align:center}.d2 .ci-centro .sotto{margin:8px auto 0;color:var(--muto);font-size:17px}
 /* Tutto centrato nelle pagine citta', schede comprese. */
 .d2 .ci-off{text-align:center}
