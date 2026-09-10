@@ -1,0 +1,71 @@
+name: Prova conferma via Brevo
+
+# Fa una vera iscrizione dal runner (IP diverso dal mio, quindi non incappa nel
+# limite di 5 all'ora), poi chiede a Brevo se quel messaggio risulta nel suo
+# registro. E' la prova per destinatario che con la posta del server non esiste.
+
+on:
+  workflow_dispatch:
+    inputs:
+      email:
+        description: "indirizzo a cui mandare la prova"
+        required: true
+        default: consulenza+brevo@marcomunich.com
+        type: string
+
+jobs:
+  prova:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Iscrizione dal runner
+        env:
+          EM: ${{ inputs.email }}
+        run: |
+          set -uo pipefail
+          P="https://valentinarussobg5.com/lezione-gratuita-human-design?da=provabrevo"
+          C=$(curl -s -c biscotti.txt "$P" | grep -oE 'name="csrf_token" value="[^"]+"' | head -1 | sed 's/.*value="//;s/"//')
+          echo "csrf: ${#C} caratteri"
+          ESITO=$(curl -s -b biscotti.txt -c biscotti.txt -X POST \
+            "https://valentinarussobg5.com/lezione-zero/iscrivi.php" \
+            --data-urlencode "csrf_token=$C" --data-urlencode "nome=Prova Brevo" \
+            --data-urlencode "email=$EM" --data-urlencode "citta=" \
+            --data-urlencode "consenso=1" --data-urlencode "origine=provabrevo" \
+            -o /dev/null -w "%{redirect_url}")
+          echo "esito modulo: $ESITO"
+          case "$ESITO" in *esito=ok*) ;; *) echo "::error::il modulo non ha accettato"; exit 1;; esac
+
+      - name: Chiedi a Brevo se il messaggio risulta
+        env:
+          CHIAVE: ${{ secrets.BREVO_API_KEY }}
+          EM: ${{ inputs.email }}
+        run: |
+          set -uo pipefail
+          sleep 20
+          curl -s "https://api.brevo.com/v3/smtp/statistics/events?limit=10&email=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1],safe=''))" "$EM")" \
+            -H "accept: application/json" -H "api-key: $CHIAVE" \
+            | python3 -c "
+import json,sys
+d=json.load(sys.stdin)
+ev=d.get('events') or []
+if not ev:
+    print('Brevo non ha eventi per questo indirizzo')
+    print(json.dumps(d)[:300])
+else:
+    for e in ev:
+        print(e.get('date'), '|', e.get('event'), '|', e.get('subject') or '', '|', e.get('reason') or '')
+"
+
+      - name: Leggi il registro degli invii dal server
+        env:
+          HOST: ${{ secrets.ARUBA_FTP_HOST }}
+          UTENTE: ${{ secrets.ARUBA_FTP_USER }}
+          PAROLA: ${{ secrets.ARUBA_FTP_PASS }}
+          BASE: ${{ secrets.ARUBA_FTP_PATH }}
+        run: |
+          set -uo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          lftp -u "$UTENTE","$PAROLA" "$HOST" -e "
+            set ssl:verify-certificate no;
+            get ${BASE}lezione-zero/invii.log -o invii.log;
+            bye" 2>/dev/null || echo "registro non ancora creato"
+          [ -s invii.log ] && { echo "== ultime righe del registro =="; tail -5 invii.log; } || true
