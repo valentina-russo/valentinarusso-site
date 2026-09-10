@@ -97,6 +97,14 @@ function scudo(string $v): string {
  * server: meglio una mail che rischia lo spam che nessuna mail.
  */
 function via_brevo(string $nome, string $email, string $oggetto, string $testo, string $ics): bool {
+    // Interruttore, spento per difetto. Brevo risponde 201 e POI rifiuta
+    // l'invio se il mittente non e' validato nel suo account: il 201 arriva
+    // prima del rifiuto, quindi da qui non si puo' distinguere un invio buono
+    // da uno scartato, e leggerlo come successo impedisce il ripiego sulla
+    // posta del server. Finche' info@valentinarussobg5.com non e' un mittente
+    // validato o il dominio non e' autenticato, questa strada resta chiusa.
+    if (ambiente('BREVO_MITTENTE_VALIDO') !== 'si') { return false; }
+
     $chiave = ambiente('BREVO_API_KEY');
     if ($chiave === '' || !function_exists('curl_init')) { return false; }
 

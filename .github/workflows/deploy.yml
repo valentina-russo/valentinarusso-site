@@ -788,6 +788,7 @@ jobs:
           BREVO_KEY: ${{ secrets.BREVO_API_KEY }}
           BREVO_LISTA: ${{ secrets.BREVO_LIST_ID }}
           RINVIO: ${{ secrets.RINVIO_TOKEN }}
+          BREVO_MITTENTE: ${{ secrets.BREVO_MITTENTE_VALIDO }}
         run: |
           if [ -z "$BREVO_KEY" ]; then
             echo "WARN: BREVO_API_KEY non configurata -- le iscrizioni restano solo nel registro locale"
@@ -799,6 +800,8 @@ jobs:
               # subito dopo l'uso: il deploy FTP non cancella i file dal server,
               # quindi disarmare vuol dire togliere il segreto, non lo script.
               if [ -n "$RINVIO" ]; then echo "RINVIO_TOKEN=$RINVIO"; fi
+              # "si" solo quando il mittente e' validato dentro Brevo.
+              if [ -n "$BREVO_MITTENTE" ]; then echo "BREVO_MITTENTE_VALIDO=$BREVO_MITTENTE"; fi
             } > grav-site/root/lezione-zero/.env
             echo "OK: .env creato (lunghezza chiave: ${#BREVO_KEY} char)"
           fi
