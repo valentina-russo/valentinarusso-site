@@ -1,0 +1,47 @@
+name: Stato invii su Brevo
+
+# Chiede a Brevo lo stato dei messaggi, senza mandarne di nuovi. Senza indirizzo
+# mostra gli ultimi eventi di tutti: serve a vedere se le conferme risultano
+# recapitate, respinte o bloccate.
+
+on:
+  workflow_dispatch:
+    inputs:
+      email:
+        description: "indirizzo da controllare (vuoto = tutti gli ultimi eventi)"
+        required: false
+        type: string
+
+jobs:
+  stato:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Interroga il registro di Brevo
+        env:
+          CHIAVE: ${{ secrets.BREVO_API_KEY }}
+          EM: ${{ inputs.email }}
+        run: |
+          set -uo pipefail
+          if [ -z "${CHIAVE}" ]; then echo "::error::BREVO_API_KEY non configurata"; exit 1; fi
+
+          URL="https://api.brevo.com/v3/smtp/statistics/events?limit=50"
+          if [ -n "${EM}" ]; then
+            URL="${URL}&email=$(jq -rn --arg e "$EM" '$e|@uri')"
+          fi
+
+          curl -s "$URL" -H "accept: application/json" -H "api-key: $CHIAVE" > eventi.json
+
+          TOT=$(jq -r '(.events // []) | length' eventi.json)
+          echo "eventi trovati: $TOT"
+          if [ "$TOT" = "0" ]; then
+            echo "risposta grezza:"; head -c 400 eventi.json; echo
+            exit 0
+          fi
+
+          echo
+          echo "== per tipo di evento =="
+          jq -r '(.events // []) | group_by(.event) | .[] | "\(.[0].event): \(length)"' eventi.json
+
+          echo
+          echo "== dettaglio, dal piu' recente =="
+          jq -r '(.events // []) | sort_by(.date) | reverse | .[] | "\(.date)  \(.event)  \(.email)  \(.reason // "")"' eventi.json
