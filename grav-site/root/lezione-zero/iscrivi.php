@@ -84,13 +84,78 @@ function scudo(string $v): string {
  * L'.ics arriva come allegato: Apple Calendar e Google lo riconoscono e
  * propongono di salvarlo con un tocco.
  */
+/**
+ * Manda la conferma passando dall'API transazionale di Brevo.
+ *
+ * Perche' non basta la posta del server: l'hosting e' condiviso, la firma non
+ * e' allineata al dominio e otto iscritte su dodici sono su Gmail, che in quel
+ * caso mette la mail nello spam senza dirlo a nessuno. Brevo firma con la sua
+ * reputazione e soprattutto tiene un registro degli invii consultabile, cosa
+ * che mail() non da' in nessun modo.
+ *
+ * Restituisce true solo su risposta 2xx. Chi chiama ripiega sulla posta del
+ * server: meglio una mail che rischia lo spam che nessuna mail.
+ */
+function via_brevo(string $nome, string $email, string $oggetto, string $testo, string $ics): bool {
+    $chiave = ambiente('BREVO_API_KEY');
+    if ($chiave === '' || !function_exists('curl_init')) { return false; }
+
+    $corpo = [
+        'sender'      => ['name' => 'Valentina Russo', 'email' => DA_EMAIL],
+        'to'          => [['email' => $email, 'name' => $nome !== '' ? $nome : $email]],
+        'subject'     => $oggetto,
+        'textContent' => $testo,
+    ];
+    if ($ics !== '') {
+        $corpo['attachment'] = [[
+            'content' => base64_encode($ics),
+            'name'    => 'lezione-14-settembre.ics',
+        ]];
+    }
+
+    $ch = curl_init('https://api.brevo.com/v3/smtp/email');
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 10,
+        CURLOPT_CONNECTTIMEOUT => 4,
+        CURLOPT_HTTPHEADER     => [
+            'accept: application/json',
+            'content-type: application/json',
+            'api-key: ' . $chiave,
+        ],
+        CURLOPT_POSTFIELDS => json_encode($corpo, JSON_UNESCAPED_UNICODE),
+    ]);
+    $risposta = curl_exec($ch);
+    $codice   = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    $riuscito = $codice >= 200 && $codice < 300;
+    registra_invio($email, $riuscito ? 'brevo ' . $codice : 'brevo FALLITO ' . $codice
+        . ' ' . substr((string)$risposta, 0, 160));
+    return $riuscito;
+}
+
+/**
+ * Registro degli invii, in una riga per messaggio.
+ *
+ * Serve perche' il log degli errori PHP di questo hosting non e' raggiungibile
+ * via FTP e si e' fermato ad agosto: senza questo file un invio fallito non
+ * lascia traccia da nessuna parte. Il file e' negato dal .htaccess della
+ * cartella insieme agli altri .log.
+ */
+function registra_invio(string $email, string $esito): void {
+    @file_put_contents(
+        __DIR__ . '/invii.log',
+        date('Y-m-d H:i:s') . ' | ' . $email . ' | ' . $esito . "\n",
+        FILE_APPEND | LOCK_EX
+    );
+}
+
 function manda_conferma(string $nome, string $email): void {
     // Le righe di un messaggio di posta si separano con CRLF, non con un
-    // a-capo semplice. L'avviso a Valentina funzionava perche' usa CRLF;
-    // questa conferma usava a-capo letterali, e la riga del Content-Type
-    // multipart non veniva letta come intestazione: il messaggio partiva senza
-    // tipo MIME e finiva scartato o nello spam. Da qui CRLF sempre, sia nelle
-    // intestazioni sia nella struttura MIME.
+    // a-capo semplice: con a-capo letterali la riga del Content-Type multipart
+    // non viene letta come intestazione e il messaggio parte senza tipo MIME.
     $ac = "\r\n";
 
     $righe = [
@@ -120,13 +185,18 @@ function manda_conferma(string $nome, string $email): void {
     $testo = implode($ac, $righe);
 
     $ics = is_file(CALENDARIO) ? (string)file_get_contents(CALENDARIO) : '';
-    $mittente = "Valentina Russo <" . DA_EMAIL . ">";
-    $oggetto  = "Il link della lezione di luned\u{ec} 14 settembre";
+    $oggetto = "Il link della lezione di luned\u{ec} 14 settembre";
 
+    // Prima Brevo, che lascia una traccia consultabile. Se non risponde si
+    // ripiega sulla posta del server: una mail che rischia lo spam vale piu'
+    // di nessuna mail.
+    if (via_brevo($nome, $email, $oggetto, $testo, $ics)) { return; }
+
+    $mittente = "Valentina Russo <" . DA_EMAIL . ">";
     if ($ics === '') {
         $riuscito = @mail($email, $oggetto, $testo,
             "From: " . $mittente . $ac . "Content-Type: text/plain; charset=UTF-8");
-        if (!$riuscito) { error_log('[lezione] conferma non partita per ' . $email); }
+        registra_invio($email, $riuscito ? 'posta server ok' : 'posta server FALLITA');
         return;
     }
 
@@ -150,7 +220,7 @@ function manda_conferma(string $nome, string $email): void {
         . "--" . $confine . "--" . $ac;
 
     $riuscito = @mail($email, $oggetto, $corpo, $intestazioni);
-    if (!$riuscito) { error_log('[lezione] conferma non partita per ' . $email); }
+    registra_invio($email, $riuscito ? 'posta server ok' : 'posta server FALLITA');
 }
 
 function rimanda(string $esito): never {
