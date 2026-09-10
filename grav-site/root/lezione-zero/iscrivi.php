@@ -225,13 +225,25 @@ if (!$gia) {
 
 a_brevo($nome, $email, $origine);
 
+// L'avviso a Valentina solo la prima volta: due righe identiche nella sua
+// casella non aggiungono niente.
 if (!$gia) {
     $oggetto = 'Nuova iscrizione lezione gratuita: ' . $nome;
-    $corpo = "NOME  : {$nome}\nEMAIL : {$email}\nQUANDO: " . QUANDO . "\nORIGINE: "
-           . ($origine !== '' ? $origine : '-') . "\nDATA  : " . date('d/m/Y H:i') . "\n";
+    $corpo = implode("\r\n", [
+        "NOME   : " . $nome,
+        "EMAIL  : " . $email,
+        "QUANDO : " . QUANDO,
+        "ORIGINE: " . ($origine !== '' ? $origine : '-'),
+        "DATA   : " . date('d/m/Y H:i'),
+        "",
+    ]);
     @mail(A_VALENTINA, $oggetto, $corpo,
-        "From: Valentina Russo <" . DA_EMAIL . ">\r\nContent-Type: text/plain; charset=UTF-8");
-    manda_conferma($nome, $email);
+        "From: Valentina Russo <" . DA_EMAIL . ">" . "\r\n" . "Content-Type: text/plain; charset=UTF-8");
 }
+
+// La conferma invece parte sempre, anche a chi era gia' iscritto. Chi ricompila
+// il form lo fa quasi sempre perche' non ha visto arrivare niente: mandargliela
+// di nuovo e' la risposta giusta, e contiene solo informazioni che ha gia'.
+manda_conferma($nome, $email);
 
 rimanda('ok');
