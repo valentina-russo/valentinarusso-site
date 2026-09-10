@@ -1,0 +1,82 @@
+name: Codice sconto di prova (corso)
+
+# Crea un codice sconto del 100% per provare dal vivo il percorso
+# "pagamento -> accesso alla piattaforma" senza spendere niente, e poi lo
+# cancella. Il codice esce come artifact della run, non nel log: un 100% di
+# sconto e' a tutti gli effetti un segreto finche' e' valido.
+#
+# Difese: una sola redenzione, scadenza a 48 ore, codice lungo e casuale.
+
+on:
+  workflow_dispatch:
+    inputs:
+      azione:
+        description: "crea oppure elimina"
+        required: true
+        default: crea
+        type: choice
+        options: [crea, elimina]
+      coupon:
+        description: "id del coupon da eliminare (solo per elimina)"
+        required: false
+        type: string
+
+jobs:
+  codice:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Crea il codice
+        if: inputs.azione == 'crea'
+        env:
+          SK: ${{ secrets.STRIPE_SECRET_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "$SK" ]; then echo "::error::STRIPE_SECRET_KEY non configurata"; exit 1; fi
+          mkdir -p esito
+
+          SCADE=$(( $(date +%s) + 172800 ))   # 48 ore
+          CODICE="PROVA-$(head -c 9 /dev/urandom | base32 | tr -d '=' | tr '[:lower:]' '[:upper:]')"
+
+          COUPON=$(curl -s -u "$SK:" https://api.stripe.com/v1/coupons \
+            -d percent_off=100 \
+            -d duration=once \
+            -d max_redemptions=1 \
+            -d redeem_by="$SCADE" \
+            -d name="Prova tecnica iscrizione corso" \
+            | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d.get("id") or "ERRORE:"+json.dumps(d.get("error",{})))')
+          case "$COUPON" in ERRORE:*) echo "::error::coupon non creato: ${COUPON#ERRORE:}"; exit 1;; esac
+
+          PROMO=$(curl -s -u "$SK:" https://api.stripe.com/v1/promotion_codes \
+            -d coupon="$COUPON" \
+            -d code="$CODICE" \
+            -d max_redemptions=1 \
+            -d expires_at="$SCADE" \
+            | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d.get("code") or "ERRORE:"+json.dumps(d.get("error",{})))')
+          case "$PROMO" in ERRORE:*) echo "::error::codice non creato: ${PROMO#ERRORE:}"; exit 1;; esac
+
+          {
+            echo "codice=$PROMO"
+            echo "coupon=$COUPON"
+            echo "scade=$(date -u -d @$SCADE +'%Y-%m-%d %H:%M UTC')"
+          } > esito/codice.txt
+          echo "OK: codice creato, coupon $COUPON, scade fra 48 ore"
+
+      - name: Consegna il codice
+        if: inputs.azione == 'crea'
+        uses: actions/upload-artifact@v4
+        with:
+          name: codice-prova
+          path: esito/codice.txt
+          retention-days: 1
+
+      - name: Elimina il codice
+        if: inputs.azione == 'elimina'
+        env:
+          SK: ${{ secrets.STRIPE_SECRET_KEY }}
+          COUPON: ${{ inputs.coupon }}
+        run: |
+          set -euo pipefail
+          if [ -z "$COUPON" ]; then echo "::error::serve l'id del coupon"; exit 1; fi
+          # Cancellare il coupon disattiva anche i codici che lo usano.
+          curl -s -u "$SK:" -X DELETE "https://api.stripe.com/v1/coupons/$COUPON" \
+            | python3 -c 'import sys,json; d=json.load(sys.stdin); print("cancellato:" if d.get("deleted") else "NON cancellato:", d.get("id") or d)'
