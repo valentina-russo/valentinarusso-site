@@ -13,6 +13,10 @@ body.d2.pg-citta{background:var(--fondo)!important}
 .d2 .ci-prosa strong{color:var(--dom-2)}
 .d2 .ci-offerte{padding:80px 0}
 .d2 .ci-centro{text-align:center}.d2 .ci-centro .sotto{margin:8px auto 0;color:var(--muto);font-size:17px}
+/* Le schede seguono l'allineamento del titolo della sezione: prima il
+   titolo era centrato e il contenuto delle schede a sinistra, e la
+   sezione risultava centrata a metà. */
+.d2 .ci-off{text-align:center}
 .d2 .ci-off h3{font-size:20px;margin:0}.d2 .ci-off p{color:var(--muto)}
 .d2 .ci-prezzo{font-family:Fraunces,Georgia,serif;font-style:italic;font-size:30px;color:var(--dom)!important;margin-top:auto}
 .d2 .ci-diff{padding:72px 0}
