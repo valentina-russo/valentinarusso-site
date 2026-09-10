@@ -85,76 +85,72 @@ function scudo(string $v): string {
  * propongono di salvarlo con un tocco.
  */
 function manda_conferma(string $nome, string $email): void {
-    $testo = "Ciao {$nome},
+    // Le righe di un messaggio di posta si separano con CRLF, non con un
+    // a-capo semplice. L'avviso a Valentina funzionava perche' usa CRLF;
+    // questa conferma usava a-capo letterali, e la riga del Content-Type
+    // multipart non veniva letta come intestazione: il messaggio partiva senza
+    // tipo MIME e finiva scartato o nello spam. Da qui CRLF sempre, sia nelle
+    // intestazioni sia nella struttura MIME.
+    $ac = "\r\n";
 
-"
-        . "la tua iscrizione alla prima lezione del Corso Base di Human Design è registrata.
-
-"
-        . "QUANDO
-" . QUANDO . "
-
-"
-        . "DOVE
-Su Zoom, da questo link:
-" . ZOOM . "
-
-"
-        . "Il link è già attivo: basta aprirlo qualche minuto prima. "
-        . "In allegato trovi l'evento da aggiungere al calendario, così il promemoria "
-        . "arriva da solo il giorno prima e un'ora prima.
-
-"
-        . "Se nel frattempo vuoi arrivare con qualche base, calcola il tuo Bodygraph qui:
-"
-        . "https://valentinarussobg5.com/genera-carta
-
-"
-        . "A presto,
-Valentina Russo
-Analista BG5 (Business Group 5) e Human Design
-";
+    $righe = [
+        "Ciao {$nome},",
+        "",
+        "la tua iscrizione alla prima lezione del Corso Base di Human Design \u{e8} registrata.",
+        "",
+        "QUANDO",
+        QUANDO,
+        "",
+        "DOVE",
+        "Su Zoom, da questo link:",
+        ZOOM,
+        "",
+        "Il link \u{e8} gi\u{e0} attivo: basta aprirlo qualche minuto prima. In allegato trovi",
+        "l'evento da aggiungere al calendario, cos\u{ec} il promemoria arriva da solo il",
+        "giorno prima e un'ora prima.",
+        "",
+        "Se nel frattempo vuoi arrivare con qualche base, calcola il tuo Bodygraph qui:",
+        "https://valentinarussobg5.com/genera-carta",
+        "",
+        "A presto,",
+        "Valentina Russo",
+        "Analista BG5 (Business Group 5) e Human Design",
+        "",
+    ];
+    $testo = implode($ac, $righe);
 
     $ics = is_file(CALENDARIO) ? (string)file_get_contents(CALENDARIO) : '';
     $mittente = "Valentina Russo <" . DA_EMAIL . ">";
-    $oggetto  = 'Il link della lezione di lunedì 14 settembre';
+    $oggetto  = "Il link della lezione di luned\u{ec} 14 settembre";
 
     if ($ics === '') {
-        @mail($email, $oggetto, $testo,
-            "From: {$mittente}
-Content-Type: text/plain; charset=UTF-8");
+        $riuscito = @mail($email, $oggetto, $testo,
+            "From: " . $mittente . $ac . "Content-Type: text/plain; charset=UTF-8");
+        if (!$riuscito) { error_log('[lezione] conferma non partita per ' . $email); }
         return;
     }
 
     $confine = 'lz' . bin2hex(random_bytes(10));
-    $intestazioni = "From: {$mittente}
-MIME-Version: 1.0
-"
-        . "Content-Type: multipart/mixed; boundary=\"{$confine}\"";
-    $corpo = "--{$confine}
-"
-        . "Content-Type: text/plain; charset=UTF-8
-"
-        . "Content-Transfer-Encoding: 8bit
+    $q = chr(34);
+    $intestazioni = "From: " . $mittente . $ac
+        . "MIME-Version: 1.0" . $ac
+        . "Content-Type: multipart/mixed; boundary=" . $q . $confine . $q;
 
-"
-        . $testo . "
+    $corpo = "--" . $confine . $ac
+        . "Content-Type: text/plain; charset=UTF-8" . $ac
+        . "Content-Transfer-Encoding: 8bit" . $ac . $ac
+        . $testo . $ac
+        . "--" . $confine . $ac
+        . "Content-Type: text/calendar; charset=UTF-8; method=PUBLISH; name="
+        . $q . "lezione-14-settembre.ics" . $q . $ac
+        . "Content-Transfer-Encoding: base64" . $ac
+        . "Content-Disposition: attachment; filename="
+        . $q . "lezione-14-settembre.ics" . $q . $ac . $ac
+        . chunk_split(base64_encode($ics), 76, $ac)
+        . "--" . $confine . "--" . $ac;
 
-"
-        . "--{$confine}
-"
-        . "Content-Type: text/calendar; charset=UTF-8; method=PUBLISH; name=\"lezione-14-settembre.ics\"
-"
-        . "Content-Transfer-Encoding: base64
-"
-        . "Content-Disposition: attachment; filename=\"lezione-14-settembre.ics\"
-
-"
-        . chunk_split(base64_encode($ics)) . "
-"
-        . "--{$confine}--
-";
-    @mail($email, $oggetto, $corpo, $intestazioni);
+    $riuscito = @mail($email, $oggetto, $corpo, $intestazioni);
+    if (!$riuscito) { error_log('[lezione] conferma non partita per ' . $email); }
 }
 
 function rimanda(string $esito): never {
