@@ -55,7 +55,12 @@ if ($sessionId !== '' && $STRIPE_KEY !== '') {
         $sess = json_decode($verifyResp, true);
         $stripeStatus = $sess['payment_status'] ?? '';
         $stripeCourse = strtolower($sess['metadata']['course'] ?? '');
-        if ($stripeStatus === 'paid' && course_get($stripeCourse)) {
+        // Stripe usa 'no_payment_required' quando il dovuto e' zero, cioe' con
+        // uno sconto del 100%. Vale come pagato: non c'e' niente da incassare.
+        // Trattarlo come non pagato farebbe fallire in silenzio ogni vendita
+        // completamente scontata.
+        $saldato = in_array($stripeStatus, ['paid', 'no_payment_required'], true);
+        if ($saldato && course_get($stripeCourse)) {
             $course = $stripeCourse;
             $pagamentoVerificato = true;
         } else {
