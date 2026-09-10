@@ -72,6 +72,7 @@ AddCharset UTF-8 .txt .md .json .xml
 
     ## Pagina /links → file statico links.html (Linktree-style, fuori da Grav)
     RewriteRule ^links/?$ /links.html [L]
+    RewriteRule ^corso-base-human-design/brochure/?$ /corso-base-human-design-brochure.html [L]
 
     # Iscrizione alla lezione gratuita del 14 settembre.
     # Il primo indirizzo era /lezione-gratuita, gia' pubblicato su YouTube:

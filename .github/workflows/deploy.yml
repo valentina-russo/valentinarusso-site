@@ -788,6 +788,7 @@ jobs:
           BREVO_KEY: ${{ secrets.BREVO_API_KEY }}
           BREVO_LISTA: ${{ secrets.BREVO_LIST_ID }}
           RINVIO: ${{ secrets.RINVIO_TOKEN }}
+          BROCHURE: ${{ secrets.BROCHURE_TOKEN }}
           BREVO_MITTENTE: ${{ secrets.BREVO_MITTENTE_VALIDO }}
         run: |
           if [ -z "$BREVO_KEY" ]; then
@@ -800,6 +801,9 @@ jobs:
               # subito dopo l'uso: il deploy FTP non cancella i file dal server,
               # quindi disarmare vuol dire togliere il segreto, non lo script.
               if [ -n "$RINVIO" ]; then echo "RINVIO_TOKEN=$RINVIO"; fi
+              # Stesso patto per l'attrezzo che manda la brochure del corso:
+              # senza segreto lo script risponde 404 e non manda niente.
+              if [ -n "$BROCHURE" ]; then echo "BROCHURE_TOKEN=$BROCHURE"; fi
               # "si" solo quando il mittente e' validato dentro Brevo.
               if [ -n "$BREVO_MITTENTE" ]; then echo "BREVO_MITTENTE_VALIDO=$BREVO_MITTENTE"; fi
             } > grav-site/root/lezione-zero/.env
@@ -822,6 +826,7 @@ jobs:
             **/limiti.json
             **/brevo.log
             **/rinviati.txt
+            **/brochure-inviati.txt
 
       - name: Deploy letture-dati (checkout, dati, invia PHP, .env, .htaccess) -- BOZZA servizi, non linkata pubblicamente
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
