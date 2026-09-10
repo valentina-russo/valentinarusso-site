@@ -857,6 +857,201 @@ function corsoHtmlFoot(): void {
     echo '</body></html>';
 }
 
+/* ---------------------------------------------------------------------------
+ * Iscrizione automatica dopo il pagamento
+ * Progetto e decisioni di sicurezza: specs/corso-iscrizione-automatica.md
+ * ------------------------------------------------------------------------- */
+
+/**
+ * Le due tabelle di questo pezzo nascono da se' alla prima chiamata, invece di
+ * pretendere uno script di migrazione con token: quelli restano sul server
+ * anche dopo essere stati tolti dal repository, perche' il deploy FTP non
+ * cancella niente, e ad agosto e' toccato neutralizzarli uno per uno.
+ */
+function corsoEnsureIscrizioneSchema(): void {
+    static $fatto = false;
+    if ($fatto) { return; }
+    $db = hdDb();
+    $db->exec("CREATE TABLE IF NOT EXISTS cohort_products (
+        cohort_id   INT UNSIGNED NOT NULL,
+        catalog_key VARCHAR(64)  NOT NULL,
+        PRIMARY KEY (cohort_id, catalog_key),
+        INDEX idx_catalog (catalog_key),
+        FOREIGN KEY (cohort_id) REFERENCES cohorts(id) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+    $db->exec("CREATE TABLE IF NOT EXISTS course_payments (
+        id          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        session_id  VARCHAR(128) NOT NULL UNIQUE,
+        catalog_key VARCHAR(64)  NOT NULL,
+        email       VARCHAR(254) NOT NULL,
+        user_id     INT UNSIGNED NULL,
+        cohort_ids  VARCHAR(120) NOT NULL DEFAULT '',
+        esito       VARCHAR(32)  NOT NULL,
+        created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_email (email)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+    $fatto = true;
+}
+
+/** I prodotti del catalogo serviti da una classe. */
+function corsoProdottiDiClasse(int $cohortId): array {
+    corsoEnsureIscrizioneSchema();
+    $st = hdDb()->prepare('SELECT catalog_key FROM cohort_products WHERE cohort_id = ?');
+    $st->execute([$cohortId]);
+    return array_column($st->fetchAll(), 'catalog_key');
+}
+
+/** Riscrive la mappatura di una classe. Le chiavi ammesse le decide il chiamante. */
+function corsoImpostaProdottiClasse(int $cohortId, array $chiavi): void {
+    corsoEnsureIscrizioneSchema();
+    $db = hdDb();
+    $db->beginTransaction();
+    try {
+        $db->prepare('DELETE FROM cohort_products WHERE cohort_id = ?')->execute([$cohortId]);
+        $ins = $db->prepare('INSERT INTO cohort_products (cohort_id, catalog_key) VALUES (?, ?)');
+        foreach (array_unique($chiavi) as $k) {
+            if ($k !== '') { $ins->execute([$cohortId, $k]); }
+        }
+        $db->commit();
+    } catch (PDOException $e) {
+        $db->rollBack();
+        throw $e;
+    }
+}
+
+/** Le classi vive che servono questo prodotto. Vuoto vuol dire "nessuna": non si indovina. */
+function corsoClassiPerProdotto(string $catalogKey): array {
+    corsoEnsureIscrizioneSchema();
+    $st = hdDb()->prepare(
+        'SELECT c.id, c.course_id, c.name
+           FROM cohort_products p
+           JOIN cohorts c ON c.id = p.cohort_id
+          WHERE p.catalog_key = ? AND c.archived_at IS NULL
+          ORDER BY c.course_id, c.position'
+    );
+    $st->execute([$catalogKey]);
+    return $st->fetchAll();
+}
+
+/**
+ * Iscrive chi ha pagato e prepara l'accesso.
+ *
+ * Da chiamare SOLO dopo che Stripe ha confermato payment_status = paid: qui non
+ * si verifica nessun pagamento, si prende per buono quello del chiamante.
+ *
+ * Restituisce esito, token di attivazione (solo per un account nuovo) e nomi
+ * delle classi. Non lancia mai per un problema di dati: il pagamento e' gia'
+ * avvenuto e le email devono partire comunque.
+ */
+function corsoIscriviDaPagamento(string $sessionId, string $email, string $nome, string $catalogKey): array {
+    corsoEnsureIscrizioneSchema();
+    $db = hdDb();
+    $email = strtolower(trim($email));
+    $esito = ['esito' => 'errore', 'token' => null, 'classi' => [], 'nota' => ''];
+
+    try {
+        // Un pagamento, un'iscrizione: il session_id sta nell'URL di ritorno ed
+        // e' quindi noto a chi ha pagato. UNIQUE lo rende spendibile una volta.
+        $st = $db->prepare('INSERT INTO course_payments (session_id, catalog_key, email, esito) VALUES (?, ?, ?, ?)');
+        try {
+            $st->execute([$sessionId, $catalogKey, $email, 'in corso']);
+        } catch (PDOException $e) {
+            if (($e->errorInfo[1] ?? 0) === 1062) {
+                $esito['esito'] = 'sessione riusata';
+                $esito['nota']  = 'Questa sessione di pagamento era stata usata per un altro account.';
+                return $esito;
+            }
+            throw $e;
+        }
+        $pagamentoId = (int)$db->lastInsertId();
+
+        $classi = corsoClassiPerProdotto($catalogKey);
+
+        $st = $db->prepare('SELECT id, role FROM hd_users WHERE email = ?');
+        $st->execute([$email]);
+        $esistente = $st->fetch();
+
+        if ($esistente && ($esistente['role'] ?? '') === 'admin') {
+            // Stesso guardiano che protegge il reset password in admin/classe.php.
+            $esito['esito'] = 'amministratore';
+            $esito['nota']  = 'Questo indirizzo appartiene a un amministratore: nessun account toccato.';
+            $db->prepare('UPDATE course_payments SET esito = ? WHERE id = ?')
+               ->execute(['amministratore', $pagamentoId]);
+            return $esito;
+        }
+
+        if ($esistente) {
+            $userId = (int)$esistente['id'];
+            $esito['esito'] = 'account esistente';
+        } else {
+            // Password casuale mai comunicata a nessuno: l'accesso passa dal
+            // link di attivazione, dove l'allieva scegliera' la sua.
+            $st = $db->prepare(
+                'INSERT INTO hd_users (email, password_hash, name, role, gdpr_consent, gdpr_date)
+                 VALUES (?, ?, ?, ?, 1, NOW())'
+            );
+            $st->execute([$email, hdHashPassword(bin2hex(random_bytes(24))), $nome, 'student']);
+            $userId = (int)$db->lastInsertId();
+
+            $token = bin2hex(random_bytes(32));
+            $db->prepare(
+                'UPDATE hd_users SET reset_token = ?, reset_expires = DATE_ADD(NOW(), INTERVAL 7 DAY) WHERE id = ?'
+            )->execute([hash('sha256', $token), $userId]);
+
+            $esito['token'] = $token;
+            $esito['esito'] = 'account creato';
+        }
+
+        $ins = $db->prepare('INSERT IGNORE INTO course_enrollments (user_id, course_id, cohort_id) VALUES (?, ?, ?)');
+        $ids = [];
+        foreach ($classi as $c) {
+            $ins->execute([$userId, (int)$c['course_id'], (int)$c['id']]);
+            $ids[] = (int)$c['id'];
+            $esito['classi'][] = $c['name'];
+        }
+
+        if (!$classi) {
+            $esito['esito'] = 'classe mancante';
+            $esito['nota']  = 'Nessuna classe risulta collegata a questo prodotto: va iscritta a mano dal pannello.';
+        }
+
+        $db->prepare('UPDATE course_payments SET user_id = ?, cohort_ids = ?, esito = ? WHERE id = ?')
+           ->execute([$userId, implode(',', $ids), $esito['esito'], $pagamentoId]);
+
+        return $esito;
+    } catch (PDOException $e) {
+        error_log('[corso-iscrizione] ' . $e->getMessage());
+        $esito['nota'] = 'Iscrizione automatica non riuscita: va fatta a mano dal pannello.';
+        return $esito;
+    }
+}
+
+/**
+ * Trova l'allieva a cui appartiene un token di attivazione ancora valido.
+ * Cerca per impronta, perche' a riposo il token in chiaro non esiste.
+ */
+function corsoUtenteDaTokenAttivazione(string $token): ?array {
+    if (strlen($token) !== 64 || !ctype_xdigit($token)) { return null; }
+    $st = hdDb()->prepare(
+        'SELECT id, email, name FROM hd_users
+          WHERE reset_token = ? AND reset_expires IS NOT NULL AND reset_expires > NOW()
+            AND role = ?'
+    );
+    $st->execute([hash('sha256', $token), 'student']);
+    $u = $st->fetch();
+    return $u ?: null;
+}
+
+/** Chiude l'attivazione: password scelta dall'allieva, token speso. */
+function corsoAttivaAccount(int $userId, string $password): void {
+    hdDb()->prepare(
+        'UPDATE hd_users
+            SET password_hash = ?, reset_token = NULL, reset_expires = NULL,
+                verified_at = NOW(), session_ver = session_ver + 1
+          WHERE id = ?'
+    )->execute([hdHashPassword($password), $userId]);
+}
+
 function corsoCsrfField(string $action = 'default'): string {
     return '<input type="hidden" name="csrf" value="' . htmlspecialchars(hdCsrfToken($action)) . '">';
 }

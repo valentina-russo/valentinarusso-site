@@ -35,6 +35,9 @@ $sessionId = preg_match('/^cs_(test|live)_[A-Za-z0-9]{1,200}$/', $rawSessionId) 
 // Verifica server-side del pagamento + course autoritativo da Stripe metadata
 $STRIPE_KEY = getenv('STRIPE_SECRET_KEY') ?: '';
 $course = null;
+// Solo un pagamento confermato da Stripe puo' creare un accesso: il ramo di
+// ripiego qui sotto non iscrive nessuno. Vedi specs, decisione D6.
+$pagamentoVerificato = false;
 
 if ($sessionId !== '' && $STRIPE_KEY !== '') {
     $ch = curl_init('https://api.stripe.com/v1/checkout/sessions/' . urlencode($sessionId));
@@ -54,6 +57,7 @@ if ($sessionId !== '' && $STRIPE_KEY !== '') {
         $stripeCourse = strtolower($sess['metadata']['course'] ?? '');
         if ($stripeStatus === 'paid' && course_get($stripeCourse)) {
             $course = $stripeCourse;
+            $pagamentoVerificato = true;
         } else {
             error_log('[corso-invia] Stripe session not paid or invalid course: ' . $sessionId);
             header('Location: /corso-base-human-design.html?error=session');
@@ -94,6 +98,29 @@ $FROM_EMAIL  = 'info@valentinarussobg5.com';
 $FROM_NAME   = 'Valentina Russo — Corso BG5 Foundation';
 $nowIt = (new DateTimeImmutable('now', new DateTimeZone('Europe/Rome')))->format('d/m/Y H:i');
 
+// ── Accesso alla piattaforma ────────────────────────────────────────────────
+// L'iscrizione non deve poter far fallire le email: se qualcosa va storto qui,
+// il pagamento resta registrato e Valentina se ne accorge dalla sua copia.
+$accesso = ['esito' => 'non tentato', 'token' => null, 'classi' => [], 'nota' => ''];
+if ($pagamentoVerificato) {
+    try {
+        require_once __DIR__ . '/../corso/lib.php';
+        $accesso = corsoIscriviDaPagamento($sessionId, $email, $nome, $course);
+    } catch (Throwable $e) {
+        error_log('[corso-invia] accesso piattaforma: ' . $e->getMessage());
+        $accesso['nota'] = 'Iscrizione automatica non riuscita: va fatta a mano dal pannello.';
+    }
+}
+
+$LINK_ATTIVA = $accesso['token']
+    ? 'https://valentinarussobg5.com/corso/attiva.php?t=' . $accesso['token']
+    : '';
+
+$rigaAdmin = 'ACCESSO     : ' . $accesso['esito'];
+if ($accesso['classi']) { $rigaAdmin .= ' (' . implode(', ', $accesso['classi']) . ')'; }
+if ($accesso['nota'])   { $rigaAdmin = "AZIONE RICHIESTA: " . $accesso['nota'] . "
+" . $rigaAdmin; }
+
 $subjectAdmin = "🎓 Nuova iscrizione: {$product['name']} — {$nome}";
 $bodyAdmin = <<<TEXT
 === NUOVA ISCRIZIONE CORSO ===
@@ -101,6 +128,7 @@ $bodyAdmin = <<<TEXT
 DATA ORDINE : {$nowIt}
 PRODOTTO    : {$product['name']} ({$priceLabel})
 STRIPE ID   : {$sessionId}
+{$rigaAdmin}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CONTATTO
@@ -122,12 +150,31 @@ NOTE DEL CLIENTE
 
 TEXT;
 
+// Cosa dire all'allieva sull'accesso, secondo com'e' andata l'iscrizione.
+if ($LINK_ATTIVA !== '') {
+    $bloccoAccesso = "Il tuo accesso alla piattaforma del corso e' pronto. Scegli la tua
+"
+        . "password da qui, il link vale sette giorni:
+
+{$LINK_ATTIVA}
+";
+} elseif ($accesso['esito'] === 'account esistente') {
+    $bloccoAccesso = "Sei stata aggiunta alla piattaforma del corso. Entri da
+"
+        . "https://valentinarussobg5.com/corso/login.php con la password che usi gia'.
+";
+} else {
+    $bloccoAccesso = "Valentina ti manda a parte l'accesso alla piattaforma del corso.
+";
+}
+
 $subjectCliente = "{$product['name']} — iscrizione ricevuta";
 $bodyCliente = <<<TEXT
 Ciao {$nome},
 
 abbiamo ricevuto la tua iscrizione a: {$product['name']} ({$priceLabel}).
 
+{$bloccoAccesso}
 Valentina ti scriverà entro 48 ore con il link Zoom fisso per tutte le
 lezioni e il calendario completo del semestre.
 
