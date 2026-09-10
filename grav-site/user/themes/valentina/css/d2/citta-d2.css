@@ -7,9 +7,11 @@ body.d2.pg-citta{background:var(--fondo)!important}
 .d2 .ci-hero .foto{max-width:360px;justify-self:end}
 .d2 .ci-hero .foto img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%}
 .d2 .ci-testo{padding:80px 0 72px}
-.d2 .ci-prosa{max-width:820px;margin:0 auto}
+/* Pagine citta' centrate per intero, blocco di prosa compreso: richiesta
+   esplicita di Marco del 10/09. */
+.d2 .ci-prosa{max-width:820px;margin:0 auto;text-align:center}
 .d2 .ci-prosa h2{margin:0 0 18px}.d2 .ci-prosa h3{margin:30px 0 10px;font-size:22px}
-.d2 .ci-prosa p{font-size:17px;line-height:1.68;max-width:68ch;margin:0 0 16px}
+.d2 .ci-prosa p{font-size:17px;line-height:1.68;max-width:68ch;margin:0 auto 16px}
 .d2 .ci-prosa strong{color:var(--dom-2)}
 .d2 .ci-offerte{padding:80px 0}
 .d2 .ci-centro{text-align:center}.d2 .ci-centro .sotto{margin:8px auto 0;color:var(--muto);font-size:17px}
