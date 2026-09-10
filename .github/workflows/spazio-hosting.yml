@@ -1,0 +1,42 @@
+name: Spazio sull'hosting
+
+# Misura quanto spazio occupa il sito e, se il server lo dice, quanta quota c'e'.
+# Serve a decidere se le lezioni del corso possono stare sull'hosting che
+# paghiamo gia', invece di aggiungere un fornitore.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  misura:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Interroga il server via FTP
+        env:
+          HOST: ${{ secrets.ARUBA_FTP_HOST }}
+          UTENTE: ${{ secrets.ARUBA_FTP_USER }}
+          PAROLA: ${{ secrets.ARUBA_FTP_PASS }}
+        run: |
+          set -uo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+          echo "== quota dichiarata dal server (se la dice) =="
+          lftp -u "$UTENTE","$PAROLA" "$HOST" -e "
+            set ssl:verify-certificate no;
+            quote SITE QUOTA;
+            quote AVBL;
+            bye" 2>&1 | grep -viE "password|$UTENTE" || echo "il server non risponde ai comandi di quota"
+
+          echo
+          echo "== occupazione per cartella di primo livello =="
+          lftp -u "$UTENTE","$PAROLA" "$HOST" -e "
+            set ssl:verify-certificate no;
+            du -hs --max-depth=1 .;
+            bye" 2>&1 | grep -viE "password|$UTENTE" || true
+
+          echo
+          echo "== totale =="
+          lftp -u "$UTENTE","$PAROLA" "$HOST" -e "
+            set ssl:verify-certificate no;
+            du -hs .;
+            bye" 2>&1 | grep -viE "password|$UTENTE" || true
