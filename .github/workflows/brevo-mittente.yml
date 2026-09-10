@@ -1,0 +1,80 @@
+name: Brevo, mittenti e dominio
+
+# Prepara quello che manca per far spedire Brevo: mostra i mittenti e se sono
+# validi, crea il mittente se non c'e' (Brevo manda da solo la mail di
+# validazione all'indirizzo), e tira giu' i record DNS per autenticare il
+# dominio, che e' la strada che copre ogni indirizzo del dominio.
+
+on:
+  workflow_dispatch:
+    inputs:
+      crea_mittente:
+        description: "crea info@valentinarussobg5.com come mittente e fai partire la mail di validazione"
+        required: false
+        default: false
+        type: boolean
+      registra_dominio:
+        description: "registra valentinarussobg5.com per l'autenticazione e mostra i record DNS"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  prepara:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mittenti attuali
+        env:
+          CHIAVE: ${{ secrets.BREVO_API_KEY }}
+        run: |
+          set -uo pipefail
+          curl -s https://api.brevo.com/v3/senders -H "accept: application/json" -H "api-key: $CHIAVE" > mittenti.json
+          echo "== mittenti nell'account =="
+          jq -r 'if ((.senders // []) | length) == 0 then "nessun mittente registrato" else (.senders[] | "\(.email)  |  \(.name)  |  " + (if .active then "valido" else "DA VALIDARE" end)) end' mittenti.json
+
+      - name: Crea il mittente
+        if: inputs.crea_mittente
+        env:
+          CHIAVE: ${{ secrets.BREVO_API_KEY }}
+        run: |
+          set -uo pipefail
+          RISP=$(curl -s -w '\n%{http_code}' -X POST https://api.brevo.com/v3/senders \
+            -H "accept: application/json" -H "content-type: application/json" -H "api-key: $CHIAVE" \
+            -d '{"name":"Valentina Russo","email":"info@valentinarussobg5.com"}')
+          CODICE=$(echo "$RISP" | tail -1)
+          echo "risposta Brevo: $CODICE"
+          echo "$RISP" | head -n -1 | head -c 400
+          echo
+          case "$CODICE" in
+            201) echo "mittente creato: Brevo ha mandato la mail di validazione a info@valentinarussobg5.com" ;;
+            400) echo "Brevo ha rifiutato: probabilmente il mittente esiste gia'" ;;
+            *)   echo "::warning::risposta inattesa" ;;
+          esac
+
+      - name: Registra il dominio e mostra i record DNS
+        if: inputs.registra_dominio
+        env:
+          CHIAVE: ${{ secrets.BREVO_API_KEY }}
+        run: |
+          set -uo pipefail
+          curl -s -X POST https://api.brevo.com/v3/senders/domains \
+            -H "accept: application/json" -H "content-type: application/json" -H "api-key: $CHIAVE" \
+            -d '{"name":"valentinarussobg5.com"}' > dominio.json || true
+          echo "== risposta alla registrazione =="
+          head -c 300 dominio.json; echo
+          echo
+          curl -s https://api.brevo.com/v3/senders/domains -H "accept: application/json" -H "api-key: $CHIAVE" > domini.json
+          echo "== record DNS da inserire =="
+          jq -r '..|objects|select(has("type") and has("value"))|"\(.type)  nome: \(.host_name // .hostname // "-")  valore: \(.value)"' domini.json | sort -u
+
+      - name: Consegna le risposte complete
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: brevo-mittente
+          path: |
+            mittenti.json
+            dominio.json
+            domini.json
+          if-no-files-found: ignore
+          retention-days: 3
