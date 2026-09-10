@@ -47,7 +47,8 @@ jobs:
           case "$COUPON" in ERRORE:*) echo "::error::coupon non creato: ${COUPON#ERRORE:}"; exit 1;; esac
 
           PROMO=$(curl -s -u "$SK:" https://api.stripe.com/v1/promotion_codes \
-            -d coupon="$COUPON" \
+            -d "promotion[type]=coupon" \
+            -d "promotion[coupon]=$COUPON" \
             -d code="$CODICE" \
             -d max_redemptions=1 \
             -d expires_at="$SCADE" \
