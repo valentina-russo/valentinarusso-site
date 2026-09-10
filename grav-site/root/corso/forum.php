@@ -106,7 +106,7 @@ corsoNav($user, $isAdmin, 'forum');
             <p class="eyebrow">Lo spazio della classe</p>
             <h1 class="hero" style="margin-bottom:.2rem">Forum</h1>
         </div>
-        <a class="btn" href="#scrivi" onclick="document.getElementById('composer').open=true">Scrivi un post</a>
+        <a class="btn" href="#scrivi" data-apri="composer">Scrivi un post</a>
     </div>
     <p class="hero-sub">Qui si consegnano i compiti e si fanno domande.</p>
 

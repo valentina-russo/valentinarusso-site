@@ -100,7 +100,7 @@ corsoNav($admin, true, 'corsi');
 
         <?php if ($classe): ?>
         <form method="post" style="margin-top:2rem;border-top:1px solid var(--surface);padding-top:1.25rem"
-              onsubmit="return confirm('Archiviare questa classe? Sparisce dal pannello ma nulla viene cancellato.');">
+              data-conferma="Archiviare questa classe? Sparisce dal pannello ma nulla viene cancellato.">
             <?= corsoCsrfField('classe-edit') ?>
             <input type="hidden" name="archivia" value="1">
             <button type="submit" class="btn ghost">Archivia classe</button>

@@ -148,9 +148,10 @@ verificata contro un MySQL vero ma con un identificativo di sessione finto. Il
 primo acquisto reale va guardato: la mail a Valentina dice sempre com'e' andata
 l'iscrizione, e `course_payments` tiene la riga con l'esito.
 
-## Trovato per strada, non sistemato qui
+## Trovato per strada, sistemato dopo
 
-`hdSecHeaders()` esiste in `hd-db.php` ma nessuna pagina della piattaforma la
-chiama: tutta l'area del corso viaggia senza intestazioni di sicurezza. E' un
-buco che precede questo lavoro e riguarda ogni pagina, non solo le due nuove,
-quindi va chiuso in un intervento suo invece che di straforo qui.
+`hdSecHeaders()` sembrava non essere chiamata da nessuna pagina. Guardando
+meglio: gira da se' in coda a `hd-db.php`, che ogni pagina del corso include via
+`lib.php`, quindi nosniff, X-Frame-Options e Referrer-Policy c'erano gia'. Quello
+che mancava davvero era la CSP. Chiusa il 10/09/2026, insieme al passaggio a un
+nonce per richiesta al posto degli `onclick`/`onsubmit` inline.

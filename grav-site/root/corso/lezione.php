@@ -58,8 +58,8 @@ corsoNav($user, $isAdmin, 'corsi');
         <iframe id="corso-video" class="video" src="<?= htmlspecialchars(bunnySignedEmbedUrl($lesson['bunny_video_id'], $videoTtl)) ?>"
                 allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;"
                 allowfullscreen loading="lazy" title="Registrazione della lezione"></iframe>
-        <script src="//assets.mediadelivery.net/playerjs/playerjs-latest.min.js"></script>
-        <script>
+        <script nonce="<?= htmlspecialchars(corsoNonce()) ?>" src="https://assets.mediadelivery.net/playerjs/playerjs-latest.min.js"></script>
+        <script nonce="<?= htmlspecialchars(corsoNonce()) ?>">
         (function () {
             var iframe = document.getElementById('corso-video');
             var lessonId = <?= (int)$lessonId ?>;

@@ -65,7 +65,7 @@ corsoNav($admin, true, 'corsi');
         <div class="reveal">
             <p class="eyebrow" style="color:#E4C4D0">Password per <?= htmlspecialchars($enrolledEmail) ?></p>
             <p class="pw" id="pw"><?= htmlspecialchars($generatedPassword) ?></p>
-            <button type="button" class="btn ghost" onclick="navigator.clipboard.writeText(document.getElementById('pw').textContent.trim()).then(()=>{this.textContent='Copiata';setTimeout(()=>this.textContent='Copia password',2000)})">Copia password</button>
+            <button type="button" class="btn ghost" data-copia="pw">Copia password</button>
             <p class="warn">Questa password non sarà più visibile dopo aver lasciato questa pagina. Copiala e mandala adesso.</p>
         </div>
     <?php elseif ($enrolledEmail && $wasExisting): ?>

@@ -136,7 +136,7 @@ corsoNav($admin, true, 'corsi');
 
         <?php if ($lesson): ?>
         <form method="post" style="margin-top:2rem;border-top:1px solid var(--surface);padding-top:1.25rem"
-              onsubmit="return confirm('Nascondere questa lezione alle allieve? I compiti già postati restano salvati.');">
+              data-conferma="Nascondere questa lezione alle allieve? I compiti già postati restano salvati.">
             <?= corsoCsrfField('lezione-edit') ?>
             <input type="hidden" name="soft_delete" value="1">
             <button type="submit" class="btn ghost">Nascondi questa lezione</button>

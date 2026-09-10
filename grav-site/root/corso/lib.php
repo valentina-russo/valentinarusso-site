@@ -4,6 +4,49 @@ declare(strict_types=1);
 require_once __DIR__ . '/../hd-db.php';
 require_once __DIR__ . '/bunny-config.php';
 
+// ── Intestazioni di sicurezza ────────────────────────────────────────────────
+
+/**
+ * Il nonce di questa richiesta: gli unici <script> che il browser eseguira'.
+ * Uno solo per richiesta, e imprevedibile, altrimenti non serve a niente.
+ */
+function corsoNonce(): string {
+    static $nonce = null;
+    if ($nonce === null) $nonce = base64_encode(random_bytes(16));
+    return $nonce;
+}
+
+/**
+ * La CSP dell'area riservata. Gira qui, in coda alle require, perche' nessuna
+ * pagina del corso stampa niente prima di includere lib.php.
+ *
+ * Niente 'unsafe-inline' su script-src: il forum accetta testo dalle allieve, e
+ * una CSP che lascia passare qualunque <script> inline non difenderebbe da un
+ * XSS li' dentro. Passano solo i blocchi che portano il nonce, che e' anche il
+ * motivo per cui gli onclick/onsubmit sono stati tolti dalle pagine: un
+ * attributo non puo' portare un nonce.
+ *
+ * Su style-src 'unsafe-inline' resta, per il foglio di Google Fonts e per una
+ * novantina di style="" sparsi nelle pagine. E' una concessione molto piu'
+ * stretta: da un attributo di stile non si esegue codice.
+ */
+function corsoSecHeaders(): void {
+    hdSecHeaders(implode('; ', [
+        "default-src 'self'",
+        "base-uri 'none'",
+        "object-src 'none'",
+        "frame-ancestors 'self'",          // come X-Frame-Options: SAMEORIGIN
+        "form-action 'self'",
+        "img-src 'self' data:",            // allegati e avatar passano da noi
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+        "font-src https://fonts.gstatic.com",
+        "script-src 'nonce-" . corsoNonce() . "'",
+        "frame-src https://iframe.mediadelivery.net",  // il player Bunny Stream
+        "connect-src 'self'",              // video-token.php rinnova il token
+    ]));
+}
+corsoSecHeaders();
+
 // ── Ruoli ────────────────────────────────────────────────────────────────────
 
 // Come hdRequireAuth() ma redirige al login invece di rispondere JSON 401
@@ -853,8 +896,46 @@ function corsoNav(array $user, bool $isAdmin, string $current = ''): void {
        . '<path d="M0,0 H1200 V6 C900,22 600,-4 300,10 C180,16 80,14 0,8 Z" fill="currentColor"/></svg>';
 }
 
+/**
+ * I gesti che prima stavano negli attributi onclick/onsubmit. La CSP esegue
+ * solo i <script> che portano il nonce, e un attributo non puo' portarlo:
+ * quindi le pagine dichiarano l'intenzione con un data-, e la delega la
+ * esegue. Il vantaggio secondario e' che il testo del confirm non deve piu'
+ * passare da addslashes() per finire dentro una stringa JS.
+ */
 function corsoHtmlFoot(): void {
-    echo '</body></html>';
+    echo '<script nonce="' . htmlspecialchars(corsoNonce()) . '">';
+    echo <<<'JS'
+(function () {
+  function trova(e, sel) {
+    var t = e.target;
+    return (t && t.closest) ? t.closest(sel) : null;
+  }
+  document.addEventListener('submit', function (e) {
+    var form = trova(e, 'form[data-conferma]');
+    if (form && !confirm(form.getAttribute('data-conferma'))) e.preventDefault();
+  });
+  document.addEventListener('click', function (e) {
+    var copia = trova(e, '[data-copia]');
+    if (copia) {
+      var sorgente = document.getElementById(copia.getAttribute('data-copia'));
+      if (!sorgente || !navigator.clipboard) return;
+      navigator.clipboard.writeText(sorgente.textContent.trim()).then(function () {
+        var prima = copia.textContent;
+        copia.textContent = 'Copiata';
+        setTimeout(function () { copia.textContent = prima; }, 2000);
+      });
+      return;
+    }
+    var apri = trova(e, '[data-apri]');
+    if (apri) {
+      var blocco = document.getElementById(apri.getAttribute('data-apri'));
+      if (blocco) blocco.open = true;
+    }
+  });
+})();
+JS;
+    echo '</script></body></html>';
 }
 
 /* ---------------------------------------------------------------------------

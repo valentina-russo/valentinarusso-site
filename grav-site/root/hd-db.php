@@ -231,12 +231,22 @@ function hdSendMail(string $to, string $subject, string $body): bool {
 
 // ── Security headers ──────────────────────────────────────────────────────────
 
-function hdSecHeaders(): void {
+/**
+ * Intestazioni comuni a tutto quello che passa da qui. Gira da se' in coda a
+ * questo file, quindi vale per ogni endpoint che lo include, e prima di
+ * qualunque output: le intestazioni HTTP devono precedere il corpo.
+ *
+ * La CSP invece non e' comune, perche' ogni area carica cose diverse (il corso
+ * ha il player Bunny e Google Fonts, le API JSON non hanno niente): chi ne
+ * vuole una la passa qui. Vedi corsoSecHeaders() in corso/lib.php.
+ */
+function hdSecHeaders(?string $csp = null): void {
     if (headers_sent()) return;
     header('X-Content-Type-Options: nosniff');
     header('X-Frame-Options: SAMEORIGIN');
     header('Referrer-Policy: strict-origin-when-cross-origin');
     header_remove('X-Powered-By');
+    if ($csp !== null) header('Content-Security-Policy: ' . $csp);
 }
 
 hdSecHeaders();

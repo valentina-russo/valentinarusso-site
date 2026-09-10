@@ -85,7 +85,7 @@ corsoNav($admin, true, 'corsi');
         <div class="reveal">
             <p class="eyebrow" style="color:#E4C4D0">Nuova password per <?= htmlspecialchars($resetEmail) ?></p>
             <p class="pw" id="pw"><?= htmlspecialchars($resetPassword) ?></p>
-            <button type="button" class="btn ghost" onclick="navigator.clipboard.writeText(document.getElementById('pw').textContent.trim()).then(()=>{this.textContent='Copiata';setTimeout(()=>this.textContent='Copia password',2000)})">Copia password</button>
+            <button type="button" class="btn ghost" data-copia="pw">Copia password</button>
             <p class="warn">Questa password non sarà più visibile dopo aver lasciato questa pagina. Copiala e mandala adesso.</p>
         </div>
     <?php endif; ?>
@@ -126,12 +126,12 @@ corsoNav($admin, true, 'corsi');
                     <?= htmlspecialchars($s['name'] ?: $s['email']) ?>
                     <div class="meta"><?= htmlspecialchars($s['email']) ?></div>
                 </span>
-                <form method="post" onsubmit="return confirm('Generare una nuova password per <?= htmlspecialchars(addslashes($s['email'])) ?>? Quella attuale smetterà di funzionare.');">
+                <form method="post" data-conferma="Generare una nuova password per <?= htmlspecialchars($s['email']) ?>? Quella attuale smetterà di funzionare.">
                     <?= corsoCsrfField('reset-pw') ?>
                     <input type="hidden" name="reset_user_id" value="<?= (int)$s['id'] ?>">
                     <button type="submit" class="btn ghost" style="min-height:38px;padding:.4rem .8rem;font-size:.8125rem">Reset password</button>
                 </form>
-                <form method="post" onsubmit="return confirm('Togliere <?= htmlspecialchars(addslashes($s['email'])) ?> da questa classe? L\'account resta, e i compiti già scritti restano.');">
+                <form method="post" data-conferma="Togliere <?= htmlspecialchars($s['email']) ?> da questa classe? L'account resta, e i compiti già scritti restano.">
                     <?= corsoCsrfField('rimuovi') ?>
                     <input type="hidden" name="remove_user_id" value="<?= (int)$s['id'] ?>">
                     <button type="submit" class="btn ghost" style="min-height:38px;padding:.4rem .8rem;font-size:.8125rem">Togli</button>
