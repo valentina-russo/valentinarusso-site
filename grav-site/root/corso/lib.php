@@ -145,6 +145,45 @@ function corsoVisibleCohortIds(array $user, bool $isAdmin): array {
 }
 
 /**
+ * Le sezioni per argomento, uguali dentro ogni classe.
+ *
+ * Sono fisse e decise qui, non amministrabili: quattro voci che si capiscono
+ * al primo sguardo valgono piu' di un pannello dove crearne venti. La
+ * Bacheca la apre solo Valentina, le allieve la leggono e rispondono.
+ */
+function corsoSezioni(): array {
+    return [
+        'bacheca' => [
+            'nome'  => 'Bacheca',
+            'cosa'  => 'Avvisi di Valentina: date, cambi di orario, cose da sapere.',
+            'solo_docente' => true,
+        ],
+        'compiti' => [
+            'nome'  => 'Compiti',
+            'cosa'  => 'Le consegne degli esercizi, una discussione per compito.',
+            'solo_docente' => false,
+        ],
+        'domande' => [
+            'nome'  => 'Domande sulle lezioni',
+            'cosa'  => 'Dubbi su quello che si è visto a lezione.',
+            'solo_docente' => false,
+        ],
+        'presentazioni' => [
+            'nome'  => 'Presentazioni',
+            'cosa'  => 'Chi sei e cosa ti ha portato allo Human Design.',
+            'solo_docente' => false,
+        ],
+    ];
+}
+
+/** La chiave di sezione valida piu' vicina a quella chiesta. */
+function corsoSezioneValida(?string $chiave): string {
+    $sez = corsoSezioni();
+    $chiave = (string)$chiave;
+    return isset($sez[$chiave]) ? $chiave : 'domande';
+}
+
+/**
  * Aggiunge il contatore delle letture alle discussioni.
  * Un forum classico mostra quante volte una discussione e' stata aperta.
  */
@@ -153,52 +192,73 @@ function corsoEnsureForumSchema(): void {
     if ($fatto) { return; }
     $fatto = true;
     try {
-        $col = hdDb()->query("SHOW COLUMNS FROM forum_posts LIKE 'views'")->fetch();
-        if (!$col) {
-            hdDb()->exec("ALTER TABLE forum_posts ADD COLUMN views INT UNSIGNED NOT NULL DEFAULT 0");
+        $db = hdDb();
+        if (!$db->query("SHOW COLUMNS FROM forum_posts LIKE 'views'")->fetch()) {
+            $db->exec("ALTER TABLE forum_posts ADD COLUMN views INT UNSIGNED NOT NULL DEFAULT 0");
+        }
+        if (!$db->query("SHOW COLUMNS FROM forum_posts LIKE 'sezione'")->fetch()) {
+            $db->exec("ALTER TABLE forum_posts ADD COLUMN sezione VARCHAR(32) NOT NULL DEFAULT 'domande'");
+            $db->exec("ALTER TABLE forum_posts ADD INDEX idx_sezione (cohort_id, sezione)");
+            // Le discussioni che c'erano: quelle attaccate a una lezione sono
+            // consegne di compiti, le altre restano domande.
+            $db->exec("UPDATE forum_posts SET sezione = 'compiti' WHERE lesson_id IS NOT NULL");
+            // Una risposta sta nella sezione della sua discussione
+            $db->exec("UPDATE forum_posts r JOIN forum_posts t ON t.id = r.parent_id
+                          SET r.sezione = t.sezione");
         }
     } catch (Throwable $e) {
-        error_log('[corso-forum] contatore letture: ' . $e->getMessage());
+        error_log('[corso-forum] migrazione: ' . $e->getMessage());
     }
 }
 
 /**
- * Le sezioni del forum, con i numeri che un forum classico mette in prima
- * pagina: quante discussioni, quanti messaggi in tutto, e l'ultimo arrivato.
- * Una sezione e' una classe: e' il confine che conta, perche' le allieve
- * vedono solo la propria.
+ * L'indice del forum: per ogni classe le sue sezioni per argomento, con i
+ * numeri che un forum classico mette in prima pagina (quante discussioni,
+ * quanti messaggi) e l'ultimo messaggio arrivato.
  */
 function corsoSezioniForum(array $cohortIds): array {
     if (!$cohortIds) { return []; }
+    corsoEnsureForumSchema();
     $in = implode(',', array_fill(0, count($cohortIds), '?'));
     $st = hdDb()->prepare(
-        "SELECT co.id, co.name, c.title AS course_title,
-                (SELECT COUNT(*) FROM forum_posts d
-                  WHERE d.cohort_id = co.id AND d.parent_id IS NULL) AS discussioni,
-                (SELECT COUNT(*) FROM forum_posts m WHERE m.cohort_id = co.id) AS messaggi
+        "SELECT co.id, co.name, c.title AS course_title
            FROM cohorts co JOIN courses c ON c.id = co.course_id
           WHERE co.id IN ($in)
           ORDER BY c.created_at DESC, co.position ASC"
     );
     $st->execute($cohortIds);
-    $sezioni = $st->fetchAll();
+    $classi = $st->fetchAll();
 
-    // L'ultimo messaggio di ogni sezione, con la discussione a cui appartiene
-    $ult = hdDb()->prepare(
-        "SELECT p.id, p.parent_id, p.created_at, u.name, u.email, u.role,
+    $conta = hdDb()->prepare(
+        "SELECT SUM(parent_id IS NULL) AS discussioni, COUNT(*) AS messaggi
+           FROM forum_posts WHERE cohort_id = ? AND sezione = ?"
+    );
+    $ultimo = hdDb()->prepare(
+        "SELECT p.created_at, u.name, u.email, u.role,
                 COALESCE(t.title, p.title) AS titolo,
                 COALESCE(p.parent_id, p.id) AS discussione_id
            FROM forum_posts p
            JOIN hd_users u ON u.id = p.user_id
            LEFT JOIN forum_posts t ON t.id = p.parent_id
-          WHERE p.cohort_id = ?
+          WHERE p.cohort_id = ? AND p.sezione = ?
           ORDER BY p.created_at DESC LIMIT 1"
     );
-    foreach ($sezioni as &$sez) {
-        $ult->execute([(int)$sez['id']]);
-        $sez['ultimo'] = $ult->fetch() ?: null;
+
+    foreach ($classi as &$cl) {
+        $cl['sezioni'] = [];
+        foreach (corsoSezioni() as $chiave => $sez) {
+            $conta->execute([(int)$cl['id'], $chiave]);
+            $n = $conta->fetch() ?: ['discussioni' => 0, 'messaggi' => 0];
+            $ultimo->execute([(int)$cl['id'], $chiave]);
+            $cl['sezioni'][$chiave] = $sez + [
+                'chiave'      => $chiave,
+                'discussioni' => (int)($n['discussioni'] ?? 0),
+                'messaggi'    => (int)($n['messaggi'] ?? 0),
+                'ultimo'      => $ultimo->fetch() ?: null,
+            ];
+        }
     }
-    return $sezioni;
+    return $classi;
 }
 
 function corsoThreads(array $cohortIds, array $opt = []): array {
@@ -219,6 +279,11 @@ function corsoThreads(array $cohortIds, array $opt = []): array {
 
     $where = ["p.parent_id IS NULL", "p.cohort_id IN ($in)"];
 
+    if (!empty($opt['sezione'])) {
+        $where[] = 'p.sezione = ?';
+        $params[] = corsoSezioneValida((string)$opt['sezione']);
+    }
+
     if ($scope === 'mine' && $userId) {
         $where[] = 'p.user_id = ?';
         $params[] = $userId;
@@ -238,7 +303,7 @@ function corsoThreads(array $cohortIds, array $opt = []): array {
     }
 
     $sql = "SELECT p.id, p.title, p.body, p.created_at, p.lesson_id, p.pinned,
-                   COALESCE(p.views, 0) AS views,
+                   COALESCE(p.views, 0) AS views, p.sezione,
                    u.id AS author_id, u.name AS author_name, u.email AS author_email, u.role AS author_role,
                    l.position AS lesson_position, co.name AS cohort_name, c.title AS course_title,
                    (SELECT COUNT(*) FROM forum_posts r WHERE r.parent_id = p.id) AS replies,

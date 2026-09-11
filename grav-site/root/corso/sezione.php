@@ -25,7 +25,10 @@ if (!in_array($classeId, $cohortIds, true)) {
     corsoHtmlFoot();
     exit;
 }
-$classe = corsoCohort($classeId);
+$classe   = corsoCohort($classeId);
+$sezKey   = corsoSezioneValida($_GET['s'] ?? null);
+$sez      = corsoSezioni()[$sezKey];
+$puoAprire = !$sez['solo_docente'] || $isAdmin;
 
 $scope = in_array($_GET['f'] ?? '', ['mine', 'joined'], true) ? $_GET['f'] : 'all';
 $q     = trim((string)($_GET['q'] ?? ''));
@@ -37,6 +40,8 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuovo'])) {
     if (!hdCsrfVerify($_POST['csrf'] ?? '', 'nuova-discussione')) {
         $error = 'Sessione scaduta, riprova.';
+    } elseif (!$puoAprire) {
+        $error = 'In Bacheca scrive Valentina. Puoi rispondere ai suoi avvisi.';
     } else {
         $lessonId = (int)($_POST['lesson_id'] ?? 0);
         $title    = trim($_POST['title'] ?? '');
@@ -52,8 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuovo'])) {
                 if ($st->fetch()) { $lessonOk = $lessonId; }
             }
             $pinned = ($isAdmin && !empty($_POST['pinned'])) ? 1 : 0;
-            hdDb()->prepare('INSERT INTO forum_posts (lesson_id, cohort_id, parent_id, title, pinned, user_id, body) VALUES (?,?,NULL,?,?,?,?)')
-                  ->execute([$lessonOk, $classeId, $title, $pinned, $uid, trim($body)]);
+            hdDb()->prepare('INSERT INTO forum_posts (lesson_id, cohort_id, parent_id, title, pinned, user_id, body, sezione) VALUES (?,?,NULL,?,?,?,?,?)')
+                  ->execute([$lessonOk, $classeId, $title, $pinned, $uid, trim($body), $sezKey]);
             $newId = (int)hdDb()->lastInsertId();
             corsoSaveAttachments($newId, 'allegati', __DIR__ . '/private-uploads');
             header('Location: discussione.php?id=' . $newId);
@@ -63,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuovo'])) {
 }
 
 $threads = corsoThreads($cohortIds, [
-    'cohort' => $classeId, 'scope' => $scope, 'q' => $q,
+    'cohort' => $classeId, 'sezione' => $sezKey, 'scope' => $scope, 'q' => $q,
     'limit' => $per + 1, 'offset' => ($page - 1) * $per, 'user_id' => $uid,
 ]);
 $hasMore = count($threads) > $per;
@@ -75,9 +80,10 @@ $lezioni->execute([$classeId]);
 $lezioni = $lezioni->fetchAll();
 
 // tiene i filtri quando si cambia una cosa sola
-$qs = function (array $over = []) use ($classeId, $scope, $q) {
+$qs = function (array $over = []) use ($classeId, $sezKey, $scope, $q) {
     $a = array_filter([
         'classe' => $classeId,
+        's'      => $sezKey,
         'f'      => $over['f'] ?? ($scope !== 'all' ? $scope : null),
         'q'      => $over['q'] ?? ($q !== '' ? $q : null),
         'p'      => $over['p'] ?? null,
@@ -85,20 +91,20 @@ $qs = function (array $over = []) use ($classeId, $scope, $q) {
     return '?' . http_build_query($a);
 };
 
-corsoHtmlHead($classe['course_title'] . ' - Forum');
+corsoHtmlHead($sez['nome'] . ' - Forum');
 corsoNav($user, $isAdmin, 'forum');
 ?>
 <div class="wrap larga">
     <div class="aula-testa">
-        <a class="briciola" href="forum.php">&larr; Forum</a>
-        <h1><?= htmlspecialchars($classe['course_title']) ?></h1>
-        <p class="sotto"><?= htmlspecialchars($classe['name']) ?> &middot; domande, compiti consegnati e risposte di Valentina.</p>
+        <a class="briciola" href="forum.php">&larr; Forum &middot; <?= htmlspecialchars($classe['course_title']) ?></a>
+        <h1><?= htmlspecialchars($sez['nome']) ?></h1>
+        <p class="sotto"><?= htmlspecialchars($sez['cosa']) ?> &middot; <?= htmlspecialchars($classe['name']) ?></p>
     </div>
 
     <?php if ($error): ?><div class="msg err"><?= htmlspecialchars($error) ?></div><?php endif; ?>
 
     <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;margin:0 0 1.25rem">
-        <a class="btn" href="#nuova" data-apri="composer">Nuova discussione</a>
+        <?php if ($puoAprire): ?><a class="btn" href="#nuova" data-apri="composer">Nuova discussione</a><?php endif; ?>
         <div class="chips" style="margin:0">
             <a class="chip<?= $scope === 'all' ? ' on' : '' ?>" href="sezione.php<?= $qs(['f' => null]) ?>">Tutte</a>
             <a class="chip<?= $scope === 'joined' ? ' on' : '' ?>" href="sezione.php<?= $qs(['f' => 'joined']) ?>">Dove ho scritto</a>
@@ -106,12 +112,14 @@ corsoNav($user, $isAdmin, 'forum');
         </div>
         <form class="searchbar" method="get" action="sezione.php" style="margin:0;flex:1;min-width:220px">
             <input type="hidden" name="classe" value="<?= $classeId ?>">
+            <input type="hidden" name="s" value="<?= htmlspecialchars($sezKey) ?>">
             <?php if ($scope !== 'all'): ?><input type="hidden" name="f" value="<?= htmlspecialchars($scope) ?>"><?php endif; ?>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
             <input type="search" name="q" value="<?= htmlspecialchars($q) ?>" placeholder="Cerca nelle discussioni...">
         </form>
     </div>
 
+    <?php if ($puoAprire): ?>
     <details class="card" id="composer" <?= $error ? 'open' : '' ?> style="margin-bottom:1.25rem">
         <summary style="cursor:pointer;font-weight:600;color:var(--navy)" id="nuova">Apri una nuova discussione</summary>
         <form method="post" enctype="multipart/form-data" style="margin-top:1rem">
@@ -143,6 +151,15 @@ corsoNav($user, $isAdmin, 'forum');
             <button class="btn dark" type="submit" style="margin-top:1rem">Pubblica</button>
         </form>
     </details>
+    <?php else: ?>
+        <p class="meta" style="margin:0 0 1.25rem">In Bacheca scrive Valentina. Tu puoi rispondere dentro ai suoi avvisi.</p>
+    <?php endif; ?>
+
+    <div class="chips" style="margin:0 0 1rem">
+        <?php foreach (corsoSezioni() as $k => $altra): ?>
+            <a class="chip<?= $k === $sezKey ? ' on' : '' ?>" href="sezione.php?classe=<?= $classeId ?>&amp;s=<?= htmlspecialchars($k) ?>"><?= htmlspecialchars($altra['nome']) ?></a>
+        <?php endforeach; ?>
+    </div>
 
     <div class="fo-sez">
         <div class="fo-riga intesta">

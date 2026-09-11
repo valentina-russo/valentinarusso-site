@@ -28,9 +28,11 @@ if (!$thread) {
 // R11: controllo server-side, anche indovinando l'id
 corsoRequireEnrollment($uid, (int)$thread['cohort_id']);
 
-if ($backHref === null) {           // si torna alla sezione della propria classe
-    $backHref  = 'sezione.php?classe=' . (int)$thread['cohort_id'];
-    $backLabel = $thread['course_title'];
+$sezKey = corsoSezioneValida($thread['sezione'] ?? null);
+$sez    = corsoSezioni()[$sezKey];
+if ($backHref === null) {           // si torna alla sezione da cui si arriva
+    $backHref  = 'sezione.php?classe=' . (int)$thread['cohort_id'] . '&s=' . $sezKey;
+    $backLabel = $sez['nome'];
 }
 
 $error = '';
@@ -60,8 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rispondi'])) {
         if ($e = corsoValidatePostBody($body)) {
             $error = $e;
         } else {
-            hdDb()->prepare('INSERT INTO forum_posts (lesson_id, cohort_id, parent_id, user_id, body) VALUES (?,?,?,?,?)')
-                  ->execute([$thread['lesson_id'], $thread['cohort_id'], $thread['id'], $uid, trim($body)]);
+            hdDb()->prepare('INSERT INTO forum_posts (lesson_id, cohort_id, parent_id, user_id, body, sezione) VALUES (?,?,?,?,?,?)')
+                  ->execute([$thread['lesson_id'], $thread['cohort_id'], $thread['id'], $uid, trim($body),
+                             corsoSezioneValida($thread['sezione'] ?? null)]);
             corsoSaveAttachments((int)hdDb()->lastInsertId(), 'allegati', __DIR__ . '/private-uploads');
             // Se ha risposto Valentina, l'allieva lo viene a sapere per mail:
             // altrimenti la risposta resta qui e la trova solo se torna a guardare.
@@ -99,10 +102,9 @@ corsoNav($user, $isAdmin, 'forum');
             <?= htmlspecialchars($thread['title'] ?: 'Discussione') ?>
         </h1>
         <p class="sotto" style="display:flex;gap:.45rem;flex-wrap:wrap;align-items:center;font-size:.9375rem">
+            <span class="badge"><?= htmlspecialchars($sez['nome']) ?></span>
             <?php if ($thread['lesson_position']): ?>
                 <a class="badge teal" style="text-decoration:none" href="lezione.php?id=<?= (int)$thread['lesson_id'] ?>">Lezione <?= (int)$thread['lesson_position'] ?></a>
-            <?php else: ?>
-                <span class="badge">Domanda generale</span>
             <?php endif; ?>
             <span><?= count($replies) ?> <?= count($replies) === 1 ? 'risposta' : 'risposte' ?></span>
             <span>&middot;</span>
