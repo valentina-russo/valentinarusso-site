@@ -7,6 +7,46 @@ if (empty($_SESSION['csrf_lezione'])) {
 $csrf  = $_SESSION['csrf_lezione'];
 $esito = (string)($_GET['esito'] ?? '');
 $da    = preg_replace('/[^a-z0-9_-]/i', '', (string)($_GET['da'] ?? ''));
+
+/**
+ * Conta le visite per provenienza, cosi' si sa quanta gente arriva da ogni
+ * link (?da=calcolatore, ?da=brochure, ?da=storia...).
+ *
+ * Si conta sul server, non con uno strumento esterno: niente cookie, niente
+ * banner da chiedere, e conta anche chi blocca i tracciatori. Del visitatore
+ * non si salva niente, nemmeno l'indirizzo IP: solo "quel giorno, da quel
+ * link, tante visite". Il ritorno dopo l'iscrizione (?esito=...) non conta,
+ * altrimenti ogni iscritta varrebbe due visite.
+ */
+function contaVisita(string $da, string $esito): void {
+    if ($esito !== '') { return; }
+    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'GET') { return; }
+
+    // i motori di ricerca e i controllori dei link non sono persone
+    $agente = strtolower((string)($_SERVER['HTTP_USER_AGENT'] ?? ''));
+    foreach (['bot', 'crawl', 'spider', 'slurp', 'preview', 'monitor', 'curl', 'wget', 'headless', 'python-requests'] as $robot) {
+        if ($agente !== '' && str_contains($agente, $robot)) { return; }
+    }
+
+    $file = __DIR__ . '/lezione-zero/visite.json';
+    $chiave = $da !== '' ? $da : 'diretto';
+    $oggi = date('Y-m-d');
+
+    $fh = @fopen($file, 'c+');
+    if ($fh === false) { return; }
+    if (flock($fh, LOCK_EX)) {
+        $grezzo = stream_get_contents($fh);
+        $dati = $grezzo ? (json_decode($grezzo, true) ?: []) : [];
+        $dati[$chiave][$oggi] = (int)($dati[$chiave][$oggi] ?? 0) + 1;
+        ftruncate($fh, 0);
+        rewind($fh);
+        fwrite($fh, json_encode($dati, JSON_UNESCAPED_SLASHES));
+        fflush($fh);
+        flock($fh, LOCK_UN);
+    }
+    fclose($fh);
+}
+contaVisita($da, $esito);
 ?><!DOCTYPE html>
 <html lang="it">
 <head>

@@ -824,6 +824,7 @@ jobs:
             **/.git*/**
             **/iscritti.csv
             **/limiti.json
+            **/visite.json
             **/brevo.log
             **/rinviati.txt
             **/brochure-inviati.txt

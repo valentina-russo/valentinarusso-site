@@ -1,0 +1,79 @@
+name: Visite della lezione gratuita
+
+# Quanta gente arriva sulla pagina della lezione da ogni link (?da=...) e
+# quante di quelle si sono iscritte. I numeri si possono leggere nel log:
+# sono conteggi, non nomi. Il registro con i nomi resta nell'altro attrezzo
+# (Elenco iscritti), che lo consegna come allegato e non lo stampa.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  conta:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prendi contatore e registro via FTP
+        env:
+          HOST: ${{ secrets.ARUBA_FTP_HOST }}
+          USER: ${{ secrets.ARUBA_FTP_USER }}
+          PASS: ${{ secrets.ARUBA_FTP_PASS }}
+          BASE: ${{ secrets.ARUBA_FTP_PATH }}
+        run: |
+          set -uo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          mkdir -p scarico
+          lftp -u "$USER","$PASS" "$HOST" -e "
+            set ssl:verify-certificate no;
+            get ${BASE}lezione-zero/visite.json -o scarico/visite.json;
+            get ${BASE}lezione-zero/iscritti.csv -o scarico/iscritti.csv;
+            bye" 2>&1 | grep -viE "password|$USER" || true
+          [ -f scarico/visite.json ] || echo '{}' > scarico/visite.json
+          [ -f scarico/iscritti.csv ] || : > scarico/iscritti.csv
+
+      - name: Metti in fila i numeri
+        run: |
+          python3 - <<'PY'
+          import csv, json, datetime, collections
+
+          visite = json.load(open('scarico/visite.json'))
+          oggi = datetime.date.today()
+          da7 = oggi - datetime.timedelta(days=7)
+
+          iscritti = collections.Counter()
+          try:
+              with open('scarico/iscritti.csv', newline='', encoding='utf-8') as f:
+                  for riga in list(csv.reader(f))[1:]:
+                      if len(riga) >= 5:
+                          iscritti[(riga[4] or 'diretto').lstrip("'") or 'diretto'] += 1
+          except FileNotFoundError:
+              pass
+
+          righe = []
+          for fonte, giorni in visite.items():
+              tot = sum(giorni.values())
+              sett = sum(n for g, n in giorni.items()
+                         if datetime.date.fromisoformat(g) >= da7)
+              isc = iscritti.get(fonte, 0)
+              righe.append((tot, fonte, sett, isc))
+          righe.sort(reverse=True)
+
+          print(f"{'provenienza':<18}{'visite':>8}{'ultimi 7gg':>12}{'iscritte':>10}{'conversione':>13}")
+          print('-' * 61)
+          for tot, fonte, sett, isc in righe:
+              conv = f"{isc / tot * 100:.0f}%" if tot else '-'
+              print(f"{fonte:<18}{tot:>8}{sett:>12}{isc:>10}{conv:>13}")
+          if not righe:
+              print("nessuna visita registrata ancora")
+
+          orfane = set(iscritti) - set(visite)
+          if orfane:
+              print()
+              print("iscritte con una provenienza che non ha visite contate")
+              print("(sono arrivate prima che il contatore esistesse):")
+              for f in sorted(orfane):
+                  print(f"  {f}: {iscritti[f]}")
+
+          print()
+          print(f"visite totali: {sum(sum(g.values()) for g in visite.values())}"
+                f" - iscritte totali: {sum(iscritti.values())}")
+          PY
