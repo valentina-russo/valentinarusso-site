@@ -2,20 +2,20 @@
 declare(strict_types=1);
 require_once __DIR__ . '/lib.php';
 
-// Serve PDF e audio autenticati - mai un link diretto al file (R11: nessun
-// accesso senza controllo server-side, anche conoscendo il path)
+// Serve PDF, audio e registrazioni autenticati - mai un link diretto al file
+// (R11: nessun accesso senza controllo server-side, anche conoscendo il path)
 
 $user = corsoRequireStudent();
 $lessonId = (int)($_GET['lesson'] ?? 0);
 $type = $_GET['type'] ?? '';
 $download = isset($_GET['scarica']); // Scarica forza il download, Visualizza lo apre inline
 
-if (!in_array($type, ['slide', 'exercise', 'audio'], true)) {
+if (!in_array($type, ['slide', 'exercise', 'audio', 'video'], true)) {
     http_response_code(400);
     exit('Richiesta non valida.');
 }
 
-$stmt = hdDb()->prepare('SELECT cohort_id, pdf_slide_path, pdf_exercise_path, audio_path FROM lessons WHERE id = ? AND deleted_at IS NULL');
+$stmt = hdDb()->prepare('SELECT cohort_id, pdf_slide_path, pdf_exercise_path, audio_path, bunny_video_id FROM lessons WHERE id = ? AND deleted_at IS NULL');
 $stmt->execute([$lessonId]);
 $lesson = $stmt->fetch();
 
@@ -30,6 +30,12 @@ $path = match ($type) {
     'slide'    => $lesson['pdf_slide_path'],
     'exercise' => $lesson['pdf_exercise_path'],
     'audio'    => $lesson['audio_path'],
+    // Una registrazione tenuta sul nostro disco. corsoVideoSorgente accetta
+    // solo un nome di file dentro video/, quindi da qui non si esce dalla
+    // cartella nemmeno provandoci.
+    'video'    => (($v = corsoVideoSorgente($lesson['bunny_video_id'])) && $v['tipo'] === 'file')
+                    ? __DIR__ . '/video/' . $v['id']
+                    : null,
 };
 if (!$path || !file_exists($path)) {
     http_response_code(404);
@@ -42,6 +48,8 @@ $mime = match ($ext) {
     'mp3' => 'audio/mpeg',
     'm4a' => 'audio/mp4',
     'wav' => 'audio/wav',
+    'mp4', 'm4v' => 'video/mp4',
+    'webm' => 'video/webm',
     default => 'application/octet-stream',
 };
 
@@ -52,9 +60,10 @@ header('Content-Type: ' . $mime);
 header('Content-Disposition: ' . $disposition);
 header('X-Content-Type-Options: nosniff');
 
-// Audio deve poter scorrere avanti/indietro senza riscaricare il file intero:
-// serve il supporto vero alle richieste Range, non solo l'header che lo annuncia.
-if ($type !== 'audio') {
+// Audio e video devono poter scorrere avanti/indietro senza riscaricare il
+// file intero: serve il supporto vero alle richieste Range, non solo l'header
+// che lo annuncia.
+if (!in_array($type, ['audio', 'video'], true)) {
     header('Content-Length: ' . $size);
     readfile($path);
     exit;

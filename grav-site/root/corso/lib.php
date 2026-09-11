@@ -37,11 +37,15 @@ function corsoSecHeaders(): void {
         "object-src 'none'",
         "frame-ancestors 'self'",          // come X-Frame-Options: SAMEORIGIN
         "form-action 'self'",
-        "img-src 'self' data:",            // allegati e avatar passano da noi
+        // allegati e avatar passano da noi; le altre due servono alle
+        // anteprime delle registrazioni, che YouTube e Drive danno gratis
+        "img-src 'self' data: https://i.ytimg.com https://drive.google.com",
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
         "font-src https://fonts.gstatic.com",
         "script-src 'nonce-" . corsoNonce() . "'",
-        "frame-src https://iframe.mediadelivery.net",  // il player Bunny Stream
+        // i lettori dei posti dove possono stare le registrazioni
+        "frame-src https://iframe.mediadelivery.net https://drive.google.com "
+            . "https://www.youtube-nocookie.com https://player.vimeo.com",
         "connect-src 'self'",              // video-token.php rinnova il token
     ]));
 }
@@ -527,9 +531,96 @@ function bunnyThumbUrl(string $videoGuid, int $ttlSeconds = 14400): string {
 // Miniatura compatta per le liste: anteprima se c'e, altrimenti il numero.
 // Volutamente piccola: card fotografiche grandi darebbero alla lista un
 // registro "catalogo da consumare" invece che percorso da seguire.
+/**
+ * Da dove arriva il video di una lezione.
+ *
+ * Nel campo della lezione si incolla un link e basta: Google Drive, YouTube,
+ * Vimeo, oppure il nome di un file che abbiamo caricato noi nella cartella
+ * video/. Chi scrive la lezione non deve sapere niente di identificativi e di
+ * piattaforme: incolla quello che ha in mano.
+ *
+ * Restituisce ['tipo', 'id', 'embed'] oppure null se non si capisce cosa sia.
+ * Il tipo 'bunny' resta per le lezioni caricate quando usavamo Bunny Stream.
+ */
+function corsoVideoSorgente(?string $rif): ?array {
+    $rif = trim((string)$rif);
+    if ($rif === '') { return null; }
+
+    // Google Drive: .../file/d/IDENTIFICATIVO/view  oppure  ...open?id=IDENTIFICATIVO
+    if (preg_match('~drive\.google\.com/file/d/([A-Za-z0-9_-]{10,})~', $rif, $m)
+        || preg_match('~drive\.google\.com/(?:open|uc)\?(?:[^#]*&)?id=([A-Za-z0-9_-]{10,})~', $rif, $m)) {
+        return ['tipo' => 'drive', 'id' => $m[1],
+                'embed' => 'https://drive.google.com/file/d/' . $m[1] . '/preview'];
+    }
+
+    // YouTube, anche i link brevi e quelli con la marca temporale
+    if (preg_match('~(?:youtube\.com/(?:watch\?(?:[^#]*&)?v=|embed/|live/|shorts/)|youtu\.be/)([A-Za-z0-9_-]{11})~', $rif, $m)) {
+        return ['tipo' => 'youtube', 'id' => $m[1],
+                'embed' => 'https://www.youtube-nocookie.com/embed/' . $m[1] . '?rel=0&modestbranding=1'];
+    }
+
+    if (preg_match('~vimeo\.com/(?:video/)?(\d{6,})~', $rif, $m)) {
+        return ['tipo' => 'vimeo', 'id' => $m[1],
+                'embed' => 'https://player.vimeo.com/video/' . $m[1]];
+    }
+
+    // Un file nostro: solo il nome, niente percorsi, e il file deve esserci
+    if (preg_match('~^[A-Za-z0-9._-]+\.(mp4|m4v|webm)$~i', $rif)
+        && is_file(__DIR__ . '/video/' . $rif)) {
+        return ['tipo' => 'file', 'id' => $rif, 'embed' => null];
+    }
+
+    // L'identificativo nudo di Bunny Stream (lezioni vecchie)
+    if (preg_match('~^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$~i', $rif)) {
+        return ['tipo' => 'bunny', 'id' => $rif, 'embed' => null];
+    }
+
+    return null;
+}
+
+/**
+ * Allarga il campo del video: nato per l'identificativo di Bunny (36 caratteri),
+ * adesso ci si incolla un link, e quello di Google Drive ne usa ottantacinque.
+ * Gira una volta per richiesta e solo dove si scrive una lezione.
+ */
+function corsoEnsureVideoSchema(): void {
+    static $fatto = false;
+    if ($fatto) { return; }
+    $fatto = true;
+    try {
+        $col = hdDb()->query("SHOW COLUMNS FROM lessons LIKE 'bunny_video_id'")->fetch();
+        if ($col && stripos((string)$col['Type'], 'varchar(255)') === false) {
+            hdDb()->exec("ALTER TABLE lessons MODIFY bunny_video_id VARCHAR(255) NULL");
+        }
+    } catch (Throwable $e) {
+        error_log('[corso-video] non ho potuto allargare il campo: ' . $e->getMessage());
+    }
+}
+
+/** Come si chiama, in italiano, il posto da cui arriva il video. */
+function corsoVideoDove(string $tipo): string {
+    return [
+        'drive'   => 'Google Drive',
+        'youtube' => 'YouTube',
+        'vimeo'   => 'Vimeo',
+        'file'    => 'file sul nostro server',
+        'bunny'   => 'Bunny Stream',
+    ][$tipo] ?? $tipo;
+}
+
 function corsoLessonThumb(?string $videoGuid, int $position): string {
-    if ($videoGuid) {
-        return '<span class="thumb" data-n="' . $position . '"><img src="' . htmlspecialchars(bunnyThumbUrl($videoGuid))
+    $v = corsoVideoSorgente($videoGuid);
+    $img = null;
+    if ($v) {
+        $img = match ($v['tipo']) {
+            'youtube' => 'https://i.ytimg.com/vi/' . $v['id'] . '/mqdefault.jpg',
+            'drive'   => 'https://drive.google.com/thumbnail?id=' . $v['id'] . '&sz=w320',
+            'bunny'   => bunnyThumbUrl($v['id']),
+            default   => null,
+        };
+    }
+    if ($img !== null) {
+        return '<span class="thumb" data-n="' . $position . '"><img src="' . htmlspecialchars($img)
              . '" alt="" loading="lazy" decoding="async"><span class="thumb-n">' . $position . '</span></span>';
     }
     return '<span class="num">' . $position . '</span>';

@@ -47,7 +47,8 @@ corsoNav($user, $isAdmin, 'corsi');
     <p class="eyebrow"><a href="classe.php?id=<?= (int)$lesson['cohort_id'] ?>" style="color:inherit;text-decoration:none">&larr; <?= htmlspecialchars($lesson['course_title']) ?></a></p>
     <h1 class="page">Lezione <?= (int)$lesson['position'] ?> &middot; <?= htmlspecialchars($lesson['title']) ?></h1>
 
-    <?php if ($lesson['bunny_video_id']):
+    <?php $video = corsoVideoSorgente($lesson['bunny_video_id']); ?>
+    <?php if ($video && $video['tipo'] === 'bunny'):
         // R22: il token dura 4h, ma se l'allieva lascia la pagina aperta piu a
         // lungo (pausa, distrazione) il player deve rinnovarlo da solo invece
         // di interrompersi. Il tempo di scadenza e' calcolato qui e passato
@@ -106,6 +107,15 @@ corsoNav($user, $isAdmin, 'corsi');
             scheduleRefresh();
         })();
         </script>
+    <?php elseif ($video && $video['embed']): ?>
+        <?php // Drive, YouTube o Vimeo: il lettore e' loro, a noi basta la cornice ?>
+        <iframe class="video" src="<?= htmlspecialchars($video['embed']) ?>"
+                allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen"
+                allowfullscreen loading="lazy" title="Registrazione della lezione"></iframe>
+    <?php elseif ($video && $video['tipo'] === 'file'): ?>
+        <?php // Un file nostro: lo serve materiale.php, che controlla l'iscrizione ?>
+        <video class="video" controls preload="metadata" playsinline
+               src="materiale.php?lesson=<?= $lessonId ?>&type=video"></video>
     <?php else: ?>
         <div class="card empty"><p>La registrazione di questa lezione non è ancora disponibile.</p></div>
     <?php endif; ?>

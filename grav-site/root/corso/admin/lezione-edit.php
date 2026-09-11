@@ -3,6 +3,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../lib.php';
 
 $admin = corsoRequireAdmin();
+corsoEnsureVideoSchema();   // il campo del video ora tiene un link intero
 $id = (int)($_GET['id'] ?? 0);
 $cohortId = (int)($_GET['cohort_id'] ?? 0);
 $lesson = null;
@@ -106,9 +107,21 @@ corsoNav($admin, true, 'corsi');
             <input type="number" id="position" name="position" min="1" value="<?= (int)($lesson['position'] ?? $nextPos) ?>" required>
             <p class="hint">Determina l'ordine con cui le allieve vedono le lezioni.</p>
 
-            <label for="bunny_video_id">Video della registrazione</label>
-            <input type="text" id="bunny_video_id" name="bunny_video_id" value="<?= htmlspecialchars($lesson['bunny_video_id'] ?? '') ?>" placeholder="eb1c4f77-0cda-46be-b47d-1118ad7c2ffe">
-            <p class="hint">Carica prima il video su Bunny Stream (libreria <em>corso-base-human-design</em>), poi incolla qui il codice del video. Lascialo vuoto se la registrazione non è ancora pronta.</p>
+            <?php $videoOra = corsoVideoSorgente($lesson['bunny_video_id'] ?? null); ?>
+            <label for="bunny_video_id">Link della registrazione</label>
+            <input type="text" id="bunny_video_id" name="bunny_video_id" value="<?= htmlspecialchars($lesson['bunny_video_id'] ?? '') ?>" placeholder="https://drive.google.com/file/d/.../view">
+            <?php if ($videoOra): ?>
+                <p class="hint"><strong>Riconosciuto:</strong> <?= htmlspecialchars(corsoVideoDove($videoOra['tipo'])) ?>.
+                   Le allieve lo vedono dentro la pagina della lezione.</p>
+            <?php elseif (!empty($lesson['bunny_video_id'])): ?>
+                <p class="hint" style="color:var(--urgente)"><strong>Questo link non l&rsquo;ho riconosciuto</strong>, quindi il video non si vede.
+                   Controlla di aver copiato l&rsquo;indirizzo completo.</p>
+            <?php endif; ?>
+            <p class="hint">Incolla il link del video e basta. Vanno bene:<br>
+               <strong>Google Drive</strong> &mdash; carica il video sul Drive, tasto destro, Condividi, &laquo;Chiunque abbia il link&raquo;, Copia link.<br>
+               <strong>YouTube</strong> &mdash; carica il video come &laquo;non in elenco&raquo; e incolla l&rsquo;indirizzo.<br>
+               <strong>Vimeo</strong> &mdash; l&rsquo;indirizzo del video.<br>
+               Lascia vuoto se la registrazione non &egrave; ancora pronta: l&rsquo;allieva legge che arriver&agrave;.</p>
 
             <label for="description">Descrizione della lezione</label>
             <textarea id="description" name="description" rows="4" placeholder="Cosa tratta questa lezione, cosa impareranno le allieve..."><?= htmlspecialchars($lesson['description'] ?? '') ?></textarea>
