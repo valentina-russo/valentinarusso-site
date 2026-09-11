@@ -24,39 +24,6 @@ const RISPOSTA = 'Se quell&rsquo;indirizzo &egrave; registrato al corso, tra poc
 $error = '';
 $fatto = false;
 
-/** Il messaggio col link. Intestazioni separate da CRLF, come vuole la posta. */
-function corsoMailRecupero(string $email, ?string $nome, string $token): bool {
-    $ac = chr(13) . chr(10);
-    $link = 'https://valentinarussobg5.com/corso/attiva.php?r=1&t=' . $token;
-    $saluto = trim((string)$nome) !== '' ? 'Ciao ' . trim(explode(' ', trim((string)$nome))[0]) . ',' : 'Ciao,';
-
-    $righe = [
-        $saluto,
-        '',
-        'hai chiesto di rifare la password del corso. Scegline una nuova da qui:',
-        '',
-        $link,
-        '',
-        'Il link vale due ore e si usa una volta sola. Se scade, ne chiedi un altro',
-        'dalla pagina di accesso.',
-        '',
-        'Se non sei stata tu a chiederlo, puoi ignorare questa mail: senza aprire il',
-        'link la tua password resta quella di prima.',
-        '',
-        'Valentina Russo',
-        'Corso Base di Human Design',
-    ];
-
-    $intestazioni = 'From: Valentina Russo <info@valentinarussobg5.com>' . $ac
-        . 'Reply-To: info@valentinarussobg5.com' . $ac
-        . 'Content-Type: text/plain; charset=UTF-8' . $ac
-        . 'Content-Transfer-Encoding: 8bit' . $ac
-        . 'MIME-Version: 1.0';
-    $oggetto = '=?UTF-8?B?' . base64_encode('La tua password del corso') . '?=';
-
-    return @mail($email, $oggetto, implode($ac, $righe) . $ac, $intestazioni);
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim((string)($_POST['email'] ?? ''));
     $ip    = hdGetIp();
@@ -70,16 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // freno chi prova indirizzi a raffica, visto che la risposta e' muta.
         hdRecordFailedAttempt('recupera:' . strtolower($email), $ip);
 
-        $token = corsoTokenRecuperoPerEmail($email);
-        if ($token !== null) {
-            $st = hdDb()->prepare('SELECT name FROM hd_users WHERE email = ?');
-            $st->execute([strtolower($email)]);
-            $nome = (string)$st->fetchColumn();
-            if (!corsoMailRecupero(strtolower($email), $nome, $token)) {
-                error_log('[corso-recupera] mail non partita per ' . strtolower($email));
-            }
+        $esito = corsoMandaLinkPassword($email);
+        if ($esito === false) {
+            error_log('[corso-recupera] mail non partita per ' . strtolower($email));
         }
-        $fatto = true;   // la stessa risposta nei due casi
+        $fatto = true;   // la stessa risposta, indirizzo noto o no
     }
 }
 

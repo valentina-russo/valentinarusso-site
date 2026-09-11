@@ -496,7 +496,7 @@ function bunnyThumbUrl(string $videoGuid, int $ttlSeconds = 14400): string {
 // registro "catalogo da consumare" invece che percorso da seguire.
 function corsoLessonThumb(?string $videoGuid, int $position): string {
     if ($videoGuid) {
-        return '<span class="thumb"><img src="' . htmlspecialchars(bunnyThumbUrl($videoGuid))
+        return '<span class="thumb" data-n="' . $position . '"><img src="' . htmlspecialchars(bunnyThumbUrl($videoGuid))
              . '" alt="" loading="lazy" decoding="async"><span class="thumb-n">' . $position . '</span></span>';
     }
     return '<span class="num">' . $position . '</span>';
@@ -754,7 +754,9 @@ a.card:hover,a.card:focus-visible{transform:translateY(-2px);box-shadow:var(--sh
 /* ── Anteprima video ──────────────────────────────────── */
 .thumb{position:relative;flex-shrink:0;width:104px;aspect-ratio:16/9;border-radius:9px;
   overflow:hidden;background:var(--navy);display:block}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb::before{content:attr(data-n);position:absolute;inset:0;display:grid;place-items:center;
+  color:rgba(255,255,255,.38);font-family:var(--f-head);font-size:1.15rem;font-weight:700}
+.thumb img{position:relative;width:100%;height:100%;object-fit:cover;display:block}
 .thumb-n{position:absolute;left:5px;bottom:5px;min-width:20px;height:20px;padding:0 5px;
   border-radius:6px;background:rgba(26,35,50,.82);color:var(--white);
   font-family:var(--f-head);font-size:.75rem;font-weight:700;line-height:20px;text-align:center}
@@ -1126,6 +1128,106 @@ function corsoUtenteDaTokenAttivazione(string $token, bool $ancheAdmin = false):
     $st->execute(array_merge([hash('sha256', $token)], $ruoli));
     $u = $st->fetch();
     return $u ?: null;
+}
+
+/**
+ * Una mail di servizio del corso: testo semplice, mittente info@.
+ *
+ * Le righe delle intestazioni si separano con CRLF. Con l'a-capo semplice il
+ * Content-Type non viene letto e il messaggio finisce scartato: e' gia'
+ * successo con le conferme della lezione gratuita.
+ */
+function corsoMailSemplice(string $a, string $oggetto, array $righe): bool {
+    $ac = chr(13) . chr(10);
+    $intestazioni = 'From: Valentina Russo <info@valentinarussobg5.com>' . $ac
+        . 'Reply-To: info@valentinarussobg5.com' . $ac
+        . 'Content-Type: text/plain; charset=UTF-8' . $ac
+        . 'Content-Transfer-Encoding: 8bit' . $ac
+        . 'MIME-Version: 1.0';
+    return @mail($a, '=?UTF-8?B?' . base64_encode($oggetto) . '?=', implode($ac, $righe) . $ac, $intestazioni);
+}
+
+/**
+ * Manda a un indirizzo il link per rifare la password.
+ *
+ * La usano due posti: la pagina "password dimenticata" e il pannello, quando
+ * un'allieva chiede aiuto a Valentina. Nel pannello questo ha sostituito la
+ * password generata da noi e mostrata a schermo: Valentina non deve piu'
+ * copiare un segreto e mandarlo a mano.
+ *
+ * Restituisce null se l'indirizzo non e' di nessuno, altrimenti se la mail e'
+ * partita. Chi chiama dalla pagina pubblica deve trattare i due casi allo
+ * stesso modo, per non dire chi e' iscritta.
+ */
+function corsoMandaLinkPassword(string $email, ?string $nome = null): ?bool {
+    $token = corsoTokenRecuperoPerEmail($email);
+    if ($token === null) { return null; }
+    $email = strtolower(trim($email));
+
+    if ($nome === null) {
+        $st = hdDb()->prepare('SELECT name FROM hd_users WHERE email = ?');
+        $st->execute([$email]);
+        $nome = (string)$st->fetchColumn();
+    }
+    $primo = trim(explode(' ', trim((string)$nome))[0] ?? '');
+
+    return corsoMailSemplice($email, 'La tua password del corso', [
+        $primo !== '' ? 'Ciao ' . $primo . ',' : 'Ciao,',
+        '',
+        'da qui scegli la password per entrare nel corso:',
+        '',
+        'https://valentinarussobg5.com/corso/attiva.php?r=1&t=' . $token,
+        '',
+        'Il link vale due ore e si usa una volta sola. Se scade, ne chiedi un altro',
+        'dalla pagina di accesso, alla voce "Password dimenticata".',
+        '',
+        'Se non hai chiesto niente puoi ignorare questa mail: senza aprire il link',
+        'la tua password resta quella di prima.',
+        '',
+        'Valentina Russo',
+        'Corso Base di Human Design',
+    ]);
+}
+
+/**
+ * Avvisa l'allieva che Valentina ha risposto al suo compito.
+ *
+ * Senza questo la risposta restava nel forum e l'allieva la trovava solo se
+ * tornava a guardare da sola.
+ */
+function corsoAvvisaRisposta(int $threadId, int $autoreRispostaId): void {
+    $st = hdDb()->prepare(
+        'SELECT u.email, u.name, p.title, l.position AS lezione
+           FROM forum_posts p
+           JOIN hd_users u ON u.id = p.user_id
+           LEFT JOIN lessons l ON l.id = p.lesson_id
+          WHERE p.id = ?'
+    );
+    $st->execute([$threadId]);
+    $t = $st->fetch();
+    if (!$t || $autoreRispostaId === 0) { return; }
+
+    $email = (string)$t['email'];
+    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) { return; }
+
+    $primo = trim(explode(' ', trim((string)$t['name']))[0] ?? '');
+    $cosa  = trim((string)$t['title']) !== ''
+        ? '"' . trim((string)$t['title']) . '"'
+        : ($t['lezione'] ? 'il tuo compito della lezione ' . (int)$t['lezione'] : 'il tuo compito');
+
+    corsoMailSemplice($email, 'Valentina ha risposto al tuo compito', [
+        $primo !== '' ? 'Ciao ' . $primo . ',' : 'Ciao,',
+        '',
+        'Valentina ha risposto a ' . $cosa . '. La trovi qui:',
+        '',
+        'https://valentinarussobg5.com/corso/discussione.php?id=' . $threadId,
+        '',
+        'Se non sei ancora entrata ti chiede la password, poi ti porta diretta',
+        'alla risposta.',
+        '',
+        'Valentina Russo',
+        'Corso Base di Human Design',
+    ]);
 }
 
 /**

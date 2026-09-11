@@ -58,6 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rispondi'])) {
             hdDb()->prepare('INSERT INTO forum_posts (lesson_id, cohort_id, parent_id, user_id, body) VALUES (?,?,?,?,?)')
                   ->execute([$thread['lesson_id'], $thread['cohort_id'], $thread['id'], $uid, trim($body)]);
             corsoSaveAttachments((int)hdDb()->lastInsertId(), 'allegati', __DIR__ . '/private-uploads');
+            // Se ha risposto Valentina, l'allieva lo viene a sapere per mail:
+            // altrimenti la risposta resta qui e la trova solo se torna a guardare.
+            if ($isAdmin && (int)$thread['user_id'] !== $uid) {
+                corsoAvvisaRisposta((int)$thread['id'], $uid);
+            }
             header('Location: discussione.php?id=' . $id . $backQuery . '&inviato=1#fine');
             exit;
         }
