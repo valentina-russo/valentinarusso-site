@@ -43,9 +43,11 @@ $noteBody = corsoGetNote($lessonId, $uid);
 corsoHtmlHead($lesson['title']);
 corsoNav($user, $isAdmin, 'corsi');
 ?>
-<div class="wrap">
-    <p class="eyebrow"><a href="classe.php?id=<?= (int)$lesson['cohort_id'] ?>" style="color:inherit;text-decoration:none">&larr; <?= htmlspecialchars($lesson['course_title']) ?></a></p>
-    <h1 class="page">Lezione <?= (int)$lesson['position'] ?> &middot; <?= htmlspecialchars($lesson['title']) ?></h1>
+<div class="wrap larga">
+    <div class="aula-testa">
+        <a class="briciola" href="classe.php?id=<?= (int)$lesson['cohort_id'] ?>">&larr; <?= htmlspecialchars($lesson['course_title']) ?></a>
+        <h1>Lezione <?= (int)$lesson['position'] ?>. <?= htmlspecialchars($lesson['title']) ?></h1>
+    </div>
 
     <?php $video = corsoVideoSorgente($lesson['bunny_video_id']); ?>
     <?php if ($video && $video['tipo'] === 'bunny'):
@@ -56,9 +58,9 @@ corsoNav($user, $isAdmin, 'corsi');
         $videoTtl = 14400;
         $videoExpiresAt = time() + $videoTtl;
     ?>
-        <iframe id="corso-video" class="video" src="<?= htmlspecialchars(bunnySignedEmbedUrl($lesson['bunny_video_id'], $videoTtl)) ?>"
+        <div class="lez-palco"><iframe id="corso-video" class="video" src="<?= htmlspecialchars(bunnySignedEmbedUrl($lesson['bunny_video_id'], $videoTtl)) ?>"
                 allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;"
-                allowfullscreen loading="lazy" title="Registrazione della lezione"></iframe>
+                allowfullscreen loading="lazy" title="Registrazione della lezione"></iframe></div>
         <script nonce="<?= htmlspecialchars(corsoNonce()) ?>" src="https://assets.mediadelivery.net/playerjs/playerjs-latest.min.js"></script>
         <script nonce="<?= htmlspecialchars(corsoNonce()) ?>">
         (function () {
@@ -109,18 +111,19 @@ corsoNav($user, $isAdmin, 'corsi');
         </script>
     <?php elseif ($video && $video['embed']): ?>
         <?php // Drive, YouTube o Vimeo: il lettore e' loro, a noi basta la cornice ?>
-        <iframe class="video" src="<?= htmlspecialchars($video['embed']) ?>"
+        <div class="lez-palco"><iframe class="video" src="<?= htmlspecialchars($video['embed']) ?>"
                 allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen"
-                allowfullscreen loading="lazy" title="Registrazione della lezione"></iframe>
+                allowfullscreen loading="lazy" title="Registrazione della lezione"></iframe></div>
     <?php elseif ($video && $video['tipo'] === 'file'): ?>
         <?php // Un file nostro: lo serve materiale.php, che controlla l'iscrizione ?>
-        <video class="video" controls preload="metadata" playsinline
-               src="materiale.php?lesson=<?= $lessonId ?>&type=video"></video>
+        <div class="lez-palco"><video class="video" controls preload="metadata" playsinline
+               src="materiale.php?lesson=<?= $lessonId ?>&type=video"></video></div>
     <?php else: ?>
-        <div class="card empty"><p>La registrazione di questa lezione non è ancora disponibile.</p></div>
+        <div class="lez-palco vuoto"><p>La registrazione di questa lezione non &egrave; ancora disponibile.<br>
+            Arriva qui appena Valentina la carica.</p></div>
     <?php endif; ?>
 
-    <p style="display:flex;justify-content:space-between;gap:1rem;margin:1rem 0 1.5rem">
+    <p class="lez-fila">
         <?php if ($prevLesson): ?>
             <a class="btn ghost" href="lezione.php?id=<?= (int)$prevLesson['id'] ?>">&larr; Lezione <?= (int)$prevLesson['position'] ?></a>
         <?php else: ?><span></span><?php endif; ?>

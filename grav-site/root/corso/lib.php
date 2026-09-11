@@ -597,6 +597,30 @@ function corsoEnsureVideoSchema(): void {
     }
 }
 
+/**
+ * La copertina di una classe: il fotogramma della prima lezione che ne ha uno.
+ * Cosi' le schede hanno un'immagine senza chiedere a Valentina di caricarla.
+ */
+function corsoCopertinaClasse(int $cohortId): ?string {
+    $st = hdDb()->prepare('SELECT bunny_video_id FROM lessons
+                            WHERE cohort_id = ? AND deleted_at IS NULL
+                              AND bunny_video_id IS NOT NULL AND bunny_video_id <> ""
+                            ORDER BY position ASC');
+    $st->execute([$cohortId]);
+    foreach ($st->fetchAll() as $r) {
+        $v = corsoVideoSorgente($r['bunny_video_id']);
+        if (!$v) { continue; }
+        $img = match ($v['tipo']) {
+            'youtube' => 'https://i.ytimg.com/vi/' . $v['id'] . '/hqdefault.jpg',
+            'drive'   => 'https://drive.google.com/thumbnail?id=' . $v['id'] . '&sz=w640',
+            'bunny'   => bunnyThumbUrl($v['id']),
+            default   => null,
+        };
+        if ($img !== null) { return $img; }
+    }
+    return null;
+}
+
 /** Come si chiama, in italiano, il posto da cui arriva il video. */
 function corsoVideoDove(string $tipo): string {
     return [
@@ -770,6 +794,48 @@ body{margin:0;background:var(--crema);color:var(--ink);font-family:var(--f-body)
 a{color:var(--navy);text-decoration-color:rgba(93,174,177,.55);text-underline-offset:3px}
 a:hover{text-decoration-color:var(--teal)}
 h1,h2,h3{margin:0 0 .5rem}
+
+/* ── Aula: le pagine che vedono le allieve ─────────────────── */
+.wrap.larga{max-width:1120px}
+.aula-testa{margin:0 0 2.25rem}
+.aula-testa h1{font-family:var(--f-head);font-weight:700;font-size:clamp(1.9rem,5vw,2.6rem);
+  line-height:1.1;color:var(--navy);margin:0 0 .6rem}
+.aula-testa .sotto{color:var(--ink-soft);font-size:1.0625rem;margin:0;max-width:60ch}
+.aula-testa .briciola{display:inline-flex;align-items:center;gap:.4rem;font-size:.8125rem;
+  font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--rosa);
+  text-decoration:none;margin:0 0 .7rem}
+.aula-testa .briciola:hover{color:var(--navy)}
+
+.lez-griglia{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:1.4rem}
+.lez-card{display:flex;flex-direction:column;background:var(--white);border:1px solid var(--surface);
+  border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;
+  transition:transform .18s var(--ease),box-shadow .18s var(--ease),border-color .18s var(--ease)}
+.lez-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift);border-color:rgba(182,131,151,.45)}
+.lez-cover{position:relative;aspect-ratio:16/9;background:var(--navy);overflow:hidden}
+.lez-cover img{position:relative;width:100%;height:100%;object-fit:cover;display:block}
+.lez-cover .senza{position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--f-head);font-size:2.4rem;color:rgba(255,255,255,.22)}
+.lez-cover .n{position:absolute;left:.7rem;top:.7rem;min-width:26px;height:26px;padding:0 .45rem;
+  border-radius:8px;background:rgba(26,35,50,.82);color:var(--white);
+  font:800 .8125rem/26px var(--f-body);text-align:center;letter-spacing:.02em}
+.lez-corpo{padding:1.05rem 1.15rem 1.2rem;display:flex;flex-direction:column;gap:.35rem;flex:1}
+.lez-corpo h3{font-size:1.0625rem;font-weight:600;color:var(--navy);margin:0;line-height:1.35}
+.lez-corpo .stato{margin-top:auto;padding-top:.55rem;font-size:.8125rem;font-weight:600;
+  display:inline-flex;align-items:center;gap:.4rem;color:var(--teal)}
+.lez-corpo .stato.arrivo{color:var(--ink-soft)}
+.lez-corpo .stato::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+
+/* Lezione: il video prima di tutto */
+.lez-palco{background:var(--navy);border-radius:16px;overflow:hidden;margin:0 0 1.5rem;
+  box-shadow:var(--shadow-lift)}
+.lez-palco .video,.lez-palco iframe,.lez-palco video{display:block;width:100%;aspect-ratio:16/9;
+  height:auto;border:0;background:var(--navy)}
+.lez-palco.vuoto{display:grid;place-items:center;aspect-ratio:16/9;color:rgba(255,255,255,.62);
+  text-align:center;padding:2rem}
+.lez-palco.vuoto p{margin:0;max-width:38ch}
+.lez-fila{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin:0 0 2rem}
+.mat-griglia{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem}
+@media(max-width:560px){.lez-griglia{grid-template-columns:1fr;gap:1.1rem}}
 
 /* ── Header ───────────────────────────────────────────── */
 .site-head{background:var(--navy);color:var(--white)}

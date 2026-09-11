@@ -25,10 +25,12 @@ $firstName = trim(explode(' ', trim((string)$user['name']))[0] ?? '');
 corsoHtmlHead('Il mio corso');
 corsoNav($user, false, 'corsi');
 ?>
-<div class="wrap">
-    <p class="eyebrow">Area riservata</p>
-    <h1 class="hero"><?= $firstName ? 'Ciao ' . htmlspecialchars($firstName) : 'Bentornata' ?></h1>
-    <p class="hero-sub">Qui trovi le lezioni, i materiali e lo spazio per i compiti.</p>
+<div class="wrap larga">
+    <div class="aula-testa">
+        <p class="briciola" style="cursor:default">Area riservata</p>
+        <h1><?= $firstName ? 'Ciao ' . htmlspecialchars($firstName) : 'Bentornata' ?></h1>
+        <p class="sotto">Qui trovi le lezioni, i materiali e lo spazio per i compiti.</p>
+    </div>
 
     <?php if (empty($classi)): ?>
         <div class="card empty">
@@ -37,6 +39,7 @@ corsoNav($user, false, 'corsi');
             <p class="meta">Se pensi sia un errore, scrivi a Valentina e sistemiamo subito.</p>
         </div>
     <?php else: ?>
+        <div class="lez-griglia">
         <?php foreach ($classi as $cl): ?>
             <?php
             $st = hdDb()->prepare('SELECT COUNT(*) FROM lessons WHERE cohort_id = ? AND deleted_at IS NULL');
@@ -48,18 +51,21 @@ corsoNav($user, false, 'corsi');
                                    WHERE e.user_id = ? AND co.course_id = (SELECT course_id FROM cohorts WHERE id = ?)');
             $st->execute([$user['id'], $cl['cohort_id']]);
             $sameCourse = (int)$st->fetchColumn();
+            $cop = corsoCopertinaClasse((int)$cl['cohort_id']);
             ?>
-            <a class="card card-row" href="classe.php?id=<?= (int)$cl['cohort_id'] ?>">
-                <span class="grow">
-                    <h3><?= htmlspecialchars($cl['course_title']) ?></h3>
-                    <span class="meta">
-                        <?php if ($sameCourse > 1): ?><?= htmlspecialchars($cl['cohort_name']) ?> · <?php endif; ?>
-                        <?= $n ?> <?= $n === 1 ? 'lezione' : 'lezioni' ?>
-                    </span>
+            <a class="lez-card" href="classe.php?id=<?= (int)$cl['cohort_id'] ?>">
+                <span class="lez-cover">
+                    <span class="senza" aria-hidden="true">HD</span>
+                    <?php if ($cop): ?><img src="<?= htmlspecialchars($cop) ?>" alt="" loading="lazy" decoding="async"><?php endif; ?>
                 </span>
-                <span class="badge teal">Apri</span>
+                <span class="lez-corpo">
+                    <h3><?= htmlspecialchars($cl['course_title']) ?></h3>
+                    <span class="meta"><?php if ($sameCourse > 1): ?><?= htmlspecialchars($cl['cohort_name']) ?> &middot; <?php endif; ?><?= $n ?> <?= $n === 1 ? 'lezione' : 'lezioni' ?></span>
+                    <span class="stato">Entra nel corso</span>
+                </span>
             </a>
         <?php endforeach; ?>
+        </div>
     <?php endif; ?>
 </div>
 <?php corsoHtmlFoot(); ?>
