@@ -11,8 +11,8 @@ $id      = (int)($_GET['id'] ?? 0);
 $fromCompiti = $isAdmin && ($_GET['from'] ?? '') === 'compiti';
 $fromClasse  = (int)($_GET['classe'] ?? 0);
 $backQuery   = $fromCompiti ? ('&from=compiti' . ($fromClasse ? '&classe=' . $fromClasse : '')) : '';
-$backHref    = $fromCompiti ? ('admin/compiti.php' . ($fromClasse ? '?classe=' . $fromClasse : '')) : 'forum.php';
-$backLabel   = $fromCompiti ? 'Da correggere' : 'Forum';
+$backHref    = $fromCompiti ? ('admin/compiti.php' . ($fromClasse ? '?classe=' . $fromClasse : '')) : null;
+$backLabel   = $fromCompiti ? 'Da correggere' : null;
 
 $thread = corsoThread($id);
 if (!$thread) {
@@ -27,6 +27,11 @@ if (!$thread) {
 
 // R11: controllo server-side, anche indovinando l'id
 corsoRequireEnrollment($uid, (int)$thread['cohort_id']);
+
+if ($backHref === null) {           // si torna alla sezione della propria classe
+    $backHref  = 'sezione.php?classe=' . (int)$thread['cohort_id'];
+    $backLabel = $thread['course_title'];
+}
 
 $error = '';
 
@@ -69,6 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rispondi'])) {
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    corsoEnsureForumSchema();
+    hdDb()->prepare('UPDATE forum_posts SET views = COALESCE(views, 0) + 1 WHERE id = ?')->execute([$id]);
+    $thread['views'] = (int)($thread['views'] ?? 0) + 1;
+}
+
 $replies  = corsoReplies($id);
 $justSent = isset($_GET['inviato']);
 
@@ -80,93 +91,100 @@ $isCreator = $thread['author_role'] === 'admin';
 corsoHtmlHead($thread['title'] ?: 'Post');
 corsoNav($user, $isAdmin, 'forum');
 ?>
-<div class="wrap">
-    <p class="eyebrow"><a href="<?= htmlspecialchars($backHref) ?>" style="color:inherit;text-decoration:none">&larr; <?= htmlspecialchars($backLabel) ?></a></p>
-
-    <?php if ((int)$thread['pinned'] === 1): ?><p class="pin">&#9733; Fissato in alto</p><?php endif; ?>
-    <h1 class="page"><?= htmlspecialchars($thread['title'] ?: 'Post') ?></h1>
-
-    <p class="meta" style="margin:0 0 1.5rem;display:flex;gap:.4rem;flex-wrap:wrap;align-items:center">
-        <?php if ($thread['lesson_position']): ?>
-            <a class="badge teal" style="text-decoration:none" href="lezione.php?id=<?= (int)$thread['lesson_id'] ?>">Lezione <?= (int)$thread['lesson_position'] ?></a>
-        <?php else: ?>
-            <span class="badge">Domanda generale</span>
-        <?php endif; ?>
-        <span class="badge"><?= htmlspecialchars($thread['course_title'] . ($isAdmin ? ' · ' . $thread['cohort_name'] : '')) ?></span>
-        <?php if ($isAdmin): ?>
-            <form method="post" style="display:inline">
-                <?= corsoCsrfField('pin') ?>
-                <input type="hidden" name="toggle_pin" value="1">
-                <button type="submit" class="chip" style="cursor:pointer"><?= (int)$thread['pinned'] === 1 ? 'Togli dall\'alto' : 'Fissa in alto' ?></button>
-            </form>
-        <?php endif; ?>
-    </p>
-
-    <div class="card">
-        <div class="pmeta" style="margin-top:0">
-            <?= corsoAvatar($thread['author_name'], $thread['author_email'], $isCreator, 44) ?>
-            <span>
-                <span class="who"><?= htmlspecialchars($thread['author_name'] ?: $thread['author_email']) ?></span>
-                <?php if ($isCreator): ?><span class="role">Docente</span><?php endif; ?>
-                <div class="when"><?= htmlspecialchars(corsoRelativeTime($thread['created_at'])) ?></div>
-            </span>
-        </div>
-        <p class="ptext"><?= corsoBodyHtml($thread['body']) ?></p>
-
-        <?php foreach ($att as $a): ?>
-            <?php if (corsoIsImage($a['mime'])): ?>
-                <p style="margin:1rem 0 0"><img src="allegato.php?id=<?= (int)$a['id'] ?>" alt="<?= htmlspecialchars($a['orig_name']) ?>"
-                     style="max-width:100%;border-radius:11px;display:block"></p>
+<div class="wrap larga">
+    <div class="aula-testa" style="margin-bottom:1.4rem">
+        <a class="briciola" href="<?= htmlspecialchars($backHref) ?>">&larr; <?= htmlspecialchars($backLabel) ?></a>
+        <h1 style="font-size:clamp(1.5rem,4vw,2.1rem)">
+            <?php if ((int)$thread['pinned'] === 1): ?><span class="fo-pin" title="Fissata in alto">&#9733;</span> <?php endif; ?>
+            <?= htmlspecialchars($thread['title'] ?: 'Discussione') ?>
+        </h1>
+        <p class="sotto" style="display:flex;gap:.45rem;flex-wrap:wrap;align-items:center;font-size:.9375rem">
+            <?php if ($thread['lesson_position']): ?>
+                <a class="badge teal" style="text-decoration:none" href="lezione.php?id=<?= (int)$thread['lesson_id'] ?>">Lezione <?= (int)$thread['lesson_position'] ?></a>
+            <?php else: ?>
+                <span class="badge">Domanda generale</span>
             <?php endif; ?>
-        <?php endforeach; ?>
-        <?php if ($att): ?>
-            <p style="margin:.7rem 0 0">
-            <?php foreach ($att as $a): ?>
-                <a class="attach" href="allegato.php?id=<?= (int)$a['id'] ?>" target="_blank" rel="noopener">
-                    <?= corsoIsImage($a['mime']) ? '&#128247;' : '&#128196;' ?> <?= htmlspecialchars($a['orig_name']) ?>
-                </a>
-            <?php endforeach; ?>
-            </p>
-        <?php endif; ?>
-
-        <form method="post" class="reacts">
-            <?= corsoCsrfField('reazione') ?>
-            <input type="hidden" name="react_post" value="<?= $id ?>">
-            <?php foreach ($mie as $r): ?>
-                <button class="react<?= $r['mine'] ? ' mine' : '' ?>" type="submit" name="emoji" value="<?= htmlspecialchars($r['emoji']) ?>">
-                    <?= $r['emoji'] ?> <span class="n"><?= (int)$r['n'] ?></span>
-                </button>
-            <?php endforeach; ?>
-            <?php foreach (corsoEmoji() as $e):
-                $already = false; foreach ($mie as $r) if ($r['emoji'] === $e) $already = true;
-                if ($already) continue; ?>
-                <button class="react react-add" type="submit" name="emoji" value="<?= htmlspecialchars($e) ?>" title="Reagisci"><?= $e ?></button>
-            <?php endforeach; ?>
-        </form>
+            <span><?= count($replies) ?> <?= count($replies) === 1 ? 'risposta' : 'risposte' ?></span>
+            <span>&middot;</span>
+            <span><?= (int)($thread['views'] ?? 0) ?> letture</span>
+            <?php if ($isAdmin): ?>
+                <span>&middot;</span>
+                <span><?= htmlspecialchars($thread['cohort_name']) ?></span>
+                <form method="post" style="display:inline">
+                    <?= corsoCsrfField('pin') ?>
+                    <input type="hidden" name="toggle_pin" value="1">
+                    <button type="submit" class="chip" style="cursor:pointer"><?= (int)$thread['pinned'] === 1 ? 'Togli dall&rsquo;alto' : 'Fissa in alto' ?></button>
+                </form>
+            <?php endif; ?>
+        </p>
     </div>
 
-    <?php if ($replies): ?>
-        <h2 class="sect"><?= count($replies) ?> <?= count($replies) === 1 ? 'risposta' : 'risposte' ?></h2>
-        <?php foreach ($replies as $r): ?>
-            <div class="card"<?= $r['role'] === 'admin' ? ' style="border-left:3px solid var(--rosa)"' : '' ?>>
-                <div class="pmeta" style="margin-top:0">
-                    <?= corsoAvatar($r['name'], $r['email'], $r['role'] === 'admin', 38) ?>
-                    <span>
-                        <span class="who"><?= htmlspecialchars($r['name'] ?: $r['email']) ?></span>
-                        <?php if ($r['role'] === 'admin'): ?><span class="role">Docente</span><?php endif; ?>
-                        <div class="when"><?= htmlspecialchars(corsoRelativeTime($r['created_at'])) ?></div>
-                    </span>
-                </div>
-                <p class="ptext"><?= corsoBodyHtml($r['body']) ?></p>
+    <?php
+    // Il primo messaggio e' quello che ha aperto la discussione, poi le
+    // risposte in ordine di arrivo: numerate, come in un forum.
+    $messaggi = array_merge([[
+        'id' => $id, 'name' => $thread['author_name'], 'email' => $thread['author_email'],
+        'role' => $thread['author_role'], 'created_at' => $thread['created_at'],
+        'body' => $thread['body'], 'user_id' => $thread['user_id'],
+    ]], $replies);
+    $attTutti = corsoAttachments(array_map(fn($m) => (int)$m['id'], $messaggi));
+    ?>
+
+    <?php foreach ($messaggi as $n => $m): ?>
+        <?php $docente = $m['role'] === 'admin'; $attM = $attTutti[(int)$m['id']] ?? []; ?>
+        <div class="fo-msg<?= $n === 0 ? ' prima' : '' ?>" id="m<?= $n + 1 ?>">
+            <div class="autore">
+                <?= corsoAvatar($m['name'], $m['email'], $docente, 64, (int)($m['user_id'] ?? 0)) ?>
+                <span class="chi"><?= htmlspecialchars($m['name'] ?: $m['email']) ?></span>
+                <?php if ($docente): ?><span class="ruolo">Docente</span><?php endif; ?>
             </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+            <div class="testo">
+                <p class="quando">
+                    <a href="#m<?= $n + 1 ?>" style="color:inherit;text-decoration:none">#<?= $n + 1 ?></a>
+                    <span><?= htmlspecialchars(corsoRelativeTime($m['created_at'])) ?></span>
+                    <?php if ($n === 0): ?><span class="badge">Apre la discussione</span><?php endif; ?>
+                </p>
+                <p class="ptext" style="margin:0"><?= corsoBodyHtml($m['body']) ?></p>
+
+                <?php foreach ($attM as $a): if (!corsoIsImage($a['mime'])) continue; ?>
+                    <p style="margin:1rem 0 0"><img src="allegato.php?id=<?= (int)$a['id'] ?>" alt="<?= htmlspecialchars($a['orig_name']) ?>"
+                         style="max-width:100%;border-radius:11px;display:block"></p>
+                <?php endforeach; ?>
+                <?php if ($attM): ?>
+                    <p style="margin:.7rem 0 0">
+                    <?php foreach ($attM as $a): ?>
+                        <a class="attach" href="allegato.php?id=<?= (int)$a['id'] ?>" target="_blank" rel="noopener">
+                            <?= corsoIsImage($a['mime']) ? '&#128247;' : '&#128196;' ?> <?= htmlspecialchars($a['orig_name']) ?>
+                        </a>
+                    <?php endforeach; ?>
+                    </p>
+                <?php endif; ?>
+
+                <?php if ($n === 0): ?>
+                    <form method="post" class="reacts">
+                        <?= corsoCsrfField('reazione') ?>
+                        <input type="hidden" name="react_post" value="<?= $id ?>">
+                        <?php foreach ($mie as $r): ?>
+                            <button class="react<?= $r['mine'] ? ' mine' : '' ?>" type="submit" name="emoji" value="<?= htmlspecialchars($r['emoji']) ?>">
+                                <?= $r['emoji'] ?> <span class="n"><?= (int)$r['n'] ?></span>
+                            </button>
+                        <?php endforeach; ?>
+                        <?php foreach (corsoEmoji() as $e):
+                            $already = false; foreach ($mie as $r) if ($r['emoji'] === $e) $already = true;
+                            if ($already) continue; ?>
+                            <button class="react react-add" type="submit" name="emoji" value="<?= htmlspecialchars($e) ?>" title="Reagisci"><?= $e ?></button>
+                        <?php endforeach; ?>
+                    </form>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
 
     <?php if ($justSent): ?>
         <div class="card" style="display:flex;align-items:center;gap:1rem">
             <?= corsoCheckMark(true) ?>
             <div><strong><?= $isAdmin ? 'Risposta inviata.' : 'Messaggio inviato.' ?></strong>
-            <div class="meta"><?= $isAdmin ? 'Il post non risulta più in attesa.' : 'Valentina lo legge e ti risponde qui.' ?></div></div>
+            <div class="meta"><?= $isAdmin ? 'La discussione non risulta piu&rsquo; in attesa.' : 'Valentina lo legge e ti risponde qui.' ?></div></div>
         </div>
     <?php endif; ?>
 

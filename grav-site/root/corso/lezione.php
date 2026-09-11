@@ -175,6 +175,6 @@ corsoNav($user, $isAdmin, 'corsi');
         </form>
     </div>
 
-    <p class="meta" style="margin-top:1.5rem">Hai un compito da consegnare o una domanda? Vai al <a href="forum.php?lesson=<?= $lessonId ?>">forum di questa lezione</a>.</p>
+    <p class="meta" style="margin-top:1.5rem">Hai un compito da consegnare o una domanda? Vai al <a href="sezione.php?classe=<?= (int)$lesson['cohort_id'] ?>">forum della tua classe</a>.</p>
 </div>
 <?php corsoHtmlFoot(); ?>

@@ -144,6 +144,63 @@ function corsoVisibleCohortIds(array $user, bool $isAdmin): array {
     return array_column($stmt->fetchAll(), 'id');
 }
 
+/**
+ * Aggiunge il contatore delle letture alle discussioni.
+ * Un forum classico mostra quante volte una discussione e' stata aperta.
+ */
+function corsoEnsureForumSchema(): void {
+    static $fatto = false;
+    if ($fatto) { return; }
+    $fatto = true;
+    try {
+        $col = hdDb()->query("SHOW COLUMNS FROM forum_posts LIKE 'views'")->fetch();
+        if (!$col) {
+            hdDb()->exec("ALTER TABLE forum_posts ADD COLUMN views INT UNSIGNED NOT NULL DEFAULT 0");
+        }
+    } catch (Throwable $e) {
+        error_log('[corso-forum] contatore letture: ' . $e->getMessage());
+    }
+}
+
+/**
+ * Le sezioni del forum, con i numeri che un forum classico mette in prima
+ * pagina: quante discussioni, quanti messaggi in tutto, e l'ultimo arrivato.
+ * Una sezione e' una classe: e' il confine che conta, perche' le allieve
+ * vedono solo la propria.
+ */
+function corsoSezioniForum(array $cohortIds): array {
+    if (!$cohortIds) { return []; }
+    $in = implode(',', array_fill(0, count($cohortIds), '?'));
+    $st = hdDb()->prepare(
+        "SELECT co.id, co.name, c.title AS course_title,
+                (SELECT COUNT(*) FROM forum_posts d
+                  WHERE d.cohort_id = co.id AND d.parent_id IS NULL) AS discussioni,
+                (SELECT COUNT(*) FROM forum_posts m WHERE m.cohort_id = co.id) AS messaggi
+           FROM cohorts co JOIN courses c ON c.id = co.course_id
+          WHERE co.id IN ($in)
+          ORDER BY c.created_at DESC, co.position ASC"
+    );
+    $st->execute($cohortIds);
+    $sezioni = $st->fetchAll();
+
+    // L'ultimo messaggio di ogni sezione, con la discussione a cui appartiene
+    $ult = hdDb()->prepare(
+        "SELECT p.id, p.parent_id, p.created_at, u.name, u.email, u.role,
+                COALESCE(t.title, p.title) AS titolo,
+                COALESCE(p.parent_id, p.id) AS discussione_id
+           FROM forum_posts p
+           JOIN hd_users u ON u.id = p.user_id
+           LEFT JOIN forum_posts t ON t.id = p.parent_id
+          WHERE p.cohort_id = ?
+          ORDER BY p.created_at DESC LIMIT 1"
+    );
+    foreach ($sezioni as &$sez) {
+        $ult->execute([(int)$sez['id']]);
+        $sez['ultimo'] = $ult->fetch() ?: null;
+    }
+    return $sezioni;
+}
+
 function corsoThreads(array $cohortIds, array $opt = []): array {
     if (empty($cohortIds)) return [];
     $cohortFilter = $opt['cohort'] ?? null;
@@ -181,6 +238,7 @@ function corsoThreads(array $cohortIds, array $opt = []): array {
     }
 
     $sql = "SELECT p.id, p.title, p.body, p.created_at, p.lesson_id, p.pinned,
+                   COALESCE(p.views, 0) AS views,
                    u.id AS author_id, u.name AS author_name, u.email AS author_email, u.role AS author_role,
                    l.position AS lesson_position, co.name AS cohort_name, c.title AS course_title,
                    (SELECT COUNT(*) FROM forum_posts r WHERE r.parent_id = p.id) AS replies,
@@ -358,7 +416,7 @@ function corsoThread(int $id): ?array {
 
 function corsoReplies(int $threadId): array {
     $stmt = hdDb()->prepare(
-        'SELECT p.body, p.created_at, u.name, u.email, u.role
+        'SELECT p.id, p.body, p.created_at, p.user_id, u.name, u.email, u.role
          FROM forum_posts p JOIN hd_users u ON u.id = p.user_id
          WHERE p.parent_id = ? ORDER BY p.created_at ASC'
     );
@@ -836,6 +894,57 @@ h1,h2,h3{margin:0 0 .5rem}
 .lez-fila{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin:0 0 2rem}
 .mat-griglia{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem}
 @media(max-width:560px){.lez-griglia{grid-template-columns:1fr;gap:1.1rem}}
+
+/* ── Forum classico: indice, elenco discussioni, messaggi ───── */
+.fo-sez{background:var(--white);border:1px solid var(--surface);border-radius:14px;overflow:hidden;margin:0 0 1.1rem}
+.fo-sez-testa{display:flex;align-items:center;gap:.75rem;padding:.85rem 1.1rem;background:var(--navy);color:var(--white)}
+.fo-sez-testa h2{margin:0;font-family:var(--f-head);font-size:1.1rem;font-weight:700;color:var(--white)}
+.fo-sez-testa .conta{margin-left:auto;font-size:.8125rem;color:rgba(255,255,255,.72);white-space:nowrap}
+.fo-riga{display:grid;grid-template-columns:1fr 78px 78px 232px;gap:1rem;align-items:center;
+  padding:.85rem 1.1rem;border-top:1px solid var(--surface)}
+.fo-riga:first-of-type{border-top:0}
+.fo-riga.intesta{background:var(--crema);font-size:.75rem;font-weight:800;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-soft);padding:.55rem 1.1rem}
+.fo-riga .tit{min-width:0}
+.fo-riga .tit a{font-weight:600;color:var(--navy);text-decoration:none;font-size:1.0125rem;
+  display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fo-riga .tit a:hover{color:var(--rosa)}
+.fo-riga .tit .sotto{font-size:.8125rem;color:var(--ink-soft);margin-top:.15rem;
+  display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.fo-riga .fo-num{text-align:center;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums}
+.fo-riga .fo-num span{display:block;font-size:.6875rem;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-soft)}
+.fo-riga .ultimo{display:flex;align-items:center;gap:.55rem;font-size:.8125rem;color:var(--ink-soft);min-width:0}
+.fo-riga .ultimo .chi{font-weight:600;color:var(--ink);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fo-pin{color:var(--oro);font-weight:700}
+.fo-vuoto{padding:1.6rem 1.1rem;color:var(--ink-soft);border-top:1px solid var(--surface)}
+
+.fo-msg{background:var(--white);border:1px solid var(--surface);border-radius:14px;
+  display:grid;grid-template-columns:168px 1fr;margin:0 0 .9rem;overflow:hidden}
+.fo-msg .autore{background:var(--crema);border-right:1px solid var(--surface);padding:1.1rem;text-align:center}
+.fo-msg .autore .avatar{margin:0 auto .55rem}
+.fo-msg .autore .chi{display:block;font-weight:700;color:var(--navy);font-size:.9375rem;line-height:1.3}
+.fo-msg .autore .ruolo{display:inline-block;margin-top:.35rem;font-size:.6875rem;font-weight:800;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--rosa)}
+.fo-msg .testo{padding:1.1rem 1.25rem 1.2rem;min-width:0}
+.fo-msg .quando{font-size:.8125rem;color:var(--ink-soft);border-bottom:1px solid var(--surface);
+  padding-bottom:.55rem;margin:0 0 .8rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fo-msg.prima{border-color:rgba(93,174,177,.5)}
+.fo-pagine{display:flex;gap:.35rem;justify-content:center;align-items:center;margin:1.5rem 0 0;flex-wrap:wrap}
+.fo-pagine a,.fo-pagine span{min-width:38px;height:38px;display:inline-flex;align-items:center;
+  justify-content:center;border-radius:9px;border:1.5px solid var(--surface);background:var(--white);
+  color:var(--navy);text-decoration:none;font-weight:700;font-size:.875rem}
+.fo-pagine a:hover{border-color:var(--rosa)}
+.fo-pagine .qui{background:var(--navy);color:var(--white);border-color:var(--navy)}
+@media(max-width:760px){
+  .fo-riga{grid-template-columns:1fr 64px;row-gap:.5rem}
+  .fo-riga .ultimo{grid-column:1/-1;border-top:1px dashed var(--surface);padding-top:.5rem}
+  .fo-riga.intesta .ultimo,.fo-riga .fo-num.letture{display:none}
+  .fo-msg{grid-template-columns:1fr}
+  .fo-msg .autore{display:flex;align-items:center;gap:.7rem;text-align:left;border-right:0;
+    border-bottom:1px solid var(--surface);padding:.7rem .9rem}
+  .fo-msg .autore .avatar{margin:0}
+}
 
 /* ── Header ───────────────────────────────────────────── */
 .site-head{background:var(--navy);color:var(--white)}
