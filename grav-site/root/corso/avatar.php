@@ -3,15 +3,18 @@ declare(strict_types=1);
 require_once __DIR__ . '/lib.php';
 
 // Foto profilo: visibile a chi e' loggato nel corso e condivide una classe
-// con la persona (compare nel forum), oppure e' l'ammnistratrice, oppure e'
-// la foto propria. Mai un link diretto al file (stesso principio di materiale.php).
+// con la persona (compare nel forum), oppure e' l'amministratrice, oppure e'
+// la foto propria. La foto della docente la vedono tutte: lei non e' iscritta
+// a nessuna classe, quindi con la sola regola della classe in comune la sua
+// foto compariva rotta in tutto il forum.
+// Mai un link diretto al file (stesso principio di materiale.php).
 $user = corsoRequireStudent();
 $uid  = (int)$user['id'];
 $isAdmin = corsoIsAdmin($uid);
 
 $targetId = (int)($_GET['id'] ?? 0);
 
-if ($targetId !== $uid && !$isAdmin) {
+if ($targetId !== $uid && !$isAdmin && !corsoIsAdmin($targetId)) {
     $stmt = hdDb()->prepare(
         'SELECT 1 FROM course_enrollments e1
          JOIN course_enrollments e2 ON e2.cohort_id = e1.cohort_id

@@ -1108,19 +1108,53 @@ function corsoIscriviDaPagamento(string $sessionId, string $email, string $nome,
 }
 
 /**
- * Trova l'allieva a cui appartiene un token di attivazione ancora valido.
+ * Trova la persona a cui appartiene un token ancora valido.
  * Cerca per impronta, perche' a riposo il token in chiaro non esiste.
+ *
+ * Il giro del pagamento passa $ancheAdmin = false: un acquisto non deve poter
+ * generare, nemmeno per sbaglio, un token buono per un'amministratrice. Il
+ * recupero password passa true, perche' anche Valentina deve poter rientrare.
  */
-function corsoUtenteDaTokenAttivazione(string $token): ?array {
+function corsoUtenteDaTokenAttivazione(string $token, bool $ancheAdmin = false): ?array {
     if (strlen($token) !== 64 || !ctype_xdigit($token)) { return null; }
+    $ruoli = $ancheAdmin ? ['student', 'admin'] : ['student'];
     $st = hdDb()->prepare(
         'SELECT id, email, name FROM hd_users
           WHERE reset_token = ? AND reset_expires IS NOT NULL AND reset_expires > NOW()
-            AND role = ?'
+            AND role IN (' . implode(',', array_fill(0, count($ruoli), '?')) . ')'
     );
-    $st->execute([hash('sha256', $token), 'student']);
+    $st->execute(array_merge([hash('sha256', $token)], $ruoli));
     $u = $st->fetch();
     return $u ?: null;
+}
+
+/**
+ * Prepara il recupero della password per un indirizzo.
+ *
+ * Restituisce il token in chiaro da mettere nel link, oppure null se
+ * l'indirizzo non e' di nessuno: chi chiama deve mostrare lo stesso messaggio
+ * nei due casi, altrimenti la pagina diventa un modo per sapere chi e' iscritta.
+ *
+ * Il token vale due ore, molto meno dei sette giorni dell'attivazione: qui non
+ * si sta aspettando che una persona finisca di pagare, ha appena chiesto lei.
+ * A riposo ne resta solo l'impronta, e chi lo spende lo consuma
+ * (corsoAttivaAccount azzera il token e alza session_ver, quindi le sessioni
+ * aperte con la vecchia password cadono).
+ */
+function corsoTokenRecuperoPerEmail(string $email): ?string {
+    $email = strtolower(trim($email));
+    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) { return null; }
+
+    $st = hdDb()->prepare("SELECT id FROM hd_users WHERE email = ? AND role IN ('student','admin')");
+    $st->execute([$email]);
+    $id = $st->fetchColumn();
+    if (!$id) { return null; }
+
+    $token = bin2hex(random_bytes(32));
+    hdDb()->prepare(
+        'UPDATE hd_users SET reset_token = ?, reset_expires = DATE_ADD(NOW(), INTERVAL 2 HOUR) WHERE id = ?'
+    )->execute([hash('sha256', $token), (int)$id]);
+    return $token;
 }
 
 /** Chiude l'attivazione: password scelta dall'allieva, token speso. */

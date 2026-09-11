@@ -49,6 +49,7 @@ corsoHtmlHead('Accedi');
             <button type="submit" class="btn full">Entra</button>
         </form>
     </div>
+    <p class="meta" style="text-align:center"><a href="recupera.php">Password dimenticata?</a></p>
     <p class="meta" style="text-align:center">Non hai le credenziali? Scrivi a Valentina.</p>
 </div>
 <?php corsoHtmlFoot(); ?>
