@@ -70,7 +70,7 @@ corsoHtmlHead($classe['name']);
 corsoNav($admin, true, 'corsi');
 ?>
 <div class="wrap">
-    <p class="eyebrow"><a href="index.php" style="color:inherit;text-decoration:none">&larr; <?= htmlspecialchars($classe['course_title']) ?></a></p>
+    <p class="eyebrow"><a href="corsi.php" style="color:inherit;text-decoration:none">&larr; <?= htmlspecialchars($classe['course_title']) ?></a></p>
     <h1 class="hero"><?= htmlspecialchars($classe['name']) ?></h1>
     <p class="hero-sub">
         <?= count($lessons) ?> <?= count($lessons) === 1 ? 'lezione' : 'lezioni' ?> ·

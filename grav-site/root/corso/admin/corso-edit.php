@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt = hdDb()->prepare('INSERT INTO courses (title, slug) VALUES (?, ?)');
                     $stmt->execute([$title, $slug]);
                 }
-                header('Location: index.php');
+                header('Location: corsi.php');
                 exit;
             } catch (PDOException $e) {
                 // SEC-CORSO-003: mai esporre il messaggio DB grezzo
@@ -45,7 +45,7 @@ corsoHtmlHead($course ? 'Modifica corso' : 'Nuovo corso');
 corsoNav($admin, true, 'corsi');
 ?>
 <div class="wrap" style="max-width:560px">
-    <p class="eyebrow"><a href="index.php" style="color:inherit;text-decoration:none">&larr; I tuoi corsi</a></p>
+    <p class="eyebrow"><a href="corsi.php" style="color:inherit;text-decoration:none">&larr; I tuoi corsi</a></p>
     <h1 class="page"><?= $course ? 'Modifica corso' : 'Nuovo corso' ?></h1>
     <div class="card">
         <?php if ($error): ?><div class="msg err"><?= htmlspecialchars($error) ?></div><?php endif; ?>

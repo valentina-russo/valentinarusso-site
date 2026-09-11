@@ -22,7 +22,7 @@ if (!$classe && !corsoCanAddCohort($courseId)) {
     corsoNav($admin, true, 'corsi');
     echo '<div class="wrap"><div class="card empty"><p>Questo corso ha già '
        . CORSO_MAX_CLASSI . ' classi attive.</p><p class="meta">Archivia una classe conclusa per farne spazio a una nuova.</p>'
-       . '<p><a class="btn ghost" href="index.php">Torna ai corsi</a></p></div></div>';
+       . '<p><a class="btn ghost" href="corsi.php">Torna ai corsi</a></p></div></div>';
     corsoHtmlFoot();
     exit;
 }
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Sessione scaduta, riprova.';
     } elseif (isset($_POST['archivia']) && $classe) {
         hdDb()->prepare('UPDATE cohorts SET archived_at = NOW() WHERE id = ?')->execute([$classe['id']]);
-        header('Location: index.php');
+        header('Location: corsi.php');
         exit;
     } else {
         $name = trim($_POST['name'] ?? '');
@@ -71,7 +71,7 @@ corsoHtmlHead($classe ? 'Rinomina classe' : 'Nuova classe');
 corsoNav($admin, true, 'corsi');
 ?>
 <div class="wrap" style="max-width:560px">
-    <p class="eyebrow"><a href="index.php" style="color:inherit;text-decoration:none">&larr; <?= htmlspecialchars($course['title']) ?></a></p>
+    <p class="eyebrow"><a href="corsi.php" style="color:inherit;text-decoration:none">&larr; <?= htmlspecialchars($course['title']) ?></a></p>
     <h1 class="page"><?= $classe ? 'Rinomina classe' : 'Nuova classe' ?></h1>
     <div class="card">
         <?php if ($error): ?><div class="msg err"><?= htmlspecialchars($error) ?></div><?php endif; ?>

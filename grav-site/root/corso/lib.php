@@ -374,6 +374,39 @@ function corsoValidateTitle(string $t): ?string {
 // risponde DENTRO quella discussione. Prima bastava una sua risposta qualsiasi
 // nella stessa lezione per far sparire anche i compiti delle altre allieve.
 
+/**
+ * Lezioni delle classi attive senza registrazione collegata.
+ * E' la coda di lavoro vera di Valentina dopo ogni lunedi' sera.
+ */
+function corsoLezioniSenzaVideo(): array {
+    return hdDb()->query(
+        "SELECT l.id, l.position, l.title, co.id AS cohort_id, co.name AS cohort_name, c.title AS course_title
+           FROM lessons l
+           JOIN cohorts co ON co.id = l.cohort_id
+           JOIN courses c  ON c.id = co.course_id
+          WHERE l.deleted_at IS NULL AND co.archived_at IS NULL
+            AND (l.bunny_video_id IS NULL OR l.bunny_video_id = '')
+          ORDER BY c.created_at DESC, co.position ASC, l.position ASC"
+    )->fetchAll();
+}
+
+/**
+ * Allieve iscritte a una classe attiva che non hanno mai scelto la password:
+ * hanno pagato e non sono mai entrate. Vanno ricontattate, non aspettate.
+ */
+function corsoAllieveMaiEntrate(): array {
+    return hdDb()->query(
+        "SELECT u.id, u.name, u.email,
+                GROUP_CONCAT(co.name ORDER BY co.position SEPARATOR ', ') AS classi
+           FROM course_enrollments e
+           JOIN hd_users u ON u.id = e.user_id
+           JOIN cohorts co ON co.id = e.cohort_id
+          WHERE co.archived_at IS NULL AND u.role = 'student' AND u.verified_at IS NULL
+          GROUP BY u.id, u.name, u.email
+          ORDER BY u.name, u.email"
+    )->fetchAll();
+}
+
 function corsoPendingHomework(?int $cohortId = null): array {
     $sql = "SELECT p.id, p.lesson_id, p.title, p.body, p.created_at,
                    u.name AS student_name, u.email AS student_email,
@@ -880,7 +913,8 @@ function corsoNav(array $user, bool $isAdmin, string $current = ''): void {
     echo '<nav class="nav">';
     if ($isAdmin) {
         $pending = corsoPendingCount();
-        echo '<a href="' . $p . 'admin/index.php"' . $cur('corsi') . '>Corsi</a>';
+        echo '<a href="' . $p . 'admin/index.php"' . $cur('oggi') . '>Oggi</a>';
+        echo '<a href="' . $p . 'admin/corsi.php"' . $cur('corsi') . '>Corsi</a>';
         echo '<a href="' . $p . 'forum.php"' . $cur('forum') . '>Forum</a>';
         echo '<a href="' . $p . 'admin/compiti.php"' . $cur('compiti') . '>Da correggere';
         if ($pending > 0) echo ' <span class="count">' . $pending . '</span>';
