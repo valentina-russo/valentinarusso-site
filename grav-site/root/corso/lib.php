@@ -651,6 +651,22 @@ function bunnyThumbUrl(string $videoGuid, int $ttlSeconds = 14400): string {
     return 'https://' . BUNNY_CDN_HOSTNAME . $path . '?token=' . $token . '&expires=' . $expires;
 }
 
+/**
+ * Un file dentro la libreria video, con l'indirizzo firmato.
+ *
+ * Serve al tasto "Scarica la lezione": Bunny tiene anche la versione MP4 di
+ * ogni video (va accesa nella libreria, voce "MP4 fallback"), e questo la
+ * firma con una scadenza corta. Un indirizzo copiato e passato a qualcun altro
+ * muore in pochi minuti.
+ */
+function bunnySignedFileUrl(string $videoGuid, string $file, int $ttlSeconds = 900): string {
+    $path    = '/' . $videoGuid . '/' . $file;
+    $expires = time() + $ttlSeconds;
+    $raw     = hash('sha256', BUNNY_TOKEN_KEY . $path . $expires, true);
+    $token   = rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
+    return 'https://' . BUNNY_CDN_HOSTNAME . $path . '?token=' . $token . '&expires=' . $expires;
+}
+
 // Miniatura compatta per le liste: anteprima se c'e, altrimenti il numero.
 // Volutamente piccola: card fotografiche grandi darebbero alla lista un
 // registro "catalogo da consumare" invece che percorso da seguire.
@@ -693,9 +709,11 @@ function corsoVideoSorgente(?string $rif): ?array {
         return ['tipo' => 'file', 'id' => $rif, 'embed' => null];
     }
 
-    // L'identificativo nudo di Bunny Stream (lezioni vecchie)
-    if (preg_match('~^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$~i', $rif)) {
-        return ['tipo' => 'bunny', 'id' => $rif, 'embed' => null];
+    // Bunny Stream: l'identificativo nudo, oppure uno dei suoi indirizzi
+    // (embed, play, o il file sul CDN della libreria).
+    if (preg_match('~^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$~i', $rif)
+        || preg_match('~(?:iframe\.mediadelivery\.net/(?:embed|play)/\d+/|\.b-cdn\.net/)([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})~i', $rif, $m)) {
+        return ['tipo' => 'bunny', 'id' => strtolower($m[1] ?? $rif), 'embed' => null];
     }
 
     return null;

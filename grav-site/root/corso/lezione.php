@@ -123,6 +123,25 @@ corsoNav($user, $isAdmin, 'corsi');
             Arriva qui appena Valentina la carica.</p></div>
     <?php endif; ?>
 
+    <?php
+    // Scaricare la lezione: comodo per chi la riguarda in treno o senza rete.
+    // L'indirizzo e' firmato e scade in un quarto d'ora, quindi copiarlo e
+    // passarlo non serve a niente. Su Drive e YouTube non lo mettiamo: hanno
+    // il loro lettore e il loro scaricamento.
+    $scarica = null;
+    if ($video && $video['tipo'] === 'bunny') {
+        $scarica = bunnySignedFileUrl($video['id'], 'play_480p.mp4');
+    } elseif ($video && $video['tipo'] === 'file') {
+        $scarica = 'materiale.php?lesson=' . $lessonId . '&type=video&scarica=1';
+    }
+    ?>
+    <?php if ($scarica): ?>
+        <p style="margin:0 0 1.5rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
+            <a class="btn ghost" href="<?= htmlspecialchars($scarica) ?>" download>&#11015; Scarica la lezione</a>
+            <span class="meta">Per riguardarla senza connessione. &Egrave; per te: non girarla fuori dal corso.</span>
+        </p>
+    <?php endif; ?>
+
     <p class="lez-fila">
         <?php if ($prevLesson): ?>
             <a class="btn ghost" href="lezione.php?id=<?= (int)$prevLesson['id'] ?>">&larr; Lezione <?= (int)$prevLesson['position'] ?></a>

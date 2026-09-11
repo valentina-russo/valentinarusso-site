@@ -118,6 +118,9 @@ corsoNav($admin, true, 'corsi');
                    Controlla di aver copiato l&rsquo;indirizzo completo.</p>
             <?php endif; ?>
             <p class="hint">Incolla il link del video e basta. Vanno bene:<br>
+               <strong>Bunny Stream</strong> (consigliato) &mdash; carica il video nella libreria del corso e incolla il suo
+               indirizzo, o anche solo il suo codice. &Egrave; l&rsquo;unico dove il collegamento scade da s&eacute;:
+               se un&rsquo;allieva lo passa a un&rsquo;amica, l&rsquo;amica trova un indirizzo morto.<br>
                <strong>Google Drive</strong> &mdash; carica il video sul Drive, tasto destro, Condividi, &laquo;Chiunque abbia il link&raquo;, Copia link.<br>
                <strong>YouTube</strong> &mdash; carica il video come &laquo;non in elenco&raquo; e incolla l&rsquo;indirizzo.<br>
                <strong>Vimeo</strong> &mdash; l&rsquo;indirizzo del video.<br>
