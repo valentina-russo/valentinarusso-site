@@ -154,6 +154,9 @@ corsoNav($admin, true, 'oggi');
         </div>
     <?php endif; ?>
 
-    <p style="margin-top:1.75rem"><a class="btn ghost" href="corsi.php">Corsi, classi e lezioni &rarr;</a></p>
+    <p style="margin-top:1.75rem;display:flex;gap:.5rem;flex-wrap:wrap">
+        <a class="btn ghost" href="corsi.php">Corsi, classi e lezioni &rarr;</a>
+        <a class="btn ghost" href="server.php">Stato del server &rarr;</a>
+    </p>
 </div>
 <?php corsoHtmlFoot(); ?>
