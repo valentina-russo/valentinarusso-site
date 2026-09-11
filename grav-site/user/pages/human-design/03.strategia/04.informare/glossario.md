@@ -5,8 +5,8 @@ published: true
 routable: true
 ordine: 4
 nome_breve: Informare
-seo_title: 'Strategia del Manifestatore (Iniziatore): informare'
-seo_desc: 'La Strategia del Manifestatore (Iniziatore nel BG5) nello Human Design: informare prima di agire, fra pace e rabbia. Perché non è chiedere il permesso.'
+seo_title: "Manifestatore (Iniziatore) in Human Design: la Strategia è informare"
+seo_desc: "Il Manifestatore (Iniziatore) nello Human Design: l'energia che apre le porte, perché informare prima di agire cambia tutto, e la rabbia come segnale del non-sé."
 description: L'unica Tipologia fatta per iniziare. Un avviso prima di muoversi, e la resistenza intorno sparisce.
 richiamo: Se la rabbia ti accompagna da sempre, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti mostra chi va informato e chi no, senza che diventi rendere conto.
 didascalia: 'Una carta da Manifestatore (Iniziatore): Cuore e Gola colorati, il Sacrale bianco'

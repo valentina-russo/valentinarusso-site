@@ -5,8 +5,8 @@ published: true
 routable: true
 ordine: 3
 nome_breve: Aspettare l'invito
-seo_title: 'Strategia del Proiettore (Guida): aspettare l''invito'
-seo_desc: 'La Strategia del Proiettore (Guida nel BG5) nello Human Design: aspettare l''invito e il riconoscimento, fra successo e amarezza.'
+seo_title: "Proiettore (Guida) in Human Design: la Strategia è aspettare l'invito"
+seo_desc: "Il Proiettore (Guida) nello Human Design: perché l'invito non è passività, come si riconosce, e da dove viene l'amarezza quando manca. Con il calcolo gratuito della carta."
 description: 'Non candidarsi: essere cercati. È la Strategia più difficile da accettare e la più fraintesa.'
 richiamo: Se l'amarezza ti è familiare, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti mostra dove ti stai proponendo invece di farti trovare.
 didascalia: 'Una carta da Proiettore (Guida): Ajna e Gola colorate, il Sacrale bianco'

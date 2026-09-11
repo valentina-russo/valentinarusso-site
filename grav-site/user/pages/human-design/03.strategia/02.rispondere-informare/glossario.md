@@ -5,8 +5,8 @@ published: true
 routable: true
 ordine: 2
 nome_breve: Rispondere e informare
-seo_title: Strategia del Generatore Manifestante (Costruttore Rapido)
-seo_desc: 'La Strategia del Generatore Manifestante (Costruttore Rapido nel BG5): rispondere e poi informare, fra soddisfazione e pace, frustrazione e rabbia.'
+seo_title: "Generatore Manifestante (Costruttore Rapido) in Human Design: rispondere e informare"
+seo_desc: "Il Generatore Manifestante (Costruttore Rapido) nello Human Design: perché risponde come un Generatore e informa come un Manifestatore, e cosa cambia se salta un passaggio."
 description: Prima la risposta del corpo, poi un avviso a chi verrà coinvolto. Due passaggi, e saltarne uno si paga.
 richiamo: Se ti trovi spesso a spiegare a cose fatte, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti mostra quando informare e a chi, senza che diventi chiedere il permesso.
 didascalia: 'Una carta da Generatore Manifestante (Costruttore Rapido): Sacrale e Gola colorati'

@@ -5,8 +5,8 @@ published: true
 routable: true
 ordine: 1
 nome_breve: Rispondere
-seo_title: 'Strategia del Generatore (Costruttore Classico): rispondere'
-seo_desc: 'La Strategia del Generatore (Costruttore Classico nel BG5) nello Human Design: aspettare e rispondere, la soddisfazione quando funziona, la frustrazione quando no.'
+seo_title: "Generatore (Costruttore Classico) in Human Design: la Strategia è rispondere"
+seo_desc: "Come funziona il Generatore (Costruttore Classico) nello Human Design: l'energia sacrale, la Strategia di rispondere invece di iniziare, i segnali del non-sé. Con il calcolo gratuito della carta."
 description: Aspettare qualcosa a cui rispondere invece di partire per primo. È la Strategia del 37% delle persone.
 richiamo: Se la frustrazione è la tua compagnia fissa, il <a href="/libretto-istruzioni">Libretto d&rsquo;Istruzioni</a> ti mostra dove stai partendo per primo invece di rispondere.
 didascalia: 'Una carta da Generatore (Costruttore Classico): il Sacrale colorato'

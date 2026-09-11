@@ -17,8 +17,8 @@ image_caption: "Ogni Profilo di Carriera racconta il tuo ruolo nel lavoro e il m
 image_desc: "Infografica che illustra le sei Funzioni BG5 e le dodici combinazioni di Profilo di Carriera, dalla Funzione 1 Autorità alla Funzione 6 Leader, con riferimenti alla vita professionale e relazionale."
 image_prompt: "abstract geometric illustration of twelve unique human silhouettes arranged in a circle, each with distinct color gradient representing different personality archetypes, soft neutral background, minimal clean design --ar 16:9 --style raw"
 description: "I 12 Profili di Carriera BG5 spiegano chi sei nel lavoro e nelle relazioni. Scopri le 6 Funzioni e trova il tuo profilo con Valentina Russo."
-seo_title: "I 12 Profili Human Design: qual è il tuo e cosa dice di te"
-seo_desc: "Le 6 Linee e le 12 combinazioni di Profilo, una per una, con il nome BG5 (Business Group 5) corrispondente. Come si calcola il tuo e cosa cambia nel lavoro."
+seo_title: "Profili Human Design: i 12 uno per uno (1/3, 2/4, 3/5, 4/6...)"
+seo_desc: "I 12 Profili dello Human Design con il nome BG5 (Business Group 5) corrispondente. Le sei Linee, le dodici combinazioni e la pagina di ognuna. Con il calcolo gratuito della carta."
 geo_location: "Italia"
 geo_content: "Il Profilo di Carriera BG5® (chiamato Profilo nello Human Design classico) deriva dall'I Ching e si calcola dalla carta individuale a partire da data, ora e luogo di nascita. La combinazione di due Funzioni (Linee dell'I Ching), una conscia e una inconscia, genera dodici profili possibili. Ogni profilo descrive il ruolo naturale della persona nella vita lavorativa e relazionale: dalla Funzione 1 (Autorità - studia e ricerca) alla Funzione 6 (Leader - tre fasi di vita), con tutte le combinazioni intermedie. Il sistema BG5 viene utilizzato come framework professionale per analisi di carriera, selezione personale, e dinamiche di team. In Italia la conoscenza del BG5 è ancora limitata rispetto allo Human Design generalista, ma sta crescendo grazie ai consulenti certificati dal BG5 Business Institute."
 aeo_answer: "I Profili di Carriera BG5 (Profili in Human Design) sono 12 combinazioni delle 6 Funzioni (Linee in HD) dell'I Ching. Ogni profilo si calcola dalla carta BG5 individuale e descrive il ruolo naturale della persona nel lavoro e nelle relazioni. La prima Funzione è conscia (Personalità), la seconda inconscia (Design). Le 6 Funzioni sono: Autorità (Investigatore), Talento Naturale (Ermita), Pioniere (Martire), Influencer (Opportunista), Messaggero (Eretico), Leader (Modello di Ruolo). Il profilo è fisso dalla nascita, ma la sua espressione può passare da condizionata ad autentica."
@@ -111,6 +111,23 @@ Un Talento Naturale (Funzione 2) condizionato cerca di promuoversi, di rendersi 
 Un Messaggero (Funzione 5) condizionato accetta tutte le proiezioni e cerca di risolvere tutto per tutti. Si esaurisce. L'espressione autentica seleziona con precisione dove intervenire e dove lasciare che altri prendano la responsabilità.
 
 Il passaggio da ombra a espressione autentica richiede una lettura precisa del proprio design. Serve qualcuno che ti mostri la meccanica in azione, non un paragrafo generico su un sito.
+
+## Il tuo Profilo, una pagina per ciascuno
+
+Le dodici combinazioni, ognuna spiegata per esteso nella guida:
+
+- [Profilo 1/3](/human-design/profili/1-3)
+- [Profilo 1/4](/human-design/profili/1-4)
+- [Profilo 2/4](/human-design/profili/2-4)
+- [Profilo 2/5](/human-design/profili/2-5)
+- [Profilo 3/5](/human-design/profili/3-5)
+- [Profilo 3/6](/human-design/profili/3-6)
+- [Profilo 4/1](/human-design/profili/4-1)
+- [Profilo 4/6](/human-design/profili/4-6)
+- [Profilo 5/1](/human-design/profili/5-1)
+- [Profilo 5/2](/human-design/profili/5-2)
+- [Profilo 6/2](/human-design/profili/6-2)
+- [Profilo 6/3](/human-design/profili/6-3)
 
 ## Come scoprire il tuo Profilo di Carriera e leggerlo nel contesto giusto
 

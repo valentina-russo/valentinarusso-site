@@ -11,8 +11,8 @@ image_title: "I 4 Tipi Human Design: quattro archetipi energetici"
 image_desc: "Illustrazione concettuale di quattro silhouette archetipiche in uno spazio cosmico: una che irradia energia dorata costante da una forgia interiore (Generatore), una coronata da un occhio vigile di luce stellare (Proiettore), una che erutta fulmini e comete (Manifestatore), una traslucida che riflette la luna e la nebulosa (Riflettore)."
 image_prompt: "Epic sci-fi fantasy concept art of four distinct archetypal silhouettes standing together in a cosmic space, one radiating steady golden forge-like energy from their chest, one crowned with a watchful glowing third eye of starlight, one erupting in bursts of blue lightning and comet trails, one translucent and mirror-like reflecting the moon and surrounding nebula, each figure representing a different elemental force, deep indigo cosmic background, dramatic volumetric lighting, ultra-detailed digital painting, mystical and otherworldly atmosphere --ar 16:9"
 description: "I 4 tipi energetici dello Human Design (Generatore, Proiettore, Manifestatore, Riflettore) determinano come funzioni davvero. Riconosci segnali e strategia, poi calcola la tua carta."
-seo_title: "I 4 Tipi Human Design: come scoprire il tuo in 30 secondi"
-seo_desc: "I 4 tipi Human Design (Generatore, Proiettore, Manifestatore, Riflettore): segnali per riconoscerli, strategia decisionale di ciascuno"
+seo_title: "Tipologie Human Design: Generatore, Proiettore, Manifestatore, Riflettore"
+seo_desc: "Le quattro Tipologie dello Human Design una per una, con il nome BG5 corrispondente: come riconoscerle, la Strategia di ognuna e dove leggere la propria."
 aeo_answer: "Lo Human Design distingue quattro tipi energetici. Il Generatore (circa il 70% della popolazione) ha energia disponibile su richiesta e decide rispondendo. Il Proiettore (20%) lavora bene su invito, gestisce gli altri leggendo l'energia altrui. Il Manifestatore (8%) inizia per primo, deve informare prima di agire. Il Riflettore (1%) campiona l'ambiente e aspetta un ciclo lunare prima di decisioni importanti. Per scoprire con certezza il proprio tipo serve la data, l'ora esatta e il luogo di nascita."
 faq:
     -
@@ -125,6 +125,16 @@ L'unico modo per stabilire il tipo con certezza è calcolare la carta. Il tipo s
 **Servono tre dati: data di nascita, ora esatta, luogo di nascita.** L'ora è il dato più critico (anche pochi minuti possono cambiare il tipo). Cercala sul certificato di nascita integrale, non sulla memoria familiare.
 
 → [Calcolo Human Design gratis: la tua carta in 30 secondi](/calcolo-human-design)
+
+## La tua Tipologia, una pagina per ciascuna
+
+Qui sopra le quattro insieme. Se hai già calcolato la carta e sai qual è la tua, la pagina che la spiega per esteso, con la sua Strategia e i segnali del non-sé, è questa:
+
+- [Generatore (Costruttore Classico): la Strategia è rispondere](/human-design/strategia/rispondere)
+- [Generatore Manifestante (Costruttore Rapido): rispondere e informare](/human-design/strategia/rispondere-informare)
+- [Proiettore (Guida): aspettare l'invito](/human-design/strategia/aspettare-invito)
+- [Manifestatore (Iniziatore): informare](/human-design/strategia/informare)
+- [Riflettore (Valutatore): il ciclo lunare](/human-design/strategia/ciclo-lunare)
 
 ## Cosa fare dopo aver scoperto il tuo tipo
 
