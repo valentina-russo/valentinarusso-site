@@ -27,11 +27,16 @@ $rawSessionId = $_GET['session_id'] ?? '';
 $sessionId = preg_match('/^cs_(test|live)_[A-Za-z0-9]{1,200}$/', $rawSessionId)
     ? htmlspecialchars($rawSessionId, ENT_QUOTES, 'UTF-8')
     : '';
-$success = isset($_GET['success']) && $_GET['success'] === '1';
+// Il vecchio indirizzo della conferma resta valido: porta alla pagina di
+// ringraziamento, dove il testo e' uno solo e aggiornato.
+if (isset($_GET['success']) && $_GET['success'] === '1') {
+    header('Location: /corso-dati/grazie.php?course=' . urlencode($course));
+    exit;
+}
 $error   = isset($_GET['error']) ? htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8') : '';
 
 $priceLabel = '€' . number_format($product['amount'] / 100, 0, ',', '.');
-$pageTitle = $success ? "Iscrizione confermata! · {$product['name']}" : "I tuoi dati · {$product['name']}";
+$pageTitle = "I tuoi dati · {$product['name']}";
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -73,18 +78,6 @@ body { margin:0; font-family:'Outfit',sans-serif; background:var(--parch); color
 .ld-submit:disabled { opacity:.6; cursor:not-allowed; }
 .ld-submit-note { text-align:center; font-size:.8125rem; color:var(--muted); margin-top:.75rem; }
 .ld-error { background:#FEF2F2; border:1.5px solid #FCA5A5; border-radius:6px; padding:1rem 1.25rem; color:#B91C1C; font-size:.9rem; margin-bottom:1.5rem; }
-.ld-success { text-align:center; padding:3rem 1rem; }
-.ld-success__icon { width:72px; height:72px; border-radius:50%; background:rgba(74,140,140,.12); border:2px solid var(--teal); display:flex; align-items:center; justify-content:center; margin:0 auto 2rem; color:var(--teal); }
-.ld-success__h1 { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; font-style:italic; color:var(--navy); margin:0 0 1rem; }
-.ld-success__body { font-size:1.0625rem; line-height:1.7; color:var(--text); max-width:480px; margin:0 auto 2rem; }
-.ld-success__box { background:var(--white); border:1px solid var(--soft); border-radius:8px; padding:1.5rem 1.75rem; max-width:440px; margin:0 auto 2.5rem; text-align:left; }
-.ld-success__box h3 { font-size:.8125rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--rosa); margin:0 0 1rem; }
-.ld-success__box ul { list-style:none; padding:0; margin:0; }
-.ld-success__box li { font-size:.9375rem; line-height:1.6; color:var(--text); padding:.4rem 0; border-bottom:1px solid var(--soft); display:flex; gap:.75rem; }
-.ld-success__box li:last-child { border-bottom:none; }
-.ld-success__box li::before { content:'·'; color:var(--teal); font-weight:800; flex-shrink:0; }
-.ld-back-link { font-size:.9rem; color:var(--rosa); text-decoration:none; }
-.ld-back-link:hover { text-decoration:underline; }
 @media (max-width:600px) { .ld-row { grid-template-columns:1fr; } .ld-main { padding:2rem 1rem 4rem; } }
 </style>
 </head>
@@ -94,30 +87,6 @@ body { margin:0; font-family:'Outfit',sans-serif; background:var(--parch); color
   <span class="ld-badge">Iscrizione in corso</span>
 </header>
 <main class="ld-main">
-<?php if ($success): ?>
-
-  <div class="ld-success">
-    <div class="ld-success__icon" aria-hidden="true">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
-    <h1 class="ld-success__h1">Sei dentro.</h1>
-    <p class="ld-success__body">
-      Ti sei iscritto/a a: <strong><?= htmlspecialchars($product['name'], ENT_QUOTES) ?></strong>.<br>
-      Valentina ti scriverà entro 48 ore con il link Zoom e il calendario del semestre.
-    </p>
-    <div class="ld-success__box">
-      <h3>Cosa succede adesso</h3>
-      <ul>
-        <li>Valentina riceve la tua iscrizione e i tuoi dati</li>
-        <li>Ti manda via email il link Zoom fisso per tutte le lezioni e il calendario del semestre</li>
-        <li>Ci si vede alla prima lezione, live e online</li>
-        <li>Per domande: <a href="mailto:info@valentinarussobg5.com" style="color:var(--rosa)">info@valentinarussobg5.com</a></li>
-      </ul>
-    </div>
-    <a href="https://valentinarussobg5.com/servizi" class="ld-back-link">← Torna ai servizi</a>
-  </div>
-
-<?php else: ?>
 
   <div class="ld-confirm-box">
     <div class="ld-confirm-icon" aria-hidden="true">✓</div>
@@ -196,7 +165,6 @@ body { margin:0; font-family:'Outfit',sans-serif; background:var(--parch); color
     <p class="ld-submit-note">I tuoi dati vengono usati solo per gestire l'iscrizione · Non vengono condivisi con terzi</p>
   </form>
 
-<?php endif; ?>
 </main>
 <script>
 document.getElementById('ld-form') && document.getElementById('ld-form').addEventListener('submit', function() {

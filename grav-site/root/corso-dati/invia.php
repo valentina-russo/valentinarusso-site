@@ -212,7 +212,11 @@ $logLine = date('Y-m-d H:i:s') . " | {$course} | sess:{$sessionPrefix}… | admi
 @file_put_contents($logFile, $logLine, FILE_APPEND);
 
 if ($ok1 && $ok2) {
-    header('Location: /corso-dati/dati.php?success=1&course=' . urlencode($course));
+    // Quale versione del primo passo mostrare sulla pagina di ringraziamento:
+    // il link per scegliere la password, l'accesso che ha gia', o l'apertura a mano.
+    $qualeAccesso = $LINK_ATTIVA !== '' ? 'nuovo'
+        : ($accesso['esito'] === 'account esistente' ? 'esistente' : 'manuale');
+    header('Location: /corso-dati/grazie.php?course=' . urlencode($course) . '&accesso=' . $qualeAccesso);
 } else {
     error_log('[corso-invia] Mail send failure — admin:' . ($ok1?'OK':'FAIL') . ' cliente:' . ($ok2?'OK':'FAIL') . ' for ' . $email . ' course ' . $course);
     header('Location: ' . $redir . '&error=mail');
