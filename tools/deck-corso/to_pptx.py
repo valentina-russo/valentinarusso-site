@@ -58,11 +58,18 @@ JS_MISURA = r"""
     });
     sec.querySelectorAll(sel.testo).forEach(el => {
       if (el.closest(sel.raster)) return;
-      let own = '';
+      const runs = []; let own = '';
+      const stile = (e) => { const k = getComputedStyle(e); return {ff: k.fontFamily, fs: parseFloat(k.fontSize), fw: k.fontWeight, fi: k.fontStyle, col: k.color, up: k.textTransform === 'uppercase'}; };
+      const base = stile(el);
       el.childNodes.forEach(n => {
-        if (n.nodeType === 3) own += n.textContent;
-        else if (n.nodeType === 1 && n.tagName !== 'BR' && !n.matches(sel.testo)) own += (getComputedStyle(n).display === 'block' ? String.fromCharCode(10) : '') + n.innerText;
-        else if (n.nodeType === 1 && n.tagName === 'BR') own += '\n';
+        if (n.nodeType === 3) { const t = n.textContent; if (t.trim()) { runs.push({t: t, ...base}); own += t; } }
+        else if (n.nodeType === 1 && n.tagName === 'BR') { runs.push({t: '', br: true, ...base}); own += String.fromCharCode(10); }
+        else if (n.nodeType === 1 && !n.matches(sel.testo)) {
+          const t = n.innerText; if (!t.trim()) return;
+          const blocco = getComputedStyle(n).display === 'block';
+          if (blocco) runs.push({t: '', br: true, ...base});
+          runs.push({t: t, ...stile(n)}); own += (blocco ? String.fromCharCode(10) : '') + t;
+        }
       });
       own = own.replace(/[ \t]+/g, ' ').replace(/ *\n */g, '\n').trim();
       if (!own) return;
@@ -86,7 +93,7 @@ JS_MISURA = r"""
       if (bT && !bL) { const rr = el.getBoundingClientRect(); slide.linee.push({x: rr.left - sr.left, y: rr.top - sr.top, w: rr.width, h: parseFloat(c.borderTopWidth), col: c.borderTopColor}); }
       const bB = c.borderBottomStyle !== 'none' && parseFloat(c.borderBottomWidth) > 0;
       if (bB && !bL) { const rr = el.getBoundingClientRect(); slide.linee.push({x: rr.left - sr.left, y: rr.bottom - sr.top - 1, w: rr.width, h: parseFloat(c.borderBottomWidth), col: c.borderBottomColor}); }
-      slide.testi.push({x: r.left - sr.left, y: r.top - sr.top, w: r.width, h: r.height, t: txt,
+      slide.testi.push({x: r.left - sr.left, y: r.top - sr.top, w: r.width, h: r.height, t: txt, runs: runs,
         ff: c.fontFamily, fs: parseFloat(c.fontSize), fw: c.fontWeight, fi: c.fontStyle, col: c.color,
         al: c.textAlign, lh: c.lineHeight, bg: c.backgroundColor, pad: bL || (c.backgroundColor !== 'rgba(0, 0, 0, 0)'),
         bordo: (bT && bL) ? {st: c.borderTopStyle, col: c.borderTopColor} : null});
@@ -209,20 +216,32 @@ def main() -> None:
                     if t["bordo"]["st"] == "dashed":
                         tb.line.dash_style = MSO_LINE.DASH
                     tf.margin_left = tf.margin_right = px(pad); tf.margin_top = tf.margin_bottom = px(pad * 0.5)
-                for i, riga in enumerate(t["t"].split("\n")):
-                    par = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
+                runs = t.get("runs") or [{"t": riga, "br": i > 0, "ff": t["ff"], "fs": t["fs"], "fw": t["fw"], "fi": t["fi"], "col": t["col"], "up": False}
+                                          for i, riga in enumerate(t["t"].split(chr(10)))]
+                par = tf.paragraphs[0]
+                primo = True
+                for rn in runs:
+                    if rn.get("br") and not primo:
+                        par = tf.add_paragraph()
+                    primo = False
                     par.alignment = {"center": PP_ALIGN.CENTER, "right": PP_ALIGN.RIGHT, "end": PP_ALIGN.RIGHT}.get(t["al"], PP_ALIGN.LEFT)
                     lh = t["lh"]
                     if lh and lh != "normal":
                         par.line_spacing = max(0.9, float(lh.replace("px", "")) / t["fs"])
+                    testo = " ".join(rn["t"].split())
+                    if not testo.strip():
+                        continue
+                    if rn.get("up"):
+                        testo = testo.upper()
                     run = par.add_run()
-                    run.text = riga
+                    run.text = testo
                     f = run.font
-                    f.name = famiglia(t["ff"])
-                    f.size = Pt(t["fs"] * 0.5)
-                    f.bold = int(t["fw"]) >= 600 if t["fw"].isdigit() else t["fw"] == "bold"
-                    f.italic = t["fi"] == "italic"
-                    col = rgb(t["col"])
+                    f.name = famiglia(rn["ff"])
+                    f.size = Pt(rn["fs"] * 0.5)
+                    fw = str(rn["fw"])
+                    f.bold = int(fw) >= 600 if fw.isdigit() else fw == "bold"
+                    f.italic = rn["fi"] == "italic"
+                    col = rgb(rn["col"])
                     if col is not None:
                         f.color.rgb = col
 
