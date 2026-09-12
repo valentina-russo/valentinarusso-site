@@ -248,7 +248,7 @@ def main() -> None:
                         par.line_spacing = max(0.9, float(lh.replace("px", "")) / t["fs"])
                     grezzo = rn["t"]
                     testo = " ".join(grezzo.split())
-                    if grezzo[:1].isspace() and testo:
+                    if grezzo[:1].isspace() and testo and par.runs:
                         testo = " " + testo
                     if grezzo[-1:].isspace() and testo:
                         testo = testo + " "
