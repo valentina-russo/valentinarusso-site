@@ -221,7 +221,7 @@ def main() -> None:
                     x0 = t["x"] - pad - 2
                 tb = sl.shapes.add_textbox(px(x0), px(t["y"] - pad * 0.5 - 2), px(largh), px(t["h"] + pad + 6))
                 tf = tb.text_frame
-                tf.word_wrap = False
+                tf.word_wrap = True
                 tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
                 tf.vertical_anchor = MSO_ANCHOR.TOP
                 sfondo = rgb(t["bg"])
@@ -246,7 +246,12 @@ def main() -> None:
                     lh = t["lh"]
                     if lh and lh != "normal":
                         par.line_spacing = max(0.9, float(lh.replace("px", "")) / t["fs"])
-                    testo = " ".join(rn["t"].split())
+                    grezzo = rn["t"]
+                    testo = " ".join(grezzo.split())
+                    if grezzo[:1].isspace() and testo:
+                        testo = " " + testo
+                    if grezzo[-1:].isspace() and testo:
+                        testo = testo + " "
                     if not testo.strip():
                         continue
                     if rn.get("up"):

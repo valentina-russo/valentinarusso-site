@@ -73,7 +73,7 @@ body{ background:#8A817C; font-family:'Outfit',sans-serif; }
 h1{ font:700 64px/1.1 'Playfair'; letter-spacing:-.01em; text-wrap:balance; }
 h2{ font:600 32px/1.2 'Outfit'; letter-spacing:.04em; text-transform:uppercase; color:var(--muto); }
 .manifesto{ font:700 italic 96px/1.12 'Playfair'; text-wrap:balance; }
-.citazione{ font:italic 64px/1.28 'Fell'; }
+.citazione{ font:italic 400 64px/1.28 'Playfair'; }
 :where(.corpo) p, .elenco li{ font:400 28px/1.45 'Outfit'; color:var(--ink); }
 .didascalia{ font:500 20px/1.4 'Outfit'; color:var(--muto); }
 
