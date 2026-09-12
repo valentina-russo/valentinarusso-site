@@ -829,6 +829,16 @@ jobs:
             **/rinviati.txt
             **/brochure-inviati.txt
 
+      - name: Deploy kit-corso (mazzo slide in HTML per l'import in Canva, cartella non linkata)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ARUBA_FTP_HOST }}
+          username: ${{ secrets.ARUBA_FTP_USER }}
+          password: ${{ secrets.ARUBA_FTP_PASS }}
+          local-dir: ./grav-site/root/kit-corso/
+          server-dir: ${{ secrets.ARUBA_FTP_PATH }}kit-corso/
+          dangerous-clean-slate: false
+
       - name: Deploy letture-dati (checkout, dati, invia PHP, .env, .htaccess) -- BOZZA servizi, non linkata pubblicamente
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
