@@ -34,14 +34,14 @@ W, H = 1920, 1080
 LARGH_IN = 13.3333
 EMU_PER_PX = LARGH_IN * 914400 / W
 
-FONT = {"Playfair": "Playfair Display", "Outfit": "Outfit", "Fell": "IM Fell English"}
+FONT = {"Playfair": "Playfair Display", "Outfit": "Outfit", "Fell": "Playfair Display"}
 
 # Elementi che diventano immagini (screenshot), con tutto quello che contengono
 RASTER = [".telaio-chart", ".cornice", ".duotone", ".ovale", "svg.anello", "svg.anello-grande",
           "svg.anello-agenda", "svg.passi", "img.marchio"]
 # Elementi di testo: foglie con testo proprio
 TESTO = ("h1, h2, p, li, figcaption, span.nota-nostra, span.scadenza, span.link, span.num-slide, "
-         "span.firma, .scala b, .scala span, .legenda span, .prezzi div, .prezzi b, .passo")
+         "span.firma, .scala b, .scala span, .legenda span, .prezzi div, .prezzi b, .passo, .op")
 
 JS_MISURA = r"""
 (sel) => {
@@ -61,34 +61,54 @@ JS_MISURA = r"""
       let own = '';
       el.childNodes.forEach(n => {
         if (n.nodeType === 3) own += n.textContent;
-        else if (n.nodeType === 1 && n.tagName !== 'BR' && !n.matches(sel.testo)) own += n.innerText;
+        else if (n.nodeType === 1 && n.tagName !== 'BR' && !n.matches(sel.testo)) own += (getComputedStyle(n).display === 'block' ? '
+' : '') + n.innerText;
         else if (n.nodeType === 1 && n.tagName === 'BR') own += '\n';
       });
       own = own.replace(/[ \t]+/g, ' ').replace(/ *\n */g, '\n').trim();
       if (!own) return;
-      const r = el.getBoundingClientRect(); const c = getComputedStyle(el);
+      const c = getComputedStyle(el);
+      const rg = document.createRange(); let R = null;
+      el.childNodes.forEach(n => {
+        if (n.nodeType === 3 && n.textContent.trim()) rg.selectNodeContents(n);
+        else if (n.nodeType === 1 && n.tagName !== 'BR' && !n.matches(sel.testo) && n.innerText.trim()) rg.selectNodeContents(n);
+        else return;
+        const q = rg.getBoundingClientRect();
+        if (q.width < 1) return;
+        R = R ? {left: Math.min(R.left, q.left), top: Math.min(R.top, q.top), right: Math.max(R.right, q.right), bottom: Math.max(R.bottom, q.bottom)} : {left: q.left, top: q.top, right: q.right, bottom: q.bottom};
+      });
+      if (!R) return;
+      const r = {left: R.left, top: R.top, width: R.right - R.left, height: R.bottom - R.top};
       if (r.width < 2 || r.height < 2) return;
       let txt = own;
       if (c.textTransform === 'uppercase') txt = txt.toUpperCase();
+      const bT = c.borderTopStyle !== 'none' && parseFloat(c.borderTopWidth) > 0;
+      const bL = c.borderLeftStyle !== 'none' && parseFloat(c.borderLeftWidth) > 0;
+      if (bT && !bL) { const rr = el.getBoundingClientRect(); slide.linee.push({x: rr.left - sr.left, y: rr.top - sr.top, w: rr.width, h: parseFloat(c.borderTopWidth), col: c.borderTopColor}); }
+      const bB = c.borderBottomStyle !== 'none' && parseFloat(c.borderBottomWidth) > 0;
+      if (bB && !bL) { const rr = el.getBoundingClientRect(); slide.linee.push({x: rr.left - sr.left, y: rr.bottom - sr.top - 1, w: rr.width, h: parseFloat(c.borderBottomWidth), col: c.borderBottomColor}); }
       slide.testi.push({x: r.left - sr.left, y: r.top - sr.top, w: r.width, h: r.height, t: txt,
         ff: c.fontFamily, fs: parseFloat(c.fontSize), fw: c.fontWeight, fi: c.fontStyle, col: c.color,
-        al: c.textAlign, lh: c.lineHeight, bg: c.backgroundColor,
-        bordo: c.borderTopStyle !== 'none' && parseFloat(c.borderTopWidth) > 0 ? {st: c.borderTopStyle, col: c.borderTopColor} : null});
+        al: c.textAlign, lh: c.lineHeight, bg: c.backgroundColor, pad: bL || (c.backgroundColor !== 'rgba(0, 0, 0, 0)'),
+        bordo: (bT && bL) ? {st: c.borderTopStyle, col: c.borderTopColor} : null});
       if (el.tagName === 'LI') {
+        const rr = el.getBoundingClientRect();
         const b = getComputedStyle(el, '::before');
-        if (b.content && b.content !== 'none' && b.content !== 'normal' && !/counter/.test(b.content)) {
-          slide.linee.push({x: r.left - sr.left, y: r.top - sr.top + parseFloat(c.fontSize) * 0.64, w: 14, h: 1.5, col: '#C48A3A'});
-        }
-        if (/counter/.test(b.content)) {
-          const n = [...el.parentElement.children].indexOf(el) + 1;
-          slide.testi.push({x: r.left - sr.left, y: r.top - sr.top, w: 50, h: 30, t: String(n).padStart(2, '0'),
-            ff: 'Outfit', fs: 20, fw: '600', fi: 'normal', col: 'rgb(122, 79, 94)', al: 'left', lh: 'normal', bg: 'rgba(0, 0, 0, 0)', bordo: null});
+        const n = [...el.parentElement.children].indexOf(el) + 1;
+        if (el.closest('.elenco.numerata')) {
+          slide.testi.push({x: rr.left - sr.left, y: rr.top - sr.top, w: 50, h: 30, t: String(n).padStart(2, '0'), ff: 'Outfit', fs: 20, fw: '600', fi: 'normal', col: 'rgb(122, 79, 94)', al: 'left', lh: 'normal', bg: 'rgba(0, 0, 0, 0)', pad: false, bordo: null});
+        } else if (el.closest('.agenda')) {
+          slide.testi.push({x: rr.left - sr.left, y: r.top - sr.top + 6, w: 50, h: 26, t: String(n).padStart(2, '0'), ff: 'Outfit', fs: 22, fw: '700', fi: 'normal', col: 'rgb(122, 79, 94)', al: 'left', lh: 'normal', bg: 'rgba(0, 0, 0, 0)', pad: false, bordo: null});
+        } else if (el.closest('.flusso')) {
+          slide.testi.push({x: rr.left - sr.left, y: rr.top - sr.top + 22, w: 120, h: 56, t: String(n).padStart(2, '0'), ff: 'Playfair', fs: 52, fw: '700', fi: 'normal', col: 'rgb(122, 79, 94)', al: 'left', lh: 'normal', bg: 'rgba(0, 0, 0, 0)', pad: false, bordo: null});
+        } else if (el.closest('.elenco')) {
+          slide.linee.push({x: rr.left - sr.left, y: rr.top - sr.top + parseFloat(c.fontSize) * 0.64, w: 14, h: 1.5, col: '#C48A3A'});
         }
       }
     });
+    sec.querySelectorAll('.legenda i').forEach(el => { const r = el.getBoundingClientRect(); const c = getComputedStyle(el); slide.linee.push({x: r.left - sr.left, y: r.top - sr.top, w: r.width, h: r.height, col: c.backgroundColor}); });
     sec.querySelectorAll('.filetto').forEach(el => { const r = el.getBoundingClientRect(); slide.linee.push({x: r.left - sr.left, y: r.top - sr.top, w: Math.max(1, r.width), h: r.height, col: '#C48A3A'}); });
     sec.querySelectorAll('.punto-fine').forEach(el => { const r = el.getBoundingClientRect(); slide.punti.push({x: r.left - sr.left, y: r.top - sr.top, w: r.width, h: r.height, col: '#FEBD59'}); });
-    sec.querySelectorAll('.flusso li').forEach(el => { const r = el.getBoundingClientRect(); slide.linee.push({x: r.left - sr.left, y: r.top - sr.top, w: r.width, h: 3, col: '#C48A3A'}); });
     out.push(slide);
   });
   return out;
@@ -158,13 +178,14 @@ def main() -> None:
 
             for l in m["linee"]:
                 sh = sl.shapes.add_shape(MSO_SHAPE.RECTANGLE, px(l["x"]), px(l["y"]), px(l["w"]), px(max(l["h"], 1)))
-                sh.fill.solid(); sh.fill.fore_color.rgb = hexrgb(l["col"]); sh.line.fill.background()
+                sh.fill.solid(); sh.fill.fore_color.rgb = (rgb(l["col"]) or hexrgb(l["col"])); sh.line.fill.background()
             for d in m["punti"]:
                 sh = sl.shapes.add_shape(MSO_SHAPE.OVAL, px(d["x"]), px(d["y"]), px(d["w"]), px(d["h"]))
                 sh.fill.solid(); sh.fill.fore_color.rgb = hexrgb(d["col"]); sh.line.fill.background()
 
             for t in m["testi"]:
-                tb = sl.shapes.add_textbox(px(t["x"] - 2), px(t["y"] - 2), px(t["w"] + 6), px(t["h"] + 6))
+                pad = 18 if t.get("pad") else 0
+                tb = sl.shapes.add_textbox(px(t["x"] - pad - 2), px(t["y"] - pad * 0.5 - 2), px(t["w"] + 2 * pad + 8), px(t["h"] + pad + 6))
                 tf = tb.text_frame
                 tf.word_wrap = True
                 tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
@@ -172,13 +193,13 @@ def main() -> None:
                 sfondo = rgb(t["bg"])
                 if sfondo is not None:
                     tb.fill.solid(); tb.fill.fore_color.rgb = sfondo
-                    tf.margin_left = tf.margin_right = px(12); tf.margin_top = tf.margin_bottom = px(6)
+                    tf.margin_left = tf.margin_right = px(pad); tf.margin_top = tf.margin_bottom = px(pad * 0.5)
                 if t["bordo"]:
                     tb.line.color.rgb = rgb(t["bordo"]["col"]) or hexrgb("#0999B3")
                     tb.line.width = Pt(1.5)
                     if t["bordo"]["st"] == "dashed":
                         tb.line.dash_style = MSO_LINE.DASH
-                    tf.margin_left = tf.margin_right = px(18); tf.margin_top = tf.margin_bottom = px(8)
+                    tf.margin_left = tf.margin_right = px(pad); tf.margin_top = tf.margin_bottom = px(pad * 0.5)
                 for i, riga in enumerate(t["t"].split("\n")):
                     par = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
                     par.alignment = {"center": PP_ALIGN.CENTER, "right": PP_ALIGN.RIGHT, "end": PP_ALIGN.RIGHT}.get(t["al"], PP_ALIGN.LEFT)
@@ -189,7 +210,7 @@ def main() -> None:
                     run.text = riga
                     f = run.font
                     f.name = famiglia(t["ff"])
-                    f.size = Pt(t["fs"] * 0.75)
+                    f.size = Pt(t["fs"] * 0.5)
                     f.bold = int(t["fw"]) >= 600 if t["fw"].isdigit() else t["fw"] == "bold"
                     f.italic = t["fi"] == "italic"
                     col = rgb(t["col"])
