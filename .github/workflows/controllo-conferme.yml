@@ -1,0 +1,99 @@
+name: Controllo conferme lezione gratuita
+
+# Incrocia il registro delle iscrizioni con il log degli invii: per ogni
+# persona iscritta dice se la conferma col link Zoom e' partita.
+#
+# Nel log della run finiscono solo i conteggi. Gli indirizzi stanno
+# nell'allegato, che scade dopo un giorno: sono dati di persone vere e nel log
+# resterebbero leggibili a chiunque abbia accesso al repository.
+#
+# ATTENZIONE: questo dice cosa il server ha ACCETTATO di mandare, non cosa e'
+# arrivato nelle caselle. Per il recapito vero serve "Traccia recapito" in
+# cPanel, che e' l'unica fonte che sa dire consegnato o respinto.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  controlla:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prendi registro e log via FTP
+        env:
+          HOST: ${{ secrets.ARUBA_FTP_HOST }}
+          USER: ${{ secrets.ARUBA_FTP_USER }}
+          PASS: ${{ secrets.ARUBA_FTP_PASS }}
+          BASE: ${{ secrets.ARUBA_FTP_PATH }}
+        run: |
+          set -uo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          mkdir -p scarico
+          lftp -u "$USER","$PASS" "$HOST" -e "
+            set ssl:verify-certificate no;
+            get ${BASE}lezione-zero/iscritti.csv -o scarico/iscritti.csv;
+            get ${BASE}lezione-zero/invii.log -o scarico/invii.log;
+            bye" 2>&1 | grep -viE "password|$USER" || true
+          [ -f scarico/iscritti.csv ] || : > scarico/iscritti.csv
+          [ -f scarico/invii.log ]   || : > scarico/invii.log
+          echo "registro: $(wc -l < scarico/iscritti.csv) righe, log: $(wc -l < scarico/invii.log) righe"
+
+      - name: Incrocia
+        run: |
+          python3 - <<'PY'
+          import csv, re, collections
+
+          iscritti = []
+          with open('scarico/iscritti.csv', newline='', encoding='utf-8', errors='replace') as f:
+              for riga in list(csv.reader(f))[1:]:
+                  if len(riga) >= 3 and '@' in riga[2]:
+                      iscritti.append({
+                          'quando': riga[0],
+                          'nome': riga[1].lstrip("'"),
+                          'email': riga[2].lstrip("'").strip().lower(),
+                          'origine': (riga[4] if len(riga) > 4 else '').lstrip("'") or 'diretto',
+                      })
+
+          esiti = collections.defaultdict(list)
+          for riga in open('scarico/invii.log', encoding='utf-8', errors='replace'):
+              parti = [p.strip() for p in riga.split('|')]
+              if len(parti) >= 3 and '@' in parti[1]:
+                  esiti[parti[1].lower()].append((parti[0], parti[2]))
+
+          def riuscito(email):
+              return any('ok' in e.lower() and 'fallit' not in e.lower()
+                         for _, e in esiti.get(email, []))
+
+          conferme = [i for i in iscritti if riuscito(i['email'])]
+          senza = [i for i in iscritti if not riuscito(i['email'])]
+
+          print(f"iscritte nel registro:        {len(iscritti)}")
+          print(f"con almeno una conferma ok:   {len(conferme)}")
+          print(f"SENZA nessuna conferma:       {len(senza)}")
+          print()
+          if senza:
+              print("Ci sono iscritte senza conferma partita: l'elenco e' nell'allegato.")
+          else:
+              print("Per ognuna il server ha accettato almeno un invio riuscito.")
+          print()
+          print("Attenzione: questo dice cosa il server ha accettato di mandare.")
+          print("Il recapito vero si legge in cPanel, voce Traccia recapito.")
+
+          with open('scarico/controllo.txt', 'w', encoding='utf-8') as out:
+              out.write("CONTROLLO CONFERME - iscritta per iscritta\n\n")
+              for i in iscritti:
+                  righe = esiti.get(i['email'], [])
+                  stato = 'OK' if riuscito(i['email']) else 'NESSUNA CONFERMA'
+                  out.write(f"{stato:<17} {i['email']:<38} {i['nome']:<22} da {i['origine']}\n")
+                  for quando, esito in righe:
+                      out.write(f"                  {quando}  {esito}\n")
+                  if not righe:
+                      out.write("                  (nessuna riga nel log degli invii)\n")
+                  out.write("\n")
+          PY
+
+      - name: Consegna il dettaglio
+        uses: actions/upload-artifact@v4
+        with:
+          name: controllo-conferme
+          path: scarico/controllo.txt
+          retention-days: 1
