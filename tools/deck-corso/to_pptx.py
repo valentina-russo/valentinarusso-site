@@ -187,7 +187,7 @@ def main() -> None:
                 # Canva rende i caratteri un po' piu' larghi del browser: 12% di aria in piu',
                 # e le righe singole non vanno mai a capo.
                 una_riga = t["h"] <= t["fs"] * 1.6 and chr(10) not in t["t"]
-                largh = t["w"] * 1.12 + 16 + 2 * pad
+                largh = t["w"] * (1.22 if famiglia(t["ff"]) == "Playfair Display" else 1.12) + 16 + 2 * pad
                 if t["al"] == "center":
                     x0 = t["x"] + t["w"] / 2 - largh / 2
                 elif t["al"] in ("right", "end"):
