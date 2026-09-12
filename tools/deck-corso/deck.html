@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Corso Base Human Design — mazzo di slide</title>
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+
+<!-- 01 — COPERTINA ------------------------------------------------------- -->
+<section class="slide scura" data-nome="01-copertina">
+  <svg class="anello-grande" viewBox="0 0 46 46"></svg>
+  <div class="corpo" style="justify-content:center">
+    <p class="eyebrow">Lezione introduttiva di orientamento</p>
+    <h1 style="font-size:112px;line-height:1.04;margin-top:34px;max-width:1120px">
+      Benvenuti al corso base<br>di Human&nbsp;Design
+    </h1>
+    <p class="didascalia" style="margin-top:44px;font-size:26px;color:#C9BFB8">
+      Formatrice: Valentina Russo
+    </p>
+  </div>
+  <div class="piede-sx"><span class="num-slide">01</span></div>
+  <div class="piede">
+    <span class="firma">valentinarussobg5.com</span>
+    <img class="marchio" src="assets/logo.png" alt="">
+  </div>
+</section>
+
+<!-- 12 — DIAGRAMMA ------------------------------------------------------- -->
+<section class="slide" data-nome="12-diagramma" data-anello="3/7">
+  <div class="corpo">
+    <p class="eyebrow">Il binario e la sintesi del disegno</p>
+    <h1 style="margin-top:18px">Cosa noti della tua mappa?</h1>
+
+    <div class="due-col" style="margin-top:40px;grid-template-columns:480px 1fr">
+      <div class="blocco-chart">
+        <div class="telaio-chart">
+          <img src="assets/chart-valentina.png" alt="Bodygraph">
+        </div>
+        <div class="legenda">
+          <span><i class="i-d"></i>Disegno</span>
+          <span><i class="i-p"></i>Personalità</span>
+          <span><i class="i-v"></i>Indefinito</span>
+        </div>
+        <p class="didascalia" style="margin-top:14px">
+          Fig. 1 — La carta di Valentina Russo, 21 giugno 1988, Saluzzo.
+        </p>
+      </div>
+
+      <div class="colonna-testo">
+        <ul class="elenco misura">
+          <li>Il Disegno racconta la tua storia unica.</li>
+          <li>Ci dice cosa c'è di conscio e di inconscio.</li>
+          <li>Mostra quale energia è coerente e affidabile.</li>
+          <li>Indica dove sei vulnerabile al condizionamento.</li>
+          <li>Ci dice se il disegno è tutto collegato, e come assimili le informazioni.</li>
+        </ul>
+        <span class="nota-nostra">Parti dai centri colorati</span>
+      </div>
+    </div>
+  </div>
+  <div class="piede-sx">
+    <span class="num-slide">12</span>
+    <svg class="anello" viewBox="0 0 46 46"></svg>
+  </div>
+  <div class="piede">
+    <span class="firma">valentinarussobg5.com</span>
+    <img class="marchio" src="assets/logo.png" alt="">
+  </div>
+</section>
+
+<!-- 22 — ESERCIZIO ------------------------------------------------------- -->
+<section class="slide" data-nome="22-esercizio" data-anello="5/7" data-passo="1">
+  <div class="corpo">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <p class="eyebrow">Esercizio pratico &middot; Il Rosso e il Nero</p>
+        <div class="testa-esercizio" style="margin-top:14px">
+          <h1 style="margin:0">Esercizio</h1>
+          <span class="passo">1</span>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <span class="scadenza">Entro la prossima lezione</span>
+        <svg class="passi" viewBox="0 0 260 40"></svg>
+      </div>
+    </div>
+
+    <div class="due-col" style="margin-top:38px;grid-template-columns:1fr 460px">
+      <div class="colonna-testo">
+        <ol class="elenco numerata misura">
+          <li>Prendi una penna nera, una rossa e una del colore che vuoi.</li>
+          <li>Guarda le porte del tuo disegno, sia rosse che nere, e colorale.</li>
+          <li>Unisci i canali.</li>
+          <li>Colora col terzo colore i centri che si definiscono attraverso i canali.</li>
+          <li>Verifica che il disegno combaci con quello di qualsiasi calcolatore.</li>
+        </ol>
+      </div>
+
+      <div class="blocco-chart">
+        <div class="telaio-chart">
+          <img src="assets/chart-valentina.png" alt="Bodygraph colorato">
+        </div>
+        <p class="didascalia" style="margin-top:14px">
+          Fig. 2 — Il risultato atteso: rosso e nero sullo stesso foglio.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="piede-sx">
+    <span class="num-slide">22</span>
+    <svg class="anello" viewBox="0 0 46 46"></svg>
+  </div>
+  <div class="piede">
+    <span class="firma">valentinarussobg5.com</span>
+    <img class="marchio" src="assets/logo.png" alt="">
+  </div>
+</section>
+
+<script>
+/* L'anello spezzato del logo come indicatore di avanzamento.
+   Sette segmenti, uno per atto della lezione, che si chiudono via via.
+   In Human Design un canale si forma quando due porte chiudono il circuito:
+   e' lo stesso gesto del marchio, quindi il segno non e' decorativo. */
+function disegnaAnello(svg, fatti, totale, scura, coloreSpento, spessore){
+  const r = 18, cx = 23, cy = 23;
+  const C = 2 * Math.PI * r;
+  const passo = C / totale;
+  const seg = passo - 7;                   // 7 = stacco fra i segmenti
+  const pieno = '#7A4F5E';                 // vinaccia
+  const spento = coloreSpento || (scura ? '#5A524C' : '#E1D6D1');
+  let out = '';
+  for (let i = 0; i < totale; i++){
+    out += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '"'
+        +  ' fill="none" stroke="' + (i < fatti ? pieno : spento) + '"'
+        +  ' stroke-width="' + (spessore || 3.5) + '" stroke-linecap="butt"'
+        +  ' stroke-dasharray="' + seg.toFixed(2) + ' ' + (C - seg).toFixed(2) + '"'
+        +  ' stroke-dashoffset="' + (-i * passo).toFixed(2) + '"'
+        +  ' transform="rotate(-90 ' + cx + ' ' + cy + ')" />';
+  }
+  svg.innerHTML = out;
+}
+
+/* Le quattro slide esercizio sono quasi identiche: questo stepper dice a che
+   punto siamo, cosi' la ripetizione si legge come avanzamento. */
+function disegnaPassi(svg, corrente, totale){
+  let out = '';
+  const w = 44, gap = 28;
+  for (let i = 1; i <= totale; i++){
+    const x = (i - 1) * (w + gap);
+    const attivo = i === corrente;
+    out += '<line x1="' + x + '" y1="30" x2="' + (x + w) + '" y2="30"'
+        +  ' stroke="' + (attivo ? '#7A4F5E' : '#E1D6D1') + '" stroke-width="' + (attivo ? 4 : 2) + '" />';
+    out += '<text x="' + (x + w / 2) + '" y="18" text-anchor="middle"'
+        +  ' font-family="Outfit" font-size="18" font-weight="600"'
+        +  ' fill="' + (attivo ? '#7A4F5E' : '#B3A9A2') + '">' + i + '</text>';
+  }
+  svg.innerHTML = out;
+}
+
+document.querySelectorAll('.slide').forEach(function(s){
+  const a = s.querySelector('.anello');
+  if (a && s.dataset.anello){
+    const p = s.dataset.anello.split('/');
+    disegnaAnello(a, +p[0], +p[1], s.classList.contains('scura'));
+  }
+  const g = s.querySelector('.anello-grande');
+  if (g) disegnaAnello(g, 0, 7, true, '#C48A3A', 1.6);
+
+  const st = s.querySelector('.passi');
+  if (st) disegnaPassi(st, +(s.dataset.passo || 1), 4);
+});
+</script>
+</body>
+</html>

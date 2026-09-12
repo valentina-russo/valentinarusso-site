@@ -1,0 +1,181 @@
+/* ==========================================================================
+   Corso Base Human Design — sistema del mazzo di slide
+   1920x1080. Stessa palette del sito valentinarussobg5.com, che e' gia'
+   quella del logo (occhio dentro l'anello spezzato).
+   Brief approvato il 12/09/2026.
+   ========================================================================== */
+
+/* --- Caratteri (file locali del repo) ------------------------------------ */
+@font-face { font-family:'Playfair'; src:url('../bg5-generator/fonts/PlayfairDisplay-Regular.ttf'); font-weight:400; font-style:normal; }
+@font-face { font-family:'Playfair'; src:url('../bg5-generator/fonts/PlayfairDisplay-Bold.ttf'); font-weight:700; font-style:normal; }
+@font-face { font-family:'Playfair'; src:url('../bg5-generator/fonts/PlayfairDisplay-Italic.ttf'); font-weight:400; font-style:italic; }
+@font-face { font-family:'Playfair'; src:url('../bg5-generator/fonts/PlayfairDisplay-BoldItalic.ttf'); font-weight:700; font-style:italic; }
+@font-face { font-family:'Outfit'; src:url('../bg5-generator/fonts/Outfit-Regular.ttf'); font-weight:400; }
+@font-face { font-family:'Outfit'; src:url('../bg5-generator/fonts/Outfit-Medium.ttf'); font-weight:500; }
+@font-face { font-family:'Outfit'; src:url('../bg5-generator/fonts/Outfit-SemiBold.ttf'); font-weight:600; }
+@font-face { font-family:'Outfit'; src:url('../bg5-generator/fonts/Outfit-Bold.ttf'); font-weight:700; }
+/* La terza voce: solo le citazioni di Ra Uru Hu, mai altro. */
+@font-face { font-family:'Fell'; src:url('../bg5-generator/fonts/IMFellEnglish-Italic.ttf'); font-style:italic; }
+
+/* --- Colori ---------------------------------------------------------------
+   Ruoli fissati dal brief. I contrasti sono misurati, non stimati:
+   ink/crema 11,37:1 - muto/crema 5,59:1 - crema/vinaccia 6,35:1
+   ottone/crema 2,80:1 -> sotto 3:1, quindi l'ottone non fa mai testo su crema.
+   petrolio/crema 3,17:1 -> solo filetti e segni, mai testo corrente.
+   -------------------------------------------------------------------------- */
+:root{
+  --crema:#FBF7F5;
+  --ink:#3A3532;
+  --muto:#6B625D;
+  --linea:#E8DDD9;
+  --vinaccia:#7A4F5E;
+  --tint:#F6EAEE;
+  --ottone:#C48A3A;   /* solo filetti e bordi */
+  --petrolio:#0999B3;      /* filetto/bordo: 3,17:1, passa come elemento grafico */
+  --petrolio-testo:#076B7D;/* testo: 5,79:1 su crema, il petrolio chiaro non passa */
+  --salvia:#76BEB3;
+  --rosa:#D090AB;
+  --giallo:#FEBD59;
+
+  --marg-x:96px;
+  --marg-top:72px;
+  --marg-bot:96px;
+}
+
+/* --- Telaio --------------------------------------------------------------- */
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ background:#8A817C; font-family:'Outfit',sans-serif; }
+
+.slide{
+  position:relative;
+  width:1920px; height:1080px;
+  background:var(--crema);
+  color:var(--ink);
+  overflow:hidden;
+  break-after:page;
+}
+.slide + .slide{ margin-top:40px; }   /* solo in anteprima a schermo */
+
+.corpo{
+  position:absolute;
+  left:var(--marg-x); right:var(--marg-x);
+  top:var(--marg-top); bottom:var(--marg-bot);
+  display:flex; flex-direction:column;
+}
+
+/* --- Scala tipografica --------------------------------------------------- */
+.eyebrow{
+  font:700 22px/1 'Outfit'; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--vinaccia);
+}
+.slide.scura .eyebrow{ color:var(--giallo); }
+
+h1{ font:700 64px/1.1 'Playfair'; letter-spacing:-.01em; text-wrap:balance; }
+h2{ font:600 32px/1.2 'Outfit'; letter-spacing:.04em; text-transform:uppercase; color:var(--muto); }
+.manifesto{ font:700 italic 96px/1.12 'Playfair'; text-wrap:balance; }
+.citazione{ font:italic 64px/1.28 'Fell'; }
+.corpo p, .elenco li{ font:400 28px/1.45 'Outfit'; color:var(--ink); }
+.didascalia{ font:500 20px/1.4 'Outfit'; color:var(--muto); }
+
+.misura{ max-width:640px; }   /* 45-60 caratteri per riga */
+
+.elenco{ list-style:none; display:flex; flex-direction:column; gap:20px; }
+.elenco li{ position:relative; padding-left:34px; }
+.elenco li::before{
+  content:''; position:absolute; left:0; top:.64em;
+  width:14px; height:1px; background:var(--ottone);
+}
+.elenco.numerata{ counter-reset:p; }
+.elenco.numerata li{ padding-left:58px; }
+.elenco.numerata li::before{
+  counter-increment:p; content:counter(p,decimal-leading-zero);
+  top:0; width:auto; height:auto; background:none;
+  font:600 20px/1.55 'Outfit'; color:var(--vinaccia); letter-spacing:.04em;
+}
+
+/* --- Slide scura (copertina, divider, citazioni) ------------------------- */
+.slide.scura{ background:var(--ink); color:var(--crema); }
+.slide.scura h1, .slide.scura .manifesto{ color:var(--crema); }
+.slide.scura .didascalia{ color:#B9AFA8; }
+
+/* L'anello aperto a grandezza di pagina: la copertina enuncia il gesto che
+   poi si ripete piccolo in ogni angolo. Il logo ingrandito e' stato scartato,
+   a bassa opacita' diventava una macchia. */
+.anello-grande{
+  position:absolute; right:-190px; top:50%; transform:translateY(-50%);
+  width:900px; height:900px; opacity:.55;
+}
+
+/* --- Piede: marchio + anello di avanzamento ------------------------------ */
+.piede{
+  position:absolute; right:var(--marg-x); bottom:40px;
+  display:flex; align-items:center; gap:20px;
+}
+.piede .firma{ font:500 18px/1 'Outfit'; color:var(--muto); letter-spacing:.02em; }
+.slide.scura .piede .firma{ color:#8E8580; }
+.piede .marchio{ width:40px; height:40px; display:block; }
+.anello{ width:46px; height:46px; display:block; }
+
+.piede-sx{
+  position:absolute; left:var(--marg-x); bottom:34px;
+  display:flex; align-items:center; gap:22px;
+}
+.num-slide{ font:500 18px/1 'Outfit'; color:var(--muto); letter-spacing:.06em; }
+.slide.scura .num-slide{ color:#8E8580; }
+
+/* --- Archetipo: diagramma ------------------------------------------------
+   Il grafico sta in una cornice dichiarata. Rosso, nero e bianco dentro il
+   chart sono la sintassi dello Human Design e non si toccano: i colori del
+   brand vivono solo sulla cornice e sulle etichette, che stanno fuori.
+   ------------------------------------------------------------------------- */
+.due-col{ flex:1; min-height:0; display:grid; gap:80px; align-items:stretch; }
+
+.blocco-chart{ display:flex; flex-direction:column; align-items:flex-start; min-height:0; }
+.colonna-testo{ display:flex; flex-direction:column; justify-content:center; min-height:0; }
+.telaio-chart{
+  position:relative; flex:1; min-height:0; width:100%;
+  /* fondo bianco e non rosato: i centri definiti hanno i colori propri dello
+     Human Design (testa azzurra, ajna verde) e sul rosa litigherebbero */
+  background:#FFFFFF;
+  border:1px solid var(--linea);
+  padding:34px 40px;
+  display:flex; align-items:center; justify-content:center;
+}
+.telaio-chart img{ display:block; max-height:100%; max-width:100%; height:auto; width:auto; object-fit:contain; }
+.telaio-chart::after{  /* filetto ottone interno, solo segno */
+  content:''; position:absolute; inset:12px; border:1px solid var(--ottone); opacity:.5;
+  pointer-events:none;
+}
+
+.legenda{ display:flex; gap:34px; margin-top:20px; }
+.legenda span{ display:flex; align-items:center; gap:10px; font:600 19px/1 'Outfit'; color:var(--muto); }
+.legenda i{ width:26px; height:6px; display:block; }
+.legenda .i-d{ background:#c0392b; }
+.legenda .i-p{ background:#1a1a2e; }
+.legenda .i-v{ background:#c8c2bc; }
+
+/* Annotazione nostra: tratteggiata e petrolio, per non confonderla col dato */
+.nota-nostra{
+  align-self:flex-start;
+  display:inline-flex; align-items:center; gap:12px;
+  border:2px dashed var(--petrolio); border-radius:999px;
+  padding:11px 24px; margin-top:30px;
+  font:600 20px/1 'Outfit'; color:var(--petrolio-testo); letter-spacing:.02em;
+}
+
+/* --- Archetipo: esercizio ------------------------------------------------ */
+.testa-esercizio{ display:flex; align-items:baseline; gap:26px; }
+.testa-esercizio .passo{ font:700 64px/1 'Playfair'; color:var(--vinaccia); }
+.scadenza{
+  display:inline-block;
+  background:var(--salvia); color:#1C3A36;
+  padding:9px 20px; font:600 18px/1 'Outfit'; letter-spacing:.06em; text-transform:uppercase;
+}
+
+/* --- Chiusura del manifesto: il punto giallo ----------------------------- */
+.punto-fine{
+  display:block; width:12px; height:12px; border-radius:50%;
+  background:var(--giallo); margin-top:44px;
+}
+
+.passi{ width:260px; height:40px; display:block; margin-top:18px; margin-left:auto; }
