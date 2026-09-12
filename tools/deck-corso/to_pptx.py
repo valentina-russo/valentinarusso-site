@@ -61,8 +61,7 @@ JS_MISURA = r"""
       let own = '';
       el.childNodes.forEach(n => {
         if (n.nodeType === 3) own += n.textContent;
-        else if (n.nodeType === 1 && n.tagName !== 'BR' && !n.matches(sel.testo)) own += (getComputedStyle(n).display === 'block' ? '
-' : '') + n.innerText;
+        else if (n.nodeType === 1 && n.tagName !== 'BR' && !n.matches(sel.testo)) own += (getComputedStyle(n).display === 'block' ? String.fromCharCode(10) : '') + n.innerText;
         else if (n.nodeType === 1 && n.tagName === 'BR') own += '\n';
       });
       own = own.replace(/[ \t]+/g, ' ').replace(/ *\n */g, '\n').trim();
