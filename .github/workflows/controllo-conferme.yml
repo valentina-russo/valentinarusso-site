@@ -32,9 +32,11 @@ jobs:
             set ssl:verify-certificate no;
             get ${BASE}lezione-zero/iscritti.csv -o scarico/iscritti.csv;
             get ${BASE}lezione-zero/invii.log -o scarico/invii.log;
+            get ${BASE}lezione-zero/rinviati-crlf.txt -o scarico/rinviati.txt;
             bye" 2>&1 | grep -viE "password|$USER" || true
           [ -f scarico/iscritti.csv ] || : > scarico/iscritti.csv
           [ -f scarico/invii.log ]   || : > scarico/invii.log
+          [ -f scarico/rinviati.txt ] || : > scarico/rinviati.txt
           echo "registro: $(wc -l < scarico/iscritti.csv) righe, log: $(wc -l < scarico/invii.log) righe"
 
       - name: Incrocia
@@ -59,7 +61,15 @@ jobs:
               if len(parti) >= 3 and '@' in parti[1]:
                   esiti[parti[1].lower()].append((parti[0], parti[2]))
 
+          # Il 10/09 le conferme non partivano (intestazioni con a-capo
+          # semplici invece di CRLF). Dopo il fix sono state rimandate a tutto
+          # il registro, e chi e' stato servito sta in rinviati-crlf.txt.
+          rimandate = {r.strip().lower() for r in open('scarico/rinviati.txt',
+                       encoding='utf-8', errors='replace') if '@' in r}
+
           def riuscito(email):
+              if email in rimandate:
+                  return True
               return any('ok' in e.lower() and 'fallit' not in e.lower()
                          for _, e in esiti.get(email, []))
 
@@ -69,6 +79,7 @@ jobs:
           print(f"iscritte nel registro:        {len(iscritti)}")
           print(f"con almeno una conferma ok:   {len(conferme)}")
           print(f"SENZA nessuna conferma:       {len(senza)}")
+          print(f"   di cui servite col rinvio:  {len([i for i in iscritti if i['email'] in rimandate])}")
           print()
           if senza:
               print("Ci sono iscritte senza conferma partita: l'elenco e' nell'allegato.")
@@ -82,7 +93,12 @@ jobs:
               out.write("CONTROLLO CONFERME - iscritta per iscritta\n\n")
               for i in iscritti:
                   righe = esiti.get(i['email'], [])
-                  stato = 'OK' if riuscito(i['email']) else 'NESSUNA CONFERMA'
+                  if i['email'] in rimandate:
+                      stato = 'OK (rinvio 10/09)'
+                  elif riuscito(i['email']):
+                      stato = 'OK'
+                  else:
+                      stato = 'NESSUNA CONFERMA'
                   out.write(f"{stato:<17} {i['email']:<38} {i['nome']:<22} da {i['origine']}\n")
                   for quando, esito in righe:
                       out.write(f"                  {quando}  {esito}\n")
