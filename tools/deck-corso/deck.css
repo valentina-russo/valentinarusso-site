@@ -191,7 +191,7 @@ h2{ font:600 32px/1.2 'Outfit'; letter-spacing:.04em; text-transform:uppercase; 
 .slide.vino h1, .slide.vino .manifesto, .slide.scura .corpo p, .slide.scura .elenco li{ color:var(--crema); }
 .slide.vino .didascalia{ color:#E9D7DC; }
 .slide.vino .num-slide, .slide.vino .piede .firma{ color:#D9C4CB; }
-.attrib{ font:600 22px/1 'Outfit'; letter-spacing:.08em; text-transform:uppercase; color:var(--giallo); margin-top:44px; }
+.attrib{ font:600 22px/1 'Outfit'; letter-spacing:.08em; text-transform:uppercase; color:var(--giallo); margin-top:72px; }
 .glossa{ font:500 30px/1.35 'Outfit'; color:#C9BFB8; margin-top:44px; max-width:1100px; }
 .anello-grande.sinistra{ left:-190px; right:auto; }
 
@@ -219,7 +219,7 @@ h2{ font:600 32px/1.2 'Outfit'; letter-spacing:.04em; text-transform:uppercase; 
 .duotone::after{ content:''; position:absolute; inset:14px; border:1px solid var(--ottone); opacity:.6; }
 .cornice{ position:relative; background:#fff; border:1px solid var(--linea); padding:12px; }
 .cornice img{ display:block; width:100%; height:auto; }
-.chiusa{ font:700 italic 44px/1.2 'Playfair'; color:var(--vinaccia); margin-top:40px; max-width:820px; }
+.chiusa{ font:700 italic 44px/1.2 'Playfair'; color:var(--vinaccia); margin-top:60px; max-width:820px; }
 
 /* --- Bio ------------------------------------------------------------------ */
 .bio{ flex:1; display:grid; grid-template-columns:1fr 600px; gap:96px; align-items:center; }
