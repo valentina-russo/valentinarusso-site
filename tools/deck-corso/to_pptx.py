@@ -62,13 +62,31 @@ JS_MISURA = r"""
       const stile = (e) => { const k = getComputedStyle(e); return {ff: k.fontFamily, fs: parseFloat(k.fontSize), fw: k.fontWeight, fi: k.fontStyle, col: k.color, up: k.textTransform === 'uppercase'}; };
       const base = stile(el);
       el.childNodes.forEach(n => {
-        if (n.nodeType === 3) { const t = n.textContent; if (t.trim()) { runs.push({t: t, ...base}); own += t; } }
+        if (n.nodeType === 3) {
+          const t = n.textContent; if (!t.trim()) return;
+          const rr = document.createRange(); let riga = '', top = null;
+          for (let k = 0; k < t.length; k++) {
+            rr.setStart(n, k); rr.setEnd(n, k + 1);
+            const q = rr.getBoundingClientRect();
+            if (q.width === 0 && q.height === 0) { riga += t[k]; continue; }
+            if (top !== null && q.top > top + q.height * 0.5) { runs.push({t: riga, ...base}); runs.push({t: '', br: true, ...base}); riga = ''; }
+            top = q.top; riga += t[k];
+          }
+          runs.push({t: riga, ...base}); own += t;
+        }
         else if (n.nodeType === 1 && n.tagName === 'BR') { runs.push({t: '', br: true, ...base}); own += String.fromCharCode(10); }
         else if (n.nodeType === 1 && !n.matches(sel.testo)) {
           const t = n.innerText; if (!t.trim()) return;
           const blocco = getComputedStyle(n).display === 'block';
           if (blocco) runs.push({t: '', br: true, ...base});
-          runs.push({t: t, ...stile(n)}); own += (blocco ? String.fromCharCode(10) : '') + t;
+          const st = stile(n); const rr = document.createRange(); let riga = '', top = null;
+          const nodi = []; const walker = document.createTreeWalker(n, NodeFilter.SHOW_TEXT); while (walker.nextNode()) nodi.push(walker.currentNode);
+          nodi.forEach(tn => { const tt = tn.textContent; for (let k = 0; k < tt.length; k++) {
+            rr.setStart(tn, k); rr.setEnd(tn, k + 1); const q = rr.getBoundingClientRect();
+            if (q.width === 0 && q.height === 0) { riga += tt[k]; continue; }
+            if (top !== null && q.top > top + q.height * 0.5) { runs.push({t: riga, ...st}); runs.push({t: '', br: true, ...st}); riga = ''; }
+            top = q.top; riga += tt[k]; } });
+          runs.push({t: riga, ...st}); own += (blocco ? String.fromCharCode(10) : '') + t;
         }
       });
       own = own.replace(/[ \t]+/g, ' ').replace(/ *\n */g, '\n').trim();
@@ -194,7 +212,7 @@ def main() -> None:
                 # Canva rende i caratteri un po' piu' larghi del browser: 12% di aria in piu',
                 # e le righe singole non vanno mai a capo.
                 una_riga = t["h"] <= t["fs"] * 1.6 and chr(10) not in t["t"]
-                largh = t["w"] * (1.22 if famiglia(t["ff"]) == "Playfair Display" else 1.12) + 16 + 2 * pad
+                largh = t["w"] * 1.25 + 16 + 2 * pad
                 if t["al"] == "center":
                     x0 = t["x"] + t["w"] / 2 - largh / 2
                 elif t["al"] in ("right", "end"):
@@ -203,7 +221,7 @@ def main() -> None:
                     x0 = t["x"] - pad - 2
                 tb = sl.shapes.add_textbox(px(x0), px(t["y"] - pad * 0.5 - 2), px(largh), px(t["h"] + pad + 6))
                 tf = tb.text_frame
-                tf.word_wrap = not una_riga
+                tf.word_wrap = False
                 tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
                 tf.vertical_anchor = MSO_ANCHOR.TOP
                 sfondo = rgb(t["bg"])
