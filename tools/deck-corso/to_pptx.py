@@ -184,9 +184,20 @@ def main() -> None:
 
             for t in m["testi"]:
                 pad = 18 if t.get("pad") else 0
-                tb = sl.shapes.add_textbox(px(t["x"] - pad - 2), px(t["y"] - pad * 0.5 - 2), px(t["w"] + 2 * pad + 8), px(t["h"] + pad + 6))
+                # Canva rende i caratteri un po' piu' larghi del browser: 12% di aria in piu',
+                # e le righe singole non vanno mai a capo.
+                una_riga = t["h"] <= t["fs"] * 1.6 and "
+" not in t["t"]
+                largh = t["w"] * 1.12 + 16 + 2 * pad
+                if t["al"] == "center":
+                    x0 = t["x"] + t["w"] / 2 - largh / 2
+                elif t["al"] in ("right", "end"):
+                    x0 = t["x"] + t["w"] - largh + pad
+                else:
+                    x0 = t["x"] - pad - 2
+                tb = sl.shapes.add_textbox(px(x0), px(t["y"] - pad * 0.5 - 2), px(largh), px(t["h"] + pad + 6))
                 tf = tb.text_frame
-                tf.word_wrap = True
+                tf.word_wrap = not una_riga
                 tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
                 tf.vertical_anchor = MSO_ANCHOR.TOP
                 sfondo = rgb(t["bg"])
