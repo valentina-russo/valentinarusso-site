@@ -33,7 +33,7 @@ const LETTURE_CATALOG = [
     ],
     'penta-familiare' => [
         'name'        => 'Lettura del Penta Familiare',
-        'description' => 'La famiglia letta come sistema da tre a cinque persone: l'energia che il gruppo produce insieme e come pesa su chi ne fa parte.',
+        'description' => 'La famiglia letta come sistema da tre a cinque persone: l\'energia che il gruppo produce insieme e come pesa su chi ne fa parte.',
         'amount'      => 30000, // €300,00 — CONFERMATO (07/09)
         'data_mode'   => 'penta',
         'duration'    => '120 minuti',
